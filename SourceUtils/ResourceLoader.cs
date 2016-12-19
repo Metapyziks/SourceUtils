@@ -8,8 +8,11 @@ namespace SourceUtils
 {    
     public interface IResourceProvider
     {
-        bool ContainsFile(string filename);
-        Stream OpenFile(string filename);
+        IEnumerable<string> GetFiles(string directory = "");
+        IEnumerable<string> GetDirectories(string directory = "");
+        
+        bool ContainsFile(string filePath);
+        Stream OpenFile(string filePath);
     }
     
     [AttributeUsage(AttributeTargets.Class)]
@@ -36,25 +39,35 @@ namespace SourceUtils
         {
             _providers.Remove(provider);
         }
+        
+        public IEnumerable<string> GetFiles(string directory = "")
+        {
+            return _providers.SelectMany(x => x.GetFiles(directory));
+        }
+        
+        public IEnumerable<string> GetDirectories(string directory = "")
+        {
+            return _providers.SelectMany(x => x.GetDirectories(directory));
+        }
 
-        public bool ContainsFile(string filename)
+        public bool ContainsFile(string filePath)
         {
             for (var i = _providers.Count - 1; i >= 0; --i)
             {
-                if (_providers[i].ContainsFile(filename)) return true;
+                if (_providers[i].ContainsFile(filePath)) return true;
             }
 
             return false;
         }
 
-        public Stream OpenFile(string filename)
+        public Stream OpenFile(string filePath)
         {
             for (var i = _providers.Count - 1; i >= 0; --i)
             {
-                if (_providers[i].ContainsFile(filename)) return _providers[i].OpenFile(filename);
+                if (_providers[i].ContainsFile(filePath)) return _providers[i].OpenFile(filePath);
             }
 
-            return _providers[0].OpenFile(filename);
+            return _providers[0].OpenFile(filePath);
         }
 
         private abstract class ResourceCollection

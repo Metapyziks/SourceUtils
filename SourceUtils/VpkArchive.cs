@@ -196,8 +196,77 @@ namespace SourceUtils
             }
         }
 
+        // Extension -> Directory -> File Name
         private readonly Dictionary<string, Dictionary<string, Dictionary<string, DirectoryEntry>>> _fileDict
             = new Dictionary<string, Dictionary<string, Dictionary<string, DirectoryEntry>>>(StringComparer.InvariantCultureIgnoreCase);
+
+        private class VpkDirectory
+        {
+            private readonly Dictionary<string, VpkDirectory> _directories
+                = new Dictionary<string, VpkDirectory>(StringComparer.InvariantCultureIgnoreCase);
+            private readonly HashSet<string> _files = new HashSet<string>();
+            
+            public IEnumerable<string> DirectoryNames => _directories.Keys;
+            public IEnumerable<string> FileNames => _files;
+            
+            private static int GetSubdirEndIndex(string path)
+            {
+                return path.IndexOf('/');
+            }
+            
+            public VpkDirectory GetDirectory(string directory)
+            {
+                if (directory.Length == 0) return this;
+                
+                var sepIndex = GetSubdirEndIndex(directory);
+                if (sepIndex == -1) sepIndex = directory.Length;
+                
+                var dirName = directory.Substring(0, sepIndex);
+                VpkDirectory subDirectory;
+                if (!_directories.TryGetValue(dirName, out subDirectory)) return null;
+                if (sepIndex + 1 >= directory.Length) return subDirectory;
+                
+                return subDirectory.GetDirectory(directory.Substring(sepIndex + 1));
+            }
+            
+            public void AddFile(string fullPath)
+            {
+                var sepIndex = GetSubdirEndIndex(fullPath);
+                if (sepIndex == -1)
+                {
+                    _files.Add(fullPath);
+                    return;
+                }
+                
+                var dirName = fullPath.Substring(0, sepIndex).Trim();
+                if (dirName.Length == 0)
+                {
+                    _files.Add(fullPath.Substring(sepIndex + 1));
+                    return;
+                }
+                
+                VpkDirectory subDirectory;
+                if (!_directories.TryGetValue(dirName, out subDirectory))
+                {
+                    subDirectory = new VpkDirectory();
+                    _directories.Add(dirName, subDirectory);
+                }
+                
+                subDirectory.AddFile(fullPath.Substring(sepIndex + 1));
+            }
+        }
+        
+        private readonly VpkDirectory _rootDirectory = new VpkDirectory();
+
+        public IEnumerable<string> GetFiles(string directory = "")
+        {
+            return _rootDirectory.GetDirectory(directory)?.FileNames ?? Enumerable.Empty<string>();
+        }
+        
+        public IEnumerable<string> GetDirectories(string directory = "")
+        {
+            return _rootDirectory.GetDirectory(directory)?.DirectoryNames ?? Enumerable.Empty<string>();
+        }
 
         private void ReadDirectory(Stream stream)
         {
@@ -253,6 +322,7 @@ namespace SourceUtils
                         else
                         {
                             dirDict.Add(name, entry);
+                            _rootDirectory.AddFile($"{path}/{name}.{ext}");
                         }
                     }
                 }
@@ -316,10 +386,10 @@ namespace SourceUtils
             name = fileName.Substring(dirSep + 1, extSep - dirSep - 1);
         }
 
-        public bool ContainsFile(string fileName)
+        public bool ContainsFile(string filePath)
         {
             string ext, path, name;
-            SplitFileName(fileName, out ext, out path, out name);
+            SplitFileName(filePath, out ext, out path, out name);
 
             Dictionary<string, Dictionary<string, DirectoryEntry>> extDict;
             if (!_fileDict.TryGetValue(ext, out extDict)) return false;
@@ -335,26 +405,26 @@ namespace SourceUtils
             return extDict.Values.Any(x => x.ContainsKey(name));
         }
 
-        private static Exception FileNotFound(string fileName)
+        private static Exception FileNotFound(string filePath)
         {
-            throw new FileNotFoundException(string.Format("Cound not find file '{0}' in VPK archive.", fileName), fileName);
+            throw new FileNotFoundException(string.Format("Cound not find file '{0}' in VPK archive.", filePath), filePath);
         }
 
-        public Stream OpenFile(string fileName)
+        public Stream OpenFile(string filePath)
         {
             string ext, path, name;
-            SplitFileName(fileName, out ext, out path, out name);
+            SplitFileName(filePath, out ext, out path, out name);
 
             Dictionary<string, Dictionary<string, DirectoryEntry>> extDict;
-            if (!_fileDict.TryGetValue(ext, out extDict)) throw FileNotFound(fileName);
+            if (!_fileDict.TryGetValue(ext, out extDict)) throw FileNotFound(filePath);
 
             DirectoryEntry entry = default (DirectoryEntry);
             if (!string.IsNullOrEmpty(path))
             {
                 Dictionary<string, DirectoryEntry> dirDict;
-                if (!extDict.TryGetValue(path, out dirDict)) throw FileNotFound(fileName);
+                if (!extDict.TryGetValue(path, out dirDict)) throw FileNotFound(filePath);
 
-                if (!dirDict.TryGetValue(name, out entry)) throw FileNotFound(fileName);
+                if (!dirDict.TryGetValue(name, out entry)) throw FileNotFound(filePath);
             }
             else
             {
@@ -366,7 +436,7 @@ namespace SourceUtils
                     break;
                 }
 
-                if (!found) throw FileNotFound(fileName);
+                if (!found) throw FileNotFound(filePath);
             }
 
             return new VpkStream(this, entry.ArchiveIndex, entry.EntryOffset, entry.EntryLength, entry.PreloadData);

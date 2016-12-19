@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{00C7CFAB-9ED6-4B83-9AA0-4476B448CE8F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SourceUtils</RootNamespace>
-    <AssemblyName>SourceUtils</AssemblyName>
+    <ProjectGuid>{E0A0C224-C2BD-40A2-9FC4-1B39EFED890B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MapViewServer</RootNamespace>
+    <AssemblyName>MapViewServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,6 +29,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">
+      <Project>{00C7CFAB-9ED6-4B83-9AA0-4476B448CE8F}</Project>
+      <Name>SourceUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebServer\WebServer.csproj">
+      <Project>{A277A44E-6DB6-481B-898E-2FD621161DEF}</Project>
+      <Name>WebServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="*.cs" />
