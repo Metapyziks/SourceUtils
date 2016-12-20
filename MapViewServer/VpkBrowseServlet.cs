@@ -1,21 +1,33 @@
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using WebServer;
 
-[ServletUrl("/vpk")]
+[ServletUrl(ServletUrlPrefix)]
 public class VpkBrowseServlet : HtmlServlet
 {
+    public const string ServletUrlPrefix = "/vpk";
+    
+    private static readonly Regex _sRepeatedSepRegex = new Regex("//+", RegexOptions.Compiled);
+    
+    private static string JoinUrl(params string[] parts)
+    {
+        return _sRepeatedSepRegex.Replace(string.Join("/", parts.Where(x => x.Length > 0)), "/");
+    }
+    
+    private Tag DirectoryEntry(string label, string url)
+    {
+        return T("li")(T("a", href => JoinUrl(ServletUrlPrefix, url))(label));
+    }
+    
     protected override void OnService()
     {
-        var path = Request.RawUrl.Substring("/vpk".Length);
-        if (path.StartsWith("/")) path = path.Substring(1);
-        if (path.EndsWith("/")) path = path.Substring(0, path.Length - 1);
+        var path = JoinUrl(SplitUrl(Request.RawUrl).Skip(1).ToArray());
         
-        var parent = path.Length > 0 ? Path.GetDirectoryName(path) : null;
+        var parent = path.Length > 1 ? Path.GetDirectoryName(path) : null;
         
         var directories = Program.Loader.GetDirectories(path);
         var files = Program.Loader.GetFiles(path);
-        
-        path = "/" + path;
         
         Write(
             DocType("html"),
@@ -24,23 +36,18 @@ public class VpkBrowseServlet : HtmlServlet
                     T("title")($"VPK Browser")
                 ),
                 T("body")(
-                    T("h2")($"Contents of {path}"),
+                    T("h2")($"Contents of /{path}"),
                     T("ul")(T(() => {
-                        if (parent != null) Write(T("li")(T("a", href => $"/vpk/{parent}")("..")));
-                        if (path == "/") path = "";
+                        if (parent != null) Write(DirectoryEntry("..", parent));
                         
                         foreach (var dir in directories)
                         {
-                            Write(T("li")(
-                                T("a", href => $"/vpk{path}/{dir}")(dir)
-                            ));
+                            Write(DirectoryEntry(dir, JoinUrl(path, dir)));
                         }
                         
                         foreach (var file in files)
                         {
-                            Write(T("li")(
-                                file
-                            ));
+                            Write(DirectoryEntry(file, JoinUrl(path, file)));
                         }
                     }))
                 )
