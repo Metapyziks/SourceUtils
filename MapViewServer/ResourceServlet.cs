@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using WebServer;
 
@@ -11,7 +12,15 @@ namespace MapViewServer
         {
             FilePath = filePath;
             
-            Service(request, response);
+            try
+            {
+                Service(request, response);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

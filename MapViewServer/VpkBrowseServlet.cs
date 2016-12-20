@@ -34,6 +34,12 @@ namespace MapViewServer
                 return;
             }
             
+            if (path.EndsWith(".vtf"))
+            {
+                new VtfServlet().Service(Request, Response, path);
+                return;
+            }
+            
             Write(
                 DocType("html"),
                 T("html", lang => "en")(

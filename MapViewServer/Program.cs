@@ -8,6 +8,8 @@ namespace MapViewServer
 {
     class Program
     {
+        public static string CacheDirectory { get; private set; }
+            = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "cache");
         public static string CsgoDirectory { get; private set; }
             = @"/home/ziks/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/";
         
