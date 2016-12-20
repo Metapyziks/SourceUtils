@@ -6,11 +6,11 @@ using System.Text;
 
 namespace SourceUtils
 {
-    public class VpkArchve : IResourceProvider
+    public class ValvePackage : IResourceProvider
     {
         private class VpkStream : Stream
         {
-            private readonly VpkArchve _archive;
+            private readonly ValvePackage _archive;
             private readonly int _archiveIndex;
             private readonly Stream _baseStream;
             private readonly long _fileOffset;
@@ -21,7 +21,7 @@ namespace SourceUtils
 
             private bool _disposed;
 
-            public VpkStream(VpkArchve archive, int archiveIndex, long offset, long length, byte[] preloadBytes)
+            public VpkStream(ValvePackage archive, int archiveIndex, long offset, long length, byte[] preloadBytes)
             {
                 _archive = archive;
                 _archiveIndex = archiveIndex;
@@ -136,7 +136,7 @@ namespace SourceUtils
 
         private readonly string _archiveFileNameFormat;
 
-        public VpkArchve(string dirFilePath)
+        public ValvePackage(string dirFilePath)
         {
             const string fileExtension = ".vpk";
             const string dirPostfix = "_dir" + fileExtension;
@@ -322,7 +322,8 @@ namespace SourceUtils
                         else
                         {
                             dirDict.Add(name, entry);
-                            _rootDirectory.AddFile($"{path}/{name}.{ext}");
+                            _rootDirectory.AddFile(string.IsNullOrWhiteSpace(path) 
+                                ? $"{name}.{ext}" : $"{path}/{name}.{ext}");
                         }
                     }
                 }
@@ -376,20 +377,26 @@ namespace SourceUtils
             }
         }
 
-        private void SplitFileName(string fileName, out string ext, out string path, out string name)
+        private bool SplitFileName(string fileName, out string ext, out string path, out string name)
         {
+            ext = path = name = null;
+            
             var dirSep = fileName.LastIndexOf('/');
             var extSep = fileName.LastIndexOf('.');
+            
+            if (extSep == -1) return false;
 
             ext = fileName.Substring(extSep + 1);
             path = dirSep == -1 ? "" : fileName.Substring(0, dirSep);
             name = fileName.Substring(dirSep + 1, extSep - dirSep - 1);
+            
+            return true;
         }
 
         public bool ContainsFile(string filePath)
         {
             string ext, path, name;
-            SplitFileName(filePath, out ext, out path, out name);
+            if (!SplitFileName(filePath, out ext, out path, out name)) return false;
 
             Dictionary<string, Dictionary<string, DirectoryEntry>> extDict;
             if (!_fileDict.TryGetValue(ext, out extDict)) return false;
