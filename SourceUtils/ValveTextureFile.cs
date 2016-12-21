@@ -114,7 +114,7 @@ namespace SourceUtils
             return new ValveTextureFile(stream);
         }
 
-        private static int GetImageDataSize(int width, int height, int depth, int mipCount, TextureFormat format)
+        public static int GetImageDataSize(int width, int height, int depth, int mipCount, TextureFormat format)
         {
             if (mipCount == 0 || width == 0 && height == 0) return 0;
 

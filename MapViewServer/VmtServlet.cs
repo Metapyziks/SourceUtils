@@ -36,10 +36,7 @@ namespace MapViewServer
         
         protected override void OnService()
         {
-            Response.ContentType = "application/json";
-            
             var vmt = Program.Loader.Load<ValveMaterialFile>(FilePath);
-            
             var response = new JObject();
             
             foreach (var shader in vmt.Shaders)
@@ -47,10 +44,7 @@ namespace MapViewServer
                 response.Add(shader, PropertyGroupToJson(vmt[shader]));
             }
             
-            var writer = new StreamWriter(Response.OutputStream);
-            
-            writer.WriteLine(response.ToString());            
-            writer.Flush();
+            WriteJson(response);
         }
     }
 }
