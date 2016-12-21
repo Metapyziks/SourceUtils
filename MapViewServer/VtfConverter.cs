@@ -154,9 +154,6 @@ namespace MapViewServer
                         (int) header.dwWidth, (int) header.dwHeight,
                         1, 1, vtf.Header.HiResFormat);
                         
-                    Console.WriteLine($"Width: {header.dwWidth}, Height: {header.dwHeight}");
-                    Console.WriteLine($"Offset: {offset}, Count: {count}");
-                    
                     writer.Write((uint) 0x20534444);
                     writer.Write(_sHeaderBuffer);
                     writer.Write(vtf.PixelData, offset, count);

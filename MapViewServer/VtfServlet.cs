@@ -33,19 +33,13 @@ namespace MapViewServer
         private void ServiceMetadata()
         {
             var response = new JObject();
-            var vmt = Program.Loader.Load<ValveTextureFile>(FilePath);
+            var vtf = Program.Loader.Load<ValveTextureFile>(FilePath);
             
-            var mipMaps = new JArray();
-            
-            for (var i = 0; i < vmt.Header.MipMapCount; ++i)
-            {
-                mipMaps.Add($"{VpkBrowseServlet.ServletUrlPrefix}/{FilePath}?format=png&mipmap={i}");
-            }
-            
-            response.Add("width", vmt.Header.Width);
-            response.Add("height", vmt.Header.Height);
-            response.Add("flags", (long) vmt.Header.Flags);
-            response.Add("mipmaps", mipMaps);
+            response.Add("width", vtf.Header.Width);
+            response.Add("height", vtf.Header.Height);
+            response.Add("flags", (long) vtf.Header.Flags);
+            response.Add("png_url", $"{Request.Url}?format=png&mipmap={{mipmap}}");
+            response.Add("mipmaps", vtf.Header.MipMapCount);
             
             WriteJson(response);
         }
