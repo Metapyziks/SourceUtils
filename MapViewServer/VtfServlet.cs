@@ -3,6 +3,7 @@ using SourceUtils;
 
 namespace MapViewServer
 {
+    [PackageResource(".vtf")]
     public class VtfServlet : ResourceServlet
     {
         protected override void OnService()
@@ -11,6 +12,9 @@ namespace MapViewServer
             {
                 case "png":
                     ServicePng();
+                    break;
+                case "preview":
+                    ServicePreview();
                     break;
                 default:
                     ServiceMetadata();
@@ -30,6 +34,38 @@ namespace MapViewServer
             VtfConverter.ConvertToPng(FilePath, mipMap, Response.OutputStream);
         }
         
+        private void ServicePreview()
+        {
+            Write(
+                DocType("html"),
+                T("html", lang => "en")(
+                    T("head")(
+                        T("title")("Valve Texture File Preview")
+                    ),
+                    T("body")(
+                        T("h2")(FilePath),
+                        T(() => {
+                            var vtf = Program.Loader.Load<ValveTextureFile>(FilePath);
+                            for (var i = 0; i < vtf.Header.MipMapCount; ++i)
+                            {
+                                Write(
+                                    T("a", href => GetPngUrl(i))(
+                                        E("img", src => GetPngUrl(i))
+                                    )
+                                );
+                            }
+                        })
+                    )
+                )
+            );
+        }
+        
+        private string GetPngUrl(int mipMap = -1)
+        {
+            var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
+            return $"http://{Request.Url.Host}:{Request.Url.Port}{Request.Url.AbsolutePath}?format=png&mipmap={mipMapString}";
+        }
+        
         private void ServiceMetadata()
         {
             var response = new JObject();
@@ -38,7 +74,7 @@ namespace MapViewServer
             response.Add("width", vtf.Header.Width);
             response.Add("height", vtf.Header.Height);
             response.Add("flags", (long) vtf.Header.Flags);
-            response.Add("png_url", $"{Request.Url}?format=png&mipmap={{mipmap}}");
+            response.Add("png_url", GetPngUrl());
             response.Add("mipmaps", vtf.Header.MipMapCount);
             
             WriteJson(response);

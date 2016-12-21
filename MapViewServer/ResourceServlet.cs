@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MapViewServer
 {
-    public abstract class ResourceServlet : Servlet
+    public abstract class ResourceServlet : HtmlServlet
     {
         protected string FilePath { get; private set; }
         

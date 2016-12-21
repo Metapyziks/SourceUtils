@@ -1,9 +1,9 @@
-using System.IO;
 using SourceUtils;
 using Newtonsoft.Json.Linq;
 
 namespace MapViewServer
 {
+    [PackageResource(".vmt")]
     public class VmtServlet : ResourceServlet
     {
         private JToken PropertyGroupToJson(MaterialPropertyGroup props)
