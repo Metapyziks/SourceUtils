@@ -6,15 +6,12 @@ namespace MapViewServer
     [PackageResource(".vtf")]
     public class VtfServlet : ResourceServlet
     {
-        protected override void OnService()
+        protected override void OnService(string format)
         {
-            switch (Request.QueryString["format"])
+            switch (format)
             {
                 case "png":
                     ServicePng();
-                    break;
-                case "preview":
-                    ServicePreview();
                     break;
                 default:
                     ServiceMetadata();
@@ -34,30 +31,17 @@ namespace MapViewServer
             VtfConverter.ConvertToPng(FilePath, mipMap, Response.OutputStream);
         }
         
-        private void ServicePreview()
+        protected override void OnServicePreviewBody()
         {
-            Write(
-                DocType("html"),
-                T("html", lang => "en")(
-                    T("head")(
-                        T("title")("Valve Texture File Preview")
-                    ),
-                    T("body")(
-                        T("h2")(FilePath),
-                        T(() => {
-                            var vtf = Program.Loader.Load<ValveTextureFile>(FilePath);
-                            for (var i = 0; i < vtf.Header.MipMapCount; ++i)
-                            {
-                                Write(
-                                    T("a", href => GetPngUrl(i))(
-                                        E("img", src => GetPngUrl(i))
-                                    )
-                                );
-                            }
-                        })
+            var vtf = Program.Loader.Load<ValveTextureFile>(FilePath);
+            for (var i = 0; i < vtf.Header.MipMapCount; ++i)
+            {
+                Write(
+                    T("a", href => GetPngUrl(i))(
+                        E("img", src => GetPngUrl(i))
                     )
-                )
-            );
+                );
+            }
         }
         
         private string GetPngUrl(int mipMap = -1)

@@ -1,4 +1,5 @@
 using SourceUtils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MapViewServer
@@ -34,7 +35,12 @@ namespace MapViewServer
             return obj;
         }
         
-        protected override void OnService()
+        protected override void OnServicePreviewBody()
+        {
+            Write(T("code", style => "display: block; white-space: pre-wrap")(GetJson().ToString().Replace("\n", "\r\n")));
+        }
+        
+        private JToken GetJson()
         {
             var vmt = Program.Loader.Load<ValveMaterialFile>(FilePath);
             var response = new JObject();
@@ -44,7 +50,12 @@ namespace MapViewServer
                 response.Add(shader, PropertyGroupToJson(vmt[shader]));
             }
             
-            WriteJson(response);
+            return response;
+        }
+        
+        protected override void OnService(string format)
+        {
+            WriteJson(GetJson());
         }
     }
 }

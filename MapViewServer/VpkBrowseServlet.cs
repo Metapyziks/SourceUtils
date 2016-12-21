@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
 using WebServer;
+
+using static MapViewServer.Utils;
 
 namespace MapViewServer
 {
@@ -24,13 +25,6 @@ namespace MapViewServer
     public class VpkBrowseServlet : HtmlServlet
     {
         public const string ServletUrlPrefix = "/vpk";
-        
-        private static readonly Regex _sRepeatedSepRegex = new Regex("//+", RegexOptions.Compiled);
-        
-        private static string JoinUrl(params string[] parts)
-        {
-            return _sRepeatedSepRegex.Replace(string.Join("/", parts.Where(x => x.Length > 0)), "/");
-        }
         
         private static Dictionary<string, Func<ResourceServlet>> _sResourceServletCtors;
             
