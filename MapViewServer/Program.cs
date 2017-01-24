@@ -1,17 +1,20 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using SourceUtils;
-using WebServer;
+using Ziks.WebServer;
 
 namespace MapViewServer
 {
     class Program
     {
-        public static string CacheDirectory { get; private set; }
-            = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "cache");
+        public static string CacheDirectory { get; }
+            = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ), "cache" );
+
+        private const string SteamAppsDirectory = @"C:\Program Files (x86)\Steam\steamapps";
+
         public static string CsgoDirectory { get; private set; }
-            = @"/home/ziks/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/";
+            = Path.Combine( SteamAppsDirectory, "common", "Counter-Strike Global Offensive", "csgo" );
         
         public static ResourceLoader Loader { get; private set; }
         
@@ -22,17 +25,12 @@ namespace MapViewServer
             
             Loader = new ResourceLoader();
             Loader.AddResourceProvider(new ValvePackage(Path.Combine(CsgoDirectory, "pak01_dir.vpk")));
-    
-            var server = new Server();
-            
-            DefaultResourceServlet.ResourceDirectory = "../../Resources";
-            DefaultResourceServlet.EnableCaching = true;
-            
-            server.AddPrefix("http://+:8080/");
-            server.BindServletsInAssembly(Assembly.GetExecutingAssembly());
-            
+
+            var server = new Server( 8080 );
+
+            server.Controllers.Add( Assembly.GetExecutingAssembly() );
             server.Run();
-            
+
             return 0;
         }
     }

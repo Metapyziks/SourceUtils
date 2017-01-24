@@ -1,13 +1,18 @@
 using SourceUtils;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ziks.WebServer;
+using Ziks.WebServer.Html;
 
 namespace MapViewServer
 {
-    [PackageResource(".vmt")]
-    public class VmtServlet : ResourceServlet
+    using static HtmlDocumentHelper;
+
+    [Prefix("/vmt")]
+    public class VmtController : ResourceController
     {
-        private JToken PropertyGroupToJson(MaterialPropertyGroup props)
+        private const string DefaultFormat = "json";
+
+        private static JToken PropertyGroupToJson(MaterialPropertyGroup props)
         {
             var obj = new JObject();
             
@@ -35,13 +40,20 @@ namespace MapViewServer
             return obj;
         }
         
-        protected override void OnServicePreviewBody()
+        [Get( MatchAllUrl = false )]
+        public HtmlElement Html( string format = DefaultFormat )
         {
-            Write(T("code", style => "display: block; white-space: pre-wrap")(GetJson().ToString().Replace("\n", "\r\n")));
+            return new code( style => "display: block; white-space: pre-wrap" )
+            {
+                Json().ToString()
+            };
         }
         
-        private JToken GetJson()
+        [Get( MatchAllUrl = false )]
+        public JToken Json( string format = DefaultFormat )
         {
+            if ( format != "json" ) throw NotFoundException();
+
             var vmt = Program.Loader.Load<ValveMaterialFile>(FilePath);
             var response = new JObject();
             
@@ -51,11 +63,6 @@ namespace MapViewServer
             }
             
             return response;
-        }
-        
-        protected override void OnService(string format)
-        {
-            WriteJson(GetJson());
         }
     }
 }

@@ -1,0 +1,67 @@
+using System;
+using System.IO;
+using Ziks.WebServer;
+using Ziks.WebServer.Html;
+
+namespace MapViewServer
+{
+    using static Utils;
+    using static HtmlDocumentHelper;
+
+    [Prefix( UrlPrefix )]
+    public class VpkController : Controller
+    {
+        public const string UrlPrefix = "/vpk";
+
+        private static HtmlElement DirectoryEntry( string prefix, string label, string url = null )
+        {
+            return url == null ? new li {label} : new li {new a( href => JoinUrl( prefix, url ) ) {label}};
+        }
+
+        [Get( MatchAllUrl = false )]
+        public HtmlElement Index()
+        {
+            var matched = MatchedUrl;
+            var requested = new Uri( Request.Url.GetLeftPart( UriPartial.Path ) );
+
+            var path = "";
+            if ( !requested.AbsolutePath.Equals( matched.AbsolutePath ) )
+            {
+                matched = new Uri( matched + "/" );
+                path = matched.MakeRelativeUri( requested ).OriginalString;
+            }
+
+            var parent = path.Length > 1 ? Path.GetDirectoryName( path ) : null;
+
+            return new html( lang => "en" )
+            {
+                new head {new title {"VPK Browser"}},
+                new body
+                {
+                    new h2 {$"Contents of /{path}"},
+                    new ul
+                    {
+                        () =>
+                        {
+                            if ( parent != null ) Echo( DirectoryEntry( UrlPrefix, "..", parent ) );
+
+                            var directories = Program.Loader.GetDirectories( path );
+                            var files = Program.Loader.GetFiles( path );
+
+                            foreach ( var dir in directories )
+                            {
+                                Echo( DirectoryEntry( UrlPrefix, dir, JoinUrl( path, dir ) ) );
+                            }
+
+                            foreach ( var file in files )
+                            {
+                                var prefix = "/" + Path.GetExtension( file ).Substring( 1 );
+                                Echo( DirectoryEntry( prefix, file, JoinUrl( path, file + "?format=html" ) ) );
+                            }
+                        }
+                    }
+                }
+            };
+        }
+    }
+}

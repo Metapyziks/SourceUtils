@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Text;
+using ImageMagick;
 using SourceUtils;
 
 namespace MapViewServer
@@ -9,7 +11,7 @@ namespace MapViewServer
     public static class VtfConverter
     {
         [Flags]
-        private enum DDSHeaderFlags : uint
+        private enum DdsHeaderFlags : uint
         {
             CAPS = 0x1,
             HEIGHT = 0x2,
@@ -21,7 +23,7 @@ namespace MapViewServer
             DEPTH = 0x800000
         }
         
-        private enum DDSCaps : uint
+        private enum DdsCaps : uint
         {
             COMPLEX = 0x8,
             MIPMAP = 0x400000,
@@ -29,7 +31,7 @@ namespace MapViewServer
         }
         
         [Flags]
-        private enum DDSPixelFormatFlags
+        private enum DdsPixelFormatFlags
         {
             ALPHAPIXELS = 0x1,
             ALPHA = 0x2,
@@ -40,10 +42,10 @@ namespace MapViewServer
         }
         
         [StructLayout(LayoutKind.Sequential)]
-        private struct DDSPixelFormat
+        private struct DdsPixelFormat
         {
             public uint dwSize;
-            public DDSPixelFormatFlags dwFlags;
+            public DdsPixelFormatFlags dwFlags;
             public uint dwFourCC;
             public uint dwRGBBitCount;
             public uint dwRBitMask;
@@ -53,18 +55,18 @@ namespace MapViewServer
         }
         
         [StructLayout(LayoutKind.Sequential)]
-        private unsafe struct DDSHeader
+        private unsafe struct DdsHeader
         {
             public uint dwSize;
-            public DDSHeaderFlags dwFlags;
+            public DdsHeaderFlags dwFlags;
             public uint dwHeight;
             public uint dwWidth;
             public uint dwPitchOrLinearSize;
             public uint dwDepth;
             public uint dwMipMapCount;
             public fixed uint dwReserved1[11];
-            public DDSPixelFormat ddspf;
-            public DDSCaps dwCaps;
+            public DdsPixelFormat ddspf;
+            public DdsCaps dwCaps;
             public uint dwCaps2;
             public uint dwCaps3;
             public uint dwCaps4;
@@ -73,6 +75,9 @@ namespace MapViewServer
         
         [ThreadStatic]
         private static byte[] _sHeaderBuffer;
+
+        [ThreadStatic]
+        private static MemoryStream _sMemoryStream;
         
         private static void GetMipMapSize(int width, int height,
             int mipMap, out uint mipMapWidth, out uint mipMapHeight)
@@ -87,96 +92,80 @@ namespace MapViewServer
         public static unsafe void ConvertToPng(string vtfFilePath, int mipMap, Stream outStream)
         {
             if (mipMap < 0) mipMap = 0;
-            
-            var cachePath = Path.Combine(Program.CacheDirectory, vtfFilePath);
-            var pngPath = $"{cachePath}.{mipMap}.png";
-            
-            if (!File.Exists(pngPath))
-            {                
-                var ddsPath = $"{cachePath}.{mipMap}.dds";
-                var vtf = Program.Loader.Load<ValveTextureFile>(vtfFilePath);
-                
-                if (mipMap >= vtf.Header.MipMapCount)
-                {
-                    ConvertToPng(vtfFilePath, vtf.Header.MipMapCount - 1, outStream);
-                    return;
-                }
-                
-                var cacheDir = Path.GetDirectoryName(cachePath);
-                if (!Directory.Exists(cacheDir)) Directory.CreateDirectory(cacheDir);
-                
-                var header = new DDSHeader();
-                
-                int blockSize;
-                uint fourCC;
-                switch (vtf.Header.HiResFormat)
-                {
-                    case TextureFormat.DXT1:
-                        blockSize = 8;
-                        fourCC = 0x31545844;
-                        break;
-                    case TextureFormat.DXT5:
-                        blockSize = 16;
-                        fourCC = 0x35545844;
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-                
-                GetMipMapSize(vtf.Header.Width, vtf.Header.Height, mipMap, out header.dwWidth, out header.dwHeight);
-                
-                header.dwSize = (uint) Marshal.SizeOf(typeof(DDSHeader));
-                header.dwFlags = DDSHeaderFlags.CAPS | DDSHeaderFlags.HEIGHT | DDSHeaderFlags.WIDTH
-                    | DDSHeaderFlags.PIXELFORMAT;
-                header.dwPitchOrLinearSize = (uint) (Math.Max(1, (vtf.Header.Width + 3) / 4) * blockSize);
-                header.dwDepth = 1;
-                header.dwMipMapCount = 1;
-                header.dwCaps = DDSCaps.TEXTURE;
-                header.ddspf.dwSize = (uint) Marshal.SizeOf(typeof(DDSPixelFormat));
-                header.ddspf.dwFlags = DDSPixelFormatFlags.FOURCC;
-                header.ddspf.dwFourCC = fourCC;
-                
-                if (_sHeaderBuffer == null) _sHeaderBuffer = new byte[header.dwSize];
-                
-                fixed (byte* bufferPtr = _sHeaderBuffer)
-                {
-                    DDSHeader* headerPtr = (DDSHeader*) bufferPtr;
-                    *headerPtr = header;
-                }
-                
-                using (var stream = File.Open(ddsPath, FileMode.Create, FileAccess.Write, FileShare.None))
-                using (var writer = new BinaryWriter(stream))
-                {
-                    var offset = ValveTextureFile.GetImageDataSize(
-                        vtf.Header.Width, vtf.Header.Height,
-                        1, mipMap, vtf.Header.HiResFormat);
-                    var count = ValveTextureFile.GetImageDataSize(
-                        (int) header.dwWidth, (int) header.dwHeight,
-                        1, 1, vtf.Header.HiResFormat);
-                        
-                    writer.Write((uint) 0x20534444);
-                    writer.Write(_sHeaderBuffer);
-                    writer.Write(vtf.PixelData, offset, count);
-                }
-                
-                var process = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = "convert",
-                        Arguments = string.Format("\"{0}\" \"{1}\"", ddsPath, pngPath)
-                    }
-                };
 
-                process.Start();
-                process.WaitForExit(5000);
+            var vtf = Program.Loader.Load<ValveTextureFile>(vtfFilePath);
                 
-                File.Delete(ddsPath);
-            }
-            
-            using (var stream = File.Open(pngPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            if (mipMap >= vtf.Header.MipMapCount)
             {
-                stream.CopyTo(outStream);
+                ConvertToPng(vtfFilePath, vtf.Header.MipMapCount - 1, outStream);
+                return;
+            }
+                
+            var header = new DdsHeader();
+                
+            int blockSize;
+            uint fourCC;
+            switch (vtf.Header.HiResFormat)
+            {
+                case TextureFormat.DXT1:
+                    blockSize = 8;
+                    fourCC = 0x31545844;
+                    break;
+                case TextureFormat.DXT5:
+                    blockSize = 16;
+                    fourCC = 0x35545844;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+                
+            GetMipMapSize(vtf.Header.Width, vtf.Header.Height, mipMap, out header.dwWidth, out header.dwHeight);
+                
+            header.dwSize = (uint) Marshal.SizeOf(typeof(DdsHeader));
+            header.dwFlags = DdsHeaderFlags.CAPS | DdsHeaderFlags.HEIGHT | DdsHeaderFlags.WIDTH
+                | DdsHeaderFlags.PIXELFORMAT;
+            header.dwPitchOrLinearSize = (uint) (Math.Max(1, (vtf.Header.Width + 3) / 4) * blockSize);
+            header.dwDepth = 1;
+            header.dwMipMapCount = 1;
+            header.dwCaps = DdsCaps.TEXTURE;
+            header.ddspf.dwSize = (uint) Marshal.SizeOf(typeof(DdsPixelFormat));
+            header.ddspf.dwFlags = DdsPixelFormatFlags.FOURCC;
+            header.ddspf.dwFourCC = fourCC;
+                
+            if (_sHeaderBuffer == null) _sHeaderBuffer = new byte[header.dwSize];
+                
+            fixed (byte* bufferPtr = _sHeaderBuffer)
+            {
+                var headerPtr = (DdsHeader*) bufferPtr;
+                *headerPtr = header;
+            }
+
+            if ( _sMemoryStream == null ) _sMemoryStream = new MemoryStream();
+            else
+            {
+                _sMemoryStream.Seek( 0, SeekOrigin.Begin );
+                _sMemoryStream.SetLength( 0 );
+            }
+
+            using ( var writer = new BinaryWriter( _sMemoryStream, Encoding.ASCII, true ) )
+            {
+                var offset = ValveTextureFile.GetImageDataSize(
+                    vtf.Header.Width, vtf.Header.Height,
+                    1, mipMap, vtf.Header.HiResFormat );
+                var count = ValveTextureFile.GetImageDataSize(
+                    (int) header.dwWidth, (int) header.dwHeight,
+                    1, 1, vtf.Header.HiResFormat );
+
+                writer.Write( (uint) 0x20534444 );
+                writer.Write( _sHeaderBuffer );
+                writer.Write( vtf.PixelData, offset, count );
+            }
+
+            _sMemoryStream.Seek( 0, SeekOrigin.Begin );
+
+            using ( var image = new MagickImage( _sMemoryStream, new MagickReadSettings {Format = MagickFormat.Dds} ) )
+            {
+                image.Write( outStream, MagickFormat.Png );
             }
         }
     }
