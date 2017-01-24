@@ -58,7 +58,7 @@ namespace MapViewServer
                 {"width", vtf.Header.Width},
                 {"height", vtf.Header.Height},
                 {"flags", (long) vtf.Header.Flags},
-                {"png_url", GetPngUrl( Request, path )},
+                {"png", GetPngUrl( Request, path )},
                 {"mipmaps", vtf.Header.MipMapCount}
             };
 

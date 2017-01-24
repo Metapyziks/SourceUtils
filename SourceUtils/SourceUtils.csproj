@@ -42,17 +42,25 @@
   <ItemGroup>
     <Compile Include="BitBuffer.cs" />
     <Compile Include="LumpReader.cs" />
+    <Compile Include="ValveModelFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLoader.cs" />
     <Compile Include="ValveBsp\ArrayLump.cs" />
     <Compile Include="ValveBsp\LumpInfo.cs" />
     <Compile Include="ValveBsp\LumpType.cs" />
     <Compile Include="ValveBsp\Reflection.cs" />
-    <Compile Include="ValveBsp\Structures\Vector3.cs" />
+    <Compile Include="ValveTriangleFile.cs" />
+    <Compile Include="ValveVertexFile.cs" />
+    <Compile Include="ValveVertexLightingFile.cs" />
+    <Compile Include="Vector2.cs" />
+    <Compile Include="Vector3.cs" />
     <Compile Include="ValveBsp\ValveBspFile.cs" />
     <Compile Include="ValveMaterialFile.cs" />
     <Compile Include="ValvePackage.cs" />
     <Compile Include="ValveTextureFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ValveBsp\Structures\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

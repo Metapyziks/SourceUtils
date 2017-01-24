@@ -78,7 +78,7 @@ namespace SourceUtils
             private readonly Dictionary<string, object> _loaded
                 = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
             
-            public ResourceCollection(ResourceLoader loader, string pathPrefix = null)
+            protected ResourceCollection(ResourceLoader loader, string pathPrefix = null)
             {
                 _loader = loader;
                 _pathPrefix = pathPrefix;
@@ -119,7 +119,7 @@ namespace SourceUtils
             private static string FindPathPrefix(Type type)
             {
                 var attrib = type.GetCustomAttributes<PathPrefixAttribute>(false).FirstOrDefault();
-                return attrib == null ? null : attrib.Value;
+                return attrib?.Value;
             }
             
             private static Func<Stream, T> FindFromStreamDelegate(Type type)

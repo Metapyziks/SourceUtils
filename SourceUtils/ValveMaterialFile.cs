@@ -73,9 +73,10 @@ namespace SourceUtils
     public class VmtParserException : Exception
     {
         public VmtParserException(string expected, int line, string lineValue)
-            : base(string.Format("Error while parsing material: expected {0} on line {1}.{2}{3}", expected, line, Environment.NewLine, lineValue)) { }
+            : base( $"Error while parsing material: expected {expected} on line {line}.{Environment.NewLine}{lineValue}" ) { }
     }
-
+    
+    [PathPrefix("materials")]
     public class ValveMaterialFile
     {
         internal class Reader
@@ -88,7 +89,7 @@ namespace SourceUtils
                 var reader = new StreamReader(stream);
                 var value = reader.ReadToEnd();
     
-                _lines = value.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None).Select(x => TrimLine(x)).ToArray();
+                _lines = value.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None).Select(TrimLine).ToArray();
             }
     
             public void AssertToken(string token)
@@ -190,16 +191,13 @@ namespace SourceUtils
             }
         }
 
-        public IEnumerable<string> Shaders { get { return _propertyGroups.Keys; } } 
+        public IEnumerable<string> Shaders => _propertyGroups.Keys;
 
         public bool ContainsShader(string shader)
         {
             return _propertyGroups.ContainsKey(shader);
         }
 
-        public MaterialPropertyGroup this[string shader]
-        {
-            get { return _propertyGroups[shader]; }
-        }
+        public MaterialPropertyGroup this[string shader] => _propertyGroups[shader];
     }
 }

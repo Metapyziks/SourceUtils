@@ -1,3 +1,4 @@
+using System.Net;
 using SourceUtils;
 using Newtonsoft.Json.Linq;
 using Ziks.WebServer;
@@ -7,10 +8,17 @@ namespace MapViewServer
 {
     using static HtmlDocumentHelper;
 
-    [Prefix("/vmt")]
+    [Prefix(UrlPrefix)]
     public class VmtController : ResourceController
     {
+        public const string UrlPrefix = "/vmt";
+
         private const string DefaultFormat = "json";
+        
+        public static string GetUrl( HttpListenerRequest request, string path )
+        {
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json";
+        }
 
         private static JToken PropertyGroupToJson(MaterialPropertyGroup props)
         {
@@ -54,7 +62,7 @@ namespace MapViewServer
         {
             if ( format != "json" ) throw NotFoundException();
 
-            var vmt = Program.Loader.Load<ValveMaterialFile>(FilePath);
+            var vmt = Program.Loader.Load<ValveMaterialFile>( FilePath );
             var response = new JObject();
             
             foreach (var shader in vmt.Shaders)

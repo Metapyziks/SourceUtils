@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SourceUtils.ValveBsp
+namespace SourceUtils
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3 : IEquatable<Vector3>
@@ -27,6 +27,11 @@ namespace SourceUtils.ValveBsp
             return X == other.X && Y == other.Y && Z == other.Z;
         }
 
+        public bool Equals(Vector3 other, float epsilon)
+        {
+            return Math.Abs( X - other.X ) < epsilon && Math.Abs( Y - other.Y ) < epsilon && Math.Abs( Z - other.Z ) < epsilon;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Vector3 && Equals((Vector3) obj);
@@ -36,7 +41,7 @@ namespace SourceUtils.ValveBsp
         {
             unchecked
             {
-                int hashCode = X.GetHashCode();
+                var hashCode = X.GetHashCode();
                 hashCode = (hashCode * 397) ^ Y.GetHashCode();
                 hashCode = (hashCode * 397) ^ Z.GetHashCode();
                 return hashCode;
@@ -45,7 +50,7 @@ namespace SourceUtils.ValveBsp
 
         public override string ToString()
         {
-            return string.Format("({0:F2}, {1:F2}, {2:F2})", X, Y, Z);
+            return $"({X:F2}, {Y:F2}, {Z:F2})";
         }
     }
 }

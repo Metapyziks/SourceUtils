@@ -1,5 +1,3 @@
-using SourceUtils.ValveBsp;
-
 namespace SourceUtils
 {
     public partial class ValveBspFile

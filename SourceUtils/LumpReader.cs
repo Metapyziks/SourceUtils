@@ -5,16 +5,16 @@ using System.Runtime.InteropServices;
 
 namespace SourceUtils
 {
-    internal class LumpReader<T>
-        where T : struct
+    internal class LumpReader<TLump>
+        where TLump : struct
     {
-        public static T[] ReadLump(byte[] src, int offset, int length)
+        public static TLump[] ReadLump(byte[] src, int offset, int length)
         {
-            var size = Marshal.SizeOf(typeof(T));
+            var size = Marshal.SizeOf(typeof(TLump));
             var count = length/size;
-            var array = new T[count];
+            var array = new TLump[count];
 
-            if (typeof (T) == typeof (byte))
+            if (typeof (TLump) == typeof (byte))
             {
                 Array.Copy(src, array, array.Length);
                 return array;
@@ -25,7 +25,7 @@ namespace SourceUtils
             for (var i = 0; i < count; ++i)
             {
                 Marshal.Copy(src, offset + i * size, tempPtr, size);
-                array[i] = (T) Marshal.PtrToStructure(tempPtr, typeof (T));
+                array[i] = (TLump) Marshal.PtrToStructure(tempPtr, typeof (TLump));
             }
 
             Marshal.FreeHGlobal(tempPtr);
@@ -33,12 +33,12 @@ namespace SourceUtils
             return array;
         }
 
-        public static void ReadLumpToList(byte[] src, int offset, int length, List<T> dstList)
+        public static void ReadLumpToList(byte[] src, int offset, int length, List<TLump> dstList)
         {
-            var size = Marshal.SizeOf(typeof(T));
+            var size = Marshal.SizeOf(typeof(TLump));
             var count = length/size;
 
-            if (typeof(T) == typeof(byte))
+            if (typeof(TLump) == typeof(byte))
             {
                 ((List<byte>) (object) dstList).AddRange(src);
             }
@@ -48,7 +48,7 @@ namespace SourceUtils
             for (var i = 0; i < count; ++i)
             {
                 Marshal.Copy(src, offset + i * size, tempPtr, size);
-                dstList.Add((T) Marshal.PtrToStructure(tempPtr, typeof(T)));
+                dstList.Add((TLump) Marshal.PtrToStructure(tempPtr, typeof(TLump)));
             }
 
             Marshal.FreeHGlobal(tempPtr);
@@ -58,11 +58,11 @@ namespace SourceUtils
         private static byte[] _sReadLumpBuffer;
 
         [ThreadStatic]
-        private static List<T> _sReadLumpList;
+        private static List<TLump> _sReadLumpList;
 
-        public static T ReadSingleFromStream(Stream stream)
+        public static TLump ReadSingleFromStream(Stream stream)
         {
-            if (_sReadLumpList == null) _sReadLumpList = new List<T>();
+            if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
             else _sReadLumpList.Clear();
 
             ReadLumpFromStream(stream, 1, _sReadLumpList);
@@ -70,12 +70,12 @@ namespace SourceUtils
             return _sReadLumpList[0];
         }
 
-        public static void ReadLumpFromStream(Stream stream, int count, Action<T> handler)
+        public static void ReadLumpFromStream(Stream stream, int count, Action<TLump> handler)
         {
-            if (_sReadLumpList == null) _sReadLumpList = new List<T>();
+            if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
             else _sReadLumpList.Clear();
 
-            var size = Marshal.SizeOf(typeof (T));
+            var size = Marshal.SizeOf(typeof (TLump));
             var start = stream.Position;
 
             ReadLumpFromStream(stream, count, _sReadLumpList);
@@ -87,17 +87,14 @@ namespace SourceUtils
             }
         }
 
-        public static T[] ReadLumpFromStream(Stream stream, int count)
+        public static TLump[] ReadLumpFromStream(Stream stream, int count)
         {
-            if (_sReadLumpList == null) _sReadLumpList = new List<T>();
+            if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
             else _sReadLumpList.Clear();
-
-            var size = Marshal.SizeOf(typeof (T));
-            var start = stream.Position;
 
             ReadLumpFromStream(stream, count, _sReadLumpList);
 
-            var output = new T[count];
+            var output = new TLump[count];
             for (var i = 0; i < count; ++i)
             {
                 output[i] = _sReadLumpList[i];
@@ -106,9 +103,25 @@ namespace SourceUtils
             return output;
         }
 
-        public static void ReadLumpFromStream(Stream stream, int count, List<T> dstList)
+        public static TValue[] ReadLumpFromStream<TValue>(Stream stream, int count, Func<TLump, TValue> selectFunc)
         {
-            var size = Marshal.SizeOf(typeof (T));
+            if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
+            else _sReadLumpList.Clear();
+
+            ReadLumpFromStream(stream, count, _sReadLumpList);
+
+            var output = new TValue[count];
+            for (var i = 0; i < count; ++i)
+            {
+                output[i] = selectFunc( _sReadLumpList[i] );
+            }
+
+            return output;
+        }
+
+        public static void ReadLumpFromStream(Stream stream, int count, List<TLump> dstList)
+        {
+            var size = Marshal.SizeOf(typeof (TLump));
             var length = count*size;
 
             if (_sReadLumpBuffer == null || _sReadLumpBuffer.Length < length)

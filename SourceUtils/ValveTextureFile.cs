@@ -106,7 +106,8 @@ namespace SourceUtils
         RGBA16161616,
         UVLX8888
     }
-
+    
+    [PathPrefix("materials")]
     public class ValveTextureFile
     {
         public static ValveTextureFile FromStream(Stream stream)
