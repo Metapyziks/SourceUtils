@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using SourceUtils;
 using Ziks.WebServer;
 using Ziks.WebServer.Html;
 
@@ -13,7 +14,7 @@ namespace MapViewServer
     {
         public const string UrlPrefix = "/vpk";
 
-        private static HtmlElement DirectoryEntry( string prefix, string label, string url = null )
+        private static HtmlElement DirectoryEntry( string prefix, HtmlElement label, string url = null )
         {
             return url == null ? new li {label} : new li {new a( href => JoinUrl( prefix, url ) ) {label}};
         }
@@ -56,7 +57,21 @@ namespace MapViewServer
                             foreach ( var file in files )
                             {
                                 var prefix = "/" + Path.GetExtension( file ).Substring( 1 );
-                                Echo( DirectoryEntry( prefix, file, JoinUrl( path, file + "?format=html" ) ) );
+                                NamedHtmlElement img;
+
+                                if ( prefix == VtfController.UrlPrefix )
+                                {
+                                    var filePath = $"{path}/{file}";
+                                    var vtf = Program.Loader.Load<ValveTextureFile>( filePath );
+                                    var mipmap = Math.Max( 0, vtf.Header.MipMapCount - 5 );
+                                    img = new NamedHtmlElement( "img", src => VtfController.GetPngUrl( Request, filePath, mipmap ) );
+                                }
+                                else
+                                {
+                                    img = new NamedHtmlElement( "img", src => "/fileicon.png" );
+                                }
+                                
+                                Echo( DirectoryEntry( prefix, new span { img, nbsp, file }, JoinUrl( path, file + "?format=html" ) ) );
                             }
                         }
                     }

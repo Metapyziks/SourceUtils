@@ -42,12 +42,12 @@ namespace SourceUtils
         
         public IEnumerable<string> GetFiles(string directory = "")
         {
-            return _providers.SelectMany(x => x.GetFiles(directory));
+            return _providers.SelectMany(x => x.GetFiles(directory)).OrderBy( x => x );
         }
         
         public IEnumerable<string> GetDirectories(string directory = "")
         {
-            return _providers.SelectMany(x => x.GetDirectories(directory));
+            return _providers.SelectMany(x => x.GetDirectories(directory)).OrderBy( x => x );
         }
 
         public bool ContainsFile(string filePath)
