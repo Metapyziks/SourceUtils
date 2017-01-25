@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SourceUtils
 {
-    public class ValveModelFile
+    public class StudioModelFile
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct Header
@@ -99,9 +99,9 @@ namespace SourceUtils
             }
         }
         
-        public static ValveModelFile FromStream(Stream stream)
+        public static StudioModelFile FromStream(Stream stream)
         {
-            return new ValveModelFile(stream);
+            return new StudioModelFile(stream);
         }
 
         private readonly Header _header;
@@ -110,8 +110,10 @@ namespace SourceUtils
         private readonly string[] _materialNames;
 
         public int NumTextures => _header.NumTextures;
+        public Vector3 HullMin => _header.HullMin;
+        public Vector3 HullMax => _header.HullMax;
 
-        private ValveModelFile(Stream stream)
+        private StudioModelFile(Stream stream)
         {
             _header = LumpReader<Header>.ReadSingleFromStream(stream);
 

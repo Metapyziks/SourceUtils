@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "noImplicitAny": false,
+        "noEmitOnError": false,
+        "removeComments": false,
+        "sourceMap": false,
+        "outFile": "main.js",
+        "target": "es5"
+    },
+    "compileOnSave": true,
+    "include": [
+        "*.ts"
+    ]
+}

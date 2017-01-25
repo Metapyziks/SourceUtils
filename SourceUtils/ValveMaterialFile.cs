@@ -15,13 +15,13 @@ namespace SourceUtils
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
         public IEnumerable<string> PropertyNames => _properties.Keys;
-        
-        public string this[string name] => _properties[name];
+
+        public string this[ string name ] => GetString( name );
 
         public string GetString(string name, string @default = null)
         {
             string value;
-            return !_properties.TryGetValue(name, out value) ? null : value;
+            return !_properties.TryGetValue(name, out value) ? @default : value;
         }
 
         public int GetInt32(string name, int @default = 0)

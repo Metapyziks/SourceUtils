@@ -107,12 +107,22 @@ namespace SourceUtils
             return new ValveTriangleFile(stream);
         }
 
-        private readonly int[][][] _triangles = new int[8][][];
+        public struct Mesh
+        {
+            public int Index;
+            public int Start;
+            public int Length;
+        }
+
+        public int NumLods { get; }
+
+        private readonly int[][] _triangles = new int[8][];
+        private readonly Mesh[][] _meshes = new Mesh[8][];
         private readonly int[][][] _vertIndexMap = new int[8][][];
 
         private ValveTriangleFile( Stream stream )
         {
-            var outIndices = new List<List<int>>();
+            var outIndices = new List<int>();
             var outIndexMap = new List<int[]>();
 
             using ( var reader = new BinaryReader( stream ) )
@@ -128,7 +138,7 @@ namespace SourceUtils
 
                 var checksum = reader.ReadInt32();
 
-                var numLods = reader.ReadInt32();
+                var numLods = NumLods = reader.ReadInt32();
                 var matReplacementListOffset = reader.ReadInt32();
 
                 var numBodyParts = reader.ReadInt32();
@@ -139,8 +149,6 @@ namespace SourceUtils
                 var verts = new List<OptimizedVertex>();
                 var indexMap = new List<int>();
                 var indices = new List<ushort>();
-
-                var meshIndex = 0;
 
                 reader.BaseStream.Seek( bodyPartOffset, SeekOrigin.Begin );
                 LumpReader<BodyPartHeader>.ReadLumpFromStream( reader.BaseStream, numBodyParts, bodyPart =>
@@ -157,15 +165,21 @@ namespace SourceUtils
                             outIndexMap.Clear();
 
                             var skip = 0;
+                            var meshIndex = 0;
+
+                            _meshes[lodIndex] = new Mesh[lod.NumMeshes];
 
                             reader.BaseStream.Seek( lod.MeshOffset, SeekOrigin.Current );
                             LumpReader<MeshHeader>.ReadLumpFromStream( reader.BaseStream, lod.NumMeshes, mesh =>
                             {
-                                List<int> meshIndices;
-                                if ( outIndices.Count <= meshIndex ) outIndices.Add( meshIndices = new List<int>() );
-                                else meshIndices = outIndices[meshIndex];
 
-                                Debug.Assert( mesh.NumStripGroups == 1 );
+                                var meshInfo = new Mesh
+                                {
+                                    Index = meshIndex,
+                                    Start = outIndices.Count
+                                };
+
+                                Debug.Assert( mesh.NumStripGroups < 2 );
 
                                 indexMap.Clear();
 
@@ -199,7 +213,7 @@ namespace SourceUtils
                                             var index = indices[strip.IndexOffset + i];
                                             var vert = verts[index];
 
-                                            meshIndices.Add( strip.VertOffset + vert.OrigMeshVertId + skip );
+                                            outIndices.Add( strip.VertOffset + vert.OrigMeshVertId + skip );
                                         }
                                     } );
 
@@ -209,11 +223,16 @@ namespace SourceUtils
 
                                 outIndexMap.Add( indexMap.ToArray() );
 
+                                meshInfo.Length = outIndices.Count - meshInfo.Start;
+                                _meshes[lodIndex][meshIndex] = meshInfo;
+
                                 meshIndex += 1;
                             } );
 
                             _vertIndexMap[lodIndex] = outIndexMap.ToArray();
-                            _triangles[lodIndex] = outIndices.Select( x => x.ToArray() ).ToArray();
+                            _triangles[lodIndex] = outIndices.ToArray();
+
+                            lodIndex += 1;
                         } );
                     } );
                 } );
@@ -225,9 +244,14 @@ namespace SourceUtils
             return _vertIndexMap[lodLevel];
         }
 
-        public int[][] GetTriangles( int lodLevel )
+        public int[] GetTriangles( int lodLevel )
         {
             return _triangles[lodLevel];
+        }
+
+        public Mesh[] GetMeshes( int lodLevel )
+        {
+            return _meshes[lodLevel];
         }
     }
 }

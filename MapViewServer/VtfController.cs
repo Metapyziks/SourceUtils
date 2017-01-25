@@ -15,6 +15,11 @@ namespace MapViewServer
         public const string UrlPrefix = "/vtf";
 
         private const string DefaultFormat = "json";
+        
+        public static string GetUrl( HttpListenerRequest request, string path )
+        {
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json";
+        }
 
         public static string GetPngUrl( HttpListenerRequest request, string path, int mipMap = -1 )
         {

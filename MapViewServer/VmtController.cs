@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using SourceUtils;
 using Newtonsoft.Json.Linq;
@@ -20,30 +21,77 @@ namespace MapViewServer
             return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json";
         }
 
-        private static JToken PropertyGroupToJson(MaterialPropertyGroup props)
+        private string GetTextureUrl( string filePath )
+        {
+            filePath = filePath.Replace( '\\', '/' );
+
+            var ext = Path.GetExtension( filePath );
+            if ( string.IsNullOrEmpty( ext ) ) filePath += ".vtf";
+
+            return VtfController.GetUrl( Request, filePath );
+        }
+
+        private void HandleVertexLitGeneric( JObject response, JObject outProperties, MaterialPropertyGroup properties )
+        {
+            response["material"] = "MeshPhongMaterial";
+
+            foreach ( var name in properties.PropertyNames )
+            {
+                switch ( name.ToLower() )
+                {
+                    case "$basetexture":
+                        outProperties.Add( "map", GetTextureUrl( properties[name] ) );
+                        break;
+                    case "$bumpmap":
+                        outProperties.Add( "bumpMap", GetTextureUrl( properties[name] ) );
+                        break;
+                    case "$envmapmask":
+                        outProperties.Add( "specularMap", GetTextureUrl( properties[name] ) );
+                        break;
+                }
+            }
+        }
+
+        private JToken PropertyGroupToJson(string shaderName, MaterialPropertyGroup props)
         {
             var obj = new JObject();
+            var raw = new JObject();
             
             foreach (var name in props.PropertyNames)
             {
                 var value = props[name];
+                var lower = name.ToLower();
                 
                 int intValue;
                 if (int.TryParse(value, out intValue))
                 {
-                    obj.Add(name, intValue);
+                    raw.Add(lower, intValue);
                     continue;
                 }
                 
                 double doubleValue;
                 if (double.TryParse(value, out doubleValue))
                 {
-                    obj.Add(name, doubleValue);
+                    raw.Add(lower, doubleValue);
                     continue;
                 }
                 
-                obj.Add(name, value);
+                raw.Add(lower, value.Replace( '\\', '/' ));
             }
+
+            var properties = new JObject();
+            obj.Add( "material", "MeshBasicMaterial" );
+            obj.Add( "properties", properties );
+
+            //switch ( shaderName.ToLower() )
+            //{
+            //    case "vertexlitgeneric":
+                    HandleVertexLitGeneric( obj, properties, props );
+            //        break;
+            //}
+
+            obj.Add( "sourceName", shaderName );
+            obj.Add( "sourceProperties", raw );
             
             return obj;
         }
@@ -64,11 +112,15 @@ namespace MapViewServer
 
             var vmt = Program.Loader.Load<ValveMaterialFile>( FilePath );
             var response = new JObject();
+
+            var shaders = new JArray();
             
             foreach (var shader in vmt.Shaders)
             {
-                response.Add(shader, PropertyGroupToJson(vmt[shader]));
+                shaders.Add(PropertyGroupToJson(shader, vmt[shader]));
             }
+
+            response.Add( "shaders", shaders );
             
             return response;
         }

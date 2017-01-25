@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LZString.cs" />
     <Compile Include="MdlController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,11 +72,13 @@
     <Compile Include="VpkController.cs" />
     <Compile Include="VtfConverter.cs" />
     <Compile Include="VtfController.cs" />
+    <Compile Include="VtxController.cs" />
     <Compile Include="VvdController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Scripts\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">
@@ -85,6 +88,37 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\fileicon.png" />
+    <Content Include="Scripts\main.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\AppBase.ts" />
+    <TypeScriptCompile Include="Scripts\ModelViewer.ts" />
+    <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\geometry-dom\geometry-dom.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\lz-string\lz-string.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\detector.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-canvasrenderer.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-copyshader.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-css3drenderer.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-editorcontrols.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-effectcomposer.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-FirstPersonControls.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-maskpass.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-orbitcontrols.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-orthographictrackballcontrols.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-projector.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-renderpass.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-shaderpass.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-trackballcontrols.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-transformcontrols.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-vrcontrols.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three-vreffect.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\threejs\three.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\webvr-api\webvr-api.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\scripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

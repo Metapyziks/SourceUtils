@@ -20,7 +20,9 @@ namespace MapViewServer
         {
             if (args.Length > 0) CsgoDirectory = args[0];
 
-            var resourcesPath = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ), "..", "..", "Resources" );
+            var assemblyDir = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
+            var resourcesPath = Path.Combine( assemblyDir, "..", "..", "Resources" );
+            var scriptsPath = Path.Combine( assemblyDir, "..", "..", "Scripts" );
 
             Loader = new ResourceLoader();
             Loader.AddResourceProvider(new ValvePackage(Path.Combine(CsgoDirectory, "pak01_dir.vpk")));
@@ -28,6 +30,7 @@ namespace MapViewServer
             var server = new Server( 8080 );
 
             server.Controllers.Add( "/", () => new StaticFileController( resourcesPath ) );
+            server.Controllers.Add( "/", () => new StaticFileController( scriptsPath ) );
             server.Controllers.Add( Assembly.GetExecutingAssembly() );
             server.Run();
 

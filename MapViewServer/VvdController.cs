@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using SourceUtils;
 using Newtonsoft.Json.Linq;
 using Ziks.WebServer;
@@ -42,48 +43,57 @@ namespace MapViewServer
                 { "numLods", vvd.NumLods }
             };
 
-            if ( lod < 0 ) return response;
-            lod = Math.Min( lod, vvd.NumLods - 1 );
+            if ( lod < 0 ) lod = int.MaxValue;
+            lod = Math.Max( 0, Math.Min( lod, vvd.NumLods - 1 ) );
 
             response.Add( "lod", lod );
+
+            var builder = new StringBuilder();
 
             var studioVerts = vvd.GetVertices( lod );
             if ( vertices )
             {
-                var verts = new JArray();
-                foreach ( var vert in studioVerts )
+                builder.Remove( 0, builder.Length );
+                builder.Append( "[" );
+                for ( var i = 0; i < studioVerts.Length; ++i )
                 {
-                    verts.Add( vert.Position.X );
-                    verts.Add( vert.Position.Y );
-                    verts.Add( vert.Position.Z );
+                    if ( i != 0 ) builder.Append( "," );
+                    var vert = studioVerts[i];
+                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", vert.Position.X, vert.Position.Y, vert.Position.Z );
                 }
+                builder.Append( "]" );
 
-                response.Add( "vertices", verts );
+                response.Add( "vertices", LZString.compressToBase64( builder.ToString() ) );
             }
 
             if ( normals )
             {
-                var norms = new JArray();
-                foreach ( var vert in studioVerts )
+                builder.Remove( 0, builder.Length );
+                builder.Append( "[" );
+                for ( var i = 0; i < studioVerts.Length; ++i )
                 {
-                    norms.Add( vert.Normal.X );
-                    norms.Add( vert.Normal.Y );
-                    norms.Add( vert.Normal.Z );
+                    if ( i != 0 ) builder.Append( "," );
+                    var vert = studioVerts[i];
+                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", -vert.Normal.X, -vert.Normal.Y, -vert.Normal.Z );
                 }
+                builder.Append( "]" );
 
-                response.Add( "normals", norms );
+                response.Add( "normals", LZString.compressToBase64( builder.ToString() ) );
             }
 
             if ( texcoords )
             {
-                var texcos = new JArray();
-                foreach ( var vert in studioVerts )
+                builder.Remove( 0, builder.Length );
+                builder.Append( "[" );
+                for ( var i = 0; i < studioVerts.Length; ++i )
                 {
-                    texcos.Add( vert.TexCoordX );
-                    texcos.Add( vert.TexCoordY );
+                    if ( i != 0 ) builder.Append( "," );
+                    var vert = studioVerts[i];
+                    builder.AppendFormat( "{0:F3},{1:F3}", vert.TexCoordX, 1f - vert.TexCoordY );
                 }
+                builder.Append( "]" );
 
-                response.Add( "texcoords", texcos );
+                response.Add( "texcoords", LZString.compressToBase64( builder.ToString() ) );
             }
 
             return response;

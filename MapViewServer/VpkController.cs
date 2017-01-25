@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net;
 using SourceUtils;
 using Ziks.WebServer;
 using Ziks.WebServer.Html;
@@ -13,6 +14,11 @@ namespace MapViewServer
     public class VpkController : Controller
     {
         public const string UrlPrefix = "/vpk";
+        
+        public static string GetUrl( HttpListenerRequest request, string path )
+        {
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}";
+        }
 
         private static HtmlElement DirectoryEntry( string prefix, HtmlElement label, string url = null )
         {
@@ -36,7 +42,7 @@ namespace MapViewServer
 
             return new html( lang => "en" )
             {
-                new head {new title {"VPK Browser"}},
+                new head {new title {$"VPK Browser [{path}]"}},
                 new body
                 {
                     new h2 {$"Contents of /{path}"},

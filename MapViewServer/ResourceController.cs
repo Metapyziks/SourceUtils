@@ -5,9 +5,12 @@ using MimeTypes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Ziks.WebServer;
+using Ziks.WebServer.Html;
 
 namespace MapViewServer
 {
+    using static HtmlDocumentHelper;
+
     public abstract class ResourceController : Controller
     {
         protected string FilePath
@@ -28,6 +31,19 @@ namespace MapViewServer
             {
                 streamWriter.WriteLine(token.ToString(Formatting.None));
             }
+        }
+
+        protected override void OnServiceHtml( HtmlElement document )
+        {
+            base.OnServiceHtml( new html
+            {
+                new head {new title {$"VPK Browser [{FilePath}]"}},
+                new body
+                {
+                    new h2 {$"Contents of /{FilePath}" },
+                    document
+                }
+            } );
         }
     }
 }
