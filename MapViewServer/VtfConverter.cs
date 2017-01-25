@@ -94,25 +94,32 @@ namespace MapViewServer
             if ( Environment.OSVersion.Platform == PlatformID.Unix ||
                  Environment.OSVersion.Platform == PlatformID.MacOSX )
             {
-                var processStart = new ProcessStartInfo
+                try
                 {
-                    FileName = "convert",
-                    Arguments = "dds:- png:-",
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true,
-                    UseShellExecute = false
-                };
+                    var processStart = new ProcessStartInfo
+                    {
+                        FileName = "convert",
+                        Arguments = "dds:- png:-",
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    };
 
-                var process = Process.Start( processStart );
+                    var process = Process.Start( processStart );
 
-                src.CopyTo( process.StandardInput.BaseStream );
-                process.StandardInput.Close();
+                    src.CopyTo( process.StandardInput.BaseStream );
+                    process.StandardInput.Close();
 
-                while ( !process.HasExited )
+                    while ( !process.HasExited )
+                    {
+                        process.StandardOutput.BaseStream.CopyTo( dst );
+                        process.WaitForExit( 1 );
+                    }
+                }
+                catch
                 {
-                    process.StandardOutput.BaseStream.CopyTo( dst );
-                    process.WaitForExit( 1 );
+                    // TODO, handle gracefully
                 }
             }
             else
