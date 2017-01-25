@@ -1,7 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using System.Text;
 using ImageMagick;
 using SourceUtils;
@@ -88,6 +88,38 @@ namespace MapViewServer
             if (mipMapWidth < 4) mipMapWidth = 4;
             if (mipMapHeight < 4) mipMapHeight = 4;
         }
+
+        private static void ConvertDdsToPng( Stream src, Stream dst )
+        {
+            if ( Environment.OSVersion.Platform == PlatformID.Unix ||
+                 Environment.OSVersion.Platform == PlatformID.MacOSX )
+            {
+                var processStart = new ProcessStartInfo
+                {
+                    FileName = "convert",
+                    Arguments = "dds:- png:-",
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+                };
+
+                var process = Process.Start( processStart );
+
+                src.CopyTo( process.StandardInput.BaseStream );
+                process.StandardInput.Close();
+
+                process.WaitForExit();
+                process.StandardOutput.BaseStream.CopyTo( dst );
+            }
+            else
+            {
+                using ( var image = new MagickImage( src, new MagickReadSettings {Format = MagickFormat.Dds} ) )
+                {
+                    image.Write( dst, MagickFormat.Png );
+                }
+            }
+        }
         
         public static unsafe void ConvertToPng(string vtfFilePath, int mipMap, Stream outStream)
         {
@@ -162,11 +194,7 @@ namespace MapViewServer
             }
 
             _sMemoryStream.Seek( 0, SeekOrigin.Begin );
-
-            using ( var image = new MagickImage( _sMemoryStream, new MagickReadSettings {Format = MagickFormat.Dds} ) )
-            {
-                image.Write( outStream, MagickFormat.Png );
-            }
+            ConvertDdsToPng( _sMemoryStream, outStream );
         }
     }
 }
