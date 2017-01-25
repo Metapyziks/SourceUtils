@@ -7,12 +7,13 @@ var __extends = (this && this.__extends) || function (d, b) {
 /// <reference path="typings/threejs/three.d.ts" />
 var SourceUtils;
 (function (SourceUtils) {
+    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var MouseButton = SourceUtils.MouseButton;
+    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var Key;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -112,8 +113,7 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(SourceUtils.Key || (SourceUtils.Key = {}));
-    var Key = SourceUtils.Key;
+    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
     var AppBase = (function () {
         function AppBase() {
             this.previousTime = 0;
@@ -301,10 +301,11 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            _super.apply(this, arguments);
-            this.cameraAngle = 0;
-            this.hullSize = new THREE.Vector3();
-            this.hullCenter = new THREE.Vector3();
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.cameraAngle = 0;
+            _this.hullSize = new THREE.Vector3();
+            _this.hullCenter = new THREE.Vector3();
+            return _this;
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -337,7 +338,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function(i) {
+            var _loop_1 = function (i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -357,11 +358,21 @@ var SourceUtils;
         ModelViewer.prototype.loadVtf = function (url, action) {
             var _this = this;
             $.getJSON(url, function (vtf, status) {
-                _this.texLoader.load(vtf.png.replace("{mipmap}", "0"), function (tex) {
-                    tex.wrapS = THREE.RepeatWrapping;
-                    tex.wrapT = THREE.RepeatWrapping;
-                    action(tex);
-                });
+                var minMipMap = Math.max(vtf.mipmaps - 4, 0);
+                var bestMipMap = vtf.mipmaps;
+                var _loop_2 = function (i) {
+                    _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
+                        if (i >= bestMipMap)
+                            return;
+                        bestMipMap = i;
+                        tex.wrapS = THREE.RepeatWrapping;
+                        tex.wrapT = THREE.RepeatWrapping;
+                        action(tex);
+                    });
+                };
+                for (var i = minMipMap; i >= 0; --i) {
+                    _loop_2(i);
+                }
             });
         };
         ModelViewer.prototype.onLoadVmt = function (index, vmt, status) {

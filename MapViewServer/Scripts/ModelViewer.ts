@@ -145,11 +145,18 @@ namespace SourceUtils {
         private loadVtf(url: string, action: (tex: THREE.Texture) => void): void
         {
             $.getJSON(url, (vtf: VtfData, status: string) => {
-                this.texLoader.load(vtf.png.replace("{mipmap}", "0"), tex => {
-                    tex.wrapS = THREE.RepeatWrapping;
-                    tex.wrapT = THREE.RepeatWrapping;
-                    action(tex);
-                });
+                const minMipMap = Math.max(vtf.mipmaps - 4, 0);
+                let bestMipMap = vtf.mipmaps;
+                for (let i = minMipMap; i >= 0; --i)
+                {
+                    this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), tex => {
+                        if (i >= bestMipMap) return;
+                        bestMipMap = i;
+                        tex.wrapS = THREE.RepeatWrapping;
+                        tex.wrapT = THREE.RepeatWrapping;
+                        action(tex);
+                    });
+                }
             });
         }
 
