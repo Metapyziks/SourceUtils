@@ -1,5 +1,7 @@
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Web.UI.WebControls;
 using SourceUtils;
 using Newtonsoft.Json.Linq;
 using Ziks.WebServer;
@@ -31,7 +33,42 @@ namespace MapViewServer
             return VtfController.GetUrl( Request, filePath );
         }
 
-        private void HandleVertexLitGeneric( JObject response, JObject outProperties, MaterialPropertyGroup properties )
+        private enum PropertyType
+        {
+            Boolean,
+            Number,
+            Texture
+        }
+
+        private static void AddProperty( JArray properties, string name, PropertyType type, JToken value )
+        {
+            var existing = properties.FirstOrDefault( x => (string) x["name"] == name );
+            if ( existing != null )
+            {
+                existing["type"] = (int) type;
+                existing["value"] = value;
+                return;
+            }
+
+            properties.Add( new JObject {{"name", name}, {"type", (int) type}, {"value", value}} );
+        }
+
+        private void AddBooleanProperty( JArray properties, string name, bool value )
+        {
+            AddProperty( properties, name, PropertyType.Number, value );
+        }
+
+        private void AddNumberProperty( JArray properties, string name, float value )
+        {
+            AddProperty( properties, name, PropertyType.Number, value );
+        }
+
+        private void AddTextureProperty( JArray properties, string name, string vtfPath )
+        {
+            AddProperty( properties, name, PropertyType.Texture, GetTextureUrl( vtfPath ) );
+        }
+
+        private void HandleVertexLitGeneric( JObject response, JArray outProperties, MaterialPropertyGroup properties )
         {
             response["material"] = "MeshPhongMaterial";
 
@@ -40,13 +77,22 @@ namespace MapViewServer
                 switch ( name.ToLower() )
                 {
                     case "$basetexture":
-                        outProperties.Add( "map", GetTextureUrl( properties[name] ) );
+                        AddTextureProperty( outProperties, "map", properties[name] );
                         break;
                     case "$bumpmap":
-                        outProperties.Add( "bumpMap", GetTextureUrl( properties[name] ) );
+                        AddTextureProperty( outProperties, "bumpMap", properties[name] );
                         break;
                     case "$envmapmask":
-                        outProperties.Add( "specularMap", GetTextureUrl( properties[name] ) );
+                        AddTextureProperty( outProperties, "specularMap", properties[name] );
+                        break;
+                    case "$alphatest":
+                        AddNumberProperty( outProperties, "alphaTest", properties.GetBoolean( name ) ? 0.5f : 0f );
+                        break;
+                    case "$translucent":
+                        AddBooleanProperty( outProperties, "transparent", properties.GetBoolean( name ) );
+                        break;
+                    case "$nocull":
+                        AddNumberProperty( outProperties, "side", properties.GetBoolean( name ) ? 2f : 1f );
                         break;
                 }
             }
@@ -79,9 +125,11 @@ namespace MapViewServer
                 raw.Add(lower, value.Replace( '\\', '/' ));
             }
 
-            var properties = new JObject();
+            var properties = new JArray();
             obj.Add( "material", "MeshBasicMaterial" );
             obj.Add( "properties", properties );
+
+            AddNumberProperty( properties, "side", 1f );
 
             //switch ( shaderName.ToLower() )
             //{

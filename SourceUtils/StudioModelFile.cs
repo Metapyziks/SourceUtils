@@ -58,6 +58,10 @@ namespace SourceUtils
 
             public int NumCdTextures;
             public int CdTextureIndex;
+
+            public int NumSkinRef;
+            public int NumSkinFamilies;
+            public int SkinIndex;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]

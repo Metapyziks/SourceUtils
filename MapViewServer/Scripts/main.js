@@ -7,13 +7,12 @@ var __extends = (this && this.__extends) || function (d, b) {
 /// <reference path="typings/threejs/three.d.ts" />
 var SourceUtils;
 (function (SourceUtils) {
-    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var Key;
+    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var MouseButton = SourceUtils.MouseButton;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -113,7 +112,8 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
+    })(SourceUtils.Key || (SourceUtils.Key = {}));
+    var Key = SourceUtils.Key;
     var AppBase = (function () {
         function AppBase() {
             this.previousTime = 0;
@@ -263,6 +263,12 @@ var SourceUtils;
         }
         return MdlData;
     }());
+    var PropertyType;
+    (function (PropertyType) {
+        PropertyType[PropertyType["Boolean"] = 0] = "Boolean";
+        PropertyType[PropertyType["Number"] = 1] = "Number";
+        PropertyType[PropertyType["Texture"] = 2] = "Texture";
+    })(PropertyType || (PropertyType = {}));
     var MaterialPropertiesData = (function () {
         function MaterialPropertiesData() {
         }
@@ -301,11 +307,10 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.cameraAngle = 0;
-            _this.hullSize = new THREE.Vector3();
-            _this.hullCenter = new THREE.Vector3();
-            return _this;
+            _super.apply(this, arguments);
+            this.cameraAngle = 0;
+            this.hullSize = new THREE.Vector3();
+            this.hullCenter = new THREE.Vector3();
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -338,7 +343,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function (i) {
+            var _loop_1 = function(i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -360,7 +365,7 @@ var SourceUtils;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function (i) {
+                var _loop_2 = function(i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -379,31 +384,24 @@ var SourceUtils;
             var shader = vmt.shaders[0];
             if (shader == null)
                 return;
-            var mat = new THREE[shader.material]({ side: THREE.BackSide });
-            for (var key in shader.properties) {
-                if (!shader.properties.hasOwnProperty(key))
-                    continue;
-                var value = shader.properties[key];
-                switch (key) {
-                    case "map":
-                        this.loadVtf(value, function (tex) {
-                            mat.map = tex;
+            var mat = new THREE[shader.material]();
+            var _loop_3 = function(i) {
+                var prop = shader.properties[i];
+                switch (prop.type) {
+                    case PropertyType.Texture:
+                        this_1.loadVtf(prop.value, function (tex) {
+                            mat[prop.name] = tex;
                             mat.needsUpdate = true;
                         });
                         break;
-                    case "bumpMap":
-                        this.loadVtf(value, function (tex) {
-                            mat.bumpMap = tex;
-                            mat.needsUpdate = true;
-                        });
-                        break;
-                    case "specularMap":
-                        this.loadVtf(value, function (tex) {
-                            mat.specularMap = tex;
-                            mat.needsUpdate = true;
-                        });
+                    default:
+                        mat[prop.name] = prop.value;
                         break;
                 }
+            };
+            var this_1 = this;
+            for (var i = 0; i < shader.properties.length; ++i) {
+                _loop_3(i);
             }
             var hasMultiMat = this.mesh.material.materials != null;
             if (!hasMultiMat) {

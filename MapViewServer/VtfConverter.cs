@@ -111,7 +111,7 @@ namespace MapViewServer
                     src.CopyTo( process.StandardInput.BaseStream );
                     process.StandardInput.Close();
 
-                    while ( !process.HasExited )
+                    while ( !process.HasExited || !process.StandardOutput.EndOfStream )
                     {
                         process.StandardOutput.BaseStream.CopyTo( dst );
                         process.WaitForExit( 1 );

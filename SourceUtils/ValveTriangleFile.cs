@@ -67,6 +67,7 @@ namespace SourceUtils
 
         private enum StripHeaderFlags : byte
         {
+            None = 0, // I assume?
             IsTriList = 1,
             IsTriStrip = 2
         }
@@ -116,9 +117,9 @@ namespace SourceUtils
 
         public int NumLods { get; }
 
-        private readonly int[][] _triangles = new int[8][];
-        private readonly Mesh[][] _meshes = new Mesh[8][];
-        private readonly int[][][] _vertIndexMap = new int[8][][];
+        private readonly int[][] _triangles;
+        private readonly Mesh[][] _meshes;
+        private readonly int[][][] _vertIndexMap;
 
         private ValveTriangleFile( Stream stream )
         {
@@ -149,6 +150,10 @@ namespace SourceUtils
                 var verts = new List<OptimizedVertex>();
                 var indexMap = new List<int>();
                 var indices = new List<ushort>();
+
+                _triangles = new int[numLods][];
+                _meshes = new Mesh[numLods][];
+                _vertIndexMap = new int[numLods][][];
 
                 reader.BaseStream.Seek( bodyPartOffset, SeekOrigin.Begin );
                 LumpReader<BodyPartHeader>.ReadLumpFromStream( reader.BaseStream, numBodyParts, bodyPart =>
@@ -206,7 +211,7 @@ namespace SourceUtils
                                     reader.BaseStream.Seek( start + stripGroup.StripOffset, SeekOrigin.Begin );
                                     LumpReader<StripHeader>.ReadLumpFromStream( reader.BaseStream, stripGroup.NumStrips, strip =>
                                     {
-                                        Debug.Assert( strip.Flags == StripHeaderFlags.IsTriList );
+                                        Debug.Assert( strip.Flags != StripHeaderFlags.IsTriStrip );
 
                                         for ( var i = 0; i < strip.NumIndices; ++i )
                                         {

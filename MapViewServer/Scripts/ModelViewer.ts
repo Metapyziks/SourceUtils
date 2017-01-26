@@ -16,14 +16,22 @@ namespace SourceUtils {
         triangles: string;
     }
 
-    class MaterialPropertiesData {
-        baseTexture: string;
-        bumpMap: string;
+    enum PropertyType {
+        Boolean,
+        Number,
+        Texture
+    }
+
+    class MaterialPropertiesData
+    {
+        name: string;
+        type: PropertyType;
+        value: any;
     }
 
     class ShaderData {
         material: string;
-        properties: MaterialPropertiesData;
+        properties: MaterialPropertiesData[];
         sourceName: string;
         sourceProperties: any;
     }
@@ -164,30 +172,20 @@ namespace SourceUtils {
             const shader = vmt.shaders[0];
             if (shader == null) return;
 
-            const mat: THREE.Material = new THREE[shader.material]({side: THREE.BackSide});
+            const mat: THREE.Material = new THREE[shader.material]();
 
-            for (let key in shader.properties) {
-                if (!shader.properties.hasOwnProperty(key)) continue;
-                const value = shader.properties[key];
-                switch (key) {
-                case "map":
-                    this.loadVtf(value, tex => {
-                        (mat as any).map = tex;
-                        mat.needsUpdate = true;
-                    });
-                    break;
-                case "bumpMap":
-                    this.loadVtf(value, tex => {
-                        (mat as any).bumpMap = tex;
-                        mat.needsUpdate = true;
-                    });
-                    break;
-                case "specularMap":
-                    this.loadVtf(value, tex =>
+            for (let i = 0; i < shader.properties.length; ++i) {
+                const prop = shader.properties[i];
+                switch (prop.type) {
+                case PropertyType.Texture:
+                    this.loadVtf(prop.value, tex =>
                     {
-                        (mat as any).specularMap = tex;
+                        mat[prop.name] = tex;
                         mat.needsUpdate = true;
-                    });
+                        });
+                    break;
+                default:
+                    mat[prop.name] = prop.value;
                     break;
                 }
             }
