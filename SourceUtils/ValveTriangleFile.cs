@@ -207,14 +207,10 @@ namespace SourceUtils
                                     LumpReader<ushort>.ReadLumpFromStream( reader.BaseStream,
                                         stripGroup.NumIndices, indices );
 
-                                    Console.WriteLine( $"StripGroup.NumVerts: {stripGroup.NumVerts}" );
-
                                     reader.BaseStream.Seek( start + stripGroup.StripOffset, SeekOrigin.Begin );
                                     LumpReader<StripHeader>.ReadLumpFromStream( reader.BaseStream, stripGroup.NumStrips, strip =>
                                     {
                                         Debug.Assert( strip.Flags != StripHeaderFlags.IsTriStrip );
-                                        
-                                        Console.WriteLine( $"Strip.NumVerts: {strip.NumVerts}" );
 
                                         for ( var j = 0; j < strip.NumVerts; ++j )
                                         {
