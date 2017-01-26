@@ -176,6 +176,7 @@ var SourceUtils;
             return this.container.innerHeight();
         };
         AppBase.prototype.getScene = function () { return this.scene; };
+        AppBase.prototype.getRenderer = function () { return this.renderer; };
         AppBase.prototype.getMouseScreenPos = function (out) {
             if (out == null)
                 out = new THREE.Vector2();
@@ -319,12 +320,12 @@ var SourceUtils;
             _super.prototype.init.call(this, container);
             var ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
             this.getScene().add(ambient);
-            var directionalA = new THREE.DirectionalLight(0xFDF4D9);
-            directionalA.position.set(3, -5, 7);
-            this.getScene().add(directionalA);
-            var directionalB = new THREE.DirectionalLight(0x7EABCF, 0.25);
-            directionalB.position.set(-4, 6, -1);
-            this.getScene().add(directionalB);
+            this.directionalA = new THREE.DirectionalLight(0xFDF4D9);
+            this.directionalA.position.set(3, -5, 7);
+            this.getScene().add(this.directionalA);
+            this.directionalB = new THREE.DirectionalLight(0x7EABCF, 0.25);
+            this.directionalB.position.set(-4, 6, -1);
+            this.getScene().add(this.directionalB);
         };
         ModelViewer.prototype.loadModel = function (url) {
             var _this = this;
@@ -429,20 +430,26 @@ var SourceUtils;
                 this.updateModel();
         };
         ModelViewer.prototype.updateModel = function () {
-            this.geometry.addAttribute("position", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.vertices), 3));
-            this.geometry.addAttribute("normal", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.normals), 3, true));
-            this.geometry.addAttribute("uv", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.texcoords), 2));
-            this.geometry.setIndex(new THREE.BufferAttribute(this.decompressUint32Array(this.vtx.triangles), 1));
+            if (this.vvd.vertices != null)
+                this.geometry.addAttribute("position", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.vertices), 3));
+            if (this.vvd.normals != null)
+                this.geometry.addAttribute("normal", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.normals), 3, true));
+            if (this.vvd.texcoords != null)
+                this.geometry.addAttribute("uv", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.texcoords), 2));
+            if (this.vvd.tangents != null)
+                this.geometry.addAttribute("tangent", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.tangents), 4));
+            this.geometry.setIndex(new THREE.BufferAttribute(this.decompressUint32Array(this.vtx.indices), 1));
             for (var i = 0; i < this.vtx.meshes.length; ++i) {
                 var mesh = this.vtx.meshes[i];
                 this.geometry.addGroup(mesh.start, mesh.length, mesh.materialIndex);
             }
         };
         ModelViewer.prototype.onRenderFrame = function (dt) {
-            this.cameraAngle += dt;
+            this.cameraAngle += dt * 0.25;
             var radius = this.hullSize.length();
-            this.mesh.rotation.set(0, 0, this.cameraAngle * 0.25);
             this.camera.position.set(Math.cos(this.cameraAngle) * radius, Math.sin(this.cameraAngle) * radius, 0.5 * radius);
+            this.directionalA.position.set(Math.cos(this.cameraAngle * 2.67), Math.sin(this.cameraAngle * 2.67), 0.75);
+            this.directionalB.position.set(Math.cos(this.cameraAngle * 2.67 + 2.8), Math.sin(this.cameraAngle * 2.67 + 2.8), -0.5);
             this.camera.position.add(this.hullCenter);
             this.camera.lookAt(this.hullCenter);
             _super.prototype.onRenderFrame.call(this, dt);

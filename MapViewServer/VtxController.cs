@@ -49,11 +49,11 @@ namespace MapViewServer
             response.Add( "lod", lod );
 
             var meshes = new JArray();
-            foreach ( var mesh in vtx.GetMeshes( lod ) )
+            foreach ( var mesh in vtx.GetSubMeshes( lod ) )
             {
                 meshes.Add( new JObject
                 {
-                    {"materialIndex", mesh.Index},
+                    {"materialIndex", mesh.MaterialIndex},
                     {"start", mesh.Start},
                     {"length", mesh.Length}
                 } );
@@ -63,17 +63,17 @@ namespace MapViewServer
 
             var builder = new StringBuilder();
 
-            var triangles = vtx.GetTriangles( lod );
+            var indices = vtx.GetIndices( lod );
             
             builder.Append( "[" );
-            for ( var i = 0; i < triangles.Length; ++i )
+            for ( var i = 0; i < indices.Length; ++i )
             {
                 if ( i != 0 ) builder.Append( "," );
-                builder.Append( triangles[i] );
+                builder.Append( indices[i] );
             }
             builder.Append( "]" );
 
-            response.Add( "triangles", LZString.compressToBase64( builder.ToString() ) );
+            response.Add( "indices", LZString.compressToBase64( builder.ToString() ) );
 
             return response;
         }

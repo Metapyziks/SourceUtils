@@ -46,6 +46,7 @@ namespace SourceUtils {
         vertices: string;
         normals: string;
         texcoords: string;
+        tangents: string;
     }
 
     class MeshData {
@@ -58,7 +59,7 @@ namespace SourceUtils {
         numLods: number;
         lod: number;
         meshes: MeshData[];
-        triangles: string;
+        indices: string;
     }
 
     class VtfData {
@@ -81,6 +82,9 @@ namespace SourceUtils {
         private material: THREE.MeshNormalMaterial;
         private mesh: THREE.Mesh;
 
+        private directionalA: THREE.DirectionalLight;
+        private directionalB: THREE.DirectionalLight;
+
         private hullSize = new THREE.Vector3();
         private hullCenter = new THREE.Vector3();
 
@@ -95,13 +99,13 @@ namespace SourceUtils {
             const ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
             this.getScene().add(ambient);
 
-            const directionalA = new THREE.DirectionalLight(0xFDF4D9);
-            directionalA.position.set(3, -5, 7);
-            this.getScene().add(directionalA);
+            this.directionalA = new THREE.DirectionalLight(0xFDF4D9);
+            this.directionalA.position.set(3, -5, 7);
+            this.getScene().add(this.directionalA);
 
-            const directionalB = new THREE.DirectionalLight(0x7EABCF, 0.25);
-            directionalB.position.set(-4, 6, -1);
-            this.getScene().add(directionalB);
+            this.directionalB = new THREE.DirectionalLight(0x7EABCF, 0.25);
+            this.directionalB.position.set(-4, 6, -1);
+            this.getScene().add(this.directionalB);
         }
 
         loadModel(url: string): void {
@@ -219,10 +223,11 @@ namespace SourceUtils {
         }
 
         private updateModel(): void {
-            this.geometry.addAttribute("position", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.vertices), 3));
-            this.geometry.addAttribute("normal", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.normals), 3, true));
-            this.geometry.addAttribute("uv", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.texcoords), 2));
-            this.geometry.setIndex(new THREE.BufferAttribute(this.decompressUint32Array(this.vtx.triangles), 1));
+            if (this.vvd.vertices != null) this.geometry.addAttribute("position", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.vertices), 3));
+            if (this.vvd.normals != null) this.geometry.addAttribute("normal", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.normals), 3, true));
+            if (this.vvd.texcoords != null) this.geometry.addAttribute("uv", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.texcoords), 2));
+            if (this.vvd.tangents != null) this.geometry.addAttribute("tangent", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.tangents), 4));
+            this.geometry.setIndex(new THREE.BufferAttribute(this.decompressUint32Array(this.vtx.indices), 1));
 
             for (let i = 0; i < this.vtx.meshes.length; ++i) {
                 const mesh = this.vtx.meshes[i];
@@ -231,14 +236,19 @@ namespace SourceUtils {
         }
 
         onRenderFrame(dt: number): void {
-            this.cameraAngle += dt;
+            this.cameraAngle += dt * 0.25;
 
             const radius = this.hullSize.length();
 
-            this.mesh.rotation.set(0, 0, this.cameraAngle * 0.25);
             this.camera.position.set(Math.cos(this.cameraAngle) * radius,
                 Math.sin(this.cameraAngle) * radius,
                 0.5 * radius);
+
+            this.directionalA.position.set(Math.cos(this.cameraAngle * 2.67),
+                Math.sin(this.cameraAngle * 2.67), 0.75);
+            this.directionalB.position.set(Math.cos(this.cameraAngle * 2.67 + 2.8),
+                Math.sin(this.cameraAngle * 2.67 + 2.8), -0.5);
+
             this.camera.position.add(this.hullCenter);
             this.camera.lookAt(this.hullCenter);
 

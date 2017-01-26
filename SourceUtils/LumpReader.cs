@@ -72,6 +72,11 @@ namespace SourceUtils
 
         public static void ReadLumpFromStream(Stream stream, int count, Action<TLump> handler)
         {
+            ReadLumpFromStream( stream, count, ( index, lump ) => handler( lump ) );
+        }
+
+        public static void ReadLumpFromStream(Stream stream, int count, Action<int, TLump> handler)
+        {
             if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
             else _sReadLumpList.Clear();
 
@@ -83,7 +88,7 @@ namespace SourceUtils
             for (var i = 0; i < count; ++i)
             {
                 stream.Seek(start + i*size, SeekOrigin.Begin);
-                handler(_sReadLumpList[i]);
+                handler(i, _sReadLumpList[i]);
             }
         }
 

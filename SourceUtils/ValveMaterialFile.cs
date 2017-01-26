@@ -9,7 +9,7 @@ namespace SourceUtils
 {
     public class MaterialPropertyGroup
     {
-        private static readonly Regex _sPropertyRegex = new Regex(@"^\s*(""(?<name>[^""]+)""|(?<name>[$%a-zA-Z0-9_]+))\s+(""(?<value>[^""]+)""|(?<value>\S+))\s*$", RegexOptions.Compiled);
+        private static readonly Regex _sPropertyRegex = new Regex(@"^([^""{}]*""(?<name>[^""]+)""|\s*(?<name>[$%a-zA-Z0-9_]+))\s*(""(?<value>[^""]+)""[^""{}]*|(?<value>\S+)\s*)$", RegexOptions.Compiled);
         private static readonly Regex _sNestedRegex = new Regex(@"^\s*(""(?<name>[^""]+)""|(?<name>[$%a-zA-Z0-9_]+))\s*$", RegexOptions.Compiled);
 
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -155,17 +155,6 @@ namespace SourceUtils
                 throw new VmtParserException(expected, _offset, _lines[_offset]);
             }
         }
-    
-        [Flags]
-        private enum MaterialFlags
-        {
-            Default = 0,
-            NoCull = 1,
-            Translucent = 2,
-            AlphaTest = 4,
-            TreeSway = 8,
-            Lightmapped = 16
-        }
 
         public static ValveMaterialFile FromStream(Stream stream)
         {
@@ -179,7 +168,7 @@ namespace SourceUtils
 
         private ValveMaterialFile(Reader reader)
         {
-            var shaderNameRegex = new Regex(@"^\s*(""(?<shader>[a-zA-Z0-9/\\]+)""|(?<shader>[a-zA-Z0-9/\\]+))\s*$", RegexOptions.Compiled);
+            var shaderNameRegex = new Regex(@"^[^""{}]*""(?<shader>[a-zA-Z0-9/\\]+)""[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
 
             Match match;
             while (reader.ReadRegex(shaderNameRegex, out match))

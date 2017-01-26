@@ -189,6 +189,8 @@ namespace SourceUtils {
 
         getScene(): THREE.Scene { return this.scene; }
 
+        getRenderer(): THREE.Renderer { return this.renderer; }
+
         getMouseScreenPos(out?: THREE.Vector2): THREE.Vector2 {
             if (out == null) out = new THREE.Vector2();
             out.copy(this.mouseScreenPos);

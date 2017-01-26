@@ -70,7 +70,7 @@ namespace MapViewServer
                                     var filePath = $"{path}/{file}";
                                     var vtf = Program.Loader.Load<ValveTextureFile>( filePath );
                                     var mipmap = Math.Max( 0, vtf.Header.MipMapCount - 5 );
-                                    img = new NamedHtmlElement( "img", src => VtfController.GetPngUrl( Request, filePath, mipmap ) );
+                                    img = new NamedHtmlElement( "img", src => VtfController.GetPngUrl( Request, filePath, mipmap, false ) );
                                 }
                                 else
                                 {

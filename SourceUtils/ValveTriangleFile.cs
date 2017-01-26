@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -101,6 +102,11 @@ namespace SourceUtils
             public sbyte BoneId0;
             public sbyte BoneId1;
             public sbyte BoneId2;
+
+            public override string ToString()
+            {
+                return OrigMeshVertId.ToString();
+            }
         }
         
         public static ValveTriangleFile FromStream(Stream stream)
@@ -108,23 +114,28 @@ namespace SourceUtils
             return new ValveTriangleFile(stream);
         }
 
-        public struct Mesh
+        public int NumLods { get; }
+
+        public class LodLevel
         {
-            public int Index;
+            public int[] Vertices;
+            public int[] Indices;
+            public SubMesh[] SubMeshes;
+        }
+
+        public struct SubMesh
+        {
+            public int MaterialIndex;
             public int Start;
             public int Length;
         }
 
-        public int NumLods { get; }
-
-        private readonly int[][] _triangles;
-        private readonly Mesh[][] _meshes;
-        private readonly int[][][] _vertIndexMap;
+        private readonly LodLevel[] _lods;
 
         private ValveTriangleFile( Stream stream )
         {
             var outIndices = new List<int>();
-            var outIndexMap = new List<int[]>();
+            var outVertices = new List<int>();
 
             using ( var reader = new BinaryReader( stream ) )
             {
@@ -145,48 +156,41 @@ namespace SourceUtils
                 var numBodyParts = reader.ReadInt32();
                 var bodyPartOffset = reader.ReadInt32();
 
-                var lodIndex = 0;
-
                 var verts = new List<OptimizedVertex>();
-                var indexMap = new List<int>();
                 var indices = new List<ushort>();
 
-                _triangles = new int[numLods][];
-                _meshes = new Mesh[numLods][];
-                _vertIndexMap = new int[numLods][][];
+                _lods = new LodLevel[numLods];
 
                 reader.BaseStream.Seek( bodyPartOffset, SeekOrigin.Begin );
-                LumpReader<BodyPartHeader>.ReadLumpFromStream( reader.BaseStream, numBodyParts, bodyPart =>
+                LumpReader<BodyPartHeader>.ReadLumpFromStream( reader.BaseStream, numBodyParts, (bodyPartIndex, bodyPart) =>
                 {
+                    if ( bodyPartIndex > 0 ) return;
+
                     reader.BaseStream.Seek( bodyPart.ModelOffset, SeekOrigin.Current );
-                    LumpReader<ModelHeader>.ReadLumpFromStream( reader.BaseStream, bodyPart.NumModels, model =>
+                    LumpReader<ModelHeader>.ReadLumpFromStream( reader.BaseStream, bodyPart.NumModels, (modelIndex, model) =>
                     {
                         reader.BaseStream.Seek( model.LodOffset, SeekOrigin.Current );
 
-                        lodIndex = 0;
-                        LumpReader<ModelLodHeader>.ReadLumpFromStream( reader.BaseStream, model.NumLods, lod =>
+                        LumpReader<ModelLodHeader>.ReadLumpFromStream( reader.BaseStream, model.NumLods, (lodIndex, lod) =>
                         {
                             outIndices.Clear();
-                            outIndexMap.Clear();
+                            outVertices.Clear();
 
-                            var skip = 0;
-                            var meshIndex = 0;
+                            var lodLevel = _lods[lodIndex] = new LodLevel();
+                            lodLevel.SubMeshes = new SubMesh[lod.NumMeshes];
 
-                            _meshes[lodIndex] = new Mesh[lod.NumMeshes];
+                            var origVertexOffset = 0;
 
                             reader.BaseStream.Seek( lod.MeshOffset, SeekOrigin.Current );
-                            LumpReader<MeshHeader>.ReadLumpFromStream( reader.BaseStream, lod.NumMeshes, mesh =>
+                            LumpReader<MeshHeader>.ReadLumpFromStream( reader.BaseStream, lod.NumMeshes, (meshIndex, mesh) =>
                             {
-
-                                var meshInfo = new Mesh
+                                var subMesh = new SubMesh
                                 {
-                                    Index = meshIndex,
+                                    MaterialIndex = meshIndex,
                                     Start = outIndices.Count
                                 };
 
-                                Debug.Assert( mesh.NumStripGroups < 2 );
-
-                                indexMap.Clear();
+                                var vertexOffset = outVertices.Count;
 
                                 reader.BaseStream.Seek( mesh.StripGroupHeaderOffset, SeekOrigin.Current );
                                 LumpReader<StripGroupHeader>.ReadLumpFromStream( reader.BaseStream, mesh.NumStripGroups, stripGroup =>
@@ -203,60 +207,56 @@ namespace SourceUtils
                                     LumpReader<ushort>.ReadLumpFromStream( reader.BaseStream,
                                         stripGroup.NumIndices, indices );
 
-                                    for ( var i = 0; i < verts.Count; ++i )
-                                    {
-                                        indexMap.Add( verts[i].OrigMeshVertId + skip );
-                                    }
+                                    Console.WriteLine( $"StripGroup.NumVerts: {stripGroup.NumVerts}" );
 
                                     reader.BaseStream.Seek( start + stripGroup.StripOffset, SeekOrigin.Begin );
                                     LumpReader<StripHeader>.ReadLumpFromStream( reader.BaseStream, stripGroup.NumStrips, strip =>
                                     {
                                         Debug.Assert( strip.Flags != StripHeaderFlags.IsTriStrip );
+                                        
+                                        Console.WriteLine( $"Strip.NumVerts: {strip.NumVerts}" );
+
+                                        for ( var j = 0; j < strip.NumVerts; ++j )
+                                        {
+                                            outVertices.Add( verts[strip.VertOffset + j].OrigMeshVertId + origVertexOffset );
+                                        }
+
+                                        origVertexOffset += verts.Max( x => x.OrigMeshVertId ) + 1;
 
                                         for ( var i = 0; i < strip.NumIndices; ++i )
                                         {
                                             var index = indices[strip.IndexOffset + i];
-                                            var vert = verts[index];
-
-                                            outIndices.Add( strip.VertOffset + vert.OrigMeshVertId + skip );
+                                            outIndices.Add( index + vertexOffset );
                                         }
                                     } );
-
-                                    // Why?
-                                    skip += verts.Max( x => x.OrigMeshVertId ) + 1;
                                 } );
 
-                                outIndexMap.Add( indexMap.ToArray() );
+                                subMesh.Length = outIndices.Count - subMesh.Start;
 
-                                meshInfo.Length = outIndices.Count - meshInfo.Start;
-                                _meshes[lodIndex][meshIndex] = meshInfo;
-
-                                meshIndex += 1;
+                                lodLevel.SubMeshes[meshIndex] = subMesh;
                             } );
 
-                            _vertIndexMap[lodIndex] = outIndexMap.ToArray();
-                            _triangles[lodIndex] = outIndices.ToArray();
-
-                            lodIndex += 1;
+                            lodLevel.Indices = outIndices.ToArray();
+                            lodLevel.Vertices = outVertices.ToArray();
                         } );
                     } );
                 } );
             }
         }
-
-        public int[][] GetVertIndexMap( int lodLevel )
+        
+        public int[] GetVertices( int lodLevel )
         {
-            return _vertIndexMap[lodLevel];
+            return _lods[lodLevel].Vertices;
         }
 
-        public int[] GetTriangles( int lodLevel )
+        public int[] GetIndices( int lodLevel )
         {
-            return _triangles[lodLevel];
+            return _lods[lodLevel].Indices;
         }
 
-        public Mesh[] GetMeshes( int lodLevel )
+        public SubMesh[] GetSubMeshes( int lodLevel )
         {
-            return _meshes[lodLevel];
+            return _lods[lodLevel].SubMeshes;
         }
     }
 }

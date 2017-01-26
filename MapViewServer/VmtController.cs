@@ -23,14 +23,14 @@ namespace MapViewServer
             return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json";
         }
 
-        private string GetTextureUrl( string filePath )
+        private string GetTextureUrl( string filePath, bool alphaOnly = false )
         {
             filePath = filePath.Replace( '\\', '/' );
 
             var ext = Path.GetExtension( filePath );
             if ( string.IsNullOrEmpty( ext ) ) filePath += ".vtf";
 
-            return VtfController.GetUrl( Request, filePath );
+            return VtfController.GetUrl( Request, filePath, alphaOnly );
         }
 
         private enum PropertyType
@@ -63,9 +63,9 @@ namespace MapViewServer
             AddProperty( properties, name, PropertyType.Number, value );
         }
 
-        private void AddTextureProperty( JArray properties, string name, string vtfPath )
+        private void AddTextureProperty( JArray properties, string name, string vtfPath, bool alphaOnly = false )
         {
-            AddProperty( properties, name, PropertyType.Texture, GetTextureUrl( vtfPath ) );
+            AddProperty( properties, name, PropertyType.Texture, GetTextureUrl( vtfPath, alphaOnly ) );
         }
 
         private void HandleVertexLitGeneric( JObject response, JArray outProperties, MaterialPropertyGroup properties )
@@ -81,6 +81,8 @@ namespace MapViewServer
                         break;
                     case "$bumpmap":
                         AddTextureProperty( outProperties, "bumpMap", properties[name] );
+                        AddTextureProperty( outProperties, "specularMap", properties[name], true );
+                        AddNumberProperty( outProperties, "bumpScale", 0.25f );
                         break;
                     case "$envmapmask":
                         AddTextureProperty( outProperties, "specularMap", properties[name] );

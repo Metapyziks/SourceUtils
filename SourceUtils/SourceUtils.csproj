@@ -58,6 +58,7 @@
     <Compile Include="ValveMaterialFile.cs" />
     <Compile Include="ValvePackage.cs" />
     <Compile Include="ValveTextureFile.cs" />
+    <Compile Include="Vector4.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ValveBsp\Structures\" />

@@ -31,13 +31,36 @@ namespace MapViewServer
                 Json().ToString()
             };
         }
+
+        [ThreadStatic]
+        private static StringBuilder _sBuilder;
+
+        private JToken EncodeAttributes<TValue>( TValue[] verts, int[] ordering, bool compressed,
+            Action<StringBuilder, TValue> action )
+        {
+            if ( _sBuilder == null ) _sBuilder = new StringBuilder();
+            else _sBuilder.Remove( 0, _sBuilder.Length );
+
+            _sBuilder.Append( "[" );
+            for ( var i = 0; i < ordering.Length; ++i )
+            {
+                if ( i != 0 ) _sBuilder.Append( "," );
+                action( _sBuilder, verts[ordering[i]] );
+            }
+            _sBuilder.Append( "]" );
+
+            return compressed ? (JToken) LZString.compressToBase64( _sBuilder.ToString() ) : JArray.Parse( _sBuilder.ToString() );
+        }
         
         [Get( MatchAllUrl = false )]
-        public JToken Json( string format = DefaultFormat, int lod = -1, bool vertices = true, bool normals = true, bool texcoords = true )
+        public JToken Json( string format = DefaultFormat, int lod = -1,
+            bool vertices = true, bool normals = true, bool texcoords = true, bool tangents = true, bool compressed = true )
         {
             if ( format != "json" ) throw NotFoundException();
 
             var vvd = Program.Loader.Load<ValveVertexFile>( FilePath );
+            var vtx = Program.Loader.Load<ValveTriangleFile>( FilePath.Replace( ".vvd", ".dx90.vtx" ) );
+
             var response = new JObject
             {
                 { "numLods", vvd.NumLods }
@@ -47,53 +70,36 @@ namespace MapViewServer
             lod = Math.Max( 0, Math.Min( lod, vvd.NumLods - 1 ) );
 
             response.Add( "lod", lod );
-
-            var builder = new StringBuilder();
+            response.Add( "compressed", compressed );
 
             var studioVerts = vvd.GetVertices( lod );
+            var vertexOrder = vtx.GetVertices( lod );
+
             if ( vertices )
             {
-                builder.Remove( 0, builder.Length );
-                builder.Append( "[" );
-                for ( var i = 0; i < studioVerts.Length; ++i )
-                {
-                    if ( i != 0 ) builder.Append( "," );
-                    var vert = studioVerts[i];
-                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", vert.Position.X, vert.Position.Y, vert.Position.Z );
-                }
-                builder.Append( "]" );
-
-                response.Add( "vertices", LZString.compressToBase64( builder.ToString() ) );
+                response.Add( "vertices", EncodeAttributes( studioVerts, vertexOrder, compressed, ( builder, vert ) =>
+                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", vert.Position.X, vert.Position.Y, vert.Position.Z ) ) );
             }
 
             if ( normals )
             {
-                builder.Remove( 0, builder.Length );
-                builder.Append( "[" );
-                for ( var i = 0; i < studioVerts.Length; ++i )
-                {
-                    if ( i != 0 ) builder.Append( "," );
-                    var vert = studioVerts[i];
-                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", -vert.Normal.X, -vert.Normal.Y, -vert.Normal.Z );
-                }
-                builder.Append( "]" );
-
-                response.Add( "normals", LZString.compressToBase64( builder.ToString() ) );
+                response.Add( "normals", EncodeAttributes( studioVerts, vertexOrder, compressed, ( builder, vert ) =>
+                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", -vert.Normal.X, -vert.Normal.Y, -vert.Normal.Z ) ) );
             }
 
             if ( texcoords )
             {
-                builder.Remove( 0, builder.Length );
-                builder.Append( "[" );
-                for ( var i = 0; i < studioVerts.Length; ++i )
-                {
-                    if ( i != 0 ) builder.Append( "," );
-                    var vert = studioVerts[i];
-                    builder.AppendFormat( "{0:F3},{1:F3}", vert.TexCoordX, 1f - vert.TexCoordY );
-                }
-                builder.Append( "]" );
+                response.Add( "texcoords", EncodeAttributes( studioVerts, vertexOrder, compressed, ( builder, vert ) =>
+                    builder.AppendFormat( "{0:F3},{1:F3}", vert.TexCoordX, 1f - vert.TexCoordY ) ) );
+            }
 
-                response.Add( "texcoords", LZString.compressToBase64( builder.ToString() ) );
+            if ( tangents )
+            {
+                var tangentArr = vvd.GetTangents( lod );
+
+                response.Add( "tangents", tangentArr == null ? null :
+                    EncodeAttributes( tangentArr, vertexOrder, compressed, ( builder, tangent ) =>
+                        builder.AppendFormat( "{0:F3},{1:F3},{2:F3},{3}", tangent.X, tangent.Y, tangent.Z, tangent.W ) ) );
             }
 
             return response;

@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Net;
+using MimeTypes;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
 using Ziks.WebServer;
@@ -16,15 +17,22 @@ namespace MapViewServer
 
         private const string DefaultFormat = "json";
         
-        public static string GetUrl( HttpListenerRequest request, string path )
+        public static string GetUrl( HttpListenerRequest request, string path, bool alphaOnly = false )
         {
-            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json";
+            var alphaString = alphaOnly ? "&alpha=true" : "";
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json{alphaString}";
         }
 
-        public static string GetPngUrl( HttpListenerRequest request, string path, int mipMap = -1 )
+        public static string GetDdsUrl( HttpListenerRequest request, string path )
+        {
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=dds";
+        }
+
+        public static string GetPngUrl( HttpListenerRequest request, string path, int mipMap = -1, bool alphaOnly = false )
         {
             var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
-            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=png&mipmap={mipMapString}";
+            var alphaString = alphaOnly ? "&alpha=true" : "";
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=png&mipmap={mipMapString}{alphaString}";
         }
 
         [Get( MatchAllUrl = false )]
@@ -41,9 +49,9 @@ namespace MapViewServer
                 {
                     Foreach( Enumerable.Range( 0, vtf.Header.MipMapCount ), i =>
                     {
-                        Echo( new a( href => GetPngUrl( Request, path, i ) )
+                        Echo( new a( href => GetPngUrl( Request, path, i, false ) )
                         {
-                            new NamedHtmlElement( "img", src => GetPngUrl( Request, path, i ) )
+                            new NamedHtmlElement( "img", src => GetPngUrl( Request, path, i, false ) )
                         } );
                     } )
                 }
@@ -51,7 +59,7 @@ namespace MapViewServer
         }
 
         [Get( MatchAllUrl = false )]
-        public JObject Json( string format = DefaultFormat )
+        public JObject Json( string format = DefaultFormat, bool alpha = false )
         {
             if ( format != "json" ) throw NotFoundException();
 
@@ -63,7 +71,8 @@ namespace MapViewServer
                 {"width", vtf.Header.Width},
                 {"height", vtf.Header.Height},
                 {"flags", (long) vtf.Header.Flags},
-                {"png", GetPngUrl( Request, path )},
+                {"dds", GetDdsUrl( Request, path )},
+                {"png", GetPngUrl( Request, path, -1, alpha )},
                 {"mipmaps", vtf.Header.MipMapCount}
             };
 
@@ -71,13 +80,24 @@ namespace MapViewServer
         }
 
         [Get( MatchAllUrl = false )]
-        public void Png( string format = DefaultFormat, int mipmap = 0 )
+        public void Dds( string format = DefaultFormat )
+        {
+            if ( format != "dds" ) throw NotFoundException();
+            
+            Response.ContentType = MimeTypeMap.GetMimeType(".dds");
+
+            VtfConverter.ConvertToDds( FilePath, Response.OutputStream );
+            Response.OutputStream.Close();
+        }
+
+        [Get( MatchAllUrl = false )]
+        public void Png( string format = DefaultFormat, int mipmap = 0, bool alpha = false )
         {
             if ( format != "png" ) throw NotFoundException();
 
-            Response.ContentType = "image/png";
+            Response.ContentType = MimeTypeMap.GetMimeType(".png");
 
-            VtfConverter.ConvertToPng( FilePath, mipmap, Response.OutputStream );
+            VtfConverter.ConvertToPng( FilePath, mipmap, Response.OutputStream, alpha );
             Response.OutputStream.Close();
         }
     }

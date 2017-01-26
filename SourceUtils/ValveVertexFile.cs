@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceUtils
 {
@@ -52,8 +49,10 @@ namespace SourceUtils
         }
 
         private readonly StudioVertex[][] _vertices;
+        private readonly Vector4[][] _tangents;
 
         public int NumLods { get; }
+        public bool HasTangents { get; }
 
         public ValveVertexFile( Stream stream )
         {
@@ -82,6 +81,7 @@ namespace SourceUtils
 
                 var fixupList = new List<VertexFixup>();
                 var vertList = new List<StudioVertex>();
+                var tangentList = new List<Vector4>();
 
                 if ( numFixups > 0 )
                 {
@@ -89,34 +89,50 @@ namespace SourceUtils
                     LumpReader<VertexFixup>.ReadLumpFromStream( reader.BaseStream, numFixups, fixupList );
                 }
 
-                reader.BaseStream.Seek( vertexDataStart, SeekOrigin.Begin );
-                LumpReader<StudioVertex>.ReadLumpFromStream( reader.BaseStream,
-                    (tangentDataStart - vertexDataStart) / Marshal.SizeOf( typeof(StudioVertex) ), vertList );
+                HasTangents = tangentDataStart != 0;
 
+                _tangents = new Vector4[numLods][];
                 _vertices = new StudioVertex[numLods][];
 
                 var lodVerts = new List<StudioVertex>();
+                var lodTangents = new List<Vector4>();
 
                 for ( var i = 0; i < numLods; ++i )
                 {
+                    vertList.Clear();
+                    tangentList.Clear();
+
+                    reader.BaseStream.Seek( vertexDataStart, SeekOrigin.Begin );
+                    LumpReader<StudioVertex>.ReadLumpFromStream( reader.BaseStream, numLodVerts[i], vertList );
+                    
+                    reader.BaseStream.Seek( tangentDataStart, SeekOrigin.Begin );
+                    LumpReader<Vector4>.ReadLumpFromStream( reader.BaseStream, HasTangents ? numLodVerts[i] : 0, tangentList );
+
                     if ( numFixups == 0 )
                     {
-                        _vertices[i] = vertList.Take( numLodVerts[i] ).ToArray();
+                        _vertices[i] = vertList.ToArray();
+                        _tangents[i] = HasTangents ? tangentList.ToArray() : null;
                         continue;
                     }
 
                     lodVerts.Clear();
+                    lodTangents.Clear();
 
                     foreach ( var vertexFixup in fixupList )
                     {
-                        if ( vertexFixup.Lod >= i )
-                        {
-                            lodVerts.AddRange( vertList.Skip( vertexFixup.SourceVertexId )
-                                .Take( vertexFixup.NumVertices ) );
-                        }
+                        if ( vertexFixup.Lod < i ) continue;
+
+                        lodVerts.AddRange( vertList.Skip( vertexFixup.SourceVertexId )
+                            .Take( vertexFixup.NumVertices ) );
+
+                        if ( !HasTangents ) continue;
+
+                        lodTangents.AddRange( tangentList.Skip( vertexFixup.SourceVertexId )
+                            .Take( vertexFixup.NumVertices ) );
                     }
 
                     _vertices[i] = lodVerts.ToArray();
+                    _tangents[i] = HasTangents ? lodTangents.ToArray() : null;
                 }
             }
         }
@@ -124,6 +140,11 @@ namespace SourceUtils
         public StudioVertex[] GetVertices( int lod )
         {
             return _vertices[lod];
+        }
+
+        public Vector4[] GetTangents( int lod )
+        {
+            return _tangents[lod];
         }
     }
 }
