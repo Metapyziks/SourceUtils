@@ -30,7 +30,19 @@ namespace MapViewServer
             var ext = Path.GetExtension( filePath );
             if ( string.IsNullOrEmpty( ext ) ) filePath += ".vtf";
 
-            return VtfController.GetUrl( Request, filePath, alphaOnly );
+            var fullPath = filePath;
+
+            if ( !filePath.Contains( '/' ) )
+            {
+                var matPath = Path.GetDirectoryName( FilePath );
+                if ( !string.IsNullOrEmpty( matPath ) )
+                {
+                    fullPath = $"{matPath}/{filePath}";
+                    if ( !Program.Loader.ContainsFile( fullPath ) ) fullPath = filePath;
+                }
+            }
+
+            return VtfController.GetUrl( Request, fullPath, alphaOnly );
         }
 
         private enum PropertyType

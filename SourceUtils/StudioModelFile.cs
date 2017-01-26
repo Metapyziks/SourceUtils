@@ -112,6 +112,9 @@ namespace SourceUtils
 
         private readonly StudioTexture[] _materials;
         private readonly string[] _materialNames;
+        private readonly string[] _materialPaths;
+
+        private readonly string[] _cachedFullMaterialPaths;
 
         public int NumTextures => _header.NumTextures;
         public Vector3 HullMin => _header.HullMin;
@@ -125,25 +128,41 @@ namespace SourceUtils
 
             _materials = new StudioTexture[_header.NumTextures];
             _materialNames = new string[_header.NumTextures];
+            _cachedFullMaterialPaths = new string[_header.NumTextures];
 
             stream.Seek(_header.TextureIndex, SeekOrigin.Begin);
-
-            var index = 0;
-            LumpReader<StudioTexture>.ReadLumpFromStream(stream, _header.NumTextures, tex =>
+            LumpReader<StudioTexture>.ReadLumpFromStream(stream, _header.NumTextures, (index, tex) =>
             {
                 _materials[index] = tex;
 
                 stream.Seek(tex.NameIndex, SeekOrigin.Current);
-                _materialNames[index] = ReadNullTerminatedString(stream) + ".vmt";
-                ++index;
+                _materialNames[index] = ReadNullTerminatedString(stream).Replace( '\\', '/' ) + ".vmt";
             });
+
+            _materialPaths = new string[_header.NumCdTextures];
+
+            stream.Seek( _header.CdTextureIndex, SeekOrigin.Begin );
+            LumpReader<int>.ReadLumpFromStream( stream, _header.NumCdTextures, ( index, cdTex ) =>
+            {
+                stream.Seek( cdTex, SeekOrigin.Begin );
+                _materialPaths[index] = ReadNullTerminatedString( stream ).Replace( '\\', '/' );
+            } );
         }
 
-        public string GetMaterialName(int lodLevel, int index)
+        public string GetMaterialName(IResourceProvider provider, int index)
         {
-            // TODO: Material replacements
+            if ( _cachedFullMaterialPaths[index] != null ) return _cachedFullMaterialPaths[index];
+            if ( _materialPaths.Length == 0 ) return _cachedFullMaterialPaths[index] = _materialNames[index];
 
-            return _materialNames[index];
+            foreach ( var path in _materialPaths )
+            {
+                var fullPath = path + _materialNames[index];
+                if ( provider.ContainsFile( fullPath ) ) return _cachedFullMaterialPaths[index] = fullPath;
+                fullPath = $"materials/{fullPath}";
+                if ( provider.ContainsFile( fullPath ) ) return _cachedFullMaterialPaths[index] = fullPath;
+            }
+
+            return _cachedFullMaterialPaths[index] = _materialNames[index];
         }
     }
 }

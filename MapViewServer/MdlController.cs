@@ -67,7 +67,7 @@ namespace MapViewServer
                 { "hullMax", new JObject { {"x", mdl.HullMax.X}, {"y", mdl.HullMax.Y}, {"z", mdl.HullMax.Z} } },
                 { "materials", JArray.FromObject( Enumerable
                     .Range( 0, mdl.NumTextures )
-                    .Select( x => VmtController.GetUrl( Request, mdl.GetMaterialName( 0, x ) ) )
+                    .Select( x => VmtController.GetUrl( Request, mdl.GetMaterialName( Program.Loader, x ) ) )
                     .ToArray() )
                 },
                 { "vertices", VvdController.GetUrl( Request, $"{basePath}.vvd" ) },
