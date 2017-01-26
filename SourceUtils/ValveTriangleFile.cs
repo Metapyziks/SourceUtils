@@ -221,6 +221,7 @@ namespace SourceUtils
                                             outVertices.Add( verts[strip.VertOffset + j].OrigMeshVertId + origVertexOffset );
                                         }
 
+                                        // WHY
                                         origVertexOffset += verts.Max( x => x.OrigMeshVertId ) + 1;
 
                                         for ( var i = 0; i < strip.NumIndices; ++i )
