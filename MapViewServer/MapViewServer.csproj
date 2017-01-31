@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BspController.cs" />
     <Compile Include="LZString.cs" />
     <Compile Include="MdlController.cs" />
     <Compile Include="Program.cs" />

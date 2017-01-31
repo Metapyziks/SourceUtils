@@ -92,20 +92,16 @@ namespace SourceUtils
             }
         }
 
+        internal static void ReadLumpFromStream( Stream stream, int count, TLump[] dst, int dstOffset = 0 )
+        {
+            ReadLumpFromStream(stream, count, (index, item) => dst[dstOffset + index] = item);
+        }
+
         public static TLump[] ReadLumpFromStream(Stream stream, int count)
         {
-            if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
-            else _sReadLumpList.Clear();
-
-            ReadLumpFromStream(stream, count, _sReadLumpList);
-
-            var output = new TLump[count];
-            for (var i = 0; i < count; ++i)
-            {
-                output[i] = _sReadLumpList[i];
-            }
-
-            return output;
+            var array = new TLump[count];
+            ReadLumpFromStream( stream, count, array );
+            return array;
         }
 
         public static TValue[] ReadLumpFromStream<TValue>(Stream stream, int count, Func<TLump, TValue> selectFunc)
