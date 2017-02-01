@@ -37,6 +37,9 @@ namespace SourceUtils
         [BspLump(LumpType.VERTEXES)]
         public ArrayLump<Vector3> Vertices { get; private set; }
 
+        [BspLump(LumpType.VISIBILITY)]
+        public VisibilityLump Visibility { get; private set; }
+
         private readonly Stream _stream;
         private readonly Header _header;
 
@@ -85,6 +88,14 @@ namespace SourceUtils
             _stream.Seek( info.Offset + tSize * srcOffset, SeekOrigin.Begin );
             LumpReader<T>.ReadLumpFromStream( _stream, count, dst, dstOffset );
             return count;
+        }
+
+        private Stream GetLumpStream( LumpType type )
+        {
+            var info = GetLumpInfo( type );
+            var stream = new SubStream( _stream, info.Offset, info.Length );
+            stream.Seek( 0, SeekOrigin.Begin );
+            return stream;
         }
 
         public void Dispose()

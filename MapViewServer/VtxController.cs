@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Text;
 using SourceUtils;
 using Newtonsoft.Json.Linq;
 using Ziks.WebServer;
@@ -60,20 +59,7 @@ namespace MapViewServer
             }
 
             response.Add( "meshes", meshes );
-
-            var builder = new StringBuilder();
-
-            var indices = vtx.GetIndices( lod );
-            
-            builder.Append( "[" );
-            for ( var i = 0; i < indices.Length; ++i )
-            {
-                if ( i != 0 ) builder.Append( "," );
-                builder.Append( indices[i] );
-            }
-            builder.Append( "]" );
-
-            response.Add( "indices", LZString.compressToBase64( builder.ToString() ) );
+            response.Add( "indices", SerializeArray( vtx.GetIndices( lod ), x => x.ToString() ) );
 
             return response;
         }

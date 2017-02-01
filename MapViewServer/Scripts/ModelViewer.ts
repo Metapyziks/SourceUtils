@@ -43,10 +43,10 @@ namespace SourceUtils {
     class VvdData {
         numLods: number;
         lod: number;
-        vertices: string;
-        normals: string;
-        texcoords: string;
-        tangents: string;
+        vertices: string | number[];
+        normals: string | number[];
+        texcoords: string | number[];
+        tangents: string | number[];
     }
 
     class MeshData {
@@ -59,7 +59,7 @@ namespace SourceUtils {
         numLods: number;
         lod: number;
         meshes: MeshData[];
-        indices: string;
+        indices: string | number[];
     }
 
     class VtfData {
@@ -144,14 +144,26 @@ namespace SourceUtils {
             $.getJSON(mdl.triangles.replace("{lod}", "0"), (vtx: VtxData, status: string) => this.onLoadVtx(vtx, status));
         }
 
-        private decompressFloat32Array(base64: string): Float32Array {
-            const str = LZString.decompressFromBase64(base64);
-            return new Float32Array(JSON.parse(str));
+        private decompressFloat32Array(value: string | number[]): Float32Array
+        {
+            if (typeof value === "string")
+            {
+                const str = LZString.decompressFromBase64(value);
+                return new Float32Array(JSON.parse(str));
+            }
+
+            return new Float32Array(value as number[]);
         }
 
-        private decompressUint32Array(base64: string): Uint32Array {
-            const str = LZString.decompressFromBase64(base64);
-            return new Uint32Array(JSON.parse(str));
+        private decompressUint32Array(value: string | number[]): Uint32Array
+        {
+            if (typeof value === "string")
+            {
+                const str = LZString.decompressFromBase64(value);
+                return new Uint32Array(JSON.parse(str));
+            }
+
+            return new Uint32Array(value as number[]);
         }
 
         private loadVtf(url: string, action: (tex: THREE.Texture) => void): void

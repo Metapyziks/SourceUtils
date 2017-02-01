@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Text;
 using SourceUtils;
@@ -31,30 +32,10 @@ namespace MapViewServer
                 Json().ToString()
             };
         }
-
-        [ThreadStatic]
-        private static StringBuilder _sBuilder;
-
-        private JToken EncodeAttributes<TValue>( TValue[] verts, int[] ordering, bool compressed,
-            Action<StringBuilder, TValue> action )
-        {
-            if ( _sBuilder == null ) _sBuilder = new StringBuilder();
-            else _sBuilder.Remove( 0, _sBuilder.Length );
-
-            _sBuilder.Append( "[" );
-            for ( var i = 0; i < ordering.Length; ++i )
-            {
-                if ( i != 0 ) _sBuilder.Append( "," );
-                action( _sBuilder, verts[ordering[i]] );
-            }
-            _sBuilder.Append( "]" );
-
-            return compressed ? (JToken) LZString.compressToBase64( _sBuilder.ToString() ) : JArray.Parse( _sBuilder.ToString() );
-        }
         
         [Get( MatchAllUrl = false )]
         public JToken Json( string format = DefaultFormat, int lod = -1,
-            bool vertices = true, bool normals = true, bool texcoords = true, bool tangents = true, bool compressed = true )
+            bool vertices = true, bool normals = true, bool texcoords = true, bool tangents = true )
         {
             if ( format != "json" ) throw NotFoundException();
 
@@ -70,36 +51,36 @@ namespace MapViewServer
             lod = Math.Max( 0, Math.Min( lod, vvd.NumLods - 1 ) );
 
             response.Add( "lod", lod );
-            response.Add( "compressed", compressed );
 
             var studioVerts = vvd.GetVertices( lod );
             var vertexOrder = vtx.GetVertices( lod );
 
+            var select = vertexOrder.Select( i => studioVerts[i] );
+
             if ( vertices )
             {
-                response.Add( "vertices", EncodeAttributes( studioVerts, vertexOrder, compressed, ( builder, vert ) =>
-                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", vert.Position.X, vert.Position.Y, vert.Position.Z ) ) );
+                response.Add( "vertices", SerializeArray( select, vert =>
+                    $"{vert.Position.X:F2},{vert.Position.Y:F2},{vert.Position.Z:F2}" ) );
             }
 
             if ( normals )
             {
-                response.Add( "normals", EncodeAttributes( studioVerts, vertexOrder, compressed, ( builder, vert ) =>
-                    builder.AppendFormat( "{0:F3},{1:F3},{2:F3}", -vert.Normal.X, -vert.Normal.Y, -vert.Normal.Z ) ) );
+                response.Add( "normals", SerializeArray( select, vert =>
+                    $"{-vert.Normal.X:F2},{-vert.Normal.Y:F2},{-vert.Normal.Z:F2}" ) );
             }
 
             if ( texcoords )
             {
-                response.Add( "texcoords", EncodeAttributes( studioVerts, vertexOrder, compressed, ( builder, vert ) =>
-                    builder.AppendFormat( "{0:F3},{1:F3}", vert.TexCoordX, 1f - vert.TexCoordY ) ) );
+                response.Add( "texcoords", SerializeArray( select, vert =>
+                    $"{vert.TexCoordX:F3},{1f - vert.TexCoordY:F3}" ) );
             }
 
             if ( tangents )
             {
                 var tangentArr = vvd.GetTangents( lod );
-
-                response.Add( "tangents", tangentArr == null ? null :
-                    EncodeAttributes( tangentArr, vertexOrder, compressed, ( builder, tangent ) =>
-                        builder.AppendFormat( "{0:F3},{1:F3},{2:F3},{3}", tangent.X, tangent.Y, tangent.Z, tangent.W ) ) );
+                
+                response.Add( "tangents", SerializeArray( vertexOrder.Select( i => tangentArr[i] ), tangent =>
+                    $"{tangent.X:F2},{tangent.Y:F2},{tangent.Z:F2},{tangent.W}" ) );
             }
 
             return response;

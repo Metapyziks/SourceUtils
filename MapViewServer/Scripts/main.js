@@ -353,13 +353,19 @@ var SourceUtils;
             $.getJSON(mdl.vertices.replace("{lod}", "0"), function (vvd, status) { return _this.onLoadVvd(vvd, status); });
             $.getJSON(mdl.triangles.replace("{lod}", "0"), function (vtx, status) { return _this.onLoadVtx(vtx, status); });
         };
-        ModelViewer.prototype.decompressFloat32Array = function (base64) {
-            var str = LZString.decompressFromBase64(base64);
-            return new Float32Array(JSON.parse(str));
+        ModelViewer.prototype.decompressFloat32Array = function (value) {
+            if (typeof value === "string") {
+                var str = LZString.decompressFromBase64(value);
+                return new Float32Array(JSON.parse(str));
+            }
+            return new Float32Array(value);
         };
-        ModelViewer.prototype.decompressUint32Array = function (base64) {
-            var str = LZString.decompressFromBase64(base64);
-            return new Uint32Array(JSON.parse(str));
+        ModelViewer.prototype.decompressUint32Array = function (value) {
+            if (typeof value === "string") {
+                var str = LZString.decompressFromBase64(value);
+                return new Uint32Array(JSON.parse(str));
+            }
+            return new Uint32Array(value);
         };
         ModelViewer.prototype.loadVtf = function (url, action) {
             var _this = this;

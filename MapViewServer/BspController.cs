@@ -22,7 +22,7 @@ namespace MapViewServer
         }
 
         [Get( "/{mapName}/vertices" )]
-        public JToken GetVertices( [Url] string mapName, int from = 0, int count = 4096, bool compressed = true )
+        public JToken GetVertices( [Url] string mapName, int from = 0, int count = 4096 )
         {
             var response = new JObject();
 
@@ -31,20 +31,36 @@ namespace MapViewServer
                 response.Add( "total", bsp.Vertices.Length );
                 response.Add( "from", from );
                 response.Add( "count", count );
-                
-                var builder = new StringBuilder();
-                
-                builder.Append( "[" );
-                foreach ( var vertex in bsp.Vertices.Range( from, count ) )
-                {
-                    builder.Append( $"{vertex.X},{vertex.Y},{vertex.Z}," );
-                }
-                builder.Remove( builder.Length - 1, 1 );
-                builder.Append( "]" );
 
-                response.Add( "vertices", compressed
-                    ? (JToken) LZString.compressToBase64( builder.ToString() )
-                    : JArray.Parse( builder.ToString() ) );
+                response.Add( "vertices", SerializeArray( bsp.Vertices.Range( from, count ),
+                    vertex => $"{vertex.X},{vertex.Y},{vertex.Z}" ) );
+            }
+
+            return response;
+        }
+
+        [Get( "/{mapName}/visibility" )]
+        public JToken GetVisibility( [Url] string mapName )
+        {
+            var response = new JObject();
+
+            using ( var bsp = OpenBspFile( mapName ) )
+            {
+                response.Add( "clusters", bsp.Visibility.NumClusters );
+            }
+
+            return response;
+        }
+
+        [Get( "/{mapName}/visibility/{cluster}" )]
+        public JToken GetVisibility( [Url] string mapName, [Url] int cluster )
+        {
+            var response = new JObject();
+
+            using ( var bsp = OpenBspFile( mapName ) )
+            {
+                response.Add( "cluster", cluster );
+                response.Add( "pvs", SerializeArray( bsp.Visibility[cluster] ) );
             }
 
             return response;
