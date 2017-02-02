@@ -3,16 +3,91 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="typings/jquery/jquery.d.ts" />
-/// <reference path="typings/threejs/three.d.ts" />
 var SourceUtils;
 (function (SourceUtils) {
+    var Api;
+    (function (Api) {
+        var BspIndexResponse = (function () {
+            function BspIndexResponse() {
+            }
+            return BspIndexResponse;
+        }());
+        Api.BspIndexResponse = BspIndexResponse;
+        var Vector3 = (function () {
+            function Vector3() {
+            }
+            return Vector3;
+        }());
+        Api.Vector3 = Vector3;
+        var Plane = (function () {
+            function Plane() {
+            }
+            return Plane;
+        }());
+        Api.Plane = Plane;
+        var BspModelResponse = (function () {
+            function BspModelResponse() {
+            }
+            return BspModelResponse;
+        }());
+        Api.BspModelResponse = BspModelResponse;
+        var BspElem = (function () {
+            function BspElem() {
+            }
+            return BspElem;
+        }());
+        Api.BspElem = BspElem;
+        var BspNode = (function (_super) {
+            __extends(BspNode, _super);
+            function BspNode() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return BspNode;
+        }(BspElem));
+        Api.BspNode = BspNode;
+        var BspLeaf = (function (_super) {
+            __extends(BspLeaf, _super);
+            function BspLeaf() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return BspLeaf;
+        }(BspElem));
+        Api.BspLeaf = BspLeaf;
+    })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="typings/lz-string/lz-string.d.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Utils = (function () {
+        function Utils() {
+        }
+        Utils.decompressFloat32Array = function (value) {
+            return new Float32Array(Utils.decompress(value));
+        };
+        Utils.decompressUint32Array = function (value) {
+            return new Uint32Array(Utils.decompress(value));
+        };
+        Utils.decompress = function (value) {
+            return typeof value === "string"
+                ? JSON.parse(LZString.decompressFromBase64(value))
+                : value;
+        };
+        return Utils;
+    }());
+    SourceUtils.Utils = Utils;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="typings/jquery/jquery.d.ts" />
+/// <reference path="typings/threejs/three.d.ts" />
+/// <reference path="Utils.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var MouseButton = SourceUtils.MouseButton;
+    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var Key;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -112,8 +187,7 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(SourceUtils.Key || (SourceUtils.Key = {}));
-    var Key = SourceUtils.Key;
+    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
     var AppBase = (function () {
         function AppBase() {
             this.previousTime = 0;
@@ -251,7 +325,83 @@ var SourceUtils;
     SourceUtils.AppBase = AppBase;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="AppBase.ts"/>
-/// <reference path="typings/lz-string/lz-string.d.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entity = (function (_super) {
+        __extends(Entity, _super);
+        function Entity() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return Entity;
+    }(THREE.Object3D));
+    SourceUtils.Entity = Entity;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="AppBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var BspModel = (function (_super) {
+        __extends(BspModel, _super);
+        function BspModel(map, index) {
+            var _this = _super.call(this) || this;
+            _this.map = map;
+            _this.index = index;
+            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", "0"));
+            return _this;
+        }
+        BspModel.prototype.loadInfo = function (url) {
+        };
+        return BspModel;
+    }(SourceUtils.Entity));
+    SourceUtils.BspModel = BspModel;
+    var Map = (function (_super) {
+        __extends(Map, _super);
+        function Map(url) {
+            var _this = _super.call(this) || this;
+            _this.loadInfo(url);
+            return _this;
+        }
+        Map.prototype.loadInfo = function (url) {
+            var _this = this;
+            $.getJSON(url, function (data) {
+                _this.info = data;
+                _this.models = new Array(data.numModels);
+                _this.add(_this.models[0] = new BspModel(_this, 0));
+            });
+        };
+        return Map;
+    }(SourceUtils.Entity));
+    SourceUtils.Map = Map;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="AppBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var MapViewer = (function (_super) {
+        __extends(MapViewer, _super);
+        function MapViewer() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MapViewer.prototype.init = function (container) {
+            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 2048);
+            this.camera.up = new THREE.Vector3(0, 0, 1);
+            _super.prototype.init.call(this, container);
+            var ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
+            this.getScene().add(ambient);
+            var directional = new THREE.DirectionalLight(0xFDF4D9);
+            directional.position.set(3, -5, 7);
+            this.getScene().add(directional);
+        };
+        MapViewer.prototype.loadMap = function (url) {
+            if (this.map != null) {
+                this.getScene().remove(this.map);
+            }
+            this.map = new SourceUtils.Map(url);
+            this.getScene().add(this.map);
+        };
+        return MapViewer;
+    }(SourceUtils.AppBase));
+    SourceUtils.MapViewer = MapViewer;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="AppBase.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var Vector3Data = (function () {
@@ -308,10 +458,11 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            _super.apply(this, arguments);
-            this.cameraAngle = 0;
-            this.hullSize = new THREE.Vector3();
-            this.hullCenter = new THREE.Vector3();
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.cameraAngle = 0;
+            _this.hullSize = new THREE.Vector3();
+            _this.hullCenter = new THREE.Vector3();
+            return _this;
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -344,7 +495,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function(i) {
+            var _loop_1 = function (i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -353,26 +504,12 @@ var SourceUtils;
             $.getJSON(mdl.vertices.replace("{lod}", "0"), function (vvd, status) { return _this.onLoadVvd(vvd, status); });
             $.getJSON(mdl.triangles.replace("{lod}", "0"), function (vtx, status) { return _this.onLoadVtx(vtx, status); });
         };
-        ModelViewer.prototype.decompressFloat32Array = function (value) {
-            if (typeof value === "string") {
-                var str = LZString.decompressFromBase64(value);
-                return new Float32Array(JSON.parse(str));
-            }
-            return new Float32Array(value);
-        };
-        ModelViewer.prototype.decompressUint32Array = function (value) {
-            if (typeof value === "string") {
-                var str = LZString.decompressFromBase64(value);
-                return new Uint32Array(JSON.parse(str));
-            }
-            return new Uint32Array(value);
-        };
         ModelViewer.prototype.loadVtf = function (url, action) {
             var _this = this;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function(i) {
+                var _loop_2 = function (i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -392,7 +529,7 @@ var SourceUtils;
             if (shader == null)
                 return;
             var mat = new THREE[shader.material]();
-            var _loop_3 = function(i) {
+            var _loop_3 = function (i) {
                 var prop = shader.properties[i];
                 switch (prop.type) {
                     case PropertyType.Texture:
@@ -437,14 +574,14 @@ var SourceUtils;
         };
         ModelViewer.prototype.updateModel = function () {
             if (this.vvd.vertices != null)
-                this.geometry.addAttribute("position", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.vertices), 3));
+                this.geometry.addAttribute("position", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.vertices), 3));
             if (this.vvd.normals != null)
-                this.geometry.addAttribute("normal", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.normals), 3, true));
+                this.geometry.addAttribute("normal", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.normals), 3, true));
             if (this.vvd.texcoords != null)
-                this.geometry.addAttribute("uv", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.texcoords), 2));
+                this.geometry.addAttribute("uv", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.texcoords), 2));
             if (this.vvd.tangents != null)
-                this.geometry.addAttribute("tangent", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.tangents), 4));
-            this.geometry.setIndex(new THREE.BufferAttribute(this.decompressUint32Array(this.vtx.indices), 1));
+                this.geometry.addAttribute("tangent", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.tangents), 4));
+            this.geometry.setIndex(new THREE.BufferAttribute(SourceUtils.Utils.decompressUint32Array(this.vtx.indices), 1));
             for (var i = 0; i < this.vtx.meshes.length; ++i) {
                 var mesh = this.vtx.meshes[i];
                 this.geometry.addGroup(mesh.start, mesh.length, mesh.materialIndex);

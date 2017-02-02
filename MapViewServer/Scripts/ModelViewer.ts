@@ -1,5 +1,4 @@
 ﻿/// <reference path="AppBase.ts"/>
-/// <reference path="typings/lz-string/lz-string.d.ts"/>
 
 namespace SourceUtils {
     class Vector3Data {
@@ -144,28 +143,6 @@ namespace SourceUtils {
             $.getJSON(mdl.triangles.replace("{lod}", "0"), (vtx: VtxData, status: string) => this.onLoadVtx(vtx, status));
         }
 
-        private decompressFloat32Array(value: string | number[]): Float32Array
-        {
-            if (typeof value === "string")
-            {
-                const str = LZString.decompressFromBase64(value);
-                return new Float32Array(JSON.parse(str));
-            }
-
-            return new Float32Array(value as number[]);
-        }
-
-        private decompressUint32Array(value: string | number[]): Uint32Array
-        {
-            if (typeof value === "string")
-            {
-                const str = LZString.decompressFromBase64(value);
-                return new Uint32Array(JSON.parse(str));
-            }
-
-            return new Uint32Array(value as number[]);
-        }
-
         private loadVtf(url: string, action: (tex: THREE.Texture) => void): void
         {
             $.getJSON(url, (vtf: VtfData, status: string) => {
@@ -235,11 +212,11 @@ namespace SourceUtils {
         }
 
         private updateModel(): void {
-            if (this.vvd.vertices != null) this.geometry.addAttribute("position", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.vertices), 3));
-            if (this.vvd.normals != null) this.geometry.addAttribute("normal", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.normals), 3, true));
-            if (this.vvd.texcoords != null) this.geometry.addAttribute("uv", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.texcoords), 2));
-            if (this.vvd.tangents != null) this.geometry.addAttribute("tangent", new THREE.BufferAttribute(this.decompressFloat32Array(this.vvd.tangents), 4));
-            this.geometry.setIndex(new THREE.BufferAttribute(this.decompressUint32Array(this.vtx.indices), 1));
+            if (this.vvd.vertices != null) this.geometry.addAttribute("position", new THREE.BufferAttribute(Utils.decompressFloat32Array(this.vvd.vertices), 3));
+            if (this.vvd.normals != null) this.geometry.addAttribute("normal", new THREE.BufferAttribute(Utils.decompressFloat32Array(this.vvd.normals), 3, true));
+            if (this.vvd.texcoords != null) this.geometry.addAttribute("uv", new THREE.BufferAttribute(Utils.decompressFloat32Array(this.vvd.texcoords), 2));
+            if (this.vvd.tangents != null) this.geometry.addAttribute("tangent", new THREE.BufferAttribute(Utils.decompressFloat32Array(this.vvd.tangents), 4));
+            this.geometry.setIndex(new THREE.BufferAttribute(Utils.decompressUint32Array(this.vtx.indices), 1));
 
             for (let i = 0; i < this.vtx.meshes.length; ++i) {
                 const mesh = this.vtx.meshes[i];

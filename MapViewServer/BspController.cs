@@ -9,16 +9,19 @@ using Ziks.WebServer;
 
 namespace MapViewServer
 {
-    [Prefix(UrlPrefix)]
+    [Prefix("/bsp")]
     public class BspController : ResourceController
     {
-        public const string UrlPrefix = "/bsp";
-
-        private ValveBspFile OpenBspFile( string mapName )
+        private static string GetMapPath( string mapName )
         {
             if ( !mapName.EndsWith( ".bsp" ) ) mapName = $"{mapName}.bsp";
 
-            var path = Path.Combine( Program.CsgoDirectory, "maps", mapName );
+            return Path.Combine( Program.CsgoDirectory, "maps", mapName );
+        }
+
+        private ValveBspFile OpenBspFile( string mapName )
+        {
+            var path = GetMapPath( mapName );
             if ( !File.Exists( path ) ) throw NotFoundException( true );
 
             return new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ) );
@@ -52,11 +55,15 @@ namespace MapViewServer
             
             var response = new JObject
             {
-                { "cluster", leaf.Cluster },
                 { "min", leaf.Min.ToJson() },
                 { "max", leaf.Max.ToJson() },
                 { "area", leaf.AreaFlags.Area }
             };
+
+            if ( leaf.Cluster != -1 )
+            {
+                response.Add( "cluster", leaf.Cluster );
+            }
 
             if ( leaf.NumLeafBrushes > 0 )
             {
@@ -104,7 +111,8 @@ namespace MapViewServer
             }
 
             private readonly List<Vertex> _vertices = new List<Vertex>();
-            private readonly Dictionary<Vertex, int> _indices = new Dictionary<Vertex, int>();
+            private readonly List<int> _indices = new List<int>();
+            private readonly Dictionary<Vertex, int> _indexMap = new Dictionary<Vertex, int>();
 
             public JToken GetVertices( BspController controller )
             {
@@ -118,23 +126,33 @@ namespace MapViewServer
                     vertex => $"{vertex.Normal.X},{vertex.Normal.Y},{vertex.Normal.Z}" );
             }
 
+            public JToken GetIndices( BspController controller )
+            {
+                return controller.SerializeArray( _indices );
+            }
+
             public void Clear()
             {
                 _vertices.Clear();
                 _indices.Clear();
+                _indexMap.Clear();
             }
 
-            public int Add( Vector3 pos, Vector3 normal )
+            public int IndexCount => _indices.Count;
+
+            public void Add( Vector3 pos, Vector3 normal )
             {
                 var vertex = new Vertex( pos, normal );
 
                 int index;
-                if ( _indices.TryGetValue( vertex, out index ) ) return index;
+                if ( !_indexMap.TryGetValue( vertex, out index ) )
+                {
+                    index = _vertices.Count;
+                    _vertices.Add( vertex );
+                    _indexMap.Add( vertex, index );
+                }
 
-                index = _vertices.Count;
-                _vertices.Add( vertex );
-                _indices.Add( vertex, index );
-                return index;
+                _indices.Add( index );
             }
         }
 
@@ -150,7 +168,7 @@ namespace MapViewServer
             var face = bsp.FacesHdr[index];
             var plane = bsp.Planes[face.PlaneNum];
 
-            var indices = new JArray();
+            var offset = verts.IndexCount;
 
             for ( var surfIndex = face.FirstEdge; surfIndex < face.FirstEdge + face.NumEdges; ++surfIndex )
             {
@@ -159,18 +177,36 @@ namespace MapViewServer
                 var edge = bsp.Edges[edgeIndex];
                 var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
 
-                indices.Add( verts.Add( vert, plane.Normal ) );
+                verts.Add( vert, plane.Normal );
             }
 
             return new JObject
             {
-                { "type", (int) FaceType.TriangleFan },
-                { "indices", indices }
+                { "drawMode", (int) FaceType.TriangleFan },
+                { "offset", offset },
+                { "count", verts.IndexCount }
             };
         }
-        
+
+        [Get( "/{_mapName}" )]
+        public JToken GetIndex( [Url] string _mapName )
+        {
+            using ( var bsp = OpenBspFile( _mapName ) )
+            {
+                return new JObject
+                {
+                    {"name", _mapName},
+                    {"numClusters", bsp.Visibility.NumClusters},
+                    {"numModels", bsp.Models.Length},
+                    {"modelUrl", GetActionUrl( nameof( GetModels ), mapName => _mapName )},
+                    {"facesUrl", GetActionUrl( nameof( GetFaces ), mapName => _mapName )},
+                    {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), mapName => _mapName )}
+                };
+            }
+        }
+
         [Get( "/{mapName}/faces" )]
-        public JToken GetFaces( [Url] string mapName, int from = -1, int count = 1 )
+        public JToken GetFaces( [Url] string mapName, int from, int count = 1 )
         {
             if ( from == -1 ) throw NotFoundException( true );
 
@@ -189,22 +225,19 @@ namespace MapViewServer
                 response.Add( "faces", faceArr );
                 response.Add( "vertices", vertArray.GetVertices( this ) );
                 response.Add( "normals", vertArray.GetNormals( this ) );
+                response.Add( "indices", vertArray.GetIndices( this ) );
             }
 
             return response;
         }
 
-        [Get( "/{mapName}/bsp-models" )]
-        public JToken GetBspModels( [Url] string mapName, int index = -1 )
+        [Get( "/{mapName}/model" )]
+        public JToken GetModels( [Url] string mapName, int index )
         {
             var response = new JObject();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
-                response.Add( "models", bsp.Models.Length );
-
-                if ( index == -1 ) return response;
-                
                 var model = bsp.Models[index];
                 var tree = SerializeBspNode( bsp, model.HeadNode );
 
@@ -219,16 +252,12 @@ namespace MapViewServer
         }
 
         [Get( "/{mapName}/visibility" )]
-        public JToken GetVisibility( [Url] string mapName, int index = -1 )
+        public JToken GetVisibility( [Url] string mapName, int index )
         {
             var response = new JObject();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
-                response.Add( "clusters", bsp.Visibility.NumClusters );
-
-                if ( index == -1 ) return response;
-                
                 response.Add( "index", index );
                 response.Add( "pvs", SerializeArray( bsp.Visibility[index] ) );
             }

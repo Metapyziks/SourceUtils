@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using MimeTypes;
@@ -33,6 +36,61 @@ namespace MapViewServer
             {
                 streamWriter.WriteLine(token.ToString(Formatting.None));
             }
+        }
+
+        protected string GetActionUrl( string methodName, params Expression<Func<object, object>>[] paramValues )
+        {
+            return GetActionUrl( GetType(), methodName, paramValues );
+        }
+
+        protected string GetActionUrl<TController>( string methodName, params Expression<Func<object, object>>[] paramValues )
+        {
+            return GetActionUrl( typeof(TController), methodName, paramValues );
+        }
+
+        private string GetActionUrl( Type controllerType, string methodName, params Expression<Func<object, object>>[] paramValues )
+        {
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            var method = controllerType.GetMethod( methodName, flags );
+            var controllerMatcher = controllerType.GetCustomAttribute<PrefixAttribute>();
+            var actionMatcher = method.GetCustomAttribute<ControllerActionAttribute>();
+
+            var builder = new StringBuilder( Request.Url.GetLeftPart( UriPartial.Authority ) );
+            if ( builder[builder.Length - 1] == '/' ) builder.Remove( builder.Length - 1, 1 );
+
+            if ( controllerMatcher.Value != "/" ) builder.Append( controllerMatcher.Value );
+            if ( actionMatcher.Value != "/" ) builder.Append( actionMatcher.Value );
+
+            var first = true;
+            foreach ( var parameter in method.GetParameters() )
+            {
+                if ( parameter.GetCustomAttribute<UrlAttribute>() != null ) continue;
+                if ( parameter.GetCustomAttribute<BodyAttribute>() != null ) continue;
+
+                var match = paramValues.FirstOrDefault( x => x.Parameters[0].Name == parameter.Name );
+                var prefix = first ? "?" : "&";
+
+                if ( match != null )
+                {
+                    var value = match.Compile()( null );
+                    if ( value == null ) continue;
+                    builder.Append( $"{prefix}{parameter.Name}={value}" );
+                }
+                else
+                {
+                    builder.Append( $"{prefix}{parameter.Name}={{{parameter.Name}}}" );
+                }
+                
+                first = false;
+            }
+
+            foreach ( var expression in paramValues )
+            {
+                var name = expression.Parameters[0].Name;
+                builder.Replace( $"{{{name}}}", (expression.Compile()( null ) ?? "").ToString() );
+            }
+
+            return builder.ToString();
         }
 
         [ThreadStatic]
