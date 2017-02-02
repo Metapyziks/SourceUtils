@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace SourceUtils
         {
             public LumpType LumpType { get; }
 
+            private bool _firstRequest = true;
             private readonly ValveBspFile _bspFile;
             private T[] _array;
             private int _length = -1;
@@ -51,9 +53,27 @@ namespace SourceUtils
             {
                 get
                 {
+                    if ( _firstRequest )
+                    {
+                        _firstRequest = false;
+                        return GetSingle( index );
+                    }
+
                     EnsureLoaded();
                     return _array[index];
                 }
+            }
+
+            [ThreadStatic]
+            private static T[] _sSingleArray;
+
+            private T GetSingle( int index )
+            {
+                if ( _array != null ) return _array[index];
+                if ( _sSingleArray == null ) _sSingleArray = new T[1];
+
+                _bspFile.ReadLumpValues( LumpType, index, _sSingleArray, 0, 1 );
+                return _sSingleArray[0];
             }
 
             public IEnumerable<T> Range( int start, int count )

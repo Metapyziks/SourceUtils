@@ -47,6 +47,7 @@
     <Compile Include="ResourceLoader.cs" />
     <Compile Include="SubStream.cs" />
     <Compile Include="ValveBsp\ArrayLump.cs" />
+    <Compile Include="ValveBsp\BspNode.cs" />
     <Compile Include="ValveBsp\LumpInfo.cs" />
     <Compile Include="ValveBsp\LumpType.cs" />
     <Compile Include="ValveBsp\Reflection.cs" />
@@ -61,9 +62,7 @@
     <Compile Include="ValveTextureFile.cs" />
     <Compile Include="Vector4.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ValveBsp\Structures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

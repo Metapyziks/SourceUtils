@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using SourceUtils.ValveBsp;
 
 namespace SourceUtils
 {
@@ -33,6 +34,18 @@ namespace SourceUtils
             public LumpInfo[] Lumps;
             public int MapRevision;
         }
+        
+        [BspLump(LumpType.MODELS)]
+        public ArrayLump<BspModel> Models { get; private set; }
+
+        [BspLump(LumpType.PLANES)]
+        public ArrayLump<Plane> Planes { get; private set; }
+        
+        [BspLump(LumpType.NODES)]
+        public ArrayLump<BspNode> Nodes { get; private set; }
+        
+        [BspLump(LumpType.LEAFS)]
+        public ArrayLump<BspLeaf> Leaves { get; private set; }
 
         [BspLump(LumpType.VERTEXES)]
         public ArrayLump<Vector3> Vertices { get; private set; }
