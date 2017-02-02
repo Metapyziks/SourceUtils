@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
 using SourceUtils.ValveBsp;
@@ -115,7 +116,7 @@ namespace MapViewServer
                 response.Add( "min", model.Min.ToJson() );
                 response.Add( "max", model.Max.ToJson() );
                 response.Add( "origin", model.Origin.ToJson() );
-                response.Add( "tree", SerializeBspNode( bsp, model.HeadNode ) );
+                response.Add( "tree", LZString.compressToBase64( SerializeBspNode( bsp, model.HeadNode ).ToString( Formatting.None ) ) );
             }
 
             return response;
