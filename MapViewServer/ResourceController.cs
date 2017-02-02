@@ -38,6 +38,18 @@ namespace MapViewServer
         [ThreadStatic]
         private static StringBuilder _sArrayBuilder;
 
+        protected bool Compressed
+        {
+            get
+            {
+                var compressedStr = Request.QueryString["compressed"];
+                bool compressed;
+                if ( compressedStr == null || !bool.TryParse( compressedStr, out compressed ) ) compressed = true;
+
+                return compressed;
+            }
+        }
+
         protected JToken SerializeArray<T>( IEnumerable<T> enumerable )
         {
             return SerializeArray( enumerable, x => x.ToString() );
@@ -48,9 +60,6 @@ namespace MapViewServer
             if ( _sArrayBuilder == null ) _sArrayBuilder = new StringBuilder();
             else _sArrayBuilder.Remove( 0, _sArrayBuilder.Length );
 
-            var compressedStr = Request.QueryString["compressed"];
-            bool compressed;
-            if ( compressedStr == null || !bool.TryParse( compressedStr, out compressed ) ) compressed = true;
 
             _sArrayBuilder.Append( "[" );
             foreach ( var item in enumerable )
@@ -62,7 +71,7 @@ namespace MapViewServer
             if ( _sArrayBuilder.Length > 1 ) _sArrayBuilder.Remove( _sArrayBuilder.Length - 1, 1 );
             _sArrayBuilder.Append( "]" );
             
-            return compressed
+            return Compressed
                 ? (JToken) LZString.compressToBase64( _sArrayBuilder.ToString() )
                 : JArray.Parse( _sArrayBuilder.ToString() );
         }

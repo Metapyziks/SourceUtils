@@ -78,4 +78,49 @@ namespace SourceUtils.ValveBsp
         public float Dist;
         public int Type;
     }
+
+    public enum Side : byte
+    {
+        OutFacing = 0,
+        InFacing = 1
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct Edge
+    {
+        public ushort A;
+        public ushort B;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct Face
+    {
+        public ushort PlaneNum;
+        public Side Side;
+
+        [MarshalAs(UnmanagedType.U1)]
+        public bool OnNode;
+
+        public int FirstEdge;
+        public short NumEdges;
+        public short TexInfo;
+        public short DispInfo;
+        public short FogVolumeId;
+        private readonly uint _styles;
+        public int LightOffset;
+        public float Area;
+        public int LightMapOffsetX;
+        public int LightMapOffsetY;
+        public int LightMapSizeX;
+        public int LightMapSizeY;
+        public int OriginalFace;
+        public ushort NumPrimitives;
+        public ushort FirstPrimitive;
+        public uint SmoothingGroups;
+
+        public byte GetLightStyle(int index)
+        {
+            return (byte) ((_styles >> (index << 3)) & 0xff);
+        }
+    }
 }

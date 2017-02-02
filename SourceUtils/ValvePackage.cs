@@ -27,7 +27,7 @@ namespace SourceUtils
                 _archiveIndex = archiveIndex;
                 _baseStream = archiveIndex < 32767 ? archive.OpenArchive(archiveIndex) : null;
 
-                _preloadBytesLength = preloadBytes == null ? 0 : preloadBytes.Length;
+                _preloadBytesLength = preloadBytes?.Length ?? 0;
                 _preloadBytes = preloadBytes;
 
                 _fileOffset = offset;
@@ -414,7 +414,7 @@ namespace SourceUtils
 
         private static Exception FileNotFound(string filePath)
         {
-            throw new FileNotFoundException(string.Format("Cound not find file '{0}' in VPK archive.", filePath), filePath);
+            throw new FileNotFoundException( $"Cound not find file '{filePath}' in VPK archive.", filePath);
         }
 
         public Stream OpenFile(string filePath)

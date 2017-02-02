@@ -47,7 +47,7 @@
     <Compile Include="ResourceLoader.cs" />
     <Compile Include="SubStream.cs" />
     <Compile Include="ValveBsp\ArrayLump.cs" />
-    <Compile Include="ValveBsp\BspNode.cs" />
+    <Compile Include="ValveBsp\Structures.cs" />
     <Compile Include="ValveBsp\LumpInfo.cs" />
     <Compile Include="ValveBsp\LumpType.cs" />
     <Compile Include="ValveBsp\Reflection.cs" />

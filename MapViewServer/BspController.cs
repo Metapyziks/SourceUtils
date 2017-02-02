@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,24 +22,6 @@ namespace MapViewServer
             if ( !File.Exists( path ) ) throw NotFoundException( true );
 
             return new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ) );
-        }
-
-        [Get( "/{mapName}/vertices" )]
-        public JToken GetVertices( [Url] string mapName, int from = 0, int count = 4096 )
-        {
-            var response = new JObject();
-
-            using ( var bsp = OpenBspFile( mapName ) )
-            {
-                response.Add( "total", bsp.Vertices.Length );
-                response.Add( "from", from );
-                response.Add( "count", count );
-
-                response.Add( "vertices", SerializeArray( bsp.Vertices.Range( from, count ),
-                    vertex => $"{vertex.X},{vertex.Y},{vertex.Z}" ) );
-            }
-
-            return response;
         }
 
         private static JToken SerializeBspChild( ValveBspFile bsp, BspChild child )
@@ -90,60 +73,164 @@ namespace MapViewServer
             return response;
         }
 
+        public class VertexArray
+        {
+            private struct Vertex : IEquatable<Vertex>
+            {
+                public readonly Vector3 Position;
+                public readonly Vector3 Normal;
+
+                public Vertex( Vector3 position, Vector3 normal )
+                {
+                    Position = position;
+                    Normal = normal;
+                }
+
+                public bool Equals( Vertex other )
+                {
+                    return Position.Equals( other.Position ) && Normal.Equals( other.Normal );
+                }
+
+                public override bool Equals( object obj )
+                {
+                    if ( ReferenceEquals( null, obj ) ) return false;
+                    return obj is Vertex && Equals( (Vertex) obj );
+                }
+
+                public override int GetHashCode()
+                {
+                    return Position.GetHashCode();
+                }
+            }
+
+            private readonly List<Vertex> _vertices = new List<Vertex>();
+            private readonly Dictionary<Vertex, int> _indices = new Dictionary<Vertex, int>();
+
+            public JToken GetVertices( BspController controller )
+            {
+                return controller.SerializeArray( _vertices,
+                    vertex => $"{vertex.Position.X},{vertex.Position.Y},{vertex.Position.Z}" );
+            }
+
+            public JToken GetNormals( BspController controller )
+            {
+                return controller.SerializeArray( _vertices,
+                    vertex => $"{vertex.Normal.X},{vertex.Normal.Y},{vertex.Normal.Z}" );
+            }
+
+            public void Clear()
+            {
+                _vertices.Clear();
+                _indices.Clear();
+            }
+
+            public int Add( Vector3 pos, Vector3 normal )
+            {
+                var vertex = new Vertex( pos, normal );
+
+                int index;
+                if ( _indices.TryGetValue( vertex, out index ) ) return index;
+
+                index = _vertices.Count;
+                _vertices.Add( vertex );
+                _indices.Add( vertex, index );
+                return index;
+            }
+        }
+
+        public enum FaceType
+        {
+            TriangleList,
+            TriangleStrip,
+            TriangleFan
+        }
+
+        public static JToken SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
+        {
+            var face = bsp.FacesHdr[index];
+            var plane = bsp.Planes[face.PlaneNum];
+
+            var indices = new JArray();
+
+            for ( var surfIndex = face.FirstEdge; surfIndex < face.FirstEdge + face.NumEdges; ++surfIndex )
+            {
+                var surfEdge = bsp.SurfEdges[surfIndex];
+                var edgeIndex = Math.Abs( surfEdge );
+                var edge = bsp.Edges[edgeIndex];
+                var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
+
+                indices.Add( verts.Add( vert, plane.Normal ) );
+            }
+
+            return new JObject
+            {
+                { "type", (int) FaceType.TriangleFan },
+                { "indices", indices }
+            };
+        }
+        
+        [Get( "/{mapName}/faces" )]
+        public JToken GetFaces( [Url] string mapName, int from = -1, int count = 1 )
+        {
+            if ( from == -1 ) throw NotFoundException( true );
+
+            var response = new JObject();
+            var vertArray = new VertexArray();
+
+            using ( var bsp = OpenBspFile( mapName ) )
+            {
+                var faceArr = new JArray();
+
+                for ( var i = from; i < from + count; ++i )
+                {
+                    faceArr.Add( SerializeFace( bsp, i, vertArray ) );
+                }
+
+                response.Add( "faces", faceArr );
+                response.Add( "vertices", vertArray.GetVertices( this ) );
+                response.Add( "normals", vertArray.GetNormals( this ) );
+            }
+
+            return response;
+        }
+
         [Get( "/{mapName}/bsp-models" )]
-        public JToken GetBspModels( [Url] string mapName )
+        public JToken GetBspModels( [Url] string mapName, int index = -1 )
         {
             var response = new JObject();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
                 response.Add( "models", bsp.Models.Length );
-            }
 
-            return response;
-        }
+                if ( index == -1 ) return response;
+                
+                var model = bsp.Models[index];
+                var tree = SerializeBspNode( bsp, model.HeadNode );
 
-        [Get( "/{mapName}/bsp-models/{modelIndex}" )]
-        public JToken GetBspModels( [Url] string mapName, [Url] int modelIndex )
-        {
-            var response = new JObject();
-
-            using ( var bsp = OpenBspFile( mapName ) )
-            {
-                var model = bsp.Models[modelIndex];
-
-                response.Add( "index", modelIndex );
+                response.Add( "index", index );
                 response.Add( "min", model.Min.ToJson() );
                 response.Add( "max", model.Max.ToJson() );
                 response.Add( "origin", model.Origin.ToJson() );
-                response.Add( "tree", LZString.compressToBase64( SerializeBspNode( bsp, model.HeadNode ).ToString( Formatting.None ) ) );
+                response.Add( "tree", Compressed ? LZString.compressToBase64( tree.ToString( Formatting.None ) ) : tree );
             }
 
             return response;
         }
 
         [Get( "/{mapName}/visibility" )]
-        public JToken GetVisibility( [Url] string mapName )
+        public JToken GetVisibility( [Url] string mapName, int index = -1 )
         {
             var response = new JObject();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
                 response.Add( "clusters", bsp.Visibility.NumClusters );
-            }
 
-            return response;
-        }
-
-        [Get( "/{mapName}/visibility/{clusterIndex}" )]
-        public JToken GetVisibility( [Url] string mapName, [Url] int clusterIndex )
-        {
-            var response = new JObject();
-
-            using ( var bsp = OpenBspFile( mapName ) )
-            {
-                response.Add( "index", clusterIndex );
-                response.Add( "pvs", SerializeArray( bsp.Visibility[clusterIndex] ) );
+                if ( index == -1 ) return response;
+                
+                response.Add( "index", index );
+                response.Add( "pvs", SerializeArray( bsp.Visibility[index] ) );
             }
 
             return response;

@@ -50,6 +50,18 @@ namespace SourceUtils
         [BspLump(LumpType.VERTEXES)]
         public ArrayLump<Vector3> Vertices { get; private set; }
 
+        [BspLump(LumpType.EDGES)]
+        public ArrayLump<Edge> Edges { get; private set; }
+
+        [BspLump(LumpType.SURFEDGES)]
+        public ArrayLump<int> SurfEdges { get; private set; }
+
+        [BspLump(LumpType.FACES)]
+        public ArrayLump<Face> Faces { get; private set; }
+
+        [BspLump(LumpType.FACES_HDR)]
+        public ArrayLump<Face> FacesHdr { get; private set; }
+
         [BspLump(LumpType.VISIBILITY)]
         public VisibilityLump Visibility { get; private set; }
 
