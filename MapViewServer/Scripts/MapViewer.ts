@@ -4,9 +4,18 @@ namespace SourceUtils {
     export class MapViewer extends AppBase {
         private map: Map;
 
+        private lookAngs = new THREE.Vector2();
+        private lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+
+        constructor() {
+            super();
+
+            this.canLockPointer = true;
+        }
+
         init(container: JQuery): void {
-            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 2048);
-            this.camera.up = new THREE.Vector3(0, 0, 1);
+            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 4096);
+            this.camera.up.set(0, 0, 1);
 
             super.init(container);
 
@@ -25,6 +34,42 @@ namespace SourceUtils {
 
             this.map = new Map(url);
             this.getScene().add(this.map);
+        }
+
+        private unitZ = new THREE.Vector3(0, 0, 1);
+        private unitX = new THREE.Vector3(1, 0, 0);
+        private tempQuat = new THREE.Quaternion();
+
+        protected onMouseLook(delta: THREE.Vector2): void {
+            super.onMouseLook(delta);
+
+            this.lookAngs.sub(delta.multiplyScalar(1 / 800));
+
+            if (this.lookAngs.y < -Math.PI * 0.5) this.lookAngs.y = -Math.PI * 0.5;
+            if (this.lookAngs.y > Math.PI * 0.5) this.lookAngs.y = Math.PI * 0.5;
+
+            this.lookQuat.setFromAxisAngle(this.unitZ, this.lookAngs.x);
+            this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
+            this.lookQuat.multiply(this.tempQuat);
+
+            this.camera.rotation.setFromQuaternion(this.lookQuat);
+        }
+
+        protected onUpdateFrame(dt: number): void {
+            super.onUpdateFrame(dt);
+
+            const move = new THREE.Vector3();
+            const moveSpeed = 512 * dt;
+
+            if (this.isKeyDown(Key.W)) move.z -= moveSpeed;
+            if (this.isKeyDown(Key.S)) move.z += moveSpeed;
+            if (this.isKeyDown(Key.A)) move.x -= moveSpeed;
+            if (this.isKeyDown(Key.D)) move.x += moveSpeed;
+
+            if (move.lengthSq() > 0) {
+                move.applyEuler(this.camera.rotation);
+                this.camera.position.add(move);
+            }
         }
     }
 }

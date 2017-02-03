@@ -113,6 +113,8 @@ namespace SourceUtils {
     export class AppBase {
         camera: THREE.Camera;
 
+        canLockPointer = false;
+
         private container: JQuery;
         private scene: THREE.Scene;
         private renderer: THREE.Renderer;
@@ -122,6 +124,7 @@ namespace SourceUtils {
 
         private isDragging: boolean;
         private mouseScreenPos = new THREE.Vector2();
+        private mouseLookDelta = new THREE.Vector2();
         private dragStartScreenPos = new THREE.Vector2();
         private heldKeys: boolean[] = new Array(128);
         private heldMouseButtons: boolean[] = new Array(8);
@@ -131,6 +134,7 @@ namespace SourceUtils {
             this.scene = new THREE.Scene();
 
             this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
+            this.scene.add(this.camera);
             this.renderer = new THREE.WebGLRenderer();
 
             this.onWindowResize();
@@ -156,6 +160,7 @@ namespace SourceUtils {
                 this.heldMouseButtons[e.which] = true;
                 this.onMouseDown(e.which as MouseButton,
                     this.getScreenPos(e.pageX, e.pageY, this.mouseScreenPos));
+                if (this.canLockPointer) this.container[0].requestPointerLock();
                 return false;
             });
             $(window).mouseup(e => {
@@ -163,11 +168,21 @@ namespace SourceUtils {
                 this.onMouseUp(e.which as MouseButton,
                     this.getScreenPos(e.pageX, e.pageY, this.mouseScreenPos));
             });
-            $(window).mousemove(e => this.onMouseMove(this.getScreenPos(e.pageX, e.pageY, this.mouseScreenPos)));
+            $(window).mousemove(e => {
+                this.onMouseMove(this.getScreenPos(e.pageX, e.pageY, this.mouseScreenPos));
+
+                if (this.isPointerLocked()) {
+                    this.mouseLookDelta.set((e.originalEvent as any).movementX, (e.originalEvent as any).movementY);
+                    this.onMouseLook(this.mouseLookDelta);
+                }
+            });
             $(window).keydown(e => {
                 if (e.which < 0 || e.which >= 128) return true;
                 this.heldKeys[e.which] = true;
                 this.onKeyDown(e.which as Key);
+                if (this.isPointerLocked() && e.which as Key === Key.Escape) {
+                    document.exitPointerLock();
+                }
                 return e.which !== Key.Tab;
             });
             $(window).keyup(e => {
@@ -178,6 +193,10 @@ namespace SourceUtils {
             this.container.contextmenu(() => false);
 
             window.addEventListener("resize", () => this.onWindowResize(), false);
+        }
+
+        isPointerLocked(): boolean {
+            return document.pointerLockElement === this.container[0];
         }
 
         getWidth(): number {
@@ -240,6 +259,8 @@ namespace SourceUtils {
                 this.onDragUpdate(screenPos);
             }
         }
+
+        protected onMouseLook(delta: THREE.Vector2): void {}
 
         protected onDragStart(screenPos: THREE.Vector2): void {}
 

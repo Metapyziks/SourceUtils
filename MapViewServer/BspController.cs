@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
 using SourceUtils.ValveBsp;
 using Ziks.WebServer;
+using Ziks.WebServer.Html;
 
 namespace MapViewServer
 {
+    using static HtmlDocumentHelper;
+
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
+        protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
+
         private static string GetMapPath( string mapName )
         {
             if ( !mapName.EndsWith( ".bsp" ) ) mapName = $"{mapName}.bsp";
@@ -123,7 +130,7 @@ namespace MapViewServer
             public JToken GetNormals( BspController controller )
             {
                 return controller.SerializeArray( _vertices,
-                    vertex => $"{vertex.Normal.X},{vertex.Normal.Y},{vertex.Normal.Z}" );
+                    vertex => $"{-vertex.Normal.X},{-vertex.Normal.Y},{-vertex.Normal.Z}" );
             }
 
             public JToken GetIndices( BspController controller )
@@ -165,8 +172,13 @@ namespace MapViewServer
 
         public static JToken SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
+            const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.SKIP | SurfFlags.SKY | SurfFlags.SKY2D | SurfFlags.HINT | SurfFlags.TRIGGER;
+
             var face = bsp.FacesHdr[index];
+            var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
+
+            if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return null;
 
             var offset = verts.IndexCount;
 
@@ -184,31 +196,83 @@ namespace MapViewServer
             {
                 { "drawMode", (int) FaceType.TriangleFan },
                 { "offset", offset },
-                { "count", verts.IndexCount }
+                { "count", verts.IndexCount - offset }
             };
         }
 
-        [Get( "/{_mapName}" )]
-        public JToken GetIndex( [Url] string _mapName )
+        private bool CheckNotExpired( string mapName )
         {
-            using ( var bsp = OpenBspFile( _mapName ) )
+            var path = GetMapPath( mapName );
+            var mapInfo = new FileInfo( path );
+            var lastModified = mapInfo.LastWriteTimeUtc;
+
+            Response.Headers.Add("Cache-Control", "public, max-age=31556736");
+            Response.Headers.Add("Last-Modified", lastModified.ToString("R"));
+
+            var header = Request.Headers["If-Modified-Since"];
+            DateTime result;
+            if (header != null && DateTime.TryParseExact(header, "R", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.AdjustToUniversal, out result) && result < lastModified)
+            {
+                Response.StatusCode = 304;
+                Response.OutputStream.Close();
+                return true;
+            }
+
+            return false;
+        }
+
+        [Get( "/{mapName}" ), ApiVersion( 0x0001 )]
+        public JToken GetIndex( [Url] string mapName )
+        {
+            using ( var bsp = OpenBspFile( mapName ) )
             {
                 return new JObject
                 {
-                    {"name", _mapName},
+                    {"name", mapName},
                     {"numClusters", bsp.Visibility.NumClusters},
                     {"numModels", bsp.Models.Length},
-                    {"modelUrl", GetActionUrl( nameof( GetModels ), mapName => _mapName )},
-                    {"facesUrl", GetActionUrl( nameof( GetFaces ), mapName => _mapName )},
-                    {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), mapName => _mapName )}
+                    {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
+                    {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
+                    {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), Replace( "mapName", mapName ) )}
                 };
             }
         }
 
-        [Get( "/{mapName}/faces" )]
+        [Get( "/{mapName}/view" ), ApiVersion( 0x0001 )]
+        public HtmlElement GetViewer( [Url] string mapName )
+        {
+            const string elemId = "map-view";
+
+            return new div
+            {
+                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" ),
+                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js" ),
+                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" ),
+                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js" ),
+                new script( src => GetScriptUrl( "main.js" ) ),
+                new script
+                {
+                    $@"
+                    var main = new SourceUtils.MapViewer();
+                    window.onload = function () {{
+                        main.init($(""#{elemId}""));
+                        main.loadMap(""{GetActionUrl( nameof( GetIndex ), Replace( "mapName", mapName ) )}"");
+                        main.animate();
+                    }}
+                    "
+                },
+                new div( id => elemId, style => "height: 720px" ),
+                new code( style => "display: block; white-space: pre-wrap" )
+                {
+                    GetIndex( mapName ).ToString()
+                }
+            };
+        }
+
+        [Get( "/{mapName}/faces" ), ApiVersion( 0x0001 )]
         public JToken GetFaces( [Url] string mapName, int from, int count = 1 )
         {
-            if ( from == -1 ) throw NotFoundException( true );
+            if ( CheckNotExpired( mapName ) ) return null;
 
             var response = new JObject();
             var vertArray = new VertexArray();
@@ -219,7 +283,8 @@ namespace MapViewServer
 
                 for ( var i = from; i < from + count; ++i )
                 {
-                    faceArr.Add( SerializeFace( bsp, i, vertArray ) );
+                    var face = SerializeFace( bsp, i, vertArray );
+                    if ( face != null ) faceArr.Add( face );
                 }
 
                 response.Add( "faces", faceArr );
@@ -231,9 +296,11 @@ namespace MapViewServer
             return response;
         }
 
-        [Get( "/{mapName}/model" )]
+        [Get( "/{mapName}/model" ), ApiVersion( 0x0001 )]
         public JToken GetModels( [Url] string mapName, int index )
         {
+            if ( CheckNotExpired( mapName ) ) return null;
+
             var response = new JObject();
 
             using ( var bsp = OpenBspFile( mapName ) )
@@ -251,9 +318,11 @@ namespace MapViewServer
             return response;
         }
 
-        [Get( "/{mapName}/visibility" )]
+        [Get( "/{mapName}/visibility" ), ApiVersion( 0x0001 )]
         public JToken GetVisibility( [Url] string mapName, int index )
         {
+            if ( CheckNotExpired( mapName ) ) return null;
+
             var response = new JObject();
 
             using ( var bsp = OpenBspFile( mapName ) )

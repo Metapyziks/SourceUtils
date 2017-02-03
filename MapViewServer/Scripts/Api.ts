@@ -52,5 +52,18 @@
             firstFace: number;
             numFaces: number;
         }
+
+        export class Face {
+            drawMode: number;
+            offset: number;
+            count: number;
+        }
+
+        export class BspFacesResponse {
+            faces: Face[];
+            vertices: string | number[];
+            normals: string | number[];
+            indices: string | number[];
+        }
     }
 }

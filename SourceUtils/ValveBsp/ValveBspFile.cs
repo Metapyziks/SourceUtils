@@ -65,6 +65,9 @@ namespace SourceUtils
         [BspLump(LumpType.VISIBILITY)]
         public VisibilityLump Visibility { get; private set; }
 
+        [BspLump(LumpType.TEXINFO)]
+        public ArrayLump<TextureInfo> TextureInfos { get; private set; }
+
         private readonly Stream _stream;
         private readonly Header _header;
 

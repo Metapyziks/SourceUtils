@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Web;
@@ -15,10 +14,22 @@ using Ziks.WebServer.Html;
 namespace MapViewServer
 {
     using static HtmlDocumentHelper;
+    using ParameterReplacement = KeyValuePair<string, object>;
 
     public abstract class ResourceController : Controller
     {
-        protected string FilePath
+        [AttributeUsage(AttributeTargets.Method)]
+        protected class ApiVersionAttribute : Attribute
+        {
+            public uint Value { get; set; }
+
+            public ApiVersionAttribute( uint value )
+            {
+                Value = value;
+            }
+        }
+
+        protected virtual string FilePath
         {
             get
             {
@@ -32,23 +43,35 @@ namespace MapViewServer
         protected override void OnServiceJson( JToken token )
         {
             Response.ContentType = MimeTypeMap.GetMimeType(".json");
+
+            if ( token == null )
+            {
+                Response.OutputStream.Close();
+                return;
+            }
+
             using ( var streamWriter = new StreamWriter( Response.OutputStream ) )
             {
                 streamWriter.WriteLine(token.ToString(Formatting.None));
             }
         }
 
-        protected string GetActionUrl( string methodName, params Expression<Func<object, object>>[] paramValues )
+        protected ParameterReplacement Replace( string name, object value )
+        {
+            return new ParameterReplacement( name, value );
+        }
+
+        protected string GetActionUrl( string methodName, params ParameterReplacement[] paramValues )
         {
             return GetActionUrl( GetType(), methodName, paramValues );
         }
 
-        protected string GetActionUrl<TController>( string methodName, params Expression<Func<object, object>>[] paramValues )
+        protected string GetActionUrl<TController>( string methodName, params ParameterReplacement[] paramValues )
         {
             return GetActionUrl( typeof(TController), methodName, paramValues );
         }
 
-        private string GetActionUrl( Type controllerType, string methodName, params Expression<Func<object, object>>[] paramValues )
+        private string GetActionUrl( Type controllerType, string methodName, params ParameterReplacement[] paramValues )
         {
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             var method = controllerType.GetMethod( methodName, flags );
@@ -60,21 +83,28 @@ namespace MapViewServer
 
             if ( controllerMatcher.Value != "/" ) builder.Append( controllerMatcher.Value );
             if ( actionMatcher.Value != "/" ) builder.Append( actionMatcher.Value );
-
+            
             var first = true;
+
+            var apiVersion = method.GetCustomAttribute<ApiVersionAttribute>();
+            if ( apiVersion != null )
+            {
+                first = false;
+                builder.Append( $"?v={apiVersion.Value:x}" );
+            }
+
             foreach ( var parameter in method.GetParameters() )
             {
                 if ( parameter.GetCustomAttribute<UrlAttribute>() != null ) continue;
                 if ( parameter.GetCustomAttribute<BodyAttribute>() != null ) continue;
 
-                var match = paramValues.FirstOrDefault( x => x.Parameters[0].Name == parameter.Name );
+                var match = paramValues.FirstOrDefault( x => x.Key == parameter.Name );
                 var prefix = first ? "?" : "&";
 
-                if ( match != null )
+                if ( match.Key != null )
                 {
-                    var value = match.Compile()( null );
-                    if ( value == null ) continue;
-                    builder.Append( $"{prefix}{parameter.Name}={value}" );
+                    if ( match.Value == null ) continue;
+                    builder.Append( $"{prefix}{parameter.Name}={HttpUtility.UrlEncode( match.Value.ToString() )}" );
                 }
                 else
                 {
@@ -84,10 +114,10 @@ namespace MapViewServer
                 first = false;
             }
 
-            foreach ( var expression in paramValues )
+            foreach ( var replacement in paramValues )
             {
-                var name = expression.Parameters[0].Name;
-                builder.Replace( $"{{{name}}}", (expression.Compile()( null ) ?? "").ToString() );
+                if ( replacement.Value == null ) continue;
+                builder.Replace( $"{{{replacement.Key}}}", HttpUtility.UrlEncode( replacement.Value.ToString() ) );
             }
 
             return builder.ToString();
@@ -95,6 +125,21 @@ namespace MapViewServer
 
         [ThreadStatic]
         private static StringBuilder _sArrayBuilder;
+
+        private static string GetFileVersionHash( DateTime timestamp )
+        {
+            var major = (int) (timestamp - new DateTime( 2000, 1, 1 )).TotalDays;
+            var minor = (int) (timestamp - new DateTime( timestamp.Year, timestamp.Month, timestamp.Day )).TotalSeconds;
+            return $"{major:x}-{minor:x}";
+        }
+
+        protected string GetScriptUrl( string fileName )
+        {
+            var path = Path.Combine( Program.ScriptsDirectory, fileName );
+            var info = new FileInfo( path );
+            var versHash = GetFileVersionHash( info.LastWriteTimeUtc );
+            return $"/{fileName}?v={versHash}";
+        }
 
         protected bool Compressed
         {

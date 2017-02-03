@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspNode;
         }(BspElem));
@@ -48,11 +48,23 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
+        var Face = (function () {
+            function Face() {
+            }
+            return Face;
+        }());
+        Api.Face = Face;
+        var BspFacesResponse = (function () {
+            function BspFacesResponse() {
+            }
+            return BspFacesResponse;
+        }());
+        Api.BspFacesResponse = BspFacesResponse;
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/lz-string/lz-string.d.ts"/>
@@ -81,13 +93,12 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var Key;
+    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var MouseButton = SourceUtils.MouseButton;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -187,11 +198,14 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
+    })(SourceUtils.Key || (SourceUtils.Key = {}));
+    var Key = SourceUtils.Key;
     var AppBase = (function () {
         function AppBase() {
+            this.canLockPointer = false;
             this.previousTime = 0;
             this.mouseScreenPos = new THREE.Vector2();
+            this.mouseLookDelta = new THREE.Vector2();
             this.dragStartScreenPos = new THREE.Vector2();
             this.heldKeys = new Array(128);
             this.heldMouseButtons = new Array(8);
@@ -201,6 +215,7 @@ var SourceUtils;
             this.container = container;
             this.scene = new THREE.Scene();
             this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
+            this.scene.add(this.camera);
             this.renderer = new THREE.WebGLRenderer();
             this.onWindowResize();
             this.animateCallback = function (time) {
@@ -220,18 +235,29 @@ var SourceUtils;
             this.container.mousedown(function (e) {
                 _this.heldMouseButtons[e.which] = true;
                 _this.onMouseDown(e.which, _this.getScreenPos(e.pageX, e.pageY, _this.mouseScreenPos));
+                if (_this.canLockPointer)
+                    _this.container[0].requestPointerLock();
                 return false;
             });
             $(window).mouseup(function (e) {
                 _this.heldMouseButtons[e.which] = false;
                 _this.onMouseUp(e.which, _this.getScreenPos(e.pageX, e.pageY, _this.mouseScreenPos));
             });
-            $(window).mousemove(function (e) { return _this.onMouseMove(_this.getScreenPos(e.pageX, e.pageY, _this.mouseScreenPos)); });
+            $(window).mousemove(function (e) {
+                _this.onMouseMove(_this.getScreenPos(e.pageX, e.pageY, _this.mouseScreenPos));
+                if (_this.isPointerLocked()) {
+                    _this.mouseLookDelta.set(e.originalEvent.movementX, e.originalEvent.movementY);
+                    _this.onMouseLook(_this.mouseLookDelta);
+                }
+            });
             $(window).keydown(function (e) {
                 if (e.which < 0 || e.which >= 128)
                     return true;
                 _this.heldKeys[e.which] = true;
                 _this.onKeyDown(e.which);
+                if (_this.isPointerLocked() && e.which === Key.Escape) {
+                    document.exitPointerLock();
+                }
                 return e.which !== Key.Tab;
             });
             $(window).keyup(function (e) {
@@ -242,6 +268,9 @@ var SourceUtils;
             });
             this.container.contextmenu(function () { return false; });
             window.addEventListener("resize", function () { return _this.onWindowResize(); }, false);
+        };
+        AppBase.prototype.isPointerLocked = function () {
+            return document.pointerLockElement === this.container[0];
         };
         AppBase.prototype.getWidth = function () {
             return this.container.innerWidth();
@@ -293,6 +322,7 @@ var SourceUtils;
                 this.onDragUpdate(screenPos);
             }
         };
+        AppBase.prototype.onMouseLook = function (delta) { };
         AppBase.prototype.onDragStart = function (screenPos) { };
         AppBase.prototype.onDragUpdate = function (screenPos) { };
         AppBase.prototype.onDragEnd = function () { };
@@ -330,7 +360,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            _super.apply(this, arguments);
         }
         return Entity;
     }(THREE.Object3D));
@@ -339,16 +369,104 @@ var SourceUtils;
 /// <reference path="AppBase.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
+    var VisNode = (function () {
+        function VisNode(model, info) {
+            this.isLeaf = false;
+            var normal = info.plane.normal;
+            var min = info.min;
+            var max = info.max;
+            this.plane = new THREE.Plane(new THREE.Vector3(normal.x, normal.y, normal.z), info.plane.dist);
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            this.children = [
+                VisNode.createVisElem(model, info.children[0]),
+                VisNode.createVisElem(model, info.children[1])
+            ];
+        }
+        VisNode.createVisElem = function (model, info) {
+            if (info.children != undefined) {
+                return new VisNode(model, info);
+            }
+            else {
+                return new VisLeaf(model, info);
+            }
+        };
+        VisNode.prototype.getAllLeaves = function (dstArray) {
+            this.children[0].getAllLeaves(dstArray);
+            this.children[1].getAllLeaves(dstArray);
+        };
+        return VisNode;
+    }());
+    SourceUtils.VisNode = VisNode;
+    var VisLeaf = (function (_super) {
+        __extends(VisLeaf, _super);
+        function VisLeaf(model, info) {
+            _super.call(this, new THREE.BufferGeometry(), new THREE.MultiMaterial([new THREE.MeshPhongMaterial({ side: THREE.BackSide })]));
+            this.isLeaf = true;
+            this.loadedFaces = false;
+            var min = info.min;
+            var max = info.max;
+            this.model = model;
+            this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            this.numFaces = info.numFaces === undefined ? 0 : info.numFaces;
+            this.firstFace = info.firstFace;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            this.visible = false;
+        }
+        VisLeaf.prototype.hasFaces = function () { return this.numFaces > 0; };
+        VisLeaf.prototype.getAllLeaves = function (dstArray) {
+            dstArray.push(this);
+        };
+        VisLeaf.prototype.loadFaces = function () {
+            var _this = this;
+            if (!this.hasFaces() || this.loadedFaces)
+                return;
+            var url = this.model.map.info.facesUrl
+                .replace("{from}", this.firstFace.toString())
+                .replace("{count}", this.numFaces.toString());
+            var geom = this.geometry;
+            $.getJSON(url, function (data) {
+                // TODO
+                _this.setDrawMode(THREE.TriangleFanDrawMode);
+                geom.addAttribute("position", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.vertices), 3));
+                geom.addAttribute("normal", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.normals), 3, true));
+                geom.setIndex(new THREE.BufferAttribute(SourceUtils.Utils.decompressUint32Array(data.indices), 1));
+                geom.clearGroups();
+                for (var i = 0; i < data.faces.length; ++i) {
+                    var face = data.faces[i];
+                    geom.addGroup(face.offset, face.count);
+                }
+                _this.loadedFaces = true;
+                _this.visible = true;
+            });
+        };
+        return VisLeaf;
+    }(THREE.Mesh));
+    SourceUtils.VisLeaf = VisLeaf;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this) || this;
-            _this.map = map;
-            _this.index = index;
-            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", "0"));
-            return _this;
+            _super.call(this);
+            this.map = map;
+            this.index = index;
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", "0"));
         }
         BspModel.prototype.loadInfo = function (url) {
+            var _this = this;
+            $.getJSON(url, function (data) {
+                _this.info = data;
+                _this.loadTree();
+            });
+        };
+        BspModel.prototype.loadTree = function () {
+            this.leaves = [];
+            this.root = new VisNode(this, SourceUtils.Utils.decompress(this.info.tree));
+            this.root.getAllLeaves(this.leaves);
+            for (var i = 0; i < this.leaves.length; ++i) {
+                if (this.leaves[i].hasFaces()) {
+                    this.leaves[i].loadFaces();
+                    this.add(this.leaves[i]);
+                }
+            }
         };
         return BspModel;
     }(SourceUtils.Entity));
@@ -356,9 +474,8 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(url) {
-            var _this = _super.call(this) || this;
-            _this.loadInfo(url);
-            return _this;
+            _super.call(this);
+            this.loadInfo(url);
         }
         Map.prototype.loadInfo = function (url) {
             var _this = this;
@@ -378,11 +495,17 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            _super.call(this);
+            this.lookAngs = new THREE.Vector2();
+            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            this.unitZ = new THREE.Vector3(0, 0, 1);
+            this.unitX = new THREE.Vector3(1, 0, 0);
+            this.tempQuat = new THREE.Quaternion();
+            this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
-            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 2048);
-            this.camera.up = new THREE.Vector3(0, 0, 1);
+            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 4096);
+            this.camera.up.set(0, 0, 1);
             _super.prototype.init.call(this, container);
             var ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
             this.getScene().add(ambient);
@@ -396,6 +519,35 @@ var SourceUtils;
             }
             this.map = new SourceUtils.Map(url);
             this.getScene().add(this.map);
+        };
+        MapViewer.prototype.onMouseLook = function (delta) {
+            _super.prototype.onMouseLook.call(this, delta);
+            this.lookAngs.sub(delta.multiplyScalar(1 / 800));
+            if (this.lookAngs.y < -Math.PI * 0.5)
+                this.lookAngs.y = -Math.PI * 0.5;
+            if (this.lookAngs.y > Math.PI * 0.5)
+                this.lookAngs.y = Math.PI * 0.5;
+            this.lookQuat.setFromAxisAngle(this.unitZ, this.lookAngs.x);
+            this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
+            this.lookQuat.multiply(this.tempQuat);
+            this.camera.rotation.setFromQuaternion(this.lookQuat);
+        };
+        MapViewer.prototype.onUpdateFrame = function (dt) {
+            _super.prototype.onUpdateFrame.call(this, dt);
+            var move = new THREE.Vector3();
+            var moveSpeed = 512 * dt;
+            if (this.isKeyDown(SourceUtils.Key.W))
+                move.z -= moveSpeed;
+            if (this.isKeyDown(SourceUtils.Key.S))
+                move.z += moveSpeed;
+            if (this.isKeyDown(SourceUtils.Key.A))
+                move.x -= moveSpeed;
+            if (this.isKeyDown(SourceUtils.Key.D))
+                move.x += moveSpeed;
+            if (move.lengthSq() > 0) {
+                move.applyEuler(this.camera.rotation);
+                this.camera.position.add(move);
+            }
         };
         return MapViewer;
     }(SourceUtils.AppBase));
@@ -458,11 +610,10 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.cameraAngle = 0;
-            _this.hullSize = new THREE.Vector3();
-            _this.hullCenter = new THREE.Vector3();
-            return _this;
+            _super.apply(this, arguments);
+            this.cameraAngle = 0;
+            this.hullSize = new THREE.Vector3();
+            this.hullCenter = new THREE.Vector3();
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -495,7 +646,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function (i) {
+            var _loop_1 = function(i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -509,7 +660,7 @@ var SourceUtils;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function (i) {
+                var _loop_2 = function(i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -529,7 +680,7 @@ var SourceUtils;
             if (shader == null)
                 return;
             var mat = new THREE[shader.material]();
-            var _loop_3 = function (i) {
+            var _loop_3 = function(i) {
                 var prop = shader.properties[i];
                 switch (prop.type) {
                     case PropertyType.Texture:
