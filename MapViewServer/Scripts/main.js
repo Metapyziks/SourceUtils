@@ -59,6 +59,12 @@ var SourceUtils;
             return Face;
         }());
         Api.Face = Face;
+        var FacesRange = (function () {
+            function FacesRange() {
+            }
+            return FacesRange;
+        }());
+        Api.FacesRange = FacesRange;
         var BspFacesResponse = (function () {
             function BspFacesResponse() {
             }
@@ -375,61 +381,87 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var FaceLoaderTask = (function () {
-        function FaceLoaderTask(first, count, target) {
-            this.first = first;
+        function FaceLoaderTask(from, count, target) {
+            this.from = from;
             this.count = count;
             this.target = target;
         }
+        FaceLoaderTask.prototype.toString = function () {
+            return this.count === 1 ? this.from.toString() : this.from + "." + this.count;
+        };
         return FaceLoaderTask;
     }());
     var FaceLoader = (function () {
         function FaceLoader(map) {
             this.queue = [];
             this.active = [];
-            this.maxConcurrentRequests = 4;
+            this.maxConcurrentRequests = 2;
+            this.idealFacesPerRequest = 512;
             this.map = map;
         }
         FaceLoader.prototype.loadFaces = function (first, count, target) {
             this.queue.push(new FaceLoaderTask(first, count, target));
             this.update();
         };
+        FaceLoader.prototype.getNextTask = function () {
+            var bestScore = Number.POSITIVE_INFINITY;
+            var bestIndex = -1;
+            for (var i = 0; i < this.queue.length; ++i) {
+                var task = this.queue[i];
+                var score = task.target.faceLoadPriority();
+                if (bestIndex > -1 && score >= bestScore)
+                    continue;
+                bestScore = score;
+                bestIndex = i;
+            }
+            if (bestIndex === -1)
+                return null;
+            var result = this.queue[bestIndex];
+            this.queue.splice(bestIndex, 1);
+            return result;
+        };
         FaceLoader.prototype.update = function () {
             var _this = this;
-            var _loop_1 = function () {
-                var bestScore = Number.POSITIVE_INFINITY;
-                var bestIndex = -1;
-                for (var i = 0; i < this_1.queue.length; ++i) {
-                    var task = this_1.queue[i];
-                    var score = task.target.faceLoadPriority();
-                    if (bestIndex > -1 && score >= bestScore)
-                        continue;
-                    bestScore = score;
-                    bestIndex = i;
-                }
-                if (bestIndex === -1)
-                    return { value: void 0 };
-                var next = this_1.queue[bestIndex];
-                this_1.queue.splice(bestIndex, 1);
-                this_1.active.push(next);
-                var url = this_1.map.info.facesUrl
-                    .replace("{from}", next.first.toString())
-                    .replace("{count}", next.count.toString());
-                $.getJSON(url, function (data) {
-                    next.target.onLoadFaces(data);
-                }).fail(function () {
-                    console.log("Failed to load faces " + next.first + "-" + (next.first + next.count));
-                }).always(function () {
-                    var index = _this.active.indexOf(next);
-                    _this.active.splice(index, 1);
-                    _this.update();
-                });
-            };
-            var this_1 = this;
-            while (this.queue.length > 0 && this.active.length < this.maxConcurrentRequests) {
-                var state_1 = _loop_1();
-                if (typeof state_1 === "object")
-                    return state_1.value;
+            if (this.queue.length <= 0 || this.active.length >= this.maxConcurrentRequests)
+                return;
+            var ranges = "";
+            var totalFaces = 0;
+            var tasks = [];
+            while (totalFaces < this.idealFacesPerRequest && this.queue.length > 0 && ranges.length < 1536) {
+                var next = this.getNextTask();
+                if (next == null)
+                    break;
+                if (ranges.length > 0)
+                    ranges += "+";
+                ranges += next.toString();
+                totalFaces += next.count;
+                tasks.push(next);
             }
+            if (tasks.length === 0)
+                return;
+            this.active.push(tasks);
+            var url = this.map.info.facesUrl
+                .replace("{ranges}", ranges);
+            $.getJSON(url, function (data) {
+                for (var i = 0; i < data.ranges.length; ++i) {
+                    var range = data.ranges[i];
+                    for (var j = 0; j < tasks.length; ++j) {
+                        var task = tasks[j];
+                        if (task.from === range.from && task.count === range.count) {
+                            task.target.onLoadFaces(range);
+                            tasks.splice(j, 1);
+                            break;
+                        }
+                    }
+                }
+            }).fail(function () {
+                var rangesStr = ranges.replace("+", ", ");
+                console.log("Failed to load faces [" + rangesStr + "].");
+            }).always(function () {
+                var index = _this.active.indexOf(tasks);
+                _this.active.splice(index, 1);
+                _this.update();
+            });
         };
         return FaceLoader;
     }());
@@ -828,11 +860,11 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_2 = function (i) {
+            var _loop_1 = function (i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
-                _loop_2(i);
+                _loop_1(i);
             }
             $.getJSON(mdl.vertices.replace("{lod}", "0"), function (vvd, status) { return _this.onLoadVvd(vvd, status); });
             $.getJSON(mdl.triangles.replace("{lod}", "0"), function (vtx, status) { return _this.onLoadVtx(vtx, status); });
@@ -842,7 +874,7 @@ var SourceUtils;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_3 = function (i) {
+                var _loop_2 = function (i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -853,7 +885,7 @@ var SourceUtils;
                     });
                 };
                 for (var i = minMipMap; i >= 0; --i) {
-                    _loop_3(i);
+                    _loop_2(i);
                 }
             });
         };
@@ -862,11 +894,11 @@ var SourceUtils;
             if (shader == null)
                 return;
             var mat = new THREE[shader.material]();
-            var _loop_4 = function (i) {
+            var _loop_3 = function (i) {
                 var prop = shader.properties[i];
                 switch (prop.type) {
                     case PropertyType.Texture:
-                        this_2.loadVtf(prop.value, function (tex) {
+                        this_1.loadVtf(prop.value, function (tex) {
                             mat[prop.name] = tex;
                             mat.needsUpdate = true;
                         });
@@ -876,9 +908,9 @@ var SourceUtils;
                         break;
                 }
             };
-            var this_2 = this;
+            var this_1 = this;
             for (var i = 0; i < shader.properties.length; ++i) {
-                _loop_4(i);
+                _loop_3(i);
             }
             var hasMultiMat = this.mesh.material.materials != null;
             if (!hasMultiMat) {

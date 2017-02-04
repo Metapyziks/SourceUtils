@@ -59,11 +59,19 @@
             count: number;
         }
 
-        export class BspFacesResponse {
+        export class FacesRange
+        {
+            from: number;
+            count: number;
             faces: Face[];
             vertices: string | number[];
             normals: string | number[];
             indices: string | number[];
+        }
+
+        export class BspFacesResponse
+        {
+            ranges: FacesRange[];
         }
 
         export class BspVisibilityResponse {

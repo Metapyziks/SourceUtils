@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
@@ -221,7 +223,7 @@ namespace MapViewServer
             return false;
         }
 
-        [Get( "/{mapName}" ), ApiVersion( 0x0001 )]
+        [Get( "/{mapName}" ), ApiVersion( 0x0002 )]
         public JToken GetIndex( [Url] string mapName )
         {
             using ( var bsp = OpenBspFile( mapName ) )
@@ -269,32 +271,65 @@ namespace MapViewServer
             };
         }
 
-        [Get( "/{mapName}/faces" ), ApiVersion( 0x0002 )]
-        public JToken GetFaces( [Url] string mapName, int from, int count = 1 )
+        private static readonly Regex _sRangesRegex = new Regex( @"^(?<range>[0-9]+(\.[0-9]+)?)(\s+(?<range>[0-9]+(\.[0-9]+)?))*$" );
+
+        [Get( "/{mapName}/faces" ), ApiVersion( 0x0003 )]
+        public JToken GetFaces( [Url] string mapName, string ranges )
         {
             if ( CheckNotExpired( mapName ) ) return null;
 
-            var response = new JObject();
+            var match = _sRangesRegex.Match( ranges );
+            if ( !match.Success ) throw BadParameterException( nameof( ranges ) );
+
+            var rangesArray = new JArray();
             var vertArray = new VertexArray();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
-                var faceArr = new JArray();
-
-                for ( var i = from; i < from + count; ++i )
+                foreach ( var range in match.Groups["range"].Captures
+                    .Cast<Capture>()
+                    .Select( x => x.Value ))
                 {
-                    var index = bsp.LeafFaces[i];
-                    var face = SerializeFace( bsp, index, vertArray );
-                    if ( face != null ) faceArr.Add( face );
-                }
+                    int from, count;
+                    var split = range.IndexOf( '.' );
+                    if ( split != -1 )
+                    {
+                        from = int.Parse( range.Substring( 0, split ) );
+                        count = int.Parse( range.Substring( split + 1 ) );
+                    }
+                    else
+                    {
+                        from = int.Parse( range );
+                        count = 1;
+                    }
 
-                response.Add( "faces", faceArr );
-                response.Add( "vertices", vertArray.GetVertices( this ) );
-                response.Add( "normals", vertArray.GetNormals( this ) );
-                response.Add( "indices", vertArray.GetIndices( this ) );
+                    vertArray.Clear();
+
+                    var faceArr = new JArray();
+
+                    for ( var i = from; i < from + count; ++i )
+                    {
+                        var index = bsp.LeafFaces[i];
+                        var face = SerializeFace( bsp, index, vertArray );
+                        if ( face != null ) faceArr.Add( face );
+                    }
+
+                    rangesArray.Add( new JObject
+                    {
+                        {"from", from},
+                        {"count", count},
+                        {"faces", faceArr},
+                        {"vertices", vertArray.GetVertices( this )},
+                        {"normals", vertArray.GetNormals( this )},
+                        {"indices", vertArray.GetIndices( this )}
+                    } );
+                }
             }
 
-            return response;
+            return new JObject
+            {
+                {"ranges", rangesArray}
+            };
         }
 
         [Get( "/{mapName}/model" ), ApiVersion( 0x0001 )]

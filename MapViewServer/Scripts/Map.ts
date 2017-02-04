@@ -109,7 +109,7 @@ namespace SourceUtils {
             return VisLeaf.rootCenter.lengthSq();
         }
 
-        onLoadFaces(data: Api.BspFacesResponse): void {
+        onLoadFaces(data: Api.FacesRange): void {
             // TODO
             this.setDrawMode(THREE.TriangleFanDrawMode);
 

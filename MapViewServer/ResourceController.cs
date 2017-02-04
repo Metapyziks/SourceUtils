@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Web;
@@ -139,6 +140,12 @@ namespace MapViewServer
             var info = new FileInfo( path );
             var versHash = GetFileVersionHash( info.LastWriteTimeUtc );
             return $"/{fileName}?v={versHash}";
+        }
+
+        protected ControllerActionException BadParameterException( string paramName )
+        {
+            throw new ControllerActionException( Request, true, HttpStatusCode.BadRequest,
+                $"Invalid value for '{paramName}'." );
         }
 
         protected bool Compressed
