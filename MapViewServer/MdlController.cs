@@ -33,17 +33,17 @@ namespace MapViewServer
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js" ),
-                new script( src => "/main.js" ),
+                new script( src => GetScriptUrl( "main.js" ) ),
                 new script
                 {
                     $@"
-                var main = new SourceUtils.ModelViewer();
-                window.onload = function () {{
-                    main.init($(""#{elemId}""));
-                    main.loadModel(""{GetUrl( Request, FilePath )}"");
-                    main.animate();
-                }}
-                "
+                    var main = new SourceUtils.ModelViewer();
+                    window.onload = function () {{
+                        main.init($(""#{elemId}""));
+                        main.loadModel(""{GetUrl( Request, FilePath )}"");
+                        main.animate();
+                    }}
+                    "
                 },
                 new div( id => elemId, style => "height: 720px" ),
                 new code( style => "display: block; white-space: pre-wrap" )

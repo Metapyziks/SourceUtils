@@ -269,7 +269,7 @@ namespace MapViewServer
             };
         }
 
-        [Get( "/{mapName}/faces" ), ApiVersion( 0x0001 )]
+        [Get( "/{mapName}/faces" ), ApiVersion( 0x0002 )]
         public JToken GetFaces( [Url] string mapName, int from, int count = 1 )
         {
             if ( CheckNotExpired( mapName ) ) return null;
@@ -283,7 +283,8 @@ namespace MapViewServer
 
                 for ( var i = from; i < from + count; ++i )
                 {
-                    var face = SerializeFace( bsp, i, vertArray );
+                    var index = bsp.LeafFaces[i];
+                    var face = SerializeFace( bsp, index, vertArray );
                     if ( face != null ) faceArr.Add( face );
                 }
 

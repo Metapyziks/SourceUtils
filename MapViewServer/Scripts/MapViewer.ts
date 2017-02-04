@@ -14,7 +14,7 @@ namespace SourceUtils {
         }
 
         init(container: JQuery): void {
-            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 4096);
+            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
             this.camera.up.set(0, 0, 1);
 
             super.init(container);
@@ -25,6 +25,8 @@ namespace SourceUtils {
             const directional = new THREE.DirectionalLight(0xFDF4D9);
             directional.position.set(3, -5, 7);
             this.getScene().add(directional);
+
+            this.updateCameraAngles();
         }
 
         loadMap(url: string): void {
@@ -40,11 +42,7 @@ namespace SourceUtils {
         private unitX = new THREE.Vector3(1, 0, 0);
         private tempQuat = new THREE.Quaternion();
 
-        protected onMouseLook(delta: THREE.Vector2): void {
-            super.onMouseLook(delta);
-
-            this.lookAngs.sub(delta.multiplyScalar(1 / 800));
-
+        private updateCameraAngles(): void {
             if (this.lookAngs.y < -Math.PI * 0.5) this.lookAngs.y = -Math.PI * 0.5;
             if (this.lookAngs.y > Math.PI * 0.5) this.lookAngs.y = Math.PI * 0.5;
 
@@ -53,6 +51,13 @@ namespace SourceUtils {
             this.lookQuat.multiply(this.tempQuat);
 
             this.camera.rotation.setFromQuaternion(this.lookQuat);
+        }
+
+        protected onMouseLook(delta: THREE.Vector2): void {
+            super.onMouseLook(delta);
+
+            this.lookAngs.sub(delta.multiplyScalar(1 / 800));
+            this.updateCameraAngles();
         }
 
         protected onUpdateFrame(dt: number): void {
@@ -70,6 +75,8 @@ namespace SourceUtils {
                 move.applyEuler(this.camera.rotation);
                 this.camera.position.add(move);
             }
+
+            this.map.updatePvs(this.camera.position);
         }
     }
 }

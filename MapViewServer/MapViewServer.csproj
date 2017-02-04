@@ -98,6 +98,7 @@
     <TypeScriptCompile Include="Scripts\Api.ts" />
     <TypeScriptCompile Include="Scripts\AppBase.ts" />
     <TypeScriptCompile Include="Scripts\Entity.ts" />
+    <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />
     <TypeScriptCompile Include="Scripts\MapViewer.ts" />
     <TypeScriptCompile Include="Scripts\ModelViewer.ts" />

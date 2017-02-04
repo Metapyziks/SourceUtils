@@ -65,5 +65,10 @@
             normals: string | number[];
             indices: string | number[];
         }
+
+        export class BspVisibilityResponse {
+            index: number;
+            pvs: string | number[];
+        }
     }
 }

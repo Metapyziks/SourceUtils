@@ -55,6 +55,9 @@ namespace SourceUtils
 
         [BspLump(LumpType.SURFEDGES)]
         public ArrayLump<int> SurfEdges { get; private set; }
+        
+        [BspLump(LumpType.LEAFFACES)]
+        public ArrayLump<ushort> LeafFaces { get; private set; }
 
         [BspLump(LumpType.FACES)]
         public ArrayLump<Face> Faces { get; private set; }

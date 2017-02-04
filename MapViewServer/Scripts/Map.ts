@@ -43,7 +43,7 @@ namespace SourceUtils {
         }
     }
 
-    export class VisLeaf extends THREE.Mesh implements IVisElem {
+    export class VisLeaf extends THREE.Mesh implements IVisElem, IFaceLoadTarget {
         isLeaf = true;
         bounds: THREE.Box3;
 
@@ -53,9 +53,12 @@ namespace SourceUtils {
         private firstFace: number;
         private numFaces: number;
         private loadedFaces = false;
+        private inPvs = false;
 
         constructor(model: BspModel, info: Api.BspLeaf) {
             super(new THREE.BufferGeometry(), new THREE.MultiMaterial([new THREE.MeshPhongMaterial({side: THREE.BackSide})]));
+
+            this.frustumCulled = false;
 
             const min = info.min;
             const max = info.max;
@@ -66,7 +69,6 @@ namespace SourceUtils {
             this.firstFace = info.firstFace;
 
             this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
-            this.visible = false;
         }
 
         hasFaces(): boolean { return this.numFaces > 0; }
@@ -75,35 +77,66 @@ namespace SourceUtils {
             dstArray.push(this);
         }
 
-        loadFaces(): void {
-            if (!this.hasFaces() || this.loadedFaces) return;
+        setInPvs(value: boolean): void {
+            if (this.inPvs === value) return;
+            if (!this.hasFaces()) return;
 
-            const url = this.model.map.info.facesUrl
-                .replace("{from}", this.firstFace.toString())
-                .replace("{count}", this.numFaces.toString());
+            if (!value) {
+                this.inPvs = false;
+                this.model.remove(this);
+                return;
+            }
+
+            this.inPvs = true;
+            this.model.add(this);
+            this.loadFaces();
+        }
+
+        private static rootCenter = new THREE.Vector3();
+        private static thisCenter = new THREE.Vector3();
+
+        faceLoadPriority(): number {
+            if (!this.inPvs) return Number.POSITIVE_INFINITY;
+
+            const root = this.model.map.getPvsRoot();
+            if (this === root || root == null) return 0;
+
+            root.bounds.getCenter(VisLeaf.rootCenter);
+            this.bounds.getCenter(VisLeaf.thisCenter);
+
+            VisLeaf.rootCenter.sub(VisLeaf.thisCenter);
+
+            return VisLeaf.rootCenter.lengthSq();
+        }
+
+        onLoadFaces(data: Api.BspFacesResponse): void {
+            // TODO
+            this.setDrawMode(THREE.TriangleFanDrawMode);
 
             const geom = this.geometry as THREE.BufferGeometry;
 
-            $.getJSON(url, (data: Api.BspFacesResponse) => {
-                // TODO
-                this.setDrawMode(THREE.TriangleFanDrawMode);
+            geom.addAttribute("position",
+                new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 3));
+            geom.addAttribute("normal",
+                new THREE.BufferAttribute(Utils.decompressFloat32Array(data.normals), 3, true));
+            geom.setIndex(new THREE.BufferAttribute(Utils.decompressUint32Array(data.indices), 1));
 
-                geom.addAttribute("position",
-                    new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 3));
-                geom.addAttribute("normal",
-                    new THREE.BufferAttribute(Utils.decompressFloat32Array(data.normals), 3, true));
-                geom.setIndex(new THREE.BufferAttribute(Utils.decompressUint32Array(data.indices), 1));
+            geom.clearGroups();
 
-                geom.clearGroups();
+            for (let i = 0; i < data.faces.length; ++i)
+            {
+                const face = data.faces[i];
+                geom.addGroup(face.offset, face.count);
+            }
 
-                for (let i = 0; i < data.faces.length; ++i) {
-                    const face = data.faces[i];
-                    geom.addGroup(face.offset, face.count);
-                }
+            geom.boundingBox = this.bounds;
+        }
 
-                this.loadedFaces = true;
-                this.visible = true;
-            });
+        private loadFaces(): void {
+            if (!this.hasFaces() || this.loadedFaces) return;
+
+            this.loadedFaces = true;
+            this.model.map.faceLoader.loadFaces(this.firstFace, this.numFaces, this);
         }
     }
 
@@ -119,6 +152,8 @@ namespace SourceUtils {
         constructor(map: Map, index: number) {
             super();
 
+            this.frustumCulled = false;
+
             this.map = map;
             this.index = index;
 
@@ -129,6 +164,7 @@ namespace SourceUtils {
             $.getJSON(url, (data: Api.BspModelResponse) => {
                 this.info = data;
                 this.loadTree();
+                this.map.onModelLoaded(this);
             });
         }
 
@@ -136,32 +172,125 @@ namespace SourceUtils {
             this.leaves = [];
             this.root = new VisNode(this, Utils.decompress(this.info.tree));
             this.root.getAllLeaves(this.leaves);
+        }
 
-            for (let i = 0; i < this.leaves.length; ++i) {
-                if (this.leaves[i].hasFaces()) {
-                    this.leaves[i].loadFaces();
-                    this.add(this.leaves[i]);
-                }
+        getLeaves(): VisLeaf[] {
+            return this.leaves;
+        }
+
+        findLeaf(pos: THREE.Vector3): VisLeaf {
+            if (this.root == null) return null;
+
+            let elem: IVisElem = this.root;
+
+            while (!elem.isLeaf) {
+                const node = elem as VisNode;
+                const index = node.plane.normal.dot(pos) >= node.plane.constant ? 0 : 1;
+                elem = node.children[index];
             }
+
+            return elem as VisLeaf;
         }
     }
 
     export class Map extends Entity {
         info: Api.BspIndexResponse;
 
-        private models: BspModel[];
+        faceLoader = new FaceLoader(this);
+
+        private models: BspModel[] = [];
+        private clusters: VisLeaf[];
+        private pvsArray: VisLeaf[][];
+
+        private pvsRoot: VisLeaf;
+        private pvs: VisLeaf[] = [];
 
         constructor(url: string) {
             super();
 
+            this.frustumCulled = false;
+
             this.loadInfo(url);
+        }
+
+        getPvsRoot(): VisLeaf {
+            return this.pvsRoot;
+        }
+
+        getWorldSpawn(): BspModel {
+            return this.models.length > 0 ? this.models[0] : null;
         }
 
         private loadInfo(url: string): void {
             $.getJSON(url, (data: Api.BspIndexResponse) => {
                 this.info = data;
                 this.models = new Array<BspModel>(data.numModels);
+                this.clusters = new Array<VisLeaf>(data.numClusters);
+                this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
                 this.add(this.models[0] = new BspModel(this, 0));
+            });
+        }
+
+        onModelLoaded(model: BspModel): void {
+            if (model !== this.getWorldSpawn()) return;
+
+            const leaves = model.getLeaves();
+            for (let i = 0; i < leaves.length; ++i) {
+                const leaf = leaves[i];
+                if (leaf.cluster === -1) continue;
+                this.clusters[leaf.cluster] = leaf;
+            }
+        }
+
+        private replacePvs(pvs: VisLeaf[]): void {
+            for (let i = this.pvs.length - 1; i >= 0; --i) {
+                this.pvs[i].setInPvs(false);
+            }
+
+            this.pvs = [];
+
+            for (let i = pvs.length - 1; i >= 0; --i) {
+                pvs[i].setInPvs(true);
+                this.pvs.push(pvs[i]);
+            }
+
+            this.faceLoader.update();
+        }
+
+        updatePvs(position: THREE.Vector3): void {
+            const worldSpawn = this.getWorldSpawn();
+            if (worldSpawn == null) return;
+
+            const root = worldSpawn.findLeaf(position);
+            if (root === this.pvsRoot) return;
+
+            this.pvsRoot = root;
+            if (root == null || root.cluster === -1) return;
+
+            const pvs = this.pvsArray[root.cluster];
+            if (pvs !== null && pvs !== undefined) {
+                if (pvs.length > 0) this.replacePvs(pvs);
+                return;
+            }
+
+            this.loadPvsArray(root.cluster);
+        }
+
+        private loadPvsArray(cluster: number): void {
+            const pvs = this.pvsArray[cluster] = [];
+
+            const url = this.info.visibilityUrl.replace("{index}", cluster.toString());
+            $.getJSON(url, (data: Api.BspVisibilityResponse) => {
+                const indices = Utils.decompress(data.pvs);
+
+                for (let i = 0; i < indices.length; ++i) {
+                    const leaf = this.clusters[indices[i]];
+                    if (leaf !== undefined) pvs.push(leaf);
+                }
+
+                if (this.pvsRoot != null && this.pvsRoot.cluster === cluster) {
+                    this.replacePvs(pvs);
+                }
             });
         }
     }
