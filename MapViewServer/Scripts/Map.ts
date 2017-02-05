@@ -43,22 +43,22 @@ namespace SourceUtils {
         }
     }
 
-    export class VisLeafFace {
+    export class VisLeafElement {
         mode: number;
         offset: number;
         count: number;
         materialIndex: number;
 
-        constructor(face: Api.Face)
+        constructor(face: Api.Element)
         {
             switch (face.type) {
-            case Api.FaceType.TriangleList:
+            case Api.PrimitiveType.TriangleList:
                 this.mode = WebGLRenderingContext.TRIANGLES;
                 break;
-            case Api.FaceType.TriangleFan:
+            case Api.PrimitiveType.TriangleFan:
                 this.mode = WebGLRenderingContext.TRIANGLE_FAN;
                 break;
-            case Api.FaceType.TriangleStrip:
+            case Api.PrimitiveType.TriangleStrip:
                 this.mode = WebGLRenderingContext.TRIANGLE_STRIP;
                 break;
             default:
@@ -86,11 +86,10 @@ namespace SourceUtils {
         private loadedFaces = false;
         private inPvs = false;
 
-        private positions: THREE.BufferAttribute;
-        private normals: THREE.BufferAttribute;
+        private vertices: THREE.BufferAttribute;
         private indices: THREE.BufferAttribute;
         private buffers: { [key: string]:WebGLBuffer } = {};
-        private faces: VisLeafFace[];
+        private elements: VisLeafElement[];
 
         private needsUpdate: boolean;
 
@@ -143,43 +142,39 @@ namespace SourceUtils {
         }
 
         onLoadFaces(data: Api.FacesRange): void {
-            this.positions = new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 3);
-            this.normals = new THREE.BufferAttribute(Utils.decompressFloat32Array(data.normals), 3, true);
+            this.vertices = new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 6);
             this.indices = new THREE.BufferAttribute(Utils.decompressUint16Array(data.indices), 1);
 
-            this.faces = [];
+            this.elements = [];
 
-            for (let i = 0; i < data.faces.length; ++i)
+            for (let i = 0; i < data.elements.length; ++i)
             {
-                this.faces.push(new VisLeafFace(data.faces[i]));
+                this.elements.push(new VisLeafElement(data.elements[i]));
             }
 
             this.needsUpdate = true;
         }
 
         render(gl: WebGLRenderingContext, attribs: any): void {
-            if (this.faces == null) return;
+            if (this.elements == null) return;
 
             if (this.needsUpdate) this.updateBuffers(gl);
 
             const positionAttrib = attribs["position"];
             const normalAttrib = attribs["normal"];
 
-            const positionBuffer = this.getGlBuffer(this.positions);
-            const normalBuffer = this.getGlBuffer(this.normals);
+            const verticesBuffer = this.getGlBuffer(this.vertices);
             const indicesBuffer = this.getGlBuffer(this.indices);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 0, 0);
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
+            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 6 * 4, 0);
+            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 6 * 4, 3 * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
 
-            for (let i = 0, faceCount = this.faces.length; i < faceCount; ++i) {
-                const face = this.faces[i];
-                gl.drawElements(face.mode, face.count, gl.UNSIGNED_SHORT, face.offset * 2);
+            for (let i = 0, count = this.elements.length; i < count; ++i) {
+                const element = this.elements[i];
+                gl.drawElements(element.mode, element.count, gl.UNSIGNED_SHORT, element.offset * 2);
             }
         }
 
@@ -201,8 +196,7 @@ namespace SourceUtils {
         private updateBuffers(gl: WebGLRenderingContext) {
             this.needsUpdate = false;
 
-            this.updateBuffer(gl, this.positions, gl.ARRAY_BUFFER);
-            this.updateBuffer(gl, this.normals, gl.ARRAY_BUFFER);
+            this.updateBuffer(gl, this.vertices, gl.ARRAY_BUFFER);
             this.updateBuffer(gl, this.indices, gl.ELEMENT_ARRAY_BUFFER);
         }
 
@@ -224,7 +218,7 @@ namespace SourceUtils {
         private root: VisNode;
 
         constructor(map: Map, index: number) {
-            super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({side: THREE.BackSide}));
+            super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial());
 
             this.frustumCulled = false;
 

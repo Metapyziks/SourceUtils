@@ -53,14 +53,14 @@
             numFaces: number;
         }
 
-        export enum FaceType {
+        export enum PrimitiveType {
             TriangleList,
             TriangleStrip,
             TriangleFan
         }
 
-        export class Face {
-            type: FaceType;
+        export class Element {
+            type: PrimitiveType;
             offset: number;
             count: number;
         }
@@ -69,9 +69,8 @@
         {
             from: number;
             count: number;
-            faces: Face[];
+            elements: Elements[];
             vertices: string | number[];
-            normals: string | number[];
             indices: string | number[];
         }
 

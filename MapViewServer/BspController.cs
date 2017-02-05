@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -19,7 +20,7 @@ namespace MapViewServer
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
-        private const uint MajorVersion = 0x0100;
+        private const uint ApiVersion = 0x0204;
 
         protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
@@ -93,7 +94,7 @@ namespace MapViewServer
 
         public class VertexArray
         {
-            private struct Vertex : IEquatable<Vertex>
+            private struct Vertex : IEquatable<Vertex>, IEnumerable<float>
             {
                 public readonly Vector3 Position;
                 public readonly Vector3 Normal;
@@ -119,22 +120,34 @@ namespace MapViewServer
                 {
                     return Position.GetHashCode();
                 }
+
+                IEnumerator IEnumerable.GetEnumerator()
+                {
+                    return GetEnumerator();
+                }
+
+                public IEnumerator<float> GetEnumerator()
+                {
+                    yield return Position.X;
+                    yield return Position.Y;
+                    yield return Position.Z;
+                    
+                    yield return Normal.X;
+                    yield return Normal.Y;
+                    yield return Normal.Z;
+                }
             }
 
-            private readonly List<Vertex> _vertices = new List<Vertex>();
+            private readonly List<float> _vertices = new List<float>();
             private readonly List<int> _indices = new List<int>();
             private readonly Dictionary<Vertex, int> _indexMap = new Dictionary<Vertex, int>();
+            
+            private int _vertexCount;
+            private bool _newPrimitive;
 
             public JToken GetVertices( BspController controller )
             {
-                return controller.SerializeArray( _vertices,
-                    vertex => $"{vertex.Position.X},{vertex.Position.Y},{vertex.Position.Z}" );
-            }
-
-            public JToken GetNormals( BspController controller )
-            {
-                return controller.SerializeArray( _vertices,
-                    vertex => $"{-vertex.Normal.X},{-vertex.Normal.Y},{-vertex.Normal.Z}" );
+                return controller.SerializeArray( _vertices );
             }
 
             public JToken GetIndices( BspController controller )
@@ -147,6 +160,8 @@ namespace MapViewServer
                 _vertices.Clear();
                 _indices.Clear();
                 _indexMap.Clear();
+
+                _vertexCount = 0;
             }
 
             public int IndexCount => _indices.Count;
@@ -158,23 +173,36 @@ namespace MapViewServer
                 int index;
                 if ( !_indexMap.TryGetValue( vertex, out index ) )
                 {
-                    index = _vertices.Count;
-                    _vertices.Add( vertex );
+                    index = _vertexCount++;
+                    _vertices.AddRange( vertex );
                     _indexMap.Add( vertex, index );
                 }
 
                 _indices.Add( index );
+
+                if ( _newPrimitive )
+                {
+                    _indices.Add( index );
+                    _newPrimitive = false;
+                }
+            }
+
+            public void NewPrimitive()
+            {
+                if ( _indices.Count == 0 ) return;
+                _indices.Add( _indices[_indices.Count - 1] );
+                _newPrimitive = true;
             }
         }
 
-        public enum FaceType
+        public enum PrimitiveType
         {
             TriangleList,
             TriangleStrip,
             TriangleFan
         }
 
-        public static JToken SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
+        private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
             const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.SKIP | SurfFlags.SKY | SurfFlags.SKY2D | SurfFlags.HINT | SurfFlags.TRIGGER;
 
@@ -182,26 +210,23 @@ namespace MapViewServer
             var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
 
-            if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return null;
+            if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
 
-            var offset = verts.IndexCount;
-
-            for ( var surfIndex = face.FirstEdge; surfIndex < face.FirstEdge + face.NumEdges; ++surfIndex )
+            if ( face.NumEdges > 0 )
             {
-                var surfEdge = bsp.SurfEdges[surfIndex];
-                var edgeIndex = Math.Abs( surfEdge );
-                var edge = bsp.Edges[edgeIndex];
-                var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
+                verts.NewPrimitive();
 
-                verts.Add( vert, plane.Normal );
+                for ( var i = 0; i < face.NumEdges; ++i )
+                {
+                    var surfIndex = (i & 1) == 0 ? i >> 1 : face.NumEdges - (i >> 1) - 1;
+                    var surfEdge = bsp.SurfEdges[face.FirstEdge + surfIndex];
+                    var edgeIndex = Math.Abs( surfEdge );
+                    var edge = bsp.Edges[edgeIndex];
+                    var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
+
+                    verts.Add( vert, plane.Normal );
+                }
             }
-
-            return new JObject
-            {
-                { "type", (int) FaceType.TriangleFan },
-                { "offset", offset },
-                { "count", verts.IndexCount - offset }
-            };
         }
 
         private bool CheckNotExpired( string mapName )
@@ -225,7 +250,7 @@ namespace MapViewServer
             return false;
         }
 
-        [Get( "/{mapName}" ), ApiVersion( MajorVersion | 0x01 )]
+        [Get( "/{mapName}" ), ApiVersion(ApiVersion)]
         public JToken GetIndex( [Url] string mapName )
         {
             using ( var bsp = OpenBspFile( mapName ) )
@@ -242,7 +267,7 @@ namespace MapViewServer
             }
         }
 
-        [Get( "/{mapName}/view" ), ApiVersion( MajorVersion | 0x01 )]
+        [Get( "/{mapName}/view" ), ApiVersion(ApiVersion)]
         public HtmlElement GetViewer( [Url] string mapName )
         {
             const string elemId = "map-view";
@@ -275,7 +300,7 @@ namespace MapViewServer
 
         private static readonly Regex _sRangesRegex = new Regex( @"^(?<range>[0-9]+(\.[0-9]+)?)(\s+(?<range>[0-9]+(\.[0-9]+)?))*$" );
 
-        [Get( "/{mapName}/faces" ), ApiVersion( MajorVersion | 0x03 )]
+        [Get( "/{mapName}/faces" ), ApiVersion(ApiVersion)]
         public JToken GetFaces( [Url] string mapName, string ranges )
         {
             if ( CheckNotExpired( mapName ) ) return null;
@@ -307,22 +332,27 @@ namespace MapViewServer
 
                     vertArray.Clear();
 
-                    var faceArr = new JArray();
+                    var elementsArray = new JArray();
 
                     for ( var i = from; i < from + count; ++i )
                     {
                         var index = bsp.LeafFaces[i];
-                        var face = SerializeFace( bsp, index, vertArray );
-                        if ( face != null ) faceArr.Add( face );
+                        SerializeFace( bsp, index, vertArray );
                     }
+
+                    elementsArray.Add( new JObject
+                    {
+                        { "type", (int) PrimitiveType.TriangleStrip },
+                        { "offset", 0 },
+                        { "count", vertArray.IndexCount }
+                    } );
 
                     rangesArray.Add( new JObject
                     {
                         {"from", from},
                         {"count", count},
-                        {"faces", faceArr},
+                        {"elements", elementsArray},
                         {"vertices", vertArray.GetVertices( this )},
-                        {"normals", vertArray.GetNormals( this )},
                         {"indices", vertArray.GetIndices( this )}
                     } );
                 }
@@ -334,7 +364,7 @@ namespace MapViewServer
             };
         }
 
-        [Get( "/{mapName}/model" ), ApiVersion( MajorVersion | 0x01 )]
+        [Get( "/{mapName}/model" ), ApiVersion(ApiVersion)]
         public JToken GetModels( [Url] string mapName, int index )
         {
             if ( CheckNotExpired( mapName ) ) return null;
@@ -356,7 +386,7 @@ namespace MapViewServer
             return response;
         }
 
-        [Get( "/{mapName}/visibility" ), ApiVersion( MajorVersion | 0x01 )]
+        [Get( "/{mapName}/visibility" ), ApiVersion(ApiVersion)]
         public JToken GetVisibility( [Url] string mapName, int index )
         {
             if ( CheckNotExpired( mapName ) ) return null;

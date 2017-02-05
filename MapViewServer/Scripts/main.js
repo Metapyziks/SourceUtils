@@ -53,18 +53,18 @@ var SourceUtils;
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
-        var FaceType;
-        (function (FaceType) {
-            FaceType[FaceType["TriangleList"] = 0] = "TriangleList";
-            FaceType[FaceType["TriangleStrip"] = 1] = "TriangleStrip";
-            FaceType[FaceType["TriangleFan"] = 2] = "TriangleFan";
-        })(FaceType = Api.FaceType || (Api.FaceType = {}));
-        var Face = (function () {
-            function Face() {
+        var PrimitiveType;
+        (function (PrimitiveType) {
+            PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
+            PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
+            PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
+        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
+        var Element = (function () {
+            function Element() {
             }
-            return Face;
+            return Element;
         }());
-        Api.Face = Face;
+        Api.Element = Element;
         var FacesRange = (function () {
             function FacesRange() {
             }
@@ -507,16 +507,16 @@ var SourceUtils;
         return VisNode;
     }());
     SourceUtils.VisNode = VisNode;
-    var VisLeafFace = (function () {
-        function VisLeafFace(face) {
+    var VisLeafElement = (function () {
+        function VisLeafElement(face) {
             switch (face.type) {
-                case SourceUtils.Api.FaceType.TriangleList:
+                case SourceUtils.Api.PrimitiveType.TriangleList:
                     this.mode = WebGLRenderingContext.TRIANGLES;
                     break;
-                case SourceUtils.Api.FaceType.TriangleFan:
+                case SourceUtils.Api.PrimitiveType.TriangleFan:
                     this.mode = WebGLRenderingContext.TRIANGLE_FAN;
                     break;
-                case SourceUtils.Api.FaceType.TriangleStrip:
+                case SourceUtils.Api.PrimitiveType.TriangleStrip:
                     this.mode = WebGLRenderingContext.TRIANGLE_STRIP;
                     break;
                 default:
@@ -527,9 +527,9 @@ var SourceUtils;
             this.count = face.count;
             this.materialIndex = 0;
         }
-        return VisLeafFace;
+        return VisLeafElement;
     }());
-    SourceUtils.VisLeafFace = VisLeafFace;
+    SourceUtils.VisLeafElement = VisLeafElement;
     var VisLeaf = (function () {
         function VisLeaf(model, info) {
             this.isLeaf = true;
@@ -572,33 +572,30 @@ var SourceUtils;
             return VisLeaf.rootCenter.lengthSq();
         };
         VisLeaf.prototype.onLoadFaces = function (data) {
-            this.positions = new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.vertices), 3);
-            this.normals = new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.normals), 3, true);
+            this.vertices = new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.vertices), 6);
             this.indices = new THREE.BufferAttribute(SourceUtils.Utils.decompressUint16Array(data.indices), 1);
-            this.faces = [];
-            for (var i = 0; i < data.faces.length; ++i) {
-                this.faces.push(new VisLeafFace(data.faces[i]));
+            this.elements = [];
+            for (var i = 0; i < data.elements.length; ++i) {
+                this.elements.push(new VisLeafElement(data.elements[i]));
             }
             this.needsUpdate = true;
         };
         VisLeaf.prototype.render = function (gl, attribs) {
-            if (this.faces == null)
+            if (this.elements == null)
                 return;
             if (this.needsUpdate)
                 this.updateBuffers(gl);
             var positionAttrib = attribs["position"];
             var normalAttrib = attribs["normal"];
-            var positionBuffer = this.getGlBuffer(this.positions);
-            var normalBuffer = this.getGlBuffer(this.normals);
+            var verticesBuffer = this.getGlBuffer(this.vertices);
             var indicesBuffer = this.getGlBuffer(this.indices);
-            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 0, 0);
-            gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
+            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 6 * 4, 0);
+            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 6 * 4, 3 * 4);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
-            for (var i = 0, faceCount = this.faces.length; i < faceCount; ++i) {
-                var face = this.faces[i];
-                gl.drawElements(face.mode, face.count, gl.UNSIGNED_SHORT, face.offset * 2);
+            for (var i = 0, count = this.elements.length; i < count; ++i) {
+                var element = this.elements[i];
+                gl.drawElements(element.mode, element.count, gl.UNSIGNED_SHORT, element.offset * 2);
             }
         };
         VisLeaf.prototype.getGlBuffer = function (buffer) {
@@ -614,8 +611,7 @@ var SourceUtils;
         };
         VisLeaf.prototype.updateBuffers = function (gl) {
             this.needsUpdate = false;
-            this.updateBuffer(gl, this.positions, gl.ARRAY_BUFFER);
-            this.updateBuffer(gl, this.normals, gl.ARRAY_BUFFER);
+            this.updateBuffer(gl, this.vertices, gl.ARRAY_BUFFER);
             this.updateBuffer(gl, this.indices, gl.ELEMENT_ARRAY_BUFFER);
         };
         VisLeaf.prototype.loadFaces = function () {
@@ -632,7 +628,7 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide })) || this;
+            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial()) || this;
             _this.frustumCulled = false;
             _this.map = map;
             _this.index = index;
