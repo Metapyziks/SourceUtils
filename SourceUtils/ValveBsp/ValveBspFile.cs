@@ -77,6 +77,12 @@ namespace SourceUtils
         [BspLump(LumpType.TEXINFO)]
         public ArrayLump<TextureInfo> TextureInfos { get; private set; }
 
+        [BspLump(LumpType.DISPINFO)]
+        public ArrayLump<DispInfo> DisplacementInfos { get; private set; }
+
+        [BspLump(LumpType.DISP_VERTS)]
+        public ArrayLump<DispVert> DisplacementVerts { get; private set; }
+
         private readonly Stream _stream;
         private readonly Header _header;
 

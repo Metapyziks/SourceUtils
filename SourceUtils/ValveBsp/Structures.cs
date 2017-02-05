@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SourceUtils.ValveBsp
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Vector3S
     {
         public short X;
@@ -11,7 +11,7 @@ namespace SourceUtils.ValveBsp
         public short Z;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspModel
     {
         public Vector3 Min;
@@ -22,7 +22,7 @@ namespace SourceUtils.ValveBsp
         public int NumFaces;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspChild
     {
         private readonly int _value;
@@ -31,7 +31,7 @@ namespace SourceUtils.ValveBsp
         public int Index => _value >= 0 ? _value : -(_value + 1);
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspNode
     {
         public int PlaneNum;
@@ -46,7 +46,7 @@ namespace SourceUtils.ValveBsp
         private readonly short _padding;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct AreaFlags
     {
         private readonly short _value;
@@ -55,7 +55,7 @@ namespace SourceUtils.ValveBsp
         public int Flags => _value >> 9;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspLeaf
     {
         public int Contents;
@@ -71,8 +71,8 @@ namespace SourceUtils.ValveBsp
 
         private readonly short _padding;
     }
-    
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Plane
     {
         public Vector3 Normal;
@@ -86,21 +86,20 @@ namespace SourceUtils.ValveBsp
         InFacing = 1
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Edge
     {
         public ushort A;
         public ushort B;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Face
     {
         public ushort PlaneNum;
         public Side Side;
 
-        [MarshalAs(UnmanagedType.U1)]
-        public bool OnNode;
+        [MarshalAs( UnmanagedType.U1 )] public bool OnNode;
 
         public int FirstEdge;
         public short NumEdges;
@@ -119,7 +118,7 @@ namespace SourceUtils.ValveBsp
         public ushort FirstPrimitive;
         public uint SmoothingGroups;
 
-        public byte GetLightStyle(int index)
+        public byte GetLightStyle( int index )
         {
             return (byte) ((_styles >> (index << 3)) & 0xff);
         }
@@ -132,7 +131,7 @@ namespace SourceUtils.ValveBsp
         TriangleFan
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Primitive
     {
         public PrimitiveType Type;
@@ -163,14 +162,14 @@ namespace SourceUtils.ValveBsp
         HITBOX = 0x8000
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct TexAxis
     {
         public Vector3 Normal;
         public float Offset;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct TextureInfo
     {
         public TexAxis TextureUAxis;
@@ -181,5 +180,57 @@ namespace SourceUtils.ValveBsp
 
         public SurfFlags Flags;
         public int TexData;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct DispSubNeighbor
+    {
+        public ushort NeighborIndex;
+        public byte NeighborOrientation;
+        public byte Span;
+        public byte NeighborSpan;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct DispNeighbor
+    {
+        public DispSubNeighbor SubNeighbor0;
+        public DispSubNeighbor SubNeighbor1;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct DispCornerNeighbors
+    {
+        public ushort Neighbor0;
+        public ushort Neighbor1;
+        public ushort Neighbor2;
+        public ushort Neighbor3;
+
+        public byte NumNeighbors;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 176 )]
+    public struct DispInfo
+    {
+        public Vector3 StartPosition;
+        public int DispVertStart;
+        public int DispTriStart;
+        public int Power;
+        public int MinTess;
+        public float SmoothingAngle;
+        public int Contents;
+        public ushort MapFace;
+
+        public int LightmapAlphaStart;
+        private readonly short _unknown;
+        public int LightmapSamplePositionStart;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct DispVert
+    {
+        public Vector3 Vector;
+        public float Distance;
+        public float Alpha;
     }
 }

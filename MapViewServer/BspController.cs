@@ -20,7 +20,7 @@ namespace MapViewServer
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
-        private const uint ApiVersion = 0x020d;
+        private const uint ApiVersion = 0x0210;
 
         protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
@@ -236,6 +236,82 @@ namespace MapViewServer
         [ThreadStatic]
         private static List<int> _sIndicesBuffer;
 
+        private static Vector3 GetVertex( ValveBspFile bsp, int surfEdgeId )
+        {
+            var surfEdge = bsp.SurfEdges[surfEdgeId];
+            var edgeIndex = Math.Abs(surfEdge);
+            var edge = bsp.Edges[edgeIndex];
+            return bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
+        }
+
+        [ThreadStatic]
+        private static Vector3[] _sCorners;
+
+        private static Vector3 GetDisplacementVertex( ValveBspFile bsp, int offset, int x, int y, int size, Vector3[] corners, int firstCorner )
+        {
+            var vert = bsp.DisplacementVerts[offset + x + y * (size + 1)];
+
+            var tx = (float) x / size;
+            var ty = (float) y / size;
+            var sx = 1f - tx;
+            var sy = 1f - ty;
+
+            var cornerA = corners[(0 + firstCorner) & 3];
+            var cornerB = corners[(1 + firstCorner) & 3];
+            var cornerC = corners[(2 + firstCorner) & 3];
+            var cornerD = corners[(3 + firstCorner) & 3];
+
+            var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
+
+            return origin + vert.Vector * vert.Distance;
+        }
+
+        private static void SerializeDisplacement( ValveBspFile bsp, ref Face face, ref Plane plane, VertexArray verts )
+        {
+            if ( face.NumEdges != 4 )
+            {
+                throw new Exception( "Expected displacement to have 4 edges." );
+            }
+
+            if ( _sCorners == null ) _sCorners = new Vector3[4];
+
+            var disp = bsp.DisplacementInfos[face.DispInfo];
+            var size = 1 << disp.Power;
+            var firstCorner = 0;
+            var firstCornerDist2 = float.MaxValue;
+
+            for ( var i = 0; i < 4; ++i )
+            {
+                var vert = GetVertex( bsp, face.FirstEdge + i );
+                _sCorners[i] = vert;
+
+                var dist2 = (disp.StartPosition - vert).LengthSquared;
+                if ( dist2 < firstCornerDist2 )
+                {
+                    firstCorner = i;
+                    firstCornerDist2 = dist2;
+                }
+            }
+
+            // TODO: Normals
+
+            for ( var y = 0; y < size; ++y )
+            {
+                verts.BeginPrimitive();
+
+                for ( var x = 0; x < size; ++x )
+                {
+                    var y0 = GetDisplacementVertex( bsp, disp.DispVertStart, x, y, size, _sCorners, firstCorner );
+                    var y1 = GetDisplacementVertex( bsp, disp.DispVertStart, x, y + 1, size, _sCorners, firstCorner );
+
+                    verts.AddVertex( y0, plane.Normal );
+                    verts.AddVertex( y1, plane.Normal );
+                }
+
+                verts.CommitPrimitive( PrimitiveType.TriangleStrip );
+            }
+        }
+
         private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
             const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.SKIP | SurfFlags.SKY | SurfFlags.SKY2D | SurfFlags.HINT | SurfFlags.TRIGGER;
@@ -244,17 +320,20 @@ namespace MapViewServer
             var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
 
+            if ( face.DispInfo != -1 )
+            {
+                Console.WriteLine( "Displacement!" );
+                SerializeDisplacement( bsp, ref face, ref plane, verts );
+                return;
+            }
+
             if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
 
             verts.BeginPrimitive();
 
-            for ( var i = 0; i < face.NumEdges; ++i )
+            for ( int i = face.FirstEdge, iEnd = face.FirstEdge + face.NumEdges; i < iEnd; ++i )
             {
-                var surfEdge = bsp.SurfEdges[face.FirstEdge + i];
-                var edgeIndex = Math.Abs( surfEdge );
-                var edge = bsp.Edges[edgeIndex];
-                var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
-
+                var vert = GetVertex( bsp, i );
                 verts.AddVertex( vert, plane.Normal );
             }
 
