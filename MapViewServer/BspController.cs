@@ -20,7 +20,7 @@ namespace MapViewServer
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
-        private const uint ApiVersion = 0x0208;
+        private const uint ApiVersion = 0x020d;
 
         protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
@@ -131,10 +131,10 @@ namespace MapViewServer
                     yield return Position.X;
                     yield return Position.Y;
                     yield return Position.Z;
-                    
-                    yield return Normal.X;
-                    yield return Normal.Y;
-                    yield return Normal.Z;
+
+                    yield return -Normal.X;
+                    yield return -Normal.Y;
+                    yield return -Normal.Z;
                 }
             }
 
@@ -143,7 +143,6 @@ namespace MapViewServer
             private readonly Dictionary<Vertex, int> _indexMap = new Dictionary<Vertex, int>();
             private readonly List<int> _curPrimitive = new List<int>();
 
-            private PrimitiveType _primitiveType;
             private int _vertexCount;
 
             public JToken GetVertices( BspController controller )
@@ -164,12 +163,11 @@ namespace MapViewServer
                 _curPrimitive.Clear();
 
                 _vertexCount = 0;
-                _primitiveType = PrimitiveType.TriangleList;
             }
 
             public int IndexCount => _indices.Count;
 
-            public void Add( Vector3 pos, Vector3 normal )
+            public void AddVertex( Vector3 pos, Vector3 normal )
             {
                 var vertex = new Vertex( pos, normal );
 
@@ -184,68 +182,59 @@ namespace MapViewServer
                 _curPrimitive.Add( index );
             }
 
-            public int BeginPrimitive(PrimitiveType type)
+            public void BeginPrimitive()
             {
-                _primitiveType = type;
                 _curPrimitive.Clear();
-
-                return IndexCount;
             }
 
-            private IEnumerable<int> GetTriangleListIndices()
+            private IEnumerable<int> GetTriangleListIndices( IList<int> indices = null )
             {
-                return _curPrimitive;
+                return indices?.Select( x => _curPrimitive[x] ) ?? _curPrimitive;
             }
 
-            private IEnumerable<int> GetTriangleFanIndices()
+            private IEnumerable<int> GetTriangleFanIndices( IList<int> indices = null )
             {
-                if (_curPrimitive.Count < 3) yield break;
+                if ( _curPrimitive.Count < 3 ) yield break;
 
-                var first = _curPrimitive[0];
-                var prev = _curPrimitive[1];
+                var first = _curPrimitive[indices?[0] ?? 0];
+                var prev = _curPrimitive[indices?[1] ?? 1];
 
-                for ( int i = 2, count = _curPrimitive.Count; i < count; ++i )
+                for ( int i = 2, count = indices?.Count ?? _curPrimitive.Count; i < count; ++i )
                 {
-                    var next = _curPrimitive[i];
-
-                    yield return prev;
+                    var next = _curPrimitive[indices?[i] ?? i];
+                    
                     yield return first;
+                    yield return prev;
                     yield return next;
 
                     prev = next;
                 }
             }
 
-            private IEnumerable<int> GetTriangleStripIndices()
+            private IEnumerable<int> GetTriangleStripIndices( IList<int> indices = null )
             {
                 throw new NotImplementedException();
             }
 
-            public int EndPrimitive()
+            public void CommitPrimitive( PrimitiveType type, IList<int> indices = null )
             {
-                switch ( _primitiveType )
+                switch ( type )
                 {
                     case PrimitiveType.TriangleList:
-                        _indices.AddRange( GetTriangleListIndices() );
+                        _indices.AddRange( GetTriangleListIndices( indices ) );
                         break;
                     case PrimitiveType.TriangleFan:
-                        _indices.AddRange( GetTriangleFanIndices() );
+                        _indices.AddRange( GetTriangleFanIndices( indices ) );
                         break;
                     case PrimitiveType.TriangleStrip:
-                        _indices.AddRange( GetTriangleStripIndices() );
+                        _indices.AddRange( GetTriangleStripIndices( indices ) );
                         break;
                 }
-
-                return _curPrimitive.Count;
             }
         }
 
-        public enum PrimitiveType
-        {
-            TriangleList,
-            TriangleStrip,
-            TriangleFan
-        }
+        [ThreadStatic]
+        private static List<int> _sIndicesBuffer;
 
         private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
@@ -257,7 +246,7 @@ namespace MapViewServer
 
             if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
 
-            verts.BeginPrimitive(PrimitiveType.TriangleFan);
+            verts.BeginPrimitive();
 
             for ( var i = 0; i < face.NumEdges; ++i )
             {
@@ -266,10 +255,28 @@ namespace MapViewServer
                 var edge = bsp.Edges[edgeIndex];
                 var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
 
-                verts.Add( vert, plane.Normal );
+                verts.AddVertex( vert, plane.Normal );
             }
 
-            verts.EndPrimitive();
+            if ( face.NumPrimitives == 0 || face.NumPrimitives >= 0x8000 )
+            {
+                verts.CommitPrimitive( PrimitiveType.TriangleFan );
+                return;
+            }
+
+            if ( _sIndicesBuffer == null ) _sIndicesBuffer = new List<int>();
+
+            for ( int i = face.FirstPrimitive, iEnd = face.FirstPrimitive + face.NumPrimitives; i < iEnd; ++i )
+            {
+                var primitive = bsp.Primitives[i];
+                for ( int j = primitive.FirstIndex, jEnd = primitive.FirstIndex + primitive.IndexCount; j < jEnd; ++j )
+                {
+                    _sIndicesBuffer.Add( bsp.PrimitiveIndices[j] );
+                }
+
+                verts.CommitPrimitive( primitive.Type, _sIndicesBuffer );
+                _sIndicesBuffer.Clear();
+            }
         }
         
         private bool CheckNotExpired( string mapName )

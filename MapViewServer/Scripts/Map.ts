@@ -218,7 +218,7 @@ namespace SourceUtils {
         private root: VisNode;
 
         constructor(map: Map, index: number) {
-            super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial());
+            super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({side: THREE.BackSide}));
 
             this.frustumCulled = false;
 

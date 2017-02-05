@@ -125,6 +125,23 @@ namespace SourceUtils.ValveBsp
         }
     }
 
+    public enum PrimitiveType : ushort
+    {
+        TriangleList,
+        TriangleStrip,
+        TriangleFan
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct Primitive
+    {
+        public PrimitiveType Type;
+        public ushort FirstIndex;
+        public ushort IndexCount;
+        public ushort FirstVert;
+        public ushort VertCount;
+    }
+
     [Flags]
     public enum SurfFlags : int
     {

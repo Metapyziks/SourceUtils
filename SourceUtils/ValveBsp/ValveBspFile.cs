@@ -65,6 +65,12 @@ namespace SourceUtils
         [BspLump(LumpType.FACES_HDR)]
         public ArrayLump<Face> FacesHdr { get; private set; }
 
+        [BspLump(LumpType.PRIMITIVES)]
+        public ArrayLump<Primitive> Primitives { get; private set; }
+
+        [BspLump(LumpType.PRIMINDICES)]
+        public ArrayLump<ushort> PrimitiveIndices { get; private set; }
+
         [BspLump(LumpType.VISIBILITY)]
         public VisibilityLump Visibility { get; private set; }
 

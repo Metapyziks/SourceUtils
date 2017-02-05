@@ -628,7 +628,7 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial()) || this;
+            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide })) || this;
             _this.frustumCulled = false;
             _this.map = map;
             _this.index = index;
