@@ -19,6 +19,8 @@ namespace MapViewServer
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
+        private const uint MajorVersion = 0x0100;
+
         protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
         private static string GetMapPath( string mapName )
@@ -196,7 +198,7 @@ namespace MapViewServer
 
             return new JObject
             {
-                { "drawMode", (int) FaceType.TriangleFan },
+                { "type", (int) FaceType.TriangleFan },
                 { "offset", offset },
                 { "count", verts.IndexCount - offset }
             };
@@ -223,7 +225,7 @@ namespace MapViewServer
             return false;
         }
 
-        [Get( "/{mapName}" ), ApiVersion( 0x0002 )]
+        [Get( "/{mapName}" ), ApiVersion( MajorVersion | 0x01 )]
         public JToken GetIndex( [Url] string mapName )
         {
             using ( var bsp = OpenBspFile( mapName ) )
@@ -240,7 +242,7 @@ namespace MapViewServer
             }
         }
 
-        [Get( "/{mapName}/view" ), ApiVersion( 0x0001 )]
+        [Get( "/{mapName}/view" ), ApiVersion( MajorVersion | 0x01 )]
         public HtmlElement GetViewer( [Url] string mapName )
         {
             const string elemId = "map-view";
@@ -248,7 +250,7 @@ namespace MapViewServer
             return new div
             {
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" ),
-                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js" ),
+                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js" ),
                 new script( src => GetScriptUrl( "main.js" ) ),
@@ -273,7 +275,7 @@ namespace MapViewServer
 
         private static readonly Regex _sRangesRegex = new Regex( @"^(?<range>[0-9]+(\.[0-9]+)?)(\s+(?<range>[0-9]+(\.[0-9]+)?))*$" );
 
-        [Get( "/{mapName}/faces" ), ApiVersion( 0x0003 )]
+        [Get( "/{mapName}/faces" ), ApiVersion( MajorVersion | 0x03 )]
         public JToken GetFaces( [Url] string mapName, string ranges )
         {
             if ( CheckNotExpired( mapName ) ) return null;
@@ -332,7 +334,7 @@ namespace MapViewServer
             };
         }
 
-        [Get( "/{mapName}/model" ), ApiVersion( 0x0001 )]
+        [Get( "/{mapName}/model" ), ApiVersion( MajorVersion | 0x01 )]
         public JToken GetModels( [Url] string mapName, int index )
         {
             if ( CheckNotExpired( mapName ) ) return null;
@@ -354,7 +356,7 @@ namespace MapViewServer
             return response;
         }
 
-        [Get( "/{mapName}/visibility" ), ApiVersion( 0x0001 )]
+        [Get( "/{mapName}/visibility" ), ApiVersion( MajorVersion | 0x01 )]
         public JToken GetVisibility( [Url] string mapName, int index )
         {
             if ( CheckNotExpired( mapName ) ) return null;

@@ -53,8 +53,14 @@
             numFaces: number;
         }
 
+        export enum FaceType {
+            TriangleList,
+            TriangleStrip,
+            TriangleFan
+        }
+
         export class Face {
-            drawMode: number;
+            type: FaceType;
             offset: number;
             count: number;
         }

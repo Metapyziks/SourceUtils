@@ -6,6 +6,11 @@ namespace SourceUtils {
             return new Float32Array(Utils.decompress(value));
         }
 
+        static decompressUint16Array(value: string | number[]): Uint16Array
+        {
+            return new Uint16Array(Utils.decompress(value));
+        }
+
         static decompressUint32Array(value: string | number[]): Uint32Array {
             return new Uint32Array(Utils.decompress(value));
         }

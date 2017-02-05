@@ -43,11 +43,42 @@ namespace SourceUtils {
         }
     }
 
-    export class VisLeaf extends THREE.Mesh implements IVisElem, IFaceLoadTarget {
+    export class VisLeafFace {
+        mode: number;
+        offset: number;
+        count: number;
+        materialIndex: number;
+
+        constructor(face: Api.Face)
+        {
+            switch (face.type) {
+            case Api.FaceType.TriangleList:
+                this.mode = WebGLRenderingContext.TRIANGLES;
+                break;
+            case Api.FaceType.TriangleFan:
+                this.mode = WebGLRenderingContext.TRIANGLE_FAN;
+                break;
+            case Api.FaceType.TriangleStrip:
+                this.mode = WebGLRenderingContext.TRIANGLE_STRIP;
+                break;
+            default:
+                this.mode = WebGLRenderingContext.TRIANGLES;
+                break;
+            }
+
+            this.offset = face.offset;
+            this.count = face.count;
+            this.materialIndex = 0;
+        }
+    }
+
+    export class VisLeaf implements IVisElem, IFaceLoadTarget {
         isLeaf = true;
         bounds: THREE.Box3;
 
         cluster: number;
+
+        material: THREE.MultiMaterial;
 
         private model: BspModel;
         private firstFace: number;
@@ -55,11 +86,15 @@ namespace SourceUtils {
         private loadedFaces = false;
         private inPvs = false;
 
+        private positions: THREE.BufferAttribute;
+        private normals: THREE.BufferAttribute;
+        private indices: THREE.BufferAttribute;
+        private buffers: { [key: string]:WebGLBuffer } = {};
+        private faces: VisLeafFace[];
+
+        private needsUpdate: boolean;
+
         constructor(model: BspModel, info: Api.BspLeaf) {
-            super(new THREE.BufferGeometry(), new THREE.MultiMaterial([new THREE.MeshPhongMaterial({side: THREE.BackSide})]));
-
-            this.frustumCulled = false;
-
             const min = info.min;
             const max = info.max;
 
@@ -83,12 +118,10 @@ namespace SourceUtils {
 
             if (!value) {
                 this.inPvs = false;
-                this.model.remove(this);
                 return;
             }
 
             this.inPvs = true;
-            this.model.add(this);
             this.loadFaces();
         }
 
@@ -110,26 +143,67 @@ namespace SourceUtils {
         }
 
         onLoadFaces(data: Api.FacesRange): void {
-            // TODO
-            this.setDrawMode(THREE.TriangleFanDrawMode);
+            this.positions = new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 3);
+            this.normals = new THREE.BufferAttribute(Utils.decompressFloat32Array(data.normals), 3, true);
+            this.indices = new THREE.BufferAttribute(Utils.decompressUint16Array(data.indices), 1);
 
-            const geom = this.geometry as THREE.BufferGeometry;
-
-            geom.addAttribute("position",
-                new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 3));
-            geom.addAttribute("normal",
-                new THREE.BufferAttribute(Utils.decompressFloat32Array(data.normals), 3, true));
-            geom.setIndex(new THREE.BufferAttribute(Utils.decompressUint32Array(data.indices), 1));
-
-            geom.clearGroups();
+            this.faces = [];
 
             for (let i = 0; i < data.faces.length; ++i)
             {
-                const face = data.faces[i];
-                geom.addGroup(face.offset, face.count);
+                this.faces.push(new VisLeafFace(data.faces[i]));
             }
 
-            geom.boundingBox = this.bounds;
+            this.needsUpdate = true;
+        }
+
+        render(gl: WebGLRenderingContext, attribs: any): void {
+            if (this.faces == null) return;
+
+            if (this.needsUpdate) this.updateBuffers(gl);
+
+            const positionAttrib = attribs["position"];
+            const normalAttrib = attribs["normal"];
+
+            const positionBuffer = this.getGlBuffer(this.positions);
+            const normalBuffer = this.getGlBuffer(this.normals);
+            const indicesBuffer = this.getGlBuffer(this.indices);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 0, 0);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 0, 0);
+
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+
+            for (let i = 0, faceCount = this.faces.length; i < faceCount; ++i) {
+                const face = this.faces[i];
+                gl.drawElements(face.mode, face.count, gl.UNSIGNED_SHORT, face.offset * 2);
+            }
+        }
+
+        private getGlBuffer(buffer: THREE.BufferAttribute): WebGLBuffer {
+            return this.buffers[buffer.uuid];
+        }
+
+        private updateBuffer(gl: WebGLRenderingContext, buffer: THREE.BufferAttribute, type: number) {
+            let glBuffer = this.getGlBuffer(buffer);
+
+            if (glBuffer === undefined) {
+                glBuffer = this.buffers[buffer.uuid] = gl.createBuffer();
+            }
+
+            gl.bindBuffer(type, glBuffer);
+            gl.bufferData(type, buffer.array as any, gl.STATIC_DRAW);
+        }
+
+        private updateBuffers(gl: WebGLRenderingContext) {
+            this.needsUpdate = false;
+
+            this.updateBuffer(gl, this.positions, gl.ARRAY_BUFFER);
+            this.updateBuffer(gl, this.normals, gl.ARRAY_BUFFER);
+            this.updateBuffer(gl, this.indices, gl.ELEMENT_ARRAY_BUFFER);
         }
 
         private loadFaces(): void {
@@ -140,7 +214,7 @@ namespace SourceUtils {
         }
     }
 
-    export class BspModel extends Entity {
+    export class BspModel extends THREE.Mesh {
         map: Map;
 
         private info: Api.BspModelResponse;
@@ -150,14 +224,17 @@ namespace SourceUtils {
         private root: VisNode;
 
         constructor(map: Map, index: number) {
-            super();
+            super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({side: THREE.BackSide}));
 
             this.frustumCulled = false;
 
             this.map = map;
             this.index = index;
 
-            this.loadInfo(this.map.info.modelUrl.replace("{index}", "0"));
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
+
+            // Hack
+            (this as any).onAfterRender = this.onAfterRenderImpl;
         }
 
         private loadInfo(url: string): void {
@@ -191,6 +268,28 @@ namespace SourceUtils {
 
             return elem as VisLeaf;
         }
+
+        onAfterRenderImpl(renderer: THREE.Renderer, scene: THREE.Scene, camera: THREE.Camera,
+            geom: THREE.Geometry, mat: THREE.Material, group: THREE.Group): void {
+            const leaves = this === this.map.getWorldSpawn() ? this.map.getPvs() : this.leaves;
+
+            const webGlRenderer = renderer as THREE.WebGLRenderer;
+
+            const gl = webGlRenderer.context;
+            const props = webGlRenderer.properties;
+
+            const matProps = props.get(this.material);
+            const program = matProps.program;
+            const attribs = program.getAttributes();
+
+            gl.enableVertexAttribArray(attribs["position"]);
+            gl.enableVertexAttribArray(attribs["normal"]);
+
+            for (let i = 0, leafCount = leaves.length; i < leafCount; ++i) {
+                const leaf = leaves[i];
+                leaf.render(gl, attribs);
+            }
+        }
     }
 
     export class Map extends Entity {
@@ -215,6 +314,10 @@ namespace SourceUtils {
 
         getPvsRoot(): VisLeaf {
             return this.pvsRoot;
+        }
+
+        getPvs(): VisLeaf[] {
+            return this.pvs;
         }
 
         getWorldSpawn(): BspModel {

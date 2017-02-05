@@ -53,6 +53,12 @@ var SourceUtils;
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
+        var FaceType;
+        (function (FaceType) {
+            FaceType[FaceType["TriangleList"] = 0] = "TriangleList";
+            FaceType[FaceType["TriangleStrip"] = 1] = "TriangleStrip";
+            FaceType[FaceType["TriangleFan"] = 2] = "TriangleFan";
+        })(FaceType = Api.FaceType || (Api.FaceType = {}));
         var Face = (function () {
             function Face() {
             }
@@ -87,6 +93,9 @@ var SourceUtils;
         }
         Utils.decompressFloat32Array = function (value) {
             return new Float32Array(Utils.decompress(value));
+        };
+        Utils.decompressUint16Array = function (value) {
+            return new Uint16Array(Utils.decompress(value));
         };
         Utils.decompressUint32Array = function (value) {
             return new Uint32Array(Utils.decompress(value));
@@ -498,22 +507,42 @@ var SourceUtils;
         return VisNode;
     }());
     SourceUtils.VisNode = VisNode;
-    var VisLeaf = (function (_super) {
-        __extends(VisLeaf, _super);
+    var VisLeafFace = (function () {
+        function VisLeafFace(face) {
+            switch (face.type) {
+                case SourceUtils.Api.FaceType.TriangleList:
+                    this.mode = WebGLRenderingContext.TRIANGLES;
+                    break;
+                case SourceUtils.Api.FaceType.TriangleFan:
+                    this.mode = WebGLRenderingContext.TRIANGLE_FAN;
+                    break;
+                case SourceUtils.Api.FaceType.TriangleStrip:
+                    this.mode = WebGLRenderingContext.TRIANGLE_STRIP;
+                    break;
+                default:
+                    this.mode = WebGLRenderingContext.TRIANGLES;
+                    break;
+            }
+            this.offset = face.offset;
+            this.count = face.count;
+            this.materialIndex = 0;
+        }
+        return VisLeafFace;
+    }());
+    SourceUtils.VisLeafFace = VisLeafFace;
+    var VisLeaf = (function () {
         function VisLeaf(model, info) {
-            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MultiMaterial([new THREE.MeshPhongMaterial({ side: THREE.BackSide })])) || this;
-            _this.isLeaf = true;
-            _this.loadedFaces = false;
-            _this.inPvs = false;
-            _this.frustumCulled = false;
+            this.isLeaf = true;
+            this.loadedFaces = false;
+            this.inPvs = false;
+            this.buffers = {};
             var min = info.min;
             var max = info.max;
-            _this.model = model;
-            _this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            _this.numFaces = info.numFaces === undefined ? 0 : info.numFaces;
-            _this.firstFace = info.firstFace;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
-            return _this;
+            this.model = model;
+            this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            this.numFaces = info.numFaces === undefined ? 0 : info.numFaces;
+            this.firstFace = info.firstFace;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         VisLeaf.prototype.hasFaces = function () { return this.numFaces > 0; };
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
@@ -526,11 +555,9 @@ var SourceUtils;
                 return;
             if (!value) {
                 this.inPvs = false;
-                this.model.remove(this);
                 return;
             }
             this.inPvs = true;
-            this.model.add(this);
             this.loadFaces();
         };
         VisLeaf.prototype.faceLoadPriority = function () {
@@ -545,18 +572,51 @@ var SourceUtils;
             return VisLeaf.rootCenter.lengthSq();
         };
         VisLeaf.prototype.onLoadFaces = function (data) {
-            // TODO
-            this.setDrawMode(THREE.TriangleFanDrawMode);
-            var geom = this.geometry;
-            geom.addAttribute("position", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.vertices), 3));
-            geom.addAttribute("normal", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.normals), 3, true));
-            geom.setIndex(new THREE.BufferAttribute(SourceUtils.Utils.decompressUint32Array(data.indices), 1));
-            geom.clearGroups();
+            this.positions = new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.vertices), 3);
+            this.normals = new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.normals), 3, true);
+            this.indices = new THREE.BufferAttribute(SourceUtils.Utils.decompressUint16Array(data.indices), 1);
+            this.faces = [];
             for (var i = 0; i < data.faces.length; ++i) {
-                var face = data.faces[i];
-                geom.addGroup(face.offset, face.count);
+                this.faces.push(new VisLeafFace(data.faces[i]));
             }
-            geom.boundingBox = this.bounds;
+            this.needsUpdate = true;
+        };
+        VisLeaf.prototype.render = function (gl, attribs) {
+            if (this.faces == null)
+                return;
+            if (this.needsUpdate)
+                this.updateBuffers(gl);
+            var positionAttrib = attribs["position"];
+            var normalAttrib = attribs["normal"];
+            var positionBuffer = this.getGlBuffer(this.positions);
+            var normalBuffer = this.getGlBuffer(this.normals);
+            var indicesBuffer = this.getGlBuffer(this.indices);
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 0, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 0, 0);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+            for (var i = 0, faceCount = this.faces.length; i < faceCount; ++i) {
+                var face = this.faces[i];
+                gl.drawElements(face.mode, face.count, gl.UNSIGNED_SHORT, face.offset * 2);
+            }
+        };
+        VisLeaf.prototype.getGlBuffer = function (buffer) {
+            return this.buffers[buffer.uuid];
+        };
+        VisLeaf.prototype.updateBuffer = function (gl, buffer, type) {
+            var glBuffer = this.getGlBuffer(buffer);
+            if (glBuffer === undefined) {
+                glBuffer = this.buffers[buffer.uuid] = gl.createBuffer();
+            }
+            gl.bindBuffer(type, glBuffer);
+            gl.bufferData(type, buffer.array, gl.STATIC_DRAW);
+        };
+        VisLeaf.prototype.updateBuffers = function (gl) {
+            this.needsUpdate = false;
+            this.updateBuffer(gl, this.positions, gl.ARRAY_BUFFER);
+            this.updateBuffer(gl, this.normals, gl.ARRAY_BUFFER);
+            this.updateBuffer(gl, this.indices, gl.ELEMENT_ARRAY_BUFFER);
         };
         VisLeaf.prototype.loadFaces = function () {
             if (!this.hasFaces() || this.loadedFaces)
@@ -565,18 +625,20 @@ var SourceUtils;
             this.model.map.faceLoader.loadFaces(this.firstFace, this.numFaces, this);
         };
         return VisLeaf;
-    }(THREE.Mesh));
+    }());
     VisLeaf.rootCenter = new THREE.Vector3();
     VisLeaf.thisCenter = new THREE.Vector3();
     SourceUtils.VisLeaf = VisLeaf;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this) || this;
+            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide })) || this;
             _this.frustumCulled = false;
             _this.map = map;
             _this.index = index;
-            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", "0"));
+            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
+            // Hack
+            _this.onAfterRender = _this.onAfterRenderImpl;
             return _this;
         }
         BspModel.prototype.loadInfo = function (url) {
@@ -606,8 +668,23 @@ var SourceUtils;
             }
             return elem;
         };
+        BspModel.prototype.onAfterRenderImpl = function (renderer, scene, camera, geom, mat, group) {
+            var leaves = this === this.map.getWorldSpawn() ? this.map.getPvs() : this.leaves;
+            var webGlRenderer = renderer;
+            var gl = webGlRenderer.context;
+            var props = webGlRenderer.properties;
+            var matProps = props.get(this.material);
+            var program = matProps.program;
+            var attribs = program.getAttributes();
+            gl.enableVertexAttribArray(attribs["position"]);
+            gl.enableVertexAttribArray(attribs["normal"]);
+            for (var i = 0, leafCount = leaves.length; i < leafCount; ++i) {
+                var leaf = leaves[i];
+                leaf.render(gl, attribs);
+            }
+        };
         return BspModel;
-    }(SourceUtils.Entity));
+    }(THREE.Mesh));
     SourceUtils.BspModel = BspModel;
     var Map = (function (_super) {
         __extends(Map, _super);
@@ -622,6 +699,9 @@ var SourceUtils;
         }
         Map.prototype.getPvsRoot = function () {
             return this.pvsRoot;
+        };
+        Map.prototype.getPvs = function () {
+            return this.pvs;
         };
         Map.prototype.getWorldSpawn = function () {
             return this.models.length > 0 ? this.models[0] : null;
