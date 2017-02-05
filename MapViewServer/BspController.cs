@@ -20,7 +20,7 @@ namespace MapViewServer
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
-        private const uint ApiVersion = 0x0204;
+        private const uint ApiVersion = 0x0208;
 
         protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
@@ -141,9 +141,10 @@ namespace MapViewServer
             private readonly List<float> _vertices = new List<float>();
             private readonly List<int> _indices = new List<int>();
             private readonly Dictionary<Vertex, int> _indexMap = new Dictionary<Vertex, int>();
-            
+            private readonly List<int> _curPrimitive = new List<int>();
+
+            private PrimitiveType _primitiveType;
             private int _vertexCount;
-            private bool _newPrimitive;
 
             public JToken GetVertices( BspController controller )
             {
@@ -160,8 +161,10 @@ namespace MapViewServer
                 _vertices.Clear();
                 _indices.Clear();
                 _indexMap.Clear();
+                _curPrimitive.Clear();
 
                 _vertexCount = 0;
+                _primitiveType = PrimitiveType.TriangleList;
             }
 
             public int IndexCount => _indices.Count;
@@ -178,20 +181,62 @@ namespace MapViewServer
                     _indexMap.Add( vertex, index );
                 }
 
-                _indices.Add( index );
+                _curPrimitive.Add( index );
+            }
 
-                if ( _newPrimitive )
+            public int BeginPrimitive(PrimitiveType type)
+            {
+                _primitiveType = type;
+                _curPrimitive.Clear();
+
+                return IndexCount;
+            }
+
+            private IEnumerable<int> GetTriangleListIndices()
+            {
+                return _curPrimitive;
+            }
+
+            private IEnumerable<int> GetTriangleFanIndices()
+            {
+                if (_curPrimitive.Count < 3) yield break;
+
+                var first = _curPrimitive[0];
+                var prev = _curPrimitive[1];
+
+                for ( int i = 2, count = _curPrimitive.Count; i < count; ++i )
                 {
-                    _indices.Add( index );
-                    _newPrimitive = false;
+                    var next = _curPrimitive[i];
+
+                    yield return prev;
+                    yield return first;
+                    yield return next;
+
+                    prev = next;
                 }
             }
 
-            public void NewPrimitive()
+            private IEnumerable<int> GetTriangleStripIndices()
             {
-                if ( _indices.Count == 0 ) return;
-                _indices.Add( _indices[_indices.Count - 1] );
-                _newPrimitive = true;
+                throw new NotImplementedException();
+            }
+
+            public int EndPrimitive()
+            {
+                switch ( _primitiveType )
+                {
+                    case PrimitiveType.TriangleList:
+                        _indices.AddRange( GetTriangleListIndices() );
+                        break;
+                    case PrimitiveType.TriangleFan:
+                        _indices.AddRange( GetTriangleFanIndices() );
+                        break;
+                    case PrimitiveType.TriangleStrip:
+                        _indices.AddRange( GetTriangleStripIndices() );
+                        break;
+                }
+
+                return _curPrimitive.Count;
             }
         }
 
@@ -212,23 +257,21 @@ namespace MapViewServer
 
             if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
 
-            if ( face.NumEdges > 0 )
+            verts.BeginPrimitive(PrimitiveType.TriangleFan);
+
+            for ( var i = 0; i < face.NumEdges; ++i )
             {
-                verts.NewPrimitive();
+                var surfEdge = bsp.SurfEdges[face.FirstEdge + i];
+                var edgeIndex = Math.Abs( surfEdge );
+                var edge = bsp.Edges[edgeIndex];
+                var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
 
-                for ( var i = 0; i < face.NumEdges; ++i )
-                {
-                    var surfIndex = (i & 1) == 0 ? i >> 1 : face.NumEdges - (i >> 1) - 1;
-                    var surfEdge = bsp.SurfEdges[face.FirstEdge + surfIndex];
-                    var edgeIndex = Math.Abs( surfEdge );
-                    var edge = bsp.Edges[edgeIndex];
-                    var vert = bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
-
-                    verts.Add( vert, plane.Normal );
-                }
+                verts.Add( vert, plane.Normal );
             }
-        }
 
+            verts.EndPrimitive();
+        }
+        
         private bool CheckNotExpired( string mapName )
         {
             var path = GetMapPath( mapName );
@@ -342,7 +385,7 @@ namespace MapViewServer
 
                     elementsArray.Add( new JObject
                     {
-                        { "type", (int) PrimitiveType.TriangleStrip },
+                        { "type", (int) PrimitiveType.TriangleList },
                         { "offset", 0 },
                         { "count", vertArray.IndexCount }
                     } );
