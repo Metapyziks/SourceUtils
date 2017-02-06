@@ -87,6 +87,24 @@ namespace SourceUtils
                 return array;
             }
 
+            public int IndexOf( T value )
+            {
+                EnsureLoaded();
+                return Array.IndexOf( _array, value );
+            }
+
+            public int IndexOf( Predicate<T> predicate )
+            {
+                EnsureLoaded();
+
+                for ( var i = 0; i < _array.Length; ++i )
+                {
+                    if ( predicate( _array[i] ) ) return i;
+                }
+
+                return -1;
+            }
+
             public IEnumerator<T> GetEnumerator()
             {
                 EnsureLoaded();

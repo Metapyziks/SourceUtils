@@ -1,22 +1,16 @@
 ﻿namespace SourceUtils {
     export interface IFaceLoadTarget {
         faceLoadPriority(): number;
-        onLoadFaces(data: Api.FacesRange): void;
+        onLoadFaces(data: Api.Faces): void;
     }
 
     class FaceLoaderTask {
-        from: number;
-        count: number;
+        leafIndex: number;
         target: IFaceLoadTarget;
 
-        constructor(from: number, count: number, target: IFaceLoadTarget) {
-            this.from = from;
-            this.count = count;
+        constructor(leafIndex: number, target: IFaceLoadTarget) {
+            this.leafIndex = leafIndex;
             this.target = target;
-        }
-
-        toString(): string {
-            return this.count === 1 ? this.from.toString() : `${this.from}.${this.count}`;
         }
     }
 
@@ -26,14 +20,14 @@
         private active: FaceLoaderTask[][] = [];
 
         maxConcurrentRequests = 2;
-        idealFacesPerRequest = 512;
+        maxLeavesPerRequest = 512;
 
         constructor(map: Map) {
             this.map = map;
         }
 
-        loadFaces(first: number, count: number, target: IFaceLoadTarget): void {
-            this.queue.push(new FaceLoaderTask(first, count, target));
+        loadFaces(leafIndex: number, target: IFaceLoadTarget): void {
+            this.queue.push(new FaceLoaderTask(leafIndex, target));
             this.update();
         }
 
@@ -62,17 +56,15 @@
         update(): void {
             if (this.queue.length <= 0 || this.active.length >= this.maxConcurrentRequests) return;
 
-            let ranges = "";
-            let totalFaces = 0;
+            let query = "";
 
-            let tasks: FaceLoaderTask[] = [];
+            const tasks: FaceLoaderTask[] = [];
 
-            while (totalFaces < this.idealFacesPerRequest && this.queue.length > 0 && ranges.length < 1536) {
-                let next = this.getNextTask();
+            while (tasks.length < this.maxLeavesPerRequest && this.queue.length > 0 && query.length < 1536) {
+                const next = this.getNextTask();
                 if (next == null) break;
-                if (ranges.length > 0) ranges += "+";
-                ranges += next.toString();
-                totalFaces += next.count;
+                if (query.length > 0) query += "+";
+                query += next.leafIndex.toString();
                 tasks.push(next);
             }
 
@@ -80,24 +72,24 @@
 
             this.active.push(tasks);
 
-            const url = this.map.info.facesUrl
-                .replace("{ranges}", ranges);
+            const url = this.map.info.leafFacesUrl
+                .replace("{leaves}", query);
 
             $.getJSON(url, (data: Api.BspFacesResponse) => {
-                for (let i = 0; i < data.ranges.length; ++i) {
-                    const range = data.ranges[i];
+                for (let i = 0; i < data.leaves.length; ++i) {
+                    const leafFaces = data.leaves[i];
                     for (let j = 0; j < tasks.length; ++j) {
                         const task = tasks[j];
-                        if (task.from === range.from && task.count === range.count) {
-                            task.target.onLoadFaces(range);
+                        if (task.leafIndex === leafFaces.index) {
+                            task.target.onLoadFaces(leafFaces);
                             tasks.splice(j, 1);
                             break;
                         }
                     }
                 }
             }).fail(() => {
-                const rangesStr = ranges.replace("+", ", ");
-                console.log(`Failed to load faces [${rangesStr}].`);
+                const rangesStr = query.replace("+", ", ");
+                console.log(`Failed to load leaf faces [${rangesStr}].`);
             }).always(() => {
                 const index = this.active.indexOf(tasks);
                 this.active.splice(index, 1);

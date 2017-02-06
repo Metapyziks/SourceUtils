@@ -19,17 +19,6 @@ namespace MapViewServer
 
     public abstract class ResourceController : Controller
     {
-        [AttributeUsage(AttributeTargets.Method)]
-        protected class ApiVersionAttribute : Attribute
-        {
-            public uint Value { get; set; }
-
-            public ApiVersionAttribute( uint value )
-            {
-                Value = value;
-            }
-        }
-
         protected virtual string FilePath
         {
             get
@@ -84,15 +73,8 @@ namespace MapViewServer
 
             if ( controllerMatcher.Value != "/" ) builder.Append( controllerMatcher.Value );
             if ( actionMatcher.Value != "/" ) builder.Append( actionMatcher.Value );
-            
-            var first = true;
 
-            var apiVersion = method.GetCustomAttribute<ApiVersionAttribute>();
-            if ( apiVersion != null )
-            {
-                first = false;
-                builder.Append( $"?v={apiVersion.Value:x}" );
-            }
+            builder.Append( $"?v={GetFileVersionHash( Program.BuildTimeUtc )}" );
 
             foreach ( var parameter in method.GetParameters() )
             {
@@ -100,19 +82,16 @@ namespace MapViewServer
                 if ( parameter.GetCustomAttribute<BodyAttribute>() != null ) continue;
 
                 var match = paramValues.FirstOrDefault( x => x.Key == parameter.Name );
-                var prefix = first ? "?" : "&";
 
                 if ( match.Key != null )
                 {
                     if ( match.Value == null ) continue;
-                    builder.Append( $"{prefix}{parameter.Name}={HttpUtility.UrlEncode( match.Value.ToString() )}" );
+                    builder.Append( $"&{parameter.Name}={HttpUtility.UrlEncode( match.Value.ToString() )}" );
                 }
                 else
                 {
-                    builder.Append( $"{prefix}{parameter.Name}={{{parameter.Name}}}" );
+                    builder.Append( $"&{parameter.Name}={{{parameter.Name}}}" );
                 }
-                
-                first = false;
             }
 
             foreach ( var replacement in paramValues )

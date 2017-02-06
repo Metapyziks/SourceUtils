@@ -49,6 +49,12 @@ namespace SourceUtils
 
         [BspLump(LumpType.VERTEXES)]
         public ArrayLump<Vector3> Vertices { get; private set; }
+        
+        [BspLump(LumpType.VERTNORMALINDICES)]
+        public ArrayLump<ushort> VertexNormalIndices { get; private set; }
+
+        [BspLump(LumpType.VERTNORMALS)]
+        public ArrayLump<Vector3> VertexNormals { get; private set; }
 
         [BspLump(LumpType.EDGES)]
         public ArrayLump<Edge> Edges { get; private set; }
@@ -76,6 +82,12 @@ namespace SourceUtils
 
         [BspLump(LumpType.TEXINFO)]
         public ArrayLump<TextureInfo> TextureInfos { get; private set; }
+
+        [BspLump(LumpType.BRUSHES)]
+        public ArrayLump<Brush> Brushes { get; private set; }
+        
+        [BspLump(LumpType.BRUSHSIDES)]
+        public ArrayLump<BrushSide> BrushSides { get; private set; }
 
         [BspLump(LumpType.DISPINFO)]
         public ArrayLump<DispInfo> DisplacementInfos { get; private set; }

@@ -9,7 +9,7 @@
             numModels: number;
 
             modelUrl: string;
-            facesUrl: string;
+            leafFacesUrl: string;
             visibilityUrl: string;
         }
 
@@ -45,12 +45,10 @@
         }
 
         export class BspLeaf extends BspElem {
+            index: number;
             cluster: number;
             area: number;
-            firstBrush: number;
-            numBrushes: number;
-            firstFace: number;
-            numFaces: number;
+            hasFaces: boolean;
         }
 
         export enum PrimitiveType {
@@ -65,18 +63,17 @@
             count: number;
         }
 
-        export class FacesRange
+        export class Faces
         {
-            from: number;
-            count: number;
-            elements: Elements[];
+            index: number;
+            elements: Element[];
             vertices: string | number[];
             indices: string | number[];
         }
 
         export class BspFacesResponse
         {
-            ranges: FacesRange[];
+            facesList: Faces[];
         }
 
         export class BspVisibilityResponse {

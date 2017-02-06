@@ -76,13 +76,13 @@ namespace SourceUtils {
         isLeaf = true;
         bounds: THREE.Box3;
 
+        leafIndex: number;
         cluster: number;
 
         material: THREE.MultiMaterial;
 
         private model: BspModel;
-        private firstFace: number;
-        private numFaces: number;
+        private hasFaces: boolean;
         private loadedFaces = false;
         private inPvs = false;
 
@@ -98,14 +98,12 @@ namespace SourceUtils {
             const max = info.max;
 
             this.model = model;
+            this.leafIndex = info.index;
+            this.hasFaces = info.hasFaces;
             this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            this.numFaces = info.numFaces === undefined ? 0 : info.numFaces;
-            this.firstFace = info.firstFace;
 
             this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
-
-        hasFaces(): boolean { return this.numFaces > 0; }
 
         getAllLeaves(dstArray: VisLeaf[]): void {
             dstArray.push(this);
@@ -113,7 +111,7 @@ namespace SourceUtils {
 
         setInPvs(value: boolean): void {
             if (this.inPvs === value) return;
-            if (!this.hasFaces()) return;
+            if (!this.hasFaces) return;
 
             if (!value) {
                 this.inPvs = false;
@@ -141,7 +139,7 @@ namespace SourceUtils {
             return VisLeaf.rootCenter.lengthSq();
         }
 
-        onLoadFaces(data: Api.FacesRange): void {
+        onLoadFaces(data: Api.Faces): void {
             this.vertices = new THREE.BufferAttribute(Utils.decompressFloat32Array(data.vertices), 6);
             this.indices = new THREE.BufferAttribute(Utils.decompressUint16Array(data.indices), 1);
 
@@ -201,10 +199,10 @@ namespace SourceUtils {
         }
 
         private loadFaces(): void {
-            if (!this.hasFaces() || this.loadedFaces) return;
+            if (!this.hasFaces || this.loadedFaces) return;
 
             this.loadedFaces = true;
-            this.model.map.faceLoader.loadFaces(this.firstFace, this.numFaces, this);
+            this.model.map.faceLoader.loadFaces(this.leafIndex, this);
         }
     }
 

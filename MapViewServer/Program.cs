@@ -18,6 +18,8 @@ namespace MapViewServer
             = Path.Combine( SteamAppsDirectory, "common", "Counter-Strike Global Offensive", "csgo" );
         
         public static ResourceLoader Loader { get; private set; }
+
+        public static DateTime BuildTimeUtc { get; private set; }
         
         [STAThread]
         static int Main(string[] args)
@@ -27,6 +29,8 @@ namespace MapViewServer
             var assemblyDir = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
             ResourcesDirectory = new DirectoryInfo( Path.Combine( assemblyDir, "..", "..", "Resources" ) ).FullName;
             ScriptsDirectory = new DirectoryInfo( Path.Combine( assemblyDir, "..", "..", "Scripts" ) ).FullName;
+
+            BuildTimeUtc = new FileInfo( Assembly.GetExecutingAssembly().Location ).LastWriteTimeUtc;
 
             Loader = new ResourceLoader();
             Loader.AddResourceProvider(new ValvePackage(Path.Combine(CsgoDirectory, "pak01_dir.vpk")));

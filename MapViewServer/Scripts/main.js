@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspNode;
         }(BspElem));
@@ -48,29 +48,29 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
-        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
+        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
+        var PrimitiveType = Api.PrimitiveType;
         var Element = (function () {
             function Element() {
             }
             return Element;
         }());
         Api.Element = Element;
-        var FacesRange = (function () {
-            function FacesRange() {
+        var Faces = (function () {
+            function Faces() {
             }
-            return FacesRange;
+            return Faces;
         }());
-        Api.FacesRange = FacesRange;
+        Api.Faces = Faces;
         var BspFacesResponse = (function () {
             function BspFacesResponse() {
             }
@@ -114,13 +114,12 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var Key;
+    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var MouseButton = SourceUtils.MouseButton;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -220,7 +219,8 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
+    })(SourceUtils.Key || (SourceUtils.Key = {}));
+    var Key = SourceUtils.Key;
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -381,7 +381,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            _super.apply(this, arguments);
         }
         return Entity;
     }(THREE.Object3D));
@@ -390,14 +390,10 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var FaceLoaderTask = (function () {
-        function FaceLoaderTask(from, count, target) {
-            this.from = from;
-            this.count = count;
+        function FaceLoaderTask(leafIndex, target) {
+            this.leafIndex = leafIndex;
             this.target = target;
         }
-        FaceLoaderTask.prototype.toString = function () {
-            return this.count === 1 ? this.from.toString() : this.from + "." + this.count;
-        };
         return FaceLoaderTask;
     }());
     var FaceLoader = (function () {
@@ -405,11 +401,11 @@ var SourceUtils;
             this.queue = [];
             this.active = [];
             this.maxConcurrentRequests = 2;
-            this.idealFacesPerRequest = 512;
+            this.maxLeavesPerRequest = 512;
             this.map = map;
         }
-        FaceLoader.prototype.loadFaces = function (first, count, target) {
-            this.queue.push(new FaceLoaderTask(first, count, target));
+        FaceLoader.prototype.loadFaces = function (leafIndex, target) {
+            this.queue.push(new FaceLoaderTask(leafIndex, target));
             this.update();
         };
         FaceLoader.prototype.getNextTask = function () {
@@ -433,39 +429,37 @@ var SourceUtils;
             var _this = this;
             if (this.queue.length <= 0 || this.active.length >= this.maxConcurrentRequests)
                 return;
-            var ranges = "";
-            var totalFaces = 0;
+            var query = "";
             var tasks = [];
-            while (totalFaces < this.idealFacesPerRequest && this.queue.length > 0 && ranges.length < 1536) {
+            while (tasks.length < this.maxLeavesPerRequest && this.queue.length > 0 && query.length < 1536) {
                 var next = this.getNextTask();
                 if (next == null)
                     break;
-                if (ranges.length > 0)
-                    ranges += "+";
-                ranges += next.toString();
-                totalFaces += next.count;
+                if (query.length > 0)
+                    query += "+";
+                query += next.leafIndex.toString();
                 tasks.push(next);
             }
             if (tasks.length === 0)
                 return;
             this.active.push(tasks);
-            var url = this.map.info.facesUrl
-                .replace("{ranges}", ranges);
+            var url = this.map.info.leafFacesUrl
+                .replace("{leaves}", query);
             $.getJSON(url, function (data) {
-                for (var i = 0; i < data.ranges.length; ++i) {
-                    var range = data.ranges[i];
+                for (var i = 0; i < data.leaves.length; ++i) {
+                    var leafFaces = data.leaves[i];
                     for (var j = 0; j < tasks.length; ++j) {
                         var task = tasks[j];
-                        if (task.from === range.from && task.count === range.count) {
-                            task.target.onLoadFaces(range);
+                        if (task.leafIndex === leafFaces.index) {
+                            task.target.onLoadFaces(leafFaces);
                             tasks.splice(j, 1);
                             break;
                         }
                     }
                 }
             }).fail(function () {
-                var rangesStr = ranges.replace("+", ", ");
-                console.log("Failed to load faces [" + rangesStr + "].");
+                var rangesStr = query.replace("+", ", ");
+                console.log("Failed to load leaf faces [" + rangesStr + "].");
             }).always(function () {
                 var index = _this.active.indexOf(tasks);
                 _this.active.splice(index, 1);
@@ -539,19 +533,18 @@ var SourceUtils;
             var min = info.min;
             var max = info.max;
             this.model = model;
+            this.leafIndex = info.index;
+            this.hasFaces = info.hasFaces;
             this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            this.numFaces = info.numFaces === undefined ? 0 : info.numFaces;
-            this.firstFace = info.firstFace;
             this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
-        VisLeaf.prototype.hasFaces = function () { return this.numFaces > 0; };
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
         };
         VisLeaf.prototype.setInPvs = function (value) {
             if (this.inPvs === value)
                 return;
-            if (!this.hasFaces())
+            if (!this.hasFaces)
                 return;
             if (!value) {
                 this.inPvs = false;
@@ -615,27 +608,26 @@ var SourceUtils;
             this.updateBuffer(gl, this.indices, gl.ELEMENT_ARRAY_BUFFER);
         };
         VisLeaf.prototype.loadFaces = function () {
-            if (!this.hasFaces() || this.loadedFaces)
+            if (!this.hasFaces || this.loadedFaces)
                 return;
             this.loadedFaces = true;
-            this.model.map.faceLoader.loadFaces(this.firstFace, this.numFaces, this);
+            this.model.map.faceLoader.loadFaces(this.leafIndex, this);
         };
+        VisLeaf.rootCenter = new THREE.Vector3();
+        VisLeaf.thisCenter = new THREE.Vector3();
         return VisLeaf;
     }());
-    VisLeaf.rootCenter = new THREE.Vector3();
-    VisLeaf.thisCenter = new THREE.Vector3();
     SourceUtils.VisLeaf = VisLeaf;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide })) || this;
-            _this.frustumCulled = false;
-            _this.map = map;
-            _this.index = index;
-            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
+            _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide }));
+            this.frustumCulled = false;
+            this.map = map;
+            this.index = index;
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
             // Hack
-            _this.onAfterRender = _this.onAfterRenderImpl;
-            return _this;
+            this.onAfterRender = this.onAfterRenderImpl;
         }
         BspModel.prototype.loadInfo = function (url) {
             var _this = this;
@@ -685,13 +677,12 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(url) {
-            var _this = _super.call(this) || this;
-            _this.faceLoader = new SourceUtils.FaceLoader(_this);
-            _this.models = [];
-            _this.pvs = [];
-            _this.frustumCulled = false;
-            _this.loadInfo(url);
-            return _this;
+            _super.call(this);
+            this.faceLoader = new SourceUtils.FaceLoader(this);
+            this.models = [];
+            this.pvs = [];
+            this.frustumCulled = false;
+            this.loadInfo(url);
         }
         Map.prototype.getPvsRoot = function () {
             return this.pvsRoot;
@@ -778,14 +769,13 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            var _this = _super.call(this) || this;
-            _this.lookAngs = new THREE.Vector2();
-            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            _this.unitZ = new THREE.Vector3(0, 0, 1);
-            _this.unitX = new THREE.Vector3(1, 0, 0);
-            _this.tempQuat = new THREE.Quaternion();
-            _this.canLockPointer = true;
-            return _this;
+            _super.call(this);
+            this.lookAngs = new THREE.Vector2();
+            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            this.unitZ = new THREE.Vector3(0, 0, 1);
+            this.unitX = new THREE.Vector3(1, 0, 0);
+            this.tempQuat = new THREE.Quaternion();
+            this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -899,11 +889,10 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.cameraAngle = 0;
-            _this.hullSize = new THREE.Vector3();
-            _this.hullCenter = new THREE.Vector3();
-            return _this;
+            _super.apply(this, arguments);
+            this.cameraAngle = 0;
+            this.hullSize = new THREE.Vector3();
+            this.hullCenter = new THREE.Vector3();
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -936,7 +925,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function (i) {
+            var _loop_1 = function(i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -950,7 +939,7 @@ var SourceUtils;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function (i) {
+                var _loop_2 = function(i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -970,7 +959,7 @@ var SourceUtils;
             if (shader == null)
                 return;
             var mat = new THREE[shader.material]();
-            var _loop_3 = function (i) {
+            var _loop_3 = function(i) {
                 var prop = shader.properties[i];
                 switch (prop.type) {
                     case PropertyType.Texture:
