@@ -241,13 +241,51 @@ namespace SourceUtils.ValveBsp
         public short Bevel;
     }
 
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public enum NeighborCorner
+    {
+        LowerLeft,
+        UpperLeft,
+        UpperRight,
+        LowerRight
+    }
+
+    public enum NeighborSpan : byte
+    {
+        CornerToCorner,
+        CornerToMidpoint,
+        MidpointToCorner
+    }
+
+    public enum NeighborEdge : byte
+    {
+        Left,
+        Top,
+        Right,
+        Bottom
+    }
+
+    public enum NeighborOrientation : byte
+    {
+        CounterClockwise0,
+        CounterClockwise90,
+        CounterClockwise180,
+        CounterClockwise270
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 6 )]
     public struct DispSubNeighbor
     {
         public ushort NeighborIndex;
-        public byte NeighborOrientation;
-        public byte Span;
-        public byte NeighborSpan;
+        public NeighborOrientation NeighborOrientation;
+        public NeighborSpan Span;
+        public NeighborSpan NeighborSpan;
+
+        public bool IsValid => NeighborIndex != 0xffff;
+
+        public override string ToString()
+        {
+            return IsValid ? $"{NeighborIndex}" : "null";
+        }
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
@@ -268,9 +306,14 @@ namespace SourceUtils.ValveBsp
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return $"({_subNeighbor0}, {_subNeighbor1})";
+        }
     }
 
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 10 )]
     public struct DispCornerNeighbors
     {
         private readonly ushort _neighbor0;
@@ -296,6 +339,14 @@ namespace SourceUtils.ValveBsp
                 }
             }
         }
+
+        public override string ToString()
+        {
+            var values = new ushort[NumNeighbors];
+            for ( var i = 0; i < NumNeighbors; ++i ) values[i] = this[i];
+
+            return $"({string.Join( ", ", values )})";
+        }
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 176 )]
@@ -315,36 +366,36 @@ namespace SourceUtils.ValveBsp
         public int LightmapAlphaStart;
         public int LightmapSamplePositionStart;
 
-        private readonly DispNeighbor _edgeNeighbour0;
-        private readonly DispNeighbor _edgeNeighbour1;
-        private readonly DispNeighbor _edgeNeighbour2;
-        private readonly DispNeighbor _edgeNeighbour3;
+        private readonly DispNeighbor _edgeNeighbor0;
+        private readonly DispNeighbor _edgeNeighbor1;
+        private readonly DispNeighbor _edgeNeighbor2;
+        private readonly DispNeighbor _edgeNeighbor3;
 
-        public DispNeighbor GetEdgeNeighbour( int index )
+        public DispNeighbor GetEdgeNeighbor( NeighborEdge edge )
         {
-            switch ( index )
+            switch ( (int) edge )
             {
-                case 0: return _edgeNeighbour0;
-                case 1: return _edgeNeighbour1;
-                case 2: return _edgeNeighbour2;
-                case 3: return _edgeNeighbour3;
+                case 0: return _edgeNeighbor0;
+                case 1: return _edgeNeighbor1;
+                case 2: return _edgeNeighbor2;
+                case 3: return _edgeNeighbor3;
                 default: throw new IndexOutOfRangeException();
             }
         }
 
-        private readonly DispCornerNeighbors _cornerNeighbours0;
-        private readonly DispCornerNeighbors _cornerNeighbours1;
-        private readonly DispCornerNeighbors _cornerNeighbours2;
-        private readonly DispCornerNeighbors _cornerNeighbours3;
+        private readonly DispCornerNeighbors _cornerNeighbors0;
+        private readonly DispCornerNeighbors _cornerNeighbors1;
+        private readonly DispCornerNeighbors _cornerNeighbors2;
+        private readonly DispCornerNeighbors _cornerNeighbors3;
         
-        public DispCornerNeighbors GetCornerNeighbour( int index )
+        public DispCornerNeighbors GetCornerNeighbor( NeighborCorner corner )
         {
-            switch ( index )
+            switch ( (int) corner )
             {
-                case 0: return _cornerNeighbours0;
-                case 1: return _cornerNeighbours1;
-                case 2: return _cornerNeighbours2;
-                case 3: return _cornerNeighbours3;
+                case 0: return _cornerNeighbors0;
+                case 1: return _cornerNeighbors1;
+                case 2: return _cornerNeighbors2;
+                case 3: return _cornerNeighbors3;
                 default: throw new IndexOutOfRangeException();
             }
         }
