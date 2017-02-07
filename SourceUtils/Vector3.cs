@@ -49,6 +49,11 @@ namespace SourceUtils
             Z = z;
         }
 
+        public float Dot( Vector3 other )
+        {
+            return X * other.X + Y * other.Y + Z * other.Z;
+        }
+
         public bool Equals( Vector3 other )
         {
             return X == other.X && Y == other.Y && Z == other.Z;

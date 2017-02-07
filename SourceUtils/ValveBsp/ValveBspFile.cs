@@ -153,6 +153,14 @@ namespace SourceUtils
             return stream;
         }
 
+        public Vector3 GetVertexFromSurfEdgeId( int surfEdgeId )
+        {
+            var surfEdge = SurfEdges[surfEdgeId];
+            var edgeIndex = Math.Abs(surfEdge);
+            var edge = Edges[edgeIndex];
+            return Vertices[surfEdge >= 0 ? edge.A : edge.B];
+        }
+
         public void Dispose()
         {
             _stream?.Dispose();

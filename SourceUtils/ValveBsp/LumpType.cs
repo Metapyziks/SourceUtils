@@ -2,6 +2,11 @@ namespace SourceUtils
 {
     partial class ValveBspFile
     {
+        public interface ILump
+        {
+            LumpType LumpType { get; }
+        }
+
         public enum LumpType
         {
             ENTITIES,

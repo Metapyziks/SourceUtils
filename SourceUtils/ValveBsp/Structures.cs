@@ -78,6 +78,11 @@ namespace SourceUtils.ValveBsp
         public Vector3 Normal;
         public float Dist;
         public int Type;
+
+        public bool IsInFront( Vector3 vec )
+        {
+            return vec.Dot( Normal ) > Dist;
+        }
     }
 
     public enum Side : byte

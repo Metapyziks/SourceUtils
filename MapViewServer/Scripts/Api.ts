@@ -80,5 +80,17 @@
             index: number;
             pvs: string | number[];
         }
+
+        export class Displacement {
+            index: number;
+            power: number;
+            min: Vector3;
+            max: Vector3;
+            clusters: number[];
+        }
+
+        export class BspDisplacementsResponse {
+            displacements: Displacement[];
+        }
     }
 }

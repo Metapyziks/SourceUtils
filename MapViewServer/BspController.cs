@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Web.UI.WebControls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
@@ -250,36 +251,6 @@ namespace MapViewServer
         [ThreadStatic]
         private static List<int> _sIndicesBuffer;
 
-        private static Vector3 GetVertex( ValveBspFile bsp, int surfEdgeId )
-        {
-            var surfEdge = bsp.SurfEdges[surfEdgeId];
-            var edgeIndex = Math.Abs(surfEdge);
-            var edge = bsp.Edges[edgeIndex];
-            return bsp.Vertices[surfEdge >= 0 ? edge.A : edge.B];
-        }
-
-        [ThreadStatic]
-        private static Vector3[] _sCorners;
-
-        private static Vector3 GetDisplacementVertex( ValveBspFile bsp, int offset, int x, int y, int size, Vector3[] corners, int firstCorner )
-        {
-            var vert = bsp.DisplacementVerts[offset + x + y * (size + 1)];
-
-            var tx = (float) x / size;
-            var ty = (float) y / size;
-            var sx = 1f - tx;
-            var sy = 1f - ty;
-
-            var cornerA = corners[(0 + firstCorner) & 3];
-            var cornerB = corners[(1 + firstCorner) & 3];
-            var cornerC = corners[(2 + firstCorner) & 3];
-            var cornerD = corners[(3 + firstCorner) & 3];
-
-            var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
-
-            return origin + vert.Vector * vert.Distance;
-        }
-
         private static void SerializeDisplacement( ValveBspFile bsp, ref Face face, ref Plane plane, VertexArray verts )
         {
             if ( face.NumEdges != 4 )
@@ -287,36 +258,18 @@ namespace MapViewServer
                 throw new Exception( "Expected displacement to have 4 edges." );
             }
 
-            if ( _sCorners == null ) _sCorners = new Vector3[4];
-
-            var disp = bsp.DisplacementInfos[face.DispInfo];
-            var size = 1 << disp.Power;
-            var firstCorner = 0;
-            var firstCornerDist2 = float.MaxValue;
-
-            for ( var i = 0; i < 4; ++i )
-            {
-                var vert = GetVertex( bsp, face.FirstEdge + i );
-                _sCorners[i] = vert;
-
-                var dist2 = (disp.StartPosition - vert).LengthSquared;
-                if ( dist2 < firstCornerDist2 )
-                {
-                    firstCorner = i;
-                    firstCornerDist2 = dist2;
-                }
-            }
+            var disp = new Displacement( bsp, face.DispInfo );
 
             // TODO: Normals
 
-            for ( var y = 0; y < size; ++y )
+            for ( var y = 0; y < disp.Size; ++y )
             {
                 verts.BeginPrimitive();
 
-                for ( var x = 0; x < size; ++x )
+                for ( var x = 0; x < disp.Size; ++x )
                 {
-                    var y0 = GetDisplacementVertex( bsp, disp.DispVertStart, x, y, size, _sCorners, firstCorner );
-                    var y1 = GetDisplacementVertex( bsp, disp.DispVertStart, x, y + 1, size, _sCorners, firstCorner );
+                    var y0 = disp.GetPosition( x, y + 0 );
+                    var y1 = disp.GetPosition( x, y + 1 );
 
                     verts.AddVertex( y0, plane.Normal );
                     verts.AddVertex( y1, plane.Normal );
@@ -346,7 +299,7 @@ namespace MapViewServer
 
             for ( int i = face.FirstEdge, iEnd = face.FirstEdge + face.NumEdges; i < iEnd; ++i )
             {
-                var vert = GetVertex( bsp, i );
+                var vert = bsp.GetVertexFromSurfEdgeId( i );
                 var norm = plane.Normal;
                 verts.AddVertex( vert, norm );
             }
@@ -545,25 +498,71 @@ namespace MapViewServer
             return response;
         }
 
+        private static void AddToBounds( ref Vector3 min, ref Vector3 max, Vector3 pos )
+        {
+            if ( pos.X < min.X ) min.X = pos.X;
+            if ( pos.Y < min.Y ) min.Y = pos.Y;
+            if ( pos.Z < min.Z ) min.Z = pos.Z;
+            
+            if ( pos.X > max.X ) max.X = pos.X;
+            if ( pos.Y > max.Y ) max.Y = pos.Y;
+            if ( pos.Z > max.Z ) max.Z = pos.Z;
+        }
+
+        private static void GetDisplacementBounds( ValveBspFile bsp, DispInfo dispInfo,
+            out Vector3 min, out Vector3 max, float bias = 0f )
+        {
+            min = new Vector3( float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity );
+            max = new Vector3( float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity );
+
+            var disp = new Displacement( bsp, dispInfo );
+            var biasVec = disp.Normal * bias;
+
+            for ( var y = 0; y < disp.Size; ++y )
+            for ( var x = 0; x < disp.Size; ++x )
+            {
+                var pos = disp.GetPosition( x, y );
+
+                AddToBounds( ref min, ref max, pos - biasVec );
+                AddToBounds( ref min, ref max, pos + biasVec );
+            }
+        }
+
         [Get( "/{mapName}/displacements" )]
         public JToken GetDisplacements( [Url] string mapName, int model )
         {
             var displacements = new JArray();
+            var foundLeaves = new List<BspTree.Leaf>();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
-                var bspModel = bsp.Models[model];
+                var tree = new BspTree( bsp, model );
 
                 foreach ( var dispInfo in bsp.DisplacementInfos )
                 {
-                    if ( dispInfo.MapFace < bspModel.FirstFace || dispInfo.MapFace >= bspModel.FirstFace + bspModel.NumFaces ) continue;
+                    if ( dispInfo.MapFace < tree.Info.FirstFace || dispInfo.MapFace >= tree.Info.FirstFace + tree.Info.NumFaces ) continue;
                     var face = bsp.FacesHdr[dispInfo.MapFace];
+
+                    Vector3 min, max;
+                    GetDisplacementBounds( bsp, dispInfo, out min, out max, 1f );
+
+                    foundLeaves.Clear();
+                    tree.GetIntersectingLeaves( min, max, foundLeaves );
+                    
+                    var clusters = new JArray();
+
+                    foreach ( var leaf in foundLeaves )
+                    {
+                        clusters.Add( leaf.Info.Cluster );
+                    }
 
                     displacements.Add(  new JObject
                     {
-                        { "position", dispInfo.StartPosition.ToJson() },
+                        { "index", face.DispInfo },
                         { "power", dispInfo.Power },
-                        { "index", face.DispInfo }
+                        { "min", min.ToJson() },
+                        { "max", max.ToJson() },
+                        { "clusters", clusters }
                     } );
                 }
 

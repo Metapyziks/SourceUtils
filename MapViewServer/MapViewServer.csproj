@@ -97,6 +97,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\Api.ts" />
     <TypeScriptCompile Include="Scripts\AppBase.ts" />
+    <TypeScriptCompile Include="Scripts\BspModel.ts" />
     <TypeScriptCompile Include="Scripts\Entity.ts" />
     <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />
@@ -126,6 +127,9 @@
     <TypeScriptCompile Include="Scripts\typings\threejs\three.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\webvr-api\webvr-api.d.ts" />
     <TypeScriptCompile Include="Scripts\Utils.ts" />
+    <TypeScriptCompile Include="Scripts\VisLeaf.ts" />
+    <TypeScriptCompile Include="Scripts\VisLeafElement.ts" />
+    <TypeScriptCompile Include="Scripts\VisNode.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\scripts\" />

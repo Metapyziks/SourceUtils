@@ -76,12 +76,12 @@
                 .replace("{leaves}", query);
 
             $.getJSON(url, (data: Api.BspFacesResponse) => {
-                for (let i = 0; i < data.leaves.length; ++i) {
-                    const leafFaces = data.leaves[i];
+                for (let i = 0; i < data.facesList.length; ++i) {
+                    const faces = data.facesList[i];
                     for (let j = 0; j < tasks.length; ++j) {
                         const task = tasks[j];
-                        if (task.leafIndex === leafFaces.index) {
-                            task.target.onLoadFaces(leafFaces);
+                        if (task.leafIndex === faces.index) {
+                            task.target.onLoadFaces(faces);
                             tasks.splice(j, 1);
                             break;
                         }

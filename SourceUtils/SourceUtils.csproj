@@ -47,10 +47,13 @@
     <Compile Include="ResourceLoader.cs" />
     <Compile Include="SubStream.cs" />
     <Compile Include="ValveBsp\ArrayLump.cs" />
+    <Compile Include="ValveBsp\BspTree.cs" />
+    <Compile Include="ValveBsp\Displacement.cs" />
     <Compile Include="ValveBsp\Structures.cs" />
     <Compile Include="ValveBsp\LumpInfo.cs" />
     <Compile Include="ValveBsp\LumpType.cs" />
     <Compile Include="ValveBsp\Reflection.cs" />
+    <Compile Include="ValveBsp\VisibilityLump.cs" />
     <Compile Include="ValveTriangleFile.cs" />
     <Compile Include="ValveVertexFile.cs" />
     <Compile Include="ValveVertexLightingFile.cs" />
