@@ -95,6 +95,8 @@ namespace SourceUtils
         [BspLump(LumpType.DISP_VERTS)]
         public ArrayLump<DispVert> DisplacementVerts { get; private set; }
 
+        public DisplacementManager DisplacementManager { get; }
+
         private readonly Stream _stream;
         private readonly Header _header;
 
@@ -108,6 +110,8 @@ namespace SourceUtils
             {
                 _header = Header.Read( reader );
             }
+
+            DisplacementManager = new DisplacementManager( this );
         }
 
         private LumpInfo GetLumpInfo( LumpType type )

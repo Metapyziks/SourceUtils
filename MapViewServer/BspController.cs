@@ -258,7 +258,7 @@ namespace MapViewServer
                 throw new Exception( "Expected displacement to have 4 edges." );
             }
 
-            var disp = new Displacement( bsp, face.DispInfo );
+            var disp = bsp.DisplacementManager[face.DispInfo];
 
             // TODO: Normals
 
@@ -523,13 +523,13 @@ namespace MapViewServer
             if ( pos.Z > max.Z ) max.Z = pos.Z;
         }
 
-        private static void GetDisplacementBounds( ValveBspFile bsp, DispInfo dispInfo,
+        private static void GetDisplacementBounds( ValveBspFile bsp, int index,
             out Vector3 min, out Vector3 max, float bias = 0f )
         {
             min = new Vector3( float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity );
             max = new Vector3( float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity );
 
-            var disp = new Displacement( bsp, dispInfo );
+            var disp = bsp.DisplacementManager[index];
             var biasVec = disp.Normal * bias;
 
             for ( var y = 0; y < disp.Size; ++y )
@@ -557,7 +557,7 @@ namespace MapViewServer
                     var face = bsp.FacesHdr[dispInfo.MapFace];
 
                     Vector3 min, max;
-                    GetDisplacementBounds( bsp, dispInfo, out min, out max, 1f );
+                    GetDisplacementBounds( bsp, face.DispInfo, out min, out max, 1f );
 
                     foundLeaves.Clear();
                     tree.GetIntersectingLeaves( min, max, foundLeaves );

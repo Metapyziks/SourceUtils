@@ -253,19 +253,49 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct DispNeighbor
     {
-        public DispSubNeighbor SubNeighbor0;
-        public DispSubNeighbor SubNeighbor1;
+        private readonly DispSubNeighbor _subNeighbor0;
+        private readonly DispSubNeighbor _subNeighbor1;
+
+        public DispSubNeighbor this[ int index ]
+        {
+            get
+            {
+                switch ( index )
+                {
+                    case 0: return _subNeighbor0;
+                    case 1: return _subNeighbor1;
+                    default: throw new IndexOutOfRangeException();
+                }
+            }
+        }
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct DispCornerNeighbors
     {
-        public ushort Neighbor0;
-        public ushort Neighbor1;
-        public ushort Neighbor2;
-        public ushort Neighbor3;
+        private readonly ushort _neighbor0;
+        private readonly ushort _neighbor1;
+        private readonly ushort _neighbor2;
+        private readonly ushort _neighbor3;
 
         public byte NumNeighbors;
+
+        public ushort this[ int index ]
+        {
+            get
+            {
+                if ( index < 0 || index >= NumNeighbors ) throw new IndexOutOfRangeException();
+
+                switch ( index )
+                {
+                    case 0: return _neighbor0;
+                    case 1: return _neighbor1;
+                    case 2: return _neighbor2;
+                    case 3: return _neighbor3;
+                    default: throw new IndexOutOfRangeException();
+                }
+            }
+        }
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 176 )]
@@ -280,9 +310,44 @@ namespace SourceUtils.ValveBsp
         public int Contents;
         public ushort MapFace;
 
+        private readonly ushort _unknown;
+
         public int LightmapAlphaStart;
-        private readonly short _unknown;
         public int LightmapSamplePositionStart;
+
+        private readonly DispNeighbor _edgeNeighbour0;
+        private readonly DispNeighbor _edgeNeighbour1;
+        private readonly DispNeighbor _edgeNeighbour2;
+        private readonly DispNeighbor _edgeNeighbour3;
+
+        public DispNeighbor GetEdgeNeighbour( int index )
+        {
+            switch ( index )
+            {
+                case 0: return _edgeNeighbour0;
+                case 1: return _edgeNeighbour1;
+                case 2: return _edgeNeighbour2;
+                case 3: return _edgeNeighbour3;
+                default: throw new IndexOutOfRangeException();
+            }
+        }
+
+        private readonly DispCornerNeighbors _cornerNeighbours0;
+        private readonly DispCornerNeighbors _cornerNeighbours1;
+        private readonly DispCornerNeighbors _cornerNeighbours2;
+        private readonly DispCornerNeighbors _cornerNeighbours3;
+        
+        public DispCornerNeighbors GetCornerNeighbour( int index )
+        {
+            switch ( index )
+            {
+                case 0: return _cornerNeighbours0;
+                case 1: return _cornerNeighbours1;
+                case 2: return _cornerNeighbours2;
+                case 3: return _cornerNeighbours3;
+                default: throw new IndexOutOfRangeException();
+            }
+        }
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]

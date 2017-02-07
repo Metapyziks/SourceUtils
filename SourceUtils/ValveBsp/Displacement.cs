@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceUtils.ValveBsp
 {
@@ -16,10 +12,10 @@ namespace SourceUtils.ValveBsp
         public int Size => (1 << _dispInfo.Power) + 1;
         public Vector3 Normal { get; }
 
-        public Displacement( ValveBspFile bsp, int index )
+        internal Displacement( ValveBspFile bsp, int index )
             : this( bsp, bsp.DisplacementInfos[index] ) { }
 
-        public Displacement( ValveBspFile bsp, DispInfo dispInfo )
+        internal Displacement( ValveBspFile bsp, DispInfo dispInfo )
         {
             _bspFile = bsp;
             _dispInfo = dispInfo;
