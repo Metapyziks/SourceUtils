@@ -262,17 +262,14 @@ namespace MapViewServer
 
             // TODO: Normals
 
-            for ( var y = 0; y < disp.Size; ++y )
+            for ( var y = 0; y < disp.Size - 1; ++y )
             {
                 verts.BeginPrimitive();
 
                 for ( var x = 0; x < disp.Size; ++x )
                 {
-                    var y0 = disp.GetPosition( x, y + 0 );
-                    var y1 = disp.GetPosition( x, y + 1 );
-
-                    verts.AddVertex( y0, plane.Normal );
-                    verts.AddVertex( y1, plane.Normal );
+                    verts.AddVertex( disp.GetPosition( x, y + 0 ), disp.GetNormal( x, y + 0 ) );
+                    verts.AddVertex( disp.GetPosition( x, y + 1 ), disp.GetNormal( x, y + 1 ) );
                 }
 
                 verts.CommitPrimitive( PrimitiveType.TriangleStrip );
@@ -360,8 +357,7 @@ namespace MapViewServer
                     {"numModels", bsp.Models.Length},
                     {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
                     {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
-                    {"leafFacesUrl", GetActionUrl( nameof( GetLeafFaces ), Replace( "mapName", mapName ) )},
-                    {"displacementFacesUrl", GetActionUrl( nameof( GetDisplacementFaces ), Replace( "mapName", mapName ) )},
+                    {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
                     {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), Replace( "mapName", mapName ) )}
                 };
             }
@@ -398,29 +394,76 @@ namespace MapViewServer
             };
         }
 
-        private static readonly Regex _sItemsRegex = new Regex( @"^(?<item>[0-9]+)(\s+(?<item>[0-9]+))*$" );
+        private enum FacesType
+        {
+            Leaf,
+            Displacement
+        }
 
-        private JObject GetFaces( string mapName, string indicesString, Func<ValveBspFile, int, IEnumerable<int>> faceSelect )
+        private struct FacesRequest
+        {
+            public readonly FacesType Type;
+            public readonly int Index;
+
+            public FacesRequest( string str )
+            {
+                switch ( str[0] )
+                {
+                    case 'l': Type = FacesType.Leaf; break;
+                    case 'd': Type = FacesType.Displacement; break;
+                    default: throw new NotImplementedException();
+                }
+
+                Index = int.Parse( str.Substring( 1 ) );
+            }
+
+            public IEnumerable<int> GetFaceIndices( ValveBspFile bsp )
+            {
+                switch ( Type )
+                {
+                    case FacesType.Leaf:
+                    {
+                        var leaf = bsp.Leaves[Index];
+                        for ( int i = leaf.FirstLeafFace, iEnd = leaf.FirstLeafFace + leaf.NumLeafFaces; i < iEnd; ++i )
+                        {
+                            yield return bsp.LeafFaces[i];
+                        }
+
+                        yield break;
+                    }
+                    case FacesType.Displacement:
+                    {
+                        yield return bsp.DisplacementInfos[Index].MapFace;
+                        yield break;
+                    }
+                }
+            }
+        }
+
+        private static readonly Regex _sFaceRequestsRegex = new Regex( @"^(?<item>[ld][0-9]+)(\s+(?<item>[ld][0-9]+))*$" );
+
+        [Get( "/{mapName}/faces" )]
+        public JToken GetFaces( [Url] string mapName, string tokens )
         {
             if ( CheckNotExpired( mapName ) ) return null;
 
-            var match = _sItemsRegex.Match( indicesString );
-            if ( !match.Success ) throw BadParameterException( nameof( indicesString ) );
+            var match = _sFaceRequestsRegex.Match( tokens );
+            if ( !match.Success ) throw BadParameterException( nameof( tokens ) );
 
             var array = new JArray();
             var vertArray = new VertexArray();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
-                foreach ( var itemString in match.Groups["item"].Captures
+                foreach ( var token in match.Groups["item"].Captures
                     .Cast<Capture>()
                     .Select( x => x.Value ))
                 {
-                    var itemIndex = int.Parse( itemString );
+                    var request = new FacesRequest( token );
                     vertArray.Clear();
 
                     var elementsArray = new JArray();
-                    foreach ( var faceIndex in faceSelect(bsp, itemIndex) )
+                    foreach ( var faceIndex in request.GetFaceIndices( bsp ) )
                     {
                         SerializeFace( bsp, faceIndex, vertArray );
                     }
@@ -434,7 +477,6 @@ namespace MapViewServer
 
                     array.Add( new JObject
                     {
-                        {"index", itemIndex},
                         {"elements", elementsArray},
                         {"vertices", vertArray.GetVertices( this )},
                         {"indices", vertArray.GetIndices( this )}
@@ -446,34 +488,6 @@ namespace MapViewServer
             {
                 {"facesList", array}
             };
-        }
-
-        private static IEnumerable<int> GetLeafFaceIndices( ValveBspFile bsp, int leafIndex )
-        {
-            var leaf = bsp.Leaves[leafIndex];
-            
-            for ( int i = leaf.FirstLeafFace, iEnd = leaf.FirstLeafFace + leaf.NumLeafFaces; i < iEnd; ++i )
-            {
-                yield return bsp.LeafFaces[i];
-            }
-        }
-
-        [Get( "/{mapName}/leaf-faces" )]
-        public JToken GetLeafFaces( [Url] string mapName, string leaves )
-        {
-            return GetFaces( mapName, leaves, GetLeafFaceIndices );
-        }
-
-        private static IEnumerable<int> GetDisplacementFaceIndices( ValveBspFile bsp, int displacementIndex )
-        {
-            var dispInfo = bsp.DisplacementInfos[displacementIndex];
-            yield return dispInfo.MapFace;
-        }
-        
-        [Get( "/{mapName}/displacement-faces" )]
-        public JToken GetDisplacementFaces( [Url] string mapName, string displacements )
-        {
-            return GetFaces( mapName, displacements, GetDisplacementFaceIndices );
         }
 
         [Get( "/{mapName}/model" )]
@@ -529,18 +543,17 @@ namespace MapViewServer
         }
 
         [Get( "/{mapName}/displacements" )]
-        public JToken GetDisplacements( [Url] string mapName, int model )
+        public JToken GetDisplacements( [Url] string mapName )
         {
-            var displacements = new JArray();
             var foundLeaves = new List<BspTree.Leaf>();
 
             using ( var bsp = OpenBspFile( mapName ) )
             {
-                var tree = new BspTree( bsp, model );
+                var tree = new BspTree( bsp, 0 );
+                var displacements = new JArray();
 
                 foreach ( var dispInfo in bsp.DisplacementInfos )
                 {
-                    if ( dispInfo.MapFace < tree.Info.FirstFace || dispInfo.MapFace >= tree.Info.FirstFace + tree.Info.NumFaces ) continue;
                     var face = bsp.FacesHdr[dispInfo.MapFace];
 
                     Vector3 min, max;

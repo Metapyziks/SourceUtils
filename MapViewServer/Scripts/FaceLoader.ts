@@ -1,23 +1,27 @@
 ﻿namespace SourceUtils {
     export interface IFaceLoadTarget {
-        faceLoadPriority(): number;
-        onLoadFaces(data: Api.Faces): void;
+        faceLoadPriority(map: Map): number;
+        onLoadFaces(handles: WorldMeshHandle[]): void;
+        getApiQueryToken(): string;
     }
 
-    class FaceLoaderTask {
-        leafIndex: number;
-        target: IFaceLoadTarget;
+    export class FaceData
+    {
+        elements: Api.Element[];
+        vertices: Float32Array;
+        indices: Uint16Array;
 
-        constructor(leafIndex: number, target: IFaceLoadTarget) {
-            this.leafIndex = leafIndex;
-            this.target = target;
+        constructor(faces: Api.Faces) {
+            this.elements = faces.elements;
+            this.vertices = Utils.decompressFloat32Array(faces.vertices);
+            this.indices = Utils.decompressUint16Array(faces.indices);
         }
     }
 
     export class FaceLoader {
         private map: Map;
-        private queue: FaceLoaderTask[] = [];
-        private active: FaceLoaderTask[][] = [];
+        private queue: IFaceLoadTarget[] = [];
+        private active: IFaceLoadTarget[][] = [];
 
         maxConcurrentRequests = 2;
         maxLeavesPerRequest = 512;
@@ -26,19 +30,19 @@
             this.map = map;
         }
 
-        loadFaces(leafIndex: number, target: IFaceLoadTarget): void {
-            this.queue.push(new FaceLoaderTask(leafIndex, target));
+        loadFaces(target: IFaceLoadTarget): void {
+            this.queue.push(target);
             this.update();
         }
 
-        private getNextTask(): FaceLoaderTask {
+        private getNextTask(): IFaceLoadTarget {
             let bestScore = Number.POSITIVE_INFINITY;
             let bestIndex = -1;
 
             for (let i = 0; i < this.queue.length; ++i)
             {
                 const task = this.queue[i];
-                const score = task.target.faceLoadPriority();
+                const score = task.faceLoadPriority(this.map);
                 if (bestIndex > -1 && score >= bestScore) continue;
 
                 bestScore = score;
@@ -58,13 +62,13 @@
 
             let query = "";
 
-            const tasks: FaceLoaderTask[] = [];
+            const tasks: IFaceLoadTarget[] = [];
 
             while (tasks.length < this.maxLeavesPerRequest && this.queue.length > 0 && query.length < 1536) {
                 const next = this.getNextTask();
                 if (next == null) break;
                 if (query.length > 0) query += "+";
-                query += next.leafIndex.toString();
+                query += next.getApiQueryToken();
                 tasks.push(next);
             }
 
@@ -72,20 +76,15 @@
 
             this.active.push(tasks);
 
-            const url = this.map.info.leafFacesUrl
-                .replace("{leaves}", query);
+            const url = this.map.info.facesUrl
+                .replace("{tokens}", query);
 
             $.getJSON(url, (data: Api.BspFacesResponse) => {
                 for (let i = 0; i < data.facesList.length; ++i) {
                     const faces = data.facesList[i];
-                    for (let j = 0; j < tasks.length; ++j) {
-                        const task = tasks[j];
-                        if (task.leafIndex === faces.index) {
-                            task.target.onLoadFaces(faces);
-                            tasks.splice(j, 1);
-                            break;
-                        }
-                    }
+                    const task = tasks[i];
+                    const handles = this.map.meshManager.addFaces(new FaceData(faces));
+                    task.onLoadFaces(handles);
                 }
             }).fail(() => {
                 const rangesStr = query.replace("+", ", ");

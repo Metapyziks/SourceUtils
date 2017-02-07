@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspNode;
         }(BspElem));
@@ -48,17 +48,17 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
-        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
+        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
+        var PrimitiveType = Api.PrimitiveType;
         var Element = (function () {
             function Element() {
             }
@@ -126,13 +126,12 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var Key;
+    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var MouseButton = SourceUtils.MouseButton;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -232,7 +231,8 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
+    })(SourceUtils.Key || (SourceUtils.Key = {}));
+    var Key = SourceUtils.Key;
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -392,15 +392,18 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide })) || this;
-            _this.frustumCulled = false;
-            _this.map = map;
-            _this.index = index;
-            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
+            _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide }));
+            this.frustumCulled = false;
+            this.map = map;
+            this.index = index;
+            this.drawList = new SourceUtils.DrawList(map);
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
             // Hack
-            _this.onAfterRender = _this.onAfterRenderImpl;
-            return _this;
+            this.onAfterRender = this.onAfterRenderImpl;
         }
+        BspModel.prototype.getDrawList = function () {
+            return this.drawList;
+        };
         BspModel.prototype.loadInfo = function (url) {
             var _this = this;
             $.getJSON(url, function (data) {
@@ -413,6 +416,11 @@ var SourceUtils;
             this.leaves = [];
             this.root = new SourceUtils.VisNode(this, SourceUtils.Utils.decompress(this.info.tree));
             this.root.getAllLeaves(this.leaves);
+            if (this.index !== 0) {
+                for (var i = 0; i < this.leaves.length; ++i) {
+                    this.drawList.addItem(this.leaves[i]);
+                }
+            }
         };
         BspModel.prototype.getLeaves = function () {
             return this.leaves;
@@ -429,23 +437,148 @@ var SourceUtils;
             return elem;
         };
         BspModel.prototype.onAfterRenderImpl = function (renderer, scene, camera, geom, mat, group) {
-            var leaves = this === this.map.getWorldSpawn() ? this.map.getPvs() : this.leaves;
             var webGlRenderer = renderer;
             var gl = webGlRenderer.context;
             var props = webGlRenderer.properties;
             var matProps = props.get(this.material);
             var program = matProps.program;
             var attribs = program.getAttributes();
-            gl.enableVertexAttribArray(attribs["position"]);
-            gl.enableVertexAttribArray(attribs["normal"]);
-            for (var i = 0, leafCount = leaves.length; i < leafCount; ++i) {
-                var leaf = leaves[i];
-                leaf.render(gl, attribs);
-            }
+            gl.enableVertexAttribArray(attribs.position);
+            gl.enableVertexAttribArray(attribs.normal);
+            this.drawList.render(attribs);
+        };
+        BspModel.prototype.debugPrint = function () {
+            this.drawList.debugPrint();
         };
         return BspModel;
     }(THREE.Mesh));
     SourceUtils.BspModel = BspModel;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var DrawListItem = (function () {
+        function DrawListItem(tokenPrefix, tokenIndex) {
+            this.loadedFaces = false;
+            this.tokenPrefix = tokenPrefix;
+            this.tokenIndex = tokenIndex;
+        }
+        DrawListItem.prototype.getIsVisible = function () {
+            return this.drawList != null;
+        };
+        DrawListItem.prototype.onAddToDrawList = function (list) {
+            this.drawList = list;
+        };
+        DrawListItem.prototype.onRemoveFromDrawList = function (list) {
+            if (this.drawList === list)
+                this.drawList = null;
+        };
+        DrawListItem.prototype.getMeshHandles = function (loader) {
+            if (!this.loadedFaces) {
+                this.loadedFaces = true;
+                loader.loadFaces(this);
+            }
+            return this.meshHandles;
+        };
+        DrawListItem.prototype.faceLoadPriority = function (map) {
+            if (!this.getIsVisible())
+                return Number.POSITIVE_INFINITY;
+            if (this.bounds == null)
+                return Number.MAX_VALUE;
+            var root = map.getPvsRoot();
+            if (this === root || root == null)
+                return 0;
+            root.bounds.getCenter(DrawListItem.rootCenter);
+            this.bounds.getCenter(DrawListItem.thisCenter);
+            DrawListItem.rootCenter.sub(DrawListItem.thisCenter);
+            return DrawListItem.rootCenter.lengthSq();
+        };
+        DrawListItem.prototype.onLoadFaces = function (handles) {
+            this.meshHandles = handles;
+            if (this.getIsVisible())
+                this.drawList.updateItem(this);
+        };
+        DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
+        DrawListItem.rootCenter = new THREE.Vector3();
+        DrawListItem.thisCenter = new THREE.Vector3();
+        return DrawListItem;
+    }());
+    SourceUtils.DrawListItem = DrawListItem;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="DrawListItem.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Displacement = (function (_super) {
+        __extends(Displacement, _super);
+        function Displacement(info) {
+            _super.call(this, "d", info.index);
+            this.clusters = info.clusters;
+            var min = info.min;
+            var max = info.max;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+        }
+        return Displacement;
+    }(SourceUtils.DrawListItem));
+    SourceUtils.Displacement = Displacement;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var DrawList = (function () {
+        function DrawList(map) {
+            this.items = [];
+            this.handles = [];
+            this.map = map;
+        }
+        DrawList.prototype.clear = function () {
+            for (var i = 0, iEnd = this.items.length; i < iEnd; ++i) {
+                this.items[i].onRemoveFromDrawList(this);
+            }
+            this.items = [];
+            this.handles = [];
+        };
+        DrawList.prototype.addItem = function (item) {
+            this.items.push(item);
+            this.updateItem(item);
+            item.onAddToDrawList(this);
+        };
+        DrawList.prototype.updateItem = function (item) {
+            this.handles = null;
+        };
+        DrawList.prototype.renderHandle = function (handle, attribs) {
+            if (this.lastGroup !== handle.group) {
+                this.lastGroup = handle.group;
+                this.lastGroup.prepareForRendering(attribs);
+            }
+            this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
+        };
+        DrawList.prototype.buildHandleList = function () {
+            this.handles = [];
+            var loader = this.map.faceLoader;
+            for (var i = 0, iEnd = this.items.length; i < iEnd; ++i) {
+                var handles = this.items[i].getMeshHandles(loader);
+                if (handles == null)
+                    continue;
+                for (var j = 0, jEnd = handles.length; j < jEnd; ++j) {
+                    if (handles[j].count === 0)
+                        continue;
+                    this.handles.push(handles[j]);
+                }
+            }
+        };
+        DrawList.prototype.render = function (attribs) {
+            this.lastGroup = undefined;
+            this.lastIndex = undefined;
+            if (this.handles == null)
+                this.buildHandleList();
+            for (var i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
+                this.renderHandle(this.handles[i], attribs);
+            }
+        };
+        DrawList.prototype.debugPrint = function () {
+            console.log("DrawCalls: " + (this.handles == null ? 0 : this.handles.length));
+        };
+        return DrawList;
+    }());
+    SourceUtils.DrawList = DrawList;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="AppBase.ts"/>
 var SourceUtils;
@@ -453,7 +586,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            _super.apply(this, arguments);
         }
         return Entity;
     }(THREE.Object3D));
@@ -461,13 +594,15 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var FaceLoaderTask = (function () {
-        function FaceLoaderTask(leafIndex, target) {
-            this.leafIndex = leafIndex;
-            this.target = target;
+    var FaceData = (function () {
+        function FaceData(faces) {
+            this.elements = faces.elements;
+            this.vertices = SourceUtils.Utils.decompressFloat32Array(faces.vertices);
+            this.indices = SourceUtils.Utils.decompressUint16Array(faces.indices);
         }
-        return FaceLoaderTask;
+        return FaceData;
     }());
+    SourceUtils.FaceData = FaceData;
     var FaceLoader = (function () {
         function FaceLoader(map) {
             this.queue = [];
@@ -476,8 +611,8 @@ var SourceUtils;
             this.maxLeavesPerRequest = 512;
             this.map = map;
         }
-        FaceLoader.prototype.loadFaces = function (leafIndex, target) {
-            this.queue.push(new FaceLoaderTask(leafIndex, target));
+        FaceLoader.prototype.loadFaces = function (target) {
+            this.queue.push(target);
             this.update();
         };
         FaceLoader.prototype.getNextTask = function () {
@@ -485,7 +620,7 @@ var SourceUtils;
             var bestIndex = -1;
             for (var i = 0; i < this.queue.length; ++i) {
                 var task = this.queue[i];
-                var score = task.target.faceLoadPriority();
+                var score = task.faceLoadPriority(this.map);
                 if (bestIndex > -1 && score >= bestScore)
                     continue;
                 bestScore = score;
@@ -509,25 +644,20 @@ var SourceUtils;
                     break;
                 if (query.length > 0)
                     query += "+";
-                query += next.leafIndex.toString();
+                query += next.getApiQueryToken();
                 tasks.push(next);
             }
             if (tasks.length === 0)
                 return;
             this.active.push(tasks);
-            var url = this.map.info.leafFacesUrl
-                .replace("{leaves}", query);
+            var url = this.map.info.facesUrl
+                .replace("{tokens}", query);
             $.getJSON(url, function (data) {
                 for (var i = 0; i < data.facesList.length; ++i) {
                     var faces = data.facesList[i];
-                    for (var j = 0; j < tasks.length; ++j) {
-                        var task = tasks[j];
-                        if (task.leafIndex === faces.index) {
-                            task.target.onLoadFaces(faces);
-                            tasks.splice(j, 1);
-                            break;
-                        }
-                    }
+                    var task = tasks[i];
+                    var handles = _this.map.meshManager.addFaces(new FaceData(faces));
+                    task.onLoadFaces(handles);
                 }
             }).fail(function () {
                 var rangesStr = query.replace("+", ", ");
@@ -547,14 +677,16 @@ var SourceUtils;
 (function (SourceUtils) {
     var Map = (function (_super) {
         __extends(Map, _super);
-        function Map(url) {
-            var _this = _super.call(this) || this;
-            _this.faceLoader = new SourceUtils.FaceLoader(_this);
-            _this.models = [];
-            _this.pvs = [];
-            _this.frustumCulled = false;
-            _this.loadInfo(url);
-            return _this;
+        function Map(url, renderer) {
+            _super.call(this);
+            this.faceLoader = new SourceUtils.FaceLoader(this);
+            this.models = [];
+            this.displacements = [];
+            this.pvs = [];
+            this.renderer = renderer;
+            this.frustumCulled = false;
+            this.meshManager = new SourceUtils.WorldMeshManager(renderer.context);
+            this.loadInfo(url);
         }
         Map.prototype.getPvsRoot = function () {
             return this.pvsRoot;
@@ -573,6 +705,16 @@ var SourceUtils;
                 _this.clusters = new Array(data.numClusters);
                 _this.pvsArray = new Array(data.numClusters);
                 _this.add(_this.models[0] = new SourceUtils.BspModel(_this, 0));
+                _this.loadDisplacements();
+            });
+        };
+        Map.prototype.loadDisplacements = function () {
+            var _this = this;
+            $.getJSON(this.info.displacementsUrl, function (data) {
+                _this.displacements = [];
+                for (var i = 0; i < data.displacements.length; ++i) {
+                    _this.displacements.push(new SourceUtils.Displacement(data.displacements[i]));
+                }
             });
         };
         Map.prototype.onModelLoaded = function (model) {
@@ -587,13 +729,22 @@ var SourceUtils;
             }
         };
         Map.prototype.replacePvs = function (pvs) {
-            for (var i = this.pvs.length - 1; i >= 0; --i) {
-                this.pvs[i].setInPvs(false);
-            }
+            var drawList = this.getWorldSpawn().getDrawList();
             this.pvs = [];
+            drawList.clear();
             for (var i = pvs.length - 1; i >= 0; --i) {
-                pvs[i].setInPvs(true);
+                drawList.addItem(pvs[i]);
                 this.pvs.push(pvs[i]);
+            }
+            for (var i = this.displacements.length - 1; i >= 0; --i) {
+                var disp = this.displacements[i];
+                var clusters = disp.clusters;
+                for (var j = 0, jEnd = clusters.length; j < jEnd; ++j) {
+                    if (this.clusters[clusters[j]].getIsVisible()) {
+                        drawList.addItem(disp);
+                        break;
+                    }
+                }
             }
             this.faceLoader.update();
         };
@@ -631,6 +782,12 @@ var SourceUtils;
                 }
             });
         };
+        Map.prototype.debugPrint = function () {
+            this.meshManager.debugPrint();
+            if (this.getWorldSpawn() != null) {
+                this.getWorldSpawn().debugPrint();
+            }
+        };
         return Map;
     }(SourceUtils.Entity));
     SourceUtils.Map = Map;
@@ -641,14 +798,13 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            var _this = _super.call(this) || this;
-            _this.lookAngs = new THREE.Vector2();
-            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            _this.unitZ = new THREE.Vector3(0, 0, 1);
-            _this.unitX = new THREE.Vector3(1, 0, 0);
-            _this.tempQuat = new THREE.Quaternion();
-            _this.canLockPointer = true;
-            return _this;
+            _super.call(this);
+            this.lookAngs = new THREE.Vector2();
+            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            this.unitZ = new THREE.Vector3(0, 0, 1);
+            this.unitX = new THREE.Vector3(1, 0, 0);
+            this.tempQuat = new THREE.Quaternion();
+            this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -665,7 +821,7 @@ var SourceUtils;
             if (this.map != null) {
                 this.getScene().remove(this.map);
             }
-            this.map = new SourceUtils.Map(url);
+            this.map = new SourceUtils.Map(url, this.getRenderer());
             this.getScene().add(this.map);
         };
         MapViewer.prototype.updateCameraAngles = function () {
@@ -762,11 +918,10 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.cameraAngle = 0;
-            _this.hullSize = new THREE.Vector3();
-            _this.hullCenter = new THREE.Vector3();
-            return _this;
+            _super.apply(this, arguments);
+            this.cameraAngle = 0;
+            this.hullSize = new THREE.Vector3();
+            this.hullCenter = new THREE.Vector3();
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -799,7 +954,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function (i) {
+            var _loop_1 = function(i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -813,7 +968,7 @@ var SourceUtils;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function (i) {
+                var _loop_2 = function(i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -833,7 +988,7 @@ var SourceUtils;
             if (shader == null)
                 return;
             var mat = new THREE[shader.material]();
-            var _loop_3 = function (i) {
+            var _loop_3 = function(i) {
                 var prop = shader.properties[i];
                 switch (prop.type) {
                     case PropertyType.Texture:
@@ -907,127 +1062,23 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var VisLeaf = (function () {
-        function VisLeaf(model, info) {
+    var VisLeaf = (function (_super) {
+        __extends(VisLeaf, _super);
+        function VisLeaf(info) {
+            _super.call(this, "l", info.index);
             this.isLeaf = true;
-            this.loadedFaces = false;
-            this.inPvs = false;
-            this.buffers = {};
             var min = info.min;
             var max = info.max;
-            this.model = model;
             this.leafIndex = info.index;
-            this.hasFaces = info.hasFaces;
             this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min
-                .x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
         };
-        VisLeaf.prototype.setInPvs = function (value) {
-            if (this.inPvs === value)
-                return;
-            if (!this.hasFaces)
-                return;
-            if (!value) {
-                this.inPvs = false;
-                return;
-            }
-            this.inPvs = true;
-            this.loadFaces();
-        };
-        VisLeaf.prototype.faceLoadPriority = function () {
-            if (!this.inPvs)
-                return Number.POSITIVE_INFINITY;
-            var root = this.model.map.getPvsRoot();
-            if (this === root || root == null)
-                return 0;
-            root.bounds.getCenter(VisLeaf.rootCenter);
-            this.bounds.getCenter(VisLeaf.thisCenter);
-            VisLeaf.rootCenter.sub(VisLeaf.thisCenter);
-            return VisLeaf.rootCenter.lengthSq();
-        };
-        VisLeaf.prototype.onLoadFaces = function (data) {
-            this.vertices = new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(data.vertices), 6);
-            this.indices = new THREE.BufferAttribute(SourceUtils.Utils.decompressUint16Array(data.indices), 1);
-            this.elements = [];
-            for (var i = 0; i < data.elements.length; ++i) {
-                this.elements.push(new SourceUtils.VisLeafElement(data.elements[i]));
-            }
-            this.needsUpdate = true;
-        };
-        VisLeaf.prototype.render = function (gl, attribs) {
-            if (this.elements == null)
-                return;
-            if (this.needsUpdate)
-                this.updateBuffers(gl);
-            var positionAttrib = attribs["position"];
-            var normalAttrib = attribs["normal"];
-            var verticesBuffer = this.getGlBuffer(this.vertices);
-            var indicesBuffer = this.getGlBuffer(this.indices);
-            gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
-            gl.vertexAttribPointer(positionAttrib, 3, gl.FLOAT, false, 6 * 4, 0);
-            gl.vertexAttribPointer(normalAttrib, 3, gl.FLOAT, true, 6 * 4, 3 * 4);
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
-            for (var i = 0, count = this.elements.length; i < count; ++i) {
-                var element = this.elements[i];
-                gl.drawElements(element.mode, element.count, gl.UNSIGNED_SHORT, element.offset * 2);
-            }
-        };
-        VisLeaf.prototype.getGlBuffer = function (buffer) {
-            return this.buffers[buffer.uuid];
-        };
-        VisLeaf.prototype.updateBuffer = function (gl, buffer, type) {
-            var glBuffer = this.getGlBuffer(buffer);
-            if (glBuffer === undefined) {
-                glBuffer = this.buffers[buffer.uuid] = gl.createBuffer();
-            }
-            gl.bindBuffer(type, glBuffer);
-            gl.bufferData(type, buffer.array, gl.STATIC_DRAW);
-        };
-        VisLeaf.prototype.updateBuffers = function (gl) {
-            this.needsUpdate = false;
-            this.updateBuffer(gl, this.vertices, gl.ARRAY_BUFFER);
-            this.updateBuffer(gl, this.indices, gl.ELEMENT_ARRAY_BUFFER);
-        };
-        VisLeaf.prototype.loadFaces = function () {
-            if (!this.hasFaces || this.loadedFaces)
-                return;
-            this.loadedFaces = true;
-            this.model.map.faceLoader.loadFaces(this.leafIndex, this);
-        };
         return VisLeaf;
-    }());
-    VisLeaf.rootCenter = new THREE.Vector3();
-    VisLeaf.thisCenter = new THREE.Vector3();
+    }(SourceUtils.DrawListItem));
     SourceUtils.VisLeaf = VisLeaf;
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var VisLeafElement = (function () {
-        function VisLeafElement(face) {
-            switch (face.type) {
-                case SourceUtils.Api.PrimitiveType.TriangleList:
-                    this.mode = WebGLRenderingContext.TRIANGLES;
-                    break;
-                case SourceUtils.Api.PrimitiveType.TriangleFan:
-                    this.mode = WebGLRenderingContext.TRIANGLE_FAN;
-                    break;
-                case SourceUtils.Api.PrimitiveType.TriangleStrip:
-                    this.mode = WebGLRenderingContext.TRIANGLE_STRIP;
-                    break;
-                default:
-                    this.mode = WebGLRenderingContext.TRIANGLES;
-                    break;
-            }
-            this.offset = face.offset;
-            this.count = face.count;
-            this.materialIndex = 0;
-        }
-        return VisLeafElement;
-    }());
-    SourceUtils.VisLeafElement = VisLeafElement;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1050,7 +1101,7 @@ var SourceUtils;
                 return new VisNode(model, info);
             }
             else {
-                return new SourceUtils.VisLeaf(model, info);
+                return new SourceUtils.VisLeaf(info);
             }
         };
         VisNode.prototype.getAllLeaves = function (dstArray) {
@@ -1060,4 +1111,175 @@ var SourceUtils;
         return VisNode;
     }());
     SourceUtils.VisNode = VisNode;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WorldMeshHandle = (function () {
+        function WorldMeshHandle(group, drawMode, offset, count) {
+            this.group = group;
+            this.drawMode = drawMode;
+            this.offset = offset;
+            this.count = count;
+        }
+        return WorldMeshHandle;
+    }());
+    SourceUtils.WorldMeshHandle = WorldMeshHandle;
+    var WorldMeshGroup = (function () {
+        function WorldMeshGroup(gl) {
+            this.vertCount = 0;
+            this.indexCount = 0;
+            this.gl = gl;
+            this.vertices = gl.createBuffer();
+            this.indices = gl.createBuffer();
+        }
+        WorldMeshGroup.prototype.getVertexCount = function () {
+            return this.vertCount / 6;
+        };
+        WorldMeshGroup.prototype.getTriangleCount = function () {
+            return this.indexCount / 3;
+        };
+        WorldMeshGroup.prototype.ensureCapacity = function (array, length, ctor) {
+            if (array != null && array.length >= length)
+                return array;
+            var newLength = 2048;
+            while (newLength < length)
+                newLength *= 2;
+            var newArray = ctor(newLength);
+            if (array != null)
+                newArray.set(array, 0);
+            return newArray;
+        };
+        WorldMeshGroup.prototype.canAddFaces = function (faces) {
+            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertices &&
+                this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
+        };
+        WorldMeshGroup.prototype.updateBuffer = function (target, buffer, data, newData, oldData, offset) {
+            var gl = this.gl;
+            gl.bindBuffer(target, buffer);
+            if (data !== oldData) {
+                gl.bufferData(target, data.byteLength, gl.STATIC_DRAW);
+                gl.bufferSubData(target, 0, data);
+            }
+            else {
+                gl.bufferSubData(target, offset * data.BYTES_PER_ELEMENT, newData);
+            }
+        };
+        WorldMeshGroup.prototype.getDrawMode = function (primitiveType) {
+            switch (primitiveType) {
+                case SourceUtils.Api.PrimitiveType.TriangleList:
+                    return this.gl.TRIANGLES;
+                case SourceUtils.Api.PrimitiveType.TriangleStrip:
+                    return this.gl.TRIANGLE_STRIP;
+                case SourceUtils.Api.PrimitiveType.TriangleFan:
+                    return this.gl.TRIANGLE_FAN;
+                default:
+                    throw new Error("Unknown primitive type '" + primitiveType + "'.");
+            }
+        };
+        WorldMeshGroup.prototype.addFaces = function (faces) {
+            if (!this.canAddFaces(faces)) {
+                throw new Error("Can't add faces to WorldMeshGroup (would exceed size limit).");
+            }
+            var gl = this.gl;
+            var newVertices = faces.vertices;
+            var newIndices = faces.indices;
+            var vertexOffset = this.vertCount;
+            var oldVertices = this.vertexData;
+            this.vertexData = this.ensureCapacity(this.vertexData, this.vertCount + newVertices.length, function (size) { return new Float32Array(size); });
+            var indexOffset = this.indexCount;
+            var oldIndices = this.indexData;
+            this.indexData = this.ensureCapacity(this.indexData, this.indexCount + newIndices.length, function (size) { return new Uint16Array(size); });
+            this.vertexData.set(newVertices, vertexOffset);
+            this.vertCount += newVertices.length;
+            var elementOffset = Math.round(vertexOffset / 6);
+            for (var i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
+                newIndices[i] += elementOffset;
+            }
+            this.indexData.set(newIndices, indexOffset);
+            this.indexCount += newIndices.length;
+            this.updateBuffer(gl.ARRAY_BUFFER, this.vertices, this.vertexData, newVertices, oldVertices, vertexOffset);
+            this.updateBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices, this.indexData, newIndices, oldIndices, indexOffset);
+            var handles = new Array(faces.elements.length);
+            for (var i = 0; i < faces.elements.length; ++i) {
+                var element = faces.elements[i];
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.offset + indexOffset, element.count);
+            }
+            return handles;
+        };
+        WorldMeshGroup.prototype.prepareForRendering = function (attribs) {
+            var gl = this.gl;
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
+            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, 6 * 4, 0 * 4);
+            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, 6 * 4, 3 * 4);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
+        };
+        WorldMeshGroup.prototype.renderElements = function (drawMode, offset, count) {
+            var gl = this.gl;
+            gl.drawElements(drawMode, count, gl.UNSIGNED_SHORT, offset * 2);
+        };
+        WorldMeshGroup.prototype.dispose = function () {
+            if (this.vertices !== undefined) {
+                this.gl.deleteBuffer(this.vertices);
+                this.vertices = undefined;
+            }
+            if (this.indices !== undefined) {
+                this.gl.deleteBuffer(this.indices);
+                this.indices = undefined;
+            }
+        };
+        WorldMeshGroup.maxVertices = 65536 * 6;
+        WorldMeshGroup.maxIndices = 2147483647;
+        return WorldMeshGroup;
+    }());
+    SourceUtils.WorldMeshGroup = WorldMeshGroup;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var DrawListBatch = (function () {
+        function DrawListBatch() {
+        }
+        return DrawListBatch;
+    }());
+    SourceUtils.DrawListBatch = DrawListBatch;
+    var WorldMeshManager = (function () {
+        function WorldMeshManager(gl) {
+            this.groups = [];
+            this.gl = gl;
+        }
+        WorldMeshManager.prototype.getVertexCount = function () {
+            var total = 0;
+            for (var i = 0; i < this.groups.length; ++i) {
+                total += this.groups[i].getVertexCount();
+            }
+            return total;
+        };
+        WorldMeshManager.prototype.getTriangleCount = function () {
+            var total = 0;
+            for (var i = 0; i < this.groups.length; ++i) {
+                total += this.groups[i].getTriangleCount();
+            }
+            return total;
+        };
+        WorldMeshManager.prototype.addFaces = function (faces) {
+            for (var i = 0; i < this.groups.length; ++i) {
+                if (this.groups[i].canAddFaces(faces))
+                    return this.groups[i].addFaces(faces);
+            }
+            var newGroup = new SourceUtils.WorldMeshGroup(this.gl);
+            var result = newGroup.addFaces(faces);
+            this.groups.push(newGroup);
+            return result;
+        };
+        WorldMeshManager.prototype.dispose = function () {
+            for (var i = 0; i < this.groups.length; ++i) {
+                this.groups[i].dispose();
+            }
+            this.groups = [];
+        };
+        WorldMeshManager.prototype.debugPrint = function () {
+            console.log("WorldMeshGroups: " + this.groups.length + ", Vertices: " + this.getVertexCount() + ", Triangles: " + this.getTriangleCount());
+        };
+        return WorldMeshManager;
+    }());
+    SourceUtils.WorldMeshManager = WorldMeshManager;
 })(SourceUtils || (SourceUtils = {}));

@@ -40,7 +40,10 @@ namespace SourceUtils
         public float Y;
         public float Z;
 
+        public float Length => (float) Math.Sqrt( LengthSquared );
         public float LengthSquared => X * X + Y * Y + Z * Z;
+
+        public Vector3 Normalized => this * (1f / Length);
 
         public Vector3( float x, float y, float z )
         {
@@ -52,6 +55,11 @@ namespace SourceUtils
         public float Dot( Vector3 other )
         {
             return X * other.X + Y * other.Y + Z * other.Z;
+        }
+
+        public Vector3 Cross( Vector3 other )
+        {
+            return new Vector3( Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X );
         }
 
         public bool Equals( Vector3 other )

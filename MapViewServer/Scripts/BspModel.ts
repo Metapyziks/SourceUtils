@@ -7,6 +7,7 @@
 
         private leaves: VisLeaf[];
         private root: VisNode;
+        private drawList: DrawList;
 
         constructor(map: Map, index: number) {
             super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide }));
@@ -15,11 +16,16 @@
 
             this.map = map;
             this.index = index;
+            this.drawList = new DrawList(map);
 
             this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
 
             // Hack
             (this as any).onAfterRender = this.onAfterRenderImpl;
+        }
+
+        getDrawList(): DrawList {
+            return this.drawList;
         }
 
         private loadInfo(url: string): void {
@@ -35,6 +41,12 @@
             this.leaves = [];
             this.root = new VisNode(this, Utils.decompress(this.info.tree));
             this.root.getAllLeaves(this.leaves);
+
+            if (this.index !== 0) {
+                for (let i = 0; i < this.leaves.length; ++i) {
+                    this.drawList.addItem(this.leaves[i]);
+                }
+            }
         }
 
         getLeaves(): VisLeaf[] {
@@ -61,8 +73,6 @@
             geom: THREE.Geometry,
             mat: THREE.Material,
             group: THREE.Group): void {
-            const leaves = this === this.map.getWorldSpawn() ? this.map.getPvs() : this.leaves;
-
             const webGlRenderer = renderer as THREE.WebGLRenderer;
 
             const gl = webGlRenderer.context;
@@ -70,15 +80,16 @@
 
             const matProps = props.get(this.material);
             const program = matProps.program;
-            const attribs = program.getAttributes();
+            const attribs = program.getAttributes() as IProgramAttributes;
 
-            gl.enableVertexAttribArray(attribs["position"]);
-            gl.enableVertexAttribArray(attribs["normal"]);
+            gl.enableVertexAttribArray(attribs.position);
+            gl.enableVertexAttribArray(attribs.normal);
 
-            for (let i = 0, leafCount = leaves.length; i < leafCount; ++i) {
-                const leaf = leaves[i];
-                leaf.render(gl, attribs);
-            }
+            this.drawList.render(attribs);
+        }
+
+        debugPrint(): void {
+            this.drawList.debugPrint();
         }
     }
 }

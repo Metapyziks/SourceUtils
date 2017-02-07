@@ -34,7 +34,7 @@ namespace SourceUtils {
                 this.getScene().remove(this.map);
             }
 
-            this.map = new Map(url);
+            this.map = new Map(url, this.getRenderer());
             this.getScene().add(this.map);
         }
 

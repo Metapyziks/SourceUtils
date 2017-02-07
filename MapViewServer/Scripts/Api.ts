@@ -9,7 +9,8 @@
             numModels: number;
 
             modelUrl: string;
-            leafFacesUrl: string;
+            displacementsUrl: string;
+            facesUrl: string;
             visibilityUrl: string;
         }
 
@@ -63,9 +64,7 @@
             count: number;
         }
 
-        export class Faces
-        {
-            index: number;
+        export class Faces {
             elements: Element[];
             vertices: string | number[];
             indices: string | number[];

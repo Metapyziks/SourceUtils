@@ -5,18 +5,26 @@ namespace SourceUtils {
         info: Api.BspIndexResponse;
 
         faceLoader = new FaceLoader(this);
+        meshManager: WorldMeshManager;
+
+        private renderer: THREE.Renderer;
 
         private models: BspModel[] = [];
+        private displacements: Displacement[] = [];
+
         private clusters: VisLeaf[];
         private pvsArray: VisLeaf[][];
 
         private pvsRoot: VisLeaf;
         private pvs: VisLeaf[] = [];
 
-        constructor(url: string) {
+        constructor(url: string, renderer: THREE.Renderer) {
             super();
 
+            this.renderer = renderer;
             this.frustumCulled = false;
+
+            this.meshManager = new WorldMeshManager((renderer as THREE.WebGLRenderer).context);
 
             this.loadInfo(url);
         }
@@ -41,6 +49,19 @@ namespace SourceUtils {
                     this.clusters = new Array<VisLeaf>(data.numClusters);
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
                     this.add(this.models[0] = new BspModel(this, 0));
+                    this.loadDisplacements();
+                });
+        }
+
+        private loadDisplacements(): void
+        {
+            $.getJSON(this.info.displacementsUrl,
+                (data: Api.BspDisplacementsResponse) => {
+                    this.displacements = [];
+
+                    for (let i = 0; i < data.displacements.length; ++i) {
+                        this.displacements.push(new Displacement(data.displacements[i]));
+                    }
                 });
         }
 
@@ -56,15 +77,27 @@ namespace SourceUtils {
         }
 
         private replacePvs(pvs: VisLeaf[]): void {
-            for (let i = this.pvs.length - 1; i >= 0; --i) {
-                this.pvs[i].setInPvs(false);
-            }
+            const drawList = this.getWorldSpawn().getDrawList();
 
             this.pvs = [];
 
+            drawList.clear();
+
             for (let i = pvs.length - 1; i >= 0; --i) {
-                pvs[i].setInPvs(true);
+                drawList.addItem(pvs[i]);
                 this.pvs.push(pvs[i]);
+            }
+
+            for (let i = this.displacements.length - 1; i >= 0; --i) {
+                const disp = this.displacements[i];
+                const clusters = disp.clusters;
+
+                for (let j = 0, jEnd = clusters.length; j < jEnd; ++j) {
+                    if (this.clusters[clusters[j]].getIsVisible()) {
+                        drawList.addItem(disp);
+                        break;
+                    }
+                }
             }
 
             this.faceLoader.update();
@@ -106,6 +139,14 @@ namespace SourceUtils {
                         this.replacePvs(pvs);
                     }
                 });
+        }
+
+        debugPrint(): void {
+            this.meshManager.debugPrint();
+
+            if (this.getWorldSpawn() != null) {
+                this.getWorldSpawn().debugPrint();
+            }
         }
     }
 }

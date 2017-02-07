@@ -63,5 +63,28 @@ namespace SourceUtils.ValveBsp
 
             return origin + vert.Vector * vert.Distance;
         }
+
+        public Vector3 GetNormal( int x, int y )
+        {
+            // TODO: neighbours
+
+            var x0 = Math.Max( x - 1, 0 );
+            var x1 = Math.Min( x + 1, Size - 1 );
+            
+            var y0 = Math.Max( y - 1, 0 );
+            var y1 = Math.Min( y + 1, Size - 1 );
+
+            var x0v = GetPosition( x0, y );
+            var x1v = GetPosition( x1, y );
+            
+            var y0v = GetPosition( x, y0 );
+            var y1v = GetPosition( x, y1 );
+
+            var normal = (x1v - x0v).Cross( y1v - y0v ).Normalized;
+
+            if ( normal.LengthSquared > 1f + 1f / 256f ) normal = Normal;
+
+            return normal;
+        }
     }
 }
