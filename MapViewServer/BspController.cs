@@ -89,16 +89,18 @@ namespace MapViewServer
             {
                 public readonly Vector3 Position;
                 public readonly Vector3 Normal;
+                public readonly Vector2 TexCoord;
 
-                public Vertex( Vector3 position, Vector3 normal )
+                public Vertex( Vector3 position, Vector3 normal, Vector2 texCoord )
                 {
                     Position = position;
                     Normal = normal;
+                    TexCoord = texCoord;
                 }
 
                 public bool Equals( Vertex other )
                 {
-                    return Position.Equals( other.Position ) && Normal.Equals( other.Normal );
+                    return Position.Equals( other.Position ) && Normal.Equals( other.Normal ) && TexCoord.Equals( other.TexCoord );
                 }
 
                 public override bool Equals( object obj )
@@ -126,6 +128,9 @@ namespace MapViewServer
                     yield return -Normal.X;
                     yield return -Normal.Y;
                     yield return -Normal.Z;
+
+                    yield return TexCoord.X;
+                    yield return TexCoord.Y;
                 }
             }
 
@@ -158,9 +163,9 @@ namespace MapViewServer
 
             public int IndexCount => _indices.Count;
 
-            public void AddVertex( Vector3 pos, Vector3 normal )
+            public void AddVertex( Vector3 pos, Vector3 normal, Vector2 texCoord )
             {
-                var vertex = new Vertex( pos, normal );
+                var vertex = new Vertex( pos, normal, texCoord );
 
                 int index;
                 if ( !_indexMap.TryGetValue( vertex, out index ) )
@@ -268,8 +273,8 @@ namespace MapViewServer
 
                 for ( var x = 0; x < disp.Size; ++x )
                 {
-                    verts.AddVertex( disp.GetPosition( x, y + 0 ), disp.GetNormal( x, y + 0 ) );
-                    verts.AddVertex( disp.GetPosition( x, y + 1 ), disp.GetNormal( x, y + 1 ) );
+                    verts.AddVertex( disp.GetPosition( x, y + 0 ), disp.GetNormal( x, y + 0 ), Vector2.Zero );
+                    verts.AddVertex( disp.GetPosition( x, y + 1 ), disp.GetNormal( x, y + 1 ), Vector2.Zero );
                 }
 
                 verts.CommitPrimitive( PrimitiveType.TriangleStrip );
@@ -298,7 +303,7 @@ namespace MapViewServer
             {
                 var vert = bsp.GetVertexFromSurfEdgeId( i );
                 var norm = plane.Normal;
-                verts.AddVertex( vert, norm );
+                verts.AddVertex( vert, norm, Vector2.Zero );
             }
 
             var numPrimitives = face.NumPrimitives & 0x7fff;

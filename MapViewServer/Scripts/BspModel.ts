@@ -20,6 +20,8 @@
 
             this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
 
+            (this.geometry as THREE.BufferGeometry).addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
+
             // Hack
             (this as any).onAfterRender = this.onAfterRenderImpl;
         }
@@ -84,6 +86,7 @@
 
             gl.enableVertexAttribArray(attribs.position);
             gl.enableVertexAttribArray(attribs.normal);
+            if (attribs.uv !== undefined) gl.enableVertexAttribArray(attribs.uv);
 
             this.drawList.render(attribs);
         }

@@ -398,6 +398,7 @@ var SourceUtils;
             this.index = index;
             this.drawList = new SourceUtils.DrawList(map);
             this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
+            this.geometry.addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
             // Hack
             this.onAfterRender = this.onAfterRenderImpl;
         }
@@ -445,6 +446,8 @@ var SourceUtils;
             var attribs = program.getAttributes();
             gl.enableVertexAttribArray(attribs.position);
             gl.enableVertexAttribArray(attribs.normal);
+            if (attribs.uv !== undefined)
+                gl.enableVertexAttribArray(attribs.uv);
             this.drawList.render(attribs);
         };
         BspModel.prototype.debugPrint = function () {
@@ -1133,7 +1136,7 @@ var SourceUtils;
             this.indices = gl.createBuffer();
         }
         WorldMeshGroup.prototype.getVertexCount = function () {
-            return this.vertCount / 6;
+            return this.vertCount / WorldMeshGroup.vertComponents;
         };
         WorldMeshGroup.prototype.getTriangleCount = function () {
             return this.indexCount / 3;
@@ -1150,7 +1153,7 @@ var SourceUtils;
             return newArray;
         };
         WorldMeshGroup.prototype.canAddFaces = function (faces) {
-            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertices &&
+            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertLength &&
                 this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
         };
         WorldMeshGroup.prototype.updateBuffer = function (target, buffer, data, newData, oldData, offset) {
@@ -1191,7 +1194,7 @@ var SourceUtils;
             this.indexData = this.ensureCapacity(this.indexData, this.indexCount + newIndices.length, function (size) { return new Uint16Array(size); });
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
-            var elementOffset = Math.round(vertexOffset / 6);
+            var elementOffset = Math.round(vertexOffset / WorldMeshGroup.vertComponents);
             for (var i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                 newIndices[i] += elementOffset;
             }
@@ -1208,9 +1211,12 @@ var SourceUtils;
         };
         WorldMeshGroup.prototype.prepareForRendering = function (attribs) {
             var gl = this.gl;
+            var stride = WorldMeshGroup.vertComponents * 4;
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, 6 * 4, 0 * 4);
-            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, 6 * 4, 3 * 4);
+            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, 0 * 4);
+            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
+            if (attribs.uv !== undefined)
+                gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, 6 * 4);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         };
         WorldMeshGroup.prototype.renderElements = function (drawMode, offset, count) {
@@ -1227,7 +1233,8 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
-        WorldMeshGroup.maxVertices = 65536 * 6;
+        WorldMeshGroup.vertComponents = 8;
+        WorldMeshGroup.maxVertLength = 65536 * WorldMeshGroup.vertComponents;
         WorldMeshGroup.maxIndices = 2147483647;
         return WorldMeshGroup;
     }());

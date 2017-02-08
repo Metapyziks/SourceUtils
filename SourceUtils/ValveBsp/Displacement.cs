@@ -198,8 +198,6 @@ namespace SourceUtils.ValveBsp
                     AddCornerNeighbor( (NeighborCorner) i, index );
                 }
             }
-
-            // TODO: Corners
         }
 
         public bool Contains( IntVector2 pos )

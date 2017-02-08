@@ -14,7 +14,8 @@
     }
 
     export class WorldMeshGroup {
-        private static maxVertices = 65536 * 6;
+        private static vertComponents = 8;
+        private static maxVertLength = 65536 * WorldMeshGroup.vertComponents;
         private static maxIndices = 2147483647;
 
         private gl: WebGLRenderingContext;
@@ -35,7 +36,7 @@
         }
 
         getVertexCount(): number {
-            return this.vertCount / 6;
+            return this.vertCount / WorldMeshGroup.vertComponents;
         }
 
         getTriangleCount(): number {
@@ -56,7 +57,7 @@
         }
 
         canAddFaces(faces: FaceData): boolean {
-            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertices &&
+            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertLength &&
                 this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
         }
 
@@ -116,7 +117,7 @@
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
 
-            const elementOffset = Math.round( vertexOffset / 6 );
+            const elementOffset = Math.round(vertexOffset / WorldMeshGroup.vertComponents);
             for (let i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                 newIndices[i] += elementOffset;
             }
@@ -140,9 +141,12 @@
         prepareForRendering(attribs: IProgramAttributes): void {
             const gl = this.gl;
 
+            const stride = WorldMeshGroup.vertComponents * 4;
+
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, 6 * 4, 0 * 4);
-            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, 6 * 4, 3 * 4);
+            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, 0 * 4);
+            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
+            if (attribs.uv !== undefined) gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, 6 * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         }

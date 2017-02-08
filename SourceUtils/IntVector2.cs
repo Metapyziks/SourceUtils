@@ -8,6 +8,16 @@ namespace SourceUtils
     {
         public static readonly IntVector2 Zero = new IntVector2( 0, 0 );
 
+        public static implicit operator Vector2( IntVector2 vector )
+        {
+            return new Vector2( vector.X, vector.Y );
+        }
+
+        public static IntVector2 operator+(IntVector2 a, IntVector2 b)
+        {
+            return new IntVector2( a.X + b.X, a.Y + b.Y );
+        }
+
         public int X;
         public int Y;
 

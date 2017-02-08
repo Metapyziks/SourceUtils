@@ -126,6 +126,8 @@ namespace SourceUtils.ValveBsp
         public readonly ushort FirstPrimitive;
         public readonly uint SmoothingGroups;
 
+        public IntVector2 LightMapSize => LightOffset == -1 ? IntVector2.Zero : new IntVector2( LightMapSizeX + 1, LightMapSizeY + 1 );
+
         public byte GetLightStyle( int index )
         {
             return (byte) ((_styles >> (index << 3)) & 0xff);
@@ -205,7 +207,8 @@ namespace SourceUtils.ValveBsp
         TESTFOGVOLUME = 0x100, // things that cannot be seen through (may be non-solid though)
         UNUSED = 0x200, // unused
         UNUSED6 = 0x400, // unused
-        TEAM1 = 0x800, // per team contents used to differentiate collisions between players and objects on different teams
+        TEAM1 = 0x800,
+        // per team contents used to differentiate collisions between players and objects on different teams
         TEAM2 = 0x1000,
         IGNORE_NODRAW_OPAQUE = 0x2000, // ignore CONTENTS_OPAQUE on surfaces that have SURF_NODRAW
         MOVEABLE = 0x4000, // hits entities which are MOVETYPE_PUSH (doors, plats, etc.)
@@ -234,7 +237,7 @@ namespace SourceUtils.ValveBsp
         public readonly int NumSides;
         public readonly BrushContents Contents;
     }
-    
+
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BrushSide
     {
@@ -307,9 +310,12 @@ namespace SourceUtils.ValveBsp
             {
                 switch ( index )
                 {
-                    case 0: return _subNeighbor0;
-                    case 1: return _subNeighbor1;
-                    default: throw new IndexOutOfRangeException();
+                    case 0:
+                        return _subNeighbor0;
+                    case 1:
+                        return _subNeighbor1;
+                    default:
+                        throw new IndexOutOfRangeException();
                 }
             }
         }
@@ -338,11 +344,16 @@ namespace SourceUtils.ValveBsp
 
                 switch ( index )
                 {
-                    case 0: return _neighbor0;
-                    case 1: return _neighbor1;
-                    case 2: return _neighbor2;
-                    case 3: return _neighbor3;
-                    default: throw new IndexOutOfRangeException();
+                    case 0:
+                        return _neighbor0;
+                    case 1:
+                        return _neighbor1;
+                    case 2:
+                        return _neighbor2;
+                    case 3:
+                        return _neighbor3;
+                    default:
+                        throw new IndexOutOfRangeException();
                 }
             }
         }
@@ -389,11 +400,16 @@ namespace SourceUtils.ValveBsp
         {
             switch ( (int) edge )
             {
-                case 0: return _edgeNeighbor0;
-                case 1: return _edgeNeighbor1;
-                case 2: return _edgeNeighbor2;
-                case 3: return _edgeNeighbor3;
-                default: throw new IndexOutOfRangeException();
+                case 0:
+                    return _edgeNeighbor0;
+                case 1:
+                    return _edgeNeighbor1;
+                case 2:
+                    return _edgeNeighbor2;
+                case 3:
+                    return _edgeNeighbor3;
+                default:
+                    throw new IndexOutOfRangeException();
             }
         }
 
@@ -406,11 +422,16 @@ namespace SourceUtils.ValveBsp
         {
             switch ( (int) corner )
             {
-                case 0: return _cornerNeighbors0;
-                case 1: return _cornerNeighbors1;
-                case 2: return _cornerNeighbors2;
-                case 3: return _cornerNeighbors3;
-                default: throw new IndexOutOfRangeException();
+                case 0:
+                    return _cornerNeighbors0;
+                case 1:
+                    return _cornerNeighbors1;
+                case 2:
+                    return _cornerNeighbors2;
+                case 3:
+                    return _cornerNeighbors3;
+                default:
+                    throw new IndexOutOfRangeException();
             }
         }
     }
@@ -421,5 +442,44 @@ namespace SourceUtils.ValveBsp
         public readonly Vector3 Vector;
         public readonly float Distance;
         public readonly float Alpha;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct LightmapSample
+    {
+        private const double Gamma = 0.6;
+
+        private static readonly byte[] _sLookup;
+
+        static LightmapSample()
+        {
+            _sLookup = new byte[256 * 256];
+
+            for ( var i = 0; i < 256; ++i )
+            {
+                var exp = i - 128;
+                var mul = Math.Pow( 2d, exp ) / 512f;
+
+                for ( var j = 0; j < 256; ++j )
+                {
+                    _sLookup[j + (i << 8)] =
+                        (byte) Math.Round( Math.Max( 0d, Math.Min( 1d, Math.Pow( j * mul, Gamma ) ) ) * 255d );
+                }
+            }
+        }
+
+        public readonly byte R;
+        public readonly byte G;
+        public readonly byte B;
+        public readonly sbyte Exponent;
+
+        public void ToRgb( out byte r, out byte g, out byte b )
+        {
+            var index = (Exponent + 128) << 8;
+
+            r = _sLookup[index | R];
+            g = _sLookup[index | G];
+            b = _sLookup[index | B];
+        }
     }
 }

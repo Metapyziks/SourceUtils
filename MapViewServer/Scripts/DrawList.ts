@@ -2,6 +2,7 @@
     export interface IProgramAttributes {
         position: number;
         normal: number;
+        uv: number;
     }
 
     export class DrawList {
