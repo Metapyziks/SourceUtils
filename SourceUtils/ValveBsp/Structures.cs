@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 namespace SourceUtils.ValveBsp
@@ -6,20 +7,20 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Vector3S
     {
-        public short X;
-        public short Y;
-        public short Z;
+        public readonly short X;
+        public readonly short Y;
+        public readonly short Z;
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspModel
     {
-        public Vector3 Min;
-        public Vector3 Max;
-        public Vector3 Origin;
-        public int HeadNode;
-        public int FirstFace;
-        public int NumFaces;
+        public readonly Vector3 Min;
+        public readonly Vector3 Max;
+        public readonly Vector3 Origin;
+        public readonly int HeadNode;
+        public readonly int FirstFace;
+        public readonly int NumFaces;
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
@@ -34,14 +35,14 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspNode
     {
-        public int PlaneNum;
-        public BspChild ChildA;
-        public BspChild ChildB;
-        public Vector3S Min;
-        public Vector3S Max;
-        public ushort FirstFace;
-        public ushort NumFaces;
-        public short Area;
+        public readonly int PlaneNum;
+        public readonly BspChild ChildA;
+        public readonly BspChild ChildB;
+        public readonly Vector3S Min;
+        public readonly Vector3S Max;
+        public readonly ushort FirstFace;
+        public readonly ushort NumFaces;
+        public readonly short Area;
 
         private readonly short _padding;
     }
@@ -58,16 +59,16 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspLeaf
     {
-        public int Contents;
-        public short Cluster;
-        public AreaFlags AreaFlags;
-        public Vector3S Min;
-        public Vector3S Max;
-        public ushort FirstLeafFace;
-        public ushort NumLeafFaces;
-        public ushort FirstLeafBrush;
-        public ushort NumLeafBrushes;
-        public short LeafWaterDataId;
+        public readonly int Contents;
+        public readonly short Cluster;
+        public readonly AreaFlags AreaFlags;
+        public readonly Vector3S Min;
+        public readonly Vector3S Max;
+        public readonly ushort FirstLeafFace;
+        public readonly ushort NumLeafFaces;
+        public readonly ushort FirstLeafBrush;
+        public readonly ushort NumLeafBrushes;
+        public readonly short LeafWaterDataId;
 
         private readonly short _padding;
     }
@@ -75,9 +76,9 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Plane
     {
-        public Vector3 Normal;
-        public float Dist;
-        public int Type;
+        public readonly Vector3 Normal;
+        public readonly float Dist;
+        public readonly int Type;
 
         public bool IsInFront( Vector3 vec )
         {
@@ -94,34 +95,34 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Edge
     {
-        public ushort A;
-        public ushort B;
+        public readonly ushort A;
+        public readonly ushort B;
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Face
     {
-        public ushort PlaneNum;
-        public Side Side;
+        public readonly ushort PlaneNum;
+        public readonly Side Side;
 
-        [MarshalAs( UnmanagedType.U1 )] public bool OnNode;
+        [MarshalAs( UnmanagedType.U1 )] public readonly bool OnNode;
 
-        public int FirstEdge;
-        public short NumEdges;
-        public short TexInfo;
-        public short DispInfo;
-        public short FogVolumeId;
+        public readonly int FirstEdge;
+        public readonly short NumEdges;
+        public readonly short TexInfo;
+        public readonly short DispInfo;
+        public readonly short FogVolumeId;
         private readonly uint _styles;
-        public int LightOffset;
-        public float Area;
-        public int LightMapOffsetX;
-        public int LightMapOffsetY;
-        public int LightMapSizeX;
-        public int LightMapSizeY;
-        public int OriginalFace;
-        public ushort NumPrimitives;
-        public ushort FirstPrimitive;
-        public uint SmoothingGroups;
+        public readonly int LightOffset;
+        public readonly float Area;
+        public readonly int LightMapOffsetX;
+        public readonly int LightMapOffsetY;
+        public readonly int LightMapSizeX;
+        public readonly int LightMapSizeY;
+        public readonly int OriginalFace;
+        public readonly ushort NumPrimitives;
+        public readonly ushort FirstPrimitive;
+        public readonly uint SmoothingGroups;
 
         public byte GetLightStyle( int index )
         {
@@ -139,11 +140,11 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Primitive
     {
-        public PrimitiveType Type;
-        public ushort FirstIndex;
-        public ushort IndexCount;
-        public ushort FirstVert;
-        public ushort VertCount;
+        public readonly PrimitiveType Type;
+        public readonly ushort FirstIndex;
+        public readonly ushort IndexCount;
+        public readonly ushort FirstVert;
+        public readonly ushort VertCount;
     }
 
     [Flags]
@@ -170,21 +171,21 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct TexAxis
     {
-        public Vector3 Normal;
-        public float Offset;
+        public readonly Vector3 Normal;
+        public readonly float Offset;
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct TextureInfo
     {
-        public TexAxis TextureUAxis;
-        public TexAxis TextureVAxis;
+        public readonly TexAxis TextureUAxis;
+        public readonly TexAxis TextureVAxis;
 
-        public TexAxis LightmapUAxis;
-        public TexAxis LightmapVAxis;
+        public readonly TexAxis LightmapUAxis;
+        public readonly TexAxis LightmapVAxis;
 
-        public SurfFlags Flags;
-        public int TexData;
+        public readonly SurfFlags Flags;
+        public readonly int TexData;
     }
 
     [Flags]
@@ -227,18 +228,18 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Brush
     {
-        public int FirstSide;
-        public int NumSides;
-        public BrushContents Contents;
+        public readonly int FirstSide;
+        public readonly int NumSides;
+        public readonly BrushContents Contents;
     }
     
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BrushSide
     {
-        public ushort PlaneNum;
-        public short TexInfo;
-        public short DispInfo;
-        public short Bevel;
+        public readonly ushort PlaneNum;
+        public readonly short TexInfo;
+        public readonly short DispInfo;
+        public readonly short Bevel;
     }
 
     public enum NeighborCorner
@@ -275,10 +276,10 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 6 )]
     public struct DispSubNeighbor
     {
-        public ushort NeighborIndex;
-        public NeighborOrientation NeighborOrientation;
-        public NeighborSpan Span;
-        public NeighborSpan NeighborSpan;
+        public readonly ushort NeighborIndex;
+        public readonly NeighborOrientation NeighborOrientation;
+        public readonly NeighborSpan Span;
+        public readonly NeighborSpan NeighborSpan;
 
         public bool IsValid => NeighborIndex != 0xffff;
 
@@ -293,6 +294,10 @@ namespace SourceUtils.ValveBsp
     {
         private readonly DispSubNeighbor _subNeighbor0;
         private readonly DispSubNeighbor _subNeighbor1;
+
+        public bool Any => _subNeighbor0.IsValid || _subNeighbor1.IsValid;
+        public bool CornerToCorner => _subNeighbor0.IsValid && _subNeighbor0.Span == NeighborSpan.CornerToCorner;
+        public bool SimpleCornerToCorner => CornerToCorner && _subNeighbor0.NeighborSpan == NeighborSpan.CornerToCorner;
 
         public DispSubNeighbor this[ int index ]
         {
@@ -321,7 +326,7 @@ namespace SourceUtils.ValveBsp
         private readonly ushort _neighbor2;
         private readonly ushort _neighbor3;
 
-        public byte NumNeighbors;
+        public readonly byte NumNeighbors;
 
         public ushort this[ int index ]
         {
@@ -352,19 +357,19 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 176 )]
     public struct DispInfo
     {
-        public Vector3 StartPosition;
-        public int DispVertStart;
-        public int DispTriStart;
-        public int Power;
-        public int MinTess;
-        public float SmoothingAngle;
-        public int Contents;
-        public ushort MapFace;
+        public readonly Vector3 StartPosition;
+        public readonly int DispVertStart;
+        public readonly int DispTriStart;
+        public readonly int Power;
+        public readonly int MinTess;
+        public readonly float SmoothingAngle;
+        public readonly int Contents;
+        public readonly ushort MapFace;
 
         private readonly ushort _unknown;
 
-        public int LightmapAlphaStart;
-        public int LightmapSamplePositionStart;
+        public readonly int LightmapAlphaStart;
+        public readonly int LightmapSamplePositionStart;
 
         private readonly DispNeighbor _edgeNeighbor0;
         private readonly DispNeighbor _edgeNeighbor1;
@@ -387,7 +392,7 @@ namespace SourceUtils.ValveBsp
         private readonly DispCornerNeighbors _cornerNeighbors1;
         private readonly DispCornerNeighbors _cornerNeighbors2;
         private readonly DispCornerNeighbors _cornerNeighbors3;
-        
+
         public DispCornerNeighbors GetCornerNeighbor( NeighborCorner corner )
         {
             switch ( (int) corner )
@@ -404,8 +409,8 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct DispVert
     {
-        public Vector3 Vector;
-        public float Distance;
-        public float Alpha;
+        public readonly Vector3 Vector;
+        public readonly float Distance;
+        public readonly float Alpha;
     }
 }

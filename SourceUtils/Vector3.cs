@@ -6,6 +6,9 @@ namespace SourceUtils
     [StructLayout( LayoutKind.Sequential )]
     public struct Vector3 : IEquatable<Vector3>
     {
+        public static readonly Vector3 Zero = new Vector3(0f, 0f, 0f);
+        public static readonly Vector3 NaN = new Vector3( float.NaN, float.NaN, float.NaN );
+
         public static Vector3 operator -( Vector3 vector )
         {
             return new Vector3( -vector.X, -vector.Y, -vector.Z );
@@ -44,6 +47,8 @@ namespace SourceUtils
         public float LengthSquared => X * X + Y * Y + Z * Z;
 
         public Vector3 Normalized => this * (1f / Length);
+
+        public bool IsNaN => float.IsNaN( X ) || float.IsNaN( Y ) || float.IsNaN( Z );
 
         public Vector3( float x, float y, float z )
         {

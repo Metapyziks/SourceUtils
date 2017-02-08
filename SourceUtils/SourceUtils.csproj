@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitBuffer.cs" />
+    <Compile Include="IntVector2.cs" />
     <Compile Include="LumpReader.cs" />
     <Compile Include="StudioModelFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
