@@ -275,7 +275,8 @@ namespace SourceUtils.ValveBsp
         CounterClockwise0,
         CounterClockwise90,
         CounterClockwise180,
-        CounterClockwise270
+        CounterClockwise270,
+        Unknown = 255
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 6 )]

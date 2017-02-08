@@ -591,6 +591,33 @@ namespace MapViewServer
             }
         }
 
+        [Get( "/{mapName}/lightmap-layout" )]
+        public JToken GetLightmapLayout( [Url] string mapName )
+        {
+            using ( var bsp = OpenBspFile( mapName ) )
+            {
+                var array = new JArray();
+
+                for (int i = 0, iEnd = bsp.FacesHdr.Length; i <iEnd; ++i)
+                {
+                    var face = bsp.FacesHdr[i];
+                    if ( face.LightOffset == -1 )
+                    {
+                        array.Add( null );
+                        continue;
+                    }
+
+                    array.Add( bsp.LightmapManager.GetLightmapRegion( i ).ToJson() );
+                }
+
+                return new JObject
+                {
+                    { "size", bsp.LightmapManager.TextureSize.ToJson() },
+                    { "faces", array }
+                };
+            }
+        }
+
         [Get( "/{mapName}/visibility" )]
         public JToken GetVisibility( [Url] string mapName, int index )
         {

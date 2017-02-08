@@ -15,6 +15,15 @@ namespace MapViewServer
             return _sRepeatedSepRegex.Replace(string.Join("/", parts.Where(x => x.Length > 0)), "/");
         }
 
+        public static JToken ToJson( this IntVector2 vector )
+        {
+            return new JObject
+            {
+                { "x", vector.X },
+                { "y", vector.Y }
+            };
+        }
+
         public static JToken ToJson( this Vector3 vector )
         {
             return new JObject
@@ -41,6 +50,17 @@ namespace MapViewServer
             {
                 { "normal", plane.Normal.ToJson() },
                 { "dist", plane.Dist }
+            };
+        }
+
+        public static JToken ToJson( this IntRect rect )
+        {
+            return new JObject
+            {
+                { "x", rect.X },
+                { "y", rect.Y },
+                { "width", rect.Width },
+                { "height", rect.Height }
             };
         }
     }

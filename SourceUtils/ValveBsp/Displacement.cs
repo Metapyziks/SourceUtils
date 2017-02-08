@@ -21,8 +21,9 @@ namespace SourceUtils.ValveBsp
                 _relativeMin = min;
                 _relativeMax = max;
 
-                // Temp hack until I figure out how to correctly offset orientation
+                if ( orientation != NeighborOrientation.Unknown ) return;
 
+                // Temp hack until I figure out how to correctly offset orientation
                 var testPos = (min + max) * 0.5f;
 
                 if ( testPos.X < 0f ) testPos.X = 0f;
@@ -63,13 +64,13 @@ namespace SourceUtils.ValveBsp
 
                 switch ( _relativeOrientation )
                 {
-                    case NeighborOrientation.CounterClockwise270:
+                    case NeighborOrientation.CounterClockwise90:
                         relativePos = new Vector2( relativePos.Y, 1f - relativePos.X );
                         break;
                     case NeighborOrientation.CounterClockwise180:
                         relativePos = new Vector2( 1f - relativePos.X, 1f - relativePos.Y );
                         break;
-                    case NeighborOrientation.CounterClockwise90:
+                    case NeighborOrientation.CounterClockwise270:
                         relativePos = new Vector2( 1f - relativePos.Y, relativePos.X );
                         break;
                 }
@@ -176,7 +177,7 @@ namespace SourceUtils.ValveBsp
             var disp = _bspFile.DisplacementManager[index];
             if ( _neighbors.Any( x => x.Displacement == disp ) ) return;
             
-            _neighbors.Add( new Neighbor( this, disp, NeighborOrientation.CounterClockwise0, min, min + new Vector2( size, size ) ) );
+            _neighbors.Add( new Neighbor( this, disp, NeighborOrientation.Unknown, min, min + new Vector2( size, size ) ) );
         }
 
         private void UpdateNeighbors()
