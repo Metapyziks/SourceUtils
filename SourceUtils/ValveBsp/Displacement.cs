@@ -84,7 +84,8 @@ namespace SourceUtils.ValveBsp
         private readonly int _firstCorner;
         private readonly IntVector2 _min;
         private readonly IntVector2 _max;
-
+        
+        private Vector3[] _positions;
         private List<Neighbor> _neighbors;
 
         public int Subdivisions => 1 << _dispInfo.Power;
@@ -223,6 +224,34 @@ namespace SourceUtils.ValveBsp
             return (s00 * sx + s10 * tx) * sy + (s01 * sx + s11 * tx) * ty;
         }
 
+        private void UpdatePositions()
+        {
+            var size = Size;
+
+            _positions = new Vector3[size * size];
+
+            for ( var y = 0; y < size; ++y )
+            for ( var x = 0; x < size; ++x )
+            {
+                var index = x + y * size;
+                var vert = _bspFile.DisplacementVerts[_dispInfo.DispVertStart + index];
+
+                var tx = x / (size - 1f);
+                var ty = y / (size - 1f);
+                var sx = 1f - tx;
+                var sy = 1f - ty;
+
+                var cornerA = _corners[(0 + _firstCorner) & 3];
+                var cornerB = _corners[(1 + _firstCorner) & 3];
+                var cornerC = _corners[(2 + _firstCorner) & 3];
+                var cornerD = _corners[(3 + _firstCorner) & 3];
+
+                var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
+
+                _positions[index] = origin + vert.Vector * vert.Distance;
+            }
+        }
+
         public Vector3 GetInnerPosition( int x, int y )
         {
             if ( x < _min.X ) x = _min.X;
@@ -231,33 +260,40 @@ namespace SourceUtils.ValveBsp
             if ( y < _min.Y ) y = _min.Y;
             else if ( y > _max.Y ) y = _max.Y;
 
-            var size = Size;
-            var vert = _bspFile.DisplacementVerts[_dispInfo.DispVertStart + x + y * size];
-
-            var tx = x / (size - 1f);
-            var ty = y / (size - 1f);
-            var sx = 1f - tx;
-            var sy = 1f - ty;
-
-            var cornerA = _corners[(0 + _firstCorner) & 3];
-            var cornerB = _corners[(1 + _firstCorner) & 3];
-            var cornerC = _corners[(2 + _firstCorner) & 3];
-            var cornerD = _corners[(3 + _firstCorner) & 3];
-
-            var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
-
-            return origin + vert.Vector * vert.Distance;
+            if ( _positions == null ) UpdatePositions();
+            return _positions[x + y * Size];
         }
+
+        [ThreadStatic]
+        private static Vector3[] _sKernel;
 
         public Vector3 GetNormal( int x, int y )
         {
-            var x0v = GetPosition( x - 1, y );
-            var x1v = GetPosition( x + 1, y );
-            
-            var y0v = GetPosition( x, y - 1 );
-            var y1v = GetPosition( x, y + 1 );
+            if ( _sKernel == null ) _sKernel = new Vector3[9];
 
-            var normal = (x1v - x0v).Cross( y1v - y0v ).Normalized;
+            for ( var i = 0; i < 3; ++i )
+            for ( var j = 0; j < 3; ++j )
+            {
+                _sKernel[i + j * 3] = GetPosition( x + i - 1, y + j - 1 );
+            }
+
+            var sum = Vector3.Zero;
+
+            for ( var i = 0; i < 2; ++i )
+            for ( var j = 0; j < 2; ++j )
+            {
+                var a = _sKernel[i + 0 + (j + 0) * 3];
+                var b = _sKernel[i + 1 + (j + 0) * 3];
+                var c = _sKernel[i + 0 + (j + 1) * 3];
+                var d = _sKernel[i + 1 + (j + 1) * 3];
+
+                var abd = (b - a).Cross( d - a );
+                var adc = (d - a).Cross( c - d );
+
+                sum += abd + adc;
+            }
+
+            var normal = sum.Normalized;
 
             if ( normal.IsNaN ) normal = Normal;
 
