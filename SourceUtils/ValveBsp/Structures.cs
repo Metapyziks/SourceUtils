@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
@@ -319,7 +321,7 @@ namespace SourceUtils.ValveBsp
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1, Size = 10 )]
-    public struct DispCornerNeighbors
+    public struct DispCornerNeighbors : IEnumerable<ushort>
     {
         private readonly ushort _neighbor0;
         private readonly ushort _neighbor1;
@@ -347,10 +349,17 @@ namespace SourceUtils.ValveBsp
 
         public override string ToString()
         {
-            var values = new ushort[NumNeighbors];
-            for ( var i = 0; i < NumNeighbors; ++i ) values[i] = this[i];
+            return $"({string.Join( ", ", this )})";
+        }
 
-            return $"({string.Join( ", ", values )})";
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<ushort> GetEnumerator()
+        {
+            for ( var i = 0; i < NumNeighbors; ++i ) yield return this[i];
         }
     }
 

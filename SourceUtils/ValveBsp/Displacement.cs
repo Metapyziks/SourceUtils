@@ -137,15 +137,46 @@ namespace SourceUtils.ValveBsp
             switch ( edge )
             {
                 case NeighborEdge.Left: min.X -= size; break;
-                case NeighborEdge.Top: min.Y += 1f; break;
-                case NeighborEdge.Right: min.X += 1f; break;
                 case NeighborEdge.Bottom: min.Y -= size; break;
+                case NeighborEdge.Right: min.X += 1f; break;
+                case NeighborEdge.Top: min.Y += 1f; break;
             }
 
             var disp = _bspFile.DisplacementManager[neighbor.NeighborIndex];
             if ( _neighbors.Any( x => x.Displacement == disp ) ) return;
 
             _neighbors.Add( new Neighbor( this, disp, neighbor.NeighborOrientation, min, min + new Vector2( size, size ) ) );
+        }
+
+        private void AddCornerNeighbor( NeighborCorner corner, ushort index )
+        {
+            var min = new Vector2(0f, 0f);
+            var size = 1f;
+
+            switch ( corner )
+            {
+                case NeighborCorner.LowerLeft:
+                    min.X -= size;
+                    min.Y -= size;
+                    break;
+                case NeighborCorner.LowerRight:
+                    min.X += 1f;
+                    min.Y -= size;
+                    break;
+                case NeighborCorner.UpperLeft:
+                    min.X -= size;
+                    min.Y += 1f;
+                    break;
+                case NeighborCorner.UpperRight:
+                    min.X += 1f;
+                    min.Y += 1f;
+                    break;
+            }
+
+            var disp = _bspFile.DisplacementManager[index];
+            if ( _neighbors.Any( x => x.Displacement == disp ) ) return;
+            
+            _neighbors.Add( new Neighbor( this, disp, NeighborOrientation.CounterClockwise0, min, min + new Vector2( size, size ) ) );
         }
 
         private void UpdateNeighbors()
@@ -158,6 +189,14 @@ namespace SourceUtils.ValveBsp
                 var edgeNeighbors = _dispInfo.GetEdgeNeighbor( (NeighborEdge) i );
                 if ( edgeNeighbors[0].IsValid ) AddEdgeNeighbor( (NeighborEdge) i, edgeNeighbors[0] );
                 if ( edgeNeighbors[1].IsValid ) AddEdgeNeighbor( (NeighborEdge) i, edgeNeighbors[1] );
+            }
+
+            for ( var i = 0; i < 4; ++i )
+            {
+                foreach ( var index in _dispInfo.GetCornerNeighbor( (NeighborCorner) i ) )
+                {
+                    AddCornerNeighbor( (NeighborCorner) i, index );
+                }
             }
 
             // TODO: Corners
