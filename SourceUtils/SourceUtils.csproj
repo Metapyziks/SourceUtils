@@ -44,6 +44,7 @@
     <Compile Include="IntRect.cs" />
     <Compile Include="IntVector2.cs" />
     <Compile Include="LumpReader.cs" />
+    <Compile Include="RectanglePacker.cs" />
     <Compile Include="StudioModelFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLoader.cs" />

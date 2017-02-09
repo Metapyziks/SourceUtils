@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
+using ImageMagick;
+using MimeTypes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
@@ -264,8 +266,6 @@ namespace MapViewServer
             }
 
             var disp = bsp.DisplacementManager[face.DispInfo];
-
-            // TODO: Normals
 
             for ( var y = 0; y < disp.Size - 1; ++y )
             {
@@ -591,30 +591,45 @@ namespace MapViewServer
             }
         }
 
-        [Get( "/{mapName}/lightmap-layout" )]
-        public JToken GetLightmapLayout( [Url] string mapName )
+        [Get( "/{mapName}/lightmap" )]
+        public void GetLightmap( [Url] string mapName )
         {
             using ( var bsp = OpenBspFile( mapName ) )
+            using ( var sampleStream = bsp.GetLumpStream( ValveBspFile.LumpType.LIGHTING_HDR ) )
             {
-                var array = new JArray();
+                var lightmap = bsp.LightmapManager;
+                var img = new MagickImage(MagickColor.FromRgb( 0, 0, 0 ), lightmap.TextureSize.X, lightmap.TextureSize.Y);
+                var pixels = img.GetPixels();
+
+                var sampleBuffer = new LightmapSample[256 * 256];
 
                 for (int i = 0, iEnd = bsp.FacesHdr.Length; i <iEnd; ++i)
                 {
                     var face = bsp.FacesHdr[i];
-                    if ( face.LightOffset == -1 )
-                    {
-                        array.Add( null );
-                        continue;
-                    }
+                    if ( face.LightOffset == -1 ) continue;
 
-                    array.Add( bsp.LightmapManager.GetLightmapRegion( i ).ToJson() );
+                    var rect = lightmap.GetLightmapRegion( i );
+                    var sampleCount = rect.Width * rect.Height;
+
+                    sampleStream.Seek( face.LightOffset, SeekOrigin.Begin );
+
+                    LumpReader<LightmapSample>.ReadLumpFromStream( sampleStream, sampleCount, sampleBuffer );
+
+                    for ( var y = 0; y < rect.Height; ++y )
+                    for ( var x = 0; x < rect.Width; ++x )
+                    {
+                        byte r, g, b;
+                        sampleBuffer[x + y * rect.Width].ToRgb( out r, out g, out b );
+
+                        pixels[rect.X + x, rect.Y + y][0] = r;
+                        pixels[rect.X + x, rect.Y + y][1] = g;
+                        pixels[rect.X + x, rect.Y + y][2] = b;
+                    }
                 }
 
-                return new JObject
-                {
-                    { "size", bsp.LightmapManager.TextureSize.ToJson() },
-                    { "faces", array }
-                };
+                Response.ContentType = MimeTypeMap.GetMimeType( ".png" );
+                img.Write( Response.OutputStream, MagickFormat.Png );
+                Response.OutputStream.Close();
             }
         }
 

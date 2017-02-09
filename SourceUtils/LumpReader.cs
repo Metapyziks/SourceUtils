@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace SourceUtils
 {
-    internal class LumpReader<TLump>
+    public class LumpReader<TLump>
         where TLump : struct
     {
         public static TLump[] ReadLump(byte[] src, int offset, int length)
@@ -92,7 +92,7 @@ namespace SourceUtils
             }
         }
 
-        internal static void ReadLumpFromStream( Stream stream, int count, TLump[] dst, int dstOffset = 0 )
+        public static void ReadLumpFromStream( Stream stream, int count, TLump[] dst, int dstOffset = 0 )
         {
             ReadLumpFromStream(stream, count, (index, item) => dst[dstOffset + index] = item);
         }

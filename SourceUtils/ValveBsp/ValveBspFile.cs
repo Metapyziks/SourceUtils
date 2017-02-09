@@ -94,6 +94,12 @@ namespace SourceUtils
 
         [BspLump(LumpType.DISP_VERTS)]
         public ArrayLump<DispVert> DisplacementVerts { get; private set; }
+        
+        [BspLump(LumpType.LIGHTING)]
+        public ArrayLump<byte> Lighting { get; private set; }
+
+        [BspLump(LumpType.LIGHTING_HDR)]
+        public ArrayLump<byte> LightingHdr { get; private set; }
 
         public DisplacementManager DisplacementManager { get; }
 
@@ -152,7 +158,7 @@ namespace SourceUtils
             return count;
         }
 
-        private Stream GetLumpStream( LumpType type )
+        public Stream GetLumpStream( LumpType type )
         {
             var info = GetLumpInfo( type );
             var stream = new SubStream( _stream, info.Offset, info.Length );
