@@ -20,6 +20,8 @@ namespace SourceUtils
 
         public RectanglePacker( int width, int height )
         {
+            Width = width;
+            Height = height;
             AddNode( coreNodes, 0, 0, width, height );
         }
 

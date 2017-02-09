@@ -19,7 +19,7 @@ namespace SourceUtils.ValveBsp
         {
             get
             {
-                if (!FoundPacking) FindPacking();
+                if ( !FoundPacking ) FindPacking();
                 return _boundingSize;
             }
         }
@@ -45,9 +45,9 @@ namespace SourceUtils.ValveBsp
             }
         }
 
-        private bool TryPacking( int size, Packable[] packables )
+        private bool TryPacking( int width, int height, Packable[] packables )
         {
-            var packer = new RectanglePacker( size, size );
+            var packer = new RectanglePacker( width, height );
 
             foreach ( var face in packables )
             {
@@ -55,9 +55,19 @@ namespace SourceUtils.ValveBsp
                 if ( !packer.Pack( face.Width, face.Height, out x, out y ) ) return false;
                 _packing[face.Index] = new IntRect( x, y, face.Width, face.Height );
             }
-            
-            _boundingSize = new IntVector2( packer.Width, packer.Height );
+
+            _boundingSize = new IntVector2( width, height );
             return true;
+        }
+
+        private static int GetWidth( int sizeIndex )
+        {
+            return 1 << ((sizeIndex + 1) >> 1);
+        }
+
+        private static int GetHeight( int sizeIndex )
+        {
+            return 1 << (sizeIndex >> 1);
         }
 
         private void FindPacking()
@@ -71,15 +81,15 @@ namespace SourceUtils.ValveBsp
                 .ToArray();
 
             var area = toPack.Sum( x => x.Width * x.Height );
-            var size = 1;
+            var sizeIndex = 1;
 
-            while ( size * size < area ) size <<= 1;
-            while ( !TryPacking( size, toPack ) ) size <<= 1;
+            while ( GetWidth( sizeIndex ) * GetHeight( sizeIndex ) < area ) ++sizeIndex;
+            while ( !TryPacking( GetWidth( sizeIndex ), GetHeight( sizeIndex ), toPack ) ) ++sizeIndex;
         }
 
         public IntRect GetLightmapRegion( int faceIndex )
         {
-            if (!FoundPacking) FindPacking();
+            if ( !FoundPacking ) FindPacking();
             return _packing[faceIndex];
         }
 
