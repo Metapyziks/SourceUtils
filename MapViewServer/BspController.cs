@@ -35,7 +35,11 @@ namespace MapViewServer
             var path = GetMapPath( mapName );
             if ( !File.Exists( path ) ) throw NotFoundException( true );
 
-            return new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ) );
+            var bsp = new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ) );
+
+            bsp.LightmapLayout.CacheFilePath = Path.Combine( Program.CacheDirectory, "Lightmaps", mapName );
+
+            return bsp;
         }
 
         private static JToken SerializeBspChild( ValveBspFile bsp, BspChild child )
@@ -285,7 +289,7 @@ namespace MapViewServer
             var lightmapUv = GetUv(pos, texInfo.LightmapUAxis, texInfo.LightmapVAxis);
 
             Vector2 min, size;
-            bsp.LightmapManager.GetUvs( faceIndex, out min, out size );
+            bsp.LightmapLayout.GetUvs( faceIndex, out min, out size );
 
             lightmapUv.X -= face.LightMapOffsetX - .5f;
             lightmapUv.Y -= face.LightMapOffsetY - .5f;
@@ -305,7 +309,7 @@ namespace MapViewServer
             var lightmapUv = new Vector2((float) x / dispSize, (float) y / dispSize);
             
             Vector2 min, size;
-            bsp.LightmapManager.GetUvs( faceIndex, out min, out size );
+            bsp.LightmapLayout.GetUvs( faceIndex, out min, out size );
 
             return lightmapUv * size + min;
         }
@@ -632,11 +636,15 @@ namespace MapViewServer
         [Get( "/{mapName}/lightmap" )]
         public void GetLightmap( [Url] string mapName )
         {
+            Response.ContentType = MimeTypeMap.GetMimeType( ".png" );
+
+            if ( CheckNotExpired( mapName ) ) return;
+
             using ( var bsp = OpenBspFile( mapName ) )
             using ( var sampleStream = bsp.GetLumpStream( ValveBspFile.LumpType.LIGHTING_HDR ) )
             {
-                var lightmap = bsp.LightmapManager;
-                var img = new MagickImage(MagickColor.FromRgb( 0, 255, 0 ), lightmap.TextureSize.X, lightmap.TextureSize.Y);
+                var lightmap = bsp.LightmapLayout;
+                var img = new MagickImage(MagickColor.FromRgb( 0, 0, 0 ), lightmap.TextureSize.X, lightmap.TextureSize.Y);
                 var pixels = img.GetPixels();
 
                 var sampleBuffer = new LightmapSample[256 * 256];
@@ -668,7 +676,6 @@ namespace MapViewServer
                     }
                 }
 
-                Response.ContentType = MimeTypeMap.GetMimeType( ".png" );
                 img.Write( Response.OutputStream, MagickFormat.Png );
                 Response.OutputStream.Close();
             }

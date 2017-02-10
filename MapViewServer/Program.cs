@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using SourceUtils;
 using Ziks.WebServer;
 
@@ -13,6 +12,7 @@ namespace MapViewServer
         
         public static string ResourcesDirectory { get; private set; }
         public static string ScriptsDirectory { get; private set; }
+        public static string CacheDirectory { get; private set; }
 
         public static string CsgoDirectory { get; private set; }
             = Path.Combine( SteamAppsDirectory, "common", "Counter-Strike Global Offensive", "csgo" );
@@ -29,6 +29,7 @@ namespace MapViewServer
             var assemblyDir = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
             ResourcesDirectory = new DirectoryInfo( Path.Combine( assemblyDir, "..", "..", "Resources" ) ).FullName;
             ScriptsDirectory = new DirectoryInfo( Path.Combine( assemblyDir, "..", "..", "Scripts" ) ).FullName;
+            CacheDirectory = Path.Combine( assemblyDir, "Cache" );
 
             BuildTimeUtc = new FileInfo( Assembly.GetExecutingAssembly().Location ).LastWriteTimeUtc;
 

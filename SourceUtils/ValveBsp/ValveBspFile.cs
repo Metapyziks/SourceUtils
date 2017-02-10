@@ -103,7 +103,7 @@ namespace SourceUtils
 
         public DisplacementManager DisplacementManager { get; }
 
-        public LightmapManager LightmapManager { get; }
+        public LightmapLayout LightmapLayout { get; }
 
         private readonly Stream _stream;
         private readonly Header _header;
@@ -120,7 +120,7 @@ namespace SourceUtils
             }
 
             DisplacementManager = new DisplacementManager( this );
-            LightmapManager = new LightmapManager( this );
+            LightmapLayout = new LightmapLayout( this );
         }
 
         private LumpInfo GetLumpInfo( LumpType type )
