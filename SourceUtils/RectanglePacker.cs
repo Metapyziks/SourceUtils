@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceUtils
 {
@@ -14,40 +11,64 @@ namespace SourceUtils
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        List<Node> horzNodes = new List<Node>();
-        List<Node> vertNodes = new List<Node>();
-        List<Node> coreNodes = new List<Node>();
+        private readonly List<Node> _nodes = new List<Node>();
 
         public RectanglePacker( int width, int height )
         {
             Width = width;
             Height = height;
-            AddNode( coreNodes, 0, 0, width, height );
+            AddNode( 0, 0, width, height );
         }
 
-        private void AddNode( List<Node> list, int x, int y, int w, int h )
+        private int FindInsertionIndex( Node node, int first, int last )
+        {
+            while ( true )
+            {
+                if ( first == last ) return first;
+
+                var mid = (first + last) >> 1;
+                var comparison = node.CompareTo( _nodes[mid] );
+                if ( comparison == 0 ) return mid;
+                if ( comparison > 0 ) last = mid;
+                else first = mid + 1;
+            }
+        }
+
+        private void AddNode( int x, int y, int w, int h )
         {
             if ( w <= 0 || h <= 0 ) return;
-            list.Add( new Node( x, y, w, h ) );
+            var node = new Node( x, y, w, h );
+
+            var index = FindInsertionIndex( node, 0, _nodes.Count );
+            _nodes.Insert( index, node );
         }
 
-        private bool PackList( List<Node> list, int w, int h, out int x, out int y )
+        public bool Pack( int w, int h, out int x, out int y )
         {
-            for ( int i = 0; i < list.Count; ++i )
+            for ( var i = _nodes.Count - 1; i >= 0; --i )
             {
-                if ( w > list[i].W || h > list[i].H ) continue;
+                if ( w > _nodes[i].W || h > _nodes[i].H ) continue;
 
-                var node = list[i];
-                list.RemoveAt( i );
+                var node = _nodes[i];
+                _nodes.RemoveAt( i );
+
                 x = node.X;
                 y = node.Y;
-                int r = x + w;
-                int b = y + h;
-                AddNode( horzNodes, r, y, node.Right - r, h );
-                AddNode( vertNodes, x, b, w, node.Bottom - b );
-                AddNode( coreNodes, r, b, node.Right - r, node.Bottom - b );
-                Width = Math.Max( Width, r );
-                Height = Math.Max( Height, b );
+
+                var r = x + w;
+                var b = y + h;
+
+                if ( node.Bottom - b > node.Right - r )
+                {
+                    AddNode( r, y, node.Right - r, h );
+                    AddNode( x, b, node.W, node.Bottom - b );
+                }
+                else
+                {
+                    AddNode( x, b, w, node.Bottom - b );
+                    AddNode( r, y, node.Right - r, node.H );
+                }
+
                 return true;
             }
             x = 0;
@@ -55,14 +76,7 @@ namespace SourceUtils
             return false;
         }
 
-        public bool Pack( int w, int h, out int x, out int y )
-        {
-            return PackList( horzNodes, w, h, out x, out y )
-                || PackList( vertNodes, w, h, out x, out y )
-                || PackList( coreNodes, w, h, out x, out y );
-        }
-
-        public struct Node
+        public struct Node : IComparable<Node>
         {
             public int X;
             public int Y;
@@ -77,6 +91,9 @@ namespace SourceUtils
                 H = h;
             }
 
+            public int MaxSide => Math.Max( W, H );
+            public int MinSide => Math.Min( W, H );
+
             public int Right
             {
                 get { return X + W; }
@@ -85,6 +102,12 @@ namespace SourceUtils
             public int Bottom
             {
                 get { return Y + H; }
+            }
+
+            public int CompareTo( Node other )
+            {
+                var wComparison = MaxSide.CompareTo( other.MaxSide );
+                return wComparison != 0 ? wComparison : MinSide.CompareTo( other.H );
             }
         }
     }

@@ -636,7 +636,7 @@ namespace MapViewServer
             using ( var sampleStream = bsp.GetLumpStream( ValveBspFile.LumpType.LIGHTING_HDR ) )
             {
                 var lightmap = bsp.LightmapManager;
-                var img = new MagickImage(MagickColor.FromRgb( 0, 0, 0 ), lightmap.TextureSize.X, lightmap.TextureSize.Y);
+                var img = new MagickImage(MagickColor.FromRgb( 0, 255, 0 ), lightmap.TextureSize.X, lightmap.TextureSize.Y);
                 var pixels = img.GetPixels();
 
                 var sampleBuffer = new LightmapSample[256 * 256];
