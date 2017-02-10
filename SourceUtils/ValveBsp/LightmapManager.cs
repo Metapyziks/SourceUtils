@@ -41,8 +41,8 @@ namespace SourceUtils.ValveBsp
             public Packable( int index, Face face )
             {
                 Index = index;
-                Width = face.LightMapSizeX + 1;
-                Height = face.LightMapSizeY + 1;
+                Width = face.LightMapSizeX + 3;
+                Height = face.LightMapSizeY + 3;
                 HasSamples = face.LightOffset != -1;
             }
         }
@@ -55,7 +55,7 @@ namespace SourceUtils.ValveBsp
             {
                 int x, y;
                 if ( !packer.Pack( face.Width, face.Height, out x, out y ) ) return false;
-                _packing[face.Index] = new IntRect( x, y, face.Width, face.Height );
+                _packing[face.Index] = new IntRect( x + 1, y + 1, face.Width - 2, face.Height - 2 );
             }
 
             _boundingSize = new IntVector2( width, height );
@@ -99,10 +99,10 @@ namespace SourceUtils.ValveBsp
         public void GetUvs( int faceIndex, out Vector2 min, out Vector2 size )
         {
             var rect = GetLightmapRegion( faceIndex );
-            min.X = (rect.X + 0.5f) * _uvScale.X;
-            min.Y = 1f + (rect.Y + 0.5f) * _uvScale.Y;
-            size.X = (rect.Width - 1f) * _uvScale.X;
-            size.Y = (rect.Height - 1f) * _uvScale.Y;
+            min.X = rect.X * _uvScale.X;
+            min.Y = 1f + rect.Y * _uvScale.Y;
+            size.X = rect.Width * _uvScale.X;
+            size.Y = rect.Height * _uvScale.Y;
         }
     }
 }
