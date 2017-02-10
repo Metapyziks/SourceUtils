@@ -65,6 +65,12 @@ var SourceUtils;
             return Element;
         }());
         Api.Element = Element;
+        (function (MeshComponents) {
+            MeshComponents[MeshComponents["position"] = 1] = "position";
+            MeshComponents[MeshComponents["normal"] = 2] = "normal";
+            MeshComponents[MeshComponents["uv"] = 4] = "uv";
+        })(Api.MeshComponents || (Api.MeshComponents = {}));
+        var MeshComponents = Api.MeshComponents;
         var Faces = (function () {
             function Faces() {
             }
@@ -600,6 +606,7 @@ var SourceUtils;
 (function (SourceUtils) {
     var FaceData = (function () {
         function FaceData(faces) {
+            this.components = faces.components;
             this.elements = faces.elements;
             this.vertices = SourceUtils.Utils.decompressFloat32Array(faces.vertices);
             this.indices = SourceUtils.Utils.decompressUint16Array(faces.indices);
@@ -827,11 +834,6 @@ var SourceUtils;
             this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
             this.camera.up.set(0, 0, 1);
             _super.prototype.init.call(this, container);
-            var ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
-            this.getScene().add(ambient);
-            var directional = new THREE.DirectionalLight(0xFDF4D9);
-            directional.position.set(3, -5, 7);
-            this.getScene().add(directional);
             this.updateCameraAngles();
         };
         MapViewer.prototype.loadMap = function (url) {
@@ -1142,15 +1144,36 @@ var SourceUtils;
     }());
     SourceUtils.WorldMeshHandle = WorldMeshHandle;
     var WorldMeshGroup = (function () {
-        function WorldMeshGroup(gl) {
+        function WorldMeshGroup(gl, components) {
             this.vertCount = 0;
             this.indexCount = 0;
+            this.hasPositions = false;
+            this.hasNormals = false;
+            this.hasUvs = false;
             this.gl = gl;
             this.vertices = gl.createBuffer();
             this.indices = gl.createBuffer();
+            this.components = components;
+            this.vertexSize = 0;
+            if ((components & SourceUtils.Api.MeshComponents.position) === SourceUtils.Api.MeshComponents.position) {
+                this.hasPositions = true;
+                this.positionOffset = this.vertexSize;
+                this.vertexSize += 3;
+            }
+            if ((components & SourceUtils.Api.MeshComponents.normal) === SourceUtils.Api.MeshComponents.normal) {
+                this.hasNormals = true;
+                this.normalOffset = this.vertexSize;
+                this.vertexSize += 3;
+            }
+            if ((components & SourceUtils.Api.MeshComponents.uv) === SourceUtils.Api.MeshComponents.uv) {
+                this.hasUvs = true;
+                this.uvOffset = this.vertexSize;
+                this.vertexSize += 2;
+            }
+            this.maxVertLength = this.vertexSize * 65536;
         }
         WorldMeshGroup.prototype.getVertexCount = function () {
-            return this.vertCount / WorldMeshGroup.vertComponents;
+            return this.vertCount / this.vertexSize;
         };
         WorldMeshGroup.prototype.getTriangleCount = function () {
             return this.indexCount / 3;
@@ -1167,7 +1190,7 @@ var SourceUtils;
             return newArray;
         };
         WorldMeshGroup.prototype.canAddFaces = function (faces) {
-            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertLength &&
+            return this.components === faces.components && this.vertCount + faces.vertices.length <= this.maxVertLength &&
                 this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
         };
         WorldMeshGroup.prototype.updateBuffer = function (target, buffer, data, newData, oldData, offset) {
@@ -1208,7 +1231,7 @@ var SourceUtils;
             this.indexData = this.ensureCapacity(this.indexData, this.indexCount + newIndices.length, function (size) { return new Uint16Array(size); });
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
-            var elementOffset = Math.round(vertexOffset / WorldMeshGroup.vertComponents);
+            var elementOffset = Math.round(vertexOffset / this.vertexSize);
             for (var i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                 newIndices[i] += elementOffset;
             }
@@ -1225,13 +1248,14 @@ var SourceUtils;
         };
         WorldMeshGroup.prototype.prepareForRendering = function (attribs) {
             var gl = this.gl;
-            var stride = WorldMeshGroup.vertComponents * 4;
+            var stride = this.vertexSize * 4;
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, 0 * 4);
-            if (attribs.normal !== undefined)
-                gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
-            if (attribs.uv !== undefined)
-                gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, 6 * 4);
+            if (this.hasPositions && attribs.position !== undefined)
+                gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            if (this.hasNormals && attribs.normal !== undefined)
+                gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, this.normalOffset * 4);
+            if (this.hasUvs && attribs.uv !== undefined)
+                gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         };
         WorldMeshGroup.prototype.renderElements = function (drawMode, offset, count) {
@@ -1248,8 +1272,6 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
-        WorldMeshGroup.vertComponents = 8;
-        WorldMeshGroup.maxVertLength = 65536 * WorldMeshGroup.vertComponents;
         WorldMeshGroup.maxIndices = 2147483647;
         return WorldMeshGroup;
     }());
@@ -1287,7 +1309,7 @@ var SourceUtils;
                 if (this.groups[i].canAddFaces(faces))
                     return this.groups[i].addFaces(faces);
             }
-            var newGroup = new SourceUtils.WorldMeshGroup(this.gl);
+            var newGroup = new SourceUtils.WorldMeshGroup(this.gl, faces.components);
             var result = newGroup.addFaces(faces);
             this.groups.push(newGroup);
             return result;

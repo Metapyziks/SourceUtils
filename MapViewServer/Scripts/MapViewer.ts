@@ -19,13 +19,6 @@ namespace SourceUtils {
 
             super.init(container);
 
-            const ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
-            this.getScene().add(ambient);
-
-            const directional = new THREE.DirectionalLight(0xFDF4D9);
-            directional.position.set(3, -5, 7);
-            this.getScene().add(directional);
-
             this.updateCameraAngles();
         }
 

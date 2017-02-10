@@ -37,7 +37,7 @@
                 if (this.groups[i].canAddFaces(faces)) return this.groups[i].addFaces(faces);
             }
 
-            const newGroup = new WorldMeshGroup(this.gl);
+            const newGroup = new WorldMeshGroup(this.gl, faces.components);
             const result = newGroup.addFaces(faces);
             this.groups.push(newGroup);
             return result;

@@ -7,11 +7,13 @@
 
     export class FaceData
     {
+        components: Api.MeshComponents;
         elements: Api.Element[];
         vertices: Float32Array;
         indices: Uint16Array;
 
         constructor(faces: Api.Faces) {
+            this.components = faces.components;
             this.elements = faces.elements;
             this.vertices = Utils.decompressFloat32Array(faces.vertices);
             this.indices = Utils.decompressUint16Array(faces.indices);

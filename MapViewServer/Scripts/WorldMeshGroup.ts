@@ -14,11 +14,13 @@
     }
 
     export class WorldMeshGroup {
-        private static vertComponents = 8;
-        private static maxVertLength = 65536 * WorldMeshGroup.vertComponents;
         private static maxIndices = 2147483647;
 
         private gl: WebGLRenderingContext;
+
+        private components: Api.MeshComponents;
+        private vertexSize: number;
+        private maxVertLength: number;
 
         private vertices: WebGLBuffer;
         private indices: WebGLBuffer;
@@ -29,14 +31,44 @@
         private vertexData: Float32Array;
         private indexData: Uint16Array;
 
-        constructor(gl: WebGLRenderingContext) {
+        private positionOffset: number;
+        private hasPositions = false;
+        private normalOffset: number;
+        private hasNormals = false;
+        private uvOffset: number;
+        private hasUvs = false;
+
+        constructor(gl: WebGLRenderingContext, components: Api.MeshComponents) {
             this.gl = gl;
             this.vertices = gl.createBuffer();
             this.indices = gl.createBuffer();
+            this.components = components;
+
+            this.vertexSize = 0;
+
+            if ((components & Api.MeshComponents.position) === Api.MeshComponents.position) {
+                this.hasPositions = true;
+                this.positionOffset = this.vertexSize;
+                this.vertexSize += 3;
+            }
+
+            if ((components & Api.MeshComponents.normal) === Api.MeshComponents.normal) {
+                this.hasNormals = true;
+                this.normalOffset = this.vertexSize;
+                this.vertexSize += 3;
+            }
+
+            if ((components & Api.MeshComponents.uv) === Api.MeshComponents.uv) {
+                this.hasUvs = true;
+                this.uvOffset = this.vertexSize;
+                this.vertexSize += 2;
+            }
+
+            this.maxVertLength = this.vertexSize * 65536;
         }
 
         getVertexCount(): number {
-            return this.vertCount / WorldMeshGroup.vertComponents;
+            return this.vertCount / this.vertexSize;
         }
 
         getTriangleCount(): number {
@@ -57,7 +89,7 @@
         }
 
         canAddFaces(faces: FaceData): boolean {
-            return this.vertCount + faces.vertices.length <= WorldMeshGroup.maxVertLength &&
+            return this.components === faces.components && this.vertCount + faces.vertices.length <= this.maxVertLength &&
                 this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
         }
 
@@ -117,7 +149,7 @@
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
 
-            const elementOffset = Math.round(vertexOffset / WorldMeshGroup.vertComponents);
+            const elementOffset = Math.round(vertexOffset / this.vertexSize);
             for (let i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                 newIndices[i] += elementOffset;
             }
@@ -141,12 +173,12 @@
         prepareForRendering(attribs: IProgramAttributes): void {
             const gl = this.gl;
 
-            const stride = WorldMeshGroup.vertComponents * 4;
+            const stride = this.vertexSize * 4;
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, 0 * 4);
-            if (attribs.normal !== undefined) gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
-            if (attribs.uv !== undefined) gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, 6 * 4);
+            if (this.hasPositions && attribs.position !== undefined) gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            if (this.hasNormals && attribs.normal !== undefined) gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, this.normalOffset * 4);
+            if (this.hasUvs && attribs.uv !== undefined) gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         }

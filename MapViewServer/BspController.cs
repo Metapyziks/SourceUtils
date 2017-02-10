@@ -86,19 +86,17 @@ namespace MapViewServer
             private struct Vertex : IEquatable<Vertex>, IEnumerable<float>
             {
                 public readonly Vector3 Position;
-                public readonly Vector3 Normal;
                 public readonly Vector2 TexCoord;
 
-                public Vertex( Vector3 position, Vector3 normal, Vector2 texCoord )
+                public Vertex( Vector3 position, Vector2 texCoord )
                 {
                     Position = position;
-                    Normal = normal;
                     TexCoord = texCoord;
                 }
 
                 public bool Equals( Vertex other )
                 {
-                    return Position.Equals( other.Position ) && Normal.Equals( other.Normal ) && TexCoord.Equals( other.TexCoord );
+                    return Position.Equals( other.Position ) && TexCoord.Equals( other.TexCoord );
                 }
 
                 public override bool Equals( object obj )
@@ -122,10 +120,6 @@ namespace MapViewServer
                     yield return Position.X;
                     yield return Position.Y;
                     yield return Position.Z;
-
-                    yield return -Normal.X;
-                    yield return -Normal.Y;
-                    yield return -Normal.Z;
 
                     yield return TexCoord.X;
                     yield return TexCoord.Y;
@@ -161,9 +155,9 @@ namespace MapViewServer
 
             public int IndexCount => _indices.Count;
 
-            public void AddVertex( Vector3 pos, Vector3 normal, Vector2 texCoord )
+            public void AddVertex( Vector3 pos, Vector2 texCoord )
             {
-                var vertex = new Vertex( pos, normal, texCoord );
+                var vertex = new Vertex( pos, texCoord );
 
                 int index;
                 if ( !_indexMap.TryGetValue( vertex, out index ) )
@@ -269,9 +263,9 @@ namespace MapViewServer
 
                 for ( var x = 0; x < disp.Size; ++x )
                 {
-                    verts.AddVertex( disp.GetPosition( x, y + 0 ), disp.GetNormal( x, y + 0 ),
+                    verts.AddVertex( disp.GetPosition( x, y + 0 ),
                         GetLightmapUv( bsp, x, y + 0, disp.Subdivisions, faceIndex, ref face ) );
-                    verts.AddVertex( disp.GetPosition( x, y + 1 ), disp.GetNormal( x, y + 1 ),
+                    verts.AddVertex( disp.GetPosition( x, y + 1 ),
                         GetLightmapUv( bsp, x, y + 1, disp.Subdivisions, faceIndex, ref face ) );
                 }
 
@@ -337,8 +331,7 @@ namespace MapViewServer
             for ( int i = face.FirstEdge, iEnd = face.FirstEdge + face.NumEdges; i < iEnd; ++i )
             {
                 var vert = bsp.GetVertexFromSurfEdgeId( i );
-                var norm = plane.Normal;
-                verts.AddVertex( vert, norm, GetLightmapUv( bsp, vert, index, ref face, ref texInfo ) );
+                verts.AddVertex( vert, GetLightmapUv( bsp, vert, index, ref face, ref texInfo ) );
             }
 
             var numPrimitives = face.NumPrimitives & 0x7fff;
@@ -441,6 +434,14 @@ namespace MapViewServer
             Displacement
         }
 
+        [Flags]
+        private enum MeshComponents
+        {
+            Position = 1,
+            Normal = 2,
+            Uv = 4
+        }
+
         private struct FacesRequest
         {
             public readonly FacesType Type;
@@ -518,6 +519,7 @@ namespace MapViewServer
 
                     array.Add( new JObject
                     {
+                        {"components", (int) (MeshComponents.Position | MeshComponents.Uv) },
                         {"elements", elementsArray},
                         {"vertices", vertArray.GetVertices( this )},
                         {"indices", vertArray.GetIndices( this )}
