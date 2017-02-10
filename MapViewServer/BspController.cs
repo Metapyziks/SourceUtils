@@ -644,8 +644,10 @@ namespace MapViewServer
             using ( var sampleStream = bsp.GetLumpStream( ValveBspFile.LumpType.LIGHTING_HDR ) )
             {
                 var lightmap = bsp.LightmapLayout;
-                var img = new MagickImage(MagickColor.FromRgb( 0, 0, 0 ), lightmap.TextureSize.X, lightmap.TextureSize.Y);
-                var pixels = img.GetPixels();
+                var width = lightmap.TextureSize.X;
+                var height = lightmap.TextureSize.Y;
+
+                var pixels = new byte[width * height * 3];
 
                 var sampleBuffer = new LightmapSample[256 * 256];
 
@@ -666,15 +668,25 @@ namespace MapViewServer
                     {
                         var s = Math.Max( 0, Math.Min( x, rect.Width - 1 ) );
                         var t = Math.Max( 0, Math.Min( y, rect.Height - 1 ) );
-
-                        byte r, g, b;
-                        sampleBuffer[s + t * rect.Width].ToRgb( out r, out g, out b );
-
-                        pixels[rect.X + x, rect.Y + y][0] = r;
-                        pixels[rect.X + x, rect.Y + y][1] = g;
-                        pixels[rect.X + x, rect.Y + y][2] = b;
+                            
+                        var index = (rect.X + x + width * (rect.Y + y)) * 3;
+                        sampleBuffer[s + t * rect.Width].ToRgb(
+                            out pixels[index + 0],
+                            out pixels[index + 1],
+                            out pixels[index + 2] );
                     }
                 }
+                
+                var img = new MagickImage( pixels, new MagickReadSettings
+                {
+                    Width = width,
+                    Height = height,
+                    PixelStorage = new PixelStorageSettings
+                    {
+                        Mapping = "RGB",
+                        StorageType = StorageType.Char
+                    }
+                } );
 
                 img.Write( Response.OutputStream, MagickFormat.Png );
                 Response.OutputStream.Close();
