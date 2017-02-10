@@ -9,6 +9,9 @@ namespace SourceUtils {
 
         private renderer: THREE.Renderer;
 
+        private lightmapMaterial: THREE.MeshBasicMaterial;
+        private textureLoader: THREE.TextureLoader;
+
         private models: BspModel[] = [];
         private displacements: Displacement[] = [];
 
@@ -26,7 +29,14 @@ namespace SourceUtils {
 
             this.meshManager = new WorldMeshManager((renderer as THREE.WebGLRenderer).context);
 
+            this.textureLoader = new THREE.TextureLoader();
+            this.lightmapMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
+
             this.loadInfo(url);
+        }
+
+        getLightmapMaterial(): THREE.Material {
+            return this.lightmapMaterial;
         }
 
         getPvsRoot(): VisLeaf {
@@ -50,6 +60,7 @@ namespace SourceUtils {
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
                     this.add(this.models[0] = new BspModel(this, 0));
                     this.loadDisplacements();
+                    this.loadLightmap();
                 });
         }
 
@@ -62,6 +73,14 @@ namespace SourceUtils {
                     for (let i = 0; i < data.displacements.length; ++i) {
                         this.displacements.push(new Displacement(data.displacements[i]));
                     }
+                });
+        }
+
+        private loadLightmap(): void {
+            this.textureLoader.load(this.info.lightmapUrl,
+                image => {
+                    this.lightmapMaterial.map = image;
+                    this.lightmapMaterial.needsUpdate = true;
                 });
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace SourceUtils.ValveBsp
         private readonly ValveBspFile _bspFile;
 
         private IntVector2 _boundingSize;
+        private Vector2 _uvScale;
         private IntRect[] _packing;
 
         private bool FoundPacking => _packing != null;
@@ -57,6 +59,7 @@ namespace SourceUtils.ValveBsp
             }
 
             _boundingSize = new IntVector2( width, height );
+            _uvScale = new Vector2( 1f / width, -1f / height );
             return true;
         }
 
@@ -93,9 +96,13 @@ namespace SourceUtils.ValveBsp
             return _packing[faceIndex];
         }
 
-        public void GetUvs( int faceIndex, out Vector2 min, out Vector2 max )
+        public void GetUvs( int faceIndex, out Vector2 min, out Vector2 size )
         {
-            throw new NotImplementedException();
+            var rect = GetLightmapRegion( faceIndex );
+            min.X = (rect.X + 0.5f) * _uvScale.X;
+            min.Y = 1f + (rect.Y + 0.5f) * _uvScale.Y;
+            size.X = (rect.Width - 1f) * _uvScale.X;
+            size.Y = (rect.Height - 1f) * _uvScale.Y;
         }
     }
 }

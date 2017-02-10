@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
-using System.Web.UI.WebControls;
 using ImageMagick;
 using MimeTypes;
 using Newtonsoft.Json;
@@ -23,8 +21,6 @@ namespace MapViewServer
     [Prefix("/bsp")]
     public class BspController : ResourceController
     {
-        private const uint ApiVersion = 0x0213;
-
         protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
         private static string GetMapPath( string mapName )
@@ -258,7 +254,7 @@ namespace MapViewServer
         [ThreadStatic]
         private static List<int> _sIndicesBuffer;
 
-        private static void SerializeDisplacement( ValveBspFile bsp, ref Face face, ref Plane plane, VertexArray verts )
+        private static void SerializeDisplacement( ValveBspFile bsp, int faceIndex, ref Face face, ref Plane plane, VertexArray verts )
         {
             if ( face.NumEdges != 4 )
             {
@@ -273,12 +269,51 @@ namespace MapViewServer
 
                 for ( var x = 0; x < disp.Size; ++x )
                 {
-                    verts.AddVertex( disp.GetPosition( x, y + 0 ), disp.GetNormal( x, y + 0 ), Vector2.Zero );
-                    verts.AddVertex( disp.GetPosition( x, y + 1 ), disp.GetNormal( x, y + 1 ), Vector2.Zero );
+                    verts.AddVertex( disp.GetPosition( x, y + 0 ), disp.GetNormal( x, y + 0 ),
+                        GetLightmapUv( bsp, x, y + 0, disp.Subdivisions, faceIndex, ref face ) );
+                    verts.AddVertex( disp.GetPosition( x, y + 1 ), disp.GetNormal( x, y + 1 ),
+                        GetLightmapUv( bsp, x, y + 1, disp.Subdivisions, faceIndex, ref face ) );
                 }
 
                 verts.CommitPrimitive( PrimitiveType.TriangleStrip );
             }
+        }
+
+        private static Vector2 GetUv( Vector3 pos, TexAxis uAxis, TexAxis vAxis )
+        {
+            return new Vector2(
+                pos.Dot( uAxis.Normal ) + uAxis.Offset,
+                pos.Dot( vAxis.Normal ) + vAxis.Offset );
+        }
+
+        private static Vector2 GetLightmapUv(ValveBspFile bsp, Vector3 pos, int faceIndex, ref Face face, ref TextureInfo texInfo)
+        {
+            var lightmapUv = GetUv(pos, texInfo.LightmapUAxis, texInfo.LightmapVAxis);
+
+            Vector2 min, size;
+            bsp.LightmapManager.GetUvs( faceIndex, out min, out size );
+
+            lightmapUv.X -= face.LightMapOffsetX - .5f;
+            lightmapUv.Y -= face.LightMapOffsetY - .5f;
+            lightmapUv.X /= face.LightMapSizeX + 1f;
+            lightmapUv.Y /= face.LightMapSizeY + 1f;
+            
+            lightmapUv.X *= size.X;
+            lightmapUv.Y *= size.Y;
+            lightmapUv.X += min.X;
+            lightmapUv.Y += min.Y;
+
+            return lightmapUv;
+        }
+        
+        private static Vector2 GetLightmapUv(ValveBspFile bsp, int x, int y, int dispSize, int faceIndex, ref Face face)
+        {
+            var lightmapUv = new Vector2((float) x / dispSize, (float) y / dispSize);
+            
+            Vector2 min, size;
+            bsp.LightmapManager.GetUvs( faceIndex, out min, out size );
+
+            return lightmapUv * size + min;
         }
 
         private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
@@ -291,7 +326,7 @@ namespace MapViewServer
 
             if ( face.DispInfo != -1 )
             {
-                SerializeDisplacement( bsp, ref face, ref plane, verts );
+                SerializeDisplacement( bsp, index, ref face, ref plane, verts );
                 return;
             }
 
@@ -303,7 +338,7 @@ namespace MapViewServer
             {
                 var vert = bsp.GetVertexFromSurfEdgeId( i );
                 var norm = plane.Normal;
-                verts.AddVertex( vert, norm, Vector2.Zero );
+                verts.AddVertex( vert, norm, GetLightmapUv( bsp, vert, index, ref face, ref texInfo ) );
             }
 
             var numPrimitives = face.NumPrimitives & 0x7fff;
@@ -363,7 +398,8 @@ namespace MapViewServer
                     {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
                     {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
                     {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
-                    {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), Replace( "mapName", mapName ) )}
+                    {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), Replace( "mapName", mapName ) )},
+                    {"lightmapUrl", GetActionUrl( nameof( GetLightmap ), Replace( "mapName", mapName ) )}
                 };
             }
         }

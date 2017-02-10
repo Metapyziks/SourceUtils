@@ -145,7 +145,7 @@
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
             gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, 0 * 4);
-            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
+            if (attribs.normal !== undefined) gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
             if (attribs.uv !== undefined) gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, 6 * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);

@@ -12,6 +12,7 @@
             displacementsUrl: string;
             facesUrl: string;
             visibilityUrl: string;
+            lightmapUrl: string;
         }
 
         export class Vector3

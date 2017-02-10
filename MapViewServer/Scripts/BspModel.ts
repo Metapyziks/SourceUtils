@@ -10,7 +10,7 @@
         private drawList: DrawList;
 
         constructor(map: Map, index: number) {
-            super(new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide }));
+            super(new THREE.BufferGeometry(), map.getLightmapMaterial());
 
             this.frustumCulled = false;
 
@@ -85,7 +85,7 @@
             const attribs = program.getAttributes() as IProgramAttributes;
 
             gl.enableVertexAttribArray(attribs.position);
-            gl.enableVertexAttribArray(attribs.normal);
+            if (attribs.normal !== undefined) gl.enableVertexAttribArray(attribs.normal);
             if (attribs.uv !== undefined) gl.enableVertexAttribArray(attribs.uv);
 
             this.drawList.render(attribs);

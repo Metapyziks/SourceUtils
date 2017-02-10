@@ -392,7 +392,7 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            _super.call(this, new THREE.BufferGeometry(), new THREE.MeshPhongMaterial({ side: THREE.BackSide }));
+            _super.call(this, new THREE.BufferGeometry(), map.getLightmapMaterial());
             this.frustumCulled = false;
             this.map = map;
             this.index = index;
@@ -445,7 +445,8 @@ var SourceUtils;
             var program = matProps.program;
             var attribs = program.getAttributes();
             gl.enableVertexAttribArray(attribs.position);
-            gl.enableVertexAttribArray(attribs.normal);
+            if (attribs.normal !== undefined)
+                gl.enableVertexAttribArray(attribs.normal);
             if (attribs.uv !== undefined)
                 gl.enableVertexAttribArray(attribs.uv);
             this.drawList.render(attribs);
@@ -689,8 +690,13 @@ var SourceUtils;
             this.renderer = renderer;
             this.frustumCulled = false;
             this.meshManager = new SourceUtils.WorldMeshManager(renderer.context);
+            this.textureLoader = new THREE.TextureLoader();
+            this.lightmapMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
             this.loadInfo(url);
         }
+        Map.prototype.getLightmapMaterial = function () {
+            return this.lightmapMaterial;
+        };
         Map.prototype.getPvsRoot = function () {
             return this.pvsRoot;
         };
@@ -709,6 +715,7 @@ var SourceUtils;
                 _this.pvsArray = new Array(data.numClusters);
                 _this.add(_this.models[0] = new SourceUtils.BspModel(_this, 0));
                 _this.loadDisplacements();
+                _this.loadLightmap();
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -718,6 +725,13 @@ var SourceUtils;
                 for (var i = 0; i < data.displacements.length; ++i) {
                     _this.displacements.push(new SourceUtils.Displacement(data.displacements[i]));
                 }
+            });
+        };
+        Map.prototype.loadLightmap = function () {
+            var _this = this;
+            this.textureLoader.load(this.info.lightmapUrl, function (image) {
+                _this.lightmapMaterial.map = image;
+                _this.lightmapMaterial.needsUpdate = true;
             });
         };
         Map.prototype.onModelLoaded = function (model) {
@@ -1214,7 +1228,8 @@ var SourceUtils;
             var stride = WorldMeshGroup.vertComponents * 4;
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
             gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, 0 * 4);
-            gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
+            if (attribs.normal !== undefined)
+                gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, 3 * 4);
             if (attribs.uv !== undefined)
                 gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, 6 * 4);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
