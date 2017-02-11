@@ -1,5 +1,8 @@
-﻿namespace SourceUtils {
-    export class BspModel extends THREE.Mesh {
+﻿/// <reference path="Entity.ts"/>
+
+namespace SourceUtils
+{
+    export class BspModel extends Entity {
         map: Map;
 
         private info: Api.BspModelResponse;
@@ -10,21 +13,13 @@
         private drawList: DrawList;
 
         constructor(map: Map, index: number) {
-            super(new THREE.BufferGeometry(), map.getLightmapMaterial());
-
-            this.frustumCulled = false;
+            super();
 
             this.map = map;
             this.index = index;
             this.drawList = new DrawList(map);
 
             this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
-
-            (this.geometry as THREE.BufferGeometry).addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
-            (this.geometry as THREE.BufferGeometry).addAttribute("uv2", new THREE.BufferAttribute(new Float32Array(1), 2));
-
-            // Hack
-            (this as any).onAfterRender = this.onAfterRenderImpl;
         }
 
         getDrawList(): DrawList {
@@ -70,21 +65,32 @@
             return elem as VisLeaf;
         }
 
-        onAfterRenderImpl(renderer: THREE.Renderer,
-            scene: THREE.Scene,
-            camera: THREE.Camera,
-            geom: THREE.Geometry,
-            mat: THREE.Material,
-            group: THREE.Group): void {
-            const webGlRenderer = renderer as THREE.WebGLRenderer;
+        private viewProjectionMatrix = new THREE.Matrix4();
+        private modelMatrix = new THREE.Matrix4();
 
-            const props = webGlRenderer.properties;
+        render(shaders: ShaderManager, camera: THREE.Camera): void {
+            const gl = shaders.getContext();
 
-            const matProps = props.get(this.material);
-            const program = matProps.program;
-            const attribs = program.getAttributes() as IProgramAttributes;
+            const shader = shaders.get("LightmappedGeneric") as Shaders.LightmappedGeneric;
+            if (!shader.isCompiled()) return;
 
-            this.drawList.render(attribs);
+            gl.cullFace(gl.FRONT);
+
+            camera.updateMatrixWorld(true);
+            this.modelMatrix.getInverse(camera.matrixWorld);
+
+            const lightmap = this.map.getLightmap();
+            if (lightmap != null && lightmap.isLoaded()) {
+                gl.activeTexture(gl.TEXTURE0 + 2);
+                gl.bindTexture(gl.TEXTURE_2D, this.map.getLightmap().getHandle());
+            }
+
+            shader.use();
+            shader.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
+            shader.modelMatrix.setMatrix4f(this.modelMatrix.elements);
+            shader.lightmap.set1i(2);
+
+            this.drawList.render(shader);
         }
     }
 }

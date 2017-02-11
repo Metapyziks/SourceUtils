@@ -7,7 +7,7 @@
 
     export class FaceData
     {
-        components: Api.MeshComponents;
+        components: Api.MeshComponent;
         elements: Api.Element[];
         vertices: Float32Array;
         indices: Uint16Array;

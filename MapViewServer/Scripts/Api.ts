@@ -65,7 +65,7 @@
             count: number;
         }
 
-        export enum MeshComponents
+        export enum MeshComponent
         {
             position = 1,
             normal = 2,
@@ -75,7 +75,7 @@
 
         export class Faces
         {
-            components: MeshComponents;
+            components: MeshComponent;
             elements: Element[];
             vertices: string | number[];
             indices: string | number[];

@@ -82,6 +82,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Content Include="Resources\shaders\LightmappedGeneric.frag.txt" />
+    <Content Include="Resources\shaders\LightmappedGeneric.vert.txt" />
     <None Include="Scripts\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +109,8 @@
     <TypeScriptCompile Include="Scripts\Map.ts" />
     <TypeScriptCompile Include="Scripts\MapViewer.ts" />
     <TypeScriptCompile Include="Scripts\ModelViewer.ts" />
+    <TypeScriptCompile Include="Scripts\ShaderProgram.ts" />
+    <TypeScriptCompile Include="Scripts\Texture2D.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\geometry-dom\geometry-dom.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

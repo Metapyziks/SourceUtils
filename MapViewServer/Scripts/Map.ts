@@ -7,9 +7,9 @@ namespace SourceUtils {
         faceLoader = new FaceLoader(this);
         meshManager: WorldMeshManager;
 
-        private renderer: THREE.Renderer;
+        private app: AppBase;
 
-        private lightmapMaterial: THREE.MeshBasicMaterial;
+        private lightmap: Texture2D;
         private textureLoader: THREE.TextureLoader;
 
         private models: BspModel[] = [];
@@ -21,22 +21,21 @@ namespace SourceUtils {
         private pvsRoot: VisLeaf;
         private pvs: VisLeaf[] = [];
 
-        constructor(url: string, renderer: THREE.Renderer) {
+        constructor(app: AppBase, url: string) {
             super();
 
-            this.renderer = renderer;
+            this.app = app;
             this.frustumCulled = false;
 
-            this.meshManager = new WorldMeshManager((renderer as THREE.WebGLRenderer).context);
+            this.meshManager = new WorldMeshManager(app.getContext());
 
             this.textureLoader = new THREE.TextureLoader();
-            this.lightmapMaterial = new THREE.MeshLambertMaterial({ side: THREE.BackSide, lightMapIntensity: 1 });
 
             this.loadInfo(url);
         }
 
-        getLightmapMaterial(): THREE.Material {
-            return this.lightmapMaterial;
+        getLightmap(): Texture2D {
+            return this.lightmap;
         }
 
         getPvsRoot(): VisLeaf {
@@ -60,7 +59,7 @@ namespace SourceUtils {
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
                     this.add(this.models[0] = new BspModel(this, 0));
                     this.loadDisplacements();
-                    this.loadLightmap();
+                    this.lightmap = new Texture2D(this.app.getContext(), data.lightmapUrl);
                 });
         }
 
@@ -73,14 +72,6 @@ namespace SourceUtils {
                     for (let i = 0; i < data.displacements.length; ++i) {
                         this.displacements.push(new Displacement(data.displacements[i]));
                     }
-                });
-        }
-
-        private loadLightmap(): void {
-            this.textureLoader.load(this.info.lightmapUrl,
-                image => {
-                    this.lightmapMaterial.lightMap = image;
-                    this.lightmapMaterial.needsUpdate = true;
                 });
         }
 
@@ -120,6 +111,11 @@ namespace SourceUtils {
             }
 
             this.faceLoader.update();
+        }
+
+        render(shaders: ShaderManager, camera: THREE.Camera): void {
+            const worldSpawn = this.getWorldSpawn();
+            if (worldSpawn != null) worldSpawn.render(shaders, camera);
         }
 
         updatePvs(position: THREE.Vector3): void {

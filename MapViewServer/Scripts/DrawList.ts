@@ -1,11 +1,4 @@
 ﻿namespace SourceUtils {
-    export interface IProgramAttributes {
-        position: number;
-        normal: number;
-        uv: number;
-        uv2: number;
-    }
-
     export class DrawList {
         private map: Map;
 
@@ -44,10 +37,10 @@
             this.handles = null;
         }
 
-        private renderHandle(handle: WorldMeshHandle, attribs: IProgramAttributes): void {
+        private renderHandle(handle: WorldMeshHandle, program: ShaderProgram): void {
             if (this.lastGroup !== handle.group) {
                 this.lastGroup = handle.group;
-                this.lastGroup.prepareForRendering(attribs);
+                this.lastGroup.prepareForRendering(program);
             }
 
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
@@ -100,14 +93,14 @@
             console.log(`Draw calls: ${this.merged.length}`);
         }
 
-        render(attribs: IProgramAttributes): void {
+        render(program: ShaderProgram): void {
             this.lastGroup = undefined;
             this.lastIndex = undefined;
 
             if (this.handles == null) this.buildHandleList();
 
             for (let i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.renderHandle(this.merged[i], attribs);
+                this.renderHandle(this.merged[i], program);
             }
         }
     }

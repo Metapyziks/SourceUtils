@@ -447,7 +447,7 @@ namespace MapViewServer
         }
 
         [Flags]
-        private enum MeshComponents
+        private enum MeshComponent
         {
             Position = 1,
             Normal = 2,
@@ -532,7 +532,7 @@ namespace MapViewServer
 
                     array.Add( new JObject
                     {
-                        {"components", (int) (MeshComponents.Position | MeshComponents.Uv2) },
+                        {"components", (int) (MeshComponent.Position | MeshComponent.Uv2) },
                         {"elements", elementsArray},
                         {"vertices", vertArray.GetVertices( this )},
                         {"indices", vertArray.GetIndices( this )}

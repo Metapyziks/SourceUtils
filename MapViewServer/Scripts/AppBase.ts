@@ -118,6 +118,7 @@ namespace SourceUtils {
         private container: JQuery;
         private scene: THREE.Scene;
         private renderer: THREE.Renderer;
+        private shaders: ShaderManager;
 
         private animateCallback: (time: number) => void;
         private previousTime = 0;
@@ -136,6 +137,7 @@ namespace SourceUtils {
             this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
             this.scene.add(this.camera);
             this.renderer = new THREE.WebGLRenderer();
+            this.shaders = new ShaderManager((this.renderer as THREE.WebGLRenderer).getContext());
 
             this.onWindowResize();
 
@@ -216,8 +218,16 @@ namespace SourceUtils {
             return this.container[0];
         }
 
+        getContext(): WebGLRenderingContext {
+            return (this.renderer as THREE.WebGLRenderer).getContext();
+        }
+
         getCanvas(): HTMLCanvasElement {
             return this.renderer.domElement;
+        }
+
+        getShaders(): ShaderManager {
+            return this.shaders;
         }
 
         getWidth(): number {

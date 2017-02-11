@@ -30,7 +30,7 @@
         private id: number;
         private gl: WebGLRenderingContext;
 
-        private components: Api.MeshComponents;
+        private components: Api.MeshComponent;
         private vertexSize: number;
         private maxVertLength: number;
 
@@ -52,7 +52,7 @@
         private uv2Offset: number;
         private hasUv2s = false;
 
-        constructor(gl: WebGLRenderingContext, components: Api.MeshComponents) {
+        constructor(gl: WebGLRenderingContext, components: Api.MeshComponent) {
             this.id = WorldMeshGroup.nextId++;
             this.gl = gl;
             this.vertices = gl.createBuffer();
@@ -61,25 +61,25 @@
 
             this.vertexSize = 0;
 
-            if ((components & Api.MeshComponents.position) === Api.MeshComponents.position) {
+            if ((components & Api.MeshComponent.position) === Api.MeshComponent.position) {
                 this.hasPositions = true;
                 this.positionOffset = this.vertexSize;
                 this.vertexSize += 3;
             }
 
-            if ((components & Api.MeshComponents.normal) === Api.MeshComponents.normal) {
+            if ((components & Api.MeshComponent.normal) === Api.MeshComponent.normal) {
                 this.hasNormals = true;
                 this.normalOffset = this.vertexSize;
                 this.vertexSize += 3;
             }
 
-            if ((components & Api.MeshComponents.uv) === Api.MeshComponents.uv) {
+            if ((components & Api.MeshComponent.uv) === Api.MeshComponent.uv) {
                 this.hasUvs = true;
                 this.uvOffset = this.vertexSize;
                 this.vertexSize += 2;
             }
 
-            if ((components & Api.MeshComponents.uv2) === Api.MeshComponents.uv2)
+            if ((components & Api.MeshComponent.uv2) === Api.MeshComponent.uv2)
             {
                 this.hasUv2s = true;
                 this.uv2Offset = this.vertexSize;
@@ -194,37 +194,18 @@
             return handles;
         }
 
-        prepareForRendering(attribs: IProgramAttributes): void {
+        prepareForRendering(program: ShaderProgram): void {
             const gl = this.gl;
 
             const stride = this.vertexSize * 4;
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
 
-            if (this.hasPositions && attribs.position !== undefined) {
-                gl.enableVertexAttribArray(attribs.position);
-                gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
-            } else if (attribs.position !== undefined) {
-                gl.disableVertexAttribArray(attribs.position);
-            }
-            if (this.hasNormals && attribs.normal !== undefined) {
-                gl.enableVertexAttribArray(attribs.normal);
-                gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, this.normalOffset * 4);
-            } else if (attribs.normal !== undefined) {
-                gl.disableVertexAttribArray(attribs.normal);
-            }
-            if (this.hasUvs && attribs.uv !== undefined) {
-                gl.enableVertexAttribArray(attribs.uv);
-                gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
-            } else if (attribs.uv !== undefined) {
-                gl.disableVertexAttribArray(attribs.uv);
-            }
-            if (this.hasUv2s && attribs.uv2 !== undefined) {
-                gl.enableVertexAttribArray(attribs.uv2);
-                gl.vertexAttribPointer(attribs.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
-            } else if (attribs.uv2 !== undefined) {
-                gl.disableVertexAttribArray(attribs.uv2);
-            }
+            program.enableMeshComponents(this.components);
+
+            // TODO: Clean up
+            program.setVertexAttribPointer(Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         }

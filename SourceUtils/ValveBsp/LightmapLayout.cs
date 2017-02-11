@@ -53,7 +53,7 @@ namespace SourceUtils.ValveBsp
         private void SetBoundingSize( int width, int height )
         {
             _boundingSize = new IntVector2( width, height );
-            _uvScale = new Vector2( 1f / width, -1f / height );
+            _uvScale = new Vector2( 1f / width, 1f / height );
         }
 
         private bool TryPacking( int width, int height, Packable[] packables )
@@ -138,7 +138,7 @@ namespace SourceUtils.ValveBsp
         {
             var rect = GetLightmapRegion( faceIndex );
             min.X = rect.X * _uvScale.X;
-            min.Y = 1f + rect.Y * _uvScale.Y;
+            min.Y = rect.Y * _uvScale.Y;
             size.X = rect.Width * _uvScale.X;
             size.Y = rect.Height * _uvScale.Y;
         }

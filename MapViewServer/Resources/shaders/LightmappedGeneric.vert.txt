@@ -1,0 +1,13 @@
+﻿attribute vec3 aPosition;
+attribute vec2 aLightmapCoord;
+
+varying vec2 vLightmapCoord;
+
+uniform mat4 uViewProjection;
+uniform mat4 uModel;
+
+void main()
+{
+    gl_Position = uViewProjection * uModel * vec4(aPosition, 1.0);
+    vLightmapCoord = aLightmapCoord;
+}
