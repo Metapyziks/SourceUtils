@@ -3,6 +3,7 @@
         position: number;
         normal: number;
         uv: number;
+        uv2: number;
     }
 
     export class DrawList {

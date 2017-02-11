@@ -69,7 +69,8 @@
         {
             position = 1,
             normal = 2,
-            uv = 4
+            uv = 4,
+            uv2 = 8
         }
 
         export class Faces

@@ -14,7 +14,7 @@ namespace SourceUtils {
         }
 
         init(container: JQuery): void {
-            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
+            this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
             this.camera.up.set(0, 0, 1);
 
             super.init(container);

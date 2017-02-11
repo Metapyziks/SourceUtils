@@ -21,6 +21,7 @@
             this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
 
             (this.geometry as THREE.BufferGeometry).addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
+            (this.geometry as THREE.BufferGeometry).addAttribute("uv2", new THREE.BufferAttribute(new Float32Array(1), 2));
 
             // Hack
             (this as any).onAfterRender = this.onAfterRenderImpl;
@@ -77,16 +78,11 @@
             group: THREE.Group): void {
             const webGlRenderer = renderer as THREE.WebGLRenderer;
 
-            const gl = webGlRenderer.context;
             const props = webGlRenderer.properties;
 
             const matProps = props.get(this.material);
             const program = matProps.program;
             const attribs = program.getAttributes() as IProgramAttributes;
-
-            gl.enableVertexAttribArray(attribs.position);
-            if (attribs.normal !== undefined) gl.enableVertexAttribArray(attribs.normal);
-            if (attribs.uv !== undefined) gl.enableVertexAttribArray(attribs.uv);
 
             this.drawList.render(attribs);
         }

@@ -30,7 +30,7 @@ namespace SourceUtils {
             this.meshManager = new WorldMeshManager((renderer as THREE.WebGLRenderer).context);
 
             this.textureLoader = new THREE.TextureLoader();
-            this.lightmapMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
+            this.lightmapMaterial = new THREE.MeshLambertMaterial({ side: THREE.BackSide, lightMapIntensity: 1 });
 
             this.loadInfo(url);
         }
@@ -79,7 +79,7 @@ namespace SourceUtils {
         private loadLightmap(): void {
             this.textureLoader.load(this.info.lightmapUrl,
                 image => {
-                    this.lightmapMaterial.map = image;
+                    this.lightmapMaterial.lightMap = image;
                     this.lightmapMaterial.needsUpdate = true;
                 });
         }

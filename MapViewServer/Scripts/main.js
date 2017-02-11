@@ -70,6 +70,7 @@ var SourceUtils;
             MeshComponents[MeshComponents["position"] = 1] = "position";
             MeshComponents[MeshComponents["normal"] = 2] = "normal";
             MeshComponents[MeshComponents["uv"] = 4] = "uv";
+            MeshComponents[MeshComponents["uv2"] = 8] = "uv2";
         })(MeshComponents = Api.MeshComponents || (Api.MeshComponents = {}));
         var Faces = (function () {
             function Faces() {
@@ -426,6 +427,7 @@ var SourceUtils;
             _this.drawList = new SourceUtils.DrawList(map);
             _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
             _this.geometry.addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
+            _this.geometry.addAttribute("uv2", new THREE.BufferAttribute(new Float32Array(1), 2));
             // Hack
             _this.onAfterRender = _this.onAfterRenderImpl;
             return _this;
@@ -467,16 +469,10 @@ var SourceUtils;
         };
         BspModel.prototype.onAfterRenderImpl = function (renderer, scene, camera, geom, mat, group) {
             var webGlRenderer = renderer;
-            var gl = webGlRenderer.context;
             var props = webGlRenderer.properties;
             var matProps = props.get(this.material);
             var program = matProps.program;
             var attribs = program.getAttributes();
-            gl.enableVertexAttribArray(attribs.position);
-            if (attribs.normal !== undefined)
-                gl.enableVertexAttribArray(attribs.normal);
-            if (attribs.uv !== undefined)
-                gl.enableVertexAttribArray(attribs.uv);
             this.drawList.render(attribs);
         };
         return BspModel;
@@ -741,7 +737,7 @@ var SourceUtils;
             _this.frustumCulled = false;
             _this.meshManager = new SourceUtils.WorldMeshManager(renderer.context);
             _this.textureLoader = new THREE.TextureLoader();
-            _this.lightmapMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
+            _this.lightmapMaterial = new THREE.MeshLambertMaterial({ side: THREE.BackSide, lightMapIntensity: 1 });
             _this.loadInfo(url);
             return _this;
         }
@@ -781,7 +777,7 @@ var SourceUtils;
         Map.prototype.loadLightmap = function () {
             var _this = this;
             this.textureLoader.load(this.info.lightmapUrl, function (image) {
-                _this.lightmapMaterial.map = image;
+                _this.lightmapMaterial.lightMap = image;
                 _this.lightmapMaterial.needsUpdate = true;
             });
         };
@@ -870,7 +866,7 @@ var SourceUtils;
             return _this;
         }
         MapViewer.prototype.init = function (container) {
-            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
+            this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
             this.camera.up.set(0, 0, 1);
             _super.prototype.init.call(this, container);
             this.updateCameraAngles();
@@ -1210,6 +1206,7 @@ var SourceUtils;
             this.hasPositions = false;
             this.hasNormals = false;
             this.hasUvs = false;
+            this.hasUv2s = false;
             this.id = WorldMeshGroup.nextId++;
             this.gl = gl;
             this.vertices = gl.createBuffer();
@@ -1229,6 +1226,11 @@ var SourceUtils;
             if ((components & SourceUtils.Api.MeshComponents.uv) === SourceUtils.Api.MeshComponents.uv) {
                 this.hasUvs = true;
                 this.uvOffset = this.vertexSize;
+                this.vertexSize += 2;
+            }
+            if ((components & SourceUtils.Api.MeshComponents.uv2) === SourceUtils.Api.MeshComponents.uv2) {
+                this.hasUv2s = true;
+                this.uv2Offset = this.vertexSize;
                 this.vertexSize += 2;
             }
             this.maxVertLength = this.vertexSize * 65536;
@@ -1312,12 +1314,34 @@ var SourceUtils;
             var gl = this.gl;
             var stride = this.vertexSize * 4;
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            if (this.hasPositions && attribs.position !== undefined)
+            if (this.hasPositions && attribs.position !== undefined) {
+                gl.enableVertexAttribArray(attribs.position);
                 gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
-            if (this.hasNormals && attribs.normal !== undefined)
+            }
+            else if (attribs.position !== undefined) {
+                gl.disableVertexAttribArray(attribs.position);
+            }
+            if (this.hasNormals && attribs.normal !== undefined) {
+                gl.enableVertexAttribArray(attribs.normal);
                 gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, this.normalOffset * 4);
-            if (this.hasUvs && attribs.uv !== undefined)
+            }
+            else if (attribs.normal !== undefined) {
+                gl.disableVertexAttribArray(attribs.normal);
+            }
+            if (this.hasUvs && attribs.uv !== undefined) {
+                gl.enableVertexAttribArray(attribs.uv);
                 gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
+            }
+            else if (attribs.uv !== undefined) {
+                gl.disableVertexAttribArray(attribs.uv);
+            }
+            if (this.hasUv2s && attribs.uv2 !== undefined) {
+                gl.enableVertexAttribArray(attribs.uv2);
+                gl.vertexAttribPointer(attribs.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
+            }
+            else if (attribs.uv2 !== undefined) {
+                gl.disableVertexAttribArray(attribs.uv2);
+            }
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         };
         WorldMeshGroup.prototype.renderElements = function (drawMode, offset, count) {

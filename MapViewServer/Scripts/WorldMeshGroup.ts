@@ -49,6 +49,8 @@
         private hasNormals = false;
         private uvOffset: number;
         private hasUvs = false;
+        private uv2Offset: number;
+        private hasUv2s = false;
 
         constructor(gl: WebGLRenderingContext, components: Api.MeshComponents) {
             this.id = WorldMeshGroup.nextId++;
@@ -74,6 +76,13 @@
             if ((components & Api.MeshComponents.uv) === Api.MeshComponents.uv) {
                 this.hasUvs = true;
                 this.uvOffset = this.vertexSize;
+                this.vertexSize += 2;
+            }
+
+            if ((components & Api.MeshComponents.uv2) === Api.MeshComponents.uv2)
+            {
+                this.hasUv2s = true;
+                this.uv2Offset = this.vertexSize;
                 this.vertexSize += 2;
             }
 
@@ -191,9 +200,31 @@
             const stride = this.vertexSize * 4;
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            if (this.hasPositions && attribs.position !== undefined) gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
-            if (this.hasNormals && attribs.normal !== undefined) gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, this.normalOffset * 4);
-            if (this.hasUvs && attribs.uv !== undefined) gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
+
+            if (this.hasPositions && attribs.position !== undefined) {
+                gl.enableVertexAttribArray(attribs.position);
+                gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            } else if (attribs.position !== undefined) {
+                gl.disableVertexAttribArray(attribs.position);
+            }
+            if (this.hasNormals && attribs.normal !== undefined) {
+                gl.enableVertexAttribArray(attribs.normal);
+                gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, true, stride, this.normalOffset * 4);
+            } else if (attribs.normal !== undefined) {
+                gl.disableVertexAttribArray(attribs.normal);
+            }
+            if (this.hasUvs && attribs.uv !== undefined) {
+                gl.enableVertexAttribArray(attribs.uv);
+                gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
+            } else if (attribs.uv !== undefined) {
+                gl.disableVertexAttribArray(attribs.uv);
+            }
+            if (this.hasUv2s && attribs.uv2 !== undefined) {
+                gl.enableVertexAttribArray(attribs.uv2);
+                gl.vertexAttribPointer(attribs.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
+            } else if (attribs.uv2 !== undefined) {
+                gl.disableVertexAttribArray(attribs.uv2);
+            }
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         }
