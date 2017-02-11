@@ -199,6 +199,27 @@ namespace SourceUtils {
             return document.pointerLockElement === this.container[0];
         }
 
+        toggleFullscreen(): void {
+            const container = this.getContainer();
+
+            if (document.fullscreenElement === container || document.webkitFullscreenElement === container) {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            } else if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+        }
+
+        getContainer(): HTMLElement {
+            return this.container[0];
+        }
+
+        getCanvas(): HTMLCanvasElement {
+            return this.renderer.domElement;
+        }
+
         getWidth(): number {
             return this.container.innerWidth();
         }

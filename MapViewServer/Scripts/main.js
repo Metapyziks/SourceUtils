@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return BspNode;
         }(BspElem));
@@ -48,29 +48,29 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
+        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
-        var PrimitiveType = Api.PrimitiveType;
+        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
         var Element = (function () {
             function Element() {
             }
             return Element;
         }());
         Api.Element = Element;
+        var MeshComponents;
         (function (MeshComponents) {
             MeshComponents[MeshComponents["position"] = 1] = "position";
             MeshComponents[MeshComponents["normal"] = 2] = "normal";
             MeshComponents[MeshComponents["uv"] = 4] = "uv";
-        })(Api.MeshComponents || (Api.MeshComponents = {}));
-        var MeshComponents = Api.MeshComponents;
+        })(MeshComponents = Api.MeshComponents || (Api.MeshComponents = {}));
         var Faces = (function () {
             function Faces() {
             }
@@ -132,12 +132,13 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
+    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var MouseButton = SourceUtils.MouseButton;
+    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var Key;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -237,8 +238,7 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(SourceUtils.Key || (SourceUtils.Key = {}));
-    var Key = SourceUtils.Key;
+    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -310,6 +310,27 @@ var SourceUtils;
         };
         AppBase.prototype.isPointerLocked = function () {
             return document.pointerLockElement === this.container[0];
+        };
+        AppBase.prototype.toggleFullscreen = function () {
+            var container = this.getContainer();
+            if (document.fullscreenElement === container || document.webkitFullscreenElement === container) {
+                if (document.exitFullscreen)
+                    document.exitFullscreen();
+                else if (document.webkitExitFullscreen)
+                    document.webkitExitFullscreen();
+            }
+            else if (container.requestFullscreen) {
+                container.requestFullscreen();
+            }
+            else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+        };
+        AppBase.prototype.getContainer = function () {
+            return this.container[0];
+        };
+        AppBase.prototype.getCanvas = function () {
+            return this.renderer.domElement;
         };
         AppBase.prototype.getWidth = function () {
             return this.container.innerWidth();
@@ -398,15 +419,16 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            _super.call(this, new THREE.BufferGeometry(), map.getLightmapMaterial());
-            this.frustumCulled = false;
-            this.map = map;
-            this.index = index;
-            this.drawList = new SourceUtils.DrawList(map);
-            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
-            this.geometry.addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
+            var _this = _super.call(this, new THREE.BufferGeometry(), map.getLightmapMaterial()) || this;
+            _this.frustumCulled = false;
+            _this.map = map;
+            _this.index = index;
+            _this.drawList = new SourceUtils.DrawList(map);
+            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
+            _this.geometry.addAttribute("uv", new THREE.BufferAttribute(new Float32Array(1), 2));
             // Hack
-            this.onAfterRender = this.onAfterRenderImpl;
+            _this.onAfterRender = _this.onAfterRenderImpl;
+            return _this;
         }
         BspModel.prototype.getDrawList = function () {
             return this.drawList;
@@ -457,9 +479,6 @@ var SourceUtils;
                 gl.enableVertexAttribArray(attribs.uv);
             this.drawList.render(attribs);
         };
-        BspModel.prototype.debugPrint = function () {
-            this.drawList.debugPrint();
-        };
         return BspModel;
     }(THREE.Mesh));
     SourceUtils.BspModel = BspModel;
@@ -508,10 +527,10 @@ var SourceUtils;
                 this.drawList.updateItem(this);
         };
         DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
-        DrawListItem.rootCenter = new THREE.Vector3();
-        DrawListItem.thisCenter = new THREE.Vector3();
         return DrawListItem;
     }());
+    DrawListItem.rootCenter = new THREE.Vector3();
+    DrawListItem.thisCenter = new THREE.Vector3();
     SourceUtils.DrawListItem = DrawListItem;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="DrawListItem.ts"/>
@@ -520,11 +539,12 @@ var SourceUtils;
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
         function Displacement(info) {
-            _super.call(this, "d", info.index);
-            this.clusters = info.clusters;
+            var _this = _super.call(this, "d", info.index) || this;
+            _this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            return _this;
         }
         return Displacement;
     }(SourceUtils.DrawListItem));
@@ -536,6 +556,7 @@ var SourceUtils;
         function DrawList(map) {
             this.items = [];
             this.handles = [];
+            this.merged = [];
             this.map = map;
         }
         DrawList.prototype.clear = function () {
@@ -544,6 +565,9 @@ var SourceUtils;
             }
             this.items = [];
             this.handles = [];
+        };
+        DrawList.prototype.getDrawCalls = function () {
+            return this.items.length;
         };
         DrawList.prototype.addItem = function (item) {
             this.items.push(item);
@@ -560,6 +584,10 @@ var SourceUtils;
             }
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
         };
+        DrawList.compareHandles = function (a, b) {
+            var idComp = a.group.getId() - b.group.getId();
+            return idComp !== 0 ? idComp : a.offset - b.offset;
+        };
         DrawList.prototype.buildHandleList = function () {
             this.handles = [];
             var loader = this.map.faceLoader;
@@ -573,18 +601,33 @@ var SourceUtils;
                     this.handles.push(handles[j]);
                 }
             }
+            this.handles.sort(DrawList.compareHandles);
+            this.merged = [];
+            var last = null;
+            // Go through adding to this.merged
+            for (var i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
+                var next = this.handles[i];
+                if (last != null && last.canMerge(next)) {
+                    last.merge(next);
+                    continue;
+                }
+                last = new SourceUtils.WorldMeshHandle();
+                this.merged.push(last);
+                last.group = next.group;
+                last.drawMode = next.drawMode;
+                last.offset = next.offset;
+                last.count = next.count;
+            }
+            console.log("Draw calls: " + this.merged.length);
         };
         DrawList.prototype.render = function (attribs) {
             this.lastGroup = undefined;
             this.lastIndex = undefined;
             if (this.handles == null)
                 this.buildHandleList();
-            for (var i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
-                this.renderHandle(this.handles[i], attribs);
+            for (var i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
+                this.renderHandle(this.merged[i], attribs);
             }
-        };
-        DrawList.prototype.debugPrint = function () {
-            console.log("DrawCalls: " + (this.handles == null ? 0 : this.handles.length));
         };
         return DrawList;
     }());
@@ -596,7 +639,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            _super.apply(this, arguments);
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         return Entity;
     }(THREE.Object3D));
@@ -689,17 +732,18 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(url, renderer) {
-            _super.call(this);
-            this.faceLoader = new SourceUtils.FaceLoader(this);
-            this.models = [];
-            this.displacements = [];
-            this.pvs = [];
-            this.renderer = renderer;
-            this.frustumCulled = false;
-            this.meshManager = new SourceUtils.WorldMeshManager(renderer.context);
-            this.textureLoader = new THREE.TextureLoader();
-            this.lightmapMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
-            this.loadInfo(url);
+            var _this = _super.call(this) || this;
+            _this.faceLoader = new SourceUtils.FaceLoader(_this);
+            _this.models = [];
+            _this.displacements = [];
+            _this.pvs = [];
+            _this.renderer = renderer;
+            _this.frustumCulled = false;
+            _this.meshManager = new SourceUtils.WorldMeshManager(renderer.context);
+            _this.textureLoader = new THREE.TextureLoader();
+            _this.lightmapMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
+            _this.loadInfo(url);
+            return _this;
         }
         Map.prototype.getLightmapMaterial = function () {
             return this.lightmapMaterial;
@@ -806,12 +850,6 @@ var SourceUtils;
                 }
             });
         };
-        Map.prototype.debugPrint = function () {
-            this.meshManager.debugPrint();
-            if (this.getWorldSpawn() != null) {
-                this.getWorldSpawn().debugPrint();
-            }
-        };
         return Map;
     }(SourceUtils.Entity));
     SourceUtils.Map = Map;
@@ -822,13 +860,14 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            _super.call(this);
-            this.lookAngs = new THREE.Vector2();
-            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            this.unitZ = new THREE.Vector3(0, 0, 1);
-            this.unitX = new THREE.Vector3(1, 0, 0);
-            this.tempQuat = new THREE.Quaternion();
-            this.canLockPointer = true;
+            var _this = _super.call(this) || this;
+            _this.lookAngs = new THREE.Vector2();
+            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            _this.unitZ = new THREE.Vector3(0, 0, 1);
+            _this.unitX = new THREE.Vector3(1, 0, 0);
+            _this.tempQuat = new THREE.Quaternion();
+            _this.canLockPointer = true;
+            return _this;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -842,6 +881,17 @@ var SourceUtils;
             }
             this.map = new SourceUtils.Map(url, this.getRenderer());
             this.getScene().add(this.map);
+        };
+        MapViewer.prototype.onKeyDown = function (key) {
+            _super.prototype.onKeyDown.call(this, key);
+            if (key === SourceUtils.Key.F) {
+                this.toggleFullscreen();
+            }
+        };
+        MapViewer.prototype.onUpdateCamera = function () {
+            var camera = this.camera;
+            camera.aspect = this.getWidth() / this.getHeight();
+            camera.updateProjectionMatrix();
         };
         MapViewer.prototype.updateCameraAngles = function () {
             if (this.lookAngs.y < -Math.PI * 0.5)
@@ -937,10 +987,11 @@ var SourceUtils;
     var ModelViewer = (function (_super) {
         __extends(ModelViewer, _super);
         function ModelViewer() {
-            _super.apply(this, arguments);
-            this.cameraAngle = 0;
-            this.hullSize = new THREE.Vector3();
-            this.hullCenter = new THREE.Vector3();
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.cameraAngle = 0;
+            _this.hullSize = new THREE.Vector3();
+            _this.hullCenter = new THREE.Vector3();
+            return _this;
         }
         ModelViewer.prototype.init = function (container) {
             this.texLoader = new THREE.TextureLoader();
@@ -973,7 +1024,7 @@ var SourceUtils;
             this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
             this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
             this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function(i) {
+            var _loop_1 = function (i) {
                 $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
             };
             for (var i = 0; i < mdl.materials.length; ++i) {
@@ -987,7 +1038,7 @@ var SourceUtils;
             $.getJSON(url, function (vtf, status) {
                 var minMipMap = Math.max(vtf.mipmaps - 4, 0);
                 var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function(i) {
+                var _loop_2 = function (i) {
                     _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
                         if (i >= bestMipMap)
                             return;
@@ -1007,7 +1058,7 @@ var SourceUtils;
             if (shader == null)
                 return;
             var mat = new THREE[shader.material]();
-            var _loop_3 = function(i) {
+            var _loop_3 = function (i) {
                 var prop = shader.properties[i];
                 switch (prop.type) {
                     case PropertyType.Texture:
@@ -1084,13 +1135,14 @@ var SourceUtils;
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
         function VisLeaf(info) {
-            _super.call(this, "l", info.index);
-            this.isLeaf = true;
+            var _this = _super.call(this, "l", info.index) || this;
+            _this.isLeaf = true;
             var min = info.min;
             var max = info.max;
-            this.leafIndex = info.index;
-            this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.leafIndex = info.index;
+            _this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            return _this;
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
@@ -1140,6 +1192,14 @@ var SourceUtils;
             this.offset = offset;
             this.count = count;
         }
+        WorldMeshHandle.prototype.canMerge = function (other) {
+            return this.group === other.group
+                && this.drawMode === other.drawMode
+                && this.offset + this.count === other.offset;
+        };
+        WorldMeshHandle.prototype.merge = function (other) {
+            this.count += other.count;
+        };
         return WorldMeshHandle;
     }());
     SourceUtils.WorldMeshHandle = WorldMeshHandle;
@@ -1150,6 +1210,7 @@ var SourceUtils;
             this.hasPositions = false;
             this.hasNormals = false;
             this.hasUvs = false;
+            this.id = WorldMeshGroup.nextId++;
             this.gl = gl;
             this.vertices = gl.createBuffer();
             this.indices = gl.createBuffer();
@@ -1172,6 +1233,7 @@ var SourceUtils;
             }
             this.maxVertLength = this.vertexSize * 65536;
         }
+        WorldMeshGroup.prototype.getId = function () { return this.id; };
         WorldMeshGroup.prototype.getVertexCount = function () {
             return this.vertCount / this.vertexSize;
         };
@@ -1272,19 +1334,14 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
-        WorldMeshGroup.maxIndices = 2147483647;
         return WorldMeshGroup;
     }());
+    WorldMeshGroup.maxIndices = 2147483647;
+    WorldMeshGroup.nextId = 1;
     SourceUtils.WorldMeshGroup = WorldMeshGroup;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var DrawListBatch = (function () {
-        function DrawListBatch() {
-        }
-        return DrawListBatch;
-    }());
-    SourceUtils.DrawListBatch = DrawListBatch;
     var WorldMeshManager = (function () {
         function WorldMeshManager(gl) {
             this.groups = [];
@@ -1319,9 +1376,6 @@ var SourceUtils;
                 this.groups[i].dispose();
             }
             this.groups = [];
-        };
-        WorldMeshManager.prototype.debugPrint = function () {
-            console.log("WorldMeshGroups: " + this.groups.length + ", Vertices: " + this.getVertexCount() + ", Triangles: " + this.getTriangleCount());
         };
         return WorldMeshManager;
     }());

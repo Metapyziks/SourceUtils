@@ -5,17 +5,29 @@
         offset: number;
         count: number;
 
-        constructor(group: WorldMeshGroup, drawMode: number, offset: number, count: number) {
+        constructor(group?: WorldMeshGroup, drawMode?: number, offset?: number, count?: number) {
             this.group = group;
             this.drawMode = drawMode;
             this.offset = offset;
             this.count = count;
         }
+
+        canMerge(other: WorldMeshHandle): boolean {
+            return this.group === other.group 
+                && this.drawMode === other.drawMode
+                && this.offset + this.count === other.offset;
+        }
+
+        merge(other: WorldMeshHandle): void {
+            this.count += other.count;
+        }
     }
 
     export class WorldMeshGroup {
         private static maxIndices = 2147483647;
+        private static nextId = 1;
 
+        private id: number;
         private gl: WebGLRenderingContext;
 
         private components: Api.MeshComponents;
@@ -39,6 +51,7 @@
         private hasUvs = false;
 
         constructor(gl: WebGLRenderingContext, components: Api.MeshComponents) {
+            this.id = WorldMeshGroup.nextId++;
             this.gl = gl;
             this.vertices = gl.createBuffer();
             this.indices = gl.createBuffer();
@@ -66,6 +79,8 @@
 
             this.maxVertLength = this.vertexSize * 65536;
         }
+
+        getId(): number { return this.id; }
 
         getVertexCount(): number {
             return this.vertCount / this.vertexSize;

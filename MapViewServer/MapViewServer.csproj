@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\fileicon.png" />
+    <Content Include="Resources\mapviewer.css" />
     <Content Include="Scripts\main.js" />
   </ItemGroup>
   <ItemGroup>

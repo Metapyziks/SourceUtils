@@ -31,9 +31,24 @@ namespace SourceUtils {
             this.getScene().add(this.map);
         }
 
+        onKeyDown(key: Key): void {
+            super.onKeyDown(key);
+
+            if (key === Key.F) {
+                this.toggleFullscreen();
+            }
+        }
+
         private unitZ = new THREE.Vector3(0, 0, 1);
         private unitX = new THREE.Vector3(1, 0, 0);
         private tempQuat = new THREE.Quaternion();
+
+        protected onUpdateCamera(): void {
+            const camera = this.camera as THREE.PerspectiveCamera;
+
+            camera.aspect = this.getWidth() / this.getHeight();
+            camera.updateProjectionMatrix();
+        }
 
         private updateCameraAngles(): void {
             if (this.lookAngs.y < -Math.PI * 0.5) this.lookAngs.y = -Math.PI * 0.5;

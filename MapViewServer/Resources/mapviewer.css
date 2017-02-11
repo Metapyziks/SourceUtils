@@ -1,0 +1,8 @@
+﻿#map-view {
+    height: 720px;
+}
+
+#map-view:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+}

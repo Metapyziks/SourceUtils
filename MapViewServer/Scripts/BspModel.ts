@@ -90,9 +90,5 @@
 
             this.drawList.render(attribs);
         }
-
-        debugPrint(): void {
-            this.drawList.debugPrint();
-        }
     }
 }

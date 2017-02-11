@@ -159,13 +159,5 @@ namespace SourceUtils {
                     }
                 });
         }
-
-        debugPrint(): void {
-            this.meshManager.debugPrint();
-
-            if (this.getWorldSpawn() != null) {
-                this.getWorldSpawn().debugPrint();
-            }
-        }
     }
 }

@@ -10,6 +10,7 @@
 
         private items: DrawListItem[] = [];
         private handles: WorldMeshHandle[] = [];
+        private merged: WorldMeshHandle[] = [];
 
         private lastGroup: WorldMeshGroup;
         private lastIndex: number;
@@ -26,6 +27,10 @@
 
             this.items = [];
             this.handles = [];
+        }
+
+        getDrawCalls(): number {
+            return this.items.length;
         }
 
         addItem(item: DrawListItem): void {
@@ -47,6 +52,11 @@
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
         }
 
+        private static compareHandles(a: WorldMeshHandle, b: WorldMeshHandle): number {
+            const idComp = a.group.getId() - b.group.getId();
+            return idComp !== 0 ? idComp : a.offset - b.offset;
+        }
+
         private buildHandleList(): void {
             this.handles = [];
 
@@ -61,6 +71,32 @@
                     this.handles.push(handles[j]);
                 }
             }
+
+            this.handles.sort(DrawList.compareHandles);
+
+            this.merged = [];
+
+            let last: WorldMeshHandle = null;
+
+            // Go through adding to this.merged
+            for (let i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
+                const next = this.handles[i];
+
+                if (last != null && last.canMerge(next)) {
+                    last.merge(next);
+                    continue;
+                }
+
+                last = new WorldMeshHandle();
+                this.merged.push(last);
+
+                last.group = next.group;
+                last.drawMode = next.drawMode;
+                last.offset = next.offset;
+                last.count = next.count;
+            }
+
+            console.log(`Draw calls: ${this.merged.length}`);
         }
 
         render(attribs: IProgramAttributes): void {
@@ -69,13 +105,9 @@
 
             if (this.handles == null) this.buildHandleList();
 
-            for (let i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
-                this.renderHandle(this.handles[i], attribs);
+            for (let i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
+                this.renderHandle(this.merged[i], attribs);
             }
-        }
-
-        debugPrint(): void {
-            console.log(`DrawCalls: ${this.handles == null ? 0 : this.handles.length}`);
         }
     }
 }

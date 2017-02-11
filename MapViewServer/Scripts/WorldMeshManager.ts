@@ -1,9 +1,4 @@
-﻿namespace SourceUtils
-{
-    export class DrawListBatch {
-        // TODO
-    }
-
+﻿namespace SourceUtils {
     export class WorldMeshManager {
         private gl: WebGLRenderingContext;
         private groups: WorldMeshGroup[] = [];
@@ -12,21 +7,17 @@
             this.gl = gl;
         }
 
-        getVertexCount(): number
-        {
+        getVertexCount(): number {
             let total = 0;
-            for (let i = 0; i < this.groups.length; ++i)
-            {
+            for (let i = 0; i < this.groups.length; ++i) {
                 total += this.groups[i].getVertexCount();
             }
             return total;
         }
 
-        getTriangleCount(): number
-        {
+        getTriangleCount(): number {
             let total = 0;
-            for (let i = 0; i < this.groups.length; ++i)
-            {
+            for (let i = 0; i < this.groups.length; ++i) {
                 total += this.groups[i].getTriangleCount();
             }
             return total;
@@ -49,10 +40,6 @@
             }
 
             this.groups = [];
-        }
-
-        debugPrint(): void {
-            console.log(`WorldMeshGroups: ${this.groups.length}, Vertices: ${this.getVertexCount()}, Triangles: ${this.getTriangleCount()}`);
         }
     }
 }

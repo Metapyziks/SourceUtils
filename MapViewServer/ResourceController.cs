@@ -113,12 +113,22 @@ namespace MapViewServer
             return $"{major:x}-{minor:x}";
         }
 
-        protected string GetScriptUrl( string fileName )
+        private string GetResourceUrl( string fileName, string rootDir )
         {
-            var path = Path.Combine( Program.ScriptsDirectory, fileName );
+            var path = Path.Combine( rootDir, fileName );
             var info = new FileInfo( path );
             var versHash = GetFileVersionHash( info.LastWriteTimeUtc );
             return $"/{fileName}?v={versHash}";
+        }
+
+        protected string GetResourceUrl( string fileName )
+        {
+            return GetResourceUrl( fileName, Program.ResourcesDirectory );
+        }
+
+        protected string GetScriptUrl( string fileName )
+        {
+            return GetResourceUrl( fileName, Program.ScriptsDirectory );
         }
 
         protected ControllerActionException BadParameterException( string paramName )

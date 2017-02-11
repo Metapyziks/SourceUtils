@@ -413,6 +413,7 @@ namespace MapViewServer
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js" ),
                 new script( src => GetScriptUrl( "main.js" ) ),
+                new link( rel => "stylesheet", type => "text/css", href => GetResourceUrl( "mapviewer.css" ) ),
                 new script
                 {
                     $@"
@@ -424,7 +425,7 @@ namespace MapViewServer
                     }}
                     "
                 },
-                new div( id => elemId, style => "height: 720px" ),
+                new div( id => elemId ),
                 new code( style => "display: block; white-space: pre-wrap" )
                 {
                     GetIndex( mapName ).ToString()
