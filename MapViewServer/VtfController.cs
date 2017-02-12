@@ -86,7 +86,7 @@ namespace MapViewServer
             
             Response.ContentType = MimeTypeMap.GetMimeType(".dds");
 
-            VtfConverter.ConvertToDds( FilePath, Response.OutputStream );
+            VtfConverter.ConvertToDds( Program.Loader, FilePath, Response.OutputStream );
             Response.OutputStream.Close();
         }
 
@@ -97,7 +97,7 @@ namespace MapViewServer
 
             Response.ContentType = MimeTypeMap.GetMimeType(".png");
 
-            VtfConverter.ConvertToPng( FilePath, mipmap, Response.OutputStream, alpha );
+            VtfConverter.ConvertToPng( Program.Loader, FilePath, mipmap, Response.OutputStream, alpha );
             Response.OutputStream.Close();
         }
     }

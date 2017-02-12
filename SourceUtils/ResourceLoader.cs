@@ -149,7 +149,7 @@ namespace SourceUtils
 
         private readonly Dictionary<Type, ResourceCollection> _resourceCollections
             = new Dictionary<Type, ResourceCollection>();
-            
+
         public T Load<T>(string filePath)
         {
             ResourceCollection collection;

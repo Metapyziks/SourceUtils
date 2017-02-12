@@ -138,7 +138,7 @@ namespace SourceUtils
         public TextureHeader Header { get; }
         public byte[] PixelData { get; }
 
-        private ValveTextureFile(Stream stream)
+        public ValveTextureFile(Stream stream)
         {
             Header = LumpReader<TextureHeader>.ReadSingleFromStream(stream);
 

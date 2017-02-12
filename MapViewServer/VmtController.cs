@@ -171,7 +171,13 @@ namespace MapViewServer
         {
             if ( format != "json" ) throw NotFoundException();
 
-            var vmt = Program.Loader.Load<ValveMaterialFile>( FilePath );
+            ValveMaterialFile vmt;
+
+            using ( var vmtStream = Program.Loader.OpenFile( FilePath ) )
+            {
+                vmt = new ValveMaterialFile( vmtStream );
+            }
+
             var response = new JObject();
 
             var shaders = new JArray();

@@ -135,21 +135,25 @@ namespace MapViewServer
             }
         }
         
-        public static void ConvertToDds( string vtfFilePath, Stream outStream )
+        public static void ConvertToDds( IResourceProvider resources, string vtfFilePath, Stream outStream )
         {
-            ConvertToDds( vtfFilePath, -1, outStream );
+            ConvertToDds( resources, vtfFilePath, -1, outStream );
         }
 
-        public static unsafe void ConvertToDds( string vtfFilePath, int mipMap, Stream outStream )
+        public static unsafe void ConvertToDds( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream )
         {
             var oneMipMap = mipMap > -1;
             if (mipMap < 0) mipMap = 0;
 
-            var vtf = Program.Loader.Load<ValveTextureFile>(vtfFilePath);
+            ValveTextureFile vtf;
+            using ( var vtfStream = resources.OpenFile( vtfFilePath ) )
+            {
+                vtf = new ValveTextureFile( vtfStream );
+            }
                 
             if (mipMap >= vtf.Header.MipMapCount)
             {
-                ConvertToDds(vtfFilePath, vtf.Header.MipMapCount - 1, outStream);
+                ConvertToDds( resources, vtfFilePath, vtf.Header.MipMapCount - 1, outStream);
                 return;
             }
                 
@@ -212,7 +216,7 @@ namespace MapViewServer
             }
         }
 
-        public static void ConvertToPng(string vtfFilePath, int mipMap, Stream outStream, bool alphaOnly = false)
+        public static void ConvertToPng(IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream, bool alphaOnly = false)
         {
             if ( _sMemoryStream == null ) _sMemoryStream = new MemoryStream();
             else
@@ -221,7 +225,7 @@ namespace MapViewServer
                 _sMemoryStream.SetLength( 0 );
             }
 
-            ConvertToDds( vtfFilePath, mipMap, _sMemoryStream );
+            ConvertToDds(resources, vtfFilePath, mipMap, _sMemoryStream );
 
             _sMemoryStream.Seek( 0, SeekOrigin.Begin );
             ConvertDdsToPng( _sMemoryStream, outStream, alphaOnly );

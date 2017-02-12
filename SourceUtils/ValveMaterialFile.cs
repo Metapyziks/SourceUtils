@@ -94,7 +94,7 @@ namespace SourceUtils
     
             public void AssertToken(string token)
             {
-                if (!ReadToken(token)) ExpectedError(string.Format("'{0}'", token));
+                if (!ReadToken(token)) ExpectedError( $"'{token}'" );
             }
     
             public void AssertRegex(Regex regex, out Match match, string token)
@@ -158,20 +158,18 @@ namespace SourceUtils
 
         public static ValveMaterialFile FromStream(Stream stream)
         {
-            var reader = new Reader(stream);
-            var file = new ValveMaterialFile(reader);
-
-            return file;
+            return new ValveMaterialFile( stream );
         }
 
         private readonly Dictionary<string, MaterialPropertyGroup> _propertyGroups = new Dictionary<string, MaterialPropertyGroup>(StringComparer.InvariantCultureIgnoreCase);
+        private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*""(?<shader>[a-zA-Z0-9/\\]+)""[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
 
-        private ValveMaterialFile(Reader reader)
+        public ValveMaterialFile(Stream stream)
         {
-            var shaderNameRegex = new Regex(@"^[^""{}]*""(?<shader>[a-zA-Z0-9/\\]+)""[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
+            var reader = new Reader( stream );
 
             Match match;
-            while (reader.ReadRegex(shaderNameRegex, out match))
+            while (reader.ReadRegex(_sShaderNameRegex, out match))
             {
                 var shader = match.Groups["shader"].Value;
                 var group = new MaterialPropertyGroup(reader);
