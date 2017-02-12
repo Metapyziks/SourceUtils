@@ -205,6 +205,7 @@
 
             // TODO: Clean up
             program.setVertexAttribPointer(Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             program.setVertexAttribPointer(Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);

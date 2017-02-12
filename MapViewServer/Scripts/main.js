@@ -1366,6 +1366,7 @@ var SourceUtils;
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
                 _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
                 _this.lightmap = new Uniform(_this, "uLightmap");
                 return _this;
@@ -1600,6 +1601,7 @@ var SourceUtils;
             program.enableMeshComponents(this.components);
             // TODO: Clean up
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         };

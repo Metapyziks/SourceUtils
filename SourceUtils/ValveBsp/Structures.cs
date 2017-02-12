@@ -191,6 +191,17 @@ namespace SourceUtils.ValveBsp
         public readonly SurfFlags Flags;
         public readonly int TexData;
     }
+    
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct TextureData
+    {
+        public readonly Vector3 Reflectivity;
+        public readonly int NameStringTableId;
+        public readonly int Width;
+        public readonly int Height;
+        public readonly int ViewWidth;
+        public readonly int ViewHeight;
+    }
 
     [Flags]
     public enum BrushContents : int

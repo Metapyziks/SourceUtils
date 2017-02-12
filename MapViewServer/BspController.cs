@@ -129,8 +129,8 @@ namespace MapViewServer
                     yield return Position.Y;
                     yield return Position.Z;
 
-                    //yield return TexCoord.X;
-                    //yield return TexCoord.Y;
+                    yield return TexCoord.X;
+                    yield return TexCoord.Y;
 
                     yield return LightmapCoord.X;
                     yield return LightmapCoord.Y;
@@ -267,6 +267,14 @@ namespace MapViewServer
             }
 
             var disp = bsp.DisplacementManager[face.DispInfo];
+            var texInfo = bsp.TextureInfos[face.TexInfo];
+            var texScale = new Vector2( 1f, 1f );
+
+            if ( texInfo.TexData != -1 )
+            {
+                var texData = bsp.TextureData[texInfo.TexData];
+                texScale /= new Vector2( texData.Width, texData.Height );
+            }
 
             for ( var y = 0; y < disp.Size - 1; ++y )
             {
@@ -274,9 +282,15 @@ namespace MapViewServer
 
                 for ( var x = 0; x < disp.Size; ++x )
                 {
-                    verts.AddVertex( disp.GetPosition( x, y + 0 ), Vector2.Zero,
+                    var p0 = disp.GetPosition( x, y + 0 );
+                    var p1 = disp.GetPosition( x, y + 1 );
+
+                    var uv0 = GetUv( p0, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+                    var uv1 = GetUv( p1, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+
+                    verts.AddVertex( p0, uv0,
                         GetLightmapUv( bsp, x, y + 0, disp.Subdivisions, faceIndex, ref face ) );
-                    verts.AddVertex( disp.GetPosition( x, y + 1 ), Vector2.Zero,
+                    verts.AddVertex( p1, uv1,
                         GetLightmapUv( bsp, x, y + 1, disp.Subdivisions, faceIndex, ref face ) );
                 }
 
@@ -328,6 +342,13 @@ namespace MapViewServer
             var face = bsp.FacesHdr[index];
             var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
+            var texScale = new Vector2( 1f, 1f );
+
+            if ( texInfo.TexData != -1 )
+            {
+                var texData = bsp.TextureData[texInfo.TexData];
+                texScale /= new Vector2( texData.Width, texData.Height );
+            }
 
             if ( face.DispInfo != -1 )
             {
@@ -342,7 +363,10 @@ namespace MapViewServer
             for ( int i = face.FirstEdge, iEnd = face.FirstEdge + face.NumEdges; i < iEnd; ++i )
             {
                 var vert = bsp.GetVertexFromSurfEdgeId( i );
-                verts.AddVertex( vert, Vector2.Zero, GetLightmapUv( bsp, vert, index, ref face, ref texInfo ) );
+                var uv = GetUv( vert, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+                var uv2 = GetLightmapUv( bsp, vert, index, ref face, ref texInfo );
+
+                verts.AddVertex( vert, uv, uv2 );
             }
 
             var numPrimitives = face.NumPrimitives & 0x7fff;
@@ -532,7 +556,7 @@ namespace MapViewServer
 
                     array.Add( new JObject
                     {
-                        {"components", (int) (MeshComponent.Position | MeshComponent.Uv2) },
+                        {"components", (int) (MeshComponent.Position | MeshComponent.Uv | MeshComponent.Uv2) },
                         {"elements", elementsArray},
                         {"vertices", vertArray.GetVertices( this )},
                         {"indices", vertArray.GetIndices( this )}

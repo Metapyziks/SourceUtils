@@ -83,6 +83,9 @@ namespace SourceUtils
         [BspLump(LumpType.TEXINFO)]
         public ArrayLump<TextureInfo> TextureInfos { get; private set; }
 
+        [BspLump(LumpType.TEXDATA)]
+        public ArrayLump<TextureData> TextureData { get; private set; }
+
         [BspLump(LumpType.BRUSHES)]
         public ArrayLump<Brush> Brushes { get; private set; }
         

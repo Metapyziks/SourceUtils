@@ -18,8 +18,7 @@ namespace SourceUtils {
             return this.currentProgram;
         }
 
-        setCurrentProgram(program: ShaderProgram): void
-        {
+        setCurrentProgram(program: ShaderProgram): void {
             if (this.currentProgram != null) {
                 this.currentProgram.disableMeshComponents();
             }
@@ -47,13 +46,11 @@ namespace SourceUtils {
         }
     }
 
-    export interface IProgramAttributes
-    {
+    export interface IProgramAttributes {
         [component: number]: number;
     }
 
-    export class ShaderProgramAttributes implements IProgramAttributes
-    {
+    export class ShaderProgramAttributes implements IProgramAttributes {
         [component: number]: number;
     }
 
@@ -135,9 +132,12 @@ namespace SourceUtils {
             return this.program;
         }
 
-        setVertexAttribPointer(component: Api.MeshComponent, size: number,
-            type: number, normalized: boolean, stride: number, offset: number)
-        {
+        setVertexAttribPointer(component: Api.MeshComponent,
+            size: number,
+            type: number,
+            normalized: boolean,
+            stride: number,
+            offset: number) {
             const loc = this.attribs[component];
             if (loc === undefined) return;
 
@@ -249,8 +249,7 @@ namespace SourceUtils {
 
         private enabledComponents: Api.MeshComponent = 0;
 
-        enableMeshComponents(components: Api.MeshComponent)
-        {
+        enableMeshComponents(components: Api.MeshComponent) {
             const gl = this.getContext();
             const diff = this.enabledComponents ^ components;
 
@@ -275,8 +274,7 @@ namespace SourceUtils {
     }
 
     export namespace Shaders {
-        export class LightmappedGeneric extends ShaderProgram
-        {
+        export class LightmappedGeneric extends ShaderProgram {
             lightmap: Uniform;
 
             constructor(manager: ShaderManager) {
@@ -288,6 +286,7 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
 
                 this.addAttribute("aPosition", Api.MeshComponent.position);
+                this.addAttribute("aTextureCoord", Api.MeshComponent.uv);
                 this.addAttribute("aLightmapCoord", Api.MeshComponent.uv2);
 
                 this.lightmap = new Uniform(this, "uLightmap");
