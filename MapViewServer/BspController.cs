@@ -805,7 +805,7 @@ namespace MapViewServer
             return response;
         }
         
-        private string GetTextureUrl( string filePath, bool alphaOnly = false )
+        private string GetTextureUrl( string filePath )
         {
             filePath = filePath.Replace( '\\', '/' ).ToLower();
 
@@ -828,7 +828,7 @@ namespace MapViewServer
                 if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
             }
 
-            return VtfController.GetUrl( Request, fullPath, alphaOnly );
+            return VtfController.GetPngUrl( Request, fullPath );
         }
 
         private enum MaterialPropertyType
@@ -861,9 +861,9 @@ namespace MapViewServer
             AddProperty( properties, name, MaterialPropertyType.Number, value );
         }
 
-        private void AddTextureProperty( JArray properties, string name, string vtfPath, bool alphaOnly = false )
+        private void AddTextureProperty( JArray properties, string name, string vtfPath )
         {
-            AddProperty( properties, name, MaterialPropertyType.Texture, GetTextureUrl( vtfPath, alphaOnly ) );
+            AddProperty( properties, name, MaterialPropertyType.Texture, GetTextureUrl( vtfPath ) );
         }
 
         private JToken SerializeVmt( ValveMaterialFile vmt )

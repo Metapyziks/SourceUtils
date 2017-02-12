@@ -4,13 +4,14 @@ namespace SourceUtils {
     export class Map extends Entity {
         info: Api.BspIndexResponse;
 
-        faceLoader = new FaceLoader(this);
+        faceLoader: FaceLoader;
+        textureLoader: TextureLoader;
         meshManager: WorldMeshManager;
+        shaderManager: ShaderManager;
 
         private app: AppBase;
 
         private lightmap: Texture2D;
-        private textureLoader: THREE.TextureLoader;
 
         private models: BspModel[] = [];
         private displacements: Displacement[] = [];
@@ -28,9 +29,10 @@ namespace SourceUtils {
             this.app = app;
             this.frustumCulled = false;
 
+            this.faceLoader = new FaceLoader(this);
+            this.textureLoader = new TextureLoader(app.getContext());
             this.meshManager = new WorldMeshManager(app.getContext());
-
-            this.textureLoader = new THREE.TextureLoader();
+            this.shaderManager = new ShaderManager(app.getContext());
 
             this.loadInfo(url);
         }
@@ -128,10 +130,6 @@ namespace SourceUtils {
             }
 
             this.faceLoader.update();
-        }
-
-        getShaders(): ShaderManager {
-            return this.app.getShaders();
         }
 
         render(camera: THREE.Camera): void {

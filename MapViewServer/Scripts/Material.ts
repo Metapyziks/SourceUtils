@@ -1,18 +1,37 @@
-﻿namespace SourceUtils {
+﻿namespace SourceUtils
+{
+    export class MaterialProperties {
+        baseTexture: Texture2D;
+    }
+
     export class Material
     {
+        properties = new MaterialProperties();
+
         private map: Map;
         private info: Api.Material;
         private program: ShaderProgram;
 
-        private testColor: THREE.Vector3;
-
         constructor(map: Map, info: Api.Material) {
             this.map = map;
             this.info = info;
-            this.program = map.getShaders().get(info.shader);
+            this.program = map.shaderManager.get(info.shader);
 
-            this.testColor = new THREE.Vector3(Math.random(), Math.random(), Math.random());
+            for (let i = 0; i < info.properties.length; ++i) {
+                this.addProperty(info.properties[i]);
+            }
+        }
+
+        private addProperty(info: Api.MaterialProperty): void {
+            switch (info.type) {
+                case Api.MaterialPropertyType.boolean:
+                case Api.MaterialPropertyType.number:
+                    this.properties[info.name] = info.value as boolean | number;
+                    break;
+                case Api.MaterialPropertyType.texture:
+                    this.properties[info.name] = this.map.textureLoader.load(info.value as string);
+                    break;
+            }
         }
 
         getProgram(): ShaderProgram {
@@ -20,8 +39,7 @@
         }
 
         prepareForRendering(): void {
-            (this.program as Shaders.LightmappedGeneric).color
-                .set3f(this.testColor.x, this.testColor.y, this.testColor.z);
+            this.program.changeMaterial(this);
         }
     }
 }

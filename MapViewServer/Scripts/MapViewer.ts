@@ -20,9 +20,6 @@ namespace SourceUtils {
             super.init(container);
 
             this.updateCameraAngles();
-
-            const testShader = this.getShaders().get("LightmappedGeneric");
-            console.log(testShader);
         }
 
         loadMap(url: string): void {
@@ -91,8 +88,8 @@ namespace SourceUtils {
         }
 
         protected onRenderFrame(dt: number): void {
-            this.getShaders().setCurrentProgram(null);
-            this.map.render(this.getShaders(), this.camera);
+            this.map.shaderManager.setCurrentProgram(null);
+            this.map.render(this.camera);
         }
     }
 }

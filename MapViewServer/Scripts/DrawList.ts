@@ -48,7 +48,7 @@
 
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
                     this.lastProgram = this.lastMaterial.getProgram();
-                    this.lastProgram.prepareForRendering(camera);
+                    this.lastProgram.prepareForRendering(this.map, camera);
                 }
 
                 this.lastMaterial.prepareForRendering();

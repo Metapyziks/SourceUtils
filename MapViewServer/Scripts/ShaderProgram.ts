@@ -167,7 +167,7 @@ namespace SourceUtils {
         }
 
         protected loadShaderSource(type: number, url: string): void {
-            $.get(url, source => this.onLoadShaderSource(type, source));
+            $.get(`${url}?v=${Math.random()}`, source => this.onLoadShaderSource(type, source));
         }
 
         private hasAllSources(): boolean {
@@ -274,20 +274,24 @@ namespace SourceUtils {
 
         private modelMatrixValue = new THREE.Matrix4();
 
-        prepareForRendering(camera: THREE.Camera): void
-        {
+        prepareForRendering(map: Map, camera: THREE.Camera): void {
             this.modelMatrixValue.getInverse(camera.matrixWorld);
 
             this.use();
             this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
             this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
+
+            const gl = this.getContext();
+            gl.cullFace(gl.FRONT);
         }
+
+        changeMaterial(material: Material): void {}
     }
 
     export namespace Shaders {
         export class LightmappedGeneric extends ShaderProgram {
+            baseTexture: Uniform;
             lightmap: Uniform;
-            color: Uniform;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -301,14 +305,33 @@ namespace SourceUtils {
                 this.addAttribute("aTextureCoord", Api.MeshComponent.uv);
                 this.addAttribute("aLightmapCoord", Api.MeshComponent.uv2);
 
+                this.baseTexture = new Uniform(this, "uBaseTexture");
                 this.lightmap = new Uniform(this, "uLightmap");
-                this.color = new Uniform(this, "uColor");
             }
 
-            prepareForRendering(camera: THREE.Camera): void {
-                super.prepareForRendering(camera);
+            prepareForRendering(map: Map, camera: THREE.Camera): void {
+                super.prepareForRendering(map, camera);
+
+                const gl = this.getContext();
+                const lightmap = map.getLightmap();
+                if (lightmap != null && lightmap.isLoaded()) {
+                    gl.activeTexture(gl.TEXTURE0 + 2);
+                    gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
+                }
 
                 this.lightmap.set1i(2);
+            }
+
+            changeMaterial(material: SourceUtils.Material): void {
+                const gl = this.getContext();
+                const tex = material.properties.baseTexture;
+
+                if (tex != null && tex.isLoaded()) {
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
+                }
+
+                this.baseTexture.set1i(0);
             }
         }
     }

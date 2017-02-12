@@ -281,7 +281,6 @@ var SourceUtils;
             this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
             this.scene.add(this.camera);
             this.renderer = new THREE.WebGLRenderer();
-            this.shaders = new SourceUtils.ShaderManager(this.renderer.getContext());
             this.onWindowResize();
             this.animateCallback = function (time) {
                 var deltaTime = time - _this.previousTime;
@@ -360,9 +359,6 @@ var SourceUtils;
         };
         AppBase.prototype.getCanvas = function () {
             return this.renderer.domElement;
-        };
-        AppBase.prototype.getShaders = function () {
-            return this.shaders;
         };
         AppBase.prototype.getWidth = function () {
             return this.container.innerWidth();
@@ -507,14 +503,7 @@ var SourceUtils;
             return elem;
         };
         BspModel.prototype.render = function (camera) {
-            var gl = this.map.getShaders().getContext();
-            gl.cullFace(gl.FRONT);
             camera.updateMatrixWorld(true);
-            var lightmap = this.map.getLightmap();
-            if (lightmap != null && lightmap.isLoaded()) {
-                gl.activeTexture(gl.TEXTURE0 + 2);
-                gl.bindTexture(gl.TEXTURE_2D, this.map.getLightmap().getHandle());
-            }
             this.drawList.render(camera);
         };
         return BspModel;
@@ -623,7 +612,7 @@ var SourceUtils;
                     return;
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
                     this.lastProgram = this.lastMaterial.getProgram();
-                    this.lastProgram.prepareForRendering(camera);
+                    this.lastProgram.prepareForRendering(this.map, camera);
                 }
                 this.lastMaterial.prepareForRendering();
             }
@@ -778,15 +767,16 @@ var SourceUtils;
         __extends(Map, _super);
         function Map(app, url) {
             var _this = _super.call(this) || this;
-            _this.faceLoader = new SourceUtils.FaceLoader(_this);
             _this.models = [];
             _this.displacements = [];
             _this.materials = [];
             _this.pvs = [];
             _this.app = app;
             _this.frustumCulled = false;
+            _this.faceLoader = new SourceUtils.FaceLoader(_this);
+            _this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
             _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
-            _this.textureLoader = new THREE.TextureLoader();
+            _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
             _this.loadInfo(url);
             return _this;
         }
@@ -868,9 +858,6 @@ var SourceUtils;
             }
             this.faceLoader.update();
         };
-        Map.prototype.getShaders = function () {
-            return this.app.getShaders();
-        };
         Map.prototype.render = function (camera) {
             var worldSpawn = this.getWorldSpawn();
             if (worldSpawn != null)
@@ -934,8 +921,6 @@ var SourceUtils;
             this.camera.up.set(0, 0, 1);
             _super.prototype.init.call(this, container);
             this.updateCameraAngles();
-            var testShader = this.getShaders().get("LightmappedGeneric");
-            console.log(testShader);
         };
         MapViewer.prototype.loadMap = function (url) {
             if (this.map != null) {
@@ -989,7 +974,7 @@ var SourceUtils;
             this.map.updatePvs(this.camera.position);
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
-            this.getShaders().setCurrentProgram(null);
+            this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
         };
         return MapViewer;
@@ -998,19 +983,38 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
+    var MaterialProperties = (function () {
+        function MaterialProperties() {
+        }
+        return MaterialProperties;
+    }());
+    SourceUtils.MaterialProperties = MaterialProperties;
     var Material = (function () {
         function Material(map, info) {
+            this.properties = new MaterialProperties();
             this.map = map;
             this.info = info;
-            this.program = map.getShaders().get(info.shader);
-            this.testColor = new THREE.Vector3(Math.random(), Math.random(), Math.random());
+            this.program = map.shaderManager.get(info.shader);
+            for (var i = 0; i < info.properties.length; ++i) {
+                this.addProperty(info.properties[i]);
+            }
         }
+        Material.prototype.addProperty = function (info) {
+            switch (info.type) {
+                case SourceUtils.Api.MaterialPropertyType.boolean:
+                case SourceUtils.Api.MaterialPropertyType.number:
+                    this.properties[info.name] = info.value;
+                    break;
+                case SourceUtils.Api.MaterialPropertyType.texture:
+                    this.properties[info.name] = this.map.textureLoader.load(info.value);
+                    break;
+            }
+        };
         Material.prototype.getProgram = function () {
             return this.program;
         };
         Material.prototype.prepareForRendering = function () {
-            this.program.color
-                .set3f(this.testColor.x, this.testColor.y, this.testColor.z);
+            this.program.changeMaterial(this);
         };
         return Material;
     }());
@@ -1144,7 +1148,7 @@ var SourceUtils;
         };
         ShaderProgram.prototype.loadShaderSource = function (type, url) {
             var _this = this;
-            $.get(url, function (source) { return _this.onLoadShaderSource(type, source); });
+            $.get(url + "?v=" + Math.random(), function (source) { return _this.onLoadShaderSource(type, source); });
         };
         ShaderProgram.prototype.hasAllSources = function () {
             return this.vertSource !== undefined && this.fragSource !== undefined;
@@ -1225,12 +1229,15 @@ var SourceUtils;
         ShaderProgram.prototype.disableMeshComponents = function () {
             this.enableMeshComponents(0);
         };
-        ShaderProgram.prototype.prepareForRendering = function (camera) {
+        ShaderProgram.prototype.prepareForRendering = function (map, camera) {
             this.modelMatrixValue.getInverse(camera.matrixWorld);
             this.use();
             this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
             this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
+            var gl = this.getContext();
+            gl.cullFace(gl.FRONT);
         };
+        ShaderProgram.prototype.changeMaterial = function (material) { };
         return ShaderProgram;
     }());
     SourceUtils.ShaderProgram = ShaderProgram;
@@ -1246,13 +1253,28 @@ var SourceUtils;
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
                 _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
                 _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
+                _this.baseTexture = new Uniform(_this, "uBaseTexture");
                 _this.lightmap = new Uniform(_this, "uLightmap");
-                _this.color = new Uniform(_this, "uColor");
                 return _this;
             }
-            LightmappedGeneric.prototype.prepareForRendering = function (camera) {
-                _super.prototype.prepareForRendering.call(this, camera);
+            LightmappedGeneric.prototype.prepareForRendering = function (map, camera) {
+                _super.prototype.prepareForRendering.call(this, map, camera);
+                var gl = this.getContext();
+                var lightmap = map.getLightmap();
+                if (lightmap != null && lightmap.isLoaded()) {
+                    gl.activeTexture(gl.TEXTURE0 + 2);
+                    gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
+                }
                 this.lightmap.set1i(2);
+            };
+            LightmappedGeneric.prototype.changeMaterial = function (material) {
+                var gl = this.getContext();
+                var tex = material.properties.baseTexture;
+                if (tex != null && tex.isLoaded()) {
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
+                }
+                this.baseTexture.set1i(0);
             };
             return LightmappedGeneric;
         }(ShaderProgram));
@@ -1283,8 +1305,8 @@ var SourceUtils;
             if (this.handle === undefined)
                 this.handle = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, this.handle);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
@@ -1292,6 +1314,20 @@ var SourceUtils;
         return Texture2D;
     }());
     SourceUtils.Texture2D = Texture2D;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var TextureLoader = (function () {
+        function TextureLoader(gl) {
+            this.context = gl;
+        }
+        TextureLoader.prototype.load = function (url) {
+            // TODO
+            return new SourceUtils.Texture2D(this.context, url);
+        };
+        return TextureLoader;
+    }());
+    SourceUtils.TextureLoader = TextureLoader;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {

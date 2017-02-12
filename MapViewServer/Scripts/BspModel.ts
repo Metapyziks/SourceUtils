@@ -1,7 +1,6 @@
 ﻿/// <reference path="Entity.ts"/>
 
-namespace SourceUtils
-{
+namespace SourceUtils {
     export class BspModel extends Entity {
         map: Map;
 
@@ -66,18 +65,7 @@ namespace SourceUtils
         }
 
         render(camera: THREE.Camera): void {
-            const gl = this.map.getShaders().getContext();
-
-            gl.cullFace(gl.FRONT);
-
             camera.updateMatrixWorld(true);
-
-            const lightmap = this.map.getLightmap();
-            if (lightmap != null && lightmap.isLoaded()) {
-                gl.activeTexture(gl.TEXTURE0 + 2);
-                gl.bindTexture(gl.TEXTURE_2D, this.map.getLightmap().getHandle());
-            }
-
             this.drawList.render(camera);
         }
     }

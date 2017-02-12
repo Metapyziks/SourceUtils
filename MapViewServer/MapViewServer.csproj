@@ -109,6 +109,7 @@
     <TypeScriptCompile Include="Scripts\Material.ts" />
     <TypeScriptCompile Include="Scripts\ShaderProgram.ts" />
     <TypeScriptCompile Include="Scripts\Texture2D.ts" />
+    <TypeScriptCompile Include="Scripts\TextureLoader.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\geometry-dom\geometry-dom.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
