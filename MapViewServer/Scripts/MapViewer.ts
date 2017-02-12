@@ -19,6 +19,8 @@ namespace SourceUtils {
 
             super.init(container);
 
+            this.getContext().clearColor(100 / 255, 149 / 255, 237 / 255, 1);
+
             this.updateCameraAngles();
         }
 
@@ -88,6 +90,9 @@ namespace SourceUtils {
         }
 
         protected onRenderFrame(dt: number): void {
+            const gl = this.getContext();
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
         }

@@ -920,6 +920,7 @@ var SourceUtils;
             this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
             this.camera.up.set(0, 0, 1);
             _super.prototype.init.call(this, container);
+            this.getContext().clearColor(100 / 255, 149 / 255, 237 / 255, 1);
             this.updateCameraAngles();
         };
         MapViewer.prototype.loadMap = function (url) {
@@ -974,6 +975,8 @@ var SourceUtils;
             this.map.updatePvs(this.camera.position);
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
+            var gl = this.getContext();
+            gl.clear(gl.COLOR_BUFFER_BIT);
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
         };
