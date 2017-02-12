@@ -9,6 +9,7 @@ using System.Web;
 using MimeTypes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SourceUtils;
 using Ziks.WebServer;
 using Ziks.WebServer.Html;
 
@@ -135,6 +136,24 @@ namespace MapViewServer
         {
             throw new ControllerActionException( Request, true, HttpStatusCode.BadRequest,
                 $"Invalid value for '{paramName}'." );
+        }
+
+        protected IResourceProvider Resources
+        {
+            get
+            {
+                if ( BspName == null ) return Program.Loader;
+                throw new NotImplementedException();
+            }
+        }
+
+        protected string BspName
+        {
+            get
+            {
+                var bspName = Request.QueryString["bspName"];
+                return string.IsNullOrEmpty( bspName ) ? null : bspName;
+            }
         }
 
         protected bool Compressed

@@ -138,7 +138,7 @@ namespace SourceUtils
         public TextureHeader Header { get; }
         public byte[] PixelData { get; }
 
-        public ValveTextureFile(Stream stream)
+        public ValveTextureFile(Stream stream, bool onlyHeader = false)
         {
             Header = LumpReader<TextureHeader>.ReadSingleFromStream(stream);
 
@@ -150,9 +150,11 @@ namespace SourceUtils
             {
                 case TextureFormat.DXT1: break;
                 case TextureFormat.DXT5: break;
-                default: throw new NotImplementedException(string.Format("VTF format: {0}", Header.HiResFormat));
+                default: throw new NotImplementedException( $"VTF format: {Header.HiResFormat}" );
             }
-            
+
+            if ( onlyHeader ) return;
+
             stream.Seek(thumbSize, SeekOrigin.Current);
             
             var totalSize = GetImageDataSize(Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat);

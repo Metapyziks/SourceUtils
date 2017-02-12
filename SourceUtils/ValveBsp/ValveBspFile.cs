@@ -86,6 +86,12 @@ namespace SourceUtils
         [BspLump(LumpType.TEXDATA)]
         public ArrayLump<TextureData> TextureData { get; private set; }
 
+        [BspLump(LumpType.TEXDATA_STRING_TABLE)]
+        public ArrayLump<int> TextureStringTable { get; private set; }
+
+        [BspLump(LumpType.TEXDATA_STRING_DATA)]
+        public ArrayLump<byte> TextureStringData { get; private set; }
+
         [BspLump(LumpType.BRUSHES)]
         public ArrayLump<Brush> Brushes { get; private set; }
         
@@ -175,6 +181,28 @@ namespace SourceUtils
             var edgeIndex = Math.Abs(surfEdge);
             var edge = Edges[edgeIndex];
             return Vertices[surfEdge >= 0 ? edge.A : edge.B];
+        }
+        
+        [ThreadStatic]
+        private static StringBuilder _sStringBuilder;
+
+        public string GetTextureString( int index )
+        {
+            var offset = TextureStringTable[index];
+            var end = TextureStringData.Length;
+
+            if ( _sStringBuilder == null ) _sStringBuilder = new StringBuilder(128);
+            else _sStringBuilder.Remove( 0, _sStringBuilder.Length );
+
+            for ( ; offset < end; ++offset )
+            {
+                var c = (char) TextureStringData[offset];
+                if ( c == '\0' ) break;
+
+                _sStringBuilder.Append( c );
+            }
+
+            return _sStringBuilder.ToString();
         }
 
         public void Dispose()

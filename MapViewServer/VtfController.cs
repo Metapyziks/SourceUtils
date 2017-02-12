@@ -64,7 +64,12 @@ namespace MapViewServer
             if ( format != "json" ) throw NotFoundException();
 
             var path = FilePath;
-            var vtf = Program.Loader.Load<ValveTextureFile>( path );
+            ValveTextureFile vtf;
+
+            using ( var vtfStream = Resources.OpenFile( path ) )
+            {
+                vtf = new ValveTextureFile( vtfStream, true );
+            }
 
             var response = new JObject
             {

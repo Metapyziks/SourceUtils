@@ -427,7 +427,8 @@ namespace MapViewServer
                     {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
                     {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
                     {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), Replace( "mapName", mapName ) )},
-                    {"lightmapUrl", GetActionUrl( nameof( GetLightmap ), Replace( "mapName", mapName ) )}
+                    {"lightmapUrl", GetActionUrl( nameof( GetLightmap ), Replace( "mapName", mapName ) )},
+                    {"materialsUrl", GetActionUrl( nameof( GetMaterials ), Replace( "mapName", mapName ) )}
                 };
             }
         }
@@ -740,6 +741,28 @@ namespace MapViewServer
             }
 
             return response;
+        }
+
+        [Get( "/{mapName}/materials" )]
+        public JToken GetMaterials( [Url] string mapName )
+        {
+            if ( CheckNotExpired( mapName ) ) return null;
+
+            var response = new JArray();
+
+            using ( var bsp = OpenBspFile( mapName ) )
+            {
+                for ( var i = 0; i < bsp.TextureStringTable.Length; ++i )
+                {
+                    var name = $"materials/{bsp.GetTextureString( i ).ToLower()}.vmt";
+                    response.Add( Resources.ContainsFile( name ) ? VmtController.GetUrl( Request, name ) : null );
+                }
+            }
+
+            return new JObject
+            {
+                { "materials", response }
+            };
         }
     }
 }

@@ -24,7 +24,7 @@ namespace MapViewServer
 
         private string GetTextureUrl( string filePath, bool alphaOnly = false )
         {
-            filePath = filePath.Replace( '\\', '/' );
+            filePath = filePath.Replace( '\\', '/' ).ToLower();
 
             var ext = Path.GetExtension( filePath );
             if ( string.IsNullOrEmpty( ext ) ) filePath += ".vtf";
@@ -37,8 +37,12 @@ namespace MapViewServer
                 if ( !string.IsNullOrEmpty( matPath ) )
                 {
                     fullPath = $"{matPath}/{filePath}";
-                    if ( !Program.Loader.ContainsFile( fullPath ) ) fullPath = filePath;
+                    if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
                 }
+            } else if ( !filePath.StartsWith( "materials/" ) )
+            {
+                fullPath = $"materials/{filePath}";
+                if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
             }
 
             return VtfController.GetUrl( Request, fullPath, alphaOnly );
@@ -88,12 +92,10 @@ namespace MapViewServer
                 switch ( name.ToLower() )
                 {
                     case "$basetexture":
-                        AddTextureProperty( outProperties, "map", properties[name] );
+                        AddTextureProperty( outProperties, "baseTexture", properties[name] );
                         break;
                     case "$bumpmap":
                         AddTextureProperty( outProperties, "bumpMap", properties[name] );
-                        AddTextureProperty( outProperties, "specularMap", properties[name], true );
-                        AddNumberProperty( outProperties, "bumpScale", 0.25f );
                         break;
                     case "$envmapmask":
                         AddTextureProperty( outProperties, "specularMap", properties[name] );
@@ -105,7 +107,7 @@ namespace MapViewServer
                         AddBooleanProperty( outProperties, "transparent", properties.GetBoolean( name ) );
                         break;
                     case "$nocull":
-                        AddNumberProperty( outProperties, "side", properties.GetBoolean( name ) ? 2f : 1f );
+                        AddBooleanProperty( outProperties, "noCull", properties.GetBoolean( name ) );
                         break;
                 }
             }
@@ -173,7 +175,7 @@ namespace MapViewServer
 
             ValveMaterialFile vmt;
 
-            using ( var vmtStream = Program.Loader.OpenFile( FilePath ) )
+            using ( var vmtStream = Resources.OpenFile( FilePath ) )
             {
                 vmt = new ValveMaterialFile( vmtStream );
             }
