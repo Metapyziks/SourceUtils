@@ -137,12 +137,74 @@ namespace MapViewServer
                 }
             }
 
+            private struct Element : IComparable<Element>
+            {
+                public readonly int TexStringId;
+                public int Offset;
+                public int Count;
+
+                public Element( int texStringId, int offset, int count )
+                {
+                    TexStringId = texStringId;
+                    Offset = offset;
+                    Count = count;
+                }
+
+                public int CompareTo( Element other )
+                {
+                    var texStringIdComparison = TexStringId - other.TexStringId;
+                    return texStringIdComparison != 0 ? texStringIdComparison : Offset - other.Offset;
+                }
+
+                public JToken ToJson()
+                {
+                    return new JObject
+                    {
+                        {"type", (int) PrimitiveType.TriangleList},
+                        {"material", TexStringId},
+                        {"offset", Offset},
+                        {"count", Count}
+                    };
+                }
+            }
+
             private readonly List<float> _vertices = new List<float>();
             private readonly List<int> _indices = new List<int>();
             private readonly Dictionary<Vertex, int> _indexMap = new Dictionary<Vertex, int>();
             private readonly List<int> _curPrimitive = new List<int>();
-
+            private readonly List<Element> _elements = new List<Element>();
+            
             private int _vertexCount;
+
+            public JToken GetElements()
+            {
+                var array = new JArray();
+
+                var indexCount = 0;
+                var lastElement = new Element( -1, -1, -1 );
+
+                foreach ( var element in _elements )
+                {
+                    if ( lastElement.TexStringId == element.TexStringId )
+                    {
+                        lastElement.Count += element.Count;
+                    }
+                    else
+                    {
+                        if ( lastElement.TexStringId != -1 ) array.Add( lastElement.ToJson() );
+                        lastElement = new Element( element.TexStringId, indexCount, element.Count );
+                    }
+
+                    indexCount += element.Count;
+                }
+
+                if ( lastElement.TexStringId != -1 )
+                {
+                    array.Add( lastElement.ToJson() );
+                }
+
+                return array;
+            }
 
             public JToken GetVertices( BspController controller )
             {
@@ -151,7 +213,9 @@ namespace MapViewServer
 
             public JToken GetIndices( BspController controller )
             {
-                return controller.SerializeArray( _indices );
+                return controller.SerializeArray( _elements
+                    .SelectMany( x => Enumerable.Range( x.Offset, x.Count )
+                        .Select( y => _indices[y] ) ) );
             }
 
             public void Clear()
@@ -160,6 +224,7 @@ namespace MapViewServer
                 _indices.Clear();
                 _indexMap.Clear();
                 _curPrimitive.Clear();
+                _elements.Clear();
 
                 _vertexCount = 0;
             }
@@ -239,8 +304,10 @@ namespace MapViewServer
                 }
             }
 
-            public void CommitPrimitive( PrimitiveType type, IList<int> indices = null )
+            public void CommitPrimitive( PrimitiveType type, int texStringId, IList<int> indices = null )
             {
+                var offset = _indices.Count;
+
                 switch ( type )
                 {
                     case PrimitiveType.TriangleList:
@@ -253,6 +320,17 @@ namespace MapViewServer
                         _indices.AddRange( GetTriangleStripIndices( indices ) );
                         break;
                 }
+
+                var primitive = new Element( texStringId, offset, _indices.Count - offset );
+
+                for ( var i = 0; i < _elements.Count; ++i )
+                {
+                    if ( primitive.CompareTo( _elements[i] ) > 0 ) continue;
+                    _elements.Insert( i, primitive );
+                    return;
+                }
+
+                _elements.Add( primitive );
             }
         }
 
@@ -268,13 +346,9 @@ namespace MapViewServer
 
             var disp = bsp.DisplacementManager[face.DispInfo];
             var texInfo = bsp.TextureInfos[face.TexInfo];
-            var texScale = new Vector2( 1f, 1f );
 
-            if ( texInfo.TexData != -1 )
-            {
-                var texData = bsp.TextureData[texInfo.TexData];
-                texScale /= new Vector2( texData.Width, texData.Height );
-            }
+            var texData = bsp.TextureData[texInfo.TexData];
+            var texScale = new Vector2( 1f / texData.Width, 1f / texData.Height );
 
             for ( var y = 0; y < disp.Size - 1; ++y )
             {
@@ -294,7 +368,7 @@ namespace MapViewServer
                         GetLightmapUv( bsp, x, y + 1, disp.Subdivisions, faceIndex, ref face ) );
                 }
 
-                verts.CommitPrimitive( PrimitiveType.TriangleStrip );
+                verts.CommitPrimitive( PrimitiveType.TriangleStrip, texData.NameStringTableId );
             }
         }
 
@@ -342,21 +416,17 @@ namespace MapViewServer
             var face = bsp.FacesHdr[index];
             var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
-            var texScale = new Vector2( 1f, 1f );
 
-            if ( texInfo.TexData != -1 )
-            {
-                var texData = bsp.TextureData[texInfo.TexData];
-                texScale /= new Vector2( texData.Width, texData.Height );
-            }
+            if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
 
             if ( face.DispInfo != -1 )
             {
                 SerializeDisplacement( bsp, index, ref face, ref plane, verts );
                 return;
             }
-
-            if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
+            
+            var texData = bsp.TextureData[texInfo.TexData];
+            var texScale = new Vector2( 1f / texData.Width, 1f / texData.Height );
 
             verts.BeginPrimitive();
 
@@ -373,7 +443,7 @@ namespace MapViewServer
 
             if ( numPrimitives == 0 )
             {
-                verts.CommitPrimitive( PrimitiveType.TriangleFan );
+                verts.CommitPrimitive( PrimitiveType.TriangleFan, texData.NameStringTableId );
                 return;
             }
 
@@ -387,7 +457,7 @@ namespace MapViewServer
                     _sIndicesBuffer.Add( bsp.PrimitiveIndices[j] );
                 }
 
-                verts.CommitPrimitive( primitive.Type, _sIndicesBuffer );
+                verts.CommitPrimitive( primitive.Type, texData.NameStringTableId, _sIndicesBuffer );
                 _sIndicesBuffer.Clear();
             }
         }
@@ -542,23 +612,15 @@ namespace MapViewServer
                     var request = new FacesRequest( token );
                     vertArray.Clear();
 
-                    var elementsArray = new JArray();
                     foreach ( var faceIndex in request.GetFaceIndices( bsp ) )
                     {
                         SerializeFace( bsp, faceIndex, vertArray );
                     }
 
-                    elementsArray.Add( new JObject
-                    {
-                        { "type", (int) PrimitiveType.TriangleList },
-                        { "offset", 0 },
-                        { "count", vertArray.IndexCount }
-                    } );
-
                     array.Add( new JObject
                     {
                         {"components", (int) (MeshComponent.Position | MeshComponent.Uv | MeshComponent.Uv2) },
-                        {"elements", elementsArray},
+                        {"elements", vertArray.GetElements()},
                         {"vertices", vertArray.GetVertices( this )},
                         {"indices", vertArray.GetIndices( this )}
                     } );
@@ -742,6 +804,92 @@ namespace MapViewServer
 
             return response;
         }
+        
+        private string GetTextureUrl( string filePath, bool alphaOnly = false )
+        {
+            filePath = filePath.Replace( '\\', '/' ).ToLower();
+
+            var ext = Path.GetExtension( filePath );
+            if ( string.IsNullOrEmpty( ext ) ) filePath += ".vtf";
+
+            var fullPath = filePath;
+
+            if ( !filePath.Contains( '/' ) )
+            {
+                var matPath = Path.GetDirectoryName( FilePath );
+                if ( !string.IsNullOrEmpty( matPath ) )
+                {
+                    fullPath = $"{matPath}/{filePath}";
+                    if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
+                }
+            } else if ( !filePath.StartsWith( "materials/" ) )
+            {
+                fullPath = $"materials/{filePath}";
+                if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
+            }
+
+            return VtfController.GetUrl( Request, fullPath, alphaOnly );
+        }
+
+        private enum MaterialPropertyType
+        {
+            Boolean,
+            Number,
+            Texture
+        }
+
+        private static void AddProperty( JArray properties, string name, MaterialPropertyType type, JToken value )
+        {
+            var existing = properties.FirstOrDefault( x => (string) x["name"] == name );
+            if ( existing != null )
+            {
+                existing["type"] = (int) type;
+                existing["value"] = value;
+                return;
+            }
+
+            properties.Add( new JObject {{"name", name}, {"type", (int) type}, {"value", value}} );
+        }
+
+        private void AddBooleanProperty( JArray properties, string name, bool value )
+        {
+            AddProperty( properties, name, MaterialPropertyType.Boolean, value );
+        }
+
+        private void AddNumberProperty( JArray properties, string name, float value )
+        {
+            AddProperty( properties, name, MaterialPropertyType.Number, value );
+        }
+
+        private void AddTextureProperty( JArray properties, string name, string vtfPath, bool alphaOnly = false )
+        {
+            AddProperty( properties, name, MaterialPropertyType.Texture, GetTextureUrl( vtfPath, alphaOnly ) );
+        }
+
+        private JToken SerializeVmt( ValveMaterialFile vmt )
+        {
+            var shader = vmt.Shaders.FirstOrDefault();
+            if ( shader == null ) return null;
+
+            var props = vmt[shader];
+            var propArray = new JArray();
+
+            foreach ( var name in props.PropertyNames )
+            {
+                switch ( name.ToLower() )
+                {
+                    case "$basetexture":
+                        AddTextureProperty( propArray, "baseTexture", props[name] );
+                        break;
+                }
+            }
+
+            return new JObject
+            {
+                { "shader", "LightmappedGeneric" },
+                { "properties", propArray }
+            };
+        }
 
         [Get( "/{mapName}/materials" )]
         public JToken GetMaterials( [Url] string mapName )
@@ -755,7 +903,19 @@ namespace MapViewServer
                 for ( var i = 0; i < bsp.TextureStringTable.Length; ++i )
                 {
                     var name = $"materials/{bsp.GetTextureString( i ).ToLower()}.vmt";
-                    response.Add( Resources.ContainsFile( name ) ? VmtController.GetUrl( Request, name ) : null );
+                    if ( !Resources.ContainsFile( name ) )
+                    {
+                        response.Add( null );
+                        continue;
+                    }
+
+                    ValveMaterialFile vmt;
+                    using ( var vmtStream = Resources.OpenFile( name ) )
+                    {
+                        vmt = new ValveMaterialFile( vmtStream );
+                    }
+
+                    response.Add( SerializeVmt( vmt ) );
                 }
             }
 

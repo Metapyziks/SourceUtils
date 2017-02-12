@@ -19,8 +19,8 @@ namespace MapViewServer
         
         public static string GetUrl( HttpListenerRequest request, string path, bool alphaOnly = false )
         {
-            var alphaString = alphaOnly ? "&alpha=true" : "";
-            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=json{alphaString}";
+            var alphaString = alphaOnly ? "?alpha=true" : "";
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}{alphaString}";
         }
 
         public static string GetDdsUrl( HttpListenerRequest request, string path )

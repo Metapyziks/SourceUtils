@@ -71,7 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="VmtController.cs" />
     <Compile Include="VpkController.cs" />
     <Compile Include="VtfConverter.cs" />
     <Compile Include="VtfController.cs" />
@@ -107,6 +106,7 @@
     <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />
     <TypeScriptCompile Include="Scripts\MapViewer.ts" />
+    <TypeScriptCompile Include="Scripts\Material.ts" />
     <TypeScriptCompile Include="Scripts\ShaderProgram.ts" />
     <TypeScriptCompile Include="Scripts\Texture2D.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />

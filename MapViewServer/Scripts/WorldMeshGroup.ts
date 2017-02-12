@@ -2,12 +2,14 @@
     export class WorldMeshHandle {
         group: WorldMeshGroup;
         drawMode: number;
+        material: number;
         offset: number;
         count: number;
 
-        constructor(group?: WorldMeshGroup, drawMode?: number, offset?: number, count?: number) {
+        constructor(group?: WorldMeshGroup, drawMode?: number, material?: number, offset?: number, count?: number) {
             this.group = group;
             this.drawMode = drawMode;
+            this.material = material;
             this.offset = offset;
             this.count = count;
         }
@@ -15,6 +17,7 @@
         canMerge(other: WorldMeshHandle): boolean {
             return this.group === other.group 
                 && this.drawMode === other.drawMode
+                && this.material === other.material
                 && this.offset + this.count === other.offset;
         }
 
@@ -188,7 +191,7 @@
 
             for (let i = 0; i < faces.elements.length; ++i) {
                 const element = faces.elements[i];
-                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.offset + indexOffset, element.count);
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.offset + indexOffset, element.count);
             }
 
             return handles;

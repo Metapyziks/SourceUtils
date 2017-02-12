@@ -13,6 +13,7 @@
             facesUrl: string;
             visibilityUrl: string;
             lightmapUrl: string;
+            materialsUrl: string;
         }
 
         export class Vector3
@@ -61,6 +62,7 @@
 
         export class Element {
             type: PrimitiveType;
+            material: number;
             offset: number;
             count: number;
         }
@@ -101,6 +103,28 @@
 
         export class BspDisplacementsResponse {
             displacements: Displacement[];
+        }
+
+        export enum MaterialPropertyType
+        {
+            boolean,
+            number,
+            texture
+        }
+
+        export class MaterialProperty {
+            name: string;
+            type: MaterialPropertyType;
+            value: boolean | number | string;
+        }
+
+        export class Material {
+            shader: string;
+            properties: MaterialProperty[];
+        }
+
+        export class BspMaterialsResponse {
+            materials: Material[];
         }
     }
 }

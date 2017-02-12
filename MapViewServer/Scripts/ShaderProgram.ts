@@ -271,11 +271,23 @@ namespace SourceUtils {
         disableMeshComponents() {
             this.enableMeshComponents(0 as Api.MeshComponent);
         }
+
+        private modelMatrixValue = new THREE.Matrix4();
+
+        prepareForRendering(camera: THREE.Camera): void
+        {
+            this.modelMatrixValue.getInverse(camera.matrixWorld);
+
+            this.use();
+            this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
+            this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
+        }
     }
 
     export namespace Shaders {
         export class LightmappedGeneric extends ShaderProgram {
             lightmap: Uniform;
+            color: Uniform;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -290,6 +302,13 @@ namespace SourceUtils {
                 this.addAttribute("aLightmapCoord", Api.MeshComponent.uv2);
 
                 this.lightmap = new Uniform(this, "uLightmap");
+                this.color = new Uniform(this, "uColor");
+            }
+
+            prepareForRendering(camera: THREE.Camera): void {
+                super.prepareForRendering(camera);
+
+                this.lightmap.set1i(2);
             }
         }
     }

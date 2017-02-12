@@ -14,6 +14,7 @@ namespace SourceUtils {
 
         private models: BspModel[] = [];
         private displacements: Displacement[] = [];
+        private materials: Material[] = [];
 
         private clusters: VisLeaf[];
         private pvsArray: VisLeaf[][];
@@ -50,6 +51,10 @@ namespace SourceUtils {
             return this.models.length > 0 ? this.models[0] : null;
         }
 
+        getMaterial(index: number): Material {
+            return index < this.materials.length ? this.materials[index] : undefined;
+        }
+
         private loadInfo(url: string): void {
             $.getJSON(url,
                 (data: Api.BspIndexResponse) => {
@@ -59,18 +64,30 @@ namespace SourceUtils {
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
                     this.add(this.models[0] = new BspModel(this, 0));
                     this.loadDisplacements();
+                    this.loadMaterials();
                     this.lightmap = new Texture2D(this.app.getContext(), data.lightmapUrl);
                 });
         }
 
-        private loadDisplacements(): void
-        {
+        private loadDisplacements(): void {
             $.getJSON(this.info.displacementsUrl,
                 (data: Api.BspDisplacementsResponse) => {
                     this.displacements = [];
 
                     for (let i = 0; i < data.displacements.length; ++i) {
                         this.displacements.push(new Displacement(data.displacements[i]));
+                    }
+                });
+        }
+
+        private loadMaterials(): void {
+            $.getJSON(this.info.materialsUrl,
+                (data: Api.BspMaterialsResponse) => {
+                    this.materials = [];
+
+                    for (let i = 0; i < data.materials.length; ++i) {
+                        const mat = data.materials[i];
+                        this.materials.push(mat == null ? null : new Material(this, data.materials[i]));
                     }
                 });
         }
@@ -113,9 +130,13 @@ namespace SourceUtils {
             this.faceLoader.update();
         }
 
-        render(shaders: ShaderManager, camera: THREE.Camera): void {
+        getShaders(): ShaderManager {
+            return this.app.getShaders();
+        }
+
+        render(camera: THREE.Camera): void {
             const worldSpawn = this.getWorldSpawn();
-            if (worldSpawn != null) worldSpawn.render(shaders, camera);
+            if (worldSpawn != null) worldSpawn.render(camera);
         }
 
         updatePvs(position: THREE.Vector3): void {

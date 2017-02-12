@@ -102,6 +102,30 @@ var SourceUtils;
             return BspDisplacementsResponse;
         }());
         Api.BspDisplacementsResponse = BspDisplacementsResponse;
+        var MaterialPropertyType;
+        (function (MaterialPropertyType) {
+            MaterialPropertyType[MaterialPropertyType["boolean"] = 0] = "boolean";
+            MaterialPropertyType[MaterialPropertyType["number"] = 1] = "number";
+            MaterialPropertyType[MaterialPropertyType["texture"] = 2] = "texture";
+        })(MaterialPropertyType = Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
+        var MaterialProperty = (function () {
+            function MaterialProperty() {
+            }
+            return MaterialProperty;
+        }());
+        Api.MaterialProperty = MaterialProperty;
+        var Material = (function () {
+            function Material() {
+            }
+            return Material;
+        }());
+        Api.Material = Material;
+        var BspMaterialsResponse = (function () {
+            function BspMaterialsResponse() {
+            }
+            return BspMaterialsResponse;
+        }());
+        Api.BspMaterialsResponse = BspMaterialsResponse;
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/lz-string/lz-string.d.ts"/>
@@ -441,8 +465,6 @@ var SourceUtils;
         __extends(BspModel, _super);
         function BspModel(map, index) {
             var _this = _super.call(this) || this;
-            _this.viewProjectionMatrix = new THREE.Matrix4();
-            _this.modelMatrix = new THREE.Matrix4();
             _this.map = map;
             _this.index = index;
             _this.drawList = new SourceUtils.DrawList(map);
@@ -484,24 +506,16 @@ var SourceUtils;
             }
             return elem;
         };
-        BspModel.prototype.render = function (shaders, camera) {
-            var gl = shaders.getContext();
-            var shader = shaders.get("LightmappedGeneric");
-            if (!shader.isCompiled())
-                return;
+        BspModel.prototype.render = function (camera) {
+            var gl = this.map.getShaders().getContext();
             gl.cullFace(gl.FRONT);
             camera.updateMatrixWorld(true);
-            this.modelMatrix.getInverse(camera.matrixWorld);
             var lightmap = this.map.getLightmap();
             if (lightmap != null && lightmap.isLoaded()) {
                 gl.activeTexture(gl.TEXTURE0 + 2);
                 gl.bindTexture(gl.TEXTURE_2D, this.map.getLightmap().getHandle());
             }
-            shader.use();
-            shader.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
-            shader.modelMatrix.setMatrix4f(this.modelMatrix.elements);
-            shader.lightmap.set1i(2);
-            this.drawList.render(shader);
+            this.drawList.render(camera);
         };
         return BspModel;
     }(SourceUtils.Entity));
@@ -601,16 +615,32 @@ var SourceUtils;
         DrawList.prototype.updateItem = function (item) {
             this.handles = null;
         };
-        DrawList.prototype.renderHandle = function (handle, program) {
+        DrawList.prototype.renderHandle = function (handle, camera) {
+            if (this.lastMaterialIndex !== handle.material) {
+                this.lastMaterialIndex = handle.material;
+                this.lastMaterial = this.map.getMaterial(handle.material);
+                if (this.lastMaterial == null)
+                    return;
+                if (this.lastProgram !== this.lastMaterial.getProgram()) {
+                    this.lastProgram = this.lastMaterial.getProgram();
+                    this.lastProgram.prepareForRendering(camera);
+                }
+                this.lastMaterial.prepareForRendering();
+            }
+            if (this.lastMaterial == null)
+                return;
             if (this.lastGroup !== handle.group) {
                 this.lastGroup = handle.group;
-                this.lastGroup.prepareForRendering(program);
+                this.lastGroup.prepareForRendering(this.lastMaterial.getProgram());
             }
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
         };
         DrawList.compareHandles = function (a, b) {
             var idComp = a.group.getId() - b.group.getId();
-            return idComp !== 0 ? idComp : a.offset - b.offset;
+            if (idComp !== 0)
+                return idComp;
+            var matComp = a.material - b.material;
+            return matComp !== 0 ? matComp : a.offset - b.offset;
         };
         DrawList.prototype.buildHandleList = function () {
             this.handles = [];
@@ -628,7 +658,6 @@ var SourceUtils;
             this.handles.sort(DrawList.compareHandles);
             this.merged = [];
             var last = null;
-            // Go through adding to this.merged
             for (var i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
                 var next = this.handles[i];
                 if (last != null && last.canMerge(next)) {
@@ -639,18 +668,22 @@ var SourceUtils;
                 this.merged.push(last);
                 last.group = next.group;
                 last.drawMode = next.drawMode;
+                last.material = next.material;
                 last.offset = next.offset;
                 last.count = next.count;
             }
             console.log("Draw calls: " + this.merged.length);
         };
-        DrawList.prototype.render = function (program) {
+        DrawList.prototype.render = function (camera) {
             this.lastGroup = undefined;
+            this.lastProgram = undefined;
+            this.lastMaterial = undefined;
+            this.lastMaterialIndex = undefined;
             this.lastIndex = undefined;
             if (this.handles == null)
                 this.buildHandleList();
             for (var i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.renderHandle(this.merged[i], program);
+                this.renderHandle(this.merged[i], camera);
             }
         };
         return DrawList;
@@ -748,6 +781,7 @@ var SourceUtils;
             _this.faceLoader = new SourceUtils.FaceLoader(_this);
             _this.models = [];
             _this.displacements = [];
+            _this.materials = [];
             _this.pvs = [];
             _this.app = app;
             _this.frustumCulled = false;
@@ -768,6 +802,9 @@ var SourceUtils;
         Map.prototype.getWorldSpawn = function () {
             return this.models.length > 0 ? this.models[0] : null;
         };
+        Map.prototype.getMaterial = function (index) {
+            return index < this.materials.length ? this.materials[index] : undefined;
+        };
         Map.prototype.loadInfo = function (url) {
             var _this = this;
             $.getJSON(url, function (data) {
@@ -777,6 +814,7 @@ var SourceUtils;
                 _this.pvsArray = new Array(data.numClusters);
                 _this.add(_this.models[0] = new SourceUtils.BspModel(_this, 0));
                 _this.loadDisplacements();
+                _this.loadMaterials();
                 _this.lightmap = new SourceUtils.Texture2D(_this.app.getContext(), data.lightmapUrl);
             });
         };
@@ -786,6 +824,16 @@ var SourceUtils;
                 _this.displacements = [];
                 for (var i = 0; i < data.displacements.length; ++i) {
                     _this.displacements.push(new SourceUtils.Displacement(data.displacements[i]));
+                }
+            });
+        };
+        Map.prototype.loadMaterials = function () {
+            var _this = this;
+            $.getJSON(this.info.materialsUrl, function (data) {
+                _this.materials = [];
+                for (var i = 0; i < data.materials.length; ++i) {
+                    var mat = data.materials[i];
+                    _this.materials.push(mat == null ? null : new SourceUtils.Material(_this, data.materials[i]));
                 }
             });
         };
@@ -820,10 +868,13 @@ var SourceUtils;
             }
             this.faceLoader.update();
         };
-        Map.prototype.render = function (shaders, camera) {
+        Map.prototype.getShaders = function () {
+            return this.app.getShaders();
+        };
+        Map.prototype.render = function (camera) {
             var worldSpawn = this.getWorldSpawn();
             if (worldSpawn != null)
-                worldSpawn.render(shaders, camera);
+                worldSpawn.render(camera);
         };
         Map.prototype.updatePvs = function (position) {
             var worldSpawn = this.getWorldSpawn();
@@ -939,211 +990,31 @@ var SourceUtils;
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             this.getShaders().setCurrentProgram(null);
-            this.map.render(this.getShaders(), this.camera);
+            this.map.render(this.camera);
         };
         return MapViewer;
     }(SourceUtils.AppBase));
     SourceUtils.MapViewer = MapViewer;
 })(SourceUtils || (SourceUtils = {}));
-/// <reference path="AppBase.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var Vector3Data = (function () {
-        function Vector3Data() {
+    var Material = (function () {
+        function Material(map, info) {
+            this.map = map;
+            this.info = info;
+            this.program = map.getShaders().get(info.shader);
+            this.testColor = new THREE.Vector3(Math.random(), Math.random(), Math.random());
         }
-        return Vector3Data;
-    }());
-    var MdlData = (function () {
-        function MdlData() {
-        }
-        return MdlData;
-    }());
-    var PropertyType;
-    (function (PropertyType) {
-        PropertyType[PropertyType["Boolean"] = 0] = "Boolean";
-        PropertyType[PropertyType["Number"] = 1] = "Number";
-        PropertyType[PropertyType["Texture"] = 2] = "Texture";
-    })(PropertyType || (PropertyType = {}));
-    var MaterialPropertiesData = (function () {
-        function MaterialPropertiesData() {
-        }
-        return MaterialPropertiesData;
-    }());
-    var ShaderData = (function () {
-        function ShaderData() {
-        }
-        return ShaderData;
-    }());
-    var VmtData = (function () {
-        function VmtData() {
-        }
-        return VmtData;
-    }());
-    var VvdData = (function () {
-        function VvdData() {
-        }
-        return VvdData;
-    }());
-    var MeshData = (function () {
-        function MeshData() {
-        }
-        return MeshData;
-    }());
-    var VtxData = (function () {
-        function VtxData() {
-        }
-        return VtxData;
-    }());
-    var VtfData = (function () {
-        function VtfData() {
-        }
-        return VtfData;
-    }());
-    var ModelViewer = (function (_super) {
-        __extends(ModelViewer, _super);
-        function ModelViewer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.cameraAngle = 0;
-            _this.hullSize = new THREE.Vector3();
-            _this.hullCenter = new THREE.Vector3();
-            return _this;
-        }
-        ModelViewer.prototype.init = function (container) {
-            this.texLoader = new THREE.TextureLoader();
-            this.camera = new THREE.PerspectiveCamera(60, container.innerWidth() / container.innerHeight(), 1, 2048);
-            this.camera.up = new THREE.Vector3(0, 0, 1);
-            _super.prototype.init.call(this, container);
-            var ambient = new THREE.AmbientLight(0x7EABCF, 0.125);
-            this.getScene().add(ambient);
-            this.directionalA = new THREE.DirectionalLight(0xFDF4D9);
-            this.directionalA.position.set(3, -5, 7);
-            this.getScene().add(this.directionalA);
-            this.directionalB = new THREE.DirectionalLight(0x7EABCF, 0.25);
-            this.directionalB.position.set(-4, 6, -1);
-            this.getScene().add(this.directionalB);
+        Material.prototype.getProgram = function () {
+            return this.program;
         };
-        ModelViewer.prototype.loadModel = function (url) {
-            var _this = this;
-            $.getJSON(url, function (mdl, status) { return _this.onLoadMdl(mdl, status); });
-            if (this.mesh != null) {
-                this.getScene().remove(this.mesh);
-            }
-            this.geometry = new THREE.BufferGeometry();
-            this.mesh = new THREE.Mesh(this.geometry, new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0xff00ff }));
-            this.getScene().add(this.mesh);
+        Material.prototype.prepareForRendering = function () {
+            this.program.color
+                .set3f(this.testColor.x, this.testColor.y, this.testColor.z);
         };
-        ModelViewer.prototype.onLoadMdl = function (mdl, status) {
-            var _this = this;
-            this.vvd = null;
-            this.vtx = null;
-            this.hullSize.set(mdl.hullMax.x - mdl.hullMin.x, mdl.hullMax.y - mdl.hullMin.y, mdl.hullMax.z - mdl.hullMin.z);
-            this.hullCenter.set(mdl.hullMin.x + this.hullSize.x * 0.5, mdl.hullMin.y + this.hullSize.y * 0.5, mdl.hullMin.z + this.hullSize.z * 0.5);
-            this.geometry.boundingBox = new THREE.Box3(mdl.hullMin, mdl.hullMax);
-            var _loop_1 = function (i) {
-                $.getJSON(mdl.materials[i], function (vmt, status) { return _this.onLoadVmt(i, vmt, status); });
-            };
-            for (var i = 0; i < mdl.materials.length; ++i) {
-                _loop_1(i);
-            }
-            $.getJSON(mdl.vertices.replace("{lod}", "0"), function (vvd, status) { return _this.onLoadVvd(vvd, status); });
-            $.getJSON(mdl.triangles.replace("{lod}", "0"), function (vtx, status) { return _this.onLoadVtx(vtx, status); });
-        };
-        ModelViewer.prototype.loadVtf = function (url, action) {
-            var _this = this;
-            $.getJSON(url, function (vtf, status) {
-                var minMipMap = Math.max(vtf.mipmaps - 4, 0);
-                var bestMipMap = vtf.mipmaps;
-                var _loop_2 = function (i) {
-                    _this.texLoader.load(vtf.png.replace("{mipmap}", i.toString()), function (tex) {
-                        if (i >= bestMipMap)
-                            return;
-                        bestMipMap = i;
-                        tex.wrapS = THREE.RepeatWrapping;
-                        tex.wrapT = THREE.RepeatWrapping;
-                        action(tex);
-                    });
-                };
-                for (var i = minMipMap; i >= 0; --i) {
-                    _loop_2(i);
-                }
-            });
-        };
-        ModelViewer.prototype.onLoadVmt = function (index, vmt, status) {
-            var shader = vmt.shaders[0];
-            if (shader == null)
-                return;
-            var mat = new THREE[shader.material]();
-            var _loop_3 = function (i) {
-                var prop = shader.properties[i];
-                switch (prop.type) {
-                    case PropertyType.Texture:
-                        this_1.loadVtf(prop.value, function (tex) {
-                            mat[prop.name] = tex;
-                            mat.needsUpdate = true;
-                        });
-                        break;
-                    default:
-                        mat[prop.name] = prop.value;
-                        break;
-                }
-            };
-            var this_1 = this;
-            for (var i = 0; i < shader.properties.length; ++i) {
-                _loop_3(i);
-            }
-            var hasMultiMat = this.mesh.material.materials != null;
-            if (!hasMultiMat) {
-                if (index === 0) {
-                    this.mesh.material = mat;
-                    return;
-                }
-                else {
-                    var oldMat = this.mesh.material;
-                    this.mesh.material = new THREE.MultiMaterial([oldMat]);
-                }
-            }
-            var multiMat = this.mesh.material;
-            multiMat.materials[index] = mat;
-            multiMat.needsUpdate = true;
-        };
-        ModelViewer.prototype.onLoadVvd = function (vvd, status) {
-            this.vvd = vvd;
-            if (this.vtx != null)
-                this.updateModel();
-        };
-        ModelViewer.prototype.onLoadVtx = function (vtx, status) {
-            this.vtx = vtx;
-            if (this.vvd != null)
-                this.updateModel();
-        };
-        ModelViewer.prototype.updateModel = function () {
-            if (this.vvd.vertices != null)
-                this.geometry.addAttribute("position", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.vertices), 3));
-            if (this.vvd.normals != null)
-                this.geometry.addAttribute("normal", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.normals), 3, true));
-            if (this.vvd.texcoords != null)
-                this.geometry.addAttribute("uv", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.texcoords), 2));
-            if (this.vvd.tangents != null)
-                this.geometry.addAttribute("tangent", new THREE.BufferAttribute(SourceUtils.Utils.decompressFloat32Array(this.vvd.tangents), 4));
-            this.geometry.setIndex(new THREE.BufferAttribute(SourceUtils.Utils.decompressUint32Array(this.vtx.indices), 1));
-            for (var i = 0; i < this.vtx.meshes.length; ++i) {
-                var mesh = this.vtx.meshes[i];
-                this.geometry.addGroup(mesh.start, mesh.length, mesh.materialIndex);
-            }
-        };
-        ModelViewer.prototype.onRenderFrame = function (dt) {
-            this.cameraAngle += dt * 0.25;
-            var radius = this.hullSize.length();
-            this.camera.position.set(Math.cos(this.cameraAngle) * radius, Math.sin(this.cameraAngle) * radius, 0.5 * radius);
-            this.directionalA.position.set(Math.cos(this.cameraAngle * 2.67), Math.sin(this.cameraAngle * 2.67), 0.75);
-            this.directionalB.position.set(Math.cos(this.cameraAngle * 2.67 + 2.8), Math.sin(this.cameraAngle * 2.67 + 2.8), -0.5);
-            this.camera.position.add(this.hullCenter);
-            this.camera.lookAt(this.hullCenter);
-            _super.prototype.onRenderFrame.call(this, dt);
-        };
-        return ModelViewer;
-    }(SourceUtils.AppBase));
-    SourceUtils.ModelViewer = ModelViewer;
+        return Material;
+    }());
+    SourceUtils.Material = Material;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1230,6 +1101,7 @@ var SourceUtils;
             this.compiled = false;
             this.attribNames = {};
             this.enabledComponents = 0;
+            this.modelMatrixValue = new THREE.Matrix4();
             this.manager = manager;
             this.viewProjectionMatrix = new Uniform(this, "uViewProjection");
             this.modelMatrix = new Uniform(this, "uModel");
@@ -1353,6 +1225,12 @@ var SourceUtils;
         ShaderProgram.prototype.disableMeshComponents = function () {
             this.enableMeshComponents(0);
         };
+        ShaderProgram.prototype.prepareForRendering = function (camera) {
+            this.modelMatrixValue.getInverse(camera.matrixWorld);
+            this.use();
+            this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
+            this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
+        };
         return ShaderProgram;
     }());
     SourceUtils.ShaderProgram = ShaderProgram;
@@ -1369,8 +1247,13 @@ var SourceUtils;
                 _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
                 _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
                 _this.lightmap = new Uniform(_this, "uLightmap");
+                _this.color = new Uniform(_this, "uColor");
                 return _this;
             }
+            LightmappedGeneric.prototype.prepareForRendering = function (camera) {
+                _super.prototype.prepareForRendering.call(this, camera);
+                this.lightmap.set1i(2);
+            };
             return LightmappedGeneric;
         }(ShaderProgram));
         Shaders.LightmappedGeneric = LightmappedGeneric;
@@ -1466,15 +1349,17 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var WorldMeshHandle = (function () {
-        function WorldMeshHandle(group, drawMode, offset, count) {
+        function WorldMeshHandle(group, drawMode, material, offset, count) {
             this.group = group;
             this.drawMode = drawMode;
+            this.material = material;
             this.offset = offset;
             this.count = count;
         }
         WorldMeshHandle.prototype.canMerge = function (other) {
             return this.group === other.group
                 && this.drawMode === other.drawMode
+                && this.material === other.material
                 && this.offset + this.count === other.offset;
         };
         WorldMeshHandle.prototype.merge = function (other) {
@@ -1590,7 +1475,7 @@ var SourceUtils;
             var handles = new Array(faces.elements.length);
             for (var i = 0; i < faces.elements.length; ++i) {
                 var element = faces.elements[i];
-                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.offset + indexOffset, element.count);
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.offset + indexOffset, element.count);
             }
             return handles;
         };

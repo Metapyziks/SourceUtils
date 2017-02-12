@@ -4,10 +4,11 @@ varying vec2 vTextureCoord;
 varying vec2 vLightmapCoord;
 
 uniform sampler2D uLightmap;
+uniform vec3 uColor;
 
 void main()
 {
-    vec3 color = vec3(vTextureCoord.x - floor(vTextureCoord.x), vTextureCoord.y - floor(vTextureCoord.y), 1);
+    vec3 color = uColor;
     vec3 lightmap = texture2D(uLightmap, vLightmapCoord).rgb;
     gl_FragColor = vec4(color * lightmap, 1);
 }

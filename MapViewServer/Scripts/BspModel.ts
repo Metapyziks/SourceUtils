@@ -65,19 +65,12 @@ namespace SourceUtils
             return elem as VisLeaf;
         }
 
-        private viewProjectionMatrix = new THREE.Matrix4();
-        private modelMatrix = new THREE.Matrix4();
-
-        render(shaders: ShaderManager, camera: THREE.Camera): void {
-            const gl = shaders.getContext();
-
-            const shader = shaders.get("LightmappedGeneric") as Shaders.LightmappedGeneric;
-            if (!shader.isCompiled()) return;
+        render(camera: THREE.Camera): void {
+            const gl = this.map.getShaders().getContext();
 
             gl.cullFace(gl.FRONT);
 
             camera.updateMatrixWorld(true);
-            this.modelMatrix.getInverse(camera.matrixWorld);
 
             const lightmap = this.map.getLightmap();
             if (lightmap != null && lightmap.isLoaded()) {
@@ -85,12 +78,7 @@ namespace SourceUtils
                 gl.bindTexture(gl.TEXTURE_2D, this.map.getLightmap().getHandle());
             }
 
-            shader.use();
-            shader.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
-            shader.modelMatrix.setMatrix4f(this.modelMatrix.elements);
-            shader.lightmap.set1i(2);
-
-            this.drawList.render(shader);
+            this.drawList.render(camera);
         }
     }
 }
