@@ -24,15 +24,15 @@ namespace SourceUtils {
 
             let bestIndex = -1;
             let bestScore = 0;
-            let bestMip = Number.MAX_VALUE;
+            let bestMip = -1;
 
             for (var i = 0, iEnd = this.queue.length; i < iEnd; ++i) {
                 const item = this.queue[i];
                 const mipLevel = item.getLowestMipLevel();
-                if (mipLevel > bestMip) continue;
+                if (mipLevel < bestMip) continue;
 
                 const score = item.getUsesSinceLastLoad();
-                if (score > bestScore || mipLevel > bestMip) {
+                if (score > bestScore || mipLevel > bestMip && score > 0) {
                     bestIndex = i;
                     bestScore = score;
                     bestMip = mipLevel;

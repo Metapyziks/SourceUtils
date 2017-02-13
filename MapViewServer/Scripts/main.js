@@ -696,7 +696,8 @@ var SourceUtils;
                 last.offset = next.offset;
                 last.count = next.count;
             }
-            console.log("Draw calls: " + this.merged.length);
+            if (this.map.getApp().logDrawCalls)
+                console.log("Draw calls: " + this.merged.length);
         };
         DrawList.prototype.render = function (camera) {
             this.lastGroup = undefined;
@@ -819,6 +820,9 @@ var SourceUtils;
             this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
             this.loadInfo(url);
         }
+        Map.prototype.getApp = function () {
+            return this.app;
+        };
         Map.prototype.getLightmap = function () {
             return this.lightmap || this.blankTexture;
         };
@@ -951,8 +955,12 @@ var SourceUtils;
         __extends(MapViewer, _super);
         function MapViewer() {
             _super.call(this);
+            this.logFrameTime = false;
+            this.logDrawCalls = false;
             this.lookAngs = new THREE.Vector2();
             this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            this.countedFrames = 0;
+            this.totalFrameTime = 0;
             this.unitZ = new THREE.Vector3(0, 0, 1);
             this.unitX = new THREE.Vector3(1, 0, 0);
             this.tempQuat = new THREE.Quaternion();
@@ -1014,6 +1022,7 @@ var SourceUtils;
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             var gl = this.getContext();
+            var t0 = performance.now();
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LESS);
@@ -1021,6 +1030,17 @@ var SourceUtils;
             gl.cullFace(gl.FRONT);
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
+            var t1 = performance.now();
+            if (this.logFrameTime) {
+                this.totalFrameTime += (t1 - t0);
+                this.countedFrames += 1;
+                if (this.countedFrames > 100) {
+                    var avgFrameTime = this.totalFrameTime / this.countedFrames;
+                    console.log("Frametime: " + avgFrameTime + " ms (" + 1000 / avgFrameTime + " FPS)");
+                    this.totalFrameTime = 0;
+                    this.countedFrames = 0;
+                }
+            }
         };
         return MapViewer;
     }(SourceUtils.AppBase));
@@ -1521,14 +1541,14 @@ var SourceUtils;
                 return null;
             var bestIndex = -1;
             var bestScore = 0;
-            var bestMip = Number.MAX_VALUE;
+            var bestMip = -1;
             for (var i = 0, iEnd = this.queue.length; i < iEnd; ++i) {
                 var item = this.queue[i];
                 var mipLevel = item.getLowestMipLevel();
-                if (mipLevel > bestMip)
+                if (mipLevel < bestMip)
                     continue;
                 var score = item.getUsesSinceLastLoad();
-                if (score > bestScore || mipLevel > bestMip) {
+                if (score > bestScore || mipLevel > bestMip && score > 0) {
                     bestIndex = i;
                     bestScore = score;
                     bestMip = mipLevel;

@@ -4,8 +4,14 @@ namespace SourceUtils {
     export class MapViewer extends AppBase {
         private map: Map;
 
+        logFrameTime = false;
+        logDrawCalls = false;
+
         private lookAngs = new THREE.Vector2();
         private lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+
+        private countedFrames = 0;
+        private totalFrameTime = 0;
 
         constructor() {
             super();
@@ -87,6 +93,8 @@ namespace SourceUtils {
         protected onRenderFrame(dt: number): void {
             const gl = this.getContext();
 
+            const t0 = performance.now();
+
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LESS);
@@ -96,6 +104,20 @@ namespace SourceUtils {
 
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
+
+            const t1 = performance.now();
+
+            if (this.logFrameTime) {
+                this.totalFrameTime += (t1 - t0);
+                this.countedFrames += 1;
+
+                if (this.countedFrames > 100) {
+                    const avgFrameTime = this.totalFrameTime / this.countedFrames;
+                    console.log(`Frametime: ${avgFrameTime} ms (${1000 / avgFrameTime} FPS)`);
+                    this.totalFrameTime = 0;
+                    this.countedFrames = 0;
+                }
+            }
         }
     }
 }

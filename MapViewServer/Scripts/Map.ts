@@ -46,6 +46,10 @@ namespace SourceUtils {
             this.loadInfo(url);
         }
 
+        getApp(): AppBase {
+            return this.app;
+        }
+
         getLightmap(): Texture2D {
             return this.lightmap || this.blankTexture;
         }

@@ -110,7 +110,7 @@
                 last.count = next.count;
             }
 
-            console.log(`Draw calls: ${this.merged.length}`);
+            if ((this.map.getApp() as MapViewer).logDrawCalls) console.log(`Draw calls: ${this.merged.length}`);
         }
 
         render(camera: THREE.Camera): void {
