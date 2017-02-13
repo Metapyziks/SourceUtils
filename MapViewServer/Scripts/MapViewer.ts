@@ -25,12 +25,7 @@ namespace SourceUtils {
         }
 
         loadMap(url: string): void {
-            if (this.map != null) {
-                this.getScene().remove(this.map);
-            }
-
             this.map = new Map(this, url);
-            this.getScene().add(this.map);
         }
 
         onKeyDown(key: Key): void {
@@ -91,7 +86,13 @@ namespace SourceUtils {
 
         protected onRenderFrame(dt: number): void {
             const gl = this.getContext();
-            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.enable(gl.DEPTH_TEST);
+            gl.depthFunc(gl.LESS);
+
+            gl.enable(gl.CULL_FACE);
+            gl.cullFace(gl.FRONT);
 
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);

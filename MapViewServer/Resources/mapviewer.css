@@ -2,6 +2,11 @@
     height: 720px;
 }
 
+#map-view canvas {
+    width: 100%;
+    height: 100%;
+}
+
 #map-view:-webkit-full-screen {
     width: 100%;
     height: 100%;

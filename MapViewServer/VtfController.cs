@@ -17,10 +17,9 @@ namespace MapViewServer
 
         private const string DefaultFormat = "json";
         
-        public static string GetUrl( HttpListenerRequest request, string path, bool alphaOnly = false )
+        public static string GetUrl( HttpListenerRequest request, string path )
         {
-            var alphaString = alphaOnly ? "?alpha=true" : "";
-            return $"http://{request.Url.Authority}{UrlPrefix}/{path}{alphaString}";
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}";
         }
 
         public static string GetDdsUrl( HttpListenerRequest request, string path )
@@ -28,11 +27,10 @@ namespace MapViewServer
             return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=dds";
         }
 
-        public static string GetPngUrl( HttpListenerRequest request, string path, int mipMap = -1, bool alphaOnly = false )
+        public static string GetPngUrl( HttpListenerRequest request, string path, int mipMap = -1 )
         {
             var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
-            var alphaString = alphaOnly ? "&alpha=true" : "";
-            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=png&mipmap={mipMapString}{alphaString}";
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}?format=png&mipmap={mipMapString}";
         }
 
         [Get( MatchAllUrl = false )]
@@ -49,9 +47,9 @@ namespace MapViewServer
                 {
                     Foreach( Enumerable.Range( 0, vtf.Header.MipMapCount ), i =>
                     {
-                        Echo( new a( href => GetPngUrl( Request, path, i, false ) )
+                        Echo( new a( href => GetPngUrl( Request, path, i ) )
                         {
-                            new NamedHtmlElement( "img", src => GetPngUrl( Request, path, i, false ) )
+                            new NamedHtmlElement( "img", src => GetPngUrl( Request, path, i ) )
                         } );
                     } )
                 }
@@ -59,7 +57,7 @@ namespace MapViewServer
         }
 
         [Get( MatchAllUrl = false )]
-        public JObject Json( string format = DefaultFormat, bool alpha = false )
+        public JObject Json( string format = DefaultFormat )
         {
             if ( format != "json" ) throw NotFoundException();
 
@@ -76,8 +74,8 @@ namespace MapViewServer
                 {"width", vtf.Header.Width},
                 {"height", vtf.Header.Height},
                 {"flags", (long) vtf.Header.Flags},
-                {"dds", GetDdsUrl( Request, path )},
-                {"png", GetPngUrl( Request, path, -1, alpha )},
+                {"ddsUrl", GetDdsUrl( Request, path )},
+                {"pngUrl", GetPngUrl( Request, path )},
                 {"mipmaps", vtf.Header.MipMapCount}
             };
 

@@ -12,17 +12,23 @@
         private info: Api.Material;
         private program: ShaderProgram;
 
-        constructor(map: Map, info: Api.Material) {
+        constructor(map: Map, infoOrShader: Api.Material | string) {
             this.map = map;
-            this.info = info;
-            this.program = map.shaderManager.get(info.shader);
 
-            for (let i = 0; i < info.properties.length; ++i) {
-                this.addProperty(info.properties[i]);
+            if (typeof infoOrShader == "string") {
+                this.program = map.shaderManager.get(infoOrShader as string);
+            } else {
+                this.info = infoOrShader as Api.Material;
+                this.program = map.shaderManager.get(this.info.shader);
+
+                for (let i = 0; i < this.info.properties.length; ++i)
+                {
+                    this.addPropertyFromInfo(this.info.properties[i]);
+                }
             }
         }
 
-        private addProperty(info: Api.MaterialProperty): void {
+        private addPropertyFromInfo(info: Api.MaterialProperty): void {
             switch (info.type) {
                 case Api.MaterialPropertyType.boolean:
                 case Api.MaterialPropertyType.number:
@@ -32,6 +38,10 @@
                     this.properties[info.name] = this.map.textureLoader.load(info.value as string);
                     break;
             }
+        }
+
+        getMap(): Map {
+            return this.map;
         }
 
         getProgram(): ShaderProgram {

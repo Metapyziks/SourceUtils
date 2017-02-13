@@ -116,8 +116,8 @@ namespace SourceUtils {
         canLockPointer = false;
 
         private container: JQuery;
-        private scene: THREE.Scene;
-        private renderer: THREE.Renderer;
+        private canvas: HTMLCanvasElement;
+        private context: WebGLRenderingContext;
 
         private animateCallback: (time: number) => void;
         private previousTime = 0;
@@ -131,11 +131,11 @@ namespace SourceUtils {
 
         init(container: JQuery): void {
             this.container = container;
-            this.scene = new THREE.Scene();
 
             this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
-            this.scene.add(this.camera);
-            this.renderer = new THREE.WebGLRenderer();
+
+            this.canvas = $("<canvas/>")[0] as HTMLCanvasElement;
+            this.context = this.canvas.getContext("webgl") as WebGLRenderingContext;
 
             this.onWindowResize();
 
@@ -145,7 +145,7 @@ namespace SourceUtils {
                 this.animate(deltaTime * 0.001);
             };
 
-            this.container.append(this.renderer.domElement);
+            this.container.append(this.canvas);
 
             this.container.bind("mousewheel DOMMouseScroll",
                 e => {
@@ -217,11 +217,11 @@ namespace SourceUtils {
         }
 
         getContext(): WebGLRenderingContext {
-            return (this.renderer as THREE.WebGLRenderer).getContext();
+            return this.context;
         }
 
         getCanvas(): HTMLCanvasElement {
-            return this.renderer.domElement;
+            return this.canvas;
         }
 
         getWidth(): number {
@@ -231,10 +231,6 @@ namespace SourceUtils {
         getHeight(): number {
             return this.container.innerHeight();
         }
-
-        getScene(): THREE.Scene { return this.scene; }
-
-        getRenderer(): THREE.Renderer { return this.renderer; }
 
         getMouseScreenPos(out?: THREE.Vector2): THREE.Vector2 {
             if (out == null) out = new THREE.Vector2();
@@ -306,7 +302,11 @@ namespace SourceUtils {
         }
 
         protected onWindowResize(): void {
-            this.renderer.setSize(this.container.innerWidth(), this.container.innerHeight());
+            this.canvas.width = this.container.innerWidth();
+            this.canvas.height = this.container.innerHeight();
+
+            this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
+
             this.onUpdateCamera();
         }
 
@@ -321,12 +321,8 @@ namespace SourceUtils {
             this.onRenderFrame(dt);
         }
 
-        protected onUpdateFrame(dt: number): void {
+        protected onUpdateFrame(dt: number): void { }
 
-        }
-
-        protected onRenderFrame(dt: number): void {
-            this.renderer.render(this.scene, this.camera);
-        }
+        protected onRenderFrame(dt: number): void { }
     }
 }

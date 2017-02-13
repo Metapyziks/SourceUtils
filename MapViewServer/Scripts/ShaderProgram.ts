@@ -280,9 +280,6 @@ namespace SourceUtils {
             this.use();
             this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
             this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
-
-            const gl = this.getContext();
-            gl.cullFace(gl.FRONT);
         }
 
         changeMaterial(material: Material): void {}
@@ -324,12 +321,16 @@ namespace SourceUtils {
 
             changeMaterial(material: SourceUtils.Material): void {
                 const gl = this.getContext();
-                const tex = material.properties.baseTexture;
+                let tex = material.properties.baseTexture;
+                let handle: WebGLTexture;
 
-                if (tex != null && tex.isLoaded()) {
-                    gl.activeTexture(gl.TEXTURE0);
-                    gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
+                if (tex == null || (handle = tex.getHandle()) === undefined) {
+                    tex = material.getMap().getBlankTexture();
+                    handle = tex.getHandle();
                 }
+
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, handle);
 
                 this.baseTexture.set1i(0);
             }

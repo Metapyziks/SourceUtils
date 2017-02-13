@@ -828,7 +828,7 @@ namespace MapViewServer
                 if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
             }
 
-            return VtfController.GetPngUrl( Request, fullPath );
+            return VtfController.GetUrl( Request, fullPath );
         }
 
         private enum MaterialPropertyType

@@ -12,6 +12,9 @@ namespace SourceUtils {
         private app: AppBase;
 
         private lightmap: Texture2D;
+        private blankTexture: Texture2D;
+        private blankMaterial: Material;
+        private errorMaterial: Material;
 
         private models: BspModel[] = [];
         private displacements: Displacement[] = [];
@@ -34,11 +37,21 @@ namespace SourceUtils {
             this.meshManager = new WorldMeshManager(app.getContext());
             this.shaderManager = new ShaderManager(app.getContext());
 
+            this.blankTexture = new BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            this.blankMaterial = new Material(this, "LightmappedGeneric");
+            this.blankMaterial.properties.baseTexture = this.blankTexture;
+            this.errorMaterial = new Material(this, "LightmappedGeneric");
+            this.errorMaterial.properties.baseTexture = new ErrorTexture(app.getContext());
+
             this.loadInfo(url);
         }
 
         getLightmap(): Texture2D {
-            return this.lightmap;
+            return this.lightmap || this.blankTexture;
+        }
+
+        getBlankTexture(): Texture2D {
+            return this.blankTexture;
         }
 
         getPvsRoot(): VisLeaf {
@@ -54,7 +67,7 @@ namespace SourceUtils {
         }
 
         getMaterial(index: number): Material {
-            return index < this.materials.length ? this.materials[index] : undefined;
+            return (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         }
 
         private loadInfo(url: string): void {
@@ -67,7 +80,7 @@ namespace SourceUtils {
                     this.add(this.models[0] = new BspModel(this, 0));
                     this.loadDisplacements();
                     this.loadMaterials();
-                    this.lightmap = new Texture2D(this.app.getContext(), data.lightmapUrl);
+                    this.lightmap = new Lightmap(this.app.getContext(), data.lightmapUrl);
                 });
         }
 
@@ -133,6 +146,7 @@ namespace SourceUtils {
         }
 
         render(camera: THREE.Camera): void {
+            this.textureLoader.update();
             const worldSpawn = this.getWorldSpawn();
             if (worldSpawn != null) worldSpawn.render(camera);
         }

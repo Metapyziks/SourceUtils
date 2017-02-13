@@ -90,14 +90,18 @@ namespace MapViewServer
             if (mipMapHeight < 4) mipMapHeight = 4;
         }
 
-        private static void ConvertDdsToPng( Stream src, Stream dst, bool alphaOnly )
+        private static void ConvertDdsToPng( Stream src, Stream dst, int newWidth = -1, int newHeight = -1 )
         {
             if ( Environment.OSVersion.Platform == PlatformID.Unix ||
                  Environment.OSVersion.Platform == PlatformID.MacOSX )
             {
                 try
                 {
-                    var args = alphaOnly ? "-alpha extract " : "";
+                    var args = "";
+                    if ( newWidth != -1 && newHeight != -1)
+                    {
+                        args += $"-resize {newWidth}x{newHeight} ";
+                    }
 
                     var processStart = new ProcessStartInfo
                     {
@@ -129,7 +133,11 @@ namespace MapViewServer
             {
                 using ( var image = new MagickImage( src, new MagickReadSettings {Format = MagickFormat.Dds} ) )
                 {
-                    if ( alphaOnly ) image.Alpha( AlphaOption.Extract );
+                    if ( newWidth != -1 && newHeight != -1)
+                    {
+                        image.Resize( newWidth, newHeight );
+                    }
+
                     image.Write( dst, MagickFormat.Png );
                 }
             }
@@ -137,10 +145,11 @@ namespace MapViewServer
         
         public static void ConvertToDds( IResourceProvider resources, string vtfFilePath, Stream outStream )
         {
-            ConvertToDds( resources, vtfFilePath, -1, outStream );
+            int width, height;
+            ConvertToDds( resources, vtfFilePath, -1, outStream, out width, out height );
         }
 
-        public static unsafe void ConvertToDds( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream )
+        public static unsafe void ConvertToDds( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream, out int width, out int height )
         {
             var oneMipMap = mipMap > -1;
             if (mipMap < 0) mipMap = 0;
@@ -153,9 +162,12 @@ namespace MapViewServer
                 
             if (mipMap >= vtf.Header.MipMapCount)
             {
-                ConvertToDds( resources, vtfFilePath, vtf.Header.MipMapCount - 1, outStream);
+                ConvertToDds( resources, vtfFilePath, vtf.Header.MipMapCount - 1, outStream, out width, out height);
                 return;
             }
+
+            width = vtf.Header.Width >> mipMap;
+            height = vtf.Header.Height >> mipMap;
                 
             var header = new DdsHeader();
                 
@@ -174,9 +186,9 @@ namespace MapViewServer
                 default:
                     throw new NotImplementedException();
             }
-                
+
             GetMipMapSize(vtf.Header.Width, vtf.Header.Height, mipMap, out header.dwWidth, out header.dwHeight);
-                
+
             header.dwSize = (uint) Marshal.SizeOf(typeof(DdsHeader));
             header.dwFlags = DdsHeaderFlags.CAPS | DdsHeaderFlags.HEIGHT | DdsHeaderFlags.WIDTH
                 | DdsHeaderFlags.PIXELFORMAT | (oneMipMap ? 0 : DdsHeaderFlags.MIPMAPCOUNT);
@@ -225,10 +237,19 @@ namespace MapViewServer
                 _sMemoryStream.SetLength( 0 );
             }
 
-            ConvertToDds(resources, vtfFilePath, mipMap, _sMemoryStream );
+            int width, height;
+            ConvertToDds(resources, vtfFilePath, mipMap, _sMemoryStream, out width, out height );
 
             _sMemoryStream.Seek( 0, SeekOrigin.Begin );
-            ConvertDdsToPng( _sMemoryStream, outStream, alphaOnly );
+
+            if ( width < 4 || height < 4 )
+            {
+                width = Math.Max( 1, width );
+                height = Math.Max( 1, height );
+                ConvertDdsToPng( _sMemoryStream, outStream, width, height );
+            } else {
+                ConvertDdsToPng( _sMemoryStream, outStream );
+            }
         }
     }
 }

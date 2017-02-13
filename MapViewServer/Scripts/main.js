@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspNode;
         }(BspElem));
@@ -48,30 +48,30 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
-        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
+        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
+        var PrimitiveType = Api.PrimitiveType;
         var Element = (function () {
             function Element() {
             }
             return Element;
         }());
         Api.Element = Element;
-        var MeshComponent;
         (function (MeshComponent) {
             MeshComponent[MeshComponent["position"] = 1] = "position";
             MeshComponent[MeshComponent["normal"] = 2] = "normal";
             MeshComponent[MeshComponent["uv"] = 4] = "uv";
             MeshComponent[MeshComponent["uv2"] = 8] = "uv2";
-        })(MeshComponent = Api.MeshComponent || (Api.MeshComponent = {}));
+        })(Api.MeshComponent || (Api.MeshComponent = {}));
+        var MeshComponent = Api.MeshComponent;
         var Faces = (function () {
             function Faces() {
             }
@@ -102,12 +102,12 @@ var SourceUtils;
             return BspDisplacementsResponse;
         }());
         Api.BspDisplacementsResponse = BspDisplacementsResponse;
-        var MaterialPropertyType;
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["boolean"] = 0] = "boolean";
             MaterialPropertyType[MaterialPropertyType["number"] = 1] = "number";
             MaterialPropertyType[MaterialPropertyType["texture"] = 2] = "texture";
-        })(MaterialPropertyType = Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
+        })(Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
+        var MaterialPropertyType = Api.MaterialPropertyType;
         var MaterialProperty = (function () {
             function MaterialProperty() {
             }
@@ -126,6 +126,47 @@ var SourceUtils;
             return BspMaterialsResponse;
         }());
         Api.BspMaterialsResponse = BspMaterialsResponse;
+        (function (VtfFlags) {
+            VtfFlags[VtfFlags["POINTSAMPLE"] = 1] = "POINTSAMPLE";
+            VtfFlags[VtfFlags["TRILINEAR"] = 2] = "TRILINEAR";
+            VtfFlags[VtfFlags["CLAMPS"] = 4] = "CLAMPS";
+            VtfFlags[VtfFlags["CLAMPT"] = 8] = "CLAMPT";
+            VtfFlags[VtfFlags["ANISOTROPIC"] = 16] = "ANISOTROPIC";
+            VtfFlags[VtfFlags["HINT_DXT5"] = 32] = "HINT_DXT5";
+            VtfFlags[VtfFlags["PWL_CORRECTED"] = 64] = "PWL_CORRECTED";
+            VtfFlags[VtfFlags["NORMAL"] = 128] = "NORMAL";
+            VtfFlags[VtfFlags["NOMIP"] = 256] = "NOMIP";
+            VtfFlags[VtfFlags["NOLOD"] = 512] = "NOLOD";
+            VtfFlags[VtfFlags["ALL_MIPS"] = 1024] = "ALL_MIPS";
+            VtfFlags[VtfFlags["PROCEDURAL"] = 2048] = "PROCEDURAL";
+            VtfFlags[VtfFlags["ONEBITALPHA"] = 4096] = "ONEBITALPHA";
+            VtfFlags[VtfFlags["EIGHTBITALPHA"] = 8192] = "EIGHTBITALPHA";
+            VtfFlags[VtfFlags["ENVMAP"] = 16384] = "ENVMAP";
+            VtfFlags[VtfFlags["RENDERTARGET"] = 32768] = "RENDERTARGET";
+            VtfFlags[VtfFlags["DEPTHRENDERTARGET"] = 65536] = "DEPTHRENDERTARGET";
+            VtfFlags[VtfFlags["NODEBUGOVERRIDE"] = 131072] = "NODEBUGOVERRIDE";
+            VtfFlags[VtfFlags["SINGLECOPY"] = 262144] = "SINGLECOPY";
+            VtfFlags[VtfFlags["PRE_SRGB"] = 524288] = "PRE_SRGB";
+            VtfFlags[VtfFlags["UNUSED_00100000"] = 1048576] = "UNUSED_00100000";
+            VtfFlags[VtfFlags["UNUSED_00200000"] = 2097152] = "UNUSED_00200000";
+            VtfFlags[VtfFlags["UNUSED_00400000"] = 4194304] = "UNUSED_00400000";
+            VtfFlags[VtfFlags["NODEPTHBUFFER"] = 8388608] = "NODEPTHBUFFER";
+            VtfFlags[VtfFlags["UNUSED_01000000"] = 16777216] = "UNUSED_01000000";
+            VtfFlags[VtfFlags["CLAMPU"] = 33554432] = "CLAMPU";
+            VtfFlags[VtfFlags["VERTEXTEXTURE"] = 67108864] = "VERTEXTEXTURE";
+            VtfFlags[VtfFlags["SSBUMP"] = 134217728] = "SSBUMP";
+            VtfFlags[VtfFlags["UNUSED_10000000"] = 268435456] = "UNUSED_10000000";
+            VtfFlags[VtfFlags["BORDER"] = 536870912] = "BORDER";
+            VtfFlags[VtfFlags["UNUSED_40000000"] = 1073741824] = "UNUSED_40000000";
+            VtfFlags[VtfFlags["UNUSED_80000000"] = 2147483648] = "UNUSED_80000000";
+        })(Api.VtfFlags || (Api.VtfFlags = {}));
+        var VtfFlags = Api.VtfFlags;
+        var VtfResponse = (function () {
+            function VtfResponse() {
+            }
+            return VtfResponse;
+        }());
+        Api.VtfResponse = VtfResponse;
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/lz-string/lz-string.d.ts"/>
@@ -157,13 +198,12 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var Key;
+    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var MouseButton = SourceUtils.MouseButton;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -263,7 +303,8 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
+    })(SourceUtils.Key || (SourceUtils.Key = {}));
+    var Key = SourceUtils.Key;
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -277,17 +318,16 @@ var SourceUtils;
         AppBase.prototype.init = function (container) {
             var _this = this;
             this.container = container;
-            this.scene = new THREE.Scene();
             this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
-            this.scene.add(this.camera);
-            this.renderer = new THREE.WebGLRenderer();
+            this.canvas = $("<canvas/>")[0];
+            this.context = this.canvas.getContext("webgl");
             this.onWindowResize();
             this.animateCallback = function (time) {
                 var deltaTime = time - _this.previousTime;
                 _this.previousTime = time;
                 _this.animate(deltaTime * 0.001);
             };
-            this.container.append(this.renderer.domElement);
+            this.container.append(this.canvas);
             this.container.bind("mousewheel DOMMouseScroll", function (e) {
                 if (e.type === "mousewheel") {
                     _this.onMouseScroll(e.originalEvent.wheelDelta / 400);
@@ -355,10 +395,10 @@ var SourceUtils;
             return this.container[0];
         };
         AppBase.prototype.getContext = function () {
-            return this.renderer.getContext();
+            return this.context;
         };
         AppBase.prototype.getCanvas = function () {
-            return this.renderer.domElement;
+            return this.canvas;
         };
         AppBase.prototype.getWidth = function () {
             return this.container.innerWidth();
@@ -366,8 +406,6 @@ var SourceUtils;
         AppBase.prototype.getHeight = function () {
             return this.container.innerHeight();
         };
-        AppBase.prototype.getScene = function () { return this.scene; };
-        AppBase.prototype.getRenderer = function () { return this.renderer; };
         AppBase.prototype.getMouseScreenPos = function (out) {
             if (out == null)
                 out = new THREE.Vector2();
@@ -423,7 +461,9 @@ var SourceUtils;
             return button >= 0 && button < this.heldMouseButtons.length && this.heldMouseButtons[button];
         };
         AppBase.prototype.onWindowResize = function () {
-            this.renderer.setSize(this.container.innerWidth(), this.container.innerHeight());
+            this.canvas.width = this.container.innerWidth();
+            this.canvas.height = this.container.innerHeight();
+            this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
             this.onUpdateCamera();
         };
         AppBase.prototype.onUpdateCamera = function () { };
@@ -433,11 +473,8 @@ var SourceUtils;
             this.onUpdateFrame(dt);
             this.onRenderFrame(dt);
         };
-        AppBase.prototype.onUpdateFrame = function (dt) {
-        };
-        AppBase.prototype.onRenderFrame = function (dt) {
-            this.renderer.render(this.scene, this.camera);
-        };
+        AppBase.prototype.onUpdateFrame = function (dt) { };
+        AppBase.prototype.onRenderFrame = function (dt) { };
         return AppBase;
     }());
     SourceUtils.AppBase = AppBase;
@@ -448,7 +485,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            _super.apply(this, arguments);
         }
         return Entity;
     }(THREE.Object3D));
@@ -460,12 +497,11 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this) || this;
-            _this.map = map;
-            _this.index = index;
-            _this.drawList = new SourceUtils.DrawList(map);
-            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
-            return _this;
+            _super.call(this);
+            this.map = map;
+            this.index = index;
+            this.drawList = new SourceUtils.DrawList(map);
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
         }
         BspModel.prototype.getDrawList = function () {
             return this.drawList;
@@ -554,10 +590,10 @@ var SourceUtils;
                 this.drawList.updateItem(this);
         };
         DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
+        DrawListItem.rootCenter = new THREE.Vector3();
+        DrawListItem.thisCenter = new THREE.Vector3();
         return DrawListItem;
     }());
-    DrawListItem.rootCenter = new THREE.Vector3();
-    DrawListItem.thisCenter = new THREE.Vector3();
     SourceUtils.DrawListItem = DrawListItem;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="DrawListItem.ts"/>
@@ -566,12 +602,11 @@ var SourceUtils;
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
         function Displacement(info) {
-            var _this = _super.call(this, "d", info.index) || this;
-            _this.clusters = info.clusters;
+            _super.call(this, "d", info.index);
+            this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
-            return _this;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         return Displacement;
     }(SourceUtils.DrawListItem));
@@ -766,22 +801,29 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(app, url) {
-            var _this = _super.call(this) || this;
-            _this.models = [];
-            _this.displacements = [];
-            _this.materials = [];
-            _this.pvs = [];
-            _this.app = app;
-            _this.frustumCulled = false;
-            _this.faceLoader = new SourceUtils.FaceLoader(_this);
-            _this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
-            _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
-            _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
-            _this.loadInfo(url);
-            return _this;
+            _super.call(this);
+            this.models = [];
+            this.displacements = [];
+            this.materials = [];
+            this.pvs = [];
+            this.app = app;
+            this.frustumCulled = false;
+            this.faceLoader = new SourceUtils.FaceLoader(this);
+            this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
+            this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
+            this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
+            this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            this.blankMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
+            this.blankMaterial.properties.baseTexture = this.blankTexture;
+            this.errorMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
+            this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
+            this.loadInfo(url);
         }
         Map.prototype.getLightmap = function () {
-            return this.lightmap;
+            return this.lightmap || this.blankTexture;
+        };
+        Map.prototype.getBlankTexture = function () {
+            return this.blankTexture;
         };
         Map.prototype.getPvsRoot = function () {
             return this.pvsRoot;
@@ -793,7 +835,7 @@ var SourceUtils;
             return this.models.length > 0 ? this.models[0] : null;
         };
         Map.prototype.getMaterial = function (index) {
-            return index < this.materials.length ? this.materials[index] : undefined;
+            return (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         };
         Map.prototype.loadInfo = function (url) {
             var _this = this;
@@ -805,7 +847,7 @@ var SourceUtils;
                 _this.add(_this.models[0] = new SourceUtils.BspModel(_this, 0));
                 _this.loadDisplacements();
                 _this.loadMaterials();
-                _this.lightmap = new SourceUtils.Texture2D(_this.app.getContext(), data.lightmapUrl);
+                _this.lightmap = new SourceUtils.Lightmap(_this.app.getContext(), data.lightmapUrl);
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -859,6 +901,7 @@ var SourceUtils;
             this.faceLoader.update();
         };
         Map.prototype.render = function (camera) {
+            this.textureLoader.update();
             var worldSpawn = this.getWorldSpawn();
             if (worldSpawn != null)
                 worldSpawn.render(camera);
@@ -907,14 +950,13 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            var _this = _super.call(this) || this;
-            _this.lookAngs = new THREE.Vector2();
-            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            _this.unitZ = new THREE.Vector3(0, 0, 1);
-            _this.unitX = new THREE.Vector3(1, 0, 0);
-            _this.tempQuat = new THREE.Quaternion();
-            _this.canLockPointer = true;
-            return _this;
+            _super.call(this);
+            this.lookAngs = new THREE.Vector2();
+            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            this.unitZ = new THREE.Vector3(0, 0, 1);
+            this.unitX = new THREE.Vector3(1, 0, 0);
+            this.tempQuat = new THREE.Quaternion();
+            this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -924,11 +966,7 @@ var SourceUtils;
             this.updateCameraAngles();
         };
         MapViewer.prototype.loadMap = function (url) {
-            if (this.map != null) {
-                this.getScene().remove(this.map);
-            }
             this.map = new SourceUtils.Map(this, url);
-            this.getScene().add(this.map);
         };
         MapViewer.prototype.onKeyDown = function (key) {
             _super.prototype.onKeyDown.call(this, key);
@@ -976,7 +1014,11 @@ var SourceUtils;
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             var gl = this.getContext();
-            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.enable(gl.DEPTH_TEST);
+            gl.depthFunc(gl.LESS);
+            gl.enable(gl.CULL_FACE);
+            gl.cullFace(gl.FRONT);
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
         };
@@ -993,16 +1035,21 @@ var SourceUtils;
     }());
     SourceUtils.MaterialProperties = MaterialProperties;
     var Material = (function () {
-        function Material(map, info) {
+        function Material(map, infoOrShader) {
             this.properties = new MaterialProperties();
             this.map = map;
-            this.info = info;
-            this.program = map.shaderManager.get(info.shader);
-            for (var i = 0; i < info.properties.length; ++i) {
-                this.addProperty(info.properties[i]);
+            if (typeof infoOrShader == "string") {
+                this.program = map.shaderManager.get(infoOrShader);
+            }
+            else {
+                this.info = infoOrShader;
+                this.program = map.shaderManager.get(this.info.shader);
+                for (var i = 0; i < this.info.properties.length; ++i) {
+                    this.addPropertyFromInfo(this.info.properties[i]);
+                }
             }
         }
-        Material.prototype.addProperty = function (info) {
+        Material.prototype.addPropertyFromInfo = function (info) {
             switch (info.type) {
                 case SourceUtils.Api.MaterialPropertyType.boolean:
                 case SourceUtils.Api.MaterialPropertyType.number:
@@ -1012,6 +1059,9 @@ var SourceUtils;
                     this.properties[info.name] = this.map.textureLoader.load(info.value);
                     break;
             }
+        };
+        Material.prototype.getMap = function () {
+            return this.map;
         };
         Material.prototype.getProgram = function () {
             return this.program;
@@ -1237,8 +1287,6 @@ var SourceUtils;
             this.use();
             this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
             this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
-            var gl = this.getContext();
-            gl.cullFace(gl.FRONT);
         };
         ShaderProgram.prototype.changeMaterial = function (material) { };
         return ShaderProgram;
@@ -1249,16 +1297,15 @@ var SourceUtils;
         var LightmappedGeneric = (function (_super) {
             __extends(LightmappedGeneric, _super);
             function LightmappedGeneric(manager) {
-                var _this = _super.call(this, manager) || this;
-                var gl = _this.getContext();
-                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
-                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
-                _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
-                _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
-                _this.baseTexture = new Uniform(_this, "uBaseTexture");
-                _this.lightmap = new Uniform(_this, "uLightmap");
-                return _this;
+                _super.call(this, manager);
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
+                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
+                this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
+                this.baseTexture = new Uniform(this, "uBaseTexture");
+                this.lightmap = new Uniform(this, "uLightmap");
             }
             LightmappedGeneric.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
@@ -1273,10 +1320,13 @@ var SourceUtils;
             LightmappedGeneric.prototype.changeMaterial = function (material) {
                 var gl = this.getContext();
                 var tex = material.properties.baseTexture;
-                if (tex != null && tex.isLoaded()) {
-                    gl.activeTexture(gl.TEXTURE0);
-                    gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
+                var handle;
+                if (tex == null || (handle = tex.getHandle()) === undefined) {
+                    tex = material.getMap().getBlankTexture();
+                    handle = tex.getHandle();
                 }
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, handle);
                 this.baseTexture.set1i(0);
             };
             return LightmappedGeneric;
@@ -1287,46 +1337,224 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var Texture2D = (function () {
-        function Texture2D(gl, url) {
+        function Texture2D(gl) {
+            this.highestLevel = Number.MIN_VALUE;
+            this.lowestLevel = Number.MAX_VALUE;
             this.context = gl;
-            this.load(url);
         }
         Texture2D.prototype.isLoaded = function () {
             return this.handle !== undefined;
         };
+        Texture2D.prototype.getContext = function () {
+            return this.context;
+        };
         Texture2D.prototype.getHandle = function () {
+            this.onGetHandle();
             return this.handle;
         };
-        Texture2D.prototype.load = function (url) {
+        Texture2D.prototype.getHighestMipLevel = function () {
+            return this.highestLevel;
+        };
+        Texture2D.prototype.getLowestMipLevel = function () {
+            return this.lowestLevel;
+        };
+        Texture2D.prototype.onGetHandle = function () { };
+        Texture2D.prototype.loadLevel = function (url, mipLevel, callBack) {
             var _this = this;
             var image = new Image();
             image.src = url;
-            image.onload = function () { return _this.onLoad(image); };
+            image.onload = function () { return _this.onLoad(image, mipLevel, callBack); };
         };
-        Texture2D.prototype.onLoad = function (image) {
+        Texture2D.prototype.setupTexParams = function () {
             var gl = this.context;
-            if (this.handle === undefined)
-                this.handle = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, this.handle);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            var anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
+            if (anisoExt != null) {
+                gl.texParameterf(gl.TEXTURE_2D, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
+            }
+        };
+        Texture2D.prototype.getOrCreateHandle = function () {
+            var gl = this.context;
+            var firstTime = false;
+            if (this.handle === undefined) {
+                this.handle = gl.createTexture();
+                firstTime = true;
+            }
+            gl.bindTexture(gl.TEXTURE_2D, this.handle);
+            if (firstTime)
+                this.setupTexParams();
+            return this.handle;
+        };
+        Texture2D.prototype.onLoad = function (image, mipLevel, callBack) {
+            var gl = this.context;
+            this.getOrCreateHandle();
+            gl.texImage2D(gl.TEXTURE_2D, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            if (mipLevel > this.highestLevel) {
+                this.highestLevel = mipLevel;
+            }
+            if (mipLevel < this.lowestLevel) {
+                this.lowestLevel = mipLevel;
+                if (mipLevel !== 0) {
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                }
+            }
+            if (callBack != null)
+                callBack();
+        };
+        Texture2D.prototype.loadPixels = function (width, height, values) {
+            var gl = this.context;
+            this.getOrCreateHandle();
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
         };
         return Texture2D;
     }());
     SourceUtils.Texture2D = Texture2D;
+    var Lightmap = (function (_super) {
+        __extends(Lightmap, _super);
+        function Lightmap(gl, url) {
+            _super.call(this, gl);
+            this.loadLevel(url, 0);
+        }
+        return Lightmap;
+    }(Texture2D));
+    SourceUtils.Lightmap = Lightmap;
+    var BlankTexture = (function (_super) {
+        __extends(BlankTexture, _super);
+        function BlankTexture(gl, color) {
+            _super.call(this, gl);
+            this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+        }
+        return BlankTexture;
+    }(Texture2D));
+    SourceUtils.BlankTexture = BlankTexture;
+    var ErrorTexture = (function (_super) {
+        __extends(ErrorTexture, _super);
+        function ErrorTexture(gl) {
+            _super.call(this, gl);
+            var resolution = 64;
+            var pixels = new Uint8Array(resolution * resolution * 4);
+            for (var y = 0; y < resolution; ++y)
+                for (var x = 0; x < resolution; ++x) {
+                    if (((x * 4 / resolution) & 1) === ((y * 4 / resolution) & 1)) {
+                        pixels[(x + y * resolution) * 4 + 0] = 0xff;
+                        pixels[(x + y * resolution) * 4 + 2] = 0xff;
+                    }
+                    else {
+                        pixels[(x + y * resolution) * 4 + 0] = 0x00;
+                        pixels[(x + y * resolution) * 4 + 2] = 0x00;
+                    }
+                    pixels[(x + y * resolution) * 4 + 1] = 0x00;
+                    pixels[(x + y * resolution) * 4 + 3] = 0xff;
+                }
+            this.loadPixels(resolution, resolution, pixels);
+        }
+        return ErrorTexture;
+    }(Texture2D));
+    SourceUtils.ErrorTexture = ErrorTexture;
+    var ValveTexture = (function (_super) {
+        __extends(ValveTexture, _super);
+        function ValveTexture(gl, url) {
+            _super.call(this, gl);
+            this.usesSinceLastLoad = 0;
+            this.vtfUrl = url;
+        }
+        ValveTexture.prototype.onGetHandle = function () {
+            ++this.usesSinceLastLoad;
+        };
+        ValveTexture.prototype.getUsesSinceLastLoad = function () {
+            return this.usesSinceLastLoad;
+        };
+        ValveTexture.prototype.loadNext = function (callback) {
+            var _this = this;
+            this.usesSinceLastLoad = 0;
+            if (this.info == null) {
+                this.loadInfo(function () { return callback(true); });
+                return;
+            }
+            this.loadLevel(this.info.pngUrl.replace("{mipmap}", this.nextLevel.toString()), this.nextLevel, function () {
+                --_this.nextLevel;
+                callback(_this.nextLevel >= 0);
+            });
+        };
+        ValveTexture.prototype.onLoad = function (image, mipLevel, callBack) {
+            _super.prototype.onLoad.call(this, image, mipLevel);
+            if (this.getLowestMipLevel() === 0 && this.getHighestMipLevel() === this.info.mipmaps - 1 && this.info.width === this.info.height) {
+                var gl = this.getContext();
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            }
+            if (callBack != null)
+                callBack();
+        };
+        ValveTexture.prototype.loadInfo = function (callback) {
+            var _this = this;
+            $.getJSON(this.vtfUrl, function (data) {
+                _this.info = data;
+                _this.nextLevel = Math.max(0, data.mipmaps - 1);
+                if (callback != null)
+                    callback();
+            });
+        };
+        return ValveTexture;
+    }(Texture2D));
+    SourceUtils.ValveTexture = ValveTexture;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
     var TextureLoader = (function () {
         function TextureLoader(gl) {
+            this.maxConcurrentRequests = 2;
+            this.queue = [];
+            this.active = 0;
             this.context = gl;
         }
         TextureLoader.prototype.load = function (url) {
-            // TODO
-            return new SourceUtils.Texture2D(this.context, url);
+            var vtf = new SourceUtils.ValveTexture(this.context, url);
+            this.queue.push(vtf);
+            this.update();
+            return vtf;
+        };
+        TextureLoader.prototype.getNextToLoad = function () {
+            if (this.queue.length <= 0 || this.active >= this.maxConcurrentRequests)
+                return null;
+            var bestIndex = -1;
+            var bestScore = 0;
+            var bestMip = Number.MAX_VALUE;
+            for (var i = 0, iEnd = this.queue.length; i < iEnd; ++i) {
+                var item = this.queue[i];
+                var mipLevel = item.getLowestMipLevel();
+                if (mipLevel > bestMip)
+                    continue;
+                var score = item.getUsesSinceLastLoad();
+                if (score > bestScore || mipLevel > bestMip) {
+                    bestIndex = i;
+                    bestScore = score;
+                    bestMip = mipLevel;
+                }
+            }
+            if (bestIndex === -1)
+                return null;
+            return this.queue.splice(bestIndex, 1)[0];
+        };
+        TextureLoader.prototype.update = function () {
+            var _this = this;
+            var next;
+            var _loop_1 = function() {
+                ++this_1.active;
+                var nextCopy = next;
+                next.loadNext(function (requeue) {
+                    --_this.active;
+                    if (requeue)
+                        _this.queue.push(nextCopy);
+                    _this.update();
+                });
+            };
+            var this_1 = this;
+            while ((next = this.getNextToLoad()) != null) {
+                _loop_1();
+            }
         };
         return TextureLoader;
     }());
@@ -1337,14 +1565,13 @@ var SourceUtils;
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
         function VisLeaf(info) {
-            var _this = _super.call(this, "l", info.index) || this;
-            _this.isLeaf = true;
+            _super.call(this, "l", info.index);
+            this.isLeaf = true;
             var min = info.min;
             var max = info.max;
-            _this.leafIndex = info.index;
-            _this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
-            return _this;
+            this.leafIndex = info.index;
+            this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
@@ -1543,10 +1770,10 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
+        WorldMeshGroup.maxIndices = 2147483647;
+        WorldMeshGroup.nextId = 1;
         return WorldMeshGroup;
     }());
-    WorldMeshGroup.maxIndices = 2147483647;
-    WorldMeshGroup.nextId = 1;
     SourceUtils.WorldMeshGroup = WorldMeshGroup;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
