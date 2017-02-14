@@ -1,7 +1,7 @@
 ﻿namespace SourceUtils
 {
     export class MaterialProperties {
-        baseTexture: Texture2D;
+        baseTexture: Texture;
     }
 
     export class Material
@@ -34,8 +34,11 @@
                 case Api.MaterialPropertyType.number:
                     this.properties[info.name] = info.value as boolean | number;
                     break;
-                case Api.MaterialPropertyType.texture:
-                    this.properties[info.name] = this.map.textureLoader.load(info.value as string);
+                case Api.MaterialPropertyType.texture2D:
+                    this.properties[info.name] = this.map.textureLoader.load2D(info.value as string);
+                    break;
+                case Api.MaterialPropertyType.textureCube:
+                    this.properties[info.name] = this.map.textureLoader.loadCube(info.value as string[]);
                     break;
             }
         }
@@ -48,8 +51,8 @@
             return this.program;
         }
 
-        prepareForRendering(): void {
-            this.program.changeMaterial(this);
+        prepareForRendering(): boolean {
+            return this.program.changeMaterial(this);
         }
     }
 }

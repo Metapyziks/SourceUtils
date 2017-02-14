@@ -196,7 +196,7 @@ namespace MapViewServer
                 var array = new JArray();
 
                 var indexCount = 0;
-                var lastElement = new Element( -1, -1, -1 );
+                var lastElement = new Element( int.MaxValue, -1, -1 );
 
                 foreach ( var element in _elements )
                 {
@@ -206,14 +206,14 @@ namespace MapViewServer
                     }
                     else
                     {
-                        if ( lastElement.TexStringId != -1 ) array.Add( lastElement.ToJson() );
+                        if ( lastElement.Count != -1 ) array.Add( lastElement.ToJson() );
                         lastElement = new Element( element.TexStringId, indexCount, element.Count );
                     }
 
                     indexCount += element.Count;
                 }
 
-                if ( lastElement.TexStringId != -1 )
+                if ( lastElement.Count != -1 )
                 {
                     array.Add( lastElement.ToJson() );
                 }
@@ -509,11 +509,13 @@ namespace MapViewServer
         {
             var postfixes = new[]
             {
-                "lf", "rt", "bk", "ft", "dn", "up"
+                "rt", "lf", "up", "dn", "bk", "ft"
             };
             
-            var propArray = new JArray(); 
+            var propArray = new JArray();
+            var faceUrls = new string[6];
 
+            var i = 0;
             foreach ( var postfix in postfixes )
             {
                 var matName = $"materials/skybox/{skyName}{postfix}.vmt";
@@ -521,8 +523,10 @@ namespace MapViewServer
                 var vmt = OpenVmt( bsp, matName );
                 var shaderProps = vmt[vmt.Shaders.FirstOrDefault()];
                 var baseTex = shaderProps["$hdrcompressedtexture"] ?? shaderProps["$basetexture"];
-                AddTextureProperty( propArray, $"{postfix}Texture", GetTextureUrl( bsp, baseTex, matDir ) );
+                faceUrls[i++] = GetTextureUrl( bsp, baseTex, matDir );
             }
+
+            AddTextureCubeProperty( propArray, "baseTexture", faceUrls );
 
             return new JObject
             {
@@ -892,7 +896,8 @@ namespace MapViewServer
         {
             Boolean,
             Number,
-            Texture
+            Texture2D,
+            TextureCube
         }
 
         private static void AddProperty( JArray properties, string name, MaterialPropertyType type, JToken value )
@@ -918,9 +923,15 @@ namespace MapViewServer
             AddProperty( properties, name, MaterialPropertyType.Number, value );
         }
 
-        private void AddTextureProperty( JArray properties, string name, string vtfUrl )
+        private void AddTexture2DProperty( JArray properties, string name, string vtfUrl )
         {
-            AddProperty( properties, name, MaterialPropertyType.Texture, vtfUrl );
+            AddProperty( properties, name, MaterialPropertyType.Texture2D, vtfUrl );
+        }
+
+        private void AddTextureCubeProperty( JArray properties, string name, string[] vtfUrls )
+        {
+            if ( vtfUrls.Length != 6 ) throw new ArgumentException( "Expected 6 cubemap faces.", nameof( vtfUrls ) );
+            AddProperty( properties, name, MaterialPropertyType.TextureCube, new JArray( vtfUrls ) );
         }
 
         private void SerializeShaderProperties( ValveBspFile bsp, ValveMaterialFile vmt, string shaderName, string vmtDir, JArray destArray )
@@ -941,7 +952,7 @@ namespace MapViewServer
                         break;
                     }
                     case "$basetexture":
-                        AddTextureProperty( destArray, "baseTexture", GetTextureUrl( bsp, props[name], vmtDir ) );
+                        AddTexture2DProperty( destArray, "baseTexture", GetTextureUrl( bsp, props[name], vmtDir ) );
                         break;
                 }
             }

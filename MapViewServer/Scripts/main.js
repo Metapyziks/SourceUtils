@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return BspNode;
         }(BspElem));
@@ -48,30 +48,30 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
+        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
-        var PrimitiveType = Api.PrimitiveType;
+        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
         var Element = (function () {
             function Element() {
             }
             return Element;
         }());
         Api.Element = Element;
+        var MeshComponent;
         (function (MeshComponent) {
             MeshComponent[MeshComponent["position"] = 1] = "position";
             MeshComponent[MeshComponent["normal"] = 2] = "normal";
             MeshComponent[MeshComponent["uv"] = 4] = "uv";
             MeshComponent[MeshComponent["uv2"] = 8] = "uv2";
-        })(Api.MeshComponent || (Api.MeshComponent = {}));
-        var MeshComponent = Api.MeshComponent;
+        })(MeshComponent = Api.MeshComponent || (Api.MeshComponent = {}));
         var Faces = (function () {
             function Faces() {
             }
@@ -102,12 +102,13 @@ var SourceUtils;
             return BspDisplacementsResponse;
         }());
         Api.BspDisplacementsResponse = BspDisplacementsResponse;
+        var MaterialPropertyType;
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["boolean"] = 0] = "boolean";
             MaterialPropertyType[MaterialPropertyType["number"] = 1] = "number";
-            MaterialPropertyType[MaterialPropertyType["texture"] = 2] = "texture";
-        })(Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
-        var MaterialPropertyType = Api.MaterialPropertyType;
+            MaterialPropertyType[MaterialPropertyType["texture2D"] = 2] = "texture2D";
+            MaterialPropertyType[MaterialPropertyType["textureCube"] = 3] = "textureCube";
+        })(MaterialPropertyType = Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
         var MaterialProperty = (function () {
             function MaterialProperty() {
             }
@@ -126,6 +127,7 @@ var SourceUtils;
             return BspMaterialsResponse;
         }());
         Api.BspMaterialsResponse = BspMaterialsResponse;
+        var VtfFlags;
         (function (VtfFlags) {
             VtfFlags[VtfFlags["POINTSAMPLE"] = 1] = "POINTSAMPLE";
             VtfFlags[VtfFlags["TRILINEAR"] = 2] = "TRILINEAR";
@@ -159,8 +161,7 @@ var SourceUtils;
             VtfFlags[VtfFlags["BORDER"] = 536870912] = "BORDER";
             VtfFlags[VtfFlags["UNUSED_40000000"] = 1073741824] = "UNUSED_40000000";
             VtfFlags[VtfFlags["UNUSED_80000000"] = 2147483648] = "UNUSED_80000000";
-        })(Api.VtfFlags || (Api.VtfFlags = {}));
-        var VtfFlags = Api.VtfFlags;
+        })(VtfFlags = Api.VtfFlags || (Api.VtfFlags = {}));
         var VtfResponse = (function () {
             function VtfResponse() {
             }
@@ -198,12 +199,13 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
+    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var MouseButton = SourceUtils.MouseButton;
+    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var Key;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -303,8 +305,7 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(SourceUtils.Key || (SourceUtils.Key = {}));
-    var Key = SourceUtils.Key;
+    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -485,7 +486,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            _super.apply(this, arguments);
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         return Entity;
     }(THREE.Object3D));
@@ -497,11 +498,12 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            _super.call(this);
-            this.map = map;
-            this.index = index;
-            this.drawList = new SourceUtils.DrawList(map);
-            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
+            var _this = _super.call(this) || this;
+            _this.map = map;
+            _this.index = index;
+            _this.drawList = new SourceUtils.DrawList(map);
+            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
+            return _this;
         }
         BspModel.prototype.getDrawList = function () {
             return this.drawList;
@@ -591,10 +593,10 @@ var SourceUtils;
                 this.drawList.updateItem(this);
         };
         DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
-        DrawListItem.rootCenter = new THREE.Vector3();
-        DrawListItem.thisCenter = new THREE.Vector3();
         return DrawListItem;
     }());
+    DrawListItem.rootCenter = new THREE.Vector3();
+    DrawListItem.thisCenter = new THREE.Vector3();
     SourceUtils.DrawListItem = DrawListItem;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="DrawListItem.ts"/>
@@ -603,11 +605,12 @@ var SourceUtils;
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
         function Displacement(info) {
-            _super.call(this, "d", info.index);
-            this.clusters = info.clusters;
+            var _this = _super.call(this, "d", info.index) || this;
+            _this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            return _this;
         }
         return Displacement;
     }(SourceUtils.DrawListItem));
@@ -641,20 +644,24 @@ var SourceUtils;
             this.handles = null;
         };
         DrawList.prototype.renderHandle = function (handle, camera) {
+            var changedProgram = false;
             if (this.lastMaterialIndex !== handle.material) {
                 this.lastMaterialIndex = handle.material;
                 this.lastMaterial = this.map.getMaterial(handle.material);
-                if (this.lastMaterial == null)
+                if (this.lastMaterial == null) {
+                    this.canRender = false;
                     return;
+                }
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
                     this.lastProgram = this.lastMaterial.getProgram();
                     this.lastProgram.prepareForRendering(this.map, camera);
+                    changedProgram = true;
                 }
-                this.lastMaterial.prepareForRendering();
+                this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.prepareForRendering();
             }
-            if (this.lastMaterial == null)
+            if (!this.canRender)
                 return;
-            if (this.lastGroup !== handle.group) {
+            if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
                 this.lastGroup.prepareForRendering(this.lastMaterial.getProgram());
             }
@@ -803,24 +810,25 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(app, url) {
-            _super.call(this);
-            this.models = [];
-            this.displacements = [];
-            this.materials = [];
-            this.pvsOrigin = new THREE.Vector3();
-            this.pvs = [];
-            this.app = app;
-            this.frustumCulled = false;
-            this.faceLoader = new SourceUtils.FaceLoader(this);
-            this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
-            this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
-            this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
-            this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
-            this.blankMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
-            this.blankMaterial.properties.baseTexture = this.blankTexture;
-            this.errorMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
-            this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
-            this.loadInfo(url);
+            var _this = _super.call(this) || this;
+            _this.models = [];
+            _this.displacements = [];
+            _this.materials = [];
+            _this.pvsOrigin = new THREE.Vector3();
+            _this.pvs = [];
+            _this.app = app;
+            _this.frustumCulled = false;
+            _this.faceLoader = new SourceUtils.FaceLoader(_this);
+            _this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
+            _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
+            _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
+            _this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            _this.blankMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
+            _this.blankMaterial.properties.baseTexture = _this.blankTexture;
+            _this.errorMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
+            _this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
+            _this.loadInfo(url);
+            return _this;
         }
         Map.prototype.getApp = function () {
             return this.app;
@@ -969,17 +977,18 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            _super.call(this);
-            this.logFrameTime = false;
-            this.logDrawCalls = false;
-            this.lookAngs = new THREE.Vector2();
-            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            this.countedFrames = 0;
-            this.totalFrameTime = 0;
-            this.unitZ = new THREE.Vector3(0, 0, 1);
-            this.unitX = new THREE.Vector3(1, 0, 0);
-            this.tempQuat = new THREE.Quaternion();
-            this.canLockPointer = true;
+            var _this = _super.call(this) || this;
+            _this.logFrameTime = false;
+            _this.logDrawCalls = false;
+            _this.lookAngs = new THREE.Vector2();
+            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            _this.countedFrames = 0;
+            _this.totalFrameTime = 0;
+            _this.unitZ = new THREE.Vector3(0, 0, 1);
+            _this.unitX = new THREE.Vector3(1, 0, 0);
+            _this.tempQuat = new THREE.Quaternion();
+            _this.canLockPointer = true;
+            return _this;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -1038,7 +1047,7 @@ var SourceUtils;
         MapViewer.prototype.onRenderFrame = function (dt) {
             var gl = this.getContext();
             var t0 = performance.now();
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LESS);
             gl.enable(gl.CULL_FACE);
@@ -1090,8 +1099,11 @@ var SourceUtils;
                 case SourceUtils.Api.MaterialPropertyType.number:
                     this.properties[info.name] = info.value;
                     break;
-                case SourceUtils.Api.MaterialPropertyType.texture:
-                    this.properties[info.name] = this.map.textureLoader.load(info.value);
+                case SourceUtils.Api.MaterialPropertyType.texture2D:
+                    this.properties[info.name] = this.map.textureLoader.load2D(info.value);
+                    break;
+                case SourceUtils.Api.MaterialPropertyType.textureCube:
+                    this.properties[info.name] = this.map.textureLoader.loadCube(info.value);
                     break;
             }
         };
@@ -1102,7 +1114,7 @@ var SourceUtils;
             return this.program;
         };
         Material.prototype.prepareForRendering = function () {
-            this.program.changeMaterial(this);
+            return this.program.changeMaterial(this);
         };
         return Material;
     }());
@@ -1192,11 +1204,12 @@ var SourceUtils;
         function ShaderProgram(manager) {
             this.compiled = false;
             this.attribNames = {};
+            this.attribs = {};
             this.enabledComponents = 0;
-            this.modelMatrixValue = new THREE.Matrix4();
+            this.modelViewMatrixValue = new THREE.Matrix4();
             this.manager = manager;
-            this.viewProjectionMatrix = new Uniform(this, "uViewProjection");
-            this.modelMatrix = new Uniform(this, "uModel");
+            this.projectionMatrix = new Uniform(this, "uProjection");
+            this.modelViewMatrix = new Uniform(this, "uModelView");
         }
         ShaderProgram.prototype.dispose = function () {
             if (this.program !== undefined) {
@@ -1318,12 +1331,14 @@ var SourceUtils;
             this.enableMeshComponents(0);
         };
         ShaderProgram.prototype.prepareForRendering = function (map, camera) {
-            this.modelMatrixValue.getInverse(camera.matrixWorld);
+            if (!this.isCompiled())
+                return;
+            this.modelViewMatrixValue.getInverse(camera.matrixWorld);
             this.use();
-            this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
-            this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
+            this.projectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
+            this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
         };
-        ShaderProgram.prototype.changeMaterial = function (material) { };
+        ShaderProgram.prototype.changeMaterial = function (material) { return true; };
         return ShaderProgram;
     }());
     SourceUtils.ShaderProgram = ShaderProgram;
@@ -1332,38 +1347,40 @@ var SourceUtils;
         var LightmappedGeneric = (function (_super) {
             __extends(LightmappedGeneric, _super);
             function LightmappedGeneric(manager) {
-                _super.call(this, manager);
-                var gl = this.getContext();
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
-                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
-                this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
-                this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
-                this.baseTexture = new Uniform(this, "uBaseTexture");
-                this.lightmap = new Uniform(this, "uLightmap");
+                var _this = _super.call(this, manager) || this;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
+                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
+                _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
+                _this.baseTexture = new Uniform(_this, "uBaseTexture");
+                _this.lightmap = new Uniform(_this, "uLightmap");
+                return _this;
             }
             LightmappedGeneric.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
                 var gl = this.getContext();
                 var lightmap = map.getLightmap();
-                if (lightmap != null && lightmap.isLoaded()) {
-                    gl.activeTexture(gl.TEXTURE0 + 2);
-                    gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
+                if (lightmap == null || !lightmap.isLoaded()) {
+                    lightmap = map.getBlankTexture();
                 }
+                gl.activeTexture(gl.TEXTURE0 + 2);
+                gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
                 this.lightmap.set1i(2);
+                gl.depthMask(true);
             };
             LightmappedGeneric.prototype.changeMaterial = function (material) {
                 _super.prototype.changeMaterial.call(this, material);
                 var gl = this.getContext();
                 var tex = material.properties.baseTexture;
-                var handle;
-                if (tex == null || (handle = tex.getHandle()) === undefined) {
+                if (tex == null || !tex.isLoaded()) {
                     tex = material.getMap().getBlankTexture();
-                    handle = tex.getHandle();
                 }
                 gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, handle);
+                gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
                 this.baseTexture.set1i(0);
+                return true;
             };
             return LightmappedGeneric;
         }(ShaderProgram));
@@ -1371,17 +1388,31 @@ var SourceUtils;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
-                _super.call(this, manager);
-                var gl = this.getContext();
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
-                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                var _this = _super.call(this, manager) || this;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
+                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                _this.cameraPos = new Uniform(_this, "uCameraPos");
+                _this.skyCube = new Uniform(_this, "uSkyCube");
+                return _this;
             }
             Sky.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
+                this.cameraPos.set3f(camera.position.x, camera.position.y, camera.position.z);
+                var gl = this.getContext();
+                gl.depthMask(false);
             };
             Sky.prototype.changeMaterial = function (material) {
                 _super.prototype.changeMaterial.call(this, material);
+                var gl = this.getContext();
+                var tex = material.properties.baseTexture;
+                if (tex == null || !tex.isLoaded())
+                    return false;
+                gl.activeTexture(gl.TEXTURE0 + 1);
+                gl.bindTexture(gl.TEXTURE_CUBE_MAP, tex.getHandle());
+                this.skyCube.set1i(1);
+                return true;
             };
             return Sky;
         }(ShaderProgram));
@@ -1390,104 +1421,107 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var Texture2D = (function () {
-        function Texture2D(gl) {
+    var Texture = (function () {
+        function Texture(gl, target) {
             this.highestLevel = Number.MIN_VALUE;
             this.lowestLevel = Number.MAX_VALUE;
             this.context = gl;
+            this.target = target;
         }
-        Texture2D.prototype.isLoaded = function () {
-            return this.handle !== undefined;
+        Texture.prototype.isLoaded = function () {
+            return this.getHandle() !== undefined;
         };
-        Texture2D.prototype.getContext = function () {
+        Texture.prototype.getContext = function () {
             return this.context;
         };
-        Texture2D.prototype.getHandle = function () {
+        Texture.prototype.getHandle = function () {
             this.onGetHandle();
             return this.handle;
         };
-        Texture2D.prototype.getHighestMipLevel = function () {
+        Texture.prototype.getHighestMipLevel = function () {
             return this.highestLevel;
         };
-        Texture2D.prototype.getLowestMipLevel = function () {
+        Texture.prototype.getLowestMipLevel = function () {
             return this.lowestLevel;
         };
-        Texture2D.prototype.onGetHandle = function () { };
-        Texture2D.prototype.loadLevel = function (url, mipLevel, callBack) {
+        Texture.prototype.onGetHandle = function () { };
+        Texture.prototype.loadLevel = function (url, mipLevel, callBack) {
             var _this = this;
             var image = new Image();
             image.src = url;
             image.onload = function () { return _this.onLoad(image, mipLevel, callBack); };
         };
-        Texture2D.prototype.setupTexParams = function () {
+        Texture.prototype.setupTexParams = function (target) {
             var gl = this.context;
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.REPEAT);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.REPEAT);
+            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             var anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
             if (anisoExt != null) {
-                gl.texParameterf(gl.TEXTURE_2D, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
+                gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
             }
         };
-        Texture2D.prototype.getOrCreateHandle = function () {
+        Texture.prototype.getOrCreateHandle = function () {
             var gl = this.context;
             var firstTime = false;
             if (this.handle === undefined) {
                 this.handle = gl.createTexture();
                 firstTime = true;
             }
-            gl.bindTexture(gl.TEXTURE_2D, this.handle);
+            gl.bindTexture(this.target, this.handle);
             if (firstTime)
-                this.setupTexParams();
+                this.setupTexParams(this.target);
             return this.handle;
         };
-        Texture2D.prototype.onLoad = function (image, mipLevel, callBack) {
+        Texture.prototype.onLoad = function (image, mipLevel, callBack) {
             var gl = this.context;
             this.getOrCreateHandle();
-            gl.texImage2D(gl.TEXTURE_2D, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            gl.texImage2D(this.target, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
             if (mipLevel > this.highestLevel) {
                 this.highestLevel = mipLevel;
             }
             if (mipLevel < this.lowestLevel) {
                 this.lowestLevel = mipLevel;
                 if (mipLevel !== 0) {
-                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                    gl.texImage2D(this.target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
                 }
             }
             if (callBack != null)
                 callBack();
         };
-        Texture2D.prototype.loadPixels = function (width, height, values) {
+        Texture.prototype.loadPixels = function (width, height, values) {
             var gl = this.context;
             this.getOrCreateHandle();
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
+            gl.texImage2D(this.target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
         };
-        return Texture2D;
+        return Texture;
     }());
-    SourceUtils.Texture2D = Texture2D;
+    SourceUtils.Texture = Texture;
     var Lightmap = (function (_super) {
         __extends(Lightmap, _super);
         function Lightmap(gl, url) {
-            _super.call(this, gl);
-            this.loadLevel(url, 0);
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.loadLevel(url, 0);
+            return _this;
         }
         return Lightmap;
-    }(Texture2D));
+    }(Texture));
     SourceUtils.Lightmap = Lightmap;
     var BlankTexture = (function (_super) {
         __extends(BlankTexture, _super);
         function BlankTexture(gl, color) {
-            _super.call(this, gl);
-            this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            return _this;
         }
         return BlankTexture;
-    }(Texture2D));
+    }(Texture));
     SourceUtils.BlankTexture = BlankTexture;
     var ErrorTexture = (function (_super) {
         __extends(ErrorTexture, _super);
         function ErrorTexture(gl) {
-            _super.call(this, gl);
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
             var resolution = 64;
             var pixels = new Uint8Array(resolution * resolution * 4);
             for (var y = 0; y < resolution; ++y)
@@ -1503,17 +1537,18 @@ var SourceUtils;
                     pixels[(x + y * resolution) * 4 + 1] = 0x00;
                     pixels[(x + y * resolution) * 4 + 3] = 0xff;
                 }
-            this.loadPixels(resolution, resolution, pixels);
+            _this.loadPixels(resolution, resolution, pixels);
+            return _this;
         }
         return ErrorTexture;
-    }(Texture2D));
+    }(Texture));
     SourceUtils.ErrorTexture = ErrorTexture;
     var ValveTexture = (function (_super) {
         __extends(ValveTexture, _super);
-        function ValveTexture(gl, url) {
-            _super.call(this, gl);
-            this.usesSinceLastLoad = 0;
-            this.vtfUrl = url;
+        function ValveTexture(gl, target) {
+            var _this = _super.call(this, gl, target) || this;
+            _this.usesSinceLastLoad = 0;
+            return _this;
         }
         ValveTexture.prototype.onGetHandle = function () {
             ++this.usesSinceLastLoad;
@@ -1522,8 +1557,21 @@ var SourceUtils;
             return this.usesSinceLastLoad;
         };
         ValveTexture.prototype.loadNext = function (callback) {
-            var _this = this;
             this.usesSinceLastLoad = 0;
+        };
+        return ValveTexture;
+    }(Texture));
+    SourceUtils.ValveTexture = ValveTexture;
+    var ValveTexture2D = (function (_super) {
+        __extends(ValveTexture2D, _super);
+        function ValveTexture2D(gl, url) {
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.vtfUrl = url;
+            return _this;
+        }
+        ValveTexture2D.prototype.loadNext = function (callback) {
+            var _this = this;
+            _super.prototype.loadNext.call(this, null);
             if (this.info == null) {
                 this.loadInfo(function () { return callback(true); });
                 return;
@@ -1533,16 +1581,7 @@ var SourceUtils;
                 callback(_this.nextLevel >= 0);
             });
         };
-        ValveTexture.prototype.onLoad = function (image, mipLevel, callBack) {
-            _super.prototype.onLoad.call(this, image, mipLevel);
-            if (this.getLowestMipLevel() === 0 && this.getHighestMipLevel() === this.info.mipmaps - 1 && this.info.width === this.info.height) {
-                var gl = this.getContext();
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-            }
-            if (callBack != null)
-                callBack();
-        };
-        ValveTexture.prototype.loadInfo = function (callback) {
+        ValveTexture2D.prototype.loadInfo = function (callback) {
             var _this = this;
             $.getJSON(this.vtfUrl, function (data) {
                 _this.info = data;
@@ -1552,9 +1591,72 @@ var SourceUtils;
                     callback();
             });
         };
-        return ValveTexture;
-    }(Texture2D));
-    SourceUtils.ValveTexture = ValveTexture;
+        ValveTexture2D.prototype.onLoad = function (image, mipLevel, callBack) {
+            _super.prototype.onLoad.call(this, image, mipLevel);
+            if (this.getLowestMipLevel() === 0 &&
+                this.getHighestMipLevel() === this.info.mipmaps - 1 &&
+                this.info.width === this.info.height) {
+                var gl = this.getContext();
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            }
+            if (callBack != null)
+                callBack();
+        };
+        return ValveTexture2D;
+    }(ValveTexture));
+    SourceUtils.ValveTexture2D = ValveTexture2D;
+    var ValveTextureCube = (function (_super) {
+        __extends(ValveTextureCube, _super);
+        function ValveTextureCube(gl, urls) {
+            var _this = _super.call(this, gl, gl.TEXTURE_CUBE_MAP) || this;
+            _this.infos = [];
+            _this.loadedInfo = false;
+            _this.nextFace = 0;
+            _this.vtfUrls = urls;
+            return _this;
+        }
+        ValveTextureCube.prototype.isLoaded = function () { return _super.prototype.isLoaded.call(this) && this.loadedInfo && this.nextFace >= 6; };
+        ValveTextureCube.prototype.loadNext = function (callback) {
+            var _this = this;
+            _super.prototype.loadNext.call(this, null);
+            if (!this.loadedInfo) {
+                this.loadInfo(this.nextFace, function () { return callback(true); });
+                return;
+            }
+            this.loadLevel(this.infos[this.nextFace].pngUrl.replace("{mipmap}", "0"), this.nextFace, function () {
+                ++_this.nextFace;
+                callback(_this.nextFace < 6);
+            });
+        };
+        ValveTextureCube.prototype.loadInfo = function (face, callback) {
+            var _this = this;
+            $.getJSON(this.vtfUrls[face], function (data) {
+                _this.infos[face] = data;
+                _this.nextFace++;
+                if (_this.nextFace >= 6) {
+                    _this.nextFace = 0;
+                    _this.loadedInfo = true;
+                }
+            }).always(function () {
+                if (callback != null)
+                    callback();
+            });
+        };
+        ValveTextureCube.prototype.setupTexParams = function (target) {
+            var gl = this.getContext();
+            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        };
+        ValveTextureCube.prototype.onLoad = function (image, face, callBack) {
+            var gl = this.getContext();
+            this.getOrCreateHandle();
+            gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            if (callBack != null)
+                callBack();
+        };
+        return ValveTextureCube;
+    }(ValveTexture));
+    SourceUtils.ValveTextureCube = ValveTextureCube;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1565,8 +1667,14 @@ var SourceUtils;
             this.active = 0;
             this.context = gl;
         }
-        TextureLoader.prototype.load = function (url) {
-            var vtf = new SourceUtils.ValveTexture(this.context, url);
+        TextureLoader.prototype.load2D = function (url) {
+            var vtf = new SourceUtils.ValveTexture2D(this.context, url);
+            this.queue.push(vtf);
+            this.update();
+            return vtf;
+        };
+        TextureLoader.prototype.loadCube = function (urls) {
+            var vtf = new SourceUtils.ValveTextureCube(this.context, urls);
             this.queue.push(vtf);
             this.update();
             return vtf;
@@ -1596,7 +1704,7 @@ var SourceUtils;
         TextureLoader.prototype.update = function () {
             var _this = this;
             var next;
-            var _loop_1 = function() {
+            var _loop_1 = function () {
                 ++this_1.active;
                 var nextCopy = next;
                 next.loadNext(function (requeue) {
@@ -1620,13 +1728,14 @@ var SourceUtils;
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
         function VisLeaf(info) {
-            _super.call(this, "l", info.index);
-            this.isLeaf = true;
+            var _this = _super.call(this, "l", info.index) || this;
+            _this.isLeaf = true;
             var min = info.min;
             var max = info.max;
-            this.leafIndex = info.index;
-            this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.leafIndex = info.index;
+            _this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            return _this;
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
@@ -1825,10 +1934,10 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
-        WorldMeshGroup.maxIndices = 2147483647;
-        WorldMeshGroup.nextId = 1;
         return WorldMeshGroup;
     }());
+    WorldMeshGroup.maxIndices = 2147483647;
+    WorldMeshGroup.nextId = 1;
     SourceUtils.WorldMeshGroup = WorldMeshGroup;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;

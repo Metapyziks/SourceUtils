@@ -1,6 +1,13 @@
 ﻿precision mediump float;
 
+varying vec3 vWorldPos;
+
+uniform vec3 uCameraPos;
+uniform samplerCube uSkyCube;
+
 void main()
 {
-    gl_FragColor = vec4(1, 0, 1, 1);
+    vec3 dir = normalize(vWorldPos - uCameraPos);
+
+    gl_FragColor = vec4(textureCube(uSkyCube, dir.xzy * vec3(-1, 1, 1)).rgb, 1);
 }

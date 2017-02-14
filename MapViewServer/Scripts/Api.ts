@@ -102,13 +102,14 @@
         export enum MaterialPropertyType {
             boolean,
             number,
-            texture
+            texture2D,
+            textureCube
         }
 
         export class MaterialProperty {
             name: string;
             type: MaterialPropertyType;
-            value: boolean | number | string;
+            value: boolean | number | string | string[];
         }
 
         export class Material {

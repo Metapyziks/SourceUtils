@@ -11,6 +11,7 @@
         private lastMaterialIndex: number;
         private lastMaterial: Material;
         private lastIndex: number;
+        private canRender: boolean;
 
         constructor(map: Map) {
             this.map = map;
@@ -40,23 +41,29 @@
         }
 
         private renderHandle(handle: WorldMeshHandle, camera: THREE.Camera): void {
+            let changedProgram = false;
+
             if (this.lastMaterialIndex !== handle.material) {
                 this.lastMaterialIndex = handle.material;
                 this.lastMaterial = this.map.getMaterial(handle.material);
 
-                if (this.lastMaterial == null) return;
+                if (this.lastMaterial == null) {
+                    this.canRender = false;
+                    return;
+                }
 
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
                     this.lastProgram = this.lastMaterial.getProgram();
                     this.lastProgram.prepareForRendering(this.map, camera);
+                    changedProgram = true;
                 }
 
-                this.lastMaterial.prepareForRendering();
+                this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.prepareForRendering();
             }
 
-            if (this.lastMaterial == null) return;
+            if (!this.canRender) return;
 
-            if (this.lastGroup !== handle.group) {
+            if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
                 this.lastGroup.prepareForRendering(this.lastMaterial.getProgram());
             }

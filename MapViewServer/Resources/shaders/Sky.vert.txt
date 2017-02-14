@@ -1,9 +1,12 @@
 ﻿attribute vec3 aPosition;
 
-uniform mat4 uViewProjection;
-uniform mat4 uModel;
+varying vec3 vWorldPos;
+
+uniform mat4 uProjection;
+uniform mat4 uModelView;
 
 void main()
 {
-    gl_Position = uViewProjection * uModel * vec4(aPosition, 1.0);
+    vWorldPos = aPosition;
+    gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
 }

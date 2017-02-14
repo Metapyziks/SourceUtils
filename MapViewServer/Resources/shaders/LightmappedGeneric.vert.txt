@@ -5,12 +5,12 @@ attribute vec2 aLightmapCoord;
 varying vec2 vTextureCoord;
 varying vec2 vLightmapCoord;
 
-uniform mat4 uViewProjection;
-uniform mat4 uModel;
+uniform mat4 uProjection;
+uniform mat4 uModelView;
 
 void main()
 {
-    gl_Position = uViewProjection * uModel * vec4(aPosition, 1.0);
+    gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
 
     vTextureCoord = aTextureCoord;
     vLightmapCoord = aLightmapCoord;

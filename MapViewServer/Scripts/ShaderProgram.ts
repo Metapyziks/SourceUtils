@@ -106,16 +106,16 @@ namespace SourceUtils {
         private fragSource: string;
 
         private attribNames: { [name: string]: Api.MeshComponent } = {};
-        private attribs: IProgramAttributes;
+        private attribs: IProgramAttributes = {};
 
-        viewProjectionMatrix: Uniform;
-        modelMatrix: Uniform;
+        projectionMatrix: Uniform;
+        modelViewMatrix: Uniform;
 
         constructor(manager: ShaderManager) {
             this.manager = manager;
 
-            this.viewProjectionMatrix = new Uniform(this, "uViewProjection");
-            this.modelMatrix = new Uniform(this, "uModel");
+            this.projectionMatrix = new Uniform(this, "uProjection");
+            this.modelViewMatrix = new Uniform(this, "uModelView");
         }
 
         dispose(): void {
@@ -272,17 +272,19 @@ namespace SourceUtils {
             this.enableMeshComponents(0 as Api.MeshComponent);
         }
 
-        private modelMatrixValue = new THREE.Matrix4();
+        private modelViewMatrixValue = new THREE.Matrix4();
 
         prepareForRendering(map: Map, camera: THREE.Camera): void {
-            this.modelMatrixValue.getInverse(camera.matrixWorld);
+            if (!this.isCompiled()) return;
+
+            this.modelViewMatrixValue.getInverse(camera.matrixWorld);
 
             this.use();
-            this.viewProjectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
-            this.modelMatrix.setMatrix4f(this.modelMatrixValue.elements);
+            this.projectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
+            this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
         }
 
-        changeMaterial(material: Material): void {}
+        changeMaterial(material: Material): boolean { return true; }
     }
 
     export namespace Shaders {
@@ -310,35 +312,43 @@ namespace SourceUtils {
                 super.prepareForRendering(map, camera);
 
                 const gl = this.getContext();
-                const lightmap = map.getLightmap();
-                if (lightmap != null && lightmap.isLoaded()) {
-                    gl.activeTexture(gl.TEXTURE0 + 2);
-                    gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
+                let lightmap = map.getLightmap();
+                if (lightmap == null || !lightmap.isLoaded()) {
+                    lightmap = map.getBlankTexture();
                 }
 
+                gl.activeTexture(gl.TEXTURE0 + 2);
+                gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
+
                 this.lightmap.set1i(2);
+
+                gl.depthMask(true);
             }
 
-            changeMaterial(material: SourceUtils.Material): void {
+            changeMaterial(material: SourceUtils.Material): boolean {
                 super.changeMaterial(material);
 
                 const gl = this.getContext();
                 let tex = material.properties.baseTexture;
-                let handle: WebGLTexture;
 
-                if (tex == null || (handle = tex.getHandle()) === undefined) {
+                if (tex == null || !tex.isLoaded()) {
                     tex = material.getMap().getBlankTexture();
-                    handle = tex.getHandle();
                 }
 
                 gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, handle);
+                gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
 
                 this.baseTexture.set1i(0);
+
+                return true;
             }
         }
 
-        export class Sky extends ShaderProgram {
+        export class Sky extends ShaderProgram
+        {
+            cameraPos: Uniform;
+            skyCube: Uniform;
+
             constructor(manager: ShaderManager) {
                 super(manager);
 
@@ -348,14 +358,34 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
 
                 this.addAttribute("aPosition", Api.MeshComponent.position);
+
+                this.cameraPos = new Uniform(this, "uCameraPos");
+                this.skyCube = new Uniform(this, "uSkyCube");
             }
 
             prepareForRendering(map: Map, camera: THREE.Camera): void {
                 super.prepareForRendering(map, camera);
+
+                this.cameraPos.set3f(camera.position.x, camera.position.y, camera.position.z);
+
+                const gl = this.getContext();
+                gl.depthMask(false);
             }
 
-            changeMaterial(material: SourceUtils.Material): void {
+            changeMaterial(material: SourceUtils.Material): boolean {
                 super.changeMaterial(material);
+
+                const gl = this.getContext();
+                const tex = material.properties.baseTexture;
+
+                if (tex == null || !tex.isLoaded()) return false;
+
+                gl.activeTexture(gl.TEXTURE0 + 1);
+                gl.bindTexture(gl.TEXTURE_CUBE_MAP, tex.getHandle());
+
+                this.skyCube.set1i(1);
+
+                return true;
             }
         }
     }

@@ -12,8 +12,16 @@ namespace SourceUtils {
             this.context = gl;
         }
 
-        load(url: string): ValveTexture {
-            const vtf = new ValveTexture(this.context, url);
+        load2D(url: string): ValveTexture {
+            const vtf = new ValveTexture2D(this.context, url);
+            this.queue.push(vtf);
+            this.update();
+            return vtf;
+        }
+
+        loadCube(urls: string[]): ValveTexture
+        {
+            const vtf = new ValveTextureCube(this.context, urls);
             this.queue.push(vtf);
             this.update();
             return vtf;

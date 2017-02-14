@@ -11,8 +11,8 @@ namespace SourceUtils {
 
         private app: AppBase;
 
-        private lightmap: Texture2D;
-        private blankTexture: Texture2D;
+        private lightmap: Texture;
+        private blankTexture: Texture;
         private blankMaterial: Material;
         private errorMaterial: Material;
         private skyMaterial: Material;
@@ -52,11 +52,11 @@ namespace SourceUtils {
             return this.app;
         }
 
-        getLightmap(): Texture2D {
+        getLightmap(): Texture {
             return this.lightmap || this.blankTexture;
         }
 
-        getBlankTexture(): Texture2D {
+        getBlankTexture(): Texture {
             return this.blankTexture;
         }
 
