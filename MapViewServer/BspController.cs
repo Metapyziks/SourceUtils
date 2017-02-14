@@ -427,13 +427,16 @@ namespace MapViewServer
 
         private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
-            const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.SKY | SurfFlags.SKY2D;
+            const SurfFlags ignoreFlags = SurfFlags.NODRAW;
+            const SurfFlags skyFlags = SurfFlags.SKY | SurfFlags.SKY2D;
 
             var face = bsp.FacesHdr[index];
             var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
 
             if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
+
+            var isSky = (texInfo.Flags & skyFlags) != 0;
 
             if ( face.DispInfo != -1 )
             {
@@ -456,10 +459,11 @@ namespace MapViewServer
             }
 
             var numPrimitives = face.NumPrimitives & 0x7fff;
+            var texStringIndex = isSky ? -1 : texData.NameStringTableId;
 
             if ( numPrimitives == 0 )
             {
-                verts.CommitPrimitive( PrimitiveType.TriangleFan, texData.NameStringTableId );
+                verts.CommitPrimitive( PrimitiveType.TriangleFan, texStringIndex );
                 return;
             }
 
@@ -473,7 +477,7 @@ namespace MapViewServer
                     _sIndicesBuffer.Add( bsp.PrimitiveIndices[j] );
                 }
 
-                verts.CommitPrimitive( primitive.Type, texData.NameStringTableId, _sIndicesBuffer );
+                verts.CommitPrimitive( primitive.Type, texStringIndex, _sIndicesBuffer );
                 _sIndicesBuffer.Clear();
             }
         }
@@ -501,19 +505,30 @@ namespace MapViewServer
             return false;
         }
 
-        private IEnumerable<JToken> GetSkyMaterials( ValveBspFile bsp, string skyName )
+        private JToken GetSkyMaterial( ValveBspFile bsp, string skyName )
         {
             var postfixes = new[]
             {
                 "lf", "rt", "bk", "ft", "dn", "up"
             };
+            
+            var propArray = new JArray(); 
 
             foreach ( var postfix in postfixes )
             {
                 var matName = $"materials/skybox/{skyName}{postfix}.vmt";
+                var matDir = Path.GetDirectoryName( matName );
                 var vmt = OpenVmt( bsp, matName );
-                yield return SerializeVmt( bsp, vmt, matName );
+                var shaderProps = vmt[vmt.Shaders.FirstOrDefault()];
+                var baseTex = shaderProps["$hdrcompressedtexture"] ?? shaderProps["$basetexture"];
+                AddTextureProperty( propArray, $"{postfix}Texture", GetTextureUrl( bsp, baseTex, matDir ) );
             }
+
+            return new JObject
+            {
+                {"shader", "Sky"},
+                {"properties", propArray}
+            };
         }
         
         [Get( "/{mapName}" )]
@@ -525,7 +540,7 @@ namespace MapViewServer
             return new JObject
             {
                 {"name", mapName},
-                {"skyMaterials", new JArray(GetSkyMaterials(bsp, skyName)) },
+                {"skyMaterial", GetSkyMaterial(bsp, skyName) },
                 {"playerStarts", new JArray(bsp.Entities.OfType<InfoPlayerStart>().Select(x => x.Origin.ToJson())) },
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},
@@ -944,7 +959,7 @@ namespace MapViewServer
 
             return new JObject
             {
-                {"shader", "LightmappedGeneric"},
+                {"shader", shader.Equals( "sky", StringComparison.InvariantCultureIgnoreCase ) ? "Sky" : "LightmappedGeneric"},
                 {"properties", propArray}
             };
         }

@@ -15,6 +15,7 @@ namespace SourceUtils {
         private blankTexture: Texture2D;
         private blankMaterial: Material;
         private errorMaterial: Material;
+        private skyMaterial: Material;
 
         private models: BspModel[] = [];
         private displacements: Displacement[] = [];
@@ -72,7 +73,7 @@ namespace SourceUtils {
         }
 
         getMaterial(index: number): Material {
-            return (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
+            return index === -1 ? this.skyMaterial : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         }
 
         private loadInfo(url: string): void {
@@ -86,6 +87,8 @@ namespace SourceUtils {
                     this.loadDisplacements();
                     this.loadMaterials();
                     this.lightmap = new Lightmap(this.app.getContext(), data.lightmapUrl);
+
+                    this.skyMaterial = new Material(this, data.skyMaterial);
 
                     const spawnPos = data.playerStarts[0];
                     this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
@@ -112,7 +115,11 @@ namespace SourceUtils {
 
                     for (let i = 0; i < data.materials.length; ++i) {
                         const mat = data.materials[i];
-                        this.materials.push(mat == null ? null : new Material(this, data.materials[i]));
+                        if (mat == null) {
+                            this.materials.push(null);
+                        } else {
+                            this.materials.push(new Material(this, data.materials[i]));
+                        }
                     }
                 });
         }

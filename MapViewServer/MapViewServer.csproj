@@ -92,6 +92,8 @@
   <ItemGroup>
     <Content Include="Resources\fileicon.png" />
     <Content Include="Resources\mapviewer.css" />
+    <Content Include="Resources\shaders\Sky.frag.txt" />
+    <Content Include="Resources\shaders\Sky.vert.txt" />
     <Content Include="Scripts\main.js" />
   </ItemGroup>
   <ItemGroup>

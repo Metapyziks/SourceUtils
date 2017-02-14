@@ -841,7 +841,7 @@ var SourceUtils;
             return this.models.length > 0 ? this.models[0] : null;
         };
         Map.prototype.getMaterial = function (index) {
-            return (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
+            return index === -1 ? this.skyMaterial : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         };
         Map.prototype.loadInfo = function (url) {
             var _this = this;
@@ -854,6 +854,7 @@ var SourceUtils;
                 _this.loadDisplacements();
                 _this.loadMaterials();
                 _this.lightmap = new SourceUtils.Lightmap(_this.app.getContext(), data.lightmapUrl);
+                _this.skyMaterial = new SourceUtils.Material(_this, data.skyMaterial);
                 var spawnPos = data.playerStarts[0];
                 _this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
             });
@@ -874,7 +875,12 @@ var SourceUtils;
                 _this.materials = [];
                 for (var i = 0; i < data.materials.length; ++i) {
                     var mat = data.materials[i];
-                    _this.materials.push(mat == null ? null : new SourceUtils.Material(_this, data.materials[i]));
+                    if (mat == null) {
+                        _this.materials.push(null);
+                    }
+                    else {
+                        _this.materials.push(new SourceUtils.Material(_this, data.materials[i]));
+                    }
                 }
             });
         };
@@ -1347,6 +1353,7 @@ var SourceUtils;
                 this.lightmap.set1i(2);
             };
             LightmappedGeneric.prototype.changeMaterial = function (material) {
+                _super.prototype.changeMaterial.call(this, material);
                 var gl = this.getContext();
                 var tex = material.properties.baseTexture;
                 var handle;
@@ -1361,6 +1368,24 @@ var SourceUtils;
             return LightmappedGeneric;
         }(ShaderProgram));
         Shaders.LightmappedGeneric = LightmappedGeneric;
+        var Sky = (function (_super) {
+            __extends(Sky, _super);
+            function Sky(manager) {
+                _super.call(this, manager);
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
+                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+            }
+            Sky.prototype.prepareForRendering = function (map, camera) {
+                _super.prototype.prepareForRendering.call(this, map, camera);
+            };
+            Sky.prototype.changeMaterial = function (material) {
+                _super.prototype.changeMaterial.call(this, material);
+            };
+            return Sky;
+        }(ShaderProgram));
+        Shaders.Sky = Sky;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;

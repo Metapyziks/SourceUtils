@@ -320,6 +320,8 @@ namespace SourceUtils {
             }
 
             changeMaterial(material: SourceUtils.Material): void {
+                super.changeMaterial(material);
+
                 const gl = this.getContext();
                 let tex = material.properties.baseTexture;
                 let handle: WebGLTexture;
@@ -333,6 +335,27 @@ namespace SourceUtils {
                 gl.bindTexture(gl.TEXTURE_2D, handle);
 
                 this.baseTexture.set1i(0);
+            }
+        }
+
+        export class Sky extends ShaderProgram {
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
+
+                this.addAttribute("aPosition", Api.MeshComponent.position);
+            }
+
+            prepareForRendering(map: Map, camera: THREE.Camera): void {
+                super.prepareForRendering(map, camera);
+            }
+
+            changeMaterial(material: SourceUtils.Material): void {
+                super.changeMaterial(material);
             }
         }
     }
