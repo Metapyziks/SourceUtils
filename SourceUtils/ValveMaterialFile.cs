@@ -65,7 +65,8 @@ namespace SourceUtils
                 var name = match.Groups["name"];
                 var value = match.Groups["value"];
 
-                _properties.Add(name.Value, value.Value);
+                if ( _properties.ContainsKey( name.Value ) ) _properties[name.Value] = value.Value;
+                else _properties.Add( name.Value, value.Value );
             }
         }
     }

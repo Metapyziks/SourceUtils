@@ -2,6 +2,8 @@
     export namespace Api {
         export class BspIndexResponse {
             name: string;
+            skyMaterials: Material[];
+            playerStarts: Vector3[];
             numClusters: number;
             numModels: number;
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using MimeTypes;
@@ -44,7 +45,7 @@ namespace MapViewServer
                 $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}?mipmap={mipMapString}";
         }
 
-        private JObject GetJson( IResourceProvider provider, string filePath )
+        private JObject GetJson( IResourceProvider provider, string filePath, string mapName = null )
         {
             ValveTextureFile vtf;
 
@@ -58,7 +59,7 @@ namespace MapViewServer
                 {"width", vtf.Header.Width},
                 {"height", vtf.Header.Height},
                 {"flags", (long) vtf.Header.Flags},
-                {"pngUrl", GetPngUrl( Request, filePath )},
+                {"pngUrl", GetPngUrl( Request, filePath, mapName )},
                 {"mipmaps", vtf.Header.MipMapCount}
             };
 
@@ -74,10 +75,8 @@ namespace MapViewServer
         [Get( "/pak/{mapName}", MatchAllUrl = false )]
         public JObject GetJson( [Url] string mapName )
         {
-            using ( var bsp = BspController.OpenBspFile( Request, mapName ) )
-            {
-                return GetJson( bsp.PakFile, FilePath );
-            }
+            var bsp = BspController.GetBspFile( Request, mapName );
+            return GetJson( bsp.PakFile, FilePath, mapName );
         }
 
         private void GetPng( IResourceProvider provider, string filePath, int mipmap )
@@ -97,10 +96,8 @@ namespace MapViewServer
         [Get( "/pak/{mapName}", MatchAllUrl = false, Extension = ".png" )]
         public void GetPng( [Url] string mapName, int mipmap = 0 )
         {
-            using ( var bsp = BspController.OpenBspFile( Request, mapName ) )
-            {
-                GetPng( bsp.PakFile, FilePath, mipmap );
-            }
+            var bsp = BspController.GetBspFile( Request, mapName );
+            GetPng( bsp.PakFile, FilePath, mipmap );
         }
     }
 }

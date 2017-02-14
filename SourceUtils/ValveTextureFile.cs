@@ -138,11 +138,33 @@ namespace SourceUtils
         public TextureHeader Header { get; }
         public byte[] PixelData { get; }
 
+        [ThreadStatic]
+        private static byte[] _sTempBuffer;
+        private static void Skip( Stream stream, long count )
+        {
+            if ( count == 0 ) return;
+            if ( stream.CanSeek )
+            {
+                stream.Seek( count, SeekOrigin.Current );
+                return;
+            }
+
+            if ( _sTempBuffer == null || _sTempBuffer.Length < count )
+            {
+                var size = 256;
+                while ( size < count ) size <<= 1;
+
+                _sTempBuffer = new byte[size];
+            }
+
+            stream.Read( _sTempBuffer, 0, (int) count );
+        }
+
         public ValveTextureFile(Stream stream, bool onlyHeader = false)
         {
             Header = LumpReader<TextureHeader>.ReadSingleFromStream(stream);
-
-            stream.Seek(Header.HeaderSize, SeekOrigin.Begin);
+            
+            Skip( stream, Header.HeaderSize - Marshal.SizeOf<TextureHeader>() );
 
             var thumbSize = GetImageDataSize(Header.LowResWidth, Header.LowResHeight, 1, 1, Header.LowResFormat);
 
@@ -155,32 +177,21 @@ namespace SourceUtils
 
             if ( onlyHeader ) return;
 
-            stream.Seek(thumbSize, SeekOrigin.Current);
+            Skip( stream, thumbSize );
             
             var totalSize = GetImageDataSize(Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat);
 
             PixelData = new byte[totalSize];
-            
-            var width = Header.Width;
-            var height = Header.Height;
 
-            var start = stream.Position;
-            var offset = totalSize;
-            var writePos = 0;
+            var writePos = totalSize;
+            var offset = 0;
 
-            for (var i = 0; i < Header.MipMapCount; ++i)
+            for (var i = Header.MipMapCount - 1; i >= 0; --i)
             {
-                var size = GetImageDataSize(width, height, 1, 1, Header.HiResFormat);
+                var size = GetImageDataSize( Header.Width >> i, Header.Height >> i, 1, 1, Header.HiResFormat );
 
-                offset -= size;
-
-                stream.Seek(start + offset, SeekOrigin.Begin);
+                writePos -= size;
                 stream.Read(PixelData, writePos, size);
-
-                writePos += size;
-
-                width >>= 1;
-                height >>= 1;
             }
         }
     }

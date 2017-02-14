@@ -523,6 +523,7 @@ var SourceUtils;
                     this.drawList.addItem(this.leaves[i]);
                 }
             }
+            this.map.refreshPvs();
         };
         BspModel.prototype.getLeaves = function () {
             return this.leaves;
@@ -806,6 +807,7 @@ var SourceUtils;
             this.models = [];
             this.displacements = [];
             this.materials = [];
+            this.pvsOrigin = new THREE.Vector3();
             this.pvs = [];
             this.app = app;
             this.frustumCulled = false;
@@ -852,6 +854,8 @@ var SourceUtils;
                 _this.loadDisplacements();
                 _this.loadMaterials();
                 _this.lightmap = new SourceUtils.Lightmap(_this.app.getContext(), data.lightmapUrl);
+                var spawnPos = data.playerStarts[0];
+                _this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -861,6 +865,7 @@ var SourceUtils;
                 for (var i = 0; i < data.displacements.length; ++i) {
                     _this.displacements.push(new SourceUtils.Displacement(data.displacements[i]));
                 }
+                _this.refreshPvs();
             });
         };
         Map.prototype.loadMaterials = function () {
@@ -910,12 +915,13 @@ var SourceUtils;
             if (worldSpawn != null)
                 worldSpawn.render(camera);
         };
-        Map.prototype.updatePvs = function (position) {
+        Map.prototype.updatePvs = function (position, force) {
             var worldSpawn = this.getWorldSpawn();
             if (worldSpawn == null)
                 return;
+            this.pvsOrigin.copy(position);
             var root = worldSpawn.findLeaf(position);
-            if (root === this.pvsRoot)
+            if (root === this.pvsRoot && !force)
                 return;
             this.pvsRoot = root;
             if (root == null || root.cluster === -1)
@@ -927,6 +933,9 @@ var SourceUtils;
                 return;
             }
             this.loadPvsArray(root.cluster);
+        };
+        Map.prototype.refreshPvs = function () {
+            this.updatePvs(this.pvsOrigin, true);
         };
         Map.prototype.loadPvsArray = function (cluster) {
             var _this = this;

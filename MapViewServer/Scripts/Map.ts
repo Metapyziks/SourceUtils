@@ -23,6 +23,7 @@ namespace SourceUtils {
         private clusters: VisLeaf[];
         private pvsArray: VisLeaf[][];
 
+        private pvsOrigin = new THREE.Vector3();
         private pvsRoot: VisLeaf;
         private pvs: VisLeaf[] = [];
 
@@ -85,6 +86,9 @@ namespace SourceUtils {
                     this.loadDisplacements();
                     this.loadMaterials();
                     this.lightmap = new Lightmap(this.app.getContext(), data.lightmapUrl);
+
+                    const spawnPos = data.playerStarts[0];
+                    this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
                 });
         }
 
@@ -96,6 +100,8 @@ namespace SourceUtils {
                     for (let i = 0; i < data.displacements.length; ++i) {
                         this.displacements.push(new Displacement(data.displacements[i]));
                     }
+
+                    this.refreshPvs();
                 });
         }
 
@@ -155,12 +161,14 @@ namespace SourceUtils {
             if (worldSpawn != null) worldSpawn.render(camera);
         }
 
-        updatePvs(position: THREE.Vector3): void {
+        updatePvs(position: THREE.Vector3, force?: boolean): void {
             const worldSpawn = this.getWorldSpawn();
             if (worldSpawn == null) return;
 
+            this.pvsOrigin.copy(position);
+
             const root = worldSpawn.findLeaf(position);
-            if (root === this.pvsRoot) return;
+            if (root === this.pvsRoot && !force) return;
 
             this.pvsRoot = root;
             if (root == null || root.cluster === -1) return;
@@ -172,6 +180,10 @@ namespace SourceUtils {
             }
 
             this.loadPvsArray(root.cluster);
+        }
+
+        refreshPvs(): void {
+            this.updatePvs(this.pvsOrigin, true);
         }
 
         private loadPvsArray(cluster: number): void {

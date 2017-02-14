@@ -54,6 +54,7 @@
     <Compile Include="ValveBsp\BspTree.cs" />
     <Compile Include="ValveBsp\Displacement.cs" />
     <Compile Include="ValveBsp\DisplacementManager.cs" />
+    <Compile Include="ValveBsp\EntityLump.cs" />
     <Compile Include="ValveBsp\LightmapLayout.cs" />
     <Compile Include="ValveBsp\PakFileLump.cs" />
     <Compile Include="ValveBsp\Structures.cs" />

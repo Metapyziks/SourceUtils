@@ -44,6 +44,8 @@ namespace SourceUtils {
                     this.drawList.addItem(this.leaves[i]);
                 }
             }
+
+            this.map.refreshPvs();
         }
 
         getLeaves(): VisLeaf[] {

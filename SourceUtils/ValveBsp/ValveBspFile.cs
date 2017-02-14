@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using SourceUtils.ValveBsp;
+using SourceUtils.ValveBsp.Entities;
 
 namespace SourceUtils
 {
@@ -114,6 +115,9 @@ namespace SourceUtils
 
         [BspLump(LumpType.PAKFILE)]
         public PakFileLump PakFile { get; private set; }
+
+        [BspLump(LumpType.ENTITIES)]
+        public EntityLump Entities { get; private set; }
 
         public DisplacementManager DisplacementManager { get; }
 
