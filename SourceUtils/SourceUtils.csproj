@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +55,7 @@
     <Compile Include="ValveBsp\Displacement.cs" />
     <Compile Include="ValveBsp\DisplacementManager.cs" />
     <Compile Include="ValveBsp\LightmapLayout.cs" />
+    <Compile Include="ValveBsp\PakFileLump.cs" />
     <Compile Include="ValveBsp\Structures.cs" />
     <Compile Include="ValveBsp\LumpInfo.cs" />
     <Compile Include="ValveBsp\LumpType.cs" />

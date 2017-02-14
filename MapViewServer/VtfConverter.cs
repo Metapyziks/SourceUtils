@@ -18,11 +18,11 @@ namespace MapViewServer
             WIDTH = 0x4,
             PITCH = 0x8,
             PIXELFORMAT = 0x1000,
-            MIPMAPCOUNT	= 0x20000,
+            MIPMAPCOUNT = 0x20000,
             LINEARSIZE = 0x80000,
             DEPTH = 0x800000
         }
-        
+
         [Flags]
         private enum DdsCaps : uint
         {
@@ -30,7 +30,7 @@ namespace MapViewServer
             MIPMAP = 0x400000,
             TEXTURE = 0x1000
         }
-        
+
         [Flags]
         private enum DdsPixelFormatFlags
         {
@@ -41,8 +41,8 @@ namespace MapViewServer
             YUV = 0x200,
             LUMINANCE = 0x20000
         }
-        
-        [StructLayout(LayoutKind.Sequential)]
+
+        [StructLayout( LayoutKind.Sequential )]
         private struct DdsPixelFormat
         {
             public uint dwSize;
@@ -54,8 +54,8 @@ namespace MapViewServer
             public uint dwBBitMask;
             public uint dwABitMask;
         }
-        
-        [StructLayout(LayoutKind.Sequential)]
+
+        [StructLayout( LayoutKind.Sequential )]
         private unsafe struct DdsHeader
         {
             public uint dwSize;
@@ -65,7 +65,7 @@ namespace MapViewServer
             public uint dwPitchOrLinearSize;
             public uint dwDepth;
             public uint dwMipMapCount;
-            public fixed uint dwReserved1[11];
+            public fixed uint dwReserved1 [11];
             public DdsPixelFormat ddspf;
             public DdsCaps dwCaps;
             public uint dwCaps2;
@@ -73,21 +73,19 @@ namespace MapViewServer
             public uint dwCaps4;
             public uint dwReserved2;
         }
-        
-        [ThreadStatic]
-        private static byte[] _sHeaderBuffer;
 
-        [ThreadStatic]
-        private static MemoryStream _sMemoryStream;
-        
-        private static void GetMipMapSize(int width, int height,
-            int mipMap, out uint mipMapWidth, out uint mipMapHeight)
+        [ThreadStatic] private static byte[] _sHeaderBuffer;
+
+        [ThreadStatic] private static MemoryStream _sMemoryStream;
+
+        private static void GetMipMapSize( int width, int height,
+            int mipMap, out uint mipMapWidth, out uint mipMapHeight )
         {
             mipMapWidth = (uint) width >> mipMap;
             mipMapHeight = (uint) height >> mipMap;
-            
-            if (mipMapWidth < 4) mipMapWidth = 4;
-            if (mipMapHeight < 4) mipMapHeight = 4;
+
+            if ( mipMapWidth < 4 ) mipMapWidth = 4;
+            if ( mipMapHeight < 4 ) mipMapHeight = 4;
         }
 
         private static void ConvertDdsToPng( Stream src, Stream dst, int newWidth = -1, int newHeight = -1 )
@@ -98,7 +96,7 @@ namespace MapViewServer
                 try
                 {
                     var args = "";
-                    if ( newWidth != -1 && newHeight != -1)
+                    if ( newWidth != -1 && newHeight != -1 )
                     {
                         args += $"-resize {newWidth}x{newHeight} ";
                     }
@@ -133,7 +131,7 @@ namespace MapViewServer
             {
                 using ( var image = new MagickImage( src, new MagickReadSettings {Format = MagickFormat.Dds} ) )
                 {
-                    if ( newWidth != -1 && newHeight != -1)
+                    if ( newWidth != -1 && newHeight != -1 )
                     {
                         image.Resize( newWidth, newHeight );
                     }
@@ -142,38 +140,39 @@ namespace MapViewServer
                 }
             }
         }
-        
+
         public static void ConvertToDds( IResourceProvider resources, string vtfFilePath, Stream outStream )
         {
             int width, height;
             ConvertToDds( resources, vtfFilePath, -1, outStream, out width, out height );
         }
 
-        public static unsafe void ConvertToDds( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream, out int width, out int height )
+        public static unsafe void ConvertToDds( IResourceProvider resources, string vtfFilePath, int mipMap,
+            Stream outStream, out int width, out int height )
         {
             var oneMipMap = mipMap > -1;
-            if (mipMap < 0) mipMap = 0;
+            if ( mipMap < 0 ) mipMap = 0;
 
             ValveTextureFile vtf;
             using ( var vtfStream = resources.OpenFile( vtfFilePath ) )
             {
                 vtf = new ValveTextureFile( vtfStream );
             }
-                
-            if (mipMap >= vtf.Header.MipMapCount)
+
+            if ( mipMap >= vtf.Header.MipMapCount )
             {
-                ConvertToDds( resources, vtfFilePath, vtf.Header.MipMapCount - 1, outStream, out width, out height);
+                ConvertToDds( resources, vtfFilePath, vtf.Header.MipMapCount - 1, outStream, out width, out height );
                 return;
             }
 
             width = vtf.Header.Width >> mipMap;
             height = vtf.Header.Height >> mipMap;
-                
+
             var header = new DdsHeader();
-                
+
             int blockSize;
             uint fourCC;
-            switch (vtf.Header.HiResFormat)
+            switch ( vtf.Header.HiResFormat )
             {
                 case TextureFormat.DXT1:
                     blockSize = 8;
@@ -187,22 +186,22 @@ namespace MapViewServer
                     throw new NotImplementedException();
             }
 
-            GetMipMapSize(vtf.Header.Width, vtf.Header.Height, mipMap, out header.dwWidth, out header.dwHeight);
+            GetMipMapSize( vtf.Header.Width, vtf.Header.Height, mipMap, out header.dwWidth, out header.dwHeight );
 
-            header.dwSize = (uint) Marshal.SizeOf(typeof(DdsHeader));
+            header.dwSize = (uint) Marshal.SizeOf( typeof(DdsHeader) );
             header.dwFlags = DdsHeaderFlags.CAPS | DdsHeaderFlags.HEIGHT | DdsHeaderFlags.WIDTH
-                | DdsHeaderFlags.PIXELFORMAT | (oneMipMap ? 0 : DdsHeaderFlags.MIPMAPCOUNT);
-            header.dwPitchOrLinearSize = (uint) (Math.Max(1, (vtf.Header.Width + 3) / 4) * blockSize);
+                             | DdsHeaderFlags.PIXELFORMAT | (oneMipMap ? 0 : DdsHeaderFlags.MIPMAPCOUNT);
+            header.dwPitchOrLinearSize = (uint) (Math.Max( 1, (vtf.Header.Width + 3) / 4 ) * blockSize);
             header.dwDepth = 1;
             header.dwMipMapCount = oneMipMap ? 1 : (uint) vtf.Header.MipMapCount;
             header.dwCaps = DdsCaps.TEXTURE | (oneMipMap ? 0 : DdsCaps.MIPMAP);
-            header.ddspf.dwSize = (uint) Marshal.SizeOf(typeof(DdsPixelFormat));
+            header.ddspf.dwSize = (uint) Marshal.SizeOf( typeof(DdsPixelFormat) );
             header.ddspf.dwFlags = DdsPixelFormatFlags.FOURCC;
             header.ddspf.dwFourCC = fourCC;
-                
-            if (_sHeaderBuffer == null) _sHeaderBuffer = new byte[header.dwSize];
-                
-            fixed (byte* bufferPtr = _sHeaderBuffer)
+
+            if ( _sHeaderBuffer == null ) _sHeaderBuffer = new byte[header.dwSize];
+
+            fixed ( byte* bufferPtr = _sHeaderBuffer )
             {
                 var headerPtr = (DdsHeader*) bufferPtr;
                 *headerPtr = header;
@@ -228,7 +227,7 @@ namespace MapViewServer
             }
         }
 
-        public static void ConvertToPng(IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream, bool alphaOnly = false)
+        public static void ConvertToPng( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream )
         {
             if ( _sMemoryStream == null ) _sMemoryStream = new MemoryStream();
             else
@@ -238,7 +237,7 @@ namespace MapViewServer
             }
 
             int width, height;
-            ConvertToDds(resources, vtfFilePath, mipMap, _sMemoryStream, out width, out height );
+            ConvertToDds( resources, vtfFilePath, mipMap, _sMemoryStream, out width, out height );
 
             _sMemoryStream.Seek( 0, SeekOrigin.Begin );
 
@@ -247,7 +246,9 @@ namespace MapViewServer
                 width = Math.Max( 1, width );
                 height = Math.Max( 1, height );
                 ConvertDdsToPng( _sMemoryStream, outStream, width, height );
-            } else {
+            }
+            else
+            {
                 ConvertDdsToPng( _sMemoryStream, outStream );
             }
         }

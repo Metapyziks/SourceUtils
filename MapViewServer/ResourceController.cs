@@ -142,8 +142,7 @@ namespace MapViewServer
         {
             get
             {
-                if ( BspName == null ) return Program.Loader;
-                throw new NotImplementedException();
+                return Program.Loader;
             }
         }
 

@@ -43,7 +43,7 @@ namespace SourceUtils
                 case SeekOrigin.Current:
                     var curPos = Position;
                     if ( curPos < 0 || curPos > Length ) throw new InvalidOperationException();
-                    if ( curPos + offset < 0 || curPos + curPos > Length ) throw new ArgumentOutOfRangeException();
+                    if ( curPos + offset < 0 || curPos + offset > Length ) throw new ArgumentOutOfRangeException();
                     return BaseStream.Seek( offset, SeekOrigin.Current ) - _offset;
                 case SeekOrigin.End:
                     if ( offset > 0 || offset < -Length ) throw new ArgumentOutOfRangeException();

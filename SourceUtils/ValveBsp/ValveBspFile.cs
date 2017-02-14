@@ -34,6 +34,8 @@ namespace SourceUtils
             public LumpInfo[] Lumps;
             public int MapRevision;
         }
+
+        public string Name { get; }
         
         [BspLump(LumpType.MODELS)]
         public ArrayLump<BspModel> Models { get; private set; }
@@ -110,6 +112,9 @@ namespace SourceUtils
         [BspLump(LumpType.LIGHTING_HDR)]
         public ArrayLump<byte> LightingHdr { get; private set; }
 
+        [BspLump(LumpType.PAKFILE)]
+        public PakFileLump PakFile { get; private set; }
+
         public DisplacementManager DisplacementManager { get; }
 
         public LightmapLayout LightmapLayout { get; }
@@ -117,9 +122,10 @@ namespace SourceUtils
         private readonly Stream _stream;
         private readonly Header _header;
 
-        public ValveBspFile( Stream stream )
+        public ValveBspFile( Stream stream, string name )
         {
             _stream = stream;
+            Name = name;
 
             InitializeLumps();
 

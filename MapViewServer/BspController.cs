@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using ImageMagick;
 using MimeTypes;
@@ -18,10 +19,11 @@ namespace MapViewServer
 {
     using static HtmlDocumentHelper;
 
-    [Prefix("/bsp")]
+    [Prefix( "/bsp" )]
     public class BspController : ResourceController
     {
-        protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
+        protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault()
+        ;
 
         private static string GetMapPath( string mapName )
         {
@@ -30,12 +32,14 @@ namespace MapViewServer
             return Path.Combine( Program.CsgoDirectory, "maps", mapName );
         }
 
-        private ValveBspFile OpenBspFile( string mapName )
+        public static ValveBspFile OpenBspFile( HttpListenerRequest request, string mapName )
         {
             var path = GetMapPath( mapName );
-            if ( !File.Exists( path ) ) throw NotFoundException( true );
+            if ( !File.Exists( path ) )
+                throw new ControllerActionException( request, true, HttpStatusCode.NotFound,
+                    "The requested resource was not found." );
 
-            var bsp = new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ) );
+            var bsp = new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ), mapName );
 
             bsp.LightmapLayout.CacheFilePath = Path.Combine( Program.CacheDirectory, "Lightmaps", mapName );
 
@@ -54,13 +58,16 @@ namespace MapViewServer
 
             return new JObject
             {
-                { "plane", plane.ToJson() },
-                { "min", node.Min.ToJson() },
-                { "max", node.Max.ToJson() },
-                { "children", new JArray {
-                    SerializeBspChild( bsp, node.ChildA ),
-                    SerializeBspChild( bsp, node.ChildB )
-                } }
+                {"plane", plane.ToJson()},
+                {"min", node.Min.ToJson()},
+                {"max", node.Max.ToJson()},
+                {
+                    "children", new JArray
+                    {
+                        SerializeBspChild( bsp, node.ChildA ),
+                        SerializeBspChild( bsp, node.ChildB )
+                    }
+                }
             };
         }
 
@@ -103,8 +110,8 @@ namespace MapViewServer
                 public bool Equals( Vertex other )
                 {
                     return Position.Equals( other.Position )
-                        && TexCoord.Equals( other.TexCoord )
-                        && TexCoord.Equals( other.LightmapCoord );
+                           && TexCoord.Equals( other.TexCoord )
+                           && TexCoord.Equals( other.LightmapCoord );
                 }
 
                 public override bool Equals( object obj )
@@ -173,7 +180,7 @@ namespace MapViewServer
             private readonly Dictionary<Vertex, int> _indexMap = new Dictionary<Vertex, int>();
             private readonly List<int> _curPrimitive = new List<int>();
             private readonly List<Element> _elements = new List<Element>();
-            
+
             private int _vertexCount;
 
             public JToken GetElements()
@@ -266,7 +273,7 @@ namespace MapViewServer
                 for ( int i = 2, count = (indices ?? _curPrimitive).Count; i < count; ++i )
                 {
                     var next = _curPrimitive[indices?[i] ?? i];
-                    
+
                     yield return first;
                     yield return prev;
                     yield return next;
@@ -296,7 +303,7 @@ namespace MapViewServer
                         yield return b;
                         yield return a;
                     }
-                    
+
                     yield return c;
 
                     a = b;
@@ -334,10 +341,10 @@ namespace MapViewServer
             }
         }
 
-        [ThreadStatic]
-        private static List<int> _sIndicesBuffer;
+        [ThreadStatic] private static List<int> _sIndicesBuffer;
 
-        private static void SerializeDisplacement( ValveBspFile bsp, int faceIndex, ref Face face, ref Plane plane, VertexArray verts )
+        private static void SerializeDisplacement( ValveBspFile bsp, int faceIndex, ref Face face, ref Plane plane,
+            VertexArray verts )
         {
             if ( face.NumEdges != 4 )
             {
@@ -379,9 +386,10 @@ namespace MapViewServer
                 pos.Dot( vAxis.Normal ) + vAxis.Offset );
         }
 
-        private static Vector2 GetLightmapUv(ValveBspFile bsp, Vector3 pos, int faceIndex, ref Face face, ref TextureInfo texInfo)
+        private static Vector2 GetLightmapUv( ValveBspFile bsp, Vector3 pos, int faceIndex, ref Face face,
+            ref TextureInfo texInfo )
         {
-            var lightmapUv = GetUv(pos, texInfo.LightmapUAxis, texInfo.LightmapVAxis);
+            var lightmapUv = GetUv( pos, texInfo.LightmapUAxis, texInfo.LightmapVAxis );
 
             Vector2 min, size;
             bsp.LightmapLayout.GetUvs( faceIndex, out min, out size );
@@ -390,7 +398,7 @@ namespace MapViewServer
             lightmapUv.Y -= face.LightMapOffsetY - .5f;
             lightmapUv.X /= face.LightMapSizeX + 1f;
             lightmapUv.Y /= face.LightMapSizeY + 1f;
-            
+
             lightmapUv.X *= size.X;
             lightmapUv.Y *= size.Y;
             lightmapUv.X += min.X;
@@ -398,11 +406,11 @@ namespace MapViewServer
 
             return lightmapUv;
         }
-        
-        private static Vector2 GetLightmapUv(ValveBspFile bsp, int x, int y, int dispSize, int faceIndex, ref Face face)
+
+        private static Vector2 GetLightmapUv( ValveBspFile bsp, int x, int y, int dispSize, int faceIndex, ref Face face )
         {
-            var lightmapUv = new Vector2((float) x / dispSize, (float) y / dispSize);
-            
+            var lightmapUv = new Vector2( (float) x / dispSize, (float) y / dispSize );
+
             Vector2 min, size;
             bsp.LightmapLayout.GetUvs( faceIndex, out min, out size );
 
@@ -424,7 +432,7 @@ namespace MapViewServer
                 SerializeDisplacement( bsp, index, ref face, ref plane, verts );
                 return;
             }
-            
+
             var texData = bsp.TextureData[texInfo.TexData];
             var texScale = new Vector2( 1f / texData.Width, 1f / texData.Height );
 
@@ -461,19 +469,21 @@ namespace MapViewServer
                 _sIndicesBuffer.Clear();
             }
         }
-        
+
         private bool CheckNotExpired( string mapName )
         {
             var path = GetMapPath( mapName );
             var mapInfo = new FileInfo( path );
             var lastModified = mapInfo.LastWriteTimeUtc;
 
-            Response.Headers.Add("Cache-Control", "public, max-age=31556736");
-            Response.Headers.Add("Last-Modified", lastModified.ToString("R"));
+            Response.Headers.Add( "Cache-Control", "public, max-age=31556736" );
+            Response.Headers.Add( "Last-Modified", lastModified.ToString( "R" ) );
 
             var header = Request.Headers["If-Modified-Since"];
             DateTime result;
-            if (header != null && DateTime.TryParseExact(header, "R", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.AdjustToUniversal, out result) && result < lastModified)
+            if ( header != null &&
+                 DateTime.TryParseExact( header, "R", CultureInfo.InvariantCulture.DateTimeFormat,
+                     DateTimeStyles.AdjustToUniversal, out result ) && result < lastModified )
             {
                 Response.StatusCode = 304;
                 Response.OutputStream.Close();
@@ -486,7 +496,7 @@ namespace MapViewServer
         [Get( "/{mapName}" )]
         public JToken GetIndex( [Url] string mapName )
         {
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             {
                 return new JObject
                 {
@@ -559,9 +569,14 @@ namespace MapViewServer
             {
                 switch ( str[0] )
                 {
-                    case 'l': Type = FacesType.Leaf; break;
-                    case 'd': Type = FacesType.Displacement; break;
-                    default: throw new NotImplementedException();
+                    case 'l':
+                        Type = FacesType.Leaf;
+                        break;
+                    case 'd':
+                        Type = FacesType.Displacement;
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
 
                 Index = int.Parse( str.Substring( 1 ) );
@@ -603,11 +618,11 @@ namespace MapViewServer
             var array = new JArray();
             var vertArray = new VertexArray();
 
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             {
                 foreach ( var token in match.Groups["item"].Captures
                     .Cast<Capture>()
-                    .Select( x => x.Value ))
+                    .Select( x => x.Value ) )
                 {
                     var request = new FacesRequest( token );
                     vertArray.Clear();
@@ -619,7 +634,7 @@ namespace MapViewServer
 
                     array.Add( new JObject
                     {
-                        {"components", (int) (MeshComponent.Position | MeshComponent.Uv | MeshComponent.Uv2) },
+                        {"components", (int) (MeshComponent.Position | MeshComponent.Uv | MeshComponent.Uv2)},
                         {"elements", vertArray.GetElements()},
                         {"vertices", vertArray.GetVertices( this )},
                         {"indices", vertArray.GetIndices( this )}
@@ -640,7 +655,7 @@ namespace MapViewServer
 
             var response = new JObject();
 
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             {
                 var model = bsp.Models[index];
                 var tree = SerializeBspNode( bsp, model.HeadNode );
@@ -660,7 +675,7 @@ namespace MapViewServer
             if ( pos.X < min.X ) min.X = pos.X;
             if ( pos.Y < min.Y ) min.Y = pos.Y;
             if ( pos.Z < min.Z ) min.Z = pos.Z;
-            
+
             if ( pos.X > max.X ) max.X = pos.X;
             if ( pos.Y > max.Y ) max.Y = pos.Y;
             if ( pos.Z > max.Z ) max.Z = pos.Z;
@@ -690,7 +705,7 @@ namespace MapViewServer
         {
             var foundLeaves = new List<BspTree.Leaf>();
 
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             {
                 var tree = new BspTree( bsp, 0 );
                 var displacements = new JArray();
@@ -704,7 +719,7 @@ namespace MapViewServer
 
                     foundLeaves.Clear();
                     tree.GetIntersectingLeaves( min, max, foundLeaves );
-                    
+
                     var clusters = new JArray();
 
                     foreach ( var leaf in foundLeaves )
@@ -712,19 +727,19 @@ namespace MapViewServer
                         clusters.Add( leaf.Info.Cluster );
                     }
 
-                    displacements.Add(  new JObject
+                    displacements.Add( new JObject
                     {
-                        { "index", face.DispInfo },
-                        { "power", dispInfo.Power },
-                        { "min", min.ToJson() },
-                        { "max", max.ToJson() },
-                        { "clusters", clusters }
+                        {"index", face.DispInfo},
+                        {"power", dispInfo.Power},
+                        {"min", min.ToJson()},
+                        {"max", max.ToJson()},
+                        {"clusters", clusters}
                     } );
                 }
 
                 return new JObject
                 {
-                    { "displacements", displacements }
+                    {"displacements", displacements}
                 };
             }
         }
@@ -736,7 +751,7 @@ namespace MapViewServer
 
             if ( CheckNotExpired( mapName ) ) return;
 
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             using ( var sampleStream = bsp.GetLumpStream( ValveBspFile.LumpType.LIGHTING_HDR ) )
             {
                 var lightmap = bsp.LightmapLayout;
@@ -747,7 +762,7 @@ namespace MapViewServer
 
                 var sampleBuffer = new LightmapSample[256 * 256];
 
-                for (int i = 0, iEnd = bsp.FacesHdr.Length; i <iEnd; ++i)
+                for ( int i = 0, iEnd = bsp.FacesHdr.Length; i < iEnd; ++i )
                 {
                     var face = bsp.FacesHdr[i];
                     if ( face.LightOffset == -1 ) continue;
@@ -764,7 +779,7 @@ namespace MapViewServer
                     {
                         var s = Math.Max( 0, Math.Min( x, rect.Width - 1 ) );
                         var t = Math.Max( 0, Math.Min( y, rect.Height - 1 ) );
-                            
+
                         var index = (rect.X + x + width * (rect.Y + y)) * 3;
                         sampleBuffer[s + t * rect.Width].ToRgb(
                             out pixels[index + 0],
@@ -772,7 +787,7 @@ namespace MapViewServer
                             out pixels[index + 2] );
                     }
                 }
-                
+
                 var img = new MagickImage( pixels, new MagickReadSettings
                 {
                     Width = width,
@@ -796,7 +811,7 @@ namespace MapViewServer
 
             var response = new JObject();
 
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             {
                 response.Add( "index", index );
                 response.Add( "pvs", SerializeArray( bsp.Visibility[index] ) );
@@ -804,31 +819,40 @@ namespace MapViewServer
 
             return response;
         }
-        
-        private string GetTextureUrl( string filePath )
+
+        private IEnumerable<string> GetTexturePathVariants( string filePath, string vmtDir )
         {
             filePath = filePath.Replace( '\\', '/' ).ToLower();
 
             var ext = Path.GetExtension( filePath );
             if ( string.IsNullOrEmpty( ext ) ) filePath += ".vtf";
 
-            var fullPath = filePath;
-
             if ( !filePath.Contains( '/' ) )
             {
-                var matPath = Path.GetDirectoryName( FilePath );
-                if ( !string.IsNullOrEmpty( matPath ) )
-                {
-                    fullPath = $"{matPath}/{filePath}";
-                    if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
-                }
-            } else if ( !filePath.StartsWith( "materials/" ) )
+                if ( string.IsNullOrEmpty( vmtDir ) ) yield return filePath;
+                else yield return $"{vmtDir}/{filePath}";
+            }
+            else if ( !filePath.StartsWith( "materials" ) )
             {
-                fullPath = $"materials/{filePath}";
-                if ( !Resources.ContainsFile( fullPath ) ) fullPath = filePath;
+                yield return $"materials/{filePath}";
+            }
+            else
+            {
+                yield return filePath;
+            }
+        }
+
+        private string GetTextureUrl( ValveBspFile bsp, string filePath, string vmtDir )
+        {
+            filePath = filePath.Replace( '\\', '/' );
+
+            foreach ( var variant in GetTexturePathVariants( filePath, vmtDir ) )
+            {
+                if ( bsp.PakFile.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, bsp.Name );
+                if ( Resources.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant );
             }
 
-            return VtfController.GetUrl( Request, fullPath );
+            return null;
         }
 
         private enum MaterialPropertyType
@@ -861,34 +885,71 @@ namespace MapViewServer
             AddProperty( properties, name, MaterialPropertyType.Number, value );
         }
 
-        private void AddTextureProperty( JArray properties, string name, string vtfPath )
+        private void AddTextureProperty( JArray properties, string name, string vtfUrl )
         {
-            AddProperty( properties, name, MaterialPropertyType.Texture, GetTextureUrl( vtfPath ) );
+            AddProperty( properties, name, MaterialPropertyType.Texture, vtfUrl );
         }
 
-        private JToken SerializeVmt( ValveMaterialFile vmt )
+        private void SerializeShaderProperties( ValveBspFile bsp, ValveMaterialFile vmt, string shaderName, string vmtDir, JArray destArray )
         {
-            var shader = vmt.Shaders.FirstOrDefault();
-            if ( shader == null ) return null;
+            if ( !vmt.ContainsShader( shaderName ) ) shaderName = vmt.Shaders.FirstOrDefault();
 
-            var props = vmt[shader];
-            var propArray = new JArray();
-
+            var props = vmt[shaderName];
             foreach ( var name in props.PropertyNames )
             {
                 switch ( name.ToLower() )
                 {
+                    case "include":
+                    {
+                        var includePath = props[name];
+                        var includeDir = Path.GetDirectoryName( includePath );
+                        var includeVmt = OpenVmt( bsp, includePath );
+                        SerializeShaderProperties( bsp, includeVmt, shaderName, includeDir, destArray );
+                        break;
+                    }
                     case "$basetexture":
-                        AddTextureProperty( propArray, "baseTexture", props[name] );
+                        AddTextureProperty( destArray, "baseTexture", GetTextureUrl( bsp, props[name], vmtDir ) );
                         break;
                 }
             }
+        }
+
+        private JToken SerializeVmt( ValveBspFile bsp, ValveMaterialFile vmt, string path )
+        {
+            var shader = vmt.Shaders.FirstOrDefault();
+            if ( shader == null ) return null;
+
+            var propArray = new JArray();
+            var vmtDir = Path.GetDirectoryName( path ).Replace( '\\', '/' );
+
+            SerializeShaderProperties( bsp, vmt, shader, vmtDir, propArray );
 
             return new JObject
             {
-                { "shader", "LightmappedGeneric" },
-                { "properties", propArray }
+                {"shader", "LightmappedGeneric"},
+                {"properties", propArray}
             };
+        }
+
+        private ValveMaterialFile OpenVmt( ValveBspFile bsp, string name )
+        {
+            if (!name.StartsWith( "materials/" )) name = $"materials/{name}.vmt";
+            IResourceProvider provider;
+
+            if ( bsp.PakFile.ContainsFile( name ) )
+            {
+                provider = bsp.PakFile;
+            }
+            else if ( Resources.ContainsFile( name ) )
+            {
+                provider = Resources;
+            }
+            else return null;
+
+            using ( var vmtStream = provider.OpenFile( name ) )
+            {
+                return new ValveMaterialFile( vmtStream );
+            }
         }
 
         [Get( "/{mapName}/materials" )]
@@ -898,30 +959,19 @@ namespace MapViewServer
 
             var response = new JArray();
 
-            using ( var bsp = OpenBspFile( mapName ) )
+            using ( var bsp = OpenBspFile( Request, mapName ) )
             {
                 for ( var i = 0; i < bsp.TextureStringTable.Length; ++i )
                 {
-                    var name = $"materials/{bsp.GetTextureString( i ).ToLower()}.vmt";
-                    if ( !Resources.ContainsFile( name ) )
-                    {
-                        response.Add( null );
-                        continue;
-                    }
-
-                    ValveMaterialFile vmt;
-                    using ( var vmtStream = Resources.OpenFile( name ) )
-                    {
-                        vmt = new ValveMaterialFile( vmtStream );
-                    }
-
-                    response.Add( SerializeVmt( vmt ) );
+                    var path = $"materials/{bsp.GetTextureString( i ).ToLower()}.vmt";
+                    var vmt = OpenVmt( bsp, path );
+                    response.Add( vmt == null ? null : SerializeVmt( bsp, vmt, path ) );
                 }
             }
 
             return new JObject
             {
-                { "materials", response }
+                {"materials", response}
             };
         }
     }

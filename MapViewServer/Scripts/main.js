@@ -1513,6 +1513,7 @@ var SourceUtils;
             $.getJSON(this.vtfUrl, function (data) {
                 _this.info = data;
                 _this.nextLevel = Math.max(0, data.mipmaps - 1);
+            }).always(function () {
                 if (callback != null)
                     callback();
             });

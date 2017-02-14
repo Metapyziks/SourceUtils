@@ -189,12 +189,12 @@
         }
 
         private loadInfo(callback?: () => void): void {
-            $.getJSON(this.vtfUrl,
-                (data: Api.VtfResponse) => {
-                    this.info = data;
-                    this.nextLevel = Math.max(0, data.mipmaps - 1);
-                    if (callback != null) callback();
-                });
+            $.getJSON(this.vtfUrl, (data: Api.VtfResponse) => {
+                this.info = data;
+                this.nextLevel = Math.max(0, data.mipmaps - 1);
+            }).always(() => {
+                if (callback != null) callback();
+            });
         }
     }
 }
