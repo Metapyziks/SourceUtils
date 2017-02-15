@@ -228,7 +228,7 @@
             super.loadNext(null);
 
             if (!this.loadedInfo) {
-                this.loadInfo(this.nextFace, () => callback(true));
+                this.loadInfo(this.nextFace, success => callback(success));
                 return;
             }
 
@@ -240,7 +240,7 @@
                 });
         }
 
-        private loadInfo(face: number, callback?: () => void): void {
+        private loadInfo(face: number, callback?: (success: boolean) => void): void {
             $.getJSON(this.vtfUrls[face],
                 (data: Api.VtfResponse) => {
                     this.infos[face] = data;
@@ -250,9 +250,10 @@
                         this.nextFace = 0;
                         this.loadedInfo = true;
                     }
-                }).always(() => {
-                if (callback != null) callback();
-            });
+                    if (callback != null) callback(true);
+                }).fail(() => {
+                    if (callback != null) callback(false);
+                });
         }
 
         setupTexParams(target: number): void {

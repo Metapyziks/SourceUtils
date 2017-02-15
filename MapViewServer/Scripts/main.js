@@ -40,7 +40,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspNode;
         }(BspElem));
@@ -48,30 +48,30 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                return _super !== null && _super.apply(this, arguments) || this;
+                _super.apply(this, arguments);
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
-        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
+        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
+        var PrimitiveType = Api.PrimitiveType;
         var Element = (function () {
             function Element() {
             }
             return Element;
         }());
         Api.Element = Element;
-        var MeshComponent;
         (function (MeshComponent) {
             MeshComponent[MeshComponent["position"] = 1] = "position";
             MeshComponent[MeshComponent["normal"] = 2] = "normal";
             MeshComponent[MeshComponent["uv"] = 4] = "uv";
             MeshComponent[MeshComponent["uv2"] = 8] = "uv2";
-        })(MeshComponent = Api.MeshComponent || (Api.MeshComponent = {}));
+        })(Api.MeshComponent || (Api.MeshComponent = {}));
+        var MeshComponent = Api.MeshComponent;
         var Faces = (function () {
             function Faces() {
             }
@@ -102,13 +102,13 @@ var SourceUtils;
             return BspDisplacementsResponse;
         }());
         Api.BspDisplacementsResponse = BspDisplacementsResponse;
-        var MaterialPropertyType;
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["boolean"] = 0] = "boolean";
             MaterialPropertyType[MaterialPropertyType["number"] = 1] = "number";
             MaterialPropertyType[MaterialPropertyType["texture2D"] = 2] = "texture2D";
             MaterialPropertyType[MaterialPropertyType["textureCube"] = 3] = "textureCube";
-        })(MaterialPropertyType = Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
+        })(Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
+        var MaterialPropertyType = Api.MaterialPropertyType;
         var MaterialProperty = (function () {
             function MaterialProperty() {
             }
@@ -127,7 +127,6 @@ var SourceUtils;
             return BspMaterialsResponse;
         }());
         Api.BspMaterialsResponse = BspMaterialsResponse;
-        var VtfFlags;
         (function (VtfFlags) {
             VtfFlags[VtfFlags["POINTSAMPLE"] = 1] = "POINTSAMPLE";
             VtfFlags[VtfFlags["TRILINEAR"] = 2] = "TRILINEAR";
@@ -161,7 +160,8 @@ var SourceUtils;
             VtfFlags[VtfFlags["BORDER"] = 536870912] = "BORDER";
             VtfFlags[VtfFlags["UNUSED_40000000"] = 1073741824] = "UNUSED_40000000";
             VtfFlags[VtfFlags["UNUSED_80000000"] = 2147483648] = "UNUSED_80000000";
-        })(VtfFlags = Api.VtfFlags || (Api.VtfFlags = {}));
+        })(Api.VtfFlags || (Api.VtfFlags = {}));
+        var VtfFlags = Api.VtfFlags;
         var VtfResponse = (function () {
             function VtfResponse() {
             }
@@ -199,13 +199,12 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var Key;
+    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var MouseButton = SourceUtils.MouseButton;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -305,7 +304,8 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
+    })(SourceUtils.Key || (SourceUtils.Key = {}));
+    var Key = SourceUtils.Key;
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -486,7 +486,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            _super.apply(this, arguments);
         }
         return Entity;
     }(THREE.Object3D));
@@ -498,12 +498,11 @@ var SourceUtils;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
         function BspModel(map, index) {
-            var _this = _super.call(this) || this;
-            _this.map = map;
-            _this.index = index;
-            _this.drawList = new SourceUtils.DrawList(map);
-            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", index.toString()));
-            return _this;
+            _super.call(this);
+            this.map = map;
+            this.index = index;
+            this.drawList = new SourceUtils.DrawList(map);
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
         }
         BspModel.prototype.getDrawList = function () {
             return this.drawList;
@@ -593,10 +592,10 @@ var SourceUtils;
                 this.drawList.updateItem(this);
         };
         DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
+        DrawListItem.rootCenter = new THREE.Vector3();
+        DrawListItem.thisCenter = new THREE.Vector3();
         return DrawListItem;
     }());
-    DrawListItem.rootCenter = new THREE.Vector3();
-    DrawListItem.thisCenter = new THREE.Vector3();
     SourceUtils.DrawListItem = DrawListItem;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="DrawListItem.ts"/>
@@ -605,12 +604,11 @@ var SourceUtils;
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
         function Displacement(info) {
-            var _this = _super.call(this, "d", info.index) || this;
-            _this.clusters = info.clusters;
+            _super.call(this, "d", info.index);
+            this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
-            return _this;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         return Displacement;
     }(SourceUtils.DrawListItem));
@@ -810,25 +808,24 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(app, url) {
-            var _this = _super.call(this) || this;
-            _this.models = [];
-            _this.displacements = [];
-            _this.materials = [];
-            _this.pvsOrigin = new THREE.Vector3();
-            _this.pvs = [];
-            _this.app = app;
-            _this.frustumCulled = false;
-            _this.faceLoader = new SourceUtils.FaceLoader(_this);
-            _this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
-            _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
-            _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
-            _this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
-            _this.blankMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
-            _this.blankMaterial.properties.baseTexture = _this.blankTexture;
-            _this.errorMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
-            _this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
-            _this.loadInfo(url);
-            return _this;
+            _super.call(this);
+            this.models = [];
+            this.displacements = [];
+            this.materials = [];
+            this.pvsOrigin = new THREE.Vector3();
+            this.pvs = [];
+            this.app = app;
+            this.frustumCulled = false;
+            this.faceLoader = new SourceUtils.FaceLoader(this);
+            this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
+            this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
+            this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
+            this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            this.blankMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
+            this.blankMaterial.properties.baseTexture = this.blankTexture;
+            this.errorMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
+            this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
+            this.loadInfo(url);
         }
         Map.prototype.getApp = function () {
             return this.app;
@@ -977,18 +974,17 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            var _this = _super.call(this) || this;
-            _this.logFrameTime = false;
-            _this.logDrawCalls = false;
-            _this.lookAngs = new THREE.Vector2();
-            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            _this.countedFrames = 0;
-            _this.totalFrameTime = 0;
-            _this.unitZ = new THREE.Vector3(0, 0, 1);
-            _this.unitX = new THREE.Vector3(1, 0, 0);
-            _this.tempQuat = new THREE.Quaternion();
-            _this.canLockPointer = true;
-            return _this;
+            _super.call(this);
+            this.logFrameTime = false;
+            this.logDrawCalls = false;
+            this.lookAngs = new THREE.Vector2();
+            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            this.countedFrames = 0;
+            this.totalFrameTime = 0;
+            this.unitZ = new THREE.Vector3(0, 0, 1);
+            this.unitX = new THREE.Vector3(1, 0, 0);
+            this.tempQuat = new THREE.Quaternion();
+            this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -1347,16 +1343,15 @@ var SourceUtils;
         var LightmappedGeneric = (function (_super) {
             __extends(LightmappedGeneric, _super);
             function LightmappedGeneric(manager) {
-                var _this = _super.call(this, manager) || this;
-                var gl = _this.getContext();
-                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
-                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
-                _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
-                _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
-                _this.baseTexture = new Uniform(_this, "uBaseTexture");
-                _this.lightmap = new Uniform(_this, "uLightmap");
-                return _this;
+                _super.call(this, manager);
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
+                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
+                this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
+                this.baseTexture = new Uniform(this, "uBaseTexture");
+                this.lightmap = new Uniform(this, "uLightmap");
             }
             LightmappedGeneric.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
@@ -1388,14 +1383,13 @@ var SourceUtils;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
-                var _this = _super.call(this, manager) || this;
-                var gl = _this.getContext();
-                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
-                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
-                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
-                _this.cameraPos = new Uniform(_this, "uCameraPos");
-                _this.skyCube = new Uniform(_this, "uSkyCube");
-                return _this;
+                _super.call(this, manager);
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
+                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                this.cameraPos = new Uniform(this, "uCameraPos");
+                this.skyCube = new Uniform(this, "uSkyCube");
             }
             Sky.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
@@ -1501,9 +1495,8 @@ var SourceUtils;
     var Lightmap = (function (_super) {
         __extends(Lightmap, _super);
         function Lightmap(gl, url) {
-            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
-            _this.loadLevel(url, 0);
-            return _this;
+            _super.call(this, gl, gl.TEXTURE_2D);
+            this.loadLevel(url, 0);
         }
         return Lightmap;
     }(Texture));
@@ -1511,9 +1504,8 @@ var SourceUtils;
     var BlankTexture = (function (_super) {
         __extends(BlankTexture, _super);
         function BlankTexture(gl, color) {
-            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
-            _this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
-            return _this;
+            _super.call(this, gl, gl.TEXTURE_2D);
+            this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
         }
         return BlankTexture;
     }(Texture));
@@ -1521,7 +1513,7 @@ var SourceUtils;
     var ErrorTexture = (function (_super) {
         __extends(ErrorTexture, _super);
         function ErrorTexture(gl) {
-            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _super.call(this, gl, gl.TEXTURE_2D);
             var resolution = 64;
             var pixels = new Uint8Array(resolution * resolution * 4);
             for (var y = 0; y < resolution; ++y)
@@ -1537,8 +1529,7 @@ var SourceUtils;
                     pixels[(x + y * resolution) * 4 + 1] = 0x00;
                     pixels[(x + y * resolution) * 4 + 3] = 0xff;
                 }
-            _this.loadPixels(resolution, resolution, pixels);
-            return _this;
+            this.loadPixels(resolution, resolution, pixels);
         }
         return ErrorTexture;
     }(Texture));
@@ -1546,9 +1537,8 @@ var SourceUtils;
     var ValveTexture = (function (_super) {
         __extends(ValveTexture, _super);
         function ValveTexture(gl, target) {
-            var _this = _super.call(this, gl, target) || this;
-            _this.usesSinceLastLoad = 0;
-            return _this;
+            _super.call(this, gl, target);
+            this.usesSinceLastLoad = 0;
         }
         ValveTexture.prototype.onGetHandle = function () {
             ++this.usesSinceLastLoad;
@@ -1565,9 +1555,8 @@ var SourceUtils;
     var ValveTexture2D = (function (_super) {
         __extends(ValveTexture2D, _super);
         function ValveTexture2D(gl, url) {
-            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
-            _this.vtfUrl = url;
-            return _this;
+            _super.call(this, gl, gl.TEXTURE_2D);
+            this.vtfUrl = url;
         }
         ValveTexture2D.prototype.loadNext = function (callback) {
             var _this = this;
@@ -1608,19 +1597,18 @@ var SourceUtils;
     var ValveTextureCube = (function (_super) {
         __extends(ValveTextureCube, _super);
         function ValveTextureCube(gl, urls) {
-            var _this = _super.call(this, gl, gl.TEXTURE_CUBE_MAP) || this;
-            _this.infos = [];
-            _this.loadedInfo = false;
-            _this.nextFace = 0;
-            _this.vtfUrls = urls;
-            return _this;
+            _super.call(this, gl, gl.TEXTURE_CUBE_MAP);
+            this.infos = [];
+            this.loadedInfo = false;
+            this.nextFace = 0;
+            this.vtfUrls = urls;
         }
         ValveTextureCube.prototype.isLoaded = function () { return _super.prototype.isLoaded.call(this) && this.loadedInfo && this.nextFace >= 6; };
         ValveTextureCube.prototype.loadNext = function (callback) {
             var _this = this;
             _super.prototype.loadNext.call(this, null);
             if (!this.loadedInfo) {
-                this.loadInfo(this.nextFace, function () { return callback(true); });
+                this.loadInfo(this.nextFace, function (success) { return callback(success); });
                 return;
             }
             this.loadLevel(this.infos[this.nextFace].pngUrl.replace("{mipmap}", "0"), this.nextFace, function () {
@@ -1637,9 +1625,11 @@ var SourceUtils;
                     _this.nextFace = 0;
                     _this.loadedInfo = true;
                 }
-            }).always(function () {
                 if (callback != null)
-                    callback();
+                    callback(true);
+            }).fail(function () {
+                if (callback != null)
+                    callback(false);
             });
         };
         ValveTextureCube.prototype.setupTexParams = function (target) {
@@ -1704,7 +1694,7 @@ var SourceUtils;
         TextureLoader.prototype.update = function () {
             var _this = this;
             var next;
-            var _loop_1 = function () {
+            var _loop_1 = function() {
                 ++this_1.active;
                 var nextCopy = next;
                 next.loadNext(function (requeue) {
@@ -1728,14 +1718,13 @@ var SourceUtils;
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
         function VisLeaf(info) {
-            var _this = _super.call(this, "l", info.index) || this;
-            _this.isLeaf = true;
+            _super.call(this, "l", info.index);
+            this.isLeaf = true;
             var min = info.min;
             var max = info.max;
-            _this.leafIndex = info.index;
-            _this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
-            return _this;
+            this.leafIndex = info.index;
+            this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
@@ -1934,10 +1923,10 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
+        WorldMeshGroup.maxIndices = 2147483647;
+        WorldMeshGroup.nextId = 1;
         return WorldMeshGroup;
     }());
-    WorldMeshGroup.maxIndices = 2147483647;
-    WorldMeshGroup.nextId = 1;
     SourceUtils.WorldMeshGroup = WorldMeshGroup;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;

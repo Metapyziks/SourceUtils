@@ -49,8 +49,6 @@ namespace MapViewServer
             bsp = new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ), mapName );
             _sBspCache.Add( mapName, bsp );
 
-            bsp.LightmapLayout.CacheFilePath = Path.Combine( Program.CacheDirectory, "Lightmaps", mapName );
-
             return bsp;
         }
 
@@ -509,7 +507,7 @@ namespace MapViewServer
         {
             var postfixes = new[]
             {
-                "rt", "lf", "up", "dn", "bk", "ft"
+                 "ft", "bk", "dn", "up", "rt", "lf"
             };
             
             var propArray = new JArray();
@@ -523,7 +521,7 @@ namespace MapViewServer
                 var vmt = OpenVmt( bsp, matName );
                 var shaderProps = vmt[vmt.Shaders.FirstOrDefault()];
                 var baseTex = shaderProps["$hdrcompressedtexture"] ?? shaderProps["$basetexture"];
-                faceUrls[i++] = GetTextureUrl( bsp, baseTex, matDir );
+                faceUrls[i++] = GetTextureUrl( bsp, baseTex, matDir, true );
             }
 
             AddTextureCubeProperty( propArray, "baseTexture", faceUrls );
@@ -820,7 +818,9 @@ namespace MapViewServer
                         var t = Math.Max( 0, Math.Min( y, rect.Height - 1 ) );
 
                         var index = (rect.X + x + width * (rect.Y + y)) * 3;
-                        sampleBuffer[s + t * rect.Width].ToRgb(
+                        var sampleIndex = s + t * rect.Width;
+
+                        sampleBuffer[sampleIndex].ToRgb(
                             out pixels[index + 0],
                             out pixels[index + 1],
                             out pixels[index + 2] );
@@ -879,14 +879,14 @@ namespace MapViewServer
             }
         }
 
-        private string GetTextureUrl( ValveBspFile bsp, string filePath, string vmtDir )
+        private string GetTextureUrl( ValveBspFile bsp, string filePath, string vmtDir, bool flipY = false )
         {
             filePath = filePath.Replace( '\\', '/' );
 
             foreach ( var variant in GetTexturePathVariants( filePath, vmtDir ) )
             {
-                if ( bsp.PakFile.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, bsp.Name );
-                if ( Resources.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant );
+                if ( bsp.PakFile.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, bsp.Name, flipY );
+                if ( Resources.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, null, flipY );
             }
 
             return null;

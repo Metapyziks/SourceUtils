@@ -88,7 +88,7 @@ namespace MapViewServer
             if ( mipMapHeight < 4 ) mipMapHeight = 4;
         }
 
-        private static void ConvertDdsToPng( Stream src, Stream dst, int newWidth = -1, int newHeight = -1 )
+        private static void ConvertDdsToPng( Stream src, Stream dst, bool flipY = false, int newWidth = -1, int newHeight = -1 )
         {
             if ( Environment.OSVersion.Platform == PlatformID.Unix ||
                  Environment.OSVersion.Platform == PlatformID.MacOSX )
@@ -99,6 +99,11 @@ namespace MapViewServer
                     if ( newWidth != -1 && newHeight != -1 )
                     {
                         args += $"-resize {newWidth}x{newHeight} ";
+                    }
+
+                    if ( flipY )
+                    {
+                        args += "-flip ";
                     }
 
                     var processStart = new ProcessStartInfo
@@ -134,6 +139,11 @@ namespace MapViewServer
                     if ( newWidth != -1 && newHeight != -1 )
                     {
                         image.Resize( newWidth, newHeight );
+                    }
+
+                    if ( flipY )
+                    {
+                        image.Flip();
                     }
 
                     image.Write( dst, MagickFormat.Png );
@@ -227,7 +237,7 @@ namespace MapViewServer
             }
         }
 
-        public static void ConvertToPng( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream )
+        public static void ConvertToPng( IResourceProvider resources, string vtfFilePath, int mipMap, bool flipY, Stream outStream )
         {
             if ( _sMemoryStream == null ) _sMemoryStream = new MemoryStream();
             else
@@ -245,11 +255,11 @@ namespace MapViewServer
             {
                 width = Math.Max( 1, width );
                 height = Math.Max( 1, height );
-                ConvertDdsToPng( _sMemoryStream, outStream, width, height );
+                ConvertDdsToPng( _sMemoryStream, outStream, flipY, width, height );
             }
             else
             {
-                ConvertDdsToPng( _sMemoryStream, outStream );
+                ConvertDdsToPng( _sMemoryStream, outStream, flipY );
             }
         }
     }
