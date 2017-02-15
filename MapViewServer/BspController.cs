@@ -521,7 +521,7 @@ namespace MapViewServer
                 var vmt = OpenVmt( bsp, matName );
                 var shaderProps = vmt[vmt.Shaders.FirstOrDefault()];
                 var baseTex = shaderProps["$hdrcompressedtexture"] ?? shaderProps["$basetexture"];
-                faceUrls[i++] = GetTextureUrl( bsp, baseTex, matDir, true );
+                faceUrls[i++] = GetTextureUrl( bsp, baseTex, matDir );
             }
 
             AddTextureCubeProperty( propArray, "baseTexture", faceUrls );
@@ -879,14 +879,14 @@ namespace MapViewServer
             }
         }
 
-        private string GetTextureUrl( ValveBspFile bsp, string filePath, string vmtDir, bool flipY = false )
+        private string GetTextureUrl( ValveBspFile bsp, string filePath, string vmtDir )
         {
             filePath = filePath.Replace( '\\', '/' );
 
             foreach ( var variant in GetTexturePathVariants( filePath, vmtDir ) )
             {
-                if ( bsp.PakFile.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, bsp.Name, flipY );
-                if ( Resources.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, null, flipY );
+                if ( bsp.PakFile.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant, bsp.Name );
+                if ( Resources.ContainsFile( variant ) ) return VtfController.GetUrl( Request, variant );
             }
 
             return null;

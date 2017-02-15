@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SourceUtils
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct TextureHeader
     {
         public int Signature;
@@ -29,7 +29,7 @@ namespace SourceUtils
         public byte LowResHeight;
         public ushort Depth;
     }
-    
+
     public enum TextureFlags : uint
     {
         POINTSAMPLE = 0x00000001,
@@ -44,10 +44,10 @@ namespace SourceUtils
         NOLOD = 0x00000200,
         ALL_MIPS = 0x00000400,
         PROCEDURAL = 0x00000800,
-        
+
         ONEBITALPHA = 0x00001000,
         EIGHTBITALPHA = 0x00002000,
-        
+
         ENVMAP = 0x00004000,
         RENDERTARGET = 0x00008000,
         DEPTHRENDERTARGET = 0x00010000,
@@ -106,40 +106,53 @@ namespace SourceUtils
         RGBA16161616,
         UVLX8888
     }
-    
-    [PathPrefix("materials")]
+
+    [PathPrefix( "materials" )]
     public class ValveTextureFile
     {
-        public static ValveTextureFile FromStream(Stream stream)
+        public static ValveTextureFile FromStream( Stream stream )
         {
-            return new ValveTextureFile(stream);
+            return new ValveTextureFile( stream );
         }
 
-        public static int GetImageDataSize(int width, int height, int depth, int mipCount, TextureFormat format)
+        public static int GetImageDataSize( int width, int height, int depth, int mipCount, TextureFormat format )
         {
-            if (mipCount == 0 || width == 0 && height == 0) return 0;
+            if ( mipCount == 0 || width == 0 && height == 0 ) return 0;
 
             var toAdd = 0;
-            if (mipCount > 1) toAdd += GetImageDataSize(width >> 1, height >> 1, depth, mipCount - 1, format);
-            
-            // TODO: move this when supporting non-DXT formats
-            if (width < 4) width = 4;
-            if (height < 4) height = 4;
+            if ( mipCount > 1 ) toAdd += GetImageDataSize( width >> 1, height >> 1, depth, mipCount - 1, format );
 
-            switch (format)
+            if ( format == TextureFormat.DXT1 || format == TextureFormat.DXT5 )
             {
-                case TextureFormat.NONE: return toAdd;
-                case TextureFormat.DXT1: return toAdd + ((width*height) >> 1) * depth;
-                case TextureFormat.DXT5: return toAdd + width * height*depth;
-                default: throw new NotImplementedException();
+                if ( width < 4 ) width = 4;
+                if ( height < 4 ) height = 4;
+            }
+            else
+            {
+                if ( width < 1 ) width = 1;
+                if ( height < 1 ) height = 1;
+            }
+
+            switch ( format )
+            {
+                case TextureFormat.NONE:
+                    return toAdd;
+                case TextureFormat.DXT1:
+                    return toAdd + ((width * height) >> 1) * depth;
+                case TextureFormat.DXT5:
+                    return toAdd + width * height * depth;
+                case TextureFormat.BGRA8888:
+                    return toAdd + ((width * height * depth) << 2);
+                default:
+                    throw new NotImplementedException();
             }
         }
 
         public TextureHeader Header { get; }
         public byte[] PixelData { get; }
 
-        [ThreadStatic]
-        private static byte[] _sTempBuffer;
+        [ThreadStatic] private static byte[] _sTempBuffer;
+
         private static void Skip( Stream stream, long count )
         {
             if ( count == 0 ) return;
@@ -160,38 +173,41 @@ namespace SourceUtils
             stream.Read( _sTempBuffer, 0, (int) count );
         }
 
-        public ValveTextureFile(Stream stream, bool onlyHeader = false)
+        public ValveTextureFile( Stream stream, bool onlyHeader = false )
         {
-            Header = LumpReader<TextureHeader>.ReadSingleFromStream(stream);
-            
+            Header = LumpReader<TextureHeader>.ReadSingleFromStream( stream );
+
             Skip( stream, Header.HeaderSize - Marshal.SizeOf<TextureHeader>() );
 
-            var thumbSize = GetImageDataSize(Header.LowResWidth, Header.LowResHeight, 1, 1, Header.LowResFormat);
+            var thumbSize = GetImageDataSize( Header.LowResWidth, Header.LowResHeight, 1, 1, Header.LowResFormat );
 
-            switch (Header.HiResFormat)
+            switch ( Header.HiResFormat )
             {
-                case TextureFormat.DXT1: break;
-                case TextureFormat.DXT5: break;
-                default: throw new NotImplementedException( $"VTF format: {Header.HiResFormat}" );
+                case TextureFormat.DXT1:
+                    break;
+                case TextureFormat.DXT5:
+                    break;
+                case TextureFormat.BGRA8888:
+                    break;
+                default:
+                    throw new NotImplementedException( $"VTF format: {Header.HiResFormat}" );
             }
 
             if ( onlyHeader ) return;
 
             Skip( stream, thumbSize );
-            
-            var totalSize = GetImageDataSize(Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat);
+
+            var totalSize = GetImageDataSize( Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat );
 
             PixelData = new byte[totalSize];
 
             var writePos = totalSize;
-            var offset = 0;
-
-            for (var i = Header.MipMapCount - 1; i >= 0; --i)
+            for ( var i = Header.MipMapCount - 1; i >= 0; --i )
             {
                 var size = GetImageDataSize( Header.Width >> i, Header.Height >> i, 1, 1, Header.HiResFormat );
 
                 writePos -= size;
-                stream.Read(PixelData, writePos, size);
+                stream.Read( PixelData, writePos, size );
             }
         }
     }

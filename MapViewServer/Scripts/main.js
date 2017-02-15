@@ -1623,6 +1623,7 @@ var SourceUtils;
                 _this.nextFace++;
                 if (_this.nextFace >= 6) {
                     _this.nextFace = 0;
+                    _this.faceSize = _this.infos[0].width;
                     _this.loadedInfo = true;
                 }
                 if (callback != null)
@@ -1640,7 +1641,23 @@ var SourceUtils;
         ValveTextureCube.prototype.onLoad = function (image, face, callBack) {
             var gl = this.getContext();
             this.getOrCreateHandle();
-            gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            var target = gl.TEXTURE_CUBE_MAP_POSITIVE_X + face;
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+            if (image.width === image.height && image.width === this.faceSize) {
+                console.log(image.width);
+                gl.texImage2D(target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            }
+            else if (image.height > image.width) {
+                console.warn("Cubemap texture has height > width (" + this.infos[face].pngUrl + ").");
+            }
+            else {
+                gl.texImage2D(target, 0, gl.RGBA, this.faceSize, this.faceSize, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+                // Ignore bottom face
+                if (face !== 2) {
+                    gl.texSubImage2D(target, 0, 0, this.faceSize - image.height, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                }
+            }
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
             if (callBack != null)
                 callBack();
         };

@@ -33,21 +33,19 @@ namespace MapViewServer
             return mapName == null ? "vpk" : $"pak/{mapName}";
         }
 
-        public static string GetUrl( HttpListenerRequest request, string path, string mapName = null, bool flipY = false )
+        public static string GetUrl( HttpListenerRequest request, string path, string mapName = null )
         {
-            var flipYString = flipY ? "?flipy=true" : "";
-            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path}{flipYString}";
+            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path}";
         }
 
-        public static string GetPngUrl( HttpListenerRequest request, string path, string mapName = null, int mipMap = -1, bool flipY = false )
+        public static string GetPngUrl( HttpListenerRequest request, string path, string mapName = null, int mipMap = -1 )
         {
             var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
-            var flipYString = flipY ? "&flipy=true" : "";
             return
-                $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}?mipmap={mipMapString}{flipYString}";
+                $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}?mipmap={mipMapString}";
         }
 
-        private JObject GetJson( IResourceProvider provider, string filePath, bool flipY, string mapName = null )
+        private JObject GetJson( IResourceProvider provider, string filePath, string mapName = null )
         {
             ValveTextureFile vtf;
 
@@ -61,7 +59,7 @@ namespace MapViewServer
                 {"width", vtf.Header.Width},
                 {"height", vtf.Header.Height},
                 {"flags", (long) vtf.Header.Flags},
-                {"pngUrl", GetPngUrl( Request, filePath, mapName, -1, flipY )},
+                {"pngUrl", GetPngUrl( Request, filePath, mapName, -1 )},
                 {"mipmaps", vtf.Header.MipMapCount}
             };
 
@@ -69,37 +67,37 @@ namespace MapViewServer
         }
 
         [Get( "/vpk", MatchAllUrl = false )]
-        public JObject GetJson( bool flipY = false )
+        public JObject GetJson()
         {
-            return GetJson( Resources, FilePath, flipY );
+            return GetJson( Resources, FilePath );
         }
 
         [Get( "/pak/{mapName}", MatchAllUrl = false )]
-        public JObject GetJson( [Url] string mapName, bool flipY = false )
+        public JObject GetJson( [Url] string mapName )
         {
             var bsp = BspController.GetBspFile( Request, mapName );
-            return GetJson( bsp.PakFile, FilePath, flipY, mapName );
+            return GetJson( bsp.PakFile, FilePath, mapName );
         }
 
-        private void GetPng( IResourceProvider provider, string filePath, int mipmap, bool flipY )
+        private void GetPng( IResourceProvider provider, string filePath, int mipmap )
         {
             Response.ContentType = MimeTypeMap.GetMimeType( ".png" );
 
-            VtfConverter.ConvertToPng( provider, filePath, mipmap, flipY, Response.OutputStream );
+            VtfConverter.ConvertToPng( provider, filePath, mipmap, Response.OutputStream );
             Response.OutputStream.Close();
         }
 
         [Get( "/vpk", MatchAllUrl = false, Extension = ".png" )]
-        public void GetPng( int mipmap = 0, bool flipY = false )
+        public void GetPng( int mipmap = 0 )
         {
-            GetPng( Resources, FilePath, mipmap, flipY );
+            GetPng( Resources, FilePath, mipmap );
         }
         
         [Get( "/pak/{mapName}", MatchAllUrl = false, Extension = ".png" )]
-        public void GetPng( [Url] string mapName, int mipmap = 0, bool flipY = false )
+        public void GetPng( [Url] string mapName, int mipmap = 0 )
         {
             var bsp = BspController.GetBspFile( Request, mapName );
-            GetPng( bsp.PakFile, FilePath, mipmap, flipY );
+            GetPng( bsp.PakFile, FilePath, mipmap );
         }
     }
 }
