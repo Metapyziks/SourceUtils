@@ -663,6 +663,8 @@ var SourceUtils;
                     return;
                 }
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
+                    if (this.lastProgram != null)
+                        this.lastProgram.cleanupPostRender(this.map, camera);
                     this.lastProgram = this.lastMaterial.getProgram();
                     this.lastProgram.prepareForRendering(this.map, camera);
                     changedProgram = true;
@@ -729,6 +731,8 @@ var SourceUtils;
             for (var i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
                 this.renderHandle(this.merged[i], camera);
             }
+            if (this.lastProgram != null)
+                this.lastProgram.cleanupPostRender(this.map, camera);
         };
         return DrawList;
     }());
@@ -1088,6 +1092,10 @@ var SourceUtils;
 (function (SourceUtils) {
     var MaterialProperties = (function () {
         function MaterialProperties() {
+            this.baseTexture = null;
+            this.alphaTest = false;
+            this.alpha = 1;
+            this.noCull = false;
         }
         return MaterialProperties;
     }());
@@ -1371,22 +1379,34 @@ var SourceUtils;
             this.use();
             this.projectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
             this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
+            this.noCull = false;
         };
-        ShaderProgram.prototype.changeMaterial = function (material) { return true; };
+        ShaderProgram.prototype.cleanupPostRender = function (map, camera) {
+            var gl = this.getContext();
+            if (this.noCull)
+                gl.enable(gl.CULL_FACE);
+        };
+        ShaderProgram.prototype.changeMaterial = function (material) {
+            var gl = this.getContext();
+            if (this.noCull !== material.properties.noCull) {
+                this.noCull = material.properties.noCull;
+                if (this.noCull)
+                    gl.disable(gl.CULL_FACE);
+                else
+                    gl.enable(gl.CULL_FACE);
+            }
+            return true;
+        };
         ShaderProgram.nextSortIndex = 0;
         return ShaderProgram;
     }());
     SourceUtils.ShaderProgram = ShaderProgram;
     var Shaders;
     (function (Shaders) {
-        var LightmappedGeneric = (function (_super) {
-            __extends(LightmappedGeneric, _super);
-            function LightmappedGeneric(manager) {
+        var LightmappedBase = (function (_super) {
+            __extends(LightmappedBase, _super);
+            function LightmappedBase(manager) {
                 _super.call(this, manager);
-                this.sortOrder = 0;
-                var gl = this.getContext();
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
                 this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
                 this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
                 this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
@@ -1395,7 +1415,7 @@ var SourceUtils;
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
             }
-            LightmappedGeneric.prototype.prepareForRendering = function (map, camera) {
+            LightmappedBase.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
                 var perspCamera = camera;
                 var fog = map.info.fog;
@@ -1419,8 +1439,9 @@ var SourceUtils;
                 gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
                 this.lightmap.set1i(2);
             };
-            LightmappedGeneric.prototype.changeMaterial = function (material) {
-                _super.prototype.changeMaterial.call(this, material);
+            LightmappedBase.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
                 var gl = this.getContext();
                 var tex = material.properties.baseTexture;
                 if (tex == null || !tex.isLoaded()) {
@@ -1431,9 +1452,60 @@ var SourceUtils;
                 this.baseTexture.set1i(0);
                 return true;
             };
-            return LightmappedGeneric;
+            return LightmappedBase;
         }(ShaderProgram));
+        Shaders.LightmappedBase = LightmappedBase;
+        var LightmappedGeneric = (function (_super) {
+            __extends(LightmappedGeneric, _super);
+            function LightmappedGeneric(manager) {
+                _super.call(this, manager);
+                this.sortOrder = 0;
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
+                this.alphaTest = new Uniform(this, "uAlphaTest");
+            }
+            LightmappedGeneric.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
+                return true;
+            };
+            return LightmappedGeneric;
+        }(LightmappedBase));
         Shaders.LightmappedGeneric = LightmappedGeneric;
+        var LightmappedTranslucent = (function (_super) {
+            __extends(LightmappedTranslucent, _super);
+            function LightmappedTranslucent(manager) {
+                _super.call(this, manager);
+                this.sortOrder = 2000;
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
+                this.alpha = new Uniform(this, "uAlpha");
+            }
+            LightmappedTranslucent.prototype.prepareForRendering = function (map, camera) {
+                _super.prototype.prepareForRendering.call(this, map, camera);
+                var gl = this.getContext();
+                gl.depthMask(false);
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            };
+            LightmappedTranslucent.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                this.alpha.set1f(material.properties.alpha);
+                return true;
+            };
+            LightmappedTranslucent.prototype.cleanupPostRender = function (map, camera) {
+                var gl = this.getContext();
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
+                _super.prototype.cleanupPostRender.call(this, map, camera);
+            };
+            return LightmappedTranslucent;
+        }(LightmappedBase));
+        Shaders.LightmappedTranslucent = LightmappedTranslucent;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
@@ -1697,7 +1769,6 @@ var SourceUtils;
             var target = gl.TEXTURE_CUBE_MAP_POSITIVE_X + face;
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
             if (image.width === image.height && image.width === this.faceSize) {
-                console.log(image.width);
                 gl.texImage2D(target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
             }
             else if (image.height > image.width) {

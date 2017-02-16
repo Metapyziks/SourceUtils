@@ -275,7 +275,6 @@
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
 
             if (image.width === image.height && image.width === this.faceSize) {
-                console.log(image.width);
                 gl.texImage2D(target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
             } else if (image.height > image.width) {
                 console.warn(`Cubemap texture has height > width (${this.infos[face].pngUrl}).`);

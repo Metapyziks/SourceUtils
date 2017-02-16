@@ -11,12 +11,11 @@ uniform sampler2D uLightmap;
 uniform vec2 uFogParams;
 uniform vec3 uFogColor;
 
-uniform float uAlphaTest;
+uniform float uAlpha;
 
 void main()
 {
     vec4 texSample = texture2D(uBaseTexture, vTextureCoord);
-    if (texSample.a <= uAlphaTest - 0.5) discard;
 
     float depth = ((2.0 * gl_FragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near)) / gl_FragCoord.w;
     float fogDensity = uFogParams.x + uFogParams.y * depth;
@@ -26,5 +25,5 @@ void main()
     vec3 lightmap = texture2D(uLightmap, vLightmapCoord).rgb;
     vec3 color = texSample.rgb * lightmap * (1.0 - fogDensity) + uFogColor * fogDensity;
 
-    gl_FragColor = vec4(color, 1);
+    gl_FragColor = vec4(color, texSample.a * uAlpha);
 }

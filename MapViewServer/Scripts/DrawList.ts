@@ -53,6 +53,8 @@
                 }
 
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
+                    if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, camera);
+
                     this.lastProgram = this.lastMaterial.getProgram();
                     this.lastProgram.prepareForRendering(this.map, camera);
                     changedProgram = true;
@@ -135,6 +137,8 @@
             for (let i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
                 this.renderHandle(this.merged[i], camera);
             }
+
+            if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, camera);
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿namespace SourceUtils
 {
     export class MaterialProperties {
-        baseTexture: Texture;
+        baseTexture: Texture = null;
+        alphaTest = false;
+        alpha = 1;
+        noCull = false;
     }
 
     export class Material

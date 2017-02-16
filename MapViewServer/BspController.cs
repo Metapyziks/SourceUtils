@@ -970,6 +970,15 @@ namespace MapViewServer
                     case "$basetexture":
                         AddTexture2DProperty( destArray, "baseTexture", GetTextureUrl( bsp, props[name], vmtDir ) );
                         break;
+                    case "$alphatest":
+                        AddBooleanProperty( destArray, "alphaTest", props.GetBoolean( name ) );
+                        break;
+                    case "$alpha":
+                        AddNumberProperty( destArray, "alpha", props.GetSingle( name ) );
+                        break;
+                    case "$nocull":
+                        AddBooleanProperty( destArray, "noCull", props.GetBoolean( name ) );
+                        break;
                 }
             }
         }
@@ -984,9 +993,15 @@ namespace MapViewServer
 
             SerializeShaderProperties( bsp, vmt, shader, vmtDir, propArray );
 
+            var shaderName = "LightmappedGeneric";
+            if ( vmt[shader].GetBoolean( "$translucent" ) )
+            {
+                shaderName = "LightmappedTranslucent";
+            }
+
             return new JObject
             {
-                {"shader", shader.Equals( "sky", StringComparison.InvariantCultureIgnoreCase ) ? "Sky" : "LightmappedGeneric"},
+                {"shader", shaderName},
                 {"properties", propArray}
             };
         }

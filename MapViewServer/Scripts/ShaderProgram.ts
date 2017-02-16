@@ -97,8 +97,7 @@ namespace SourceUtils {
         }
     }
 
-    export class ShaderProgram
-    {
+    export class ShaderProgram {
         private static nextSortIndex = 0;
 
         private sortIndex: number;
@@ -289,6 +288,7 @@ namespace SourceUtils {
         }
 
         private modelViewMatrixValue = new THREE.Matrix4();
+        private noCull: boolean;
 
         prepareForRendering(map: Map, camera: THREE.Camera): void {
             if (!this.isCompiled()) return;
@@ -298,13 +298,30 @@ namespace SourceUtils {
             this.use();
             this.projectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
             this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
+
+            this.noCull = false;
         }
 
-        changeMaterial(material: Material): boolean { return true; }
+        cleanupPostRender(map: Map, camera: THREE.Camera): void {
+            const gl = this.getContext();
+            if (this.noCull) gl.enable(gl.CULL_FACE);
+        }
+
+        changeMaterial(material: Material): boolean {
+            const gl = this.getContext();
+
+            if (this.noCull !== material.properties.noCull) {
+                this.noCull = material.properties.noCull;
+                if (this.noCull) gl.disable(gl.CULL_FACE);
+                else gl.enable(gl.CULL_FACE);
+            }
+
+            return true;
+        }
     }
 
     export namespace Shaders {
-        export class LightmappedGeneric extends ShaderProgram {
+        export class LightmappedBase extends ShaderProgram {
             baseTexture: Uniform;
             lightmap: Uniform;
 
@@ -313,13 +330,6 @@ namespace SourceUtils {
 
             constructor(manager: ShaderManager) {
                 super(manager);
-
-                this.sortOrder = 0;
-
-                const gl = this.getContext();
-
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
 
                 this.addAttribute("aPosition", Api.MeshComponent.position);
                 this.addAttribute("aTextureCoord", Api.MeshComponent.uv);
@@ -348,8 +358,7 @@ namespace SourceUtils {
 
                     this.fogParams.set2f(nearDensity, farDensity);
                     this.fogColor.set3f(fog.color.r * clrMul, fog.color.g * clrMul, fog.color.b * clrMul);
-                } else
-                {
+                } else {
                     this.fogParams.set2f(0, 0);
                 }
 
@@ -366,7 +375,7 @@ namespace SourceUtils {
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
-                super.changeMaterial(material);
+                if (!super.changeMaterial(material)) return false;
 
                 const gl = this.getContext();
                 let tex = material.properties.baseTexture;
@@ -384,8 +393,77 @@ namespace SourceUtils {
             }
         }
 
-        export class Sky extends ShaderProgram
-        {
+        export class LightmappedGeneric extends LightmappedBase {
+            alphaTest: Uniform;
+
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                this.sortOrder = 0;
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
+
+                this.alphaTest = new Uniform(this, "uAlphaTest");
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean {
+                if (!super.changeMaterial(material)) return false;
+
+                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
+
+                return true;
+            }
+        }
+
+        export class LightmappedTranslucent extends LightmappedBase {
+            alpha: Uniform;
+
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                this.sortOrder = 2000;
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
+
+                this.alpha = new Uniform(this, "uAlpha");
+            }
+
+            prepareForRendering(map: SourceUtils.Map, camera: THREE.Camera): void {
+                super.prepareForRendering(map, camera);
+
+                const gl = this.getContext();
+
+                gl.depthMask(false);
+
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean {
+                if (!super.changeMaterial(material)) return false;
+
+                this.alpha.set1f(material.properties.alpha);
+
+                return true;
+            }
+
+            cleanupPostRender(map: SourceUtils.Map, camera: THREE.Camera): void {
+                const gl = this.getContext();
+
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
+
+                super.cleanupPostRender(map, camera);
+            }
+        }
+
+        export class Sky extends ShaderProgram {
             cameraPos: Uniform;
             skyCube: Uniform;
 
