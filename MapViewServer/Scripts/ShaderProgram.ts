@@ -293,8 +293,8 @@ namespace SourceUtils {
             if (!this.isCompiled()) return;
 
             this.use();
-            this.projectionMatrix.setMatrix4f(context.projectionMatrix.elements);
-            this.modelViewMatrix.setMatrix4f(context.modelViewMatrix.elements);
+            this.projectionMatrix.setMatrix4f(context.getProjectionMatrix());
+            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
 
             this.noCull = false;
         }

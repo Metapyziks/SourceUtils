@@ -11,14 +11,18 @@ namespace SourceUtils {
         private root: VisNode;
         private drawList: DrawList;
 
-        constructor(map: Map, index: number) {
+        constructor(map: Map, info: Api.FuncBrush) {
             super();
 
             this.map = map;
-            this.index = index;
+            this.index = info.model;
             this.drawList = new DrawList(map);
 
-            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
+            this.position.set(info.origin.x, info.origin.y, info.origin.z);
+            //this.rotation.set(info.angles.x, info.angles.z, info.angles.y, "ZYX");
+            this.updateMatrix();
+
+            this.loadInfo(this.map.info.modelUrl.replace("{index}", this.index.toString()));
         }
 
         getDrawList(): DrawList {
@@ -67,6 +71,7 @@ namespace SourceUtils {
         }
 
         render(context: RenderContext): void {
+            context.setModelMatrix(this.matrix);
             this.drawList.render(context);
         }
     }

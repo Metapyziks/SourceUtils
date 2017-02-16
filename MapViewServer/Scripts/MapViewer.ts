@@ -107,7 +107,7 @@ namespace SourceUtils {
             this.renderContext.setup(this.camera);
 
             this.map.shaderManager.setCurrentProgram(null);
-            this.map.render(this.camera);
+            this.map.render(this.renderContext);
 
             const t1 = performance.now();
 

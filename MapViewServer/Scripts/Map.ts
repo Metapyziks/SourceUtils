@@ -93,7 +93,7 @@ namespace SourceUtils {
                     {
                         const ent = data.brushEnts[i];
                         if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
-                        this.models[ent.model] = new BspModel(this, ent.model);
+                        this.models[ent.model] = new BspModel(this, ent);
                     }
 
                     const spawnPos = data.playerStarts[0];

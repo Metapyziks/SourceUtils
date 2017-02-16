@@ -2,17 +2,33 @@
 {
     export class RenderContext
     {
+        private projectionMatrix = new THREE.Matrix4();
+        private modelMatrix = new THREE.Matrix4();
+        private viewMatrix = new THREE.Matrix4();
         private modelViewMatrix = new THREE.Matrix4();
+        private modelViewInvalid = true;
 
         origin = new THREE.Vector3();
         near: number;
         far: number;
-        projectionMatrix = new THREE.Matrix4();
 
-        getModelViewMatrix(): THREE.Matrix4
+        getProjectionMatrix(): Float32Array {
+            return this.projectionMatrix.elements;
+        }
+
+        getModelViewMatrix(): Float32Array
         {
-            // TODO: invalidation
-            return this.modelViewMatrix;
+            if (this.modelViewInvalid) {
+                this.modelViewInvalid = false;
+                this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
+            }
+
+            return this.modelViewMatrix.elements;
+        }
+
+        setModelMatrix(matrix: THREE.Matrix4): void {
+            this.modelMatrix.copy(matrix);
+            this.modelViewInvalid = true;
         }
 
         setup(camera: THREE.Camera): void {
@@ -22,9 +38,11 @@
             this.near = perspCamera.near;
             this.far = perspCamera.far;
 
-            this.projectionMatrix.copy(camera.projectionMatrix);
-
             camera.updateMatrixWorld(false);
+
+            this.projectionMatrix.copy(camera.projectionMatrix);
+            this.viewMatrix.getInverse(camera.matrixWorld);
+            this.modelViewInvalid = true;
         }
     }
 

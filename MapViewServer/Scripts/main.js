@@ -46,7 +46,7 @@ var SourceUtils;
         var BspNode = (function (_super) {
             __extends(BspNode, _super);
             function BspNode() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return BspNode;
         }(BspElem));
@@ -54,30 +54,30 @@ var SourceUtils;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return BspLeaf;
         }(BspElem));
         Api.BspLeaf = BspLeaf;
+        var PrimitiveType;
         (function (PrimitiveType) {
             PrimitiveType[PrimitiveType["TriangleList"] = 0] = "TriangleList";
             PrimitiveType[PrimitiveType["TriangleStrip"] = 1] = "TriangleStrip";
             PrimitiveType[PrimitiveType["TriangleFan"] = 2] = "TriangleFan";
-        })(Api.PrimitiveType || (Api.PrimitiveType = {}));
-        var PrimitiveType = Api.PrimitiveType;
+        })(PrimitiveType = Api.PrimitiveType || (Api.PrimitiveType = {}));
         var Element = (function () {
             function Element() {
             }
             return Element;
         }());
         Api.Element = Element;
+        var MeshComponent;
         (function (MeshComponent) {
             MeshComponent[MeshComponent["position"] = 1] = "position";
             MeshComponent[MeshComponent["normal"] = 2] = "normal";
             MeshComponent[MeshComponent["uv"] = 4] = "uv";
             MeshComponent[MeshComponent["uv2"] = 8] = "uv2";
-        })(Api.MeshComponent || (Api.MeshComponent = {}));
-        var MeshComponent = Api.MeshComponent;
+        })(MeshComponent = Api.MeshComponent || (Api.MeshComponent = {}));
         var Faces = (function () {
             function Faces() {
             }
@@ -108,13 +108,13 @@ var SourceUtils;
             return BspDisplacementsResponse;
         }());
         Api.BspDisplacementsResponse = BspDisplacementsResponse;
+        var MaterialPropertyType;
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["boolean"] = 0] = "boolean";
             MaterialPropertyType[MaterialPropertyType["number"] = 1] = "number";
             MaterialPropertyType[MaterialPropertyType["texture2D"] = 2] = "texture2D";
             MaterialPropertyType[MaterialPropertyType["textureCube"] = 3] = "textureCube";
-        })(Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
-        var MaterialPropertyType = Api.MaterialPropertyType;
+        })(MaterialPropertyType = Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
         var MaterialProperty = (function () {
             function MaterialProperty() {
             }
@@ -133,6 +133,7 @@ var SourceUtils;
             return BspMaterialsResponse;
         }());
         Api.BspMaterialsResponse = BspMaterialsResponse;
+        var VtfFlags;
         (function (VtfFlags) {
             VtfFlags[VtfFlags["POINTSAMPLE"] = 1] = "POINTSAMPLE";
             VtfFlags[VtfFlags["TRILINEAR"] = 2] = "TRILINEAR";
@@ -166,8 +167,7 @@ var SourceUtils;
             VtfFlags[VtfFlags["BORDER"] = 536870912] = "BORDER";
             VtfFlags[VtfFlags["UNUSED_40000000"] = 1073741824] = "UNUSED_40000000";
             VtfFlags[VtfFlags["UNUSED_80000000"] = 2147483648] = "UNUSED_80000000";
-        })(Api.VtfFlags || (Api.VtfFlags = {}));
-        var VtfFlags = Api.VtfFlags;
+        })(VtfFlags = Api.VtfFlags || (Api.VtfFlags = {}));
         var VtfResponse = (function () {
             function VtfResponse() {
             }
@@ -217,12 +217,13 @@ var SourceUtils;
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
+    var MouseButton;
     (function (MouseButton) {
         MouseButton[MouseButton["Left"] = 1] = "Left";
         MouseButton[MouseButton["Middle"] = 2] = "Middle";
         MouseButton[MouseButton["Right"] = 3] = "Right";
-    })(SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
-    var MouseButton = SourceUtils.MouseButton;
+    })(MouseButton = SourceUtils.MouseButton || (SourceUtils.MouseButton = {}));
+    var Key;
     (function (Key) {
         Key[Key["Backspace"] = 8] = "Backspace";
         Key[Key["Tab"] = 9] = "Tab";
@@ -322,8 +323,7 @@ var SourceUtils;
         Key[Key["BackSlash"] = 220] = "BackSlash";
         Key[Key["CloseBraket"] = 221] = "CloseBraket";
         Key[Key["SingleQuote"] = 222] = "SingleQuote";
-    })(SourceUtils.Key || (SourceUtils.Key = {}));
-    var Key = SourceUtils.Key;
+    })(Key = SourceUtils.Key || (SourceUtils.Key = {}));
     var AppBase = (function () {
         function AppBase() {
             this.canLockPointer = false;
@@ -504,7 +504,7 @@ var SourceUtils;
     var Entity = (function (_super) {
         __extends(Entity, _super);
         function Entity() {
-            _super.apply(this, arguments);
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         return Entity;
     }(THREE.Object3D));
@@ -515,12 +515,16 @@ var SourceUtils;
 (function (SourceUtils) {
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
-        function BspModel(map, index) {
-            _super.call(this);
-            this.map = map;
-            this.index = index;
-            this.drawList = new SourceUtils.DrawList(map);
-            this.loadInfo(this.map.info.modelUrl.replace("{index}", index.toString()));
+        function BspModel(map, info) {
+            var _this = _super.call(this) || this;
+            _this.map = map;
+            _this.index = info.model;
+            _this.drawList = new SourceUtils.DrawList(map);
+            _this.position.set(info.origin.x, info.origin.y, info.origin.z);
+            //this.rotation.set(info.angles.x, info.angles.z, info.angles.y, "ZYX");
+            _this.updateMatrix();
+            _this.loadInfo(_this.map.info.modelUrl.replace("{index}", _this.index.toString()));
+            return _this;
         }
         BspModel.prototype.getDrawList = function () {
             return this.drawList;
@@ -559,6 +563,7 @@ var SourceUtils;
             return elem;
         };
         BspModel.prototype.render = function (context) {
+            context.setModelMatrix(this.matrix);
             this.drawList.render(context);
         };
         return BspModel;
@@ -609,10 +614,10 @@ var SourceUtils;
                 this.drawList.updateItem(this);
         };
         DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
-        DrawListItem.rootCenter = new THREE.Vector3();
-        DrawListItem.thisCenter = new THREE.Vector3();
         return DrawListItem;
     }());
+    DrawListItem.rootCenter = new THREE.Vector3();
+    DrawListItem.thisCenter = new THREE.Vector3();
     SourceUtils.DrawListItem = DrawListItem;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="DrawListItem.ts"/>
@@ -621,11 +626,12 @@ var SourceUtils;
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
         function Displacement(info) {
-            _super.call(this, "d", info.index);
-            this.clusters = info.clusters;
+            var _this = _super.call(this, "d", info.index) || this;
+            _this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            return _this;
         }
         return Displacement;
     }(SourceUtils.DrawListItem));
@@ -635,21 +641,36 @@ var SourceUtils;
 (function (SourceUtils) {
     var RenderContext = (function () {
         function RenderContext() {
-            this.modelViewMatrix = new THREE.Matrix4();
-            this.origin = new THREE.Vector3();
             this.projectionMatrix = new THREE.Matrix4();
+            this.modelMatrix = new THREE.Matrix4();
+            this.viewMatrix = new THREE.Matrix4();
+            this.modelViewMatrix = new THREE.Matrix4();
+            this.modelViewInvalid = true;
+            this.origin = new THREE.Vector3();
         }
+        RenderContext.prototype.getProjectionMatrix = function () {
+            return this.projectionMatrix.elements;
+        };
         RenderContext.prototype.getModelViewMatrix = function () {
-            // TODO: invalidation
-            return this.modelViewMatrix;
+            if (this.modelViewInvalid) {
+                this.modelViewInvalid = false;
+                this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
+            }
+            return this.modelViewMatrix.elements;
+        };
+        RenderContext.prototype.setModelMatrix = function (matrix) {
+            this.modelMatrix.copy(matrix);
+            this.modelViewInvalid = true;
         };
         RenderContext.prototype.setup = function (camera) {
             var perspCamera = camera;
             this.origin.copy(camera.position);
             this.near = perspCamera.near;
             this.far = perspCamera.far;
-            this.projectionMatrix.copy(camera.projectionMatrix);
             camera.updateMatrixWorld(false);
+            this.projectionMatrix.copy(camera.projectionMatrix);
+            this.viewMatrix.getInverse(camera.matrixWorld);
+            this.modelViewInvalid = true;
         };
         return RenderContext;
     }());
@@ -851,24 +872,25 @@ var SourceUtils;
     var Map = (function (_super) {
         __extends(Map, _super);
         function Map(app, url) {
-            _super.call(this);
-            this.models = [];
-            this.displacements = [];
-            this.materials = [];
-            this.pvsOrigin = new THREE.Vector3();
-            this.pvs = [];
-            this.app = app;
-            this.frustumCulled = false;
-            this.faceLoader = new SourceUtils.FaceLoader(this);
-            this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
-            this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
-            this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
-            this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
-            this.blankMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
-            this.blankMaterial.properties.baseTexture = this.blankTexture;
-            this.errorMaterial = new SourceUtils.Material(this, "LightmappedGeneric");
-            this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
-            this.loadInfo(url);
+            var _this = _super.call(this) || this;
+            _this.models = [];
+            _this.displacements = [];
+            _this.materials = [];
+            _this.pvsOrigin = new THREE.Vector3();
+            _this.pvs = [];
+            _this.app = app;
+            _this.frustumCulled = false;
+            _this.faceLoader = new SourceUtils.FaceLoader(_this);
+            _this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
+            _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
+            _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
+            _this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            _this.blankMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
+            _this.blankMaterial.properties.baseTexture = _this.blankTexture;
+            _this.errorMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
+            _this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture(app.getContext());
+            _this.loadInfo(url);
+            return _this;
         }
         Map.prototype.getApp = function () {
             return this.app;
@@ -906,7 +928,7 @@ var SourceUtils;
                     var ent = data.brushEnts[i];
                     if (_this.models[ent.model] !== undefined)
                         throw "Multiple models with the same index.";
-                    _this.models[ent.model] = new SourceUtils.BspModel(_this, ent.model);
+                    _this.models[ent.model] = new SourceUtils.BspModel(_this, ent);
                 }
                 var spawnPos = data.playerStarts[0];
                 _this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
@@ -1028,18 +1050,19 @@ var SourceUtils;
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer() {
-            _super.call(this);
-            this.logFrameTime = false;
-            this.logDrawCalls = false;
-            this.lookAngs = new THREE.Vector2();
-            this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
-            this.countedFrames = 0;
-            this.totalFrameTime = 0;
-            this.renderContext = new SourceUtils.RenderContext();
-            this.unitZ = new THREE.Vector3(0, 0, 1);
-            this.unitX = new THREE.Vector3(1, 0, 0);
-            this.tempQuat = new THREE.Quaternion();
-            this.canLockPointer = true;
+            var _this = _super.call(this) || this;
+            _this.logFrameTime = false;
+            _this.logDrawCalls = false;
+            _this.lookAngs = new THREE.Vector2();
+            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            _this.countedFrames = 0;
+            _this.totalFrameTime = 0;
+            _this.renderContext = new SourceUtils.RenderContext();
+            _this.unitZ = new THREE.Vector3(0, 0, 1);
+            _this.unitX = new THREE.Vector3(1, 0, 0);
+            _this.tempQuat = new THREE.Quaternion();
+            _this.canLockPointer = true;
+            return _this;
         }
         MapViewer.prototype.init = function (container) {
             this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
@@ -1105,7 +1128,7 @@ var SourceUtils;
             gl.cullFace(gl.FRONT);
             this.renderContext.setup(this.camera);
             this.map.shaderManager.setCurrentProgram(null);
-            this.map.render(this.camera);
+            this.map.render(this.renderContext);
             var t1 = performance.now();
             if (this.logFrameTime) {
                 this.totalFrameTime += (t1 - t0);
@@ -1181,9 +1204,9 @@ var SourceUtils;
         Material.prototype.prepareForRendering = function () {
             return this.program.changeMaterial(this);
         };
-        Material.nextSortIndex = 0;
         return Material;
     }());
+    Material.nextSortIndex = 0;
     SourceUtils.Material = Material;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -1409,8 +1432,8 @@ var SourceUtils;
             if (!this.isCompiled())
                 return;
             this.use();
-            this.projectionMatrix.setMatrix4f(context.projectionMatrix.elements);
-            this.modelViewMatrix.setMatrix4f(context.modelViewMatrix.elements);
+            this.projectionMatrix.setMatrix4f(context.getProjectionMatrix());
+            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
             this.noCull = false;
         };
         ShaderProgram.prototype.cleanupPostRender = function (map, context) {
@@ -1429,23 +1452,24 @@ var SourceUtils;
             }
             return true;
         };
-        ShaderProgram.nextSortIndex = 0;
         return ShaderProgram;
     }());
+    ShaderProgram.nextSortIndex = 0;
     SourceUtils.ShaderProgram = ShaderProgram;
     var Shaders;
     (function (Shaders) {
         var LightmappedBase = (function (_super) {
             __extends(LightmappedBase, _super);
             function LightmappedBase(manager) {
-                _super.call(this, manager);
-                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
-                this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
-                this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
-                this.baseTexture = new Uniform(this, "uBaseTexture");
-                this.lightmap = new Uniform(this, "uLightmap");
-                this.fogParams = new Uniform(this, "uFogParams");
-                this.fogColor = new Uniform(this, "uFogColor");
+                var _this = _super.call(this, manager) || this;
+                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
+                _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
+                _this.baseTexture = new Uniform(_this, "uBaseTexture");
+                _this.lightmap = new Uniform(_this, "uLightmap");
+                _this.fogParams = new Uniform(_this, "uFogParams");
+                _this.fogColor = new Uniform(_this, "uFogColor");
+                return _this;
             }
             LightmappedBase.prototype.prepareForRendering = function (map, context) {
                 _super.prototype.prepareForRendering.call(this, map, context);
@@ -1489,12 +1513,13 @@ var SourceUtils;
         var LightmappedGeneric = (function (_super) {
             __extends(LightmappedGeneric, _super);
             function LightmappedGeneric(manager) {
-                _super.call(this, manager);
-                this.sortOrder = 0;
-                var gl = this.getContext();
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
-                this.alphaTest = new Uniform(this, "uAlphaTest");
+                var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 0;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
+                _this.alphaTest = new Uniform(_this, "uAlphaTest");
+                return _this;
             }
             LightmappedGeneric.prototype.changeMaterial = function (material) {
                 if (!_super.prototype.changeMaterial.call(this, material))
@@ -1508,12 +1533,13 @@ var SourceUtils;
         var LightmappedTranslucent = (function (_super) {
             __extends(LightmappedTranslucent, _super);
             function LightmappedTranslucent(manager) {
-                _super.call(this, manager);
-                this.sortOrder = 2000;
-                var gl = this.getContext();
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
-                this.alpha = new Uniform(this, "uAlpha");
+                var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 2000;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
+                _this.alpha = new Uniform(_this, "uAlpha");
+                return _this;
             }
             LightmappedTranslucent.prototype.prepareForRendering = function (map, context) {
                 _super.prototype.prepareForRendering.call(this, map, context);
@@ -1540,14 +1566,15 @@ var SourceUtils;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
-                _super.call(this, manager);
-                this.sortOrder = 1000;
-                var gl = this.getContext();
-                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
-                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
-                this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
-                this.cameraPos = new Uniform(this, "uCameraPos");
-                this.skyCube = new Uniform(this, "uSkyCube");
+                var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 1000;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
+                _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
+                _this.cameraPos = new Uniform(_this, "uCameraPos");
+                _this.skyCube = new Uniform(_this, "uSkyCube");
+                return _this;
             }
             Sky.prototype.prepareForRendering = function (map, context) {
                 _super.prototype.prepareForRendering.call(this, map, context);
@@ -1651,8 +1678,9 @@ var SourceUtils;
     var Lightmap = (function (_super) {
         __extends(Lightmap, _super);
         function Lightmap(gl, url) {
-            _super.call(this, gl, gl.TEXTURE_2D);
-            this.loadLevel(url, 0);
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.loadLevel(url, 0);
+            return _this;
         }
         return Lightmap;
     }(Texture));
@@ -1660,8 +1688,9 @@ var SourceUtils;
     var BlankTexture = (function (_super) {
         __extends(BlankTexture, _super);
         function BlankTexture(gl, color) {
-            _super.call(this, gl, gl.TEXTURE_2D);
-            this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            return _this;
         }
         return BlankTexture;
     }(Texture));
@@ -1669,7 +1698,7 @@ var SourceUtils;
     var ErrorTexture = (function (_super) {
         __extends(ErrorTexture, _super);
         function ErrorTexture(gl) {
-            _super.call(this, gl, gl.TEXTURE_2D);
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
             var resolution = 64;
             var pixels = new Uint8Array(resolution * resolution * 4);
             for (var y = 0; y < resolution; ++y)
@@ -1685,7 +1714,8 @@ var SourceUtils;
                     pixels[(x + y * resolution) * 4 + 1] = 0x00;
                     pixels[(x + y * resolution) * 4 + 3] = 0xff;
                 }
-            this.loadPixels(resolution, resolution, pixels);
+            _this.loadPixels(resolution, resolution, pixels);
+            return _this;
         }
         return ErrorTexture;
     }(Texture));
@@ -1693,8 +1723,9 @@ var SourceUtils;
     var ValveTexture = (function (_super) {
         __extends(ValveTexture, _super);
         function ValveTexture(gl, target) {
-            _super.call(this, gl, target);
-            this.usesSinceLastLoad = 0;
+            var _this = _super.call(this, gl, target) || this;
+            _this.usesSinceLastLoad = 0;
+            return _this;
         }
         ValveTexture.prototype.onGetHandle = function () {
             ++this.usesSinceLastLoad;
@@ -1711,8 +1742,9 @@ var SourceUtils;
     var ValveTexture2D = (function (_super) {
         __extends(ValveTexture2D, _super);
         function ValveTexture2D(gl, url) {
-            _super.call(this, gl, gl.TEXTURE_2D);
-            this.vtfUrl = url;
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.vtfUrl = url;
+            return _this;
         }
         ValveTexture2D.prototype.loadNext = function (callback) {
             var _this = this;
@@ -1753,11 +1785,12 @@ var SourceUtils;
     var ValveTextureCube = (function (_super) {
         __extends(ValveTextureCube, _super);
         function ValveTextureCube(gl, urls) {
-            _super.call(this, gl, gl.TEXTURE_CUBE_MAP);
-            this.infos = [];
-            this.loadedInfo = false;
-            this.nextFace = 0;
-            this.vtfUrls = urls;
+            var _this = _super.call(this, gl, gl.TEXTURE_CUBE_MAP) || this;
+            _this.infos = [];
+            _this.loadedInfo = false;
+            _this.nextFace = 0;
+            _this.vtfUrls = urls;
+            return _this;
         }
         ValveTextureCube.prototype.isLoaded = function () { return _super.prototype.isLoaded.call(this) && this.loadedInfo && this.nextFace >= 6; };
         ValveTextureCube.prototype.loadNext = function (callback) {
@@ -1866,7 +1899,7 @@ var SourceUtils;
         TextureLoader.prototype.update = function () {
             var _this = this;
             var next;
-            var _loop_1 = function() {
+            var _loop_1 = function () {
                 ++this_1.active;
                 var nextCopy = next;
                 next.loadNext(function (requeue) {
@@ -1890,13 +1923,14 @@ var SourceUtils;
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
         function VisLeaf(info) {
-            _super.call(this, "l", info.index);
-            this.isLeaf = true;
+            var _this = _super.call(this, "l", info.index) || this;
+            _this.isLeaf = true;
             var min = info.min;
             var max = info.max;
-            this.leafIndex = info.index;
-            this.cluster = info.cluster === undefined ? -1 : info.cluster;
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.leafIndex = info.index;
+            _this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            return _this;
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
             dstArray.push(this);
@@ -2112,10 +2146,10 @@ var SourceUtils;
                 this.indices = undefined;
             }
         };
-        WorldMeshGroup.maxIndices = 2147483647;
-        WorldMeshGroup.nextId = 1;
         return WorldMeshGroup;
     }());
+    WorldMeshGroup.maxIndices = 2147483647;
+    WorldMeshGroup.nextId = 1;
     SourceUtils.WorldMeshGroup = WorldMeshGroup;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
