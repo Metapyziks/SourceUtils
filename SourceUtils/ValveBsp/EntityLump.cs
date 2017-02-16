@@ -357,10 +357,12 @@ namespace SourceUtils
         }
 
         [EntityClass("worldspawn")]
-        public class WorldSpawn : Entity
+        public class WorldSpawn : FuncBrush
         {
             [EntityField("skyname")]
             public string SkyName { get; private set; }
+
+            public WorldSpawn() : base(0) { }
         }
         
         [EntityClass("func_brush")]
@@ -368,6 +370,13 @@ namespace SourceUtils
         {
             [EntityField("model")]
             public string Model { get; private set; }
+
+            public FuncBrush() { }
+
+            public FuncBrush( int model )
+            {
+                Model = $"*{model}";
+            }
         }
 
         [EntityClass("info_player_start")]

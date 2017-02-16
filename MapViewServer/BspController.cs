@@ -23,8 +23,7 @@ namespace MapViewServer
     [Prefix( "/bsp" )]
     public class BspController : ResourceController
     {
-        protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault()
-        ;
+        protected override string FilePath => "maps/" + Request.Url.AbsolutePath.Split( '/' ).Skip( 2 ).FirstOrDefault();
 
         private static string GetMapPath( string mapName )
         {
@@ -532,6 +531,17 @@ namespace MapViewServer
                 {"properties", propArray}
             };
         }
+
+        private JToken SerializeFuncBrush( FuncBrush ent )
+        {
+            return new JObject
+            {
+                {"classname", ent.ClassName},
+                {"origin", ent.Origin.ToJson()},
+                {"angles", ent.Angles.ToJson()},
+                {"model", int.Parse( ent.Model.Substring( 1 ) )}
+            };
+        }
         
         [Get( "/{mapName}" )]
         public JToken GetIndex( [Url] string mapName )
@@ -562,6 +572,7 @@ namespace MapViewServer
                 {"playerStarts", new JArray( bsp.Entities.OfType<InfoPlayerStart>().Select( x => x.Origin.ToJson() ) )},
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},
+                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>().Select( x=> SerializeFuncBrush(x) )) },
                 {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
                 {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
                 {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},

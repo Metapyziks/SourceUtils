@@ -1,4 +1,33 @@
-﻿namespace SourceUtils {
+﻿namespace SourceUtils
+{
+    export class RenderContext
+    {
+        private modelViewMatrix = new THREE.Matrix4();
+
+        origin = new THREE.Vector3();
+        near: number;
+        far: number;
+        projectionMatrix = new THREE.Matrix4();
+
+        getModelViewMatrix(): THREE.Matrix4
+        {
+            // TODO: invalidation
+            return this.modelViewMatrix;
+        }
+
+        setup(camera: THREE.Camera): void {
+            const perspCamera = camera as THREE.PerspectiveCamera;
+
+            this.origin.copy(camera.position);
+            this.near = perspCamera.near;
+            this.far = perspCamera.far;
+
+            this.projectionMatrix.copy(camera.projectionMatrix);
+
+            camera.updateMatrixWorld(false);
+        }
+    }
+
     export class DrawList {
         private map: Map;
 
@@ -40,7 +69,7 @@
             this.handles = null;
         }
 
-        private renderHandle(handle: WorldMeshHandle, camera: THREE.Camera): void {
+        private renderHandle(handle: WorldMeshHandle, context: RenderContext): void {
             let changedProgram = false;
 
             if (this.lastMaterialIndex !== handle.materialIndex) {
@@ -53,10 +82,10 @@
                 }
 
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
-                    if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, camera);
+                    if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, context);
 
                     this.lastProgram = this.lastMaterial.getProgram();
-                    this.lastProgram.prepareForRendering(this.map, camera);
+                    this.lastProgram.prepareForRendering(this.map, context);
                     changedProgram = true;
                 }
 
@@ -125,7 +154,7 @@
             if ((this.map.getApp() as MapViewer).logDrawCalls) console.log(`Draw calls: ${this.merged.length}`);
         }
 
-        render(camera: THREE.Camera): void {
+        render(context: RenderContext): void {
             this.lastGroup = undefined;
             this.lastProgram = undefined;
             this.lastMaterial = undefined;
@@ -135,10 +164,10 @@
             if (this.handles == null) this.buildHandleList();
 
             for (let i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.renderHandle(this.merged[i], camera);
+                this.renderHandle(this.merged[i], context);
             }
 
-            if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, camera);
+            if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, context);
         }
     }
 }

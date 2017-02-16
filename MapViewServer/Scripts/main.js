@@ -13,6 +13,12 @@ var SourceUtils;
             return BspIndexResponse;
         }());
         Api.BspIndexResponse = BspIndexResponse;
+        var FuncBrush = (function () {
+            function FuncBrush() {
+            }
+            return FuncBrush;
+        }());
+        Api.FuncBrush = FuncBrush;
         var Vector3 = (function () {
             function Vector3() {
             }
@@ -552,9 +558,8 @@ var SourceUtils;
             }
             return elem;
         };
-        BspModel.prototype.render = function (camera) {
-            camera.updateMatrixWorld(true);
-            this.drawList.render(camera);
+        BspModel.prototype.render = function (context) {
+            this.drawList.render(context);
         };
         return BspModel;
     }(SourceUtils.Entity));
@@ -628,6 +633,27 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
+    var RenderContext = (function () {
+        function RenderContext() {
+            this.modelViewMatrix = new THREE.Matrix4();
+            this.origin = new THREE.Vector3();
+            this.projectionMatrix = new THREE.Matrix4();
+        }
+        RenderContext.prototype.getModelViewMatrix = function () {
+            // TODO: invalidation
+            return this.modelViewMatrix;
+        };
+        RenderContext.prototype.setup = function (camera) {
+            var perspCamera = camera;
+            this.origin.copy(camera.position);
+            this.near = perspCamera.near;
+            this.far = perspCamera.far;
+            this.projectionMatrix.copy(camera.projectionMatrix);
+            camera.updateMatrixWorld(false);
+        };
+        return RenderContext;
+    }());
+    SourceUtils.RenderContext = RenderContext;
     var DrawList = (function () {
         function DrawList(map) {
             this.items = [];
@@ -653,7 +679,7 @@ var SourceUtils;
         DrawList.prototype.updateItem = function (item) {
             this.handles = null;
         };
-        DrawList.prototype.renderHandle = function (handle, camera) {
+        DrawList.prototype.renderHandle = function (handle, context) {
             var changedProgram = false;
             if (this.lastMaterialIndex !== handle.materialIndex) {
                 this.lastMaterialIndex = handle.materialIndex;
@@ -664,9 +690,9 @@ var SourceUtils;
                 }
                 if (this.lastProgram !== this.lastMaterial.getProgram()) {
                     if (this.lastProgram != null)
-                        this.lastProgram.cleanupPostRender(this.map, camera);
+                        this.lastProgram.cleanupPostRender(this.map, context);
                     this.lastProgram = this.lastMaterial.getProgram();
-                    this.lastProgram.prepareForRendering(this.map, camera);
+                    this.lastProgram.prepareForRendering(this.map, context);
                     changedProgram = true;
                 }
                 this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.prepareForRendering();
@@ -720,7 +746,7 @@ var SourceUtils;
             if (this.map.getApp().logDrawCalls)
                 console.log("Draw calls: " + this.merged.length);
         };
-        DrawList.prototype.render = function (camera) {
+        DrawList.prototype.render = function (context) {
             this.lastGroup = undefined;
             this.lastProgram = undefined;
             this.lastMaterial = undefined;
@@ -729,10 +755,10 @@ var SourceUtils;
             if (this.handles == null)
                 this.buildHandleList();
             for (var i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.renderHandle(this.merged[i], camera);
+                this.renderHandle(this.merged[i], context);
             }
             if (this.lastProgram != null)
-                this.lastProgram.cleanupPostRender(this.map, camera);
+                this.lastProgram.cleanupPostRender(this.map, context);
         };
         return DrawList;
     }());
@@ -872,11 +898,16 @@ var SourceUtils;
                 _this.models = new Array(data.numModels);
                 _this.clusters = new Array(data.numClusters);
                 _this.pvsArray = new Array(data.numClusters);
-                _this.add(_this.models[0] = new SourceUtils.BspModel(_this, 0));
                 _this.loadDisplacements();
                 _this.loadMaterials();
                 _this.lightmap = new SourceUtils.Lightmap(_this.app.getContext(), data.lightmapUrl);
                 _this.skyMaterial = new SourceUtils.Material(_this, data.skyMaterial);
+                for (var i = 0; i < data.brushEnts.length; ++i) {
+                    var ent = data.brushEnts[i];
+                    if (_this.models[ent.model] !== undefined)
+                        throw "Multiple models with the same index.";
+                    _this.models[ent.model] = new SourceUtils.BspModel(_this, ent.model);
+                }
                 var spawnPos = data.playerStarts[0];
                 _this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
                 if (_this.info.fog != null && _this.info.fog.farZ !== -1) {
@@ -942,11 +973,12 @@ var SourceUtils;
             }
             this.faceLoader.update();
         };
-        Map.prototype.render = function (camera) {
+        Map.prototype.render = function (context) {
             this.textureLoader.update();
-            var worldSpawn = this.getWorldSpawn();
-            if (worldSpawn != null)
-                worldSpawn.render(camera);
+            for (var i = 0, iEnd = this.models.length; i < iEnd; ++i) {
+                if (this.models[i] != null)
+                    this.models[i].render(context);
+            }
         };
         Map.prototype.updatePvs = function (position, force) {
             var worldSpawn = this.getWorldSpawn();
@@ -1003,6 +1035,7 @@ var SourceUtils;
             this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
             this.countedFrames = 0;
             this.totalFrameTime = 0;
+            this.renderContext = new SourceUtils.RenderContext();
             this.unitZ = new THREE.Vector3(0, 0, 1);
             this.unitX = new THREE.Vector3(1, 0, 0);
             this.tempQuat = new THREE.Quaternion();
@@ -1070,6 +1103,7 @@ var SourceUtils;
             gl.depthFunc(gl.LESS);
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
+            this.renderContext.setup(this.camera);
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);
             var t1 = performance.now();
@@ -1239,7 +1273,6 @@ var SourceUtils;
             this.attribs = {};
             this.sortOrder = 0;
             this.enabledComponents = 0;
-            this.modelViewMatrixValue = new THREE.Matrix4();
             this.manager = manager;
             this.sortIndex = ShaderProgram.nextSortIndex++;
             this.projectionMatrix = new Uniform(this, "uProjection");
@@ -1372,16 +1405,15 @@ var SourceUtils;
         ShaderProgram.prototype.disableMeshComponents = function () {
             this.enableMeshComponents(0);
         };
-        ShaderProgram.prototype.prepareForRendering = function (map, camera) {
+        ShaderProgram.prototype.prepareForRendering = function (map, context) {
             if (!this.isCompiled())
                 return;
-            this.modelViewMatrixValue.getInverse(camera.matrixWorld);
             this.use();
-            this.projectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
-            this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
+            this.projectionMatrix.setMatrix4f(context.projectionMatrix.elements);
+            this.modelViewMatrix.setMatrix4f(context.modelViewMatrix.elements);
             this.noCull = false;
         };
-        ShaderProgram.prototype.cleanupPostRender = function (map, camera) {
+        ShaderProgram.prototype.cleanupPostRender = function (map, context) {
             var gl = this.getContext();
             if (this.noCull)
                 gl.enable(gl.CULL_FACE);
@@ -1415,14 +1447,13 @@ var SourceUtils;
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
             }
-            LightmappedBase.prototype.prepareForRendering = function (map, camera) {
-                _super.prototype.prepareForRendering.call(this, map, camera);
-                var perspCamera = camera;
+            LightmappedBase.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
                 var fog = map.info.fog;
                 if (fog.enabled) {
-                    var densMul = fog.maxDensity / ((fog.end - fog.start) * (perspCamera.far - perspCamera.near));
-                    var nearDensity = (perspCamera.near - fog.start) * densMul;
-                    var farDensity = (perspCamera.far - fog.start) * densMul;
+                    var densMul = fog.maxDensity / ((fog.end - fog.start) * (context.far - context.near));
+                    var nearDensity = (context.near - fog.start) * densMul;
+                    var farDensity = (context.far - fog.start) * densMul;
                     var clrMul = 1 / 255;
                     this.fogParams.set2f(nearDensity, farDensity);
                     this.fogColor.set3f(fog.color.r * clrMul, fog.color.g * clrMul, fog.color.b * clrMul);
@@ -1484,8 +1515,8 @@ var SourceUtils;
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
                 this.alpha = new Uniform(this, "uAlpha");
             }
-            LightmappedTranslucent.prototype.prepareForRendering = function (map, camera) {
-                _super.prototype.prepareForRendering.call(this, map, camera);
+            LightmappedTranslucent.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
                 var gl = this.getContext();
                 gl.depthMask(false);
                 gl.enable(gl.BLEND);
@@ -1497,11 +1528,11 @@ var SourceUtils;
                 this.alpha.set1f(material.properties.alpha);
                 return true;
             };
-            LightmappedTranslucent.prototype.cleanupPostRender = function (map, camera) {
+            LightmappedTranslucent.prototype.cleanupPostRender = function (map, context) {
                 var gl = this.getContext();
                 gl.depthMask(true);
                 gl.disable(gl.BLEND);
-                _super.prototype.cleanupPostRender.call(this, map, camera);
+                _super.prototype.cleanupPostRender.call(this, map, context);
             };
             return LightmappedTranslucent;
         }(LightmappedBase));
@@ -1518,9 +1549,9 @@ var SourceUtils;
                 this.cameraPos = new Uniform(this, "uCameraPos");
                 this.skyCube = new Uniform(this, "uSkyCube");
             }
-            Sky.prototype.prepareForRendering = function (map, camera) {
-                _super.prototype.prepareForRendering.call(this, map, camera);
-                this.cameraPos.set3f(camera.position.x, camera.position.y, camera.position.z);
+            Sky.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
+                this.cameraPos.set3f(context.origin.x, context.origin.y, context.origin.z);
             };
             Sky.prototype.changeMaterial = function (material) {
                 _super.prototype.changeMaterial.call(this, material);

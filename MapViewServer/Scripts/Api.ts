@@ -7,6 +7,7 @@
             playerStarts: Vector3[];
             numClusters: number;
             numModels: number;
+            brushEnts: FuncBrush[];
 
             modelUrl: string;
             displacementsUrl: string;
@@ -14,6 +15,13 @@
             visibilityUrl: string;
             lightmapUrl: string;
             materialsUrl: string;
+        }
+
+        export class FuncBrush {
+            classname: string;
+            origin: Vector3;
+            angles: Vector3;
+            model: number;
         }
 
         export class Vector3 {

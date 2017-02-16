@@ -287,22 +287,19 @@ namespace SourceUtils {
             this.enableMeshComponents(0 as Api.MeshComponent);
         }
 
-        private modelViewMatrixValue = new THREE.Matrix4();
         private noCull: boolean;
 
-        prepareForRendering(map: Map, camera: THREE.Camera): void {
+        prepareForRendering(map: Map, context: RenderContext): void {
             if (!this.isCompiled()) return;
 
-            this.modelViewMatrixValue.getInverse(camera.matrixWorld);
-
             this.use();
-            this.projectionMatrix.setMatrix4f(camera.projectionMatrix.elements);
-            this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
+            this.projectionMatrix.setMatrix4f(context.projectionMatrix.elements);
+            this.modelViewMatrix.setMatrix4f(context.modelViewMatrix.elements);
 
             this.noCull = false;
         }
 
-        cleanupPostRender(map: Map, camera: THREE.Camera): void {
+        cleanupPostRender(map: Map, context: RenderContext): void {
             const gl = this.getContext();
             if (this.noCull) gl.enable(gl.CULL_FACE);
         }
@@ -342,17 +339,15 @@ namespace SourceUtils {
                 this.fogColor = new Uniform(this, "uFogColor");
             }
 
-            prepareForRendering(map: Map, camera: THREE.Camera): void {
-                super.prepareForRendering(map, camera);
-
-                const perspCamera = camera as THREE.PerspectiveCamera;
+            prepareForRendering(map: Map, context: RenderContext): void {
+                super.prepareForRendering(map, context);
 
                 const fog = map.info.fog;
                 if (fog.enabled) {
-                    const densMul = fog.maxDensity / ((fog.end - fog.start) * (perspCamera.far - perspCamera.near));
+                    const densMul = fog.maxDensity / ((fog.end - fog.start) * (context.far - context.near));
 
-                    const nearDensity = (perspCamera.near - fog.start) * densMul;
-                    const farDensity = (perspCamera.far - fog.start) * densMul;
+                    const nearDensity = (context.near - fog.start) * densMul;
+                    const farDensity = (context.far - fog.start) * densMul;
 
                     const clrMul = 1 / 255;
 
@@ -434,8 +429,8 @@ namespace SourceUtils {
                 this.alpha = new Uniform(this, "uAlpha");
             }
 
-            prepareForRendering(map: SourceUtils.Map, camera: THREE.Camera): void {
-                super.prepareForRendering(map, camera);
+            prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
+                super.prepareForRendering(map, context);
 
                 const gl = this.getContext();
 
@@ -453,13 +448,13 @@ namespace SourceUtils {
                 return true;
             }
 
-            cleanupPostRender(map: SourceUtils.Map, camera: THREE.Camera): void {
+            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void {
                 const gl = this.getContext();
 
                 gl.depthMask(true);
                 gl.disable(gl.BLEND);
 
-                super.cleanupPostRender(map, camera);
+                super.cleanupPostRender(map, context);
             }
         }
 
@@ -483,10 +478,10 @@ namespace SourceUtils {
                 this.skyCube = new Uniform(this, "uSkyCube");
             }
 
-            prepareForRendering(map: Map, camera: THREE.Camera): void {
-                super.prepareForRendering(map, camera);
+            prepareForRendering(map: Map, context: RenderContext): void {
+                super.prepareForRendering(map, context);
 
-                this.cameraPos.set3f(camera.position.x, camera.position.y, camera.position.z);
+                this.cameraPos.set3f(context.origin.x, context.origin.y, context.origin.z);
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {

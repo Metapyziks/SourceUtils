@@ -83,12 +83,18 @@ namespace SourceUtils {
                     this.models = new Array<BspModel>(data.numModels);
                     this.clusters = new Array<VisLeaf>(data.numClusters);
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
-                    this.add(this.models[0] = new BspModel(this, 0));
                     this.loadDisplacements();
                     this.loadMaterials();
                     this.lightmap = new Lightmap(this.app.getContext(), data.lightmapUrl);
 
                     this.skyMaterial = new Material(this, data.skyMaterial);
+
+                    for (let i = 0; i < data.brushEnts.length; ++i)
+                    {
+                        const ent = data.brushEnts[i];
+                        if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
+                        this.models[ent.model] = new BspModel(this, ent.model);
+                    }
 
                     const spawnPos = data.playerStarts[0];
                     this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
@@ -169,10 +175,12 @@ namespace SourceUtils {
             this.faceLoader.update();
         }
 
-        render(camera: THREE.Camera): void {
+        render(context: RenderContext): void {
             this.textureLoader.update();
-            const worldSpawn = this.getWorldSpawn();
-            if (worldSpawn != null) worldSpawn.render(camera);
+
+            for (let i = 0, iEnd = this.models.length; i < iEnd; ++i) {
+                if (this.models[i] != null) this.models[i].render(context);
+            }
         }
 
         updatePvs(position: THREE.Vector3, force?: boolean): void {

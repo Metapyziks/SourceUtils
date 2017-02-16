@@ -13,6 +13,8 @@ namespace SourceUtils {
         private countedFrames = 0;
         private totalFrameTime = 0;
 
+        private renderContext = new RenderContext();
+
         constructor() {
             super();
 
@@ -101,6 +103,8 @@ namespace SourceUtils {
 
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
+
+            this.renderContext.setup(this.camera);
 
             this.map.shaderManager.setCurrentProgram(null);
             this.map.render(this.camera);

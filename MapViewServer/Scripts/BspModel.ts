@@ -66,9 +66,8 @@ namespace SourceUtils {
             return elem as VisLeaf;
         }
 
-        render(camera: THREE.Camera): void {
-            camera.updateMatrixWorld(true);
-            this.drawList.render(camera);
+        render(context: RenderContext): void {
+            this.drawList.render(context);
         }
     }
 }
