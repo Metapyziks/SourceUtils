@@ -6,14 +6,20 @@
 
     export class Material
     {
-        properties = new MaterialProperties();
+        private static nextSortIndex = 0;
 
+        private sortIndex: number;
+
+        properties = new MaterialProperties();
+        
         private map: Map;
         private info: Api.Material;
         private program: ShaderProgram;
 
         constructor(map: Map, infoOrShader: Api.Material | string) {
             this.map = map;
+
+            this.sortIndex = Material.nextSortIndex++;
 
             if (typeof infoOrShader == "string") {
                 this.program = map.shaderManager.get(infoOrShader as string);
@@ -41,6 +47,13 @@
                     this.properties[info.name] = this.map.textureLoader.loadCube(info.value as string[]);
                     break;
             }
+        }
+
+        compareTo(other: Material): number {
+            if (other === this) return 0;
+            const programCompare = this.program.compareTo(other.program);
+            if (programCompare !== 0) return programCompare;
+            return this.sortIndex - other.sortIndex;
         }
 
         getMap(): Map {

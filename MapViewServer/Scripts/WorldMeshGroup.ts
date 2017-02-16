@@ -2,22 +2,37 @@
     export class WorldMeshHandle {
         group: WorldMeshGroup;
         drawMode: number;
-        material: number;
+        materialIndex: number;
+        material: Material;
         offset: number;
         count: number;
 
-        constructor(group?: WorldMeshGroup, drawMode?: number, material?: number, offset?: number, count?: number) {
+        constructor(group?: WorldMeshGroup, drawMode?: number, material?: number | Material, offset?: number, count?: number) {
             this.group = group;
             this.drawMode = drawMode;
-            this.material = material;
+
+            if (typeof material === "number") {
+                this.materialIndex = material;
+            } else {
+                this.material = material;
+            }
+
             this.offset = offset;
             this.count = count;
+        }
+
+        compareTo(other: WorldMeshHandle): number {
+            const matComp = this.material.compareTo(other.material);
+            if (matComp !== 0) return matComp;
+            const groupComp = this.group.compareTo(other.group);
+            if (groupComp !== 0) return groupComp;
+            return this.offset - other.offset;
         }
 
         canMerge(other: WorldMeshHandle): boolean {
             return this.group === other.group 
                 && this.drawMode === other.drawMode
-                && this.material === other.material
+                && this.materialIndex === other.materialIndex
                 && this.offset + this.count === other.offset;
         }
 
@@ -90,6 +105,10 @@
             }
 
             this.maxVertLength = this.vertexSize * 65536;
+        }
+
+        compareTo(other: WorldMeshGroup): number {
+            return this.id - other.id;
         }
 
         getId(): number { return this.id; }

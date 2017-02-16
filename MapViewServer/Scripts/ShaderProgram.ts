@@ -97,7 +97,12 @@ namespace SourceUtils {
         }
     }
 
-    export class ShaderProgram {
+    export class ShaderProgram
+    {
+        private static nextSortIndex = 0;
+
+        private sortIndex: number;
+
         private manager: ShaderManager;
         private program: WebGLProgram;
         private compiled = false;
@@ -108,11 +113,15 @@ namespace SourceUtils {
         private attribNames: { [name: string]: Api.MeshComponent } = {};
         private attribs: IProgramAttributes = {};
 
+        sortOrder = 0;
+
         projectionMatrix: Uniform;
         modelViewMatrix: Uniform;
 
         constructor(manager: ShaderManager) {
             this.manager = manager;
+
+            this.sortIndex = ShaderProgram.nextSortIndex++;
 
             this.projectionMatrix = new Uniform(this, "uProjection");
             this.modelViewMatrix = new Uniform(this, "uModelView");
@@ -123,6 +132,13 @@ namespace SourceUtils {
                 this.getContext().deleteProgram(this.program);
                 this.program = undefined;
             }
+        }
+
+        compareTo(other: ShaderProgram): number {
+            if (other === this) return 0;
+            const orderCompare = this.sortOrder - other.sortOrder;
+            if (orderCompare !== 0) return orderCompare;
+            return this.sortIndex - other.sortIndex;
         }
 
         getProgram(): WebGLProgram {
@@ -298,6 +314,8 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
+                this.sortOrder = 0;
+
                 const gl = this.getContext();
 
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
@@ -373,6 +391,8 @@ namespace SourceUtils {
 
             constructor(manager: ShaderManager) {
                 super(manager);
+
+                this.sortOrder = 1000;
 
                 const gl = this.getContext();
 

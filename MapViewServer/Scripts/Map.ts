@@ -126,6 +126,8 @@ namespace SourceUtils {
                             this.materials.push(new Material(this, data.materials[i]));
                         }
                     }
+
+                    this.refreshPvs();
                 });
         }
 

@@ -655,9 +655,9 @@ var SourceUtils;
         };
         DrawList.prototype.renderHandle = function (handle, camera) {
             var changedProgram = false;
-            if (this.lastMaterialIndex !== handle.material) {
-                this.lastMaterialIndex = handle.material;
-                this.lastMaterial = this.map.getMaterial(handle.material);
+            if (this.lastMaterialIndex !== handle.materialIndex) {
+                this.lastMaterialIndex = handle.materialIndex;
+                this.lastMaterial = this.map.getMaterial(handle.materialIndex);
                 if (this.lastMaterial == null) {
                     this.canRender = false;
                     return;
@@ -678,11 +678,7 @@ var SourceUtils;
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
         };
         DrawList.compareHandles = function (a, b) {
-            var idComp = a.group.getId() - b.group.getId();
-            if (idComp !== 0)
-                return idComp;
-            var matComp = a.material - b.material;
-            return matComp !== 0 ? matComp : a.offset - b.offset;
+            return a.compareTo(b);
         };
         DrawList.prototype.buildHandleList = function () {
             this.handles = [];
@@ -692,9 +688,14 @@ var SourceUtils;
                 if (handles == null)
                     continue;
                 for (var j = 0, jEnd = handles.length; j < jEnd; ++j) {
-                    if (handles[j].count === 0)
+                    var handle = handles[j];
+                    if (handle.count === 0)
                         continue;
-                    this.handles.push(handles[j]);
+                    if (handle.material == null) {
+                        if ((handle.material = this.map.getMaterial(handle.materialIndex)) == null)
+                            continue;
+                    }
+                    this.handles.push(handle);
                 }
             }
             this.handles.sort(DrawList.compareHandles);
@@ -710,7 +711,7 @@ var SourceUtils;
                 this.merged.push(last);
                 last.group = next.group;
                 last.drawMode = next.drawMode;
-                last.material = next.material;
+                last.materialIndex = next.materialIndex;
                 last.offset = next.offset;
                 last.count = next.count;
             }
@@ -903,6 +904,7 @@ var SourceUtils;
                         _this.materials.push(new SourceUtils.Material(_this, data.materials[i]));
                     }
                 }
+                _this.refreshPvs();
             });
         };
         Map.prototype.onModelLoaded = function (model) {
@@ -1094,6 +1096,7 @@ var SourceUtils;
         function Material(map, infoOrShader) {
             this.properties = new MaterialProperties();
             this.map = map;
+            this.sortIndex = Material.nextSortIndex++;
             if (typeof infoOrShader == "string") {
                 this.program = map.shaderManager.get(infoOrShader);
             }
@@ -1119,6 +1122,14 @@ var SourceUtils;
                     break;
             }
         };
+        Material.prototype.compareTo = function (other) {
+            if (other === this)
+                return 0;
+            var programCompare = this.program.compareTo(other.program);
+            if (programCompare !== 0)
+                return programCompare;
+            return this.sortIndex - other.sortIndex;
+        };
         Material.prototype.getMap = function () {
             return this.map;
         };
@@ -1128,6 +1139,7 @@ var SourceUtils;
         Material.prototype.prepareForRendering = function () {
             return this.program.changeMaterial(this);
         };
+        Material.nextSortIndex = 0;
         return Material;
     }());
     SourceUtils.Material = Material;
@@ -1217,9 +1229,11 @@ var SourceUtils;
             this.compiled = false;
             this.attribNames = {};
             this.attribs = {};
+            this.sortOrder = 0;
             this.enabledComponents = 0;
             this.modelViewMatrixValue = new THREE.Matrix4();
             this.manager = manager;
+            this.sortIndex = ShaderProgram.nextSortIndex++;
             this.projectionMatrix = new Uniform(this, "uProjection");
             this.modelViewMatrix = new Uniform(this, "uModelView");
         }
@@ -1228,6 +1242,14 @@ var SourceUtils;
                 this.getContext().deleteProgram(this.program);
                 this.program = undefined;
             }
+        };
+        ShaderProgram.prototype.compareTo = function (other) {
+            if (other === this)
+                return 0;
+            var orderCompare = this.sortOrder - other.sortOrder;
+            if (orderCompare !== 0)
+                return orderCompare;
+            return this.sortIndex - other.sortIndex;
         };
         ShaderProgram.prototype.getProgram = function () {
             if (this.program === undefined) {
@@ -1351,6 +1373,7 @@ var SourceUtils;
             this.modelViewMatrix.setMatrix4f(this.modelViewMatrixValue.elements);
         };
         ShaderProgram.prototype.changeMaterial = function (material) { return true; };
+        ShaderProgram.nextSortIndex = 0;
         return ShaderProgram;
     }());
     SourceUtils.ShaderProgram = ShaderProgram;
@@ -1360,6 +1383,7 @@ var SourceUtils;
             __extends(LightmappedGeneric, _super);
             function LightmappedGeneric(manager) {
                 _super.call(this, manager);
+                this.sortOrder = 0;
                 var gl = this.getContext();
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
@@ -1414,6 +1438,7 @@ var SourceUtils;
             __extends(Sky, _super);
             function Sky(manager) {
                 _super.call(this, manager);
+                this.sortOrder = 1000;
                 var gl = this.getContext();
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
@@ -1816,14 +1841,28 @@ var SourceUtils;
         function WorldMeshHandle(group, drawMode, material, offset, count) {
             this.group = group;
             this.drawMode = drawMode;
-            this.material = material;
+            if (typeof material === "number") {
+                this.materialIndex = material;
+            }
+            else {
+                this.material = material;
+            }
             this.offset = offset;
             this.count = count;
         }
+        WorldMeshHandle.prototype.compareTo = function (other) {
+            var matComp = this.material.compareTo(other.material);
+            if (matComp !== 0)
+                return matComp;
+            var groupComp = this.group.compareTo(other.group);
+            if (groupComp !== 0)
+                return groupComp;
+            return this.offset - other.offset;
+        };
         WorldMeshHandle.prototype.canMerge = function (other) {
             return this.group === other.group
                 && this.drawMode === other.drawMode
-                && this.material === other.material
+                && this.materialIndex === other.materialIndex
                 && this.offset + this.count === other.offset;
         };
         WorldMeshHandle.prototype.merge = function (other) {
@@ -1868,6 +1907,9 @@ var SourceUtils;
             }
             this.maxVertLength = this.vertexSize * 65536;
         }
+        WorldMeshGroup.prototype.compareTo = function (other) {
+            return this.id - other.id;
+        };
         WorldMeshGroup.prototype.getId = function () { return this.id; };
         WorldMeshGroup.prototype.getVertexCount = function () {
             return this.vertCount / this.vertexSize;

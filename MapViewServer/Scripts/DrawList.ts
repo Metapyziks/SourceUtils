@@ -43,9 +43,9 @@
         private renderHandle(handle: WorldMeshHandle, camera: THREE.Camera): void {
             let changedProgram = false;
 
-            if (this.lastMaterialIndex !== handle.material) {
-                this.lastMaterialIndex = handle.material;
-                this.lastMaterial = this.map.getMaterial(handle.material);
+            if (this.lastMaterialIndex !== handle.materialIndex) {
+                this.lastMaterialIndex = handle.materialIndex;
+                this.lastMaterial = this.map.getMaterial(handle.materialIndex);
 
                 if (this.lastMaterial == null) {
                     this.canRender = false;
@@ -72,10 +72,7 @@
         }
 
         private static compareHandles(a: WorldMeshHandle, b: WorldMeshHandle): number {
-            const idComp = a.group.getId() - b.group.getId();
-            if (idComp !== 0) return idComp;
-            const matComp = a.material - b.material;
-            return matComp !== 0 ? matComp : a.offset - b.offset;
+            return a.compareTo(b);
         }
 
         private buildHandleList(): void {
@@ -87,9 +84,15 @@
                 const handles = this.items[i].getMeshHandles(loader);
                 if (handles == null) continue;
 
-                for (let j = 0, jEnd = handles.length; j < jEnd; ++j) {
-                    if (handles[j].count === 0) continue;
-                    this.handles.push(handles[j]);
+                for (let j = 0, jEnd = handles.length; j < jEnd; ++j)
+                {
+                    const handle = handles[j];
+                    if (handle.count === 0) continue;
+                    if (handle.material == null) {
+                        if ((handle.material = this.map.getMaterial(handle.materialIndex)) == null) continue;
+                    }
+
+                    this.handles.push(handle);
                 }
             }
 
@@ -112,7 +115,7 @@
 
                 last.group = next.group;
                 last.drawMode = next.drawMode;
-                last.material = next.material;
+                last.materialIndex = next.materialIndex;
                 last.offset = next.offset;
                 last.count = next.count;
             }
