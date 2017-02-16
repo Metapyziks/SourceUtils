@@ -168,6 +168,18 @@ var SourceUtils;
             return VtfResponse;
         }());
         Api.VtfResponse = VtfResponse;
+        var Color32 = (function () {
+            function Color32() {
+            }
+            return Color32;
+        }());
+        Api.Color32 = Color32;
+        var FogParams = (function () {
+            function FogParams() {
+            }
+            return FogParams;
+        }());
+        Api.FogParams = FogParams;
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/lz-string/lz-string.d.ts"/>
@@ -862,6 +874,10 @@ var SourceUtils;
                 _this.skyMaterial = new SourceUtils.Material(_this, data.skyMaterial);
                 var spawnPos = data.playerStarts[0];
                 _this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
+                if (_this.info.fog != null && _this.info.fog.farZ !== -1) {
+                    _this.app.camera.far = _this.info.fog.farZ;
+                    _this.app.camera.updateProjectionMatrix();
+                }
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -1352,9 +1368,24 @@ var SourceUtils;
                 this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
                 this.baseTexture = new Uniform(this, "uBaseTexture");
                 this.lightmap = new Uniform(this, "uLightmap");
+                this.fogParams = new Uniform(this, "uFogParams");
+                this.fogColor = new Uniform(this, "uFogColor");
             }
             LightmappedGeneric.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
+                var perspCamera = camera;
+                var fog = map.info.fog;
+                if (fog.enabled) {
+                    var densMul = fog.maxDensity / ((fog.end - fog.start) * (perspCamera.far - perspCamera.near));
+                    var nearDensity = (perspCamera.near - fog.start) * densMul;
+                    var farDensity = (perspCamera.far - fog.start) * densMul;
+                    var clrMul = 1 / 255;
+                    this.fogParams.set2f(nearDensity, farDensity);
+                    this.fogColor.set3f(fog.color.r * clrMul, fog.color.g * clrMul, fog.color.b * clrMul);
+                }
+                else {
+                    this.fogParams.set2f(0, 0);
+                }
                 var gl = this.getContext();
                 var lightmap = map.getLightmap();
                 if (lightmap == null || !lightmap.isLoaded()) {
@@ -1363,7 +1394,6 @@ var SourceUtils;
                 gl.activeTexture(gl.TEXTURE0 + 2);
                 gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
                 this.lightmap.set1i(2);
-                gl.depthMask(true);
             };
             LightmappedGeneric.prototype.changeMaterial = function (material) {
                 _super.prototype.changeMaterial.call(this, material);
@@ -1394,8 +1424,6 @@ var SourceUtils;
             Sky.prototype.prepareForRendering = function (map, camera) {
                 _super.prototype.prepareForRendering.call(this, map, camera);
                 this.cameraPos.set3f(camera.position.x, camera.position.y, camera.position.z);
-                var gl = this.getContext();
-                gl.depthMask(false);
             };
             Sky.prototype.changeMaterial = function (material) {
                 _super.prototype.changeMaterial.call(this, material);

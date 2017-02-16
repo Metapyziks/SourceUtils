@@ -259,11 +259,27 @@ namespace SourceUtils
                 public static Vector3 ToVector3( string param )
                 {
                     var split0 = param.IndexOf( ' ' );
-                    var split1 = param.IndexOf( ' ', split0 + 1 );
+                    var split1 = split0 == -1 ? -1 : param.IndexOf( ' ', split0 + 1 );
 
-                    if ( split0 == -1 ) return new Vector3( ToSingle( param ), 0f, 0f );
-                    if ( split1 == -1 ) return new Vector3( ToSingle( param.Substring( 0, split0 ) ), ToSingle( param.Substring( split0 + 1 ) ), 0f );
-                    return new Vector3( ToSingle( param.Substring( 0, split0 ) ), ToSingle( param.Substring( split0 + 1, split1 - split0 ) ), ToSingle( param.Substring( split1 + 1 ) ) );
+                    var x = split0 == -1 ? ToSingle( param ) : ToSingle( param.Substring( 0, split0 ) );
+                    var y = split0 == -1 ? 0f : split1 == -1 ? ToSingle( param.Substring( split0 + 1 ) ) : ToSingle( param.Substring( split0 + 1, split1 - split0 - 1 ) );
+                    var z = split1 == -1 ? 0f : ToSingle( param.Substring( split1 + 1 ) );
+
+                    return new Vector3( x, y, z );
+                }
+
+                public static Color32 ToColor32( string param )
+                {
+                    var split0 = param.IndexOf( ' ' );
+                    var split1 = split0 == -1 ? -1 : param.IndexOf( ' ', split0 + 1 );
+                    var split2 = split1 == -1 ? -1 : param.IndexOf( ' ', split1 + 1 );
+                    
+                    var r = split0 == -1 ? ToInt32( param ) : ToInt32( param.Substring( 0, split0 ) );
+                    var g = split0 == -1 ? 0 : split1 == -1 ? ToInt32( param.Substring( split0 + 1 ) ) : ToInt32( param.Substring( split0 + 1, split1 - split0 - 1 ) );
+                    var b = split1 == -1 ? 0 : split2 == -1 ? ToInt32( param.Substring( split1 + 1 ) ) : ToInt32( param.Substring( split1 + 1, split2 - split1 - 1 ) );
+                    var a = split2 == -1 ? 255 : ToInt32( param.Substring( split2 + 1 ) );
+
+                    return new Color32( (byte) r, (byte) g, (byte) b, (byte) a );
                 }
             }
             // ReSharper restore MemberCanBePrivate.Local
@@ -333,6 +349,11 @@ namespace SourceUtils
                     if ( actions.TryGetValue( pair.Key, out action ) ) action( this, pair.Value );
                 }
             }
+
+            public override string ToString()
+            {
+                return ClassName;
+            }
         }
 
         [EntityClass("worldspawn")]
@@ -357,5 +378,39 @@ namespace SourceUtils
 
         [EntityClass("info_player_counterterrorist")]
         public class InfoPlayerCounterTerrorist : InfoPlayerStart { }
+        
+        [EntityClass("env_fog_controller")]
+        public class EnvFogController : Entity
+        {
+            [EntityField("fogenable")]
+            public bool FogEnable { get; private set; }
+
+            [EntityField("fogstart")]
+            public float FogStart {get; private set; }
+            
+            [EntityField("fogend")]
+            public float FogEnd { get; private set; }
+            
+            [EntityField("fogmaxdensity")]
+            public float FogMaxDensity { get; private set; }
+            
+            [EntityField("farz")]
+            public float FarZ { get; private set; }
+            
+            [EntityField("fogcolor")]
+            public Color32 FogColor { get; private set; }
+            
+            [EntityField("fogblend")]
+            public bool FogBlend { get; private set; }
+
+            [EntityField("fogcolor2")]
+            public Color32 FogColor2 { get; private set; }
+
+            [EntityField("fogdir")]
+            public Vector3 FogDir { get; private set; }
+
+            [EntityField("use_angles")]
+            public bool UseAngles { get; private set; }
+        }
     }
 }

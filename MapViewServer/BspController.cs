@@ -538,12 +538,28 @@ namespace MapViewServer
         {
             var bsp = GetBspFile( Request, mapName );
             var skyName = bsp.Entities.GetFirst<WorldSpawn>().SkyName;
+            var fogInfo = bsp.Entities.GetFirst<EnvFogController>();
+
+            var fogData = new JObject
+            {
+                {"enabled", fogInfo != null && fogInfo.FogEnable}
+            };
+
+            if ( fogInfo != null && fogInfo.FogEnable )
+            {
+                fogData.Add( "start", fogInfo.FogStart );
+                fogData.Add( "end", fogInfo.FogEnd );
+                fogData.Add( "maxDensity", fogInfo.FogMaxDensity );
+                fogData.Add( "farZ", fogInfo.FarZ );
+                fogData.Add( "color", fogInfo.FogColor.ToJson() );
+            }
 
             return new JObject
             {
                 {"name", mapName},
-                {"skyMaterial", GetSkyMaterial(bsp, skyName) },
-                {"playerStarts", new JArray(bsp.Entities.OfType<InfoPlayerStart>().Select(x => x.Origin.ToJson())) },
+                {"skyMaterial", GetSkyMaterial( bsp, skyName )},
+                {"fog", fogData},
+                {"playerStarts", new JArray( bsp.Entities.OfType<InfoPlayerStart>().Select( x => x.Origin.ToJson() ) )},
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},
                 {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},

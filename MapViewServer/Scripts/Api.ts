@@ -3,6 +3,7 @@
         export class BspIndexResponse {
             name: string;
             skyMaterial: Material;
+            fog: FogParams;
             playerStarts: Vector3[];
             numClusters: number;
             numModels: number;
@@ -163,6 +164,22 @@
             ddsUrl: string;
             pngUrl: string;
             mipmaps: number;
+        }
+
+        export class Color32 {
+            r: number;
+            g: number;
+            b: number;
+            a: number;
+        }
+
+        export class FogParams {
+            enabled: boolean;
+            start: number;
+            end: number;
+            maxDensity: number;
+            farZ: number;
+            color: Color32;
         }
     }
 }

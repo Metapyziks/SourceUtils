@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -41,6 +42,17 @@ namespace MapViewServer
                 { "x", vector.X },
                 { "y", vector.Y },
                 { "z", vector.Z }
+            };
+        }
+
+        public static JToken ToJson( this Color32 color )
+        {
+            return new JObject
+            {
+                {"r", color.R},
+                {"g", color.G},
+                {"b", color.B},
+                {"a", color.A}
             };
         }
 

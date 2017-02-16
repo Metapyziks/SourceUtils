@@ -92,6 +92,11 @@ namespace SourceUtils {
 
                     const spawnPos = data.playerStarts[0];
                     this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
+
+                    if (this.info.fog != null && this.info.fog.farZ !== -1) {
+                        (this.app.camera as THREE.PerspectiveCamera).far = this.info.fog.farZ;
+                        (this.app.camera as THREE.PerspectiveCamera).updateProjectionMatrix();
+                    }
                 });
         }
 

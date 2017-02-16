@@ -292,6 +292,9 @@ namespace SourceUtils {
             baseTexture: Uniform;
             lightmap: Uniform;
 
+            fogParams: Uniform;
+            fogColor: Uniform;
+
             constructor(manager: ShaderManager) {
                 super(manager);
 
@@ -306,10 +309,31 @@ namespace SourceUtils {
 
                 this.baseTexture = new Uniform(this, "uBaseTexture");
                 this.lightmap = new Uniform(this, "uLightmap");
+
+                this.fogParams = new Uniform(this, "uFogParams");
+                this.fogColor = new Uniform(this, "uFogColor");
             }
 
             prepareForRendering(map: Map, camera: THREE.Camera): void {
                 super.prepareForRendering(map, camera);
+
+                const perspCamera = camera as THREE.PerspectiveCamera;
+
+                const fog = map.info.fog;
+                if (fog.enabled) {
+                    const densMul = fog.maxDensity / ((fog.end - fog.start) * (perspCamera.far - perspCamera.near));
+
+                    const nearDensity = (perspCamera.near - fog.start) * densMul;
+                    const farDensity = (perspCamera.far - fog.start) * densMul;
+
+                    const clrMul = 1 / 255;
+
+                    this.fogParams.set2f(nearDensity, farDensity);
+                    this.fogColor.set3f(fog.color.r * clrMul, fog.color.g * clrMul, fog.color.b * clrMul);
+                } else
+                {
+                    this.fogParams.set2f(0, 0);
+                }
 
                 const gl = this.getContext();
                 let lightmap = map.getLightmap();
@@ -321,8 +345,6 @@ namespace SourceUtils {
                 gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
 
                 this.lightmap.set1i(2);
-
-                gl.depthMask(true);
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
@@ -367,9 +389,6 @@ namespace SourceUtils {
                 super.prepareForRendering(map, camera);
 
                 this.cameraPos.set3f(camera.position.x, camera.position.y, camera.position.z);
-
-                const gl = this.getContext();
-                gl.depthMask(false);
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {

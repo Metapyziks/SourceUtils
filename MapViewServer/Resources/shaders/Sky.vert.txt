@@ -8,5 +8,9 @@ uniform mat4 uModelView;
 void main()
 {
     vWorldPos = aPosition;
-    gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
+    vec4 pos = uProjection * uModelView * vec4(aPosition, 1.0);
+
+    pos.z = pos.w - 1.0 / 1024.0;
+
+    gl_Position = pos;
 }
