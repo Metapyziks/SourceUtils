@@ -99,7 +99,7 @@ namespace MapViewServer
                     var args = "";
                     if ( newWidth != -1 && newHeight != -1 )
                     {
-                        args += $"-resize {newWidth}x{newHeight} ";
+                        args += $"-resize {newWidth}x{newHeight}! ";
                     }
 
                     var processStart = new ProcessStartInfo
@@ -134,7 +134,7 @@ namespace MapViewServer
                 {
                     if ( newWidth != -1 && newHeight != -1 )
                     {
-                        image.Resize( newWidth, newHeight );
+                        image.Resize( new MagickGeometry( newWidth, newHeight ) {IgnoreAspectRatio = true} );
                     }
 
                     image.Write( dst, MagickFormat.Png );

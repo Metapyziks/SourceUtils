@@ -201,8 +201,7 @@
             super.onLoad(image, mipLevel);
 
             if (this.getLowestMipLevel() === 0 &&
-                this.getHighestMipLevel() === this.info.mipmaps - 1 &&
-                this.info.width === this.info.height) {
+                this.getHighestMipLevel() === this.info.mipmaps - 1) {
                 const gl = this.getContext();
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
             }
@@ -254,8 +253,8 @@
                     }
                     if (callback != null) callback(true);
                 }).fail(() => {
-                    if (callback != null) callback(false);
-                });
+                if (callback != null) callback(false);
+            });
         }
 
         setupTexParams(target: number): void {
