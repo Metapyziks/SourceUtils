@@ -262,6 +262,14 @@ namespace SourceUtils.ValveBsp
             return (s00 * sx + s10 * tx) * sy + (s01 * sx + s11 * tx) * ty;
         }
 
+        public void GetCorners( out Vector3 c0, out Vector3 c1, out Vector3 c2, out Vector3 c3 )
+        {
+            c0 = _corners[(0 + _firstCorner) & 3];
+            c1 = _corners[(1 + _firstCorner) & 3];
+            c2 = _corners[(2 + _firstCorner) & 3];
+            c3 = _corners[(3 + _firstCorner) & 3];
+        }
+
         private void UpdatePositions()
         {
             var size = Size;

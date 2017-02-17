@@ -362,17 +362,29 @@ namespace MapViewServer
             var texData = bsp.TextureData[texInfo.TexData];
             var texScale = new Vector2( 1f / texData.Width, 1f / texData.Height );
 
-            for ( var y = 0; y < disp.Size - 1; ++y )
+            Vector3 c0, c1, c2, c3;
+            disp.GetCorners( out c0, out c1, out c2, out c3 );
+
+            var uv00 = GetUv( c0, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+            var uv10 = GetUv( c3, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+            var uv01 = GetUv( c1, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+            var uv11 = GetUv( c2, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+
+            for ( var y = 0; y < disp.Subdivisions; ++y )
             {
                 verts.BeginPrimitive();
+                var v0 = (y + 0) / (float) disp.Subdivisions;
+                var v1 = (y + 1) / (float) disp.Subdivisions;
 
                 for ( var x = 0; x < disp.Size; ++x )
                 {
+                    var u = x / (float) disp.Subdivisions;
+
                     var p0 = disp.GetPosition( x, y + 0 );
                     var p1 = disp.GetPosition( x, y + 1 );
 
-                    var uv0 = GetUv( p0, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
-                    var uv1 = GetUv( p1, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
+                    var uv0 = (uv00 * (1f - u) + uv10 * u) * (1f - v0) + (uv01 * (1f - u) + uv11 * u) * v0;
+                    var uv1 = (uv00 * (1f - u) + uv10 * u) * (1f - v1) + (uv01 * (1f - u) + uv11 * u) * v1;
 
                     verts.AddVertex( p0, uv0,
                         GetLightmapUv( bsp, x, y + 0, disp.Subdivisions, faceIndex, ref face ) );
