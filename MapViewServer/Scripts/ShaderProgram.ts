@@ -294,9 +294,13 @@ namespace SourceUtils {
 
             this.use();
             this.projectionMatrix.setMatrix4f(context.getProjectionMatrix());
-            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
 
             this.noCull = false;
+        }
+
+        changeModelTransform(context: RenderContext): void {
+            if (!this.isCompiled()) return;
+            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
         }
 
         cleanupPostRender(map: Map, context: RenderContext): void {

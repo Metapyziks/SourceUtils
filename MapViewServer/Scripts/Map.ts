@@ -24,15 +24,10 @@ namespace SourceUtils {
         private clusters: VisLeaf[];
         private pvsArray: VisLeaf[][];
 
-        private pvsOrigin = new THREE.Vector3();
-        private pvsRoot: VisLeaf;
-        private pvs: VisLeaf[] = [];
-
         constructor(app: AppBase, url: string) {
             super();
 
             this.app = app;
-            this.frustumCulled = false;
 
             this.faceLoader = new FaceLoader(this);
             this.textureLoader = new TextureLoader(app.getContext());
@@ -60,20 +55,14 @@ namespace SourceUtils {
             return this.blankTexture;
         }
 
-        getPvsRoot(): VisLeaf {
-            return this.pvsRoot;
-        }
-
-        getPvs(): VisLeaf[] {
-            return this.pvs;
-        }
-
         getWorldSpawn(): BspModel {
             return this.models.length > 0 ? this.models[0] : null;
         }
 
         getMaterial(index: number): Material {
-            return index === -1 ? this.skyMaterial : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
+            return index === -1
+                ? this.skyMaterial
+                : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         }
 
         private loadInfo(url: string): void {
@@ -89,19 +78,10 @@ namespace SourceUtils {
 
                     this.skyMaterial = new Material(this, data.skyMaterial);
 
-                    for (let i = 0; i < data.brushEnts.length; ++i)
-                    {
+                    for (let i = 0; i < data.brushEnts.length; ++i) {
                         const ent = data.brushEnts[i];
                         if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
                         this.models[ent.model] = new BspModel(this, ent);
-                    }
-
-                    const spawnPos = data.playerStarts[0];
-                    this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
-
-                    if (this.info.fog != null && this.info.fog.farZ !== -1) {
-                        (this.app.camera as THREE.PerspectiveCamera).far = this.info.fog.farZ;
-                        (this.app.camera as THREE.PerspectiveCamera).updateProjectionMatrix();
                     }
                 });
         }
@@ -112,10 +92,8 @@ namespace SourceUtils {
                     this.displacements = [];
 
                     for (let i = 0; i < data.displacements.length; ++i) {
-                        this.displacements.push(new Displacement(data.displacements[i]));
+                        this.displacements.push(new Displacement(this.getWorldSpawn(), data.displacements[i]));
                     }
-
-                    this.refreshPvs();
                 });
         }
 
@@ -132,8 +110,6 @@ namespace SourceUtils {
                             this.materials.push(new Material(this, data.materials[i]));
                         }
                     }
-
-                    this.refreshPvs();
                 });
         }
 
@@ -148,16 +124,24 @@ namespace SourceUtils {
             }
         }
 
-        private replacePvs(pvs: VisLeaf[]): void {
-            const drawList = this.getWorldSpawn().getDrawList();
+        update(): void {
+            this.faceLoader.update();
+            this.textureLoader.update();
+        }
 
-            this.pvs = [];
+        getPvsArray(root: VisLeaf, callback: (pvs: VisLeaf[]) => void): void {
+            const pvs = this.pvsArray[root.cluster];
+            if (pvs != null) {
+                callback(pvs);
+                return;
+            }
 
-            drawList.clear();
+            this.loadPvsArray(root, callback);
+        }
 
-            for (let i = pvs.length - 1; i >= 0; --i) {
+        appendToDrawList(drawList: DrawList, pvs: VisLeaf[]): void {
+            for (let i = 0, iEnd = pvs.length; i < iEnd; ++i) {
                 drawList.addItem(pvs[i]);
-                this.pvs.push(pvs[i]);
             }
 
             for (let i = this.displacements.length - 1; i >= 0; --i) {
@@ -165,53 +149,27 @@ namespace SourceUtils {
                 const clusters = disp.clusters;
 
                 for (let j = 0, jEnd = clusters.length; j < jEnd; ++j) {
-                    if (this.clusters[clusters[j]].getIsVisible()) {
+                    if (this.clusters[clusters[j]].getIsInDrawList(drawList)) {
                         drawList.addItem(disp);
                         break;
                     }
                 }
             }
 
-            this.faceLoader.update();
-        }
+            for (let i = 1, iEnd = this.models.length; i < iEnd; ++i) {
+                if (this.models[i] == null) continue;
+                const leaves = this.models[i].getLeaves();
 
-        render(context: RenderContext): void {
-            this.textureLoader.update();
-
-            for (let i = 0, iEnd = this.models.length; i < iEnd; ++i) {
-                if (this.models[i] != null) this.models[i].render(context);
+                for (let j = 0, jEnd = leaves.length; j < jEnd; ++j) {
+                    drawList.addItem(leaves[j]);
+                }
             }
         }
 
-        updatePvs(position: THREE.Vector3, force?: boolean): void {
-            const worldSpawn = this.getWorldSpawn();
-            if (worldSpawn == null) return;
+        private loadPvsArray(root: VisLeaf, callback?: (pvs: VisLeaf[]) => void): void {
+            const pvs = this.pvsArray[root.cluster] = [];
 
-            this.pvsOrigin.copy(position);
-
-            const root = worldSpawn.findLeaf(position);
-            if (root === this.pvsRoot && !force) return;
-
-            this.pvsRoot = root;
-            if (root == null || root.cluster === -1) return;
-
-            const pvs = this.pvsArray[root.cluster];
-            if (pvs !== null && pvs !== undefined) {
-                if (pvs.length > 0) this.replacePvs(pvs);
-                return;
-            }
-
-            this.loadPvsArray(root.cluster);
-        }
-
-        refreshPvs(): void {
-            this.updatePvs(this.pvsOrigin, true);
-        }
-
-        private loadPvsArray(cluster: number): void {
-            const pvs = this.pvsArray[cluster] = [];
-
-            const url = this.info.visibilityUrl.replace("{index}", cluster.toString());
+            const url = this.info.visibilityUrl.replace("{index}", root.cluster.toString());
             $.getJSON(url,
                 (data: Api.BspVisibilityResponse) => {
                     const indices = Utils.decompress(data.pvs);
@@ -221,9 +179,7 @@ namespace SourceUtils {
                         if (leaf !== undefined) pvs.push(leaf);
                     }
 
-                    if (this.pvsRoot != null && this.pvsRoot.cluster === cluster) {
-                        this.replacePvs(pvs);
-                    }
+                    if (callback != null) callback(pvs);
                 });
         }
     }

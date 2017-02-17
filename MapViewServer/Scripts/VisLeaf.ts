@@ -5,16 +5,19 @@
         leafIndex: number;
         cluster: number;
 
-        constructor(info: Api.BspLeaf) {
+        constructor(model: BspModel, info: Api.BspLeaf) {
             super("l", info.index);
 
             const min = info.min;
             const max = info.max;
 
+            this.parent = model;
+
             this.leafIndex = info.index;
             this.cluster = info.cluster === undefined ? -1 : info.cluster;
 
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z),
+                new THREE.Vector3(max.x, max.y, max.z));
         }
 
         getAllLeaves(dstArray: VisLeaf[]): void {

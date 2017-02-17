@@ -1,11 +1,12 @@
 ﻿namespace SourceUtils {
     export class DrawListItem implements IFaceLoadTarget {
         bounds: THREE.Box3;
+        parent: Entity;
 
         private tokenPrefix: string;
         private tokenIndex: number;
 
-        private drawList: DrawList;
+        private drawLists: DrawList[] = [];
 
         private loadedFaces = false;
         private meshHandles: WorldMeshHandle[];
@@ -16,15 +17,33 @@
         }
 
         getIsVisible(): boolean {
-            return this.drawList != null;
+            return this.drawLists.length > 0;
+        }
+
+        getIsInDrawList(drawList: DrawList): boolean {
+            for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                if (this.drawLists[i] === drawList) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         onAddToDrawList(list: DrawList) {
-            this.drawList = list;
+            if (this.getIsInDrawList(list)) throw "Item added to a draw list twice.";
+            this.drawLists.push(list);
         }
 
         onRemoveFromDrawList(list: DrawList) {
-            if (this.drawList === list) this.drawList = null;
+            for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                if (this.drawLists[i] === list) {
+                    this.drawLists.splice(i, 1);
+                    return;
+                }
+            }
+
+            throw "Item removed from a draw list it isn't a member of.";
         }
 
         getMeshHandles(loader: FaceLoader): WorldMeshHandle[] {
@@ -42,21 +61,23 @@
         faceLoadPriority(map: Map): number {
             if (!this.getIsVisible()) return Number.POSITIVE_INFINITY;
             if (this.bounds == null) return Number.MAX_VALUE;
-
-            const root = map.getPvsRoot();
-            if ((this as any) === root || root == null) return 0;
-
-            root.bounds.getCenter(DrawListItem.rootCenter);
-            this.bounds.getCenter(DrawListItem.thisCenter);
-
-            DrawListItem.rootCenter.sub(DrawListItem.thisCenter);
-
-            return DrawListItem.rootCenter.lengthSq();
+            return 0;
         }
 
         onLoadFaces(handles: WorldMeshHandle[]): void {
+
+            if (this.parent != null) {
+                for (let i = 0, iEnd = handles.length; i < iEnd; ++i) {
+                    handles[i].parent = this.parent;
+                }
+            }
+
             this.meshHandles = handles;
-            if (this.getIsVisible()) this.drawList.updateItem(this);
+            if (this.getIsVisible()) {
+                for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                    this.drawLists[i].updateItem(this);
+                }
+            }
         }
 
         getApiQueryToken(): string { return `${this.tokenPrefix}${this.tokenIndex}`; }

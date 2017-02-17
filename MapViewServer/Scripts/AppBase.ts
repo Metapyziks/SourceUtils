@@ -111,8 +111,6 @@ namespace SourceUtils {
     }
 
     export class AppBase {
-        camera: THREE.Camera;
-
         canLockPointer = false;
 
         private container: JQuery;
@@ -131,8 +129,6 @@ namespace SourceUtils {
 
         init(container: JQuery): void {
             this.container = container;
-
-            this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
 
             this.canvas = $("<canvas/>")[0] as HTMLCanvasElement;
             this.context = this.canvas.getContext("webgl") as WebGLRenderingContext;

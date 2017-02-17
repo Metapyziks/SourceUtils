@@ -2,15 +2,27 @@
 {
     export class RenderContext
     {
+        private map: Map;
+        private camera: Camera;
+
         private projectionMatrix = new THREE.Matrix4();
         private modelMatrix = new THREE.Matrix4();
         private viewMatrix = new THREE.Matrix4();
         private modelViewMatrix = new THREE.Matrix4();
         private modelViewInvalid = true;
 
+        private pvsRoot: VisLeaf;
+        private drawList: DrawList;
+
         origin = new THREE.Vector3();
         near: number;
         far: number;
+
+        constructor(map: Map, camera: Camera) {
+            this.map = map;
+            this.camera = camera;
+            this.drawList = new DrawList(map);
+        }
 
         getProjectionMatrix(): Float32Array {
             return this.projectionMatrix.elements;
@@ -26,23 +38,58 @@
             return this.modelViewMatrix.elements;
         }
 
-        setModelMatrix(matrix: THREE.Matrix4): void {
-            this.modelMatrix.copy(matrix);
+        setModelTransform(model: Entity): void
+        {
+            if (model == null) {
+                this.modelMatrix.identity();
+            } else {
+                model.getMatrix(this.modelMatrix);
+            }
             this.modelViewInvalid = true;
         }
 
-        setup(camera: THREE.Camera): void {
-            const perspCamera = camera as THREE.PerspectiveCamera;
+        render(): void
+        {
+            this.camera.getPosition(this.origin);
 
-            this.origin.copy(camera.position);
-            this.near = perspCamera.near;
-            this.far = perspCamera.far;
+            const persp = this.camera as PerspectiveCamera;
+            if (persp.getNear !== undefined) {
+                this.near = persp.getNear();
+                this.far = persp.getFar();
+            }
 
-            camera.updateMatrixWorld(false);
-
-            this.projectionMatrix.copy(camera.projectionMatrix);
-            this.viewMatrix.getInverse(camera.matrixWorld);
+            this.camera.getProjectionMatrix(this.projectionMatrix);
+            this.camera.getInverseMatrix(this.viewMatrix);
             this.modelViewInvalid = true;
+
+            this.map.shaderManager.setCurrentProgram(null);
+
+            this.updatePvs();
+            this.drawList.render(this);
+        }
+
+        private replacePvs(pvs: VisLeaf[]): void
+        {
+            this.drawList.clear();
+            this.map.appendToDrawList(this.drawList, pvs);
+        }
+
+        updatePvs(force?: boolean): void
+        {
+            const worldSpawn = this.map.getWorldSpawn();
+            if (worldSpawn == null) return;
+
+            const root = worldSpawn.findLeaf(this.origin);
+            if (root === this.pvsRoot && !force) return;
+
+            this.pvsRoot = root;
+            if (root == null || root.cluster === -1) return;
+
+            this.map.getPvsArray(root, (pvs) => {
+                if (this.pvsRoot != null && this.pvsRoot === root) {
+                    this.replacePvs(pvs);
+                }
+            });
         }
     }
 
@@ -53,6 +100,7 @@
         private handles: WorldMeshHandle[] = [];
         private merged: WorldMeshHandle[] = [];
 
+        private lastParent: Entity;
         private lastGroup: WorldMeshGroup;
         private lastProgram: ShaderProgram;
         private lastMaterialIndex: number;
@@ -89,6 +137,13 @@
 
         private renderHandle(handle: WorldMeshHandle, context: RenderContext): void {
             let changedProgram = false;
+            let changedTransform = false;
+
+            if (this.lastParent !== handle.parent) {
+                this.lastParent = handle.parent;
+                context.setModelTransform(this.lastParent);
+                changedTransform = true;
+            }
 
             if (this.lastMaterialIndex !== handle.materialIndex) {
                 this.lastMaterialIndex = handle.materialIndex;
@@ -105,6 +160,7 @@
                     this.lastProgram = this.lastMaterial.getProgram();
                     this.lastProgram.prepareForRendering(this.map, context);
                     changedProgram = true;
+                    changedTransform = true;
                 }
 
                 this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.prepareForRendering();
@@ -112,9 +168,13 @@
 
             if (!this.canRender) return;
 
+            if (changedTransform) {
+                this.lastProgram.changeModelTransform(context);
+            }
+
             if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
-                this.lastGroup.prepareForRendering(this.lastMaterial.getProgram());
+                this.lastGroup.prepareForRendering(this.lastProgram);
             }
 
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
@@ -162,6 +222,7 @@
                 last = new WorldMeshHandle();
                 this.merged.push(last);
 
+                last.parent = next.parent;
                 last.group = next.group;
                 last.drawMode = next.drawMode;
                 last.materialIndex = next.materialIndex;
@@ -173,6 +234,7 @@
         }
 
         render(context: RenderContext): void {
+            this.lastParent = undefined;
             this.lastGroup = undefined;
             this.lastProgram = undefined;
             this.lastMaterial = undefined;

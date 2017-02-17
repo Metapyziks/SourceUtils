@@ -17,7 +17,7 @@
             if ((info as any).children != undefined) {
                 return new VisNode(model, info as Api.BspNode);
             } else {
-                return new VisLeaf(info as Api.BspLeaf);
+                return new VisLeaf(model, info as Api.BspLeaf);
             }
         }
 

@@ -337,7 +337,6 @@ var SourceUtils;
         AppBase.prototype.init = function (container) {
             var _this = this;
             this.container = container;
-            this.camera = this.camera || new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
             this.canvas = $("<canvas/>")[0];
             this.context = this.canvas.getContext("webgl");
             this.onWindowResize();
@@ -501,13 +500,71 @@ var SourceUtils;
 /// <reference path="AppBase.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var Entity = (function (_super) {
-        __extends(Entity, _super);
+    var Entity = (function () {
         function Entity() {
-            _super.apply(this, arguments);
+            this.position = new THREE.Vector3();
+            this.rotation = new THREE.Quaternion(0, 0, 0, 1);
+            this.scale = new THREE.Vector3(1, 1, 1);
+            this.matrix = new THREE.Matrix4();
+            this.matrixInvalid = true;
+            this.inverseMatrix = new THREE.Matrix4();
+            this.inverseMatrixInvalid = true;
+            this.sortIndex = Entity.nextSortIndex++;
         }
+        Entity.prototype.compareTo = function (other) {
+            if (other == null)
+                return 1;
+            return this.sortIndex - other.sortIndex;
+        };
+        Entity.prototype.invalidateMatrices = function () {
+            this.matrixInvalid = true;
+            this.inverseMatrixInvalid = true;
+        };
+        Entity.prototype.getMatrix = function (target) {
+            if (this.matrixInvalid) {
+                this.matrixInvalid = false;
+                this.matrix.compose(this.position, this.rotation, this.scale);
+            }
+            if (target != null)
+                target.copy(this.matrix);
+        };
+        Entity.prototype.getInverseMatrix = function (target) {
+            if (this.inverseMatrixInvalid) {
+                this.inverseMatrixInvalid = false;
+                this.getMatrix();
+                this.inverseMatrix.getInverse(this.matrix);
+            }
+            if (target != null)
+                target.copy(this.inverseMatrix);
+        };
+        Entity.prototype.setPosition = function (value) {
+            this.position.set(value.x, value.y, value.z);
+            this.invalidateMatrices();
+        };
+        Entity.prototype.getPosition = function (target) {
+            target.copy(this.position);
+        };
+        Entity.prototype.translate = function (valueOrX, y, z) {
+            if (typeof valueOrX === "number") {
+                this.position.x += valueOrX;
+                this.position.y += y;
+                this.position.z += z;
+            }
+            else {
+                this.position.add(valueOrX);
+            }
+            this.invalidateMatrices();
+        };
+        Entity.prototype.setRotation = function (value) {
+            this.rotation.copy(value);
+            this.invalidateMatrices();
+        };
+        Entity.prototype.applyRotationTo = function (vector) {
+            vector.applyQuaternion(this.rotation);
+        };
+        Entity.nextSortIndex = 0;
         return Entity;
-    }(THREE.Object3D));
+    }());
     SourceUtils.Entity = Entity;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="Entity.ts"/>
@@ -519,15 +576,9 @@ var SourceUtils;
             _super.call(this);
             this.map = map;
             this.index = info.model;
-            this.drawList = new SourceUtils.DrawList(map);
-            this.position.set(info.origin.x, info.origin.y, info.origin.z);
-            //this.rotation.set(info.angles.x, info.angles.z, info.angles.y, "ZYX");
-            this.updateMatrix();
+            this.setPosition(info.origin);
             this.loadInfo(this.map.info.modelUrl.replace("{index}", this.index.toString()));
         }
-        BspModel.prototype.getDrawList = function () {
-            return this.drawList;
-        };
         BspModel.prototype.loadInfo = function (url) {
             var _this = this;
             $.getJSON(url, function (data) {
@@ -540,12 +591,6 @@ var SourceUtils;
             this.leaves = [];
             this.root = new SourceUtils.VisNode(this, SourceUtils.Utils.decompress(this.info.tree));
             this.root.getAllLeaves(this.leaves);
-            if (this.index !== 0) {
-                for (var i = 0; i < this.leaves.length; ++i) {
-                    this.drawList.addItem(this.leaves[i]);
-                }
-            }
-            this.map.refreshPvs();
         };
         BspModel.prototype.getLeaves = function () {
             return this.leaves;
@@ -561,31 +606,93 @@ var SourceUtils;
             }
             return elem;
         };
-        BspModel.prototype.render = function (context) {
-            context.setModelMatrix(this.matrix);
-            this.drawList.render(context);
-        };
         return BspModel;
     }(SourceUtils.Entity));
     SourceUtils.BspModel = BspModel;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
+    var Camera = (function (_super) {
+        __extends(Camera, _super);
+        function Camera() {
+            _super.apply(this, arguments);
+            this.projectionInvalid = true;
+            this.projectionMatrix = new THREE.Matrix4();
+        }
+        Camera.prototype.getProjectionMatrix = function (target) {
+            if (this.projectionInvalid) {
+                this.projectionInvalid = false;
+                this.onUpdateProjectionMatrix(this.projectionMatrix);
+            }
+            target.copy(this.projectionMatrix);
+        };
+        Camera.prototype.invalidateProjectionMatrix = function () {
+            this.projectionInvalid = true;
+        };
+        Camera.prototype.onUpdateProjectionMatrix = function (matrix) {
+            throw "Method 'onUpdateProjectionMatrix' not implemented.";
+        };
+        return Camera;
+    }(SourceUtils.Entity));
+    SourceUtils.Camera = Camera;
+    var PerspectiveCamera = (function (_super) {
+        __extends(PerspectiveCamera, _super);
+        function PerspectiveCamera(fov, aspect, near, far) {
+            _super.call(this);
+            this.fov = fov;
+            this.aspect = aspect;
+            this.near = near;
+            this.far = far;
+        }
+        PerspectiveCamera.prototype.setFov = function (value) { this.fov = value; this.invalidateProjectionMatrix(); };
+        PerspectiveCamera.prototype.getFov = function () { return this.fov; };
+        PerspectiveCamera.prototype.setAspect = function (value) { this.aspect = value; this.invalidateProjectionMatrix(); };
+        PerspectiveCamera.prototype.getAspect = function () { return this.aspect; };
+        PerspectiveCamera.prototype.setNear = function (value) { this.near = value; this.invalidateProjectionMatrix(); };
+        PerspectiveCamera.prototype.getNear = function () { return this.near; };
+        PerspectiveCamera.prototype.setFar = function (value) { this.far = value; this.invalidateProjectionMatrix(); };
+        PerspectiveCamera.prototype.getFar = function () { return this.far; };
+        PerspectiveCamera.prototype.onUpdateProjectionMatrix = function (matrix) {
+            var near = this.near, top = near * Math.tan(THREE.Math.DEG2RAD * 0.5 * this.fov), height = 2 * top, width = this.aspect * height, left = -0.5 * width;
+            matrix.makePerspective(left, left + width, top, top - height, near, this.far);
+        };
+        return PerspectiveCamera;
+    }(Camera));
+    SourceUtils.PerspectiveCamera = PerspectiveCamera;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
     var DrawListItem = (function () {
         function DrawListItem(tokenPrefix, tokenIndex) {
+            this.drawLists = [];
             this.loadedFaces = false;
             this.tokenPrefix = tokenPrefix;
             this.tokenIndex = tokenIndex;
         }
         DrawListItem.prototype.getIsVisible = function () {
-            return this.drawList != null;
+            return this.drawLists.length > 0;
+        };
+        DrawListItem.prototype.getIsInDrawList = function (drawList) {
+            for (var i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                if (this.drawLists[i] === drawList) {
+                    return true;
+                }
+            }
+            return false;
         };
         DrawListItem.prototype.onAddToDrawList = function (list) {
-            this.drawList = list;
+            if (this.getIsInDrawList(list))
+                throw "Item added to a draw list twice.";
+            this.drawLists.push(list);
         };
         DrawListItem.prototype.onRemoveFromDrawList = function (list) {
-            if (this.drawList === list)
-                this.drawList = null;
+            for (var i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                if (this.drawLists[i] === list) {
+                    this.drawLists.splice(i, 1);
+                    return;
+                }
+            }
+            throw "Item removed from a draw list it isn't a member of.";
         };
         DrawListItem.prototype.getMeshHandles = function (loader) {
             if (!this.loadedFaces) {
@@ -599,18 +706,20 @@ var SourceUtils;
                 return Number.POSITIVE_INFINITY;
             if (this.bounds == null)
                 return Number.MAX_VALUE;
-            var root = map.getPvsRoot();
-            if (this === root || root == null)
-                return 0;
-            root.bounds.getCenter(DrawListItem.rootCenter);
-            this.bounds.getCenter(DrawListItem.thisCenter);
-            DrawListItem.rootCenter.sub(DrawListItem.thisCenter);
-            return DrawListItem.rootCenter.lengthSq();
+            return 0;
         };
         DrawListItem.prototype.onLoadFaces = function (handles) {
+            if (this.parent != null) {
+                for (var i = 0, iEnd = handles.length; i < iEnd; ++i) {
+                    handles[i].parent = this.parent;
+                }
+            }
             this.meshHandles = handles;
-            if (this.getIsVisible())
-                this.drawList.updateItem(this);
+            if (this.getIsVisible()) {
+                for (var i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                    this.drawLists[i].updateItem(this);
+                }
+            }
         };
         DrawListItem.prototype.getApiQueryToken = function () { return "" + this.tokenPrefix + this.tokenIndex; };
         DrawListItem.rootCenter = new THREE.Vector3();
@@ -624,8 +733,9 @@ var SourceUtils;
 (function (SourceUtils) {
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
-        function Displacement(info) {
+        function Displacement(model, info) {
             _super.call(this, "d", info.index);
+            this.parent = model;
             this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
@@ -638,13 +748,16 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var RenderContext = (function () {
-        function RenderContext() {
+        function RenderContext(map, camera) {
             this.projectionMatrix = new THREE.Matrix4();
             this.modelMatrix = new THREE.Matrix4();
             this.viewMatrix = new THREE.Matrix4();
             this.modelViewMatrix = new THREE.Matrix4();
             this.modelViewInvalid = true;
             this.origin = new THREE.Vector3();
+            this.map = map;
+            this.camera = camera;
+            this.drawList = new DrawList(map);
         }
         RenderContext.prototype.getProjectionMatrix = function () {
             return this.projectionMatrix.elements;
@@ -656,19 +769,49 @@ var SourceUtils;
             }
             return this.modelViewMatrix.elements;
         };
-        RenderContext.prototype.setModelMatrix = function (matrix) {
-            this.modelMatrix.copy(matrix);
+        RenderContext.prototype.setModelTransform = function (model) {
+            if (model == null) {
+                this.modelMatrix.identity();
+            }
+            else {
+                model.getMatrix(this.modelMatrix);
+            }
             this.modelViewInvalid = true;
         };
-        RenderContext.prototype.setup = function (camera) {
-            var perspCamera = camera;
-            this.origin.copy(camera.position);
-            this.near = perspCamera.near;
-            this.far = perspCamera.far;
-            camera.updateMatrixWorld(false);
-            this.projectionMatrix.copy(camera.projectionMatrix);
-            this.viewMatrix.getInverse(camera.matrixWorld);
+        RenderContext.prototype.render = function () {
+            this.camera.getPosition(this.origin);
+            var persp = this.camera;
+            if (persp.getNear !== undefined) {
+                this.near = persp.getNear();
+                this.far = persp.getFar();
+            }
+            this.camera.getProjectionMatrix(this.projectionMatrix);
+            this.camera.getInverseMatrix(this.viewMatrix);
             this.modelViewInvalid = true;
+            this.map.shaderManager.setCurrentProgram(null);
+            this.updatePvs();
+            this.drawList.render(this);
+        };
+        RenderContext.prototype.replacePvs = function (pvs) {
+            this.drawList.clear();
+            this.map.appendToDrawList(this.drawList, pvs);
+        };
+        RenderContext.prototype.updatePvs = function (force) {
+            var _this = this;
+            var worldSpawn = this.map.getWorldSpawn();
+            if (worldSpawn == null)
+                return;
+            var root = worldSpawn.findLeaf(this.origin);
+            if (root === this.pvsRoot && !force)
+                return;
+            this.pvsRoot = root;
+            if (root == null || root.cluster === -1)
+                return;
+            this.map.getPvsArray(root, function (pvs) {
+                if (_this.pvsRoot != null && _this.pvsRoot === root) {
+                    _this.replacePvs(pvs);
+                }
+            });
         };
         return RenderContext;
     }());
@@ -700,6 +843,12 @@ var SourceUtils;
         };
         DrawList.prototype.renderHandle = function (handle, context) {
             var changedProgram = false;
+            var changedTransform = false;
+            if (this.lastParent !== handle.parent) {
+                this.lastParent = handle.parent;
+                context.setModelTransform(this.lastParent);
+                changedTransform = true;
+            }
             if (this.lastMaterialIndex !== handle.materialIndex) {
                 this.lastMaterialIndex = handle.materialIndex;
                 this.lastMaterial = this.map.getMaterial(handle.materialIndex);
@@ -713,14 +862,18 @@ var SourceUtils;
                     this.lastProgram = this.lastMaterial.getProgram();
                     this.lastProgram.prepareForRendering(this.map, context);
                     changedProgram = true;
+                    changedTransform = true;
                 }
                 this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.prepareForRendering();
             }
             if (!this.canRender)
                 return;
+            if (changedTransform) {
+                this.lastProgram.changeModelTransform(context);
+            }
             if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
-                this.lastGroup.prepareForRendering(this.lastMaterial.getProgram());
+                this.lastGroup.prepareForRendering(this.lastProgram);
             }
             this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
         };
@@ -756,6 +909,7 @@ var SourceUtils;
                 }
                 last = new SourceUtils.WorldMeshHandle();
                 this.merged.push(last);
+                last.parent = next.parent;
                 last.group = next.group;
                 last.drawMode = next.drawMode;
                 last.materialIndex = next.materialIndex;
@@ -766,6 +920,7 @@ var SourceUtils;
                 console.log("Draw calls: " + this.merged.length);
         };
         DrawList.prototype.render = function (context) {
+            this.lastParent = undefined;
             this.lastGroup = undefined;
             this.lastProgram = undefined;
             this.lastMaterial = undefined;
@@ -874,10 +1029,7 @@ var SourceUtils;
             this.models = [];
             this.displacements = [];
             this.materials = [];
-            this.pvsOrigin = new THREE.Vector3();
-            this.pvs = [];
             this.app = app;
-            this.frustumCulled = false;
             this.faceLoader = new SourceUtils.FaceLoader(this);
             this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
             this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
@@ -898,17 +1050,13 @@ var SourceUtils;
         Map.prototype.getBlankTexture = function () {
             return this.blankTexture;
         };
-        Map.prototype.getPvsRoot = function () {
-            return this.pvsRoot;
-        };
-        Map.prototype.getPvs = function () {
-            return this.pvs;
-        };
         Map.prototype.getWorldSpawn = function () {
             return this.models.length > 0 ? this.models[0] : null;
         };
         Map.prototype.getMaterial = function (index) {
-            return index === -1 ? this.skyMaterial : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
+            return index === -1
+                ? this.skyMaterial
+                : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         };
         Map.prototype.loadInfo = function (url) {
             var _this = this;
@@ -927,12 +1075,6 @@ var SourceUtils;
                         throw "Multiple models with the same index.";
                     _this.models[ent.model] = new SourceUtils.BspModel(_this, ent);
                 }
-                var spawnPos = data.playerStarts[0];
-                _this.app.camera.position.set(spawnPos.x, spawnPos.y, spawnPos.z + 64);
-                if (_this.info.fog != null && _this.info.fog.farZ !== -1) {
-                    _this.app.camera.far = _this.info.fog.farZ;
-                    _this.app.camera.updateProjectionMatrix();
-                }
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -940,9 +1082,8 @@ var SourceUtils;
             $.getJSON(this.info.displacementsUrl, function (data) {
                 _this.displacements = [];
                 for (var i = 0; i < data.displacements.length; ++i) {
-                    _this.displacements.push(new SourceUtils.Displacement(data.displacements[i]));
+                    _this.displacements.push(new SourceUtils.Displacement(_this.getWorldSpawn(), data.displacements[i]));
                 }
-                _this.refreshPvs();
             });
         };
         Map.prototype.loadMaterials = function () {
@@ -958,7 +1099,6 @@ var SourceUtils;
                         _this.materials.push(new SourceUtils.Material(_this, data.materials[i]));
                     }
                 }
-                _this.refreshPvs();
             });
         };
         Map.prototype.onModelLoaded = function (model) {
@@ -972,59 +1112,45 @@ var SourceUtils;
                 this.clusters[leaf.cluster] = leaf;
             }
         };
-        Map.prototype.replacePvs = function (pvs) {
-            var drawList = this.getWorldSpawn().getDrawList();
-            this.pvs = [];
-            drawList.clear();
-            for (var i = pvs.length - 1; i >= 0; --i) {
+        Map.prototype.update = function () {
+            this.faceLoader.update();
+            this.textureLoader.update();
+        };
+        Map.prototype.getPvsArray = function (root, callback) {
+            var pvs = this.pvsArray[root.cluster];
+            if (pvs != null) {
+                callback(pvs);
+                return;
+            }
+            this.loadPvsArray(root, callback);
+        };
+        Map.prototype.appendToDrawList = function (drawList, pvs) {
+            for (var i = 0, iEnd = pvs.length; i < iEnd; ++i) {
                 drawList.addItem(pvs[i]);
-                this.pvs.push(pvs[i]);
             }
             for (var i = this.displacements.length - 1; i >= 0; --i) {
                 var disp = this.displacements[i];
                 var clusters = disp.clusters;
                 for (var j = 0, jEnd = clusters.length; j < jEnd; ++j) {
-                    if (this.clusters[clusters[j]].getIsVisible()) {
+                    if (this.clusters[clusters[j]].getIsInDrawList(drawList)) {
                         drawList.addItem(disp);
                         break;
                     }
                 }
             }
-            this.faceLoader.update();
-        };
-        Map.prototype.render = function (context) {
-            this.textureLoader.update();
-            for (var i = 0, iEnd = this.models.length; i < iEnd; ++i) {
-                if (this.models[i] != null)
-                    this.models[i].render(context);
+            for (var i = 1, iEnd = this.models.length; i < iEnd; ++i) {
+                if (this.models[i] == null)
+                    continue;
+                var leaves = this.models[i].getLeaves();
+                for (var j = 0, jEnd = leaves.length; j < jEnd; ++j) {
+                    drawList.addItem(leaves[j]);
+                }
             }
         };
-        Map.prototype.updatePvs = function (position, force) {
-            var worldSpawn = this.getWorldSpawn();
-            if (worldSpawn == null)
-                return;
-            this.pvsOrigin.copy(position);
-            var root = worldSpawn.findLeaf(position);
-            if (root === this.pvsRoot && !force)
-                return;
-            this.pvsRoot = root;
-            if (root == null || root.cluster === -1)
-                return;
-            var pvs = this.pvsArray[root.cluster];
-            if (pvs !== null && pvs !== undefined) {
-                if (pvs.length > 0)
-                    this.replacePvs(pvs);
-                return;
-            }
-            this.loadPvsArray(root.cluster);
-        };
-        Map.prototype.refreshPvs = function () {
-            this.updatePvs(this.pvsOrigin, true);
-        };
-        Map.prototype.loadPvsArray = function (cluster) {
+        Map.prototype.loadPvsArray = function (root, callback) {
             var _this = this;
-            var pvs = this.pvsArray[cluster] = [];
-            var url = this.info.visibilityUrl.replace("{index}", cluster.toString());
+            var pvs = this.pvsArray[root.cluster] = [];
+            var url = this.info.visibilityUrl.replace("{index}", root.cluster.toString());
             $.getJSON(url, function (data) {
                 var indices = SourceUtils.Utils.decompress(data.pvs);
                 for (var i = 0; i < indices.length; ++i) {
@@ -1032,9 +1158,8 @@ var SourceUtils;
                     if (leaf !== undefined)
                         pvs.push(leaf);
                 }
-                if (_this.pvsRoot != null && _this.pvsRoot.cluster === cluster) {
-                    _this.replacePvs(pvs);
-                }
+                if (callback != null)
+                    callback(pvs);
             });
         };
         return Map;
@@ -1054,21 +1179,21 @@ var SourceUtils;
             this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
             this.countedFrames = 0;
             this.totalFrameTime = 0;
-            this.renderContext = new SourceUtils.RenderContext();
+            this.spawned = false;
             this.unitZ = new THREE.Vector3(0, 0, 1);
             this.unitX = new THREE.Vector3(1, 0, 0);
             this.tempQuat = new THREE.Quaternion();
             this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
-            this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
-            this.camera.up.set(0, 0, 1);
+            this.camera = new SourceUtils.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
             _super.prototype.init.call(this, container);
             this.getContext().clearColor(100 / 255, 149 / 255, 237 / 255, 1);
             this.updateCameraAngles();
         };
         MapViewer.prototype.loadMap = function (url) {
             this.map = new SourceUtils.Map(this, url);
+            this.renderContext = new SourceUtils.RenderContext(this.map, this.camera);
         };
         MapViewer.prototype.onKeyDown = function (key) {
             _super.prototype.onKeyDown.call(this, key);
@@ -1077,9 +1202,7 @@ var SourceUtils;
             }
         };
         MapViewer.prototype.onUpdateCamera = function () {
-            var camera = this.camera;
-            camera.aspect = this.getWidth() / this.getHeight();
-            camera.updateProjectionMatrix();
+            this.camera.setAspect(this.getWidth() / this.getHeight());
         };
         MapViewer.prototype.updateCameraAngles = function () {
             if (this.lookAngs.y < -Math.PI * 0.5)
@@ -1089,7 +1212,7 @@ var SourceUtils;
             this.lookQuat.setFromAxisAngle(this.unitZ, this.lookAngs.x);
             this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
             this.lookQuat.multiply(this.tempQuat);
-            this.camera.rotation.setFromQuaternion(this.lookQuat);
+            this.camera.setRotation(this.lookQuat);
         };
         MapViewer.prototype.onMouseLook = function (delta) {
             _super.prototype.onMouseLook.call(this, delta);
@@ -1098,6 +1221,17 @@ var SourceUtils;
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
+            if (!this.spawned) {
+                if (this.map.info == null)
+                    return;
+                this.spawned = true;
+                this.camera.setPosition(this.map.info.playerStarts[0]);
+                this.camera.translate(0, 0, 64);
+                if (this.map.info.fog != null && this.map.info.fog.farZ !== -1) {
+                    this.camera.setFar(this.map.info.fog.farZ);
+                }
+            }
+            this.map.update();
             var move = new THREE.Vector3();
             var moveSpeed = 512 * dt;
             if (this.isKeyDown(SourceUtils.Key.W))
@@ -1109,10 +1243,9 @@ var SourceUtils;
             if (this.isKeyDown(SourceUtils.Key.D))
                 move.x += moveSpeed;
             if (move.lengthSq() > 0) {
-                move.applyEuler(this.camera.rotation);
-                this.camera.position.add(move);
+                this.camera.applyRotationTo(move);
+                this.camera.translate(move);
             }
-            this.map.updatePvs(this.camera.position);
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             var gl = this.getContext();
@@ -1122,9 +1255,9 @@ var SourceUtils;
             gl.depthFunc(gl.LESS);
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
-            this.renderContext.setup(this.camera);
-            this.map.shaderManager.setCurrentProgram(null);
-            this.map.render(this.renderContext);
+            if (this.renderContext != null) {
+                this.renderContext.render();
+            }
             var t1 = performance.now();
             if (this.logFrameTime) {
                 this.totalFrameTime += (t1 - t0);
@@ -1429,8 +1562,12 @@ var SourceUtils;
                 return;
             this.use();
             this.projectionMatrix.setMatrix4f(context.getProjectionMatrix());
-            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
             this.noCull = false;
+        };
+        ShaderProgram.prototype.changeModelTransform = function (context) {
+            if (!this.isCompiled())
+                return;
+            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
         };
         ShaderProgram.prototype.cleanupPostRender = function (map, context) {
             var gl = this.getContext();
@@ -1907,11 +2044,12 @@ var SourceUtils;
 (function (SourceUtils) {
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
-        function VisLeaf(info) {
+        function VisLeaf(model, info) {
             _super.call(this, "l", info.index);
             this.isLeaf = true;
             var min = info.min;
             var max = info.max;
+            this.parent = model;
             this.leafIndex = info.index;
             this.cluster = info.cluster === undefined ? -1 : info.cluster;
             this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
@@ -1944,7 +2082,7 @@ var SourceUtils;
                 return new VisNode(model, info);
             }
             else {
-                return new SourceUtils.VisLeaf(info);
+                return new SourceUtils.VisLeaf(model, info);
             }
         };
         VisNode.prototype.getAllLeaves = function (dstArray) {
@@ -1971,6 +2109,11 @@ var SourceUtils;
             this.count = count;
         }
         WorldMeshHandle.prototype.compareTo = function (other) {
+            if (this.parent !== other.parent) {
+                return this.parent != null
+                    ? this.parent.compareTo(other.parent)
+                    : other.parent.compareTo(this.parent);
+            }
             var matComp = this.material.compareTo(other.material);
             if (matComp !== 0)
                 return matComp;
@@ -1980,10 +2123,11 @@ var SourceUtils;
             return this.offset - other.offset;
         };
         WorldMeshHandle.prototype.canMerge = function (other) {
-            return this.group === other.group
-                && this.drawMode === other.drawMode
-                && this.materialIndex === other.materialIndex
-                && this.offset + this.count === other.offset;
+            return this.materialIndex === other.materialIndex
+                && this.offset + this.count === other.offset
+                && this.group === other.group
+                && this.parent === other.parent
+                && this.drawMode === other.drawMode;
         };
         WorldMeshHandle.prototype.merge = function (other) {
             this.count += other.count;
@@ -2110,7 +2254,6 @@ var SourceUtils;
             var stride = this.vertexSize * 4;
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
             program.enableMeshComponents(this.components);
-            // TODO: Clean up
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);

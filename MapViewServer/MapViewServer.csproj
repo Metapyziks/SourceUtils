@@ -101,6 +101,7 @@
     <TypeScriptCompile Include="Scripts\Api.ts" />
     <TypeScriptCompile Include="Scripts\AppBase.ts" />
     <TypeScriptCompile Include="Scripts\BspModel.ts" />
+    <TypeScriptCompile Include="Scripts\Camera.ts" />
     <TypeScriptCompile Include="Scripts\Displacement.ts" />
     <TypeScriptCompile Include="Scripts\DrawList.ts" />
     <TypeScriptCompile Include="Scripts\DrawListItem.ts" />

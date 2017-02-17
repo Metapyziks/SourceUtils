@@ -7,13 +7,17 @@ namespace SourceUtils {
         logFrameTime = false;
         logDrawCalls = false;
 
+        camera: PerspectiveCamera;
+
         private lookAngs = new THREE.Vector2();
         private lookQuat = new THREE.Quaternion(0, 0, 0, 1);
 
         private countedFrames = 0;
         private totalFrameTime = 0;
 
-        private renderContext = new RenderContext();
+        private renderContext: RenderContext;
+
+        private spawned = false;
 
         constructor() {
             super();
@@ -22,8 +26,7 @@ namespace SourceUtils {
         }
 
         init(container: JQuery): void {
-            this.camera = new THREE.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
-            this.camera.up.set(0, 0, 1);
+            this.camera = new PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
 
             super.init(container);
 
@@ -34,6 +37,7 @@ namespace SourceUtils {
 
         loadMap(url: string): void {
             this.map = new Map(this, url);
+            this.renderContext = new RenderContext(this.map, this.camera);
         }
 
         onKeyDown(key: Key): void {
@@ -49,10 +53,7 @@ namespace SourceUtils {
         private tempQuat = new THREE.Quaternion();
 
         protected onUpdateCamera(): void {
-            const camera = this.camera as THREE.PerspectiveCamera;
-
-            camera.aspect = this.getWidth() / this.getHeight();
-            camera.updateProjectionMatrix();
+            this.camera.setAspect(this.getWidth() / this.getHeight());
         }
 
         private updateCameraAngles(): void {
@@ -63,7 +64,7 @@ namespace SourceUtils {
             this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
             this.lookQuat.multiply(this.tempQuat);
 
-            this.camera.rotation.setFromQuaternion(this.lookQuat);
+            this.camera.setRotation(this.lookQuat);
         }
 
         protected onMouseLook(delta: THREE.Vector2): void {
@@ -76,6 +77,20 @@ namespace SourceUtils {
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
+            if (!this.spawned) {
+                if (this.map.info == null) return;
+                this.spawned = true;
+
+                this.camera.setPosition(this.map.info.playerStarts[0]);
+                this.camera.translate(0, 0, 64);
+
+                if (this.map.info.fog != null && this.map.info.fog.farZ !== -1) {
+                    this.camera.setFar(this.map.info.fog.farZ);
+                }
+            }
+
+            this.map.update();
+
             const move = new THREE.Vector3();
             const moveSpeed = 512 * dt;
 
@@ -85,11 +100,9 @@ namespace SourceUtils {
             if (this.isKeyDown(Key.D)) move.x += moveSpeed;
 
             if (move.lengthSq() > 0) {
-                move.applyEuler(this.camera.rotation);
-                this.camera.position.add(move);
+                this.camera.applyRotationTo(move);
+                this.camera.translate(move);
             }
-
-            this.map.updatePvs(this.camera.position);
         }
 
         protected onRenderFrame(dt: number): void {
@@ -104,10 +117,9 @@ namespace SourceUtils {
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
 
-            this.renderContext.setup(this.camera);
-
-            this.map.shaderManager.setCurrentProgram(null);
-            this.map.render(this.renderContext);
+            if (this.renderContext != null) {
+                this.renderContext.render();
+            }
 
             const t1 = performance.now();
 

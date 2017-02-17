@@ -6,8 +6,10 @@ namespace SourceUtils
     {
         clusters: number[];
 
-        constructor(info: Api.Displacement) {
+        constructor(model: BspModel, info: Api.Displacement) {
             super("d", info.index);
+
+            this.parent = model;
             this.clusters = info.clusters;
 
             const min = info.min;

@@ -1,6 +1,7 @@
 ﻿namespace SourceUtils {
     export class WorldMeshHandle {
         group: WorldMeshGroup;
+        parent: Entity;
         drawMode: number;
         materialIndex: number;
         material: Material;
@@ -21,7 +22,13 @@
             this.count = count;
         }
 
-        compareTo(other: WorldMeshHandle): number {
+        compareTo(other: WorldMeshHandle): number
+        {
+            if (this.parent !== other.parent) {
+                return this.parent != null
+                    ? this.parent.compareTo(other.parent)
+                    : other.parent.compareTo(this.parent);
+            }
             const matComp = this.material.compareTo(other.material);
             if (matComp !== 0) return matComp;
             const groupComp = this.group.compareTo(other.group);
@@ -30,10 +37,11 @@
         }
 
         canMerge(other: WorldMeshHandle): boolean {
-            return this.group === other.group 
-                && this.drawMode === other.drawMode
-                && this.materialIndex === other.materialIndex
-                && this.offset + this.count === other.offset;
+            return this.materialIndex === other.materialIndex
+                && this.offset + this.count === other.offset
+                && this.group === other.group
+                && this.parent === other.parent
+                && this.drawMode === other.drawMode;
         }
 
         merge(other: WorldMeshHandle): void {
@@ -225,7 +233,6 @@
 
             program.enableMeshComponents(this.components);
 
-            // TODO: Clean up
             program.setVertexAttribPointer(Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
             program.setVertexAttribPointer(Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             program.setVertexAttribPointer(Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);

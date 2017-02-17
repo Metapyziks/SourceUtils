@@ -9,24 +9,16 @@ namespace SourceUtils {
 
         private leaves: VisLeaf[];
         private root: VisNode;
-        private drawList: DrawList;
 
         constructor(map: Map, info: Api.FuncBrush) {
             super();
 
             this.map = map;
             this.index = info.model;
-            this.drawList = new DrawList(map);
 
-            this.position.set(info.origin.x, info.origin.y, info.origin.z);
-            //this.rotation.set(info.angles.x, info.angles.z, info.angles.y, "ZYX");
-            this.updateMatrix();
+            this.setPosition(info.origin);
 
             this.loadInfo(this.map.info.modelUrl.replace("{index}", this.index.toString()));
-        }
-
-        getDrawList(): DrawList {
-            return this.drawList;
         }
 
         private loadInfo(url: string): void {
@@ -42,14 +34,6 @@ namespace SourceUtils {
             this.leaves = [];
             this.root = new VisNode(this, Utils.decompress(this.info.tree));
             this.root.getAllLeaves(this.leaves);
-
-            if (this.index !== 0) {
-                for (let i = 0; i < this.leaves.length; ++i) {
-                    this.drawList.addItem(this.leaves[i]);
-                }
-            }
-
-            this.map.refreshPvs();
         }
 
         getLeaves(): VisLeaf[] {
@@ -68,11 +52,6 @@ namespace SourceUtils {
             }
 
             return elem as VisLeaf;
-        }
-
-        render(context: RenderContext): void {
-            context.setModelMatrix(this.matrix);
-            this.drawList.render(context);
         }
     }
 }
