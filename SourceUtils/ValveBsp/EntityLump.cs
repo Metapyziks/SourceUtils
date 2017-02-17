@@ -421,5 +421,12 @@ namespace SourceUtils
             [EntityField("use_angles")]
             public bool UseAngles { get; private set; }
         }
+
+        [EntityClass("sky_camera")]
+        public class SkyCamera : Entity
+        {
+            [EntityField("scale")]
+            public int Scale { get; private set; }
+        }
     }
 }

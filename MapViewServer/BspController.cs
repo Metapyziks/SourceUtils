@@ -425,7 +425,7 @@ namespace MapViewServer
         private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
             const SurfFlags ignoreFlags = SurfFlags.NODRAW;
-            const SurfFlags skyFlags = SurfFlags.SKY | SurfFlags.SKY2D;
+            const SurfFlags skyFlags = SurfFlags.SKY2D | SurfFlags.SKY;
 
             var face = bsp.FacesHdr[index];
             var texInfo = bsp.TextureInfos[face.TexInfo];
@@ -549,6 +549,7 @@ namespace MapViewServer
             var bsp = GetBspFile( Request, mapName );
             var skyName = bsp.Entities.GetFirst<WorldSpawn>().SkyName;
             var fogInfo = bsp.Entities.GetFirst<EnvFogController>();
+            var skyInfo = bsp.Entities.GetFirst<SkyCamera>();
 
             var fogData = new JObject
             {
@@ -564,11 +565,23 @@ namespace MapViewServer
                 fogData.Add( "color", fogInfo.FogColor.ToJson() );
             }
 
+            var skyData = new JObject
+            {
+                {"enabled", skyInfo != null }
+            };
+
+            if ( skyInfo != null )
+            {
+                skyData.Add( "origin", skyInfo.Origin.ToJson() );
+                skyData.Add( "scale", skyInfo.Scale );
+            }
+
             return new JObject
             {
                 {"name", mapName},
                 {"skyMaterial", GetSkyMaterial( bsp, skyName )},
                 {"fog", fogData},
+                {"skyCamera", skyData},
                 {"playerStarts", new JArray( bsp.Entities.OfType<InfoPlayerStart>().Select( x => x.Origin.ToJson() ) )},
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},

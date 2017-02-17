@@ -14,6 +14,7 @@
         private sortIndex: number;
 
         properties = new MaterialProperties();
+        enabled = true;
         
         private map: Map;
         private info: Api.Material;
@@ -68,7 +69,7 @@
         }
 
         prepareForRendering(): boolean {
-            return this.program.changeMaterial(this);
+            return this.enabled && this.program.changeMaterial(this);
         }
     }
 }

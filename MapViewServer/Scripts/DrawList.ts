@@ -71,7 +71,7 @@
         private replacePvs(pvs: VisLeaf[]): void
         {
             this.drawList.clear();
-            this.map.appendToDrawList(this.drawList, pvs);
+            if (pvs != null) this.map.appendToDrawList(this.drawList, pvs);
         }
 
         updatePvs(force?: boolean): void
@@ -83,7 +83,12 @@
             if (root === this.pvsRoot && !force) return;
 
             this.pvsRoot = root;
-            if (root == null || root.cluster === -1) return;
+            if (root == null || root.cluster === -1)
+            {
+                console.log("Null pvs");
+                this.replacePvs(null);
+                return;
+            }
 
             this.map.getPvsArray(root, (pvs) => {
                 if (this.pvsRoot != null && this.pvsRoot === root) {
@@ -119,6 +124,7 @@
 
             this.items = [];
             this.handles = [];
+            this.merged = [];
         }
 
         getDrawCalls(): number {

@@ -51,7 +51,7 @@ namespace SourceUtils {
                 elem = node.children[index];
             }
 
-            return elem as VisLeaf;
+            return elem.isLeaf ? elem as VisLeaf : null;
         }
     }
 }

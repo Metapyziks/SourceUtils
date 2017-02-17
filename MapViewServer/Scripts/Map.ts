@@ -59,6 +59,11 @@ namespace SourceUtils {
             return this.models.length > 0 ? this.models[0] : null;
         }
 
+        setSkyMaterialEnabled(value: boolean): void
+        {
+            if (this.skyMaterial != null) this.skyMaterial.enabled = value;
+        }
+
         getMaterial(index: number): Material {
             return index === -1
                 ? this.skyMaterial

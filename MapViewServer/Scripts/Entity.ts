@@ -77,8 +77,22 @@ namespace SourceUtils {
             this.invalidateMatrices();
         }
 
+        copyRotation(other: Entity): void {
+            this.setRotation(other.rotation);
+        }
+
         applyRotationTo(vector: THREE.Vector3): void {
             vector.applyQuaternion(this.rotation);
+        }
+
+        setScale(value: THREE.Vector3 | Api.Vector3 | number): void
+        {
+            if (typeof value === "number") {
+                this.scale.set(value, value, value);
+            } else {
+                this.scale.set(value.x, value.y, value.z);
+            }
+            this.invalidateMatrices();
         }
     }
 }

@@ -186,6 +186,12 @@ var SourceUtils;
             return FogParams;
         }());
         Api.FogParams = FogParams;
+        var SkyCameraParams = (function () {
+            function SkyCameraParams() {
+            }
+            return SkyCameraParams;
+        }());
+        Api.SkyCameraParams = SkyCameraParams;
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/lz-string/lz-string.d.ts"/>
@@ -559,8 +565,20 @@ var SourceUtils;
             this.rotation.copy(value);
             this.invalidateMatrices();
         };
+        Entity.prototype.copyRotation = function (other) {
+            this.setRotation(other.rotation);
+        };
         Entity.prototype.applyRotationTo = function (vector) {
             vector.applyQuaternion(this.rotation);
+        };
+        Entity.prototype.setScale = function (value) {
+            if (typeof value === "number") {
+                this.scale.set(value, value, value);
+            }
+            else {
+                this.scale.set(value.x, value.y, value.z);
+            }
+            this.invalidateMatrices();
         };
         Entity.nextSortIndex = 0;
         return Entity;
@@ -604,7 +622,7 @@ var SourceUtils;
                 var index = node.plane.normal.dot(pos) >= node.plane.constant ? 0 : 1;
                 elem = node.children[index];
             }
-            return elem;
+            return elem.isLeaf ? elem : null;
         };
         return BspModel;
     }(SourceUtils.Entity));
@@ -794,7 +812,8 @@ var SourceUtils;
         };
         RenderContext.prototype.replacePvs = function (pvs) {
             this.drawList.clear();
-            this.map.appendToDrawList(this.drawList, pvs);
+            if (pvs != null)
+                this.map.appendToDrawList(this.drawList, pvs);
         };
         RenderContext.prototype.updatePvs = function (force) {
             var _this = this;
@@ -805,8 +824,11 @@ var SourceUtils;
             if (root === this.pvsRoot && !force)
                 return;
             this.pvsRoot = root;
-            if (root == null || root.cluster === -1)
+            if (root == null || root.cluster === -1) {
+                console.log("Null pvs");
+                this.replacePvs(null);
                 return;
+            }
             this.map.getPvsArray(root, function (pvs) {
                 if (_this.pvsRoot != null && _this.pvsRoot === root) {
                     _this.replacePvs(pvs);
@@ -829,6 +851,7 @@ var SourceUtils;
             }
             this.items = [];
             this.handles = [];
+            this.merged = [];
         };
         DrawList.prototype.getDrawCalls = function () {
             return this.items.length;
@@ -1053,6 +1076,10 @@ var SourceUtils;
         Map.prototype.getWorldSpawn = function () {
             return this.models.length > 0 ? this.models[0] : null;
         };
+        Map.prototype.setSkyMaterialEnabled = function (value) {
+            if (this.skyMaterial != null)
+                this.skyMaterial.enabled = value;
+        };
         Map.prototype.getMaterial = function (index) {
             return index === -1
                 ? this.skyMaterial
@@ -1183,6 +1210,7 @@ var SourceUtils;
             this.unitZ = new THREE.Vector3(0, 0, 1);
             this.unitX = new THREE.Vector3(1, 0, 0);
             this.tempQuat = new THREE.Quaternion();
+            this.skyCameraPos = new THREE.Vector3();
             this.canLockPointer = true;
         }
         MapViewer.prototype.init = function (container) {
@@ -1193,7 +1221,7 @@ var SourceUtils;
         };
         MapViewer.prototype.loadMap = function (url) {
             this.map = new SourceUtils.Map(this, url);
-            this.renderContext = new SourceUtils.RenderContext(this.map, this.camera);
+            this.mainRenderContext = new SourceUtils.RenderContext(this.map, this.camera);
         };
         MapViewer.prototype.onKeyDown = function (key) {
             _super.prototype.onKeyDown.call(this, key);
@@ -1203,6 +1231,8 @@ var SourceUtils;
         };
         MapViewer.prototype.onUpdateCamera = function () {
             this.camera.setAspect(this.getWidth() / this.getHeight());
+            if (this.skyCamera != null)
+                this.skyCamera.setAspect(this.camera.getAspect());
         };
         MapViewer.prototype.updateCameraAngles = function () {
             if (this.lookAngs.y < -Math.PI * 0.5)
@@ -1230,6 +1260,10 @@ var SourceUtils;
                 if (this.map.info.fog != null && this.map.info.fog.farZ !== -1) {
                     this.camera.setFar(this.map.info.fog.farZ);
                 }
+                if (this.map.info.skyCamera.enabled) {
+                    this.skyCamera = new SourceUtils.PerspectiveCamera(this.camera.getFov(), this.camera.getAspect(), this.camera.getNear(), this.camera.getFar());
+                    this.skyRenderContext = new SourceUtils.RenderContext(this.map, this.skyCamera);
+                }
             }
             this.map.update();
             var move = new THREE.Vector3();
@@ -1255,8 +1289,19 @@ var SourceUtils;
             gl.depthFunc(gl.LESS);
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
-            if (this.renderContext != null) {
-                this.renderContext.render();
+            this.map.setSkyMaterialEnabled(true);
+            if (this.skyRenderContext != null) {
+                this.camera.getPosition(this.skyCameraPos);
+                this.skyCameraPos.divideScalar(this.map.info.skyCamera.scale);
+                this.skyCameraPos.add(this.map.info.skyCamera.origin);
+                this.skyCamera.copyRotation(this.camera);
+                this.skyCamera.setPosition(this.skyCameraPos);
+                this.skyRenderContext.render();
+                gl.clear(gl.DEPTH_BUFFER_BIT);
+                this.map.setSkyMaterialEnabled(false);
+            }
+            if (this.mainRenderContext != null) {
+                this.mainRenderContext.render();
             }
             var t1 = performance.now();
             if (this.logFrameTime) {
@@ -1289,6 +1334,7 @@ var SourceUtils;
     var Material = (function () {
         function Material(map, infoOrShader) {
             this.properties = new MaterialProperties();
+            this.enabled = true;
             this.map = map;
             this.sortIndex = Material.nextSortIndex++;
             if (typeof infoOrShader == "string") {
@@ -1331,7 +1377,7 @@ var SourceUtils;
             return this.program;
         };
         Material.prototype.prepareForRendering = function () {
-            return this.program.changeMaterial(this);
+            return this.enabled && this.program.changeMaterial(this);
         };
         Material.nextSortIndex = 0;
         return Material;

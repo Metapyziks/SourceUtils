@@ -15,7 +15,9 @@ namespace SourceUtils {
         private countedFrames = 0;
         private totalFrameTime = 0;
 
-        private renderContext: RenderContext;
+        private mainRenderContext: RenderContext;
+        private skyRenderContext: RenderContext;
+        private skyCamera: PerspectiveCamera;
 
         private spawned = false;
 
@@ -37,7 +39,7 @@ namespace SourceUtils {
 
         loadMap(url: string): void {
             this.map = new Map(this, url);
-            this.renderContext = new RenderContext(this.map, this.camera);
+            this.mainRenderContext = new RenderContext(this.map, this.camera);
         }
 
         onKeyDown(key: Key): void {
@@ -54,6 +56,7 @@ namespace SourceUtils {
 
         protected onUpdateCamera(): void {
             this.camera.setAspect(this.getWidth() / this.getHeight());
+            if (this.skyCamera != null) this.skyCamera.setAspect(this.camera.getAspect());
         }
 
         private updateCameraAngles(): void {
@@ -87,6 +90,11 @@ namespace SourceUtils {
                 if (this.map.info.fog != null && this.map.info.fog.farZ !== -1) {
                     this.camera.setFar(this.map.info.fog.farZ);
                 }
+
+                if (this.map.info.skyCamera.enabled) {
+                    this.skyCamera = new PerspectiveCamera(this.camera.getFov(), this.camera.getAspect(), this.camera.getNear(), this.camera.getFar());
+                    this.skyRenderContext = new RenderContext(this.map, this.skyCamera);
+                }
             }
 
             this.map.update();
@@ -105,6 +113,8 @@ namespace SourceUtils {
             }
         }
 
+        private skyCameraPos = new THREE.Vector3();
+
         protected onRenderFrame(dt: number): void {
             const gl = this.getContext();
 
@@ -117,8 +127,24 @@ namespace SourceUtils {
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
 
-            if (this.renderContext != null) {
-                this.renderContext.render();
+            this.map.setSkyMaterialEnabled(true);
+
+            if (this.skyRenderContext != null) {
+                this.camera.getPosition(this.skyCameraPos);
+                this.skyCameraPos.divideScalar(this.map.info.skyCamera.scale);
+                this.skyCameraPos.add(this.map.info.skyCamera.origin as any);
+
+                this.skyCamera.copyRotation(this.camera);
+                this.skyCamera.setPosition(this.skyCameraPos);
+                this.skyRenderContext.render();
+
+                gl.clear(gl.DEPTH_BUFFER_BIT);
+
+                this.map.setSkyMaterialEnabled(false);
+            }
+
+            if (this.mainRenderContext != null) {
+                this.mainRenderContext.render();
             }
 
             const t1 = performance.now();

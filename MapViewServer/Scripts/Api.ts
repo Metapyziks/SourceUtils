@@ -4,6 +4,7 @@
             name: string;
             skyMaterial: Material;
             fog: FogParams;
+            skyCamera: SkyCameraParams;
             playerStarts: Vector3[];
             numClusters: number;
             numModels: number;
@@ -188,6 +189,12 @@
             maxDensity: number;
             farZ: number;
             color: Color32;
+        }
+
+        export class SkyCameraParams {
+            enabled: boolean;
+            origin: Vector3;
+            scale: number;
         }
     }
 }
