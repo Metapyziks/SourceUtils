@@ -1105,6 +1105,8 @@ var SourceUtils;
                     if (_this.models[ent.model] !== undefined)
                         throw "Multiple models with the same index.";
                     _this.models[ent.model] = new SourceUtils.BspModel(_this, ent);
+                    // Temp
+                    break;
                 }
             });
         };
@@ -1640,17 +1642,15 @@ var SourceUtils;
         };
         ShaderProgram.prototype.setTexture = function (uniform, target, unit, value, defaultValue) {
             var gl = this.getContext();
-            if ((value == null || !value.isLoaded) && defaultValue != null) {
+            if (value == null || !value.isLoaded()) {
+                if (defaultValue == null)
+                    return false;
                 value = defaultValue;
             }
             gl.activeTexture(gl.TEXTURE0 + unit);
-            if (value == null || !value.isLoaded) {
-                gl.bindTexture(target, 0);
-            }
-            else {
-                gl.bindTexture(target, value.getHandle());
-            }
+            gl.bindTexture(target, value.getHandle());
             uniform.set1i(unit);
+            return true;
         };
         ShaderProgram.nextSortIndex = 0;
         return ShaderProgram;
@@ -1687,7 +1687,6 @@ var SourceUtils;
                 }
                 var gl = this.getContext();
                 this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());
-                this.lightmap.set1i(5);
             };
             LightmappedBase.prototype.changeMaterial = function (material) {
                 if (!_super.prototype.changeMaterial.call(this, material))
@@ -1793,10 +1792,7 @@ var SourceUtils;
                 _super.prototype.changeMaterial.call(this, material);
                 var gl = this.getContext();
                 var tex = material.properties.baseTexture;
-                if (tex == null || !tex.isLoaded())
-                    return false;
-                this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
-                return true;
+                return this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
             };
             return Sky;
         }(ShaderProgram));

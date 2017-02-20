@@ -320,22 +320,19 @@ namespace SourceUtils {
             return true;
         }
 
-        protected setTexture(uniform: Uniform, target: number, unit: number, value: Texture, defaultValue?: Texture): void {
+        protected setTexture(uniform: Uniform, target: number, unit: number, value: Texture, defaultValue?: Texture): boolean {
             const gl = this.getContext();
 
-            if ((value == null || !value.isLoaded) && defaultValue != null) {
+            if (value == null || !value.isLoaded()) {
+                if (defaultValue == null) return false;
                 value = defaultValue;
             }
 
             gl.activeTexture(gl.TEXTURE0 + unit);
-
-            if (value == null || !value.isLoaded) {
-                gl.bindTexture(target, 0);
-            } else {
-                gl.bindTexture(target, value.getHandle());
-            }
+            gl.bindTexture(target, value.getHandle());
 
             uniform.set1i(unit);
+            return true;
         }
     }
 
@@ -383,8 +380,6 @@ namespace SourceUtils {
 
                 const gl = this.getContext();
                 this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());
-
-                this.lightmap.set1i(5);
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
@@ -531,11 +526,7 @@ namespace SourceUtils {
                 const gl = this.getContext();
                 const tex = material.properties.baseTexture;
 
-                if (tex == null || !tex.isLoaded()) return false;
-
-                this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
-
-                return true;
+                return this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
             }
         }
     }

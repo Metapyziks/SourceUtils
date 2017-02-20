@@ -10,7 +10,7 @@ void main()
     vWorldPos = aPosition;
     vec4 pos = uProjection * uModelView * vec4(aPosition, 1.0);
 
-    pos.z = pos.w - 1.0 / 1024.0;
+    pos.z = pos.w - 1.0 / 256.0;
 
     gl_Position = pos;
 }

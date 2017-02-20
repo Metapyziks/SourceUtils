@@ -110,9 +110,7 @@
         constructor(gl: WebGLRenderingContext, color: THREE.Color) {
             super(gl, gl.TEXTURE_2D);
 
-            this.loadPixels(1,
-                1,
-                new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
         }
     }
 

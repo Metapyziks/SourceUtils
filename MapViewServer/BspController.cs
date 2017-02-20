@@ -1067,6 +1067,9 @@ namespace MapViewServer
                     case "$alphatest":
                         AddBooleanProperty( destArray, "alphaTest", props.GetBoolean( name ) );
                         break;
+                    case "$translucent":
+                        AddBooleanProperty( destArray, "translucent", props.GetBoolean( name ) );
+                        break;
                     case "$alpha":
                         AddNumberProperty( destArray, "alpha", props.GetSingle( name ) );
                         break;
@@ -1096,7 +1099,7 @@ namespace MapViewServer
                     break;
             }
 
-            if ( shaderName == "LightmappedGeneric" && vmt[shader].GetBoolean( "$translucent" ) )
+            if ( shaderName == "LightmappedGeneric" && propArray.Any(x => (string) x["name"] == "translucent" ) )
             {
                 shaderName = "LightmappedTranslucent";
             }
@@ -1104,7 +1107,12 @@ namespace MapViewServer
             return new JObject
             {
                 {"shader", shaderName},
-                {"properties", propArray}
+                {"properties", propArray},
+                {"debug", new JObject
+                {
+                    {"shader", shader },
+                    {"properties", new JArray(vmt[shader].PropertyNames.Select( x => new JArray(x, vmt[shader][x] ))) }
+                } }
             };
         }
 

@@ -92,6 +92,9 @@ namespace SourceUtils {
                         const ent = data.brushEnts[i];
                         if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
                         this.models[ent.model] = new BspModel(this, ent);
+
+                        // Temp
+                        break;
                     }
                 });
         }
@@ -185,7 +188,7 @@ namespace SourceUtils {
                     const indices = Utils.decompress(data.pvs);
 
                     for (let i = 0; i < indices.length; ++i) {
-                        const cluster = this.clusters[indices[i];
+                        const cluster = this.clusters[indices[i]];
                         for (let j = 0; j < cluster.length; ++j) {
                             pvs.push(cluster[j]);
                         }
