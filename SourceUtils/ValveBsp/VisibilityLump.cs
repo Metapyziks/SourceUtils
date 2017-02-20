@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SourceUtils
 {
     partial class ValveBspFile
     {
-        public class VisibilityLump : ILump
+        public class VisibilityLump : ILump, IEnumerable<HashSet<int>>
         {
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             private struct ByteOffset
@@ -91,6 +92,44 @@ namespace SourceUtils
                 _numClusters = _reader.ReadInt32();
                 _vpsList = new HashSet<int>[_numClusters];
                 _offsets = LumpReader<ByteOffset>.ReadLumpFromStream( _reader.BaseStream, _numClusters );
+            }
+
+            private struct Enumerator : IEnumerator<HashSet<int>>
+            {
+                private readonly VisibilityLump _lump;
+                private int _currentIndex;
+
+                public Enumerator( VisibilityLump lump )
+                {
+                    _lump = lump;
+                    _currentIndex = -1;
+                }
+
+                public void Dispose() { }
+
+                public bool MoveNext()
+                {
+                    return ++_currentIndex < _lump.NumClusters;
+                }
+
+                public void Reset()
+                {
+                    _currentIndex = -1;
+                }
+
+                public HashSet<int> Current => _lump[_currentIndex];
+                object IEnumerator.Current => _lump[_currentIndex];
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public IEnumerator<HashSet<int>> GetEnumerator()
+            {
+                EnsureLoaded();
+                return new Enumerator(this);
             }
         }
     }

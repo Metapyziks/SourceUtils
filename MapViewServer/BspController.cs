@@ -442,9 +442,8 @@ namespace MapViewServer
             var face = bsp.FacesHdr[index];
             var texInfo = bsp.TextureInfos[face.TexInfo];
             var plane = bsp.Planes[face.PlaneNum];
-
+            
             if ( (texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0 ) return;
-
             var isSky = (texInfo.Flags & skyFlags) != 0;
 
             if ( face.DispInfo != -1 )
@@ -597,7 +596,7 @@ namespace MapViewServer
                 {"playerStarts", new JArray( bsp.Entities.OfType<InfoPlayerStart>().Select( x => x.Origin.ToJson() ) )},
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},
-                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>().Select( x=> SerializeFuncBrush(x) )) },
+                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>().Where(x => x.Model != null).Select( SerializeFuncBrush )) },
                 {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
                 {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
                 {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
@@ -674,6 +673,11 @@ namespace MapViewServer
                 }
 
                 Index = int.Parse( str.Substring( 1 ) );
+
+                if ( Type == FacesType.Leaf )
+                {
+                    _sSentLeaves.Add( Index );
+                }
             }
 
             public IEnumerable<int> GetFaceIndices( ValveBspFile bsp )
@@ -700,6 +704,8 @@ namespace MapViewServer
         }
 
         private static readonly Regex _sFaceRequestsRegex = new Regex( @"^(?<item>[ld][0-9]+)(\s+(?<item>[ld][0-9]+))*$" );
+
+        private static readonly HashSet<int> _sSentLeaves = new HashSet<int>();
 
         [Get( "/{mapName}/faces" )]
         public JToken GetFaces( [Url] string mapName, string tokens )

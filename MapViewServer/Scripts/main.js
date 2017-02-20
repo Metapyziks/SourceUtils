@@ -1091,6 +1091,9 @@ var SourceUtils;
                 _this.info = data;
                 _this.models = new Array(data.numModels);
                 _this.clusters = new Array(data.numClusters);
+                for (var i = 0; i < data.numClusters; ++i) {
+                    _this.clusters[i] = new Array();
+                }
                 _this.pvsArray = new Array(data.numClusters);
                 _this.loadDisplacements();
                 _this.loadMaterials();
@@ -1136,7 +1139,7 @@ var SourceUtils;
                 var leaf = leaves[i];
                 if (leaf.cluster === -1)
                     continue;
-                this.clusters[leaf.cluster] = leaf;
+                this.clusters[leaf.cluster].push(leaf);
             }
         };
         Map.prototype.update = function () {
@@ -1159,7 +1162,7 @@ var SourceUtils;
                 var disp = this.displacements[i];
                 var clusters = disp.clusters;
                 for (var j = 0, jEnd = clusters.length; j < jEnd; ++j) {
-                    if (this.clusters[clusters[j]].getIsInDrawList(drawList)) {
+                    if (this.clusters[clusters[j]][0].getIsInDrawList(drawList)) {
                         drawList.addItem(disp);
                         break;
                     }
@@ -1181,9 +1184,10 @@ var SourceUtils;
             $.getJSON(url, function (data) {
                 var indices = SourceUtils.Utils.decompress(data.pvs);
                 for (var i = 0; i < indices.length; ++i) {
-                    var leaf = _this.clusters[indices[i]];
-                    if (leaf !== undefined)
-                        pvs.push(leaf);
+                    var cluster = _this.clusters[indices[i]];
+                    for (var j = 0; j < cluster.length; ++j) {
+                        pvs.push(cluster[j]);
+                    }
                 }
                 if (callback != null)
                     callback(pvs);

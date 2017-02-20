@@ -21,7 +21,7 @@ namespace SourceUtils {
         private displacements: Displacement[] = [];
         private materials: Material[] = [];
 
-        private clusters: VisLeaf[];
+        private clusters: VisLeaf[][];
         private pvsArray: VisLeaf[][];
 
         constructor(app: AppBase, url: string) {
@@ -75,7 +75,12 @@ namespace SourceUtils {
                 (data: Api.BspIndexResponse) => {
                     this.info = data;
                     this.models = new Array<BspModel>(data.numModels);
-                    this.clusters = new Array<VisLeaf>(data.numClusters);
+                    this.clusters = new Array<VisLeaf[]>(data.numClusters);
+
+                    for (let i = 0; i < data.numClusters; ++i) {
+                        this.clusters[i] = new Array<VisLeaf>();
+                    }
+
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
                     this.loadDisplacements();
                     this.loadMaterials();
@@ -125,7 +130,7 @@ namespace SourceUtils {
             for (let i = 0; i < leaves.length; ++i) {
                 const leaf = leaves[i];
                 if (leaf.cluster === -1) continue;
-                this.clusters[leaf.cluster] = leaf;
+                this.clusters[leaf.cluster].push(leaf);
             }
         }
 
@@ -154,7 +159,7 @@ namespace SourceUtils {
                 const clusters = disp.clusters;
 
                 for (let j = 0, jEnd = clusters.length; j < jEnd; ++j) {
-                    if (this.clusters[clusters[j]].getIsInDrawList(drawList)) {
+                    if (this.clusters[clusters[j]][0].getIsInDrawList(drawList)) {
                         drawList.addItem(disp);
                         break;
                     }
@@ -180,8 +185,10 @@ namespace SourceUtils {
                     const indices = Utils.decompress(data.pvs);
 
                     for (let i = 0; i < indices.length; ++i) {
-                        const leaf = this.clusters[indices[i]];
-                        if (leaf !== undefined) pvs.push(leaf);
+                        const cluster = this.clusters[indices[i];
+                        for (let j = 0; j < cluster.length; ++j) {
+                            pvs.push(cluster[j]);
+                        }
                     }
 
                     if (callback != null) callback(pvs);
