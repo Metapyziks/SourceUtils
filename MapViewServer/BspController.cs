@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using ImageMagick;
 using MimeTypes;
@@ -99,24 +100,30 @@ namespace MapViewServer
 
         public class VertexArray
         {
-            private struct Vertex : IEquatable<Vertex>, IEnumerable<float>
+            private struct Vertex : IEquatable<Vertex>
             {
                 public readonly Vector3 Position;
+                public readonly Vector3 Normal;
                 public readonly Vector2 TexCoord;
                 public readonly Vector2 LightmapCoord;
+                public readonly float Alpha;
 
-                public Vertex( Vector3 position, Vector2 texCoord, Vector2 lightmapCoord )
+                public Vertex( Vector3 position = default(Vector3), Vector3 normal = default(Vector3), Vector2 texCoord = default(Vector2), Vector2 lightmapCoord = default(Vector2), float alpha = 1f )
                 {
                     Position = position;
+                    Normal = normal;
                     TexCoord = texCoord;
                     LightmapCoord = lightmapCoord;
+                    Alpha = alpha;
                 }
 
                 public bool Equals( Vertex other )
                 {
                     return Position.Equals( other.Position )
-                           && TexCoord.Equals( other.TexCoord )
-                           && TexCoord.Equals( other.LightmapCoord );
+                        && Normal.Equals( other.Normal )
+                        && TexCoord.Equals( other.TexCoord )
+                        && TexCoord.Equals( other.LightmapCoord )
+                        && Alpha.Equals( other.Alpha );
                 }
 
                 public override bool Equals( object obj )
@@ -130,22 +137,41 @@ namespace MapViewServer
                     return Position.GetHashCode();
                 }
 
-                IEnumerator IEnumerable.GetEnumerator()
+                public int Serialize( MeshComponent components, float[] dest )
                 {
-                    return GetEnumerator();
-                }
+                    var destIndex = 0;
+                    if ( components.HasFlag( MeshComponent.Position ) )
+                    {
+                        dest[destIndex++] = Position.X;
+                        dest[destIndex++] = Position.Y;
+                        dest[destIndex++] = Position.Z;
+                    }
 
-                public IEnumerator<float> GetEnumerator()
-                {
-                    yield return Position.X;
-                    yield return Position.Y;
-                    yield return Position.Z;
+                    if ( components.HasFlag( MeshComponent.Normal ) )
+                    {
+                        dest[destIndex++] = Normal.X;
+                        dest[destIndex++] = Normal.Y;
+                        dest[destIndex++] = Normal.Z;
+                    }
 
-                    yield return TexCoord.X;
-                    yield return TexCoord.Y;
+                    if ( components.HasFlag( MeshComponent.Uv ) )
+                    {
+                        dest[destIndex++] = TexCoord.X;
+                        dest[destIndex++] = TexCoord.Y;
+                    }
 
-                    yield return LightmapCoord.X;
-                    yield return LightmapCoord.Y;
+                    if ( components.HasFlag( MeshComponent.Uv2 ) )
+                    {
+                        dest[destIndex++] = LightmapCoord.X;
+                        dest[destIndex++] = LightmapCoord.Y;
+                    }
+
+                    if ( components.HasFlag( MeshComponent.Alpha ) )
+                    {
+                        dest[destIndex++] = Alpha;
+                    }
+
+                    return destIndex;
                 }
             }
 
@@ -187,6 +213,9 @@ namespace MapViewServer
             private readonly List<Element> _elements = new List<Element>();
 
             private int _vertexCount;
+            private static float[] _sVertexBuffer;
+
+            public MeshComponent ComponentMask { get; set; } = MeshComponent.Position;
 
             public JToken GetElements()
             {
@@ -243,15 +272,24 @@ namespace MapViewServer
 
             public int IndexCount => _indices.Count;
 
-            public void AddVertex( Vector3 pos, Vector2 uv, Vector2 uv2 )
+            public void AddVertex( Vector3 position = default(Vector3), Vector3 normal = default(Vector3), Vector2 texCoord = default(Vector2), Vector2 lightmapCoord = default(Vector2), float alpha = 1f )
             {
-                var vertex = new Vertex( pos, uv, uv2 );
+                var vertex = new Vertex( position, normal, texCoord, lightmapCoord, alpha );
 
                 int index;
                 if ( !_indexMap.TryGetValue( vertex, out index ) )
                 {
                     index = _vertexCount++;
-                    _vertices.AddRange( vertex );
+
+                    if ( _sVertexBuffer == null ) _sVertexBuffer = new float[256];
+
+                    var count = vertex.Serialize( ComponentMask, _sVertexBuffer );
+
+                    for ( var i = 0; i < count; ++i )
+                    {
+                        _vertices.Add( _sVertexBuffer[i] );
+                    }
+
                     _indexMap.Add( vertex, index );
                 }
 
@@ -386,10 +424,10 @@ namespace MapViewServer
                     var uv0 = (uv00 * (1f - u) + uv10 * u) * (1f - v0) + (uv01 * (1f - u) + uv11 * u) * v0;
                     var uv1 = (uv00 * (1f - u) + uv10 * u) * (1f - v1) + (uv01 * (1f - u) + uv11 * u) * v1;
 
-                    verts.AddVertex( p0, uv0,
-                        GetLightmapUv( bsp, x, y + 0, disp.Subdivisions, faceIndex, ref face ) );
-                    verts.AddVertex( p1, uv1,
-                        GetLightmapUv( bsp, x, y + 1, disp.Subdivisions, faceIndex, ref face ) );
+                    verts.AddVertex( p0, texCoord: uv0, alpha: disp.GetAlpha( x, y + 0 ) / 255f,
+                        lightmapCoord: GetLightmapUv( bsp, x, y + 0, disp.Subdivisions, faceIndex, ref face ) );
+                    verts.AddVertex( p1, texCoord: uv1, alpha: disp.GetAlpha( x, y + 1 ) / 255f,
+                        lightmapCoord: GetLightmapUv( bsp, x, y + 1, disp.Subdivisions, faceIndex, ref face ) );
                 }
 
                 verts.CommitPrimitive( PrimitiveType.TriangleStrip, texData.NameStringTableId );
@@ -463,7 +501,7 @@ namespace MapViewServer
                 var uv = GetUv( vert, texInfo.TextureUAxis, texInfo.TextureVAxis ) * texScale;
                 var uv2 = GetLightmapUv( bsp, vert, index, ref face, ref texInfo );
 
-                verts.AddVertex( vert, uv, uv2 );
+                verts.AddVertex( vert, texCoord: uv, lightmapCoord: uv2 );
             }
 
             var numPrimitives = face.NumPrimitives & 0x7fff;
@@ -645,12 +683,13 @@ namespace MapViewServer
         }
 
         [Flags]
-        private enum MeshComponent
+        public enum MeshComponent
         {
             Position = 1,
             Normal = 2,
             Uv = 4,
-            Uv2 = 8
+            Uv2 = 8,
+            Alpha = 16
         }
 
         private struct FacesRequest
@@ -726,6 +765,13 @@ namespace MapViewServer
                 var request = new FacesRequest( token );
                 vertArray.Clear();
 
+                vertArray.ComponentMask = MeshComponent.Position | MeshComponent.Uv | MeshComponent.Uv2;
+
+                if ( request.Type == FacesType.Displacement )
+                {
+                    vertArray.ComponentMask |= MeshComponent.Alpha;
+                }
+
                 foreach ( var faceIndex in request.GetFaceIndices( bsp ) )
                 {
                     SerializeFace( bsp, faceIndex, vertArray );
@@ -733,7 +779,7 @@ namespace MapViewServer
 
                 array.Add( new JObject
                 {
-                    {"components", (int) (MeshComponent.Position | MeshComponent.Uv | MeshComponent.Uv2)},
+                    {"components", (int) vertArray.ComponentMask},
                     {"elements", vertArray.GetElements()},
                     {"vertices", vertArray.GetVertices( this )},
                     {"indices", vertArray.GetIndices( this )}
@@ -1012,6 +1058,12 @@ namespace MapViewServer
                     case "$basetexture":
                         AddTexture2DProperty( destArray, "baseTexture", GetTextureUrl( bsp, props[name], vmtDir ) );
                         break;
+                    case "$basetexture2":
+                        AddTexture2DProperty( destArray, "baseTexture2", GetTextureUrl( bsp, props[name], vmtDir ) );
+                        break;
+                    case "$blendmodulatetexture":
+                        AddTexture2DProperty( destArray, "blendModulateTexture", GetTextureUrl( bsp, props[name], vmtDir ) );
+                        break;
                     case "$alphatest":
                         AddBooleanProperty( destArray, "alphaTest", props.GetBoolean( name ) );
                         break;
@@ -1036,7 +1088,15 @@ namespace MapViewServer
             SerializeShaderProperties( bsp, vmt, shader, vmtDir, propArray );
 
             var shaderName = "LightmappedGeneric";
-            if ( vmt[shader].GetBoolean( "$translucent" ) )
+
+            switch ( shader.ToLower() )
+            {
+                case "worldvertextransition":
+                    shaderName = "Lightmapped2WayBlend";
+                    break;
+            }
+
+            if ( shaderName == "LightmappedGeneric" && vmt[shader].GetBoolean( "$translucent" ) )
             {
                 shaderName = "LightmappedTranslucent";
             }

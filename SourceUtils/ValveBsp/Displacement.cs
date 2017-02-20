@@ -87,6 +87,7 @@ namespace SourceUtils.ValveBsp
         private readonly IntVector2 _max;
         
         private Vector3[] _positions;
+        public float[] _alphas;
         private List<Neighbor> _neighbors;
 
         public int Subdivisions => 1 << _dispInfo.Power;
@@ -275,6 +276,7 @@ namespace SourceUtils.ValveBsp
             var size = Size;
 
             _positions = new Vector3[size * size];
+            _alphas = new float[size * size];
 
             for ( var y = 0; y < size; ++y )
             for ( var x = 0; x < size; ++x )
@@ -295,6 +297,7 @@ namespace SourceUtils.ValveBsp
                 var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
 
                 _positions[index] = origin + vert.Vector * vert.Distance;
+                _alphas[index] = vert.Alpha;
             }
         }
 
@@ -308,6 +311,12 @@ namespace SourceUtils.ValveBsp
 
             if ( _positions == null ) UpdatePositions();
             return _positions[x + y * Size];
+        }
+
+        public float GetAlpha( int x, int y )
+        {
+            if (_alphas == null) UpdatePositions();
+            return _alphas[x + y * Size];
         }
 
         [ThreadStatic]

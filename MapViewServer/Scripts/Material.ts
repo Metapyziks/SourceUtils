@@ -2,6 +2,8 @@
 {
     export class MaterialProperties {
         baseTexture: Texture = null;
+        baseTexture2: Texture = null;
+        blendModulateTexture: Texture = null;
         alphaTest = false;
         alpha = 1;
         noCull = false;

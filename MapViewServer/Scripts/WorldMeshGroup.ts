@@ -77,6 +77,8 @@
         private hasUvs = false;
         private uv2Offset: number;
         private hasUv2s = false;
+        private alphaOffset: number;
+        private hasAlphas = false;
 
         constructor(gl: WebGLRenderingContext, components: Api.MeshComponent) {
             this.id = WorldMeshGroup.nextId++;
@@ -110,6 +112,13 @@
                 this.hasUv2s = true;
                 this.uv2Offset = this.vertexSize;
                 this.vertexSize += 2;
+            }
+
+            if ((components & Api.MeshComponent.alpha) === Api.MeshComponent.alpha)
+            {
+                this.hasAlphas = true;
+                this.alphaOffset = this.vertexSize;
+                this.vertexSize += 1;
             }
 
             this.maxVertLength = this.vertexSize * 65536;
@@ -236,6 +245,7 @@
             program.setVertexAttribPointer(Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
             program.setVertexAttribPointer(Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             program.setVertexAttribPointer(Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.alpha, 1, gl.FLOAT, false, stride, this.alphaOffset * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         }

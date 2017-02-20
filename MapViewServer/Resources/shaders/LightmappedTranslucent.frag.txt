@@ -2,7 +2,6 @@
 
 varying vec2 vTextureCoord;
 varying vec2 vLightmapCoord;
-varying float vDepth;
 
 uniform sampler2D uBaseTexture;
 uniform sampler2D uLightmap;

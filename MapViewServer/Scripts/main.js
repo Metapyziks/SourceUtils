@@ -76,6 +76,7 @@ var SourceUtils;
             MeshComponent[MeshComponent["normal"] = 2] = "normal";
             MeshComponent[MeshComponent["uv"] = 4] = "uv";
             MeshComponent[MeshComponent["uv2"] = 8] = "uv2";
+            MeshComponent[MeshComponent["alpha"] = 16] = "alpha";
         })(Api.MeshComponent || (Api.MeshComponent = {}));
         var MeshComponent = Api.MeshComponent;
         var Faces = (function () {
@@ -1328,6 +1329,8 @@ var SourceUtils;
     var MaterialProperties = (function () {
         function MaterialProperties() {
             this.baseTexture = null;
+            this.baseTexture2 = null;
+            this.blendModulateTexture = null;
             this.alphaTest = false;
             this.alpha = 1;
             this.noCull = false;
@@ -1635,6 +1638,20 @@ var SourceUtils;
             }
             return true;
         };
+        ShaderProgram.prototype.setTexture = function (uniform, target, unit, value, defaultValue) {
+            var gl = this.getContext();
+            if ((value == null || !value.isLoaded) && defaultValue != null) {
+                value = defaultValue;
+            }
+            gl.activeTexture(gl.TEXTURE0 + unit);
+            if (value == null || !value.isLoaded) {
+                gl.bindTexture(target, 0);
+            }
+            else {
+                gl.bindTexture(target, value.getHandle());
+            }
+            uniform.set1i(unit);
+        };
         ShaderProgram.nextSortIndex = 0;
         return ShaderProgram;
     }());
@@ -1645,6 +1662,7 @@ var SourceUtils;
             __extends(LightmappedBase, _super);
             function LightmappedBase(manager) {
                 _super.call(this, manager);
+                this.sortOrder = 0;
                 this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
                 this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
                 this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
@@ -1668,25 +1686,15 @@ var SourceUtils;
                     this.fogParams.set2f(0, 0);
                 }
                 var gl = this.getContext();
-                var lightmap = map.getLightmap();
-                if (lightmap == null || !lightmap.isLoaded()) {
-                    lightmap = map.getBlankTexture();
-                }
-                gl.activeTexture(gl.TEXTURE0 + 2);
-                gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
-                this.lightmap.set1i(2);
+                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());
+                this.lightmap.set1i(5);
             };
             LightmappedBase.prototype.changeMaterial = function (material) {
                 if (!_super.prototype.changeMaterial.call(this, material))
                     return false;
                 var gl = this.getContext();
-                var tex = material.properties.baseTexture;
-                if (tex == null || !tex.isLoaded()) {
-                    tex = material.getMap().getBlankTexture();
-                }
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
-                this.baseTexture.set1i(0);
+                var blank = material.getMap().getBlankTexture();
+                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
                 return true;
             };
             return LightmappedBase;
@@ -1696,7 +1704,6 @@ var SourceUtils;
             __extends(LightmappedGeneric, _super);
             function LightmappedGeneric(manager) {
                 _super.call(this, manager);
-                this.sortOrder = 0;
                 var gl = this.getContext();
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
@@ -1743,6 +1750,29 @@ var SourceUtils;
             return LightmappedTranslucent;
         }(LightmappedBase));
         Shaders.LightmappedTranslucent = LightmappedTranslucent;
+        var Lightmapped2WayBlend = (function (_super) {
+            __extends(Lightmapped2WayBlend, _super);
+            function Lightmapped2WayBlend(manager) {
+                _super.call(this, manager);
+                this.addAttribute("aAlpha", SourceUtils.Api.MeshComponent.alpha);
+                var gl = this.getContext();
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
+                this.baseTexture2 = new Uniform(this, "uBaseTexture2");
+                this.blendModulateTexture = new Uniform(this, "uBlendModulateTexture");
+            }
+            Lightmapped2WayBlend.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                var gl = this.getContext();
+                var blank = material.getMap().getBlankTexture();
+                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
+                this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D, 2, material.properties.blendModulateTexture, blank);
+                return true;
+            };
+            return Lightmapped2WayBlend;
+        }(LightmappedBase));
+        Shaders.Lightmapped2WayBlend = Lightmapped2WayBlend;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
@@ -1765,9 +1795,7 @@ var SourceUtils;
                 var tex = material.properties.baseTexture;
                 if (tex == null || !tex.isLoaded())
                     return false;
-                gl.activeTexture(gl.TEXTURE0 + 1);
-                gl.bindTexture(gl.TEXTURE_CUBE_MAP, tex.getHandle());
-                this.skyCube.set1i(1);
+                this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
                 return true;
             };
             return Sky;
@@ -2193,6 +2221,7 @@ var SourceUtils;
             this.hasNormals = false;
             this.hasUvs = false;
             this.hasUv2s = false;
+            this.hasAlphas = false;
             this.id = WorldMeshGroup.nextId++;
             this.gl = gl;
             this.vertices = gl.createBuffer();
@@ -2218,6 +2247,11 @@ var SourceUtils;
                 this.hasUv2s = true;
                 this.uv2Offset = this.vertexSize;
                 this.vertexSize += 2;
+            }
+            if ((components & SourceUtils.Api.MeshComponent.alpha) === SourceUtils.Api.MeshComponent.alpha) {
+                this.hasAlphas = true;
+                this.alphaOffset = this.vertexSize;
+                this.vertexSize += 1;
             }
             this.maxVertLength = this.vertexSize * 65536;
         }
@@ -2307,6 +2341,7 @@ var SourceUtils;
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
             program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.alpha, 1, gl.FLOAT, false, stride, this.alphaOffset * 4);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         };
         WorldMeshGroup.prototype.renderElements = function (drawMode, offset, count) {

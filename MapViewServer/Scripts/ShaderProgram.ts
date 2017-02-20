@@ -319,6 +319,24 @@ namespace SourceUtils {
 
             return true;
         }
+
+        protected setTexture(uniform: Uniform, target: number, unit: number, value: Texture, defaultValue?: Texture): void {
+            const gl = this.getContext();
+
+            if ((value == null || !value.isLoaded) && defaultValue != null) {
+                value = defaultValue;
+            }
+
+            gl.activeTexture(gl.TEXTURE0 + unit);
+
+            if (value == null || !value.isLoaded) {
+                gl.bindTexture(target, 0);
+            } else {
+                gl.bindTexture(target, value.getHandle());
+            }
+
+            uniform.set1i(unit);
+        }
     }
 
     export namespace Shaders {
@@ -331,6 +349,8 @@ namespace SourceUtils {
 
             constructor(manager: ShaderManager) {
                 super(manager);
+
+                this.sortOrder = 0;
 
                 this.addAttribute("aPosition", Api.MeshComponent.position);
                 this.addAttribute("aTextureCoord", Api.MeshComponent.uv);
@@ -362,31 +382,17 @@ namespace SourceUtils {
                 }
 
                 const gl = this.getContext();
-                let lightmap = map.getLightmap();
-                if (lightmap == null || !lightmap.isLoaded()) {
-                    lightmap = map.getBlankTexture();
-                }
+                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());
 
-                gl.activeTexture(gl.TEXTURE0 + 2);
-                gl.bindTexture(gl.TEXTURE_2D, lightmap.getHandle());
-
-                this.lightmap.set1i(2);
+                this.lightmap.set1i(5);
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
                 if (!super.changeMaterial(material)) return false;
 
                 const gl = this.getContext();
-                let tex = material.properties.baseTexture;
-
-                if (tex == null || !tex.isLoaded()) {
-                    tex = material.getMap().getBlankTexture();
-                }
-
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, tex.getHandle());
-
-                this.baseTexture.set1i(0);
+                const blank = material.getMap().getBlankTexture();
+                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
 
                 return true;
             }
@@ -397,8 +403,6 @@ namespace SourceUtils {
 
             constructor(manager: ShaderManager) {
                 super(manager);
-
-                this.sortOrder = 0;
 
                 const gl = this.getContext();
 
@@ -462,6 +466,39 @@ namespace SourceUtils {
             }
         }
 
+        export class Lightmapped2WayBlend extends LightmappedBase
+        {
+            baseTexture2: Uniform;
+            blendModulateTexture: Uniform;
+
+            constructor(manager: ShaderManager)
+            {
+                super(manager);
+
+                this.addAttribute("aAlpha", Api.MeshComponent.alpha);
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
+
+                this.baseTexture2 = new Uniform(this, "uBaseTexture2");
+                this.blendModulateTexture = new Uniform(this, "uBlendModulateTexture");
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean
+            {
+                if (!super.changeMaterial(material)) return false;
+                
+                const gl = this.getContext();
+                const blank = material.getMap().getBlankTexture();
+                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
+                this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D, 2, material.properties.blendModulateTexture, blank);
+
+                return true;
+            }
+        }
+
         export class Sky extends ShaderProgram {
             cameraPos: Uniform;
             skyCube: Uniform;
@@ -496,10 +533,7 @@ namespace SourceUtils {
 
                 if (tex == null || !tex.isLoaded()) return false;
 
-                gl.activeTexture(gl.TEXTURE0 + 1);
-                gl.bindTexture(gl.TEXTURE_CUBE_MAP, tex.getHandle());
-
-                this.skyCube.set1i(1);
+                this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
 
                 return true;
             }
