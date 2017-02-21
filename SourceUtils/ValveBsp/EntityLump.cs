@@ -115,10 +115,10 @@ namespace SourceUtils
                 }
             }
 
-            public T GetFirst<T>()
+            public T GetFirst<T>( bool inherit = true )
                 where T : Entity
             {
-                return this.OfType<T>().FirstOrDefault();
+                return this.OfType<T>().FirstOrDefault( x => inherit || x.GetType() == typeof(T) );
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -442,7 +442,7 @@ namespace SourceUtils
         }
 
         [EntityClass("sky_camera")]
-        public class SkyCamera : Entity
+        public class SkyCamera : EnvFogController
         {
             [EntityField("scale")]
             public int Scale { get; private set; }

@@ -92,14 +92,16 @@ namespace SourceUtils {
 
                 this.camera.setPosition(this.map.info.playerStarts[0]);
                 this.camera.translate(0, 0, 64);
+                this.mainRenderContext.fogParams = this.map.info.fog;
 
-                if (this.map.info.fog != null && this.map.info.fog.farZ !== -1) {
+                if (this.map.info.fog.fogEnabled && this.map.info.fog.farZ !== -1) {
                     this.camera.setFar(this.map.info.fog.farZ);
                 }
 
                 if (this.map.info.skyCamera.enabled) {
                     this.skyCamera = new PerspectiveCamera(this.camera.getFov(), this.camera.getAspect(), this.camera.getNear(), this.camera.getFar());
                     this.skyRenderContext = new RenderContext(this.map, this.skyCamera);
+                    this.skyRenderContext.fogParams = this.map.info.skyCamera;
                 }
             }
 

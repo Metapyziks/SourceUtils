@@ -618,28 +618,30 @@ namespace MapViewServer
                 {"clusters", modelIndex == 0 ? new JArray() : GetIntersectingClusters(tree, min, max) }
             };
         }
-        
+
+        private static void AddFogInfo( JObject target, EnvFogController fog, float distScale )
+        {
+            target.Add( "fogEnabled", fog != null && fog.FogEnable );
+
+            if ( fog == null || !fog.FogEnable ) return;
+
+            target.Add( "fogStart", fog.FogStart / distScale );
+            target.Add( "fogEnd", fog.FogEnd / distScale );
+            target.Add( "fogMaxDensity", fog.FogMaxDensity );
+            target.Add( "farZ", fog.FarZ );
+            target.Add( "fogColor", fog.FogColor.ToJson() );
+        }
+
         [Get( "/{mapName}" )]
         public JToken GetIndex( [Url] string mapName )
         {
             var bsp = GetBspFile( Request, mapName );
             var skyName = bsp.Entities.GetFirst<WorldSpawn>().SkyName;
-            var fogInfo = bsp.Entities.GetFirst<EnvFogController>();
+            var fogInfo = bsp.Entities.GetFirst<EnvFogController>( false );
             var skyInfo = bsp.Entities.GetFirst<SkyCamera>();
 
-            var fogData = new JObject
-            {
-                {"enabled", fogInfo != null && fogInfo.FogEnable}
-            };
-
-            if ( fogInfo != null && fogInfo.FogEnable )
-            {
-                fogData.Add( "start", fogInfo.FogStart );
-                fogData.Add( "end", fogInfo.FogEnd );
-                fogData.Add( "maxDensity", fogInfo.FogMaxDensity );
-                fogData.Add( "farZ", fogInfo.FarZ );
-                fogData.Add( "color", fogInfo.FogColor.ToJson() );
-            }
+            var fogData = new JObject();
+            AddFogInfo( fogData, fogInfo, 1f );
 
             var skyData = new JObject
             {
@@ -650,6 +652,7 @@ namespace MapViewServer
             {
                 skyData.Add( "origin", skyInfo.Origin.ToJson() );
                 skyData.Add( "scale", skyInfo.Scale );
+                AddFogInfo( skyData, skyInfo, skyInfo.Scale );
             }
 
             var tree = new BspTree( bsp, 0 );

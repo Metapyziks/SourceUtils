@@ -187,11 +187,13 @@ var SourceUtils;
             return FogParams;
         }());
         Api.FogParams = FogParams;
-        var SkyCameraParams = (function () {
+        var SkyCameraParams = (function (_super) {
+            __extends(SkyCameraParams, _super);
             function SkyCameraParams() {
+                _super.apply(this, arguments);
             }
             return SkyCameraParams;
-        }());
+        }(FogParams));
         Api.SkyCameraParams = SkyCameraParams;
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
@@ -1273,12 +1275,14 @@ var SourceUtils;
                 this.spawned = true;
                 this.camera.setPosition(this.map.info.playerStarts[0]);
                 this.camera.translate(0, 0, 64);
-                if (this.map.info.fog != null && this.map.info.fog.farZ !== -1) {
+                this.mainRenderContext.fogParams = this.map.info.fog;
+                if (this.map.info.fog.fogEnabled && this.map.info.fog.farZ !== -1) {
                     this.camera.setFar(this.map.info.fog.farZ);
                 }
                 if (this.map.info.skyCamera.enabled) {
                     this.skyCamera = new SourceUtils.PerspectiveCamera(this.camera.getFov(), this.camera.getAspect(), this.camera.getNear(), this.camera.getFar());
                     this.skyRenderContext = new SourceUtils.RenderContext(this.map, this.skyCamera);
+                    this.skyRenderContext.fogParams = this.map.info.skyCamera;
                 }
             }
             this.map.update();
@@ -1735,17 +1739,17 @@ var SourceUtils;
             }
             LightmappedBase.prototype.prepareForRendering = function (map, context) {
                 _super.prototype.prepareForRendering.call(this, map, context);
-                var fog = map.info.fog;
-                if (fog.enabled) {
-                    var densMul = fog.maxDensity / ((fog.end - fog.start) * (context.far - context.near));
-                    var nearDensity = (context.near - fog.start) * densMul;
-                    var farDensity = (context.far - fog.start) * densMul;
+                var fog = context.fogParams;
+                if (fog != null && fog.fogEnabled) {
+                    var densMul = fog.fogMaxDensity / ((fog.fogEnd - fog.fogStart) * (context.far - context.near));
+                    var nearDensity = (context.near - fog.fogStart) * densMul;
+                    var farDensity = (context.far - fog.fogStart) * densMul;
                     var clrMul = 1 / 255;
-                    this.fogParams.set2f(nearDensity, farDensity);
-                    this.fogColor.set3f(fog.color.r * clrMul, fog.color.g * clrMul, fog.color.b * clrMul);
+                    this.fogParams.set4f(nearDensity, farDensity, 0, fog.fogMaxDensity);
+                    this.fogColor.set3f(fog.fogColor.r * clrMul, fog.fogColor.g * clrMul, fog.fogColor.b * clrMul);
                 }
                 else {
-                    this.fogParams.set2f(0, 0);
+                    this.fogParams.set4f(0, 0, 0, 0);
                 }
                 var gl = this.getContext();
                 this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());

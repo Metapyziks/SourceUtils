@@ -185,15 +185,15 @@
         }
 
         export class FogParams {
-            enabled: boolean;
-            start: number;
-            end: number;
-            maxDensity: number;
+            fogEnabled: boolean;
+            fogStart: number;
+            fogEnd: number;
+            fogMaxDensity: number;
             farZ: number;
-            color: Color32;
+            fogColor: Color32;
         }
 
-        export class SkyCameraParams {
+        export class SkyCameraParams extends FogParams {
             enabled: boolean;
             origin: Vector3;
             scale: number;

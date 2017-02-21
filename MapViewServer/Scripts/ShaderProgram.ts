@@ -384,19 +384,19 @@ namespace SourceUtils {
             prepareForRendering(map: Map, context: RenderContext): void {
                 super.prepareForRendering(map, context);
 
-                const fog = map.info.fog;
-                if (fog.enabled) {
-                    const densMul = fog.maxDensity / ((fog.end - fog.start) * (context.far - context.near));
+                const fog = context.fogParams;
+                if (fog != null && fog.fogEnabled) {
+                    const densMul = fog.fogMaxDensity / ((fog.fogEnd - fog.fogStart) * (context.far - context.near));
 
-                    const nearDensity = (context.near - fog.start) * densMul;
-                    const farDensity = (context.far - fog.start) * densMul;
+                    const nearDensity = (context.near - fog.fogStart) * densMul;
+                    const farDensity = (context.far - fog.fogStart) * densMul;
 
                     const clrMul = 1 / 255;
 
-                    this.fogParams.set2f(nearDensity, farDensity);
-                    this.fogColor.set3f(fog.color.r * clrMul, fog.color.g * clrMul, fog.color.b * clrMul);
+                    this.fogParams.set4f(nearDensity, farDensity, 0, fog.fogMaxDensity);
+                    this.fogColor.set3f(fog.fogColor.r * clrMul, fog.fogColor.g * clrMul, fog.fogColor.b * clrMul);
                 } else {
-                    this.fogParams.set2f(0, 0);
+                    this.fogParams.set4f(0, 0, 0, 0);
                 }
 
                 const gl = this.getContext();
