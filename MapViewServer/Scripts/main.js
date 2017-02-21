@@ -2014,7 +2014,7 @@ var SourceUtils;
             var _this = this;
             _super.prototype.loadNext.call(this, null);
             if (this.info == null) {
-                this.loadInfo(function () { return callback(true); });
+                this.loadInfo(function () { return callback(_this.info != null); });
                 return;
             }
             this.loadLevel(this.info.pngUrl.replace("{mipmap}", this.nextLevel.toString()), this.nextLevel, function () {

@@ -173,7 +173,7 @@
             super.loadNext(null);
 
             if (this.info == null) {
-                this.loadInfo(() => callback(true));
+                this.loadInfo(() => callback(this.info != null));
                 return;
             }
 
