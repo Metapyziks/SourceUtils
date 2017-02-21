@@ -1574,9 +1574,24 @@ var SourceUtils;
         ShaderProgram.prototype.getContext = function () {
             return this.manager.getContext();
         };
+        ShaderProgram.prototype.getShaderSource = function (url, action) {
+            var _this = this;
+            $.get(url + "?v=" + Math.random(), function (source) {
+                var match = source.match(ShaderProgram.includeRegex);
+                if (match == null) {
+                    action(source);
+                    return;
+                }
+                var fileName = match[1];
+                var dirName = url.substr(0, url.lastIndexOf("/") + 1);
+                _this.getShaderSource("" + dirName + fileName, function (include) {
+                    action(source.replace(match[0], include));
+                });
+            });
+        };
         ShaderProgram.prototype.loadShaderSource = function (type, url) {
             var _this = this;
-            $.get(url + "?v=" + Math.random(), function (source) { return _this.onLoadShaderSource(type, source); });
+            this.getShaderSource(url, function (source) { return _this.onLoadShaderSource(type, source); });
         };
         ShaderProgram.prototype.hasAllSources = function () {
             return this.vertSource !== undefined && this.fragSource !== undefined;
@@ -1604,6 +1619,7 @@ var SourceUtils;
             if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
                 var error = "Shader compilation error:\n" + gl.getShaderInfoLog(shader);
                 gl.deleteShader(shader);
+                console.log(source);
                 throw error;
             }
             return shader;
@@ -1698,6 +1714,7 @@ var SourceUtils;
             return true;
         };
         ShaderProgram.nextSortIndex = 0;
+        ShaderProgram.includeRegex = /^\s*#include\s+\"([^"]+)\"\s*$/m;
         return ShaderProgram;
     }());
     SourceUtils.ShaderProgram = ShaderProgram;

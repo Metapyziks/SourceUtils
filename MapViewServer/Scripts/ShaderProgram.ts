@@ -181,8 +181,28 @@ namespace SourceUtils {
             return this.manager.getContext();
         }
 
+        private static includeRegex = /^\s*#include\s+\"([^"]+)\"\s*$/m;
+
+        private getShaderSource(url: string, action: (source: string) => void): void {
+            $.get(`${url}?v=${Math.random()}`, (source: string) => {
+                const match = source.match(ShaderProgram.includeRegex);
+
+                if (match == null) {
+                    action(source);
+                    return;
+                }
+
+                const fileName = match[1];
+                const dirName = url.substr(0, url.lastIndexOf("/") + 1);
+
+                this.getShaderSource(`${dirName}${fileName}`, include => {
+                    action(source.replace(match[0], include));
+                });
+            });
+        }
+
         protected loadShaderSource(type: number, url: string): void {
-            $.get(`${url}?v=${Math.random()}`, source => this.onLoadShaderSource(type, source));
+            this.getShaderSource(url, source => this.onLoadShaderSource(type, source));
         }
 
         private hasAllSources(): boolean {
@@ -216,6 +236,7 @@ namespace SourceUtils {
             if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
                 const error = `Shader compilation error:\n${gl.getShaderInfoLog(shader)}`;
                 gl.deleteShader(shader);
+                console.log(source);
                 throw error;
             }
 
