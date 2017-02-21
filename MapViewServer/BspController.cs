@@ -581,14 +581,41 @@ namespace MapViewServer
             };
         }
 
-        private JToken SerializeFuncBrush( FuncBrush ent )
+        [ThreadStatic]
+        private static List<BspTree.Leaf> _sLeafBuffer;
+
+        private static JArray GetIntersectingClusters( BspTree tree, Vector3 min, Vector3 max )
         {
+            if ( _sLeafBuffer == null ) _sLeafBuffer = new List<BspTree.Leaf>();
+            else _sLeafBuffer.Clear();
+
+            tree.GetIntersectingLeaves( min, max, _sLeafBuffer );
+
+            var clusters = new JArray();
+
+            foreach ( var cluster in _sLeafBuffer.Select( x => x.Info.Cluster ).Distinct() )
+            {
+                clusters.Add( cluster );
+            }
+
+            return clusters;
+        }
+
+        private JToken SerializeFuncBrush( ValveBspFile bsp, BspTree tree, FuncBrush ent )
+        {
+            var modelIndex = int.Parse( ent.Model.Substring( 1 ) );
+            var model = bsp.Models[modelIndex];
+
+            var min = model.Min + ent.Origin;
+            var max = model.Max + ent.Origin;
+
             return new JObject
             {
                 {"classname", ent.ClassName},
                 {"origin", ent.Origin.ToJson()},
                 {"angles", ent.Angles.ToJson()},
-                {"model", int.Parse( ent.Model.Substring( 1 ) )}
+                {"model", modelIndex},
+                {"clusters", modelIndex == 0 ? new JArray() : GetIntersectingClusters(tree, min, max) }
             };
         }
         
@@ -625,6 +652,8 @@ namespace MapViewServer
                 skyData.Add( "scale", skyInfo.Scale );
             }
 
+            var tree = new BspTree( bsp, 0 );
+
             return new JObject
             {
                 {"name", mapName},
@@ -634,7 +663,7 @@ namespace MapViewServer
                 {"playerStarts", new JArray( bsp.Entities.OfType<InfoPlayerStart>().Select( x => x.Origin.ToJson() ) )},
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},
-                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>().Where(x => x.Model != null).Select( SerializeFuncBrush )) },
+                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>().Where(x => x.Model != null).Select( x => SerializeFuncBrush( bsp, tree, x ) )) },
                 {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
                 {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
                 {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
@@ -662,13 +691,17 @@ namespace MapViewServer
                     $@"
                     var main = new SourceUtils.MapViewer();
                     window.onload = function () {{
+                        main.debugPanel = $(""#debug-panel"");
                         main.init($(""#{elemId}""));
                         main.loadMap(""{GetActionUrl( nameof( GetIndex ), Replace( "mapName", mapName ) )}"");
                         main.animate();
                     }}
                     "
                 },
-                new div( id => elemId ),
+                new div( id => elemId )
+                {
+                    new div( id => "debug-panel" )
+                },
                 new code( style => "display: block; white-space: pre-wrap" )
                 {
                     GetIndex( mapName ).ToString()
@@ -845,8 +878,6 @@ namespace MapViewServer
         [Get( "/{mapName}/displacements" )]
         public JToken GetDisplacements( [Url] string mapName )
         {
-            var foundLeaves = new List<BspTree.Leaf>();
-            
             var bsp = GetBspFile( Request, mapName );
             var tree = new BspTree( bsp, 0 );
             var displacements = new JArray();
@@ -858,23 +889,13 @@ namespace MapViewServer
                 Vector3 min, max;
                 GetDisplacementBounds( bsp, face.DispInfo, out min, out max, 1f );
 
-                foundLeaves.Clear();
-                tree.GetIntersectingLeaves( min, max, foundLeaves );
-
-                var clusters = new JArray();
-
-                foreach ( var leaf in foundLeaves )
-                {
-                    clusters.Add( leaf.Info.Cluster );
-                }
-
                 displacements.Add( new JObject
                 {
                     {"index", face.DispInfo},
                     {"power", dispInfo.Power},
                     {"min", min.ToJson()},
                     {"max", max.ToJson()},
-                    {"clusters", clusters}
+                    {"clusters", GetIntersectingClusters( tree, min, max )}
                 } );
             }
 

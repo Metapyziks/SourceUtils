@@ -595,6 +595,7 @@ var SourceUtils;
             _super.call(this);
             this.map = map;
             this.index = info.model;
+            this.clusters = info.clusters;
             this.setPosition(info.origin);
             this.loadInfo(this.map.info.modelUrl.replace("{index}", this.index.toString()));
         }
@@ -826,7 +827,6 @@ var SourceUtils;
                 return;
             this.pvsRoot = root;
             if (root == null || root.cluster === -1) {
-                console.log("Null pvs");
                 this.replacePvs(null);
                 return;
             }
@@ -835,6 +835,9 @@ var SourceUtils;
                     _this.replacePvs(pvs);
                 }
             });
+        };
+        RenderContext.prototype.getDrawCallCount = function () {
+            return this.drawList.getDrawCalls();
         };
         return RenderContext;
     }());
@@ -855,7 +858,7 @@ var SourceUtils;
             this.merged = [];
         };
         DrawList.prototype.getDrawCalls = function () {
-            return this.items.length;
+            return this.merged == null ? 0 : this.merged.length;
         };
         DrawList.prototype.addItem = function (item) {
             this.items.push(item);
@@ -940,8 +943,7 @@ var SourceUtils;
                 last.offset = next.offset;
                 last.count = next.count;
             }
-            if (this.map.getApp().logDrawCalls)
-                console.log("Draw calls: " + this.merged.length);
+            this.map.getApp().invalidateDebugPanel();
         };
         DrawList.prototype.render = function (context) {
             this.lastParent = undefined;
@@ -1105,8 +1107,6 @@ var SourceUtils;
                     if (_this.models[ent.model] !== undefined)
                         throw "Multiple models with the same index.";
                     _this.models[ent.model] = new SourceUtils.BspModel(_this, ent);
-                    // Temp
-                    break;
                 }
             });
         };
@@ -1157,24 +1157,30 @@ var SourceUtils;
             }
             this.loadPvsArray(root, callback);
         };
+        Map.prototype.isAnyClusterVisible = function (clusters, drawList) {
+            for (var j = 0, jEnd = clusters.length; j < jEnd; ++j) {
+                if (this.clusters[clusters[j]][0].getIsInDrawList(drawList))
+                    return true;
+            }
+            return false;
+        };
         Map.prototype.appendToDrawList = function (drawList, pvs) {
             for (var i = 0, iEnd = pvs.length; i < iEnd; ++i) {
                 drawList.addItem(pvs[i]);
             }
             for (var i = this.displacements.length - 1; i >= 0; --i) {
                 var disp = this.displacements[i];
-                var clusters = disp.clusters;
-                for (var j = 0, jEnd = clusters.length; j < jEnd; ++j) {
-                    if (this.clusters[clusters[j]][0].getIsInDrawList(drawList)) {
-                        drawList.addItem(disp);
-                        break;
-                    }
+                if (this.isAnyClusterVisible(disp.clusters, drawList)) {
+                    drawList.addItem(disp);
                 }
             }
             for (var i = 1, iEnd = this.models.length; i < iEnd; ++i) {
-                if (this.models[i] == null)
+                var model = this.models[i];
+                if (model == null)
                     continue;
-                var leaves = this.models[i].getLeaves();
+                if (!this.isAnyClusterVisible(model.clusters, drawList))
+                    continue;
+                var leaves = model.getLeaves();
                 for (var j = 0, jEnd = leaves.length; j < jEnd; ++j) {
                     drawList.addItem(leaves[j]);
                 }
@@ -1207,12 +1213,12 @@ var SourceUtils;
         __extends(MapViewer, _super);
         function MapViewer() {
             _super.call(this);
-            this.logFrameTime = false;
-            this.logDrawCalls = false;
             this.lookAngs = new THREE.Vector2();
             this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
             this.countedFrames = 0;
             this.totalFrameTime = 0;
+            this.lastAvgFrameTime = 0;
+            this.debugPanelInvalid = false;
             this.spawned = false;
             this.unitZ = new THREE.Vector3(0, 0, 1);
             this.unitX = new THREE.Vector3(1, 0, 0);
@@ -1287,6 +1293,34 @@ var SourceUtils;
                 this.camera.applyRotationTo(move);
                 this.camera.translate(move);
             }
+            if (this.debugPanelInvalid) {
+                this.debugPanelInvalid = false;
+                this.updateDebugPanel();
+            }
+        };
+        MapViewer.prototype.invalidateDebugPanel = function () {
+            this.debugPanelInvalid = true;
+        };
+        MapViewer.prototype.initDebugPanel = function () {
+            this.debugPanel
+                .html('<span class="debug-label">Frame time:</span>&nbsp;<span class="debug-value" id="debug-frame-time"></span><br/>'
+                + '<span class="debug-label">Frame rate:</span>&nbsp;<span class="debug-value" id="debug-frame-rate"></span><br/>'
+                + '<span class="debug-label">Draw calls:</span>&nbsp;<span class="debug-value" id="debug-draw-calls"></span>');
+        };
+        MapViewer.prototype.updateDebugPanel = function () {
+            if (this.debugPanel == null)
+                return;
+            if (this.lastDebugPanel !== this.debugPanel) {
+                this.lastDebugPanel = this.debugPanel;
+                this.initDebugPanel();
+            }
+            var drawCalls = this.mainRenderContext.getDrawCallCount();
+            if (this.skyRenderContext != null) {
+                drawCalls += this.skyRenderContext.getDrawCallCount();
+            }
+            this.debugPanel.find("#debug-frame-time").text(this.lastAvgFrameTime.toPrecision(5) + " ms");
+            this.debugPanel.find("#debug-frame-rate").text((1000 / this.lastAvgFrameTime).toPrecision(5) + " fps");
+            this.debugPanel.find("#debug-draw-calls").text("" + drawCalls);
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             var gl = this.getContext();
@@ -1311,15 +1345,13 @@ var SourceUtils;
                 this.mainRenderContext.render();
             }
             var t1 = performance.now();
-            if (this.logFrameTime) {
-                this.totalFrameTime += (t1 - t0);
-                this.countedFrames += 1;
-                if (this.countedFrames > 100) {
-                    var avgFrameTime = this.totalFrameTime / this.countedFrames;
-                    console.log("Frametime: " + avgFrameTime + " ms (" + 1000 / avgFrameTime + " FPS)");
-                    this.totalFrameTime = 0;
-                    this.countedFrames = 0;
-                }
+            this.totalFrameTime += (t1 - t0);
+            this.countedFrames += 1;
+            if (this.countedFrames > 100) {
+                this.lastAvgFrameTime = this.totalFrameTime / this.countedFrames;
+                this.invalidateDebugPanel();
+                this.totalFrameTime = 0;
+                this.countedFrames = 0;
             }
         };
         return MapViewer;

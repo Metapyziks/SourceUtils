@@ -4,6 +4,8 @@ namespace SourceUtils {
     export class BspModel extends Entity {
         map: Map;
 
+        clusters: number[];
+
         private info: Api.BspModelResponse;
         private index: number;
 
@@ -15,6 +17,7 @@ namespace SourceUtils {
 
             this.map = map;
             this.index = info.model;
+            this.clusters = info.clusters;
 
             this.setPosition(info.origin);
 

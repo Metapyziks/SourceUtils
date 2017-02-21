@@ -85,7 +85,6 @@
             this.pvsRoot = root;
             if (root == null || root.cluster === -1)
             {
-                console.log("Null pvs");
                 this.replacePvs(null);
                 return;
             }
@@ -95,6 +94,10 @@
                     this.replacePvs(pvs);
                 }
             });
+        }
+
+        getDrawCallCount(): number {
+            return this.drawList.getDrawCalls();
         }
     }
 
@@ -128,7 +131,7 @@
         }
 
         getDrawCalls(): number {
-            return this.items.length;
+            return this.merged == null ? 0 : this.merged.length;
         }
 
         addItem(item: DrawListItem): void {
@@ -236,7 +239,7 @@
                 last.count = next.count;
             }
 
-            if ((this.map.getApp() as MapViewer).logDrawCalls) console.log(`Draw calls: ${this.merged.length}`);
+            (this.map.getApp() as MapViewer).invalidateDebugPanel();
         }
 
         render(context: RenderContext): void {

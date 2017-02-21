@@ -23,6 +23,7 @@
             origin: Vector3;
             angles: Vector3;
             model: number;
+            clusters: number[];
         }
 
         export class Vector3 {

@@ -92,9 +92,6 @@ namespace SourceUtils {
                         const ent = data.brushEnts[i];
                         if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
                         this.models[ent.model] = new BspModel(this, ent);
-
-                        // Temp
-                        break;
                     }
                 });
         }
@@ -152,6 +149,14 @@ namespace SourceUtils {
             this.loadPvsArray(root, callback);
         }
 
+        private isAnyClusterVisible(clusters: number[], drawList: DrawList): boolean
+        {
+            for (let j = 0, jEnd = clusters.length; j < jEnd; ++j) {
+                if (this.clusters[clusters[j]][0].getIsInDrawList(drawList)) return true;
+            }
+            return false;
+        }
+
         appendToDrawList(drawList: DrawList, pvs: VisLeaf[]): void {
             for (let i = 0, iEnd = pvs.length; i < iEnd; ++i) {
                 drawList.addItem(pvs[i]);
@@ -159,20 +164,18 @@ namespace SourceUtils {
 
             for (let i = this.displacements.length - 1; i >= 0; --i) {
                 const disp = this.displacements[i];
-                const clusters = disp.clusters;
-
-                for (let j = 0, jEnd = clusters.length; j < jEnd; ++j) {
-                    if (this.clusters[clusters[j]][0].getIsInDrawList(drawList)) {
-                        drawList.addItem(disp);
-                        break;
-                    }
+                if (this.isAnyClusterVisible(disp.clusters, drawList)) {
+                    drawList.addItem(disp);
                 }
             }
 
-            for (let i = 1, iEnd = this.models.length; i < iEnd; ++i) {
-                if (this.models[i] == null) continue;
-                const leaves = this.models[i].getLeaves();
+            for (let i = 1, iEnd = this.models.length; i < iEnd; ++i)
+            {
+                const model = this.models[i];
+                if (model == null) continue;
+                if (!this.isAnyClusterVisible(model.clusters, drawList)) continue;
 
+                const leaves = model.getLeaves();
                 for (let j = 0, jEnd = leaves.length; j < jEnd; ++j) {
                     drawList.addItem(leaves[j]);
                 }

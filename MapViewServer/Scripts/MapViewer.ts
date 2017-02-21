@@ -4,8 +4,7 @@ namespace SourceUtils {
     export class MapViewer extends AppBase {
         private map: Map;
 
-        logFrameTime = false;
-        logDrawCalls = false;
+        debugPanel: JQuery;
 
         camera: PerspectiveCamera;
 
@@ -14,6 +13,10 @@ namespace SourceUtils {
 
         private countedFrames = 0;
         private totalFrameTime = 0;
+        private lastAvgFrameTime = 0;
+
+        private debugPanelInvalid = false;
+        private lastDebugPanel: JQuery;
 
         private mainRenderContext: RenderContext;
         private skyRenderContext: RenderContext;
@@ -111,6 +114,40 @@ namespace SourceUtils {
                 this.camera.applyRotationTo(move);
                 this.camera.translate(move);
             }
+
+            if (this.debugPanelInvalid) {
+                this.debugPanelInvalid = false;
+                this.updateDebugPanel();
+            }
+        }
+
+        invalidateDebugPanel(): void {
+            this.debugPanelInvalid = true;
+        }
+
+        private initDebugPanel(): void {
+            this.debugPanel
+                .html('<span class="debug-label">Frame time:</span>&nbsp;<span class="debug-value" id="debug-frame-time"></span><br/>'
+                + '<span class="debug-label">Frame rate:</span>&nbsp;<span class="debug-value" id="debug-frame-rate"></span><br/>'
+                + '<span class="debug-label">Draw calls:</span>&nbsp;<span class="debug-value" id="debug-draw-calls"></span>');
+        }
+
+        private updateDebugPanel(): void {
+            if (this.debugPanel == null) return;
+
+            if (this.lastDebugPanel !== this.debugPanel) {
+                this.lastDebugPanel = this.debugPanel;
+                this.initDebugPanel();
+            }
+
+            let drawCalls = this.mainRenderContext.getDrawCallCount();
+            if (this.skyRenderContext != null) {
+                drawCalls += this.skyRenderContext.getDrawCallCount();
+            }
+
+            this.debugPanel.find("#debug-frame-time").text(`${this.lastAvgFrameTime.toPrecision(5)} ms`);
+            this.debugPanel.find("#debug-frame-rate").text(`${(1000 / this.lastAvgFrameTime).toPrecision(5)} fps`);
+            this.debugPanel.find("#debug-draw-calls").text(`${drawCalls}`);
         }
 
         private skyCameraPos = new THREE.Vector3();
@@ -148,17 +185,15 @@ namespace SourceUtils {
             }
 
             const t1 = performance.now();
+            
+            this.totalFrameTime += (t1 - t0);
+            this.countedFrames += 1;
 
-            if (this.logFrameTime) {
-                this.totalFrameTime += (t1 - t0);
-                this.countedFrames += 1;
-
-                if (this.countedFrames > 100) {
-                    const avgFrameTime = this.totalFrameTime / this.countedFrames;
-                    console.log(`Frametime: ${avgFrameTime} ms (${1000 / avgFrameTime} FPS)`);
-                    this.totalFrameTime = 0;
-                    this.countedFrames = 0;
-                }
+            if (this.countedFrames > 100) {
+                this.lastAvgFrameTime = this.totalFrameTime / this.countedFrames;
+                this.invalidateDebugPanel();
+                this.totalFrameTime = 0;
+                this.countedFrames = 0;
             }
         }
     }
