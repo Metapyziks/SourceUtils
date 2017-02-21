@@ -12,7 +12,9 @@ namespace SourceUtils {
         private lookQuat = new THREE.Quaternion(0, 0, 0, 1);
 
         private countedFrames = 0;
-        private totalFrameTime = 0;
+        private frameCountStart = 0;
+        private totalRenderTime = 0;
+        private lastAvgRenderTime = 0;
         private lastAvgFrameTime = 0;
 
         private debugPanelInvalid = false;
@@ -28,6 +30,7 @@ namespace SourceUtils {
             super();
 
             this.canLockPointer = true;
+            this.frameCountStart = performance.now();
         }
 
         init(container: JQuery): void {
@@ -113,6 +116,7 @@ namespace SourceUtils {
             if (move.lengthSq() > 0) {
                 this.camera.applyRotationTo(move);
                 this.camera.translate(move);
+                this.invalidateDebugPanel();
             }
 
             if (this.debugPanelInvalid) {
@@ -127,9 +131,11 @@ namespace SourceUtils {
 
         private initDebugPanel(): void {
             this.debugPanel
-                .html('<span class="debug-label">Frame time:</span>&nbsp;<span class="debug-value" id="debug-frame-time"></span><br/>'
+                .html('<span class="debug-label">Render time:</span>&nbsp;<span class="debug-value" id="debug-render-time"></span><br/>'
+                + '<span class="debug-label">Frame time:</span>&nbsp;<span class="debug-value" id="debug-frame-time"></span><br/>'
                 + '<span class="debug-label">Frame rate:</span>&nbsp;<span class="debug-value" id="debug-frame-rate"></span><br/>'
-                + '<span class="debug-label">Draw calls:</span>&nbsp;<span class="debug-value" id="debug-draw-calls"></span>');
+                + '<span class="debug-label">Draw calls:</span>&nbsp;<span class="debug-value" id="debug-draw-calls"></span><br/>'
+                + '<span class="debug-label">Camera pos:</span>&nbsp;<span class="debug-value" id="debug-camera-pos"></span>');
         }
 
         private updateDebugPanel(): void {
@@ -145,9 +151,14 @@ namespace SourceUtils {
                 drawCalls += this.skyRenderContext.getDrawCallCount();
             }
 
+            const cameraPos = new THREE.Vector3();
+            this.camera.getPosition(cameraPos);
+
+            this.debugPanel.find("#debug-render-time").text(`${this.lastAvgRenderTime.toPrecision(5)} ms`);
             this.debugPanel.find("#debug-frame-time").text(`${this.lastAvgFrameTime.toPrecision(5)} ms`);
             this.debugPanel.find("#debug-frame-rate").text(`${(1000 / this.lastAvgFrameTime).toPrecision(5)} fps`);
             this.debugPanel.find("#debug-draw-calls").text(`${drawCalls}`);
+            this.debugPanel.find("#debug-camera-pos").text(`${Math.round(cameraPos.x)}, ${Math.round(cameraPos.y)}, ${Math.round(cameraPos.z)}`);
         }
 
         private skyCameraPos = new THREE.Vector3();
@@ -184,15 +195,19 @@ namespace SourceUtils {
                 this.mainRenderContext.render();
             }
 
+            gl.finish();
+
             const t1 = performance.now();
             
-            this.totalFrameTime += (t1 - t0);
+            this.totalRenderTime += (t1 - t0);
             this.countedFrames += 1;
 
             if (this.countedFrames > 100) {
-                this.lastAvgFrameTime = this.totalFrameTime / this.countedFrames;
+                this.lastAvgRenderTime = this.totalRenderTime / this.countedFrames;
+                this.lastAvgFrameTime = (t1 - this.frameCountStart) / this.countedFrames;
+                this.frameCountStart = t1;
                 this.invalidateDebugPanel();
-                this.totalFrameTime = 0;
+                this.totalRenderTime = 0;
                 this.countedFrames = 0;
             }
         }

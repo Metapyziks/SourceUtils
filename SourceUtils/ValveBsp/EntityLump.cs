@@ -312,12 +312,18 @@ namespace SourceUtils
 
             [EntityField("classname")]
             public string ClassName { get; private set; }
+            
+            [EntityField("targetname")]
+            public string TargetName { get; private set; }
 
             [EntityField("origin")]
             public Vector3 Origin { get; private set; }
 
             [EntityField("angles")]
             public Vector3 Angles { get; private set; }
+
+            [EntityField("rendermode")]
+            public int RenderMode { get; private set; }
 
             public IEnumerable<string> PropertyNames => _properties.Keys;
 
@@ -378,6 +384,19 @@ namespace SourceUtils
                 Model = $"*{model}";
             }
         }
+
+        [EntityClass("func_areaportal")]
+        public class FuncAreaPortal : Entity
+        {
+            [EntityField("portalnumber")]
+            public int PortalNumber { get; private set; }
+
+            [EntityField("target")]
+            public string Target { get; private set; }
+        }
+        
+        [EntityClass("func_areaportalwindow")]
+        public class FuncAreaPortalWindow : FuncAreaPortal { }
 
         [EntityClass("info_player_start")]
         public class InfoPlayerStart : Entity { }

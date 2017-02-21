@@ -653,6 +653,7 @@ namespace MapViewServer
             }
 
             var tree = new BspTree( bsp, 0 );
+            var areaPortalNames = new HashSet<string>( bsp.Entities.OfType<FuncAreaPortal>().Select( x => x.Target ).Where( x => x != null ) );
 
             return new JObject
             {
@@ -663,7 +664,9 @@ namespace MapViewServer
                 {"playerStarts", new JArray( bsp.Entities.OfType<InfoPlayerStart>().Select( x => x.Origin.ToJson() ) )},
                 {"numClusters", bsp.Visibility.NumClusters},
                 {"numModels", bsp.Models.Length},
-                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>().Where(x => x.Model != null).Select( x => SerializeFuncBrush( bsp, tree, x ) )) },
+                {"brushEnts", new JArray( bsp.Entities.OfType<FuncBrush>()
+                    .Where(x => x.Model != null && x.RenderMode != 10 && (x.TargetName == null || !areaPortalNames.Contains( x.TargetName )))
+                    .Select( x => SerializeFuncBrush( bsp, tree, x ) )) },
                 {"modelUrl", GetActionUrl( nameof( GetModels ), Replace( "mapName", mapName ) )},
                 {"displacementsUrl", GetActionUrl( nameof( GetDisplacements ), Replace( "mapName", mapName ) )},
                 {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
