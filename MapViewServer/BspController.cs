@@ -926,7 +926,7 @@ namespace MapViewServer
                 var width = lightmap.TextureSize.X;
                 var height = lightmap.TextureSize.Y;
 
-                var pixels = new byte[width * height * 3];
+                var pixels = new byte[width * height * 4];
 
                 var sampleBuffer = new LightmapSample[256 * 256];
 
@@ -948,13 +948,14 @@ namespace MapViewServer
                         var s = Math.Max( 0, Math.Min( x, rect.Width - 1 ) );
                         var t = Math.Max( 0, Math.Min( y, rect.Height - 1 ) );
 
-                        var index = (rect.X + x + width * (rect.Y + y)) * 3;
+                        var index = (rect.X + x + width * (rect.Y + y)) * 4;
                         var sampleIndex = s + t * rect.Width;
+                        var sample = sampleBuffer[sampleIndex];
 
-                        sampleBuffer[sampleIndex].ToRgb(
-                            out pixels[index + 0],
-                            out pixels[index + 1],
-                            out pixels[index + 2] );
+                        pixels[index + 0] = sample.R;
+                        pixels[index + 1] = sample.G;
+                        pixels[index + 2] = sample.B;
+                        pixels[index + 3] = (byte) (sample.Exponent + 128);
                     }
                 }
 
@@ -964,7 +965,7 @@ namespace MapViewServer
                     Height = height,
                     PixelStorage = new PixelStorageSettings
                     {
-                        Mapping = "RGB",
+                        Mapping = "RGBA",
                         StorageType = StorageType.Char
                     }
                 } );

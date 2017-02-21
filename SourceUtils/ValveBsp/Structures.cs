@@ -459,39 +459,9 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct LightmapSample
     {
-        private const double Gamma = 0.6;
-
-        private static readonly byte[] _sLookup;
-
-        static LightmapSample()
-        {
-            _sLookup = new byte[256 * 256];
-
-            for ( var i = 0; i < 256; ++i )
-            {
-                var exp = i - 128;
-                var mul = Math.Pow( 2d, exp ) / 512f;
-
-                for ( var j = 0; j < 256; ++j )
-                {
-                    _sLookup[j + (i << 8)] =
-                        (byte) Math.Round( Math.Max( 0d, Math.Min( 1d, Math.Pow( j * mul, Gamma ) ) ) * 255d );
-                }
-            }
-        }
-
         public readonly byte R;
         public readonly byte G;
         public readonly byte B;
         public readonly sbyte Exponent;
-
-        public void ToRgb( out byte r, out byte g, out byte b )
-        {
-            var index = (Exponent + 128) << 8;
-
-            r = _sLookup[index | R];
-            g = _sLookup[index | G];
-            b = _sLookup[index | B];
-        }
     }
 }

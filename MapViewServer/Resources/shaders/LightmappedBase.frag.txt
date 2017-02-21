@@ -21,5 +21,10 @@ vec3 applyFog(vec3 inColor)
 }
 
 vec3 applyLightmap(vec3 inColor) {
-    return inColor * texture2D(uLightmap, vLightmapCoord).rgb;
+    const float gamma = 0.5;
+
+    vec4 sample = texture2D(uLightmap, vLightmapCoord);
+    float exp = sample.a * 255.0 - 128.0;
+    vec3 color = pow(sample.rgb * pow(2.0, exp), vec3(gamma, gamma, gamma));
+    return inColor * color;
 }
