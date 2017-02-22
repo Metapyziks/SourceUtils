@@ -6,9 +6,18 @@
         private highestLevel = Number.MIN_VALUE;
         private lowestLevel = Number.MAX_VALUE;
 
+        width: number;
+        height: number;
+
+        protected minFilter: number;
+        protected magFilter: number;
+
         constructor(gl: WebGLRenderingContext, target: number) {
             this.context = gl;
             this.target = target;
+
+            this.minFilter = gl.LINEAR;
+            this.magFilter = gl.LINEAR;
         }
 
         isLoaded(): boolean {
@@ -45,12 +54,14 @@
 
             gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.REPEAT);
             gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.REPEAT);
-            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
+            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
 
-            const anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
-            if (anisoExt != null) {
-                gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
+            if (this.minFilter !== gl.NEAREST) {
+                const anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
+                if (anisoExt != null) {
+                    gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
+                }
             }
         }
 
@@ -84,6 +95,9 @@
                 this.lowestLevel = mipLevel;
                 if (mipLevel !== 0) {
                     gl.texImage2D(this.target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                } else {
+                    this.width = image.width;
+                    this.height = image.height;
                 }
             }
 
@@ -95,6 +109,9 @@
 
             this.getOrCreateHandle();
 
+            this.width = width;
+            this.height = height;
+
             gl.texImage2D(this.target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
         }
     }
@@ -102,6 +119,10 @@
     export class Lightmap extends Texture {
         constructor(gl: WebGLRenderingContext, url: string) {
             super(gl, gl.TEXTURE_2D);
+
+            this.minFilter = gl.NEAREST;
+            this.magFilter = gl.NEAREST;
+
             this.loadLevel(url, 0);
         }
     }
@@ -258,8 +279,8 @@
         setupTexParams(target: number): void {
             const gl = this.getContext();
 
-            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
+            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
         }
 
         protected onLoad(image: HTMLImageElement, face: number, callBack?: () => void): void {

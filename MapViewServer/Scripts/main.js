@@ -1734,6 +1734,7 @@ var SourceUtils;
                 this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
                 this.baseTexture = new Uniform(this, "uBaseTexture");
                 this.lightmap = new Uniform(this, "uLightmap");
+                this.lightmapParams = new Uniform(this, "uLightmapParams");
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
             }
@@ -1751,8 +1752,15 @@ var SourceUtils;
                 else {
                     this.fogParams.set4f(0, 0, 0, 0);
                 }
+                var lightMap = map.getLightmap();
                 var gl = this.getContext();
-                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());
+                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, lightMap, map.getBlankTexture());
+                if (lightMap != null && lightMap.isLoaded()) {
+                    this.lightmapParams.set4f(lightMap.width, lightMap.height, 1 / lightMap.width, 1 / lightMap.height);
+                }
+                else {
+                    this.lightmapParams.set4f(1, 1, 1, 1);
+                }
             };
             LightmappedBase.prototype.changeMaterial = function (material) {
                 if (!_super.prototype.changeMaterial.call(this, material))
@@ -1873,6 +1881,8 @@ var SourceUtils;
             this.lowestLevel = Number.MAX_VALUE;
             this.context = gl;
             this.target = target;
+            this.minFilter = gl.LINEAR;
+            this.magFilter = gl.LINEAR;
         }
         Texture.prototype.isLoaded = function () {
             return this.getHandle() !== undefined;
@@ -1901,11 +1911,13 @@ var SourceUtils;
             var gl = this.context;
             gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.REPEAT);
             gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.REPEAT);
-            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            var anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
-            if (anisoExt != null) {
-                gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
+            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
+            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
+            if (this.minFilter !== gl.NEAREST) {
+                var anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
+                if (anisoExt != null) {
+                    gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
+                }
             }
         };
         Texture.prototype.getOrCreateHandle = function () {
@@ -1932,6 +1944,10 @@ var SourceUtils;
                 if (mipLevel !== 0) {
                     gl.texImage2D(this.target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
                 }
+                else {
+                    this.width = image.width;
+                    this.height = image.height;
+                }
             }
             if (callBack != null)
                 callBack();
@@ -1939,6 +1955,8 @@ var SourceUtils;
         Texture.prototype.loadPixels = function (width, height, values) {
             var gl = this.context;
             this.getOrCreateHandle();
+            this.width = width;
+            this.height = height;
             gl.texImage2D(this.target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
         };
         return Texture;
@@ -1948,6 +1966,8 @@ var SourceUtils;
         __extends(Lightmap, _super);
         function Lightmap(gl, url) {
             _super.call(this, gl, gl.TEXTURE_2D);
+            this.minFilter = gl.NEAREST;
+            this.magFilter = gl.NEAREST;
             this.loadLevel(url, 0);
         }
         return Lightmap;
@@ -2086,8 +2106,8 @@ var SourceUtils;
         };
         ValveTextureCube.prototype.setupTexParams = function (target) {
             var gl = this.getContext();
-            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
+            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
         };
         ValveTextureCube.prototype.onLoad = function (image, face, callBack) {
             var gl = this.getContext();

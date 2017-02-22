@@ -361,6 +361,7 @@ namespace SourceUtils {
         export class LightmappedBase extends ShaderProgram {
             baseTexture: Uniform;
             lightmap: Uniform;
+            lightmapParams: Uniform;
 
             fogParams: Uniform;
             fogColor: Uniform;
@@ -376,6 +377,7 @@ namespace SourceUtils {
 
                 this.baseTexture = new Uniform(this, "uBaseTexture");
                 this.lightmap = new Uniform(this, "uLightmap");
+                this.lightmapParams = new Uniform(this, "uLightmapParams");
 
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
@@ -399,8 +401,16 @@ namespace SourceUtils {
                     this.fogParams.set4f(0, 0, 0, 0);
                 }
 
+                const lightMap = map.getLightmap();
+
                 const gl = this.getContext();
-                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, map.getLightmap(), map.getBlankTexture());
+                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, lightMap, map.getBlankTexture());
+
+                if (lightMap != null && lightMap.isLoaded()) {
+                    this.lightmapParams.set4f(lightMap.width, lightMap.height, 1 / lightMap.width, 1 / lightMap.height);
+                } else {
+                    this.lightmapParams.set4f(1, 1, 1, 1);
+                }
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {

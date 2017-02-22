@@ -335,48 +335,86 @@ namespace SourceUtils
             return string.Format(_archiveFileNameFormat, index);
         }
 
-        private class ArchiveInfo
+        private class ArchiveInfo : IDisposable
         {
-            public int Accessors;
-            public readonly Stream Stream;
+            [ThreadStatic]
+            private static Dictionary<ArchiveInfo, Stream> _sStreams;
 
-            public ArchiveInfo(Stream stream)
+            public int Accessors;
+            private readonly string _fileName;
+            private readonly List<Stream> _streams = new List<Stream>();
+
+            public ArchiveInfo( string fileName )
             {
-                Stream = stream;
+                _fileName = fileName;
                 Accessors = 0;
+            }
+
+            public Stream GetStream()
+            {
+                if (_sStreams == null) _sStreams = new Dictionary<ArchiveInfo, Stream>();
+
+                Stream stream;
+                if ( _sStreams.TryGetValue( this, out stream ) ) return stream;
+
+                stream = File.Open( _fileName, FileMode.Open, FileAccess.Read, FileShare.Read );
+                _sStreams.Add( this, stream );
+
+                lock ( this )
+                {
+                    _streams.Add( stream );
+                }
+
+                return stream;
+            }
+
+            public void Dispose()
+            {
+                lock ( this )
+                {
+                    foreach ( var stream in _streams )
+                    {
+                        stream.Dispose();
+                    }
+
+                    _streams.Clear();
+                }
             }
         }
 
-        [ThreadStatic]
-        private Dictionary<int, ArchiveInfo> _openArchives;
+        private readonly Dictionary<int, ArchiveInfo> _openArchives = new Dictionary<int, ArchiveInfo>();
 
         private Stream OpenArchive(int index)
         {
-            if (_openArchives == null) _openArchives = new Dictionary<int, ArchiveInfo>();
-
-            ArchiveInfo info;
-            if (!_openArchives.TryGetValue(index, out info))
+            lock ( this )
             {
-                var fileName = GetArchiveFileName(index);
-                info = new ArchiveInfo(File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read));
-                _openArchives.Add(index, info);
-            }
+                ArchiveInfo info;
+                if ( !_openArchives.TryGetValue( index, out info ) )
+                {
+                    var fileName = GetArchiveFileName( index );
+                    info = new ArchiveInfo( fileName );
+                    _openArchives.Add( index, info );
+                }
 
-            info.Accessors += 1;
-            return info.Stream;
+                info.Accessors += 1;
+                return info.GetStream();
+            }
         }
 
         private void CloseArchive(int index)
         {
-            ArchiveInfo info;
-            if (!_openArchives.TryGetValue(index, out info)) throw new InvalidOperationException();
-
-            info.Accessors -= 1;
-
-            if (info.Accessors <= 0)
+            lock ( this )
             {
-                _openArchives.Remove(index);
-                info.Stream.Dispose();
+                ArchiveInfo info;
+                if ( !_openArchives.TryGetValue( index, out info ) ) throw new InvalidOperationException();
+
+                info.Accessors -= 1;
+
+                if ( info.Accessors <= 0 )
+                {
+                    _openArchives.Remove( index );
+                    info.Dispose();
+                }
             }
         }
 
