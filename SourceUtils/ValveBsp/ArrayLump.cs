@@ -11,36 +11,30 @@ namespace SourceUtils
         {
             public LumpType LumpType { get; }
 
-            private bool _firstRequest = true;
+            private readonly int _length;
             private readonly ValveBspFile _bspFile;
             private T[] _array;
-            private int _length = -1;
+            
+            private volatile bool _firstRequest = true;
 
             public ArrayLump( ValveBspFile bspFile, LumpType type )
             {
                 _bspFile = bspFile;
                 LumpType = type;
+                _length = _bspFile.GetLumpLength<T>( LumpType );
             }
 
             public void EnsureLoaded()
             {
-                if ( _array != null ) return;
-                _array = new T[Length];
-                _bspFile.ReadLumpValues( LumpType, 0, _array, 0, Length );
-            }
-
-            public int Length
-            {
-                get
+                lock ( this )
                 {
-                    if ( _length == -1 )
-                    {
-                        _length = _bspFile.GetLumpLength<T>( LumpType );
-                    }
-
-                    return _length;
+                    if ( _array != null ) return;
+                    _array = new T[Length];
+                    _bspFile.ReadLumpValues( LumpType, 0, _array, 0, Length );
                 }
             }
+
+            public int Length => _length;
 
             public T this[ int index ]
             {
@@ -53,6 +47,12 @@ namespace SourceUtils
                     }
 
                     EnsureLoaded();
+
+                    if ( index < 0 || index >= _array.Length )
+                    {
+                        throw new IndexOutOfRangeException( $"{index} vs {_array.Length}" );
+                    }
+
                     return _array[index];
                 }
             }

@@ -38,18 +38,21 @@ namespace MapViewServer
 
         public static ValveBspFile GetBspFile( HttpListenerRequest request, string mapName )
         {
-            ValveBspFile bsp;
-            if ( _sBspCache.TryGetValue( mapName, out bsp ) ) return bsp;
+            lock ( _sBspCache )
+            {
+                ValveBspFile bsp;
+                if ( _sBspCache.TryGetValue( mapName, out bsp ) ) return bsp;
 
-            var path = GetMapPath( mapName );
-            if ( !File.Exists( path ) )
-                throw new ControllerActionException( request, true, HttpStatusCode.NotFound,
-                    "The requested resource was not found." );
+                var path = GetMapPath( mapName );
+                if ( !File.Exists( path ) )
+                    throw new ControllerActionException( request, true, HttpStatusCode.NotFound,
+                        "The requested resource was not found." );
 
-            bsp = new ValveBspFile( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.Read ), mapName );
-            _sBspCache.Add( mapName, bsp );
+                bsp = new ValveBspFile( path, mapName );
+                _sBspCache.Add( mapName, bsp );
 
-            return bsp;
+                return bsp;
+            }
         }
 
         private static JToken SerializeBspChild( ValveBspFile bsp, BspChild child )
@@ -213,6 +216,8 @@ namespace MapViewServer
             private readonly List<Element> _elements = new List<Element>();
 
             private int _vertexCount;
+
+            [ThreadStatic]
             private static float[] _sVertexBuffer;
 
             public MeshComponent ComponentMask { get; set; } = MeshComponent.Position;
@@ -751,11 +756,6 @@ namespace MapViewServer
                 }
 
                 Index = int.Parse( str.Substring( 1 ) );
-
-                if ( Type == FacesType.Leaf )
-                {
-                    _sSentLeaves.Add( Index );
-                }
             }
 
             public IEnumerable<int> GetFaceIndices( ValveBspFile bsp )
@@ -782,8 +782,6 @@ namespace MapViewServer
         }
 
         private static readonly Regex _sFaceRequestsRegex = new Regex( @"^(?<item>[ld][0-9]+)(\s+(?<item>[ld][0-9]+))*$" );
-
-        private static readonly HashSet<int> _sSentLeaves = new HashSet<int>();
 
         [Get( "/{mapName}/faces" )]
         public JToken GetFaces( [Url] string mapName, string tokens )

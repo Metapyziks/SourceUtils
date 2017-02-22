@@ -16,12 +16,15 @@ namespace SourceUtils.ValveBsp
         {
             get
             {
-                Displacement existing;
-                if ( _displacements.TryGetValue( index, out existing ) ) return existing;
+                lock ( this )
+                {
+                    Displacement existing;
+                    if ( _displacements.TryGetValue( index, out existing ) ) return existing;
 
-                existing = new Displacement( _bsp, index );
-                _displacements.Add( index, existing );
-                return existing;
+                    existing = new Displacement( _bsp, index );
+                    _displacements.Add( index, existing );
+                    return existing;
+                }
             }
         }
     }

@@ -22,7 +22,7 @@ namespace SourceUtils.ValveBsp
         {
             get
             {
-                if ( !FoundPacking ) FindPacking();
+                FindPacking();
                 return _boundingSize;
             }
         }
@@ -97,40 +97,43 @@ namespace SourceUtils.ValveBsp
 
         private void FindPacking()
         {
-            if ( FoundPacking ) return;
-            if ( TryLoadFromCached() ) return;
-
-            _packing = new IntRect[_bspFile.FacesHdr.Length];
-
-            var toPack = _bspFile.FacesHdr
-                .Select( ( x, i ) => new Packable( i, x ) )
-                .Where( x => x.HasSamples )
-                .OrderByDescending( x => x.Width * 65536 + x.Height )
-                .ToArray();
-
-            var area = toPack.Sum( x => x.Width * x.Height );
-            var sizeIndex = 1;
-
-            while ( GetWidth( sizeIndex ) * GetHeight( sizeIndex ) < area ) ++sizeIndex;
-            if ( !TryPacking( GetWidth( sizeIndex ), GetHeight( sizeIndex ), toPack ) )
+            lock ( this )
             {
-                throw new Exception( "Unable to pack lightmap!" );
-            }
+                if ( FoundPacking ) return;
+                if ( TryLoadFromCached() ) return;
 
-            if ( string.IsNullOrEmpty( CacheFilePath ) ) return;
+                _packing = new IntRect[_bspFile.FacesHdr.Length];
 
-            lock ( _sSyncContext )
-            {
-                var fullName = new FileInfo( CacheFilePath ).FullName;
-                var dirName = Path.GetDirectoryName( fullName );
-                if ( !Directory.Exists( dirName ) ) Directory.CreateDirectory( dirName );
-                Write( fullName );
+                var toPack = _bspFile.FacesHdr
+                    .Select( ( x, i ) => new Packable( i, x ) )
+                    .Where( x => x.HasSamples )
+                    .OrderByDescending( x => x.Width * 65536 + x.Height )
+                    .ToArray();
+
+                var area = toPack.Sum( x => x.Width * x.Height );
+                var sizeIndex = 1;
+
+                while ( GetWidth( sizeIndex ) * GetHeight( sizeIndex ) < area ) ++sizeIndex;
+                if ( !TryPacking( GetWidth( sizeIndex ), GetHeight( sizeIndex ), toPack ) )
+                {
+                    throw new Exception( "Unable to pack lightmap!" );
+                }
+
+                if ( string.IsNullOrEmpty( CacheFilePath ) ) return;
+
+                lock ( _sSyncContext )
+                {
+                    var fullName = new FileInfo( CacheFilePath ).FullName;
+                    var dirName = Path.GetDirectoryName( fullName );
+                    if ( !Directory.Exists( dirName ) ) Directory.CreateDirectory( dirName );
+                    Write( fullName );
+                }
             }
         }
 
         public IntRect GetLightmapRegion( int faceIndex )
         {
-            if ( !FoundPacking ) FindPacking();
+            FindPacking();
             return _packing[faceIndex];
         }
 
@@ -145,7 +148,7 @@ namespace SourceUtils.ValveBsp
 
         public void Write( Stream stream )
         {
-            if ( !FoundPacking ) FindPacking();
+            FindPacking();
 
             using ( var writer = new BinaryWriter( stream, Encoding.UTF8, true ) )
             {

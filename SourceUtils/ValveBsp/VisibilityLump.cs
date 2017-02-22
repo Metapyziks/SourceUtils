@@ -36,7 +36,6 @@ namespace SourceUtils
             }
 
             private readonly ValveBspFile _bspFile;
-            private BinaryReader _reader;
             private ByteOffset[] _offsets;
             private HashSet<int>[] _vpsList;
 
@@ -58,40 +57,48 @@ namespace SourceUtils
 
             private HashSet<int> ReadSet( int byteOffset )
             {
-                _reader.BaseStream.Seek( byteOffset, SeekOrigin.Begin );
-
-                var set = new HashSet<int>();
-
-                var clusters = NumClusters;
-                var offset = 0;
-                while ( offset < clusters )
+                using ( var stream = _bspFile.GetLumpStream( LumpType ) )
                 {
-                    var bits = _reader.ReadByte();
-                    if ( bits == 0 )
+                    stream.Seek( byteOffset, SeekOrigin.Begin );
+
+                    var set = new HashSet<int>();
+
+                    var clusters = NumClusters;
+                    var offset = 0;
+                    while ( offset < clusters )
                     {
-                        offset += _reader.ReadByte() * 8;
-                        continue;
+                        var bits = stream.ReadByte();
+                        if ( bits == 0 )
+                        {
+                            offset += stream.ReadByte() * 8;
+                            continue;
+                        }
+
+                        for ( var i = 0; i < 8 && offset + i < clusters; ++i )
+                        {
+                            if ( (bits & (1 << i)) != 0 ) set.Add( offset + i );
+                        }
+
+                        offset += 8;
                     }
 
-                    for ( var i = 0; i < 8 && offset + i < clusters; ++i )
-                    {
-                        if ( (bits & (1 << i)) != 0 ) set.Add( offset + i );
-                    }
-
-                    offset += 8;
+                    return set;
                 }
-
-                return set;
             }
 
             private void EnsureLoaded()
             {
-                if ( Loaded ) return;
+                lock ( this )
+                {
+                    if ( Loaded ) return;
 
-                _reader = new BinaryReader( _bspFile.GetLumpStream( LumpType ) );
-                _numClusters = _reader.ReadInt32();
-                _vpsList = new HashSet<int>[_numClusters];
-                _offsets = LumpReader<ByteOffset>.ReadLumpFromStream( _reader.BaseStream, _numClusters );
+                    using ( var reader = new BinaryReader( _bspFile.GetLumpStream( LumpType ) ) )
+                    {
+                        _numClusters = reader.ReadInt32();
+                        _vpsList = new HashSet<int>[_numClusters];
+                        _offsets = LumpReader<ByteOffset>.ReadLumpFromStream( reader.BaseStream, _numClusters );
+                    }
+                }
             }
 
             private struct Enumerator : IEnumerator<HashSet<int>>

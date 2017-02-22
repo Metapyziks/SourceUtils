@@ -347,10 +347,13 @@ namespace SourceUtils
             }
         }
 
-        private readonly Dictionary<int, ArchiveInfo> _openArchives = new Dictionary<int, ArchiveInfo>();
+        [ThreadStatic]
+        private Dictionary<int, ArchiveInfo> _openArchives;
 
         private Stream OpenArchive(int index)
         {
+            if (_openArchives == null) _openArchives = new Dictionary<int, ArchiveInfo>();
+
             ArchiveInfo info;
             if (!_openArchives.TryGetValue(index, out info))
             {

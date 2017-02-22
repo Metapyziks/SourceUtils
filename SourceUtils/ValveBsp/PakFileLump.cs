@@ -8,31 +8,62 @@ namespace SourceUtils
 {
     partial class ValveBspFile
     {
-        public class PakFileLump : ILump, IResourceProvider
+        public class PakFileLump : ILump, IResourceProvider, IDisposable
         {
+            [ThreadStatic]
+            private static Dictionary<PakFileLump, ZipArchive> _sArchivePool;
+
+            private static ZipArchive GetZipArchive( PakFileLump pak )
+            {
+                if (_sArchivePool == null) _sArchivePool = new Dictionary<PakFileLump, ZipArchive>();
+
+                ZipArchive archive;
+                if ( _sArchivePool.TryGetValue( pak, out archive ) ) return archive;
+
+                archive = new ZipArchive( pak._bspFile.GetLumpStream( pak.LumpType ), ZipArchiveMode.Read );
+                _sArchivePool.Add( pak, archive );
+
+                lock ( pak._threadArchives )
+                {
+                    pak._threadArchives.Add( archive );
+                }
+
+                return archive;
+            }
+
             public LumpType LumpType { get; }
 
-            private readonly ValveBspFile _bspFile;
-            private ZipArchive _archive;
+            private readonly List<ZipArchive> _threadArchives = new List<ZipArchive>();
 
-            private readonly Dictionary<string, ZipArchiveEntry> _entryDict =
-                new Dictionary<string, ZipArchiveEntry>( StringComparer.InvariantCultureIgnoreCase );
+            private readonly ValveBspFile _bspFile;
+            private bool _loaded;
+
+            private readonly Dictionary<string, int> _entryDict =
+                new Dictionary<string, int>( StringComparer.InvariantCultureIgnoreCase );
 
             public PakFileLump( ValveBspFile bspFile, LumpType type )
             {
                 _bspFile = bspFile;
+                _loaded = false;
                 LumpType = type;
             }
 
             private void EnsureLoaded()
             {
-                if ( _archive != null ) return;
-                _archive = new ZipArchive( _bspFile.GetLumpStream( LumpType ), ZipArchiveMode.Read );
-
-                _entryDict.Clear();
-                foreach ( var entry in _archive.Entries )
+                lock ( this )
                 {
-                    _entryDict.Add( $"/{entry.FullName}", entry );
+                    if ( _loaded ) return;
+                    _loaded = true;
+
+                    using ( var archive = new ZipArchive( _bspFile.GetLumpStream( LumpType ), ZipArchiveMode.Read ) )
+                    {
+                        _entryDict.Clear();
+                        for ( var i = 0; i < archive.Entries.Count; ++i )
+                        {
+                            var entry = archive.Entries[i];
+                            _entryDict.Add( $"/{entry.FullName}", i );
+                        }
+                    }
                 }
             }
 
@@ -68,7 +99,20 @@ namespace SourceUtils
             public Stream OpenFile( string filePath )
             {
                 EnsureLoaded();
-                return _entryDict[$"/{filePath}"].Open();
+                return GetZipArchive( this ).Entries[_entryDict[$"/{filePath}"]].Open();
+            }
+
+            public void Dispose()
+            {
+                lock ( _threadArchives )
+                {
+                    foreach ( var archive in _threadArchives )
+                    {
+                        archive.Dispose();
+                    }
+
+                    _threadArchives.Clear();
+                }
             }
         }
     }

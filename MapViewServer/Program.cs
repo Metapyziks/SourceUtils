@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using SourceUtils;
 using Ziks.WebServer;
 
@@ -41,6 +42,16 @@ namespace MapViewServer
             server.Controllers.Add( "/", () => new StaticFileController( ResourcesDirectory ) );
             server.Controllers.Add( "/", () => new StaticFileController( ScriptsDirectory ) );
             server.Controllers.Add( Assembly.GetExecutingAssembly() );
+
+            server.Start();
+
+            var threads = new Thread[7];
+
+            for ( var i = 0; i < threads.Length; ++i )
+            {
+                threads[i] = new Thread( () => server.Run() );
+                threads[i].Start();
+            }
 
             server.Run();
 

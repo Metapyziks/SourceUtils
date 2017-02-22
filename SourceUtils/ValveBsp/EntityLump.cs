@@ -65,29 +65,32 @@ namespace SourceUtils
 
             private void EnsureLoaded()
             {
-                if ( _entities != null ) return;
-
-                _entities = new List<Entity>();
-
-                var propBuffer = new List<KeyValuePair<string, string>>();
-
-                using ( var reader = new StreamReader( _bspFile.GetLumpStream( LumpType ) ) )
+                lock ( this )
                 {
-                    string line;
-                    while ( (line = reader.ReadLine()) != null )
+                    if ( _entities != null ) return;
+
+                    _entities = new List<Entity>();
+
+                    var propBuffer = new List<KeyValuePair<string, string>>();
+
+                    using ( var reader = new StreamReader( _bspFile.GetLumpStream( LumpType ) ) )
                     {
-                        if ( line != "{" ) continue;
+                        string line;
+                        while ( (line = reader.ReadLine()) != null )
+                        {
+                            if ( line != "{" ) continue;
 
-                        string className;
+                            string className;
 
-                        propBuffer.Clear();
-                        ReadPropertyGroup( reader, propBuffer, out className );
-                        
-                        Func<Entity> ctor;
-                        var ent = _sEntityCtors.TryGetValue( className, out ctor ) ? ctor() : new Entity();
-                        ent.Initialize( propBuffer );
+                            propBuffer.Clear();
+                            ReadPropertyGroup( reader, propBuffer, out className );
 
-                        _entities.Add( ent );
+                            Func<Entity> ctor;
+                            var ent = _sEntityCtors.TryGetValue( className, out ctor ) ? ctor() : new Entity();
+                            ent.Initialize( propBuffer );
+
+                            _entities.Add( ent );
+                        }
                     }
                 }
             }

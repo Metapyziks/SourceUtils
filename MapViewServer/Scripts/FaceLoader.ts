@@ -25,7 +25,7 @@
         private queue: IFaceLoadTarget[] = [];
         private active: IFaceLoadTarget[][] = [];
 
-        maxConcurrentRequests = 2;
+        maxConcurrentRequests = 4;
         maxLeavesPerRequest = 512;
 
         constructor(map: Map) {

@@ -273,31 +273,36 @@ namespace SourceUtils.ValveBsp
 
         private void UpdatePositions()
         {
-            var size = Size;
-
-            _positions = new Vector3[size * size];
-            _alphas = new float[size * size];
-
-            for ( var y = 0; y < size; ++y )
-            for ( var x = 0; x < size; ++x )
+            lock ( this )
             {
-                var index = x + y * size;
-                var vert = _bspFile.DisplacementVerts[_dispInfo.DispVertStart + index];
+                if ( _positions != null ) return;
 
-                var tx = x / (size - 1f);
-                var ty = y / (size - 1f);
-                var sx = 1f - tx;
-                var sy = 1f - ty;
+                var size = Size;
 
-                var cornerA = _corners[(0 + _firstCorner) & 3];
-                var cornerB = _corners[(1 + _firstCorner) & 3];
-                var cornerC = _corners[(2 + _firstCorner) & 3];
-                var cornerD = _corners[(3 + _firstCorner) & 3];
+                _positions = new Vector3[size * size];
+                _alphas = new float[size * size];
 
-                var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
+                for ( var y = 0; y < size; ++y )
+                for ( var x = 0; x < size; ++x )
+                {
+                    var index = x + y * size;
+                    var vert = _bspFile.DisplacementVerts[_dispInfo.DispVertStart + index];
 
-                _positions[index] = origin + vert.Vector * vert.Distance;
-                _alphas[index] = vert.Alpha;
+                    var tx = x / (size - 1f);
+                    var ty = y / (size - 1f);
+                    var sx = 1f - tx;
+                    var sy = 1f - ty;
+
+                    var cornerA = _corners[(0 + _firstCorner) & 3];
+                    var cornerB = _corners[(1 + _firstCorner) & 3];
+                    var cornerC = _corners[(2 + _firstCorner) & 3];
+                    var cornerD = _corners[(3 + _firstCorner) & 3];
+
+                    var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
+
+                    _positions[index] = origin + vert.Vector * vert.Distance;
+                    _alphas[index] = vert.Alpha;
+                }
             }
         }
 

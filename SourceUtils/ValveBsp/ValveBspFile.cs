@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using SourceUtils.ValveBsp;
 using SourceUtils.ValveBsp.Entities;
 
@@ -9,6 +11,27 @@ namespace SourceUtils
 {
     public partial class ValveBspFile : IDisposable
     {
+        [ThreadStatic]
+        private static Dictionary<ValveBspFile, Stream> _sStreamPool;
+
+        private static Stream GetBspStream( ValveBspFile bsp )
+        {
+            if (_sStreamPool == null) _sStreamPool = new Dictionary<ValveBspFile, Stream>();
+
+            Stream stream;
+            if ( _sStreamPool.TryGetValue( bsp, out stream ) ) return stream;
+
+            stream = File.Open( bsp._filePath, FileMode.Open, FileAccess.Read, FileShare.Read );
+            _sStreamPool.Add( bsp, stream );
+
+            lock ( bsp._threadStreams )
+            {
+                bsp._threadStreams.Add( stream );
+            }
+
+            return stream;
+        }
+
         private class Header
         {
             public const int LumpInfoCount = 64;
@@ -123,20 +146,22 @@ namespace SourceUtils
 
         public LightmapLayout LightmapLayout { get; }
 
-        private readonly Stream _stream;
+        private readonly string _filePath;
         private readonly Header _header;
 
-        public ValveBspFile( Stream stream, string name )
+        private readonly List<Stream> _threadStreams = new List<Stream>();
+
+        public ValveBspFile( string filePath, string name )
         {
-            _stream = stream;
             Name = name;
+            _filePath = filePath;
 
-            InitializeLumps();
-
-            using ( var reader = new BinaryReader( stream, Encoding.ASCII, true ) )
+            using ( var reader = new BinaryReader( File.OpenRead( filePath ) ) )
             {
                 _header = Header.Read( reader );
             }
+
+            InitializeLumps();
 
             DisplacementManager = new DisplacementManager( this );
             LightmapLayout = new LightmapLayout( this );
@@ -172,15 +197,19 @@ namespace SourceUtils
 
             if ( count <= 0 ) return 0;
 
-            _stream.Seek( info.Offset + tSize * srcOffset, SeekOrigin.Begin );
-            LumpReader<T>.ReadLumpFromStream( _stream, count, dst, dstOffset );
+            using ( var stream = GetLumpStream( type ) )
+            {
+                stream.Seek( tSize * srcOffset, SeekOrigin.Begin );
+                LumpReader<T>.ReadLumpFromStream( stream, count, dst, dstOffset );
+            }
+
             return count;
         }
 
         public Stream GetLumpStream( LumpType type )
         {
             var info = GetLumpInfo( type );
-            var stream = new SubStream( _stream, info.Offset, info.Length );
+            var stream = new SubStream( GetBspStream( this ), info.Offset, info.Length );
             stream.Seek( 0, SeekOrigin.Begin );
             return stream;
         }
@@ -217,7 +246,17 @@ namespace SourceUtils
 
         public void Dispose()
         {
-            _stream?.Dispose();
+            lock ( _threadStreams )
+            {
+                foreach ( var stream in _threadStreams )
+                {
+                    stream.Dispose();
+                }
+
+                _threadStreams.Clear();
+            }
+
+            PakFile.Dispose();
         }
     }
 }

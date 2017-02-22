@@ -982,7 +982,7 @@ var SourceUtils;
         function FaceLoader(map) {
             this.queue = [];
             this.active = [];
-            this.maxConcurrentRequests = 2;
+            this.maxConcurrentRequests = 4;
             this.maxLeavesPerRequest = 512;
             this.map = map;
         }
@@ -2119,7 +2119,7 @@ var SourceUtils;
 (function (SourceUtils) {
     var TextureLoader = (function () {
         function TextureLoader(gl) {
-            this.maxConcurrentRequests = 2;
+            this.maxConcurrentRequests = 4;
             this.queue = [];
             this.active = 0;
             this.context = gl;

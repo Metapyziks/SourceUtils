@@ -1,7 +1,7 @@
 ﻿
 namespace SourceUtils {
     export class TextureLoader {
-        maxConcurrentRequests = 2;
+        maxConcurrentRequests = 4;
 
         private context: WebGLRenderingContext;
 
