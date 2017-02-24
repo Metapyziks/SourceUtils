@@ -949,26 +949,15 @@ namespace MapViewServer
                         var index = (rect.X + x + width * (rect.Y + y)) * 4;
                         var sampleIndex = s + t * rect.Width;
                         var sample = sampleBuffer[sampleIndex];
-
-                        pixels[index + 0] = sample.R;
+                            
+                        pixels[index + 0] = sample.B;
                         pixels[index + 1] = sample.G;
-                        pixels[index + 2] = sample.B;
+                        pixels[index + 2] = sample.R;
                         pixels[index + 3] = (byte) (sample.Exponent + 128);
                     }
                 }
 
-                var img = new MagickImage( pixels, new MagickReadSettings
-                {
-                    Width = width,
-                    Height = height,
-                    PixelStorage = new PixelStorageSettings
-                    {
-                        Mapping = "RGBA",
-                        StorageType = StorageType.Char
-                    }
-                } );
-
-                img.Write( Response.OutputStream, MagickFormat.Png );
+                Utils.ImageMagickConvert( pixels, Response.OutputStream, MagickFormat.Bgra, width, height, MagickFormat.Png );
                 Response.OutputStream.Close();
             }
         }

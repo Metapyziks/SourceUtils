@@ -91,55 +91,7 @@ namespace MapViewServer
         private static void ConvertDdsToPng( Stream src, Stream dst, int newWidth = -1,
             int newHeight = -1 )
         {
-            if ( Environment.OSVersion.Platform == PlatformID.Unix ||
-                 Environment.OSVersion.Platform == PlatformID.MacOSX )
-            {
-                try
-                {
-                    var args = "";
-                    if ( newWidth != -1 && newHeight != -1 )
-                    {
-                        args += $"-resize {newWidth}x{newHeight}! ";
-                    }
-
-                    var processStart = new ProcessStartInfo
-                    {
-                        FileName = "convert",
-                        Arguments = $"dds:- {args}png:-",
-                        RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        CreateNoWindow = true,
-                        UseShellExecute = false
-                    };
-
-                    var process = Process.Start( processStart );
-
-                    src.CopyTo( process.StandardInput.BaseStream );
-                    process.StandardInput.Close();
-
-                    while ( !process.HasExited || !process.StandardOutput.EndOfStream )
-                    {
-                        process.StandardOutput.BaseStream.CopyTo( dst );
-                        process.WaitForExit( 1 );
-                    }
-                }
-                catch
-                {
-                    // TODO, handle gracefully
-                }
-            }
-            else
-            {
-                using ( var image = new MagickImage( src, new MagickReadSettings {Format = MagickFormat.Dds} ) )
-                {
-                    if ( newWidth != -1 && newHeight != -1 )
-                    {
-                        image.Resize( new MagickGeometry( newWidth, newHeight ) {IgnoreAspectRatio = true} );
-                    }
-
-                    image.Write( dst, MagickFormat.Png );
-                }
-            }
+            Utils.ImageMagickConvert( src, dst, MagickFormat.Dds, MagickFormat.Png, newWidth, newHeight );
         }
 
         public static void ConvertToDds( ValveTextureFile vtf, Stream outStream )
@@ -259,18 +211,7 @@ namespace MapViewServer
                 _sMemoryStream.Write( vtf.PixelData, 0, width * height * 4 );
                 _sMemoryStream.Seek( 0, SeekOrigin.Begin );
 
-                var img = new MagickImage( _sMemoryStream, new MagickReadSettings
-                {
-                    Width = width,
-                    Height = height,
-                    PixelStorage = new PixelStorageSettings
-                    {
-                        Mapping = "BGRA",
-                        StorageType = StorageType.Char
-                    }
-                } );
-
-                img.Write( outStream, MagickFormat.Png );
+                Utils.ImageMagickConvert( _sMemoryStream, outStream, MagickFormat.Bgra, width, height, MagickFormat.Png );
                 return;
             }
 
