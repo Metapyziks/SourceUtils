@@ -122,13 +122,13 @@ namespace MapViewServer
 
                     if ( srcFormat == MagickFormat.Bgra )
                     {
-                        args += $"-size {srcWidth}x{srcHeight} depth 8 ";
+                        args += $"-size {srcWidth}x{srcHeight} -depth 8 ";
                     }
 
                     var processStart = new ProcessStartInfo
                     {
                         FileName = "convert",
-                        Arguments = $"{srcFormat.ToString().ToLower()}:- {args}{dstFormat.ToString().ToLower()}:-",
+                        Arguments = $"{args}{srcFormat.ToString().ToLower()}:- {dstFormat.ToString().ToLower()}:-",
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
                         CreateNoWindow = true,
