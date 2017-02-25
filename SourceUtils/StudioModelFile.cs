@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -9,20 +10,24 @@ namespace SourceUtils
     public class StudioModelFile
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct Header
+        public unsafe struct Header
         {
             public int Id;
             public int Version;
             public int Checksum;
 
-            private ulong _name0;
-            private ulong _name1;
-            private ulong _name2;
-            private ulong _name3;
-            private ulong _name4;
-            private ulong _name5;
-            private ulong _name6;
-            private ulong _name7;
+            private fixed byte _name[64];
+
+            public string Name
+            {
+                get
+                {
+                    fixed ( byte* name = _name )
+                    {
+                        return new string( (sbyte*) name );
+                    }
+                }
+            }
 
             public int Length;
 
@@ -62,6 +67,9 @@ namespace SourceUtils
             public int NumSkinRef;
             public int NumSkinFamilies;
             public int SkinIndex;
+
+            public int NumBodyParts;
+            public int BodyPartIndex;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -86,6 +94,80 @@ namespace SourceUtils
             public int _unused8;
             public int _unused9;
             public int _unused10;
+        }
+        
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct StudioBodyPart
+        {
+            public int NameIndex;
+            public int NumModels;
+            public int Base;
+            public int ModelIndex;
+        }
+        
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public unsafe struct StudioModel
+        {
+            private fixed byte _name[64];
+
+            public string Name
+            {
+                get
+                {
+                    fixed ( byte* name = _name )
+                    {
+                        return new string( (sbyte*) name );
+                    }
+                }
+            }
+
+            public int Type;
+            public float BoundingRadius;
+            public int NumMeshes;
+            public int MeshIndex;
+
+            public int NumVertices;
+            public int VertexIndex;
+            public int TangentsIndex;
+
+            public int NumAttachments;
+            public int AttachmentIndex;
+
+            public int NumEyeBalls;
+            public int EyeBallIndex;
+
+            public StudioModelVertexData VertexData;
+            private fixed int _unused[8];
+        }
+        
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 8)]
+        public struct StudioModelVertexData
+        {
+            
+        }
+        
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public unsafe struct StudioMesh
+        {
+            public int Material;
+            public int ModelIndex;
+            public int NumVertices;
+            public int VertexOffset;
+            public int NumFlexes;
+            public int FlexIndex;
+            public int MaterialType;
+            public int MaterialParam;
+            public int MeshId;
+            public Vector3 Center;
+            public StudioMeshVertexData VertexData;
+            private fixed int _unused[8];
+        }
+        
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public unsafe struct StudioMeshVertexData
+        {
+            private int _modelVertexData;
+            private fixed int _numLodVertices[8];
         }
 
         [ThreadStatic]
@@ -115,6 +197,12 @@ namespace SourceUtils
         private readonly string[] _materialPaths;
 
         private readonly string[] _cachedFullMaterialPaths;
+
+        private readonly StudioBodyPart[] _bodyParts;
+        private readonly string[] _bodyPartNames;
+
+        private readonly StudioModel[] _models;
+        private readonly StudioMesh[] _meshes;
 
         public int NumTextures => _header.NumTextures;
         public Vector3 HullMin => _header.HullMin;
@@ -147,6 +235,46 @@ namespace SourceUtils
                 stream.Seek( cdTex, SeekOrigin.Begin );
                 _materialPaths[index] = ReadNullTerminatedString( stream ).Replace( '\\', '/' );
             } );
+
+            _bodyParts = new StudioBodyPart[_header.NumBodyParts];
+            _bodyPartNames = new string[_header.NumBodyParts];
+
+            var modelList = new List<StudioModel>();
+            var meshList = new List<StudioMesh>();
+
+            stream.Seek( _header.BodyPartIndex, SeekOrigin.Begin );
+            LumpReader<StudioBodyPart>.ReadLumpFromStream( stream, _header.NumBodyParts, (partIndex, part) =>
+            {
+                var partPos = stream.Position;
+
+                stream.Seek( partPos + part.NameIndex, SeekOrigin.Begin );
+                _bodyPartNames[partIndex] = ReadNullTerminatedString( stream );
+
+                stream.Seek( partPos + part.ModelIndex, SeekOrigin.Begin );
+
+                // Now indexes into array of models
+                part.ModelIndex = modelList.Count;
+
+                LumpReader<StudioModel>.ReadLumpFromStream( stream, part.NumModels, ( modelIndex, model ) =>
+                {
+                    var modelPos = stream.Position;
+
+                    stream.Seek( modelPos + model.MeshIndex, SeekOrigin.Begin );
+
+                    model.MeshIndex = meshList.Count;
+                    LumpReader<StudioMesh>.ReadLumpFromStream( stream, part.NumModels, ( meshIndex, mesh ) =>
+                    {
+                        meshList.Add( mesh );
+                    } );
+
+                    modelList.Add( model );
+                } );
+
+                _bodyParts[partIndex] = part;
+            } );
+
+            _models = modelList.ToArray();
+            _meshes = meshList.ToArray();
         }
 
         public string GetMaterialName(IResourceProvider provider, int index)

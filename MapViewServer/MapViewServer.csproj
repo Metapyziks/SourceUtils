@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="BspController.cs" />
     <Compile Include="LZString.cs" />
+    <Compile Include="MdlController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceController.cs" />
