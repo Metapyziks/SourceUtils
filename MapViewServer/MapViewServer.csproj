@@ -65,13 +65,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BspController.cs" />
+    <Compile Include="Bsp\BspController.cs" />
+    <Compile Include="Bsp\BspFaces.cs" />
+    <Compile Include="Bsp\BspMaterials.cs" />
+    <Compile Include="Bsp\BspViewer.cs" />
     <Compile Include="LZString.cs" />
     <Compile Include="MdlController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="VertexArray.cs" />
     <Compile Include="VtfConverter.cs" />
     <Compile Include="VtfController.cs" />
     <Compile Include="VtxController.cs" />

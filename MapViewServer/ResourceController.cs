@@ -104,9 +104,6 @@ namespace MapViewServer
             return builder.ToString();
         }
 
-        [ThreadStatic]
-        private static StringBuilder _sArrayBuilder;
-
         private static string GetFileVersionHash( DateTime timestamp )
         {
             var major = (int) (timestamp - new DateTime( 2000, 1, 1 )).TotalDays;
@@ -155,7 +152,7 @@ namespace MapViewServer
             }
         }
 
-        protected bool Compressed
+        public bool Compressed
         {
             get
             {
@@ -174,23 +171,7 @@ namespace MapViewServer
 
         protected JToken SerializeArray<T>( IEnumerable<T> enumerable, Func<T, string> serializer )
         {
-            if ( _sArrayBuilder == null ) _sArrayBuilder = new StringBuilder();
-            else _sArrayBuilder.Remove( 0, _sArrayBuilder.Length );
-
-
-            _sArrayBuilder.Append( "[" );
-            foreach ( var item in enumerable )
-            {
-                _sArrayBuilder.Append( serializer( item ) );
-                _sArrayBuilder.Append( "," );
-            }
-
-            if ( _sArrayBuilder.Length > 1 ) _sArrayBuilder.Remove( _sArrayBuilder.Length - 1, 1 );
-            _sArrayBuilder.Append( "]" );
-            
-            return Compressed
-                ? (JToken) LZString.compressToBase64( _sArrayBuilder.ToString() )
-                : JArray.Parse( _sArrayBuilder.ToString() );
+            return Utils.SerializeArray( enumerable, serializer, Compressed );
         }
 
         protected override void OnServiceHtml( HtmlElement document )

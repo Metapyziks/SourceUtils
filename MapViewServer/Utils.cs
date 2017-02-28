@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text;
 using ImageMagick;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
@@ -83,6 +85,34 @@ namespace MapViewServer
             MagickFormat srcFormat, MagickFormat dstFormat, int dstWidth = -1, int dstHeight = -1 )
         {
             ImageMagickConvert( src, dst, srcFormat, -1, -1, dstFormat, dstWidth, dstHeight );
+        }
+
+        [ThreadStatic]
+        private static StringBuilder _sArrayBuilder;
+
+        public static JToken SerializeArray<T>( IEnumerable<T> enumerable, bool compressed )
+        {
+            return SerializeArray( enumerable, x => x.ToString(), compressed );
+        }
+
+        public static JToken SerializeArray<T>( IEnumerable<T> enumerable, Func<T, string> serializer, bool compressed )
+        {
+            if ( _sArrayBuilder == null ) _sArrayBuilder = new StringBuilder();
+            else _sArrayBuilder.Remove( 0, _sArrayBuilder.Length );
+
+            _sArrayBuilder.Append( "[" );
+            foreach ( var item in enumerable )
+            {
+                _sArrayBuilder.Append( serializer( item ) );
+                _sArrayBuilder.Append( "," );
+            }
+
+            if ( _sArrayBuilder.Length > 1 ) _sArrayBuilder.Remove( _sArrayBuilder.Length - 1, 1 );
+            _sArrayBuilder.Append( "]" );
+            
+            return compressed
+                ? (JToken) LZString.compressToBase64( _sArrayBuilder.ToString() )
+                : JArray.Parse( _sArrayBuilder.ToString() );
         }
 
         [ThreadStatic]
