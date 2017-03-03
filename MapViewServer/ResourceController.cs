@@ -183,7 +183,14 @@ namespace MapViewServer
             {
                 var compressedStr = Request.QueryString["compressed"];
                 bool compressed;
-                if ( compressedStr == null || !bool.TryParse( compressedStr, out compressed ) ) compressed = true;
+                if ( compressedStr == null || !bool.TryParse( compressedStr, out compressed ) )
+                {
+#if DEBUG
+                    compressed = false;
+#else
+                    compressed = true;
+#endif
+                }
 
                 return compressed;
             }
@@ -194,9 +201,19 @@ namespace MapViewServer
             return SerializeArray( enumerable, x => x.ToString() );
         }
 
+        protected JToken SerializeArray<T>( IEnumerable<T> enumerable, bool compressed )
+        {
+            return SerializeArray( enumerable, x => x.ToString(), compressed );
+        }
+
         protected JToken SerializeArray<T>( IEnumerable<T> enumerable, Func<T, string> serializer )
         {
             return Utils.SerializeArray( enumerable, serializer, Compressed );
+        }
+
+        protected JToken SerializeArray<T>( IEnumerable<T> enumerable, Func<T, string> serializer, bool compressed )
+        {
+            return Utils.SerializeArray( enumerable, serializer, compressed );
         }
 
         protected override void OnServiceHtml( HtmlElement document )

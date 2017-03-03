@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
+using SourceUtils.ValveBsp;
 using Ziks.WebServer;
 
 namespace MapViewServer
@@ -21,11 +22,12 @@ namespace MapViewServer
 
             var parts = new JArray();
 
-            for ( var i = 0; i < mdl.BodyPartCount; ++i )
+            for ( var bodyPartIndex = 0; bodyPartIndex < mdl.BodyPartCount; ++bodyPartIndex )
             {
                 var models = new JArray();
 
-                foreach ( var model in mdl.GetModels( i ) )
+                var modelIndex = 0;
+                foreach ( var model in mdl.GetModels( bodyPartIndex ) )
                 {
                     var meshes = new JArray();
 
@@ -35,28 +37,36 @@ namespace MapViewServer
                         {
                             {"material", mesh.Material},
                             {"center", mesh.Center.ToJson()},
-                            {"vertexOffset", mesh.VertexOffset},
-                            {"vertexCount", mesh.NumVertices}
+                            {"vertexOffset", mesh.VertexOffset}
                         } );
                     }
 
                     models.Add( new JObject
                     {
-                        {"name", model.Name },
-                        {"radius", model.BoundingRadius },
-                        {"vertexOffset", model.VertexIndex },
-                        {"vertexCount", model.NumVertices },
-                        {"verticesUrl", GetActionUrl( nameof(GetVertices),
-                            ResourcePath( FilePath ),
-                            Replace( "index", model.VertexIndex ),
-                            Replace( "count", model.NumVertices ) ) },
-                        {"meshes", meshes }
+                        {"name", model.Name},
+                        {"radius", model.BoundingRadius},
+                        {
+                            "verticesUrl", GetActionUrl( nameof( GetVertices ),
+                                ResourcePath( FilePath ),
+                                Replace( "index", model.VertexIndex ),
+                                Replace( "count", model.NumVertices ) )
+                        },
+                        {
+                            "trianglesUrl", GetActionUrl( nameof( GetTriangles ),
+                                ResourcePath( FilePath ),
+                                Replace( "bodyPart", bodyPartIndex ),
+                                Replace( "model", modelIndex ),
+                                Replace( "lod", 0 ) )
+                        },
+                        {"meshes", meshes}
                     } );
+
+                    ++modelIndex;
                 }
 
                 parts.Add( new JObject
                 {
-                    {"name", mdl.GetBodyPartName( i )},
+                    {"name", mdl.GetBodyPartName( bodyPartIndex )},
                     {"models", models}
                 } );
             }
@@ -107,7 +117,46 @@ namespace MapViewServer
             return new JObject
             {
                 {"components", (int) components },
-                {"vertices", SerializeArray( vertArray, GetVertSerializer(components) )}
+                {"vertices", SerializeArray( vertArray, GetVertSerializer(components), false )}
+            };
+        }
+
+        [Get(MatchAllUrl = false, Extension = ".vtx")]
+        public JToken GetTriangles( int bodyPart, int model, int lod )
+        {
+            var provider = Resources;
+
+            var filePath = FilePath.Replace( ".vtx", ".dx90.vtx" );
+
+            ValveTriangleFile vtx;
+            using ( var vtxStream = provider.OpenFile( filePath ) )
+            {
+                vtx = new ValveTriangleFile( vtxStream );
+            }
+
+            var array = new JArray();
+
+            var meshCount = vtx.GetMeshCount( bodyPart, model, lod );
+            for ( var i = 0; i < meshCount; ++i )
+            {
+                int offset, count;
+                vtx.GetMeshData( bodyPart, model, lod, i, out offset, out count );
+
+                array.Add( new JObject
+                {
+                    {"type", (int) PrimitiveType.TriangleList},
+                    {"offset", offset},
+                    {"count", count}
+                } );
+            }
+
+            var indexArray = new int[vtx.GetIndexCount( bodyPart, model, lod )];
+            vtx.GetIndices( bodyPart, model, lod, indexArray );
+
+            return new JObject
+            {
+                {"elements", array},
+                {"indices", SerializeArray( indexArray )}
             };
         }
     }
