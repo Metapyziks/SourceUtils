@@ -8,7 +8,7 @@
         canSeeSky2D: boolean;
         canSeeSky3D: boolean;
 
-        constructor(model: BspModel, info: Api.BspLeaf) {
+        constructor(model: BspModel, info: Api.IBspLeaf) {
             super("l", info.index);
 
             const min = info.min;

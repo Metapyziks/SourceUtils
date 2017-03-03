@@ -6,13 +6,13 @@ namespace SourceUtils {
 
         clusters: number[];
 
-        private info: Api.BspModelResponse;
+        private info: Api.IBspModelResponse;
         private index: number;
 
         private leaves: VisLeaf[];
         private root: VisNode;
 
-        constructor(map: Map, info: Api.FuncBrush) {
+        constructor(map: Map, info: Api.IFuncBrush) {
             super();
 
             this.map = map;
@@ -26,7 +26,7 @@ namespace SourceUtils {
 
         private loadInfo(url: string): void {
             $.getJSON(url,
-                (data: Api.BspModelResponse) => {
+                (data: Api.IBspModelResponse) => {
                     this.info = data;
                     this.loadTree();
                     this.map.onModelLoaded(this);

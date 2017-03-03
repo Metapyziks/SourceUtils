@@ -115,6 +115,7 @@
     <TypeScriptCompile Include="Scripts\DrawListItem.ts" />
     <TypeScriptCompile Include="Scripts\Entity.ts" />
     <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
+    <TypeScriptCompile Include="Scripts\Loader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />
     <TypeScriptCompile Include="Scripts\MapViewer.ts" />
     <TypeScriptCompile Include="Scripts\Material.ts" />

@@ -19,10 +19,10 @@
         enabled = true;
         
         private map: Map;
-        private info: Api.Material;
+        private info: Api.IMaterial;
         private program: ShaderProgram;
 
-        constructor(map: Map, infoOrShader: Api.Material | string) {
+        constructor(map: Map, infoOrShader: Api.IMaterial | string) {
             this.map = map;
 
             this.sortIndex = Material.nextSortIndex++;
@@ -30,7 +30,7 @@
             if (typeof infoOrShader == "string") {
                 this.program = map.shaderManager.get(infoOrShader as string);
             } else {
-                this.info = infoOrShader as Api.Material;
+                this.info = infoOrShader as Api.IMaterial;
                 this.program = map.shaderManager.get(this.info.shader);
 
                 for (let i = 0; i < this.info.properties.length; ++i)
@@ -40,7 +40,7 @@
             }
         }
 
-        private addPropertyFromInfo(info: Api.MaterialProperty): void {
+        private addPropertyFromInfo(info: Api.IMaterialProperty): void {
             switch (info.type) {
                 case Api.MaterialPropertyType.boolean:
                 case Api.MaterialPropertyType.number:

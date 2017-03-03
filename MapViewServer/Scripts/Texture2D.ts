@@ -160,7 +160,15 @@
         }
     }
 
-    export class ValveTexture extends Texture {
+    export class ValveTexture extends Texture implements ILoadable<ValveTexture> {
+        shouldLoadBefore(other: ValveTexture): boolean {
+            if (this.usesSinceLastLoad === 0) return false;
+            const mipCompare = this.getLowestMipLevel() - other.getLowestMipLevel();
+            if (mipCompare !== 0) return mipCompare > 0;
+            const scoreCompare = this.usesSinceLastLoad - other.getUsesSinceLastLoad();
+            return scoreCompare > 0;
+        }
+
         private usesSinceLastLoad = 0;
 
         constructor(gl: WebGLRenderingContext, target: number) {
@@ -182,7 +190,7 @@
 
     export class ValveTexture2D extends ValveTexture {
         private vtfUrl: string;
-        private info: Api.VtfResponse;
+        private info: Api.IVtfResponse;
         private nextLevel: number;
 
         constructor(gl: WebGLRenderingContext, url: string) {
@@ -208,7 +216,7 @@
 
         private loadInfo(callback?: () => void): void {
             $.getJSON(this.vtfUrl,
-                (data: Api.VtfResponse) => {
+                (data: Api.IVtfResponse) => {
                     this.info = data;
                     this.nextLevel = Math.max(0, data.mipmaps - 1);
                 }).always(() => {
@@ -231,7 +239,7 @@
 
     export class ValveTextureCube extends ValveTexture {
         private vtfUrls: string[];
-        private infos: Api.VtfResponse[] = [];
+        private infos: Api.IVtfResponse[] = [];
         private loadedInfo = false;
         private faceSize: number;
         private nextFace = 0;
@@ -261,7 +269,7 @@
 
         private loadInfo(face: number, callback?: (success: boolean) => void): void {
             $.getJSON(this.vtfUrls[face],
-                (data: Api.VtfResponse) => {
+                (data: Api.IVtfResponse) => {
                     this.infos[face] = data;
                     this.nextFace++;
 

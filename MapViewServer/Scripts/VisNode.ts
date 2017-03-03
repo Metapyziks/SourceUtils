@@ -13,15 +13,15 @@
         children: IVisElem[];
         plane: THREE.Plane;
 
-        private static createVisElem(model: BspModel, info: Api.BspElem): IVisElem {
+        private static createVisElem(model: BspModel, info: Api.IBspElem): IVisElem {
             if ((info as any).children != undefined) {
-                return new VisNode(model, info as Api.BspNode);
+                return new VisNode(model, info as Api.IBspNode);
             } else {
-                return new VisLeaf(model, info as Api.BspLeaf);
+                return new VisLeaf(model, info as Api.IBspLeaf);
             }
         }
 
-        constructor(model: BspModel, info: Api.BspNode) {
+        constructor(model: BspModel, info: Api.IBspNode) {
             const normal = info.plane.normal;
             const min = info.min;
             const max = info.max;

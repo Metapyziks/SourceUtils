@@ -8,11 +8,11 @@
     export class FaceData
     {
         components: Api.MeshComponent;
-        elements: Api.Element[];
+        elements: Api.IElement[];
         vertices: Float32Array;
         indices: Uint16Array;
 
-        constructor(faces: Api.Faces) {
+        constructor(faces: Api.IFaces) {
             this.components = faces.components;
             this.elements = faces.elements;
             this.vertices = Utils.decompressFloat32Array(faces.vertices);
@@ -81,7 +81,7 @@
             const url = this.map.info.facesUrl
                 .replace("{tokens}", query);
 
-            $.getJSON(url, (data: Api.BspFacesResponse) => {
+            $.getJSON(url, (data: Api.IBspFacesResponse) => {
                 for (let i = 0; i < data.facesList.length; ++i) {
                     const faces = data.facesList[i];
                     const task = tasks[i];

@@ -50,7 +50,7 @@ namespace SourceUtils {
             if (target != null) target.copy(this.inverseMatrix);
         }
 
-        setPosition(value: THREE.Vector3 | Api.Vector3): void {
+        setPosition(value: THREE.Vector3 | Api.IVector3): void {
             this.position.set(value.x, value.y, value.z);
             this.invalidateMatrices();
         }
@@ -85,7 +85,7 @@ namespace SourceUtils {
             vector.applyQuaternion(this.rotation);
         }
 
-        setScale(value: THREE.Vector3 | Api.Vector3 | number): void
+        setScale(value: THREE.Vector3 | Api.IVector3 | number): void
         {
             if (typeof value === "number") {
                 this.scale.set(value, value, value);

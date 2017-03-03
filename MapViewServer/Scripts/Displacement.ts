@@ -6,7 +6,7 @@ namespace SourceUtils
     {
         clusters: number[];
 
-        constructor(model: BspModel, info: Api.Displacement) {
+        constructor(model: BspModel, info: Api.IDisplacement) {
             super("d", info.index);
 
             this.parent = model;

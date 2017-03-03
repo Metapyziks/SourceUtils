@@ -1,14 +1,14 @@
 ﻿namespace SourceUtils {
     export namespace Api {
-        export class BspIndexResponse {
+        export interface IBspIndexResponse {
             name: string;
-            skyMaterial: Material;
-            fog: FogParams;
-            skyCamera: SkyCameraParams;
-            playerStarts: Vector3[];
+            skyMaterial: IMaterial;
+            fog: IFogParams;
+            skyCamera: ISkyCameraParams;
+            playerStarts: IVector3[];
             numClusters: number;
             numModels: number;
-            brushEnts: FuncBrush[];
+            brushEnts: IFuncBrush[];
 
             modelUrl: string;
             displacementsUrl: string;
@@ -18,41 +18,41 @@
             materialsUrl: string;
         }
 
-        export class FuncBrush {
+        export interface IFuncBrush {
             classname: string;
-            origin: Vector3;
-            angles: Vector3;
+            origin: IVector3;
+            angles: IVector3;
             model: number;
             clusters: number[];
         }
 
-        export class Vector3 {
+        export interface IVector3 {
             x: number;
             y: number;
             z: number;
         }
 
-        export class Plane {
-            normal: Vector3;
+        export interface IPlane {
+            normal: IVector3;
             dist: number;
         }
 
-        export class BspModelResponse {
+        export interface IBspModelResponse {
             index: number;
-            min: Vector3;
-            max: Vector3;
-            origin: Vector3;
-            tree: string | BspNode;
+            min: IVector3;
+            max: IVector3;
+            origin: IVector3;
+            tree: string | IBspNode;
         }
 
-        export class BspElem {
-            min: Vector3;
-            max: Vector3;
+        export interface IBspElem {
+            min: IVector3;
+            max: IVector3;
         }
 
-        export class BspNode extends BspElem {
-            plane: Plane;
-            children: BspElem[];
+        export interface IBspNode extends IBspElem {
+            plane: IPlane;
+            children: IBspElem[];
         }
 
         export enum LeafFlags {
@@ -61,7 +61,7 @@
             Sky2D = 4
         }
 
-        export class BspLeaf extends BspElem {
+        export interface IBspLeaf extends IBspElem {
             index: number;
             cluster: number;
             area: number;
@@ -75,7 +75,7 @@
             TriangleFan
         }
 
-        export class Element {
+        export interface IElement {
             type: PrimitiveType;
             material: number;
             offset: number;
@@ -90,32 +90,42 @@
             alpha = 16
         }
 
-        export class Faces {
+        export interface IVertexContainer {
             components: MeshComponent;
-            elements: Element[];
+            vertices: string | number[];
+        }
+
+        export interface IIndicesContainer {
+            elements: IElement[];
+            indices: string | number[];
+        }
+
+        export interface IFaces extends IVertexContainer, IIndicesContainer {
+            components: MeshComponent;
+            elements: IElement[];
             vertices: string | number[];
             indices: string | number[];
         }
 
-        export class BspFacesResponse {
-            facesList: Faces[];
+        export interface IBspFacesResponse {
+            facesList: IFaces[];
         }
 
-        export class BspVisibilityResponse {
+        export interface IBspVisibilityResponse {
             index: number;
             pvs: string | number[];
         }
 
-        export class Displacement {
+        export interface IDisplacement {
             index: number;
             power: number;
-            min: Vector3;
-            max: Vector3;
+            min: IVector3;
+            max: IVector3;
             clusters: number[];
         }
 
-        export class BspDisplacementsResponse {
-            displacements: Displacement[];
+        export interface IBspDisplacementsResponse {
+            displacements: IDisplacement[];
         }
 
         export enum MaterialPropertyType {
@@ -125,19 +135,19 @@
             textureCube
         }
 
-        export class MaterialProperty {
+        export interface IMaterialProperty {
             name: string;
             type: MaterialPropertyType;
             value: boolean | number | string | string[];
         }
 
-        export class Material {
+        export interface IMaterial {
             shader: string;
-            properties: MaterialProperty[];
+            properties: IMaterialProperty[];
         }
 
-        export class BspMaterialsResponse {
-            materials: Material[];
+        export interface IBspMaterialsResponse {
+            materials: IMaterial[];
         }
 
         export enum VtfFlags {
@@ -175,7 +185,7 @@
             UNUSED_80000000 = 0x80000000
         }
 
-        export class VtfResponse {
+        export interface IVtfResponse {
             width: number;
             height: number;
             flags: VtfFlags;
@@ -184,25 +194,25 @@
             mipmaps: number;
         }
 
-        export class Color32 {
+        export interface IColor32 {
             r: number;
             g: number;
             b: number;
             a: number;
         }
 
-        export class FogParams {
+        export interface IFogParams {
             fogEnabled: boolean;
             fogStart: number;
             fogEnd: number;
             fogMaxDensity: number;
             farZ: number;
-            fogColor: Color32;
+            fogColor: IColor32;
         }
 
-        export class SkyCameraParams extends FogParams {
+        export interface ISkyCameraParams extends IFogParams {
             enabled: boolean;
-            origin: Vector3;
+            origin: IVector3;
             scale: number;
         }
     }

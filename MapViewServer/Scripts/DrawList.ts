@@ -12,7 +12,7 @@
         private pvsRoot: VisLeaf;
         private drawList: DrawList;
 
-        fogParams: Api.FogParams;
+        fogParams: Api.IFogParams;
 
         origin = new THREE.Vector3();
         near: number;

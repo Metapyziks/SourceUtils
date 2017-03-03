@@ -2,7 +2,7 @@
 
 namespace SourceUtils {
     export class Map extends Entity {
-        info: Api.BspIndexResponse;
+        info: Api.IBspIndexResponse;
 
         faceLoader: FaceLoader;
         textureLoader: TextureLoader;
@@ -72,7 +72,7 @@ namespace SourceUtils {
 
         private loadInfo(url: string): void {
             $.getJSON(url,
-                (data: Api.BspIndexResponse) => {
+                (data: Api.IBspIndexResponse) => {
                     this.info = data;
                     this.models = new Array<BspModel>(data.numModels);
                     this.clusters = new Array<VisLeaf[]>(data.numClusters);
@@ -98,7 +98,7 @@ namespace SourceUtils {
 
         private loadDisplacements(): void {
             $.getJSON(this.info.displacementsUrl,
-                (data: Api.BspDisplacementsResponse) => {
+                (data: Api.IBspDisplacementsResponse) => {
                     this.displacements = [];
 
                     for (let i = 0; i < data.displacements.length; ++i) {
@@ -109,7 +109,7 @@ namespace SourceUtils {
 
         private loadMaterials(): void {
             $.getJSON(this.info.materialsUrl,
-                (data: Api.BspMaterialsResponse) => {
+                (data: Api.IBspMaterialsResponse) => {
                     this.materials = [];
 
                     for (let i = 0; i < data.materials.length; ++i) {
@@ -187,7 +187,7 @@ namespace SourceUtils {
 
             const url = this.info.visibilityUrl.replace("{index}", root.cluster.toString());
             $.getJSON(url,
-                (data: Api.BspVisibilityResponse) => {
+                (data: Api.IBspVisibilityResponse) => {
                     const indices = Utils.decompress(data.pvs);
 
                     for (let i = 0; i < indices.length; ++i) {
