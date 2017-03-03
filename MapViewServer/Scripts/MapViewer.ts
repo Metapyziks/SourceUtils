@@ -177,9 +177,10 @@ namespace SourceUtils {
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
 
-            this.map.setSkyMaterialEnabled(true);
 
-            if (this.skyRenderContext != null) {
+            if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
+                this.map.setSkyMaterialEnabled(true);
+
                 this.camera.getPosition(this.skyCameraPos);
                 this.skyCameraPos.divideScalar(this.map.info.skyCamera.scale);
                 this.skyCameraPos.add(this.map.info.skyCamera.origin as any);
@@ -191,6 +192,8 @@ namespace SourceUtils {
                 gl.clear(gl.DEPTH_BUFFER_BIT);
 
                 this.map.setSkyMaterialEnabled(false);
+            } else if (this.mainRenderContext.canSeeSky2D()) {
+                this.map.setSkyMaterialEnabled(true);
             }
 
             if (this.mainRenderContext != null) {

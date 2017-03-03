@@ -49,13 +49,21 @@ namespace SourceUtils.ValveBsp
         private readonly short _padding;
     }
 
+    [Flags]
+    public enum LeafFlags : byte
+    {
+        Sky = 1,
+        Radial = 2,
+        Sky2D = 4
+    }
+
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct AreaFlags
     {
         private readonly short _value;
 
         public int Area => _value & 0x1f;
-        public int Flags => _value >> 9;
+        public LeafFlags Flags => (LeafFlags) (_value >> 9);
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]

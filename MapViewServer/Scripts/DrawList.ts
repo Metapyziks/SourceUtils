@@ -70,6 +70,14 @@
             this.drawList.render(this);
         }
 
+        canSeeSky2D(): boolean {
+            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky2D;
+        }
+
+        canSeeSky3D(): boolean {
+            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
+        }
+
         private replacePvs(pvs: VisLeaf[]): void
         {
             this.drawList.clear();

@@ -51,6 +51,12 @@ var SourceUtils;
             return BspNode;
         }(BspElem));
         Api.BspNode = BspNode;
+        (function (LeafFlags) {
+            LeafFlags[LeafFlags["Sky"] = 1] = "Sky";
+            LeafFlags[LeafFlags["Radial"] = 2] = "Radial";
+            LeafFlags[LeafFlags["Sky2D"] = 4] = "Sky2D";
+        })(Api.LeafFlags || (Api.LeafFlags = {}));
+        var LeafFlags = Api.LeafFlags;
         var BspLeaf = (function (_super) {
             __extends(BspLeaf, _super);
             function BspLeaf() {
@@ -814,6 +820,12 @@ var SourceUtils;
             this.updatePvs();
             this.drawList.render(this);
         };
+        RenderContext.prototype.canSeeSky2D = function () {
+            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky2D;
+        };
+        RenderContext.prototype.canSeeSky3D = function () {
+            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
+        };
         RenderContext.prototype.replacePvs = function (pvs) {
             this.drawList.clear();
             if (pvs != null)
@@ -1344,8 +1356,8 @@ var SourceUtils;
             gl.depthFunc(gl.LESS);
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
-            this.map.setSkyMaterialEnabled(true);
-            if (this.skyRenderContext != null) {
+            if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
+                this.map.setSkyMaterialEnabled(true);
                 this.camera.getPosition(this.skyCameraPos);
                 this.skyCameraPos.divideScalar(this.map.info.skyCamera.scale);
                 this.skyCameraPos.add(this.map.info.skyCamera.origin);
@@ -1354,6 +1366,9 @@ var SourceUtils;
                 this.skyRenderContext.render();
                 gl.clear(gl.DEPTH_BUFFER_BIT);
                 this.map.setSkyMaterialEnabled(false);
+            }
+            else if (this.mainRenderContext.canSeeSky2D()) {
+                this.map.setSkyMaterialEnabled(true);
             }
             if (this.mainRenderContext != null) {
                 this.mainRenderContext.render();
@@ -2212,6 +2227,8 @@ var SourceUtils;
             this.parent = model;
             this.leafIndex = info.index;
             this.cluster = info.cluster === undefined ? -1 : info.cluster;
+            this.canSeeSky2D = (info.flags & SourceUtils.Api.LeafFlags.Sky2D) !== 0;
+            this.canSeeSky3D = (info.flags & SourceUtils.Api.LeafFlags.Sky) !== 0;
             this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {

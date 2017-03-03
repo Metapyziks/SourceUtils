@@ -83,6 +83,7 @@ namespace MapViewServer
                 {"min", leaf.Min.ToJson()},
                 {"max", leaf.Max.ToJson()},
                 {"area", leaf.AreaFlags.Area},
+                {"flags", (int) leaf.AreaFlags.Flags },
                 {"hasFaces", leaf.NumLeafFaces > 0}
             };
 

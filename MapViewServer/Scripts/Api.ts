@@ -55,10 +55,17 @@
             children: BspElem[];
         }
 
+        export enum LeafFlags {
+            Sky = 1,
+            Radial = 2,
+            Sky2D = 4
+        }
+
         export class BspLeaf extends BspElem {
             index: number;
             cluster: number;
             area: number;
+            flags: number;
             hasFaces: boolean;
         }
 
