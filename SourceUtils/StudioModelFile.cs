@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -208,7 +209,7 @@ namespace SourceUtils
         public Vector3 HullMin => _header.HullMin;
         public Vector3 HullMax => _header.HullMax;
 
-        private StudioModelFile(Stream stream)
+        public StudioModelFile(Stream stream)
         {
             _header = LumpReader<Header>.ReadSingleFromStream(stream);
 
@@ -262,7 +263,7 @@ namespace SourceUtils
                     stream.Seek( modelPos + model.MeshIndex, SeekOrigin.Begin );
 
                     model.MeshIndex = meshList.Count;
-                    LumpReader<StudioMesh>.ReadLumpFromStream( stream, part.NumModels, ( meshIndex, mesh ) =>
+                    LumpReader<StudioMesh>.ReadLumpFromStream( stream, model.NumMeshes, ( meshIndex, mesh ) =>
                     {
                         meshList.Add( mesh );
                     } );
@@ -275,6 +276,29 @@ namespace SourceUtils
 
             _models = modelList.ToArray();
             _meshes = meshList.ToArray();
+        }
+
+        public int BodyPartCount => _bodyParts.Length;
+
+        public string GetBodyPartName( int index )
+        {
+            return _bodyPartNames[index];
+        }
+
+        public IEnumerable<StudioModel> GetModels( int bodyPartIndex )
+        {
+            var part = _bodyParts[bodyPartIndex];
+            return Enumerable.Range( part.ModelIndex, part.NumModels ).Select( x => _models[x] );
+        }
+        
+        public IEnumerable<StudioMesh> GetMeshes( int index, int count )
+        {
+            return Enumerable.Range( index, count ).Select( x => _meshes[x] );
+        }
+
+        public IEnumerable<StudioMesh> GetMeshes( ref StudioModel model )
+        {
+            return GetMeshes( model.MeshIndex, model.NumMeshes );
         }
 
         public string GetMaterialName(IResourceProvider provider, int index)

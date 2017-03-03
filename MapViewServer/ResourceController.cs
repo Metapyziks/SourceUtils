@@ -41,9 +41,15 @@ namespace MapViewServer
                 return;
             }
 
+#if DEBUG
+            const Formatting formatting = Formatting.Indented;
+#else
+            const Formatting formatting = Formatting.None;
+#endif
+
             using ( var streamWriter = new StreamWriter( Response.OutputStream ) )
             {
-                streamWriter.WriteLine(token.ToString(Formatting.None));
+                streamWriter.WriteLine(token.ToString(formatting));
             }
         }
 

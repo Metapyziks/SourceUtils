@@ -76,6 +76,7 @@
     <Compile Include="ResourceController.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="VertexArray.cs" />
+    <Compile Include="VmtUtils.cs" />
     <Compile Include="VtfConverter.cs" />
     <Compile Include="VtfController.cs" />
     <Compile Include="VtxController.cs" />

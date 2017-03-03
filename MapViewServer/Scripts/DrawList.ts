@@ -1,7 +1,5 @@
-﻿namespace SourceUtils
-{
-    export class RenderContext
-    {
+﻿namespace SourceUtils {
+    export class RenderContext {
         private map: Map;
         private camera: Camera;
 
@@ -30,8 +28,7 @@
             return this.projectionMatrix.elements;
         }
 
-        getModelViewMatrix(): Float32Array
-        {
+        getModelViewMatrix(): Float32Array {
             if (this.modelViewInvalid) {
                 this.modelViewInvalid = false;
                 this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
@@ -40,8 +37,7 @@
             return this.modelViewMatrix.elements;
         }
 
-        setModelTransform(model: Entity): void
-        {
+        setModelTransform(model: Entity): void {
             if (model == null) {
                 this.modelMatrix.identity();
             } else {
@@ -50,8 +46,7 @@
             this.modelViewInvalid = true;
         }
 
-        render(): void
-        {
+        render(): void {
             this.camera.getPosition(this.origin);
 
             const persp = this.camera as PerspectiveCamera;
@@ -78,14 +73,12 @@
             return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
         }
 
-        private replacePvs(pvs: VisLeaf[]): void
-        {
+        private replacePvs(pvs: VisLeaf[]): void {
             this.drawList.clear();
             if (pvs != null) this.map.appendToDrawList(this.drawList, pvs);
         }
 
-        updatePvs(force?: boolean): void
-        {
+        updatePvs(force?: boolean): void {
             const worldSpawn = this.map.getWorldSpawn();
             if (worldSpawn == null) return;
 
@@ -93,17 +86,17 @@
             if (root === this.pvsRoot && !force) return;
 
             this.pvsRoot = root;
-            if (root == null || root.cluster === -1)
-            {
+            if (root == null || root.cluster === -1) {
                 this.replacePvs(null);
                 return;
             }
 
-            this.map.getPvsArray(root, (pvs) => {
-                if (this.pvsRoot != null && this.pvsRoot === root) {
-                    this.replacePvs(pvs);
-                }
-            });
+            this.map.getPvsArray(root,
+                (pvs) => {
+                    if (this.pvsRoot != null && this.pvsRoot === root) {
+                        this.replacePvs(pvs);
+                    }
+                });
         }
 
         getDrawCallCount(): number {
@@ -212,8 +205,7 @@
                 const handles = this.items[i].getMeshHandles(loader);
                 if (handles == null) continue;
 
-                for (let j = 0, jEnd = handles.length; j < jEnd; ++j)
-                {
+                for (let j = 0, jEnd = handles.length; j < jEnd; ++j) {
                     const handle = handles[j];
                     if (handle.count === 0) continue;
                     if (handle.material == null) {
