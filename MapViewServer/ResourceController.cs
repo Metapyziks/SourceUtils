@@ -53,6 +53,13 @@ namespace MapViewServer
             }
         }
 
+        private const string ResourcePathKey = "__path";
+
+        protected ParameterReplacement ResourcePath( string path )
+        {
+            return new ParameterReplacement( ResourcePathKey, path );
+        }
+
         protected ParameterReplacement Replace( string name, object value )
         {
             return new ParameterReplacement( name, value );
@@ -80,6 +87,18 @@ namespace MapViewServer
 
             if ( controllerMatcher.Value != "/" ) builder.Append( controllerMatcher.Value );
             if ( actionMatcher.Value != "/" ) builder.Append( actionMatcher.Value );
+
+            var resPathReplace = paramValues.FirstOrDefault( x => x.Key == ResourcePathKey ).Value as string;
+            if ( resPathReplace != null )
+            {
+                if ( actionMatcher.Extension != null )
+                {
+                    resPathReplace = Path.Combine( Path.GetDirectoryName( resPathReplace ),
+                        Path.GetFileNameWithoutExtension( resPathReplace ) + actionMatcher.Extension ).Replace( '\\', '/' );
+                }
+
+                builder.Append( $"/{resPathReplace}" );
+            }
 
             builder.Append( $"?v={GetFileVersionHash( Program.BuildTimeUtc )}" );
 

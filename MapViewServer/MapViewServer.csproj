@@ -79,8 +79,6 @@
     <Compile Include="VmtUtils.cs" />
     <Compile Include="VtfConverter.cs" />
     <Compile Include="VtfController.cs" />
-    <Compile Include="VtxController.cs" />
-    <Compile Include="VvdController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

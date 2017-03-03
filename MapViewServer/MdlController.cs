@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
 using Ziks.WebServer;
 
 namespace MapViewServer
 {
-    [Prefix(UrlPrefix)]
+    [Prefix("/mdl")]
     public class MdlController : ResourceController
     {
-        public const string UrlPrefix = "/mdl";
-        
-        [Get( MatchAllUrl = false )]
+        [Get( MatchAllUrl = false, Extension = ".mdl")]
         public JToken GetIndex()
         {
             var provider = Resources;
@@ -48,8 +44,12 @@ namespace MapViewServer
                     {
                         {"name", model.Name },
                         {"radius", model.BoundingRadius },
+                        {"vertexOffset", model.VertexIndex },
                         {"vertexCount", model.NumVertices },
-                        {"verticesUrl", null },
+                        {"verticesUrl", GetActionUrl( nameof(GetVertices),
+                            ResourcePath( FilePath ),
+                            Replace( "index", model.VertexIndex ),
+                            Replace( "count", model.NumVertices ) ) },
                         {"meshes", meshes }
                     } );
                 }
@@ -74,6 +74,40 @@ namespace MapViewServer
             {
                 {"materials", materials},
                 {"bodyParts", parts}
+            };
+        }
+
+        private static Func<ValveVertexFile.StudioVertex, string> GetVertSerializer( MeshComponent components )
+        {
+            switch ( components )
+            {
+                case MeshComponent.Position | MeshComponent.Uv:
+                    return vert => $"{vert.Position.X},{vert.Position.Y},{vert.Position.Z},{vert.TexCoordX},{vert.TexCoordY}";
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        [Get(MatchAllUrl = false, Extension = ".vvd")]
+        public JToken GetVertices( int index, int count )
+        {
+            var provider = Resources;
+
+            ValveVertexFile vvd;
+            using ( var vvdStream = provider.OpenFile( FilePath ) )
+            {
+                vvd = new ValveVertexFile( vvdStream );
+            }
+
+            var vertArray = new ValveVertexFile.StudioVertex[count];
+            vvd.GetVertices( 0, vertArray, 0 );
+
+            const MeshComponent components = MeshComponent.Position | MeshComponent.Uv;
+
+            return new JObject
+            {
+                {"components", (int) components },
+                {"vertices", SerializeArray( vertArray, GetVertSerializer(components) )}
             };
         }
     }
