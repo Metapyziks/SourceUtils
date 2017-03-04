@@ -148,6 +148,7 @@
         }
 
         private renderHandle(handle: WorldMeshHandle, context: RenderContext): void {
+            let changedMaterial = false;
             let changedProgram = false;
             let changedTransform = false;
 
@@ -157,10 +158,17 @@
                 changedTransform = true;
             }
 
-            if (this.lastMaterialIndex !== handle.materialIndex) {
+            if (handle.materialIndex !== undefined && this.lastMaterialIndex !== handle.materialIndex) {
+                changedMaterial = true;
                 this.lastMaterialIndex = handle.materialIndex;
                 this.lastMaterial = this.map.getMaterial(handle.materialIndex);
+            } else if (handle.materialIndex === undefined && this.lastMaterial !== handle.material) {
+                changedMaterial = true;
+                this.lastMaterialIndex = undefined;
+                this.lastMaterial = handle.material;
+            }
 
+            if (changedMaterial) {
                 if (this.lastMaterial == null) {
                     this.canRender = false;
                     return;
@@ -199,10 +207,8 @@
         private buildHandleList(): void {
             this.handles = [];
 
-            const loader = this.map.faceLoader;
-
             for (let i = 0, iEnd = this.items.length; i < iEnd; ++i) {
-                const handles = this.items[i].getMeshHandles(loader);
+                const handles = this.items[i].getMeshHandles();
                 if (handles == null) continue;
 
                 for (let j = 0, jEnd = handles.length; j < jEnd; ++j) {
@@ -236,6 +242,7 @@
                 last.parent = next.parent;
                 last.group = next.group;
                 last.drawMode = next.drawMode;
+                last.material = next.material;
                 last.materialIndex = next.materialIndex;
                 last.offset = next.offset;
                 last.count = next.count;

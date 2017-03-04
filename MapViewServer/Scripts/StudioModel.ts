@@ -36,7 +36,7 @@
         }
 
         private loadIndices(callback: (requeue: boolean) => void): void {
-            $.getJSON(this.info.verticesUrl, (data: Api.IVtxResponse) => {
+            $.getJSON(this.info.trianglesUrl, (data: Api.IVtxResponse) => {
                 this.indices = data;
                 this.acquireMeshHandles();
             }).always(() => callback(false));
@@ -46,9 +46,13 @@
             const meshData = new MeshData(this.vertices, this.indices);
 
             for (let i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
-                const offset = this.info.meshes[i].vertexOffset;
-                if (offset === 0) continue;
+                const mesh = this.info.meshes[i];
+                const offset = mesh.vertexOffset;
                 const element = meshData.elements[i];
+                element.material = mesh.material;
+
+                if (offset === 0) continue;
+
                 for (let j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
                     meshData.indices[j] += offset;
                 }

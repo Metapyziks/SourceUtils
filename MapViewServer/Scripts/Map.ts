@@ -28,6 +28,8 @@ namespace SourceUtils {
         private clusters: VisLeaf[][];
         private pvsArray: VisLeaf[][];
 
+        private testProp: PropStatic;
+
         constructor(app: AppBase, url: string) {
             super();
 
@@ -104,6 +106,8 @@ namespace SourceUtils {
                         if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
                         this.models[ent.model] = new BspModel(this, ent);
                     }
+
+                    this.testProp = new PropStatic(this, "http://localhost:8080/mdl/models/props/de_mirage/window_a.mdl");
                 });
         }
 
@@ -191,6 +195,10 @@ namespace SourceUtils {
                 for (let j = 0, jEnd = leaves.length; j < jEnd; ++j) {
                     drawList.addItem(leaves[j]);
                 }
+            }
+
+            if (this.testProp != null) {
+                drawList.addItem(this.testProp.getDrawListItem());
             }
         }
 

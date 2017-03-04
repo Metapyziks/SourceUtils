@@ -2,12 +2,12 @@
 
 namespace SourceUtils
 {
-    export class Displacement extends DrawListItem
+    export class Displacement extends BspDrawListItem
     {
         clusters: number[];
 
         constructor(model: BspModel, info: Api.IDisplacement) {
-            super("d", info.index);
+            super(model.map, "d", info.index);
 
             this.parent = model;
             this.clusters = info.clusters;

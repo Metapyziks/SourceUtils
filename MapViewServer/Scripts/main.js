@@ -603,7 +603,7 @@ var SourceUtils;
             throw "Item removed from a draw list it isn't a member of.";
         };
         DrawListItem.prototype.onRequestMeshHandles = function () { };
-        DrawListItem.prototype.getMeshHandles = function (loader) {
+        DrawListItem.prototype.getMeshHandles = function () {
             if (this.meshHandles == null) {
                 this.onRequestMeshHandles();
             }
@@ -619,6 +619,7 @@ var SourceUtils;
         function BspDrawListItem(map, tokenPrefix, tokenIndex) {
             var _this = _super.call(this) || this;
             _this.loadingFaces = false;
+            _this.map = map;
             _this.tokenPrefix = tokenPrefix;
             _this.tokenIndex = tokenIndex;
             return _this;
@@ -656,7 +657,7 @@ var SourceUtils;
             if (this.mdl != null)
                 return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
-            this.mdl.addMeshLoadCallback(function (model) { return _this.onMeshLoad; });
+            this.mdl.addMeshLoadCallback(function (model) { return _this.onMeshLoad(model); });
         };
         StudioModelDrawListItem.prototype.onMeshLoad = function (model) {
             this.addMeshHandles(model.getMeshHandles());
@@ -671,7 +672,7 @@ var SourceUtils;
     var Displacement = (function (_super) {
         __extends(Displacement, _super);
         function Displacement(model, info) {
-            var _this = _super.call(this, "d", info.index) || this;
+            var _this = _super.call(this, model.map, "d", info.index) || this;
             _this.parent = model;
             _this.clusters = info.clusters;
             var min = info.min;
@@ -680,7 +681,7 @@ var SourceUtils;
             return _this;
         }
         return Displacement;
-    }(SourceUtils.DrawListItem));
+    }(SourceUtils.BspDrawListItem));
     SourceUtils.Displacement = Displacement;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -793,6 +794,7 @@ var SourceUtils;
             this.handles = null;
         };
         DrawList.prototype.renderHandle = function (handle, context) {
+            var changedMaterial = false;
             var changedProgram = false;
             var changedTransform = false;
             if (this.lastParent !== handle.parent) {
@@ -800,9 +802,17 @@ var SourceUtils;
                 context.setModelTransform(this.lastParent);
                 changedTransform = true;
             }
-            if (this.lastMaterialIndex !== handle.materialIndex) {
+            if (handle.materialIndex !== undefined && this.lastMaterialIndex !== handle.materialIndex) {
+                changedMaterial = true;
                 this.lastMaterialIndex = handle.materialIndex;
                 this.lastMaterial = this.map.getMaterial(handle.materialIndex);
+            }
+            else if (handle.materialIndex === undefined && this.lastMaterial !== handle.material) {
+                changedMaterial = true;
+                this.lastMaterialIndex = undefined;
+                this.lastMaterial = handle.material;
+            }
+            if (changedMaterial) {
                 if (this.lastMaterial == null) {
                     this.canRender = false;
                     return;
@@ -833,9 +843,8 @@ var SourceUtils;
         };
         DrawList.prototype.buildHandleList = function () {
             this.handles = [];
-            var loader = this.map.faceLoader;
             for (var i = 0, iEnd = this.items.length; i < iEnd; ++i) {
-                var handles = this.items[i].getMeshHandles(loader);
+                var handles = this.items[i].getMeshHandles();
                 if (handles == null)
                     continue;
                 for (var j = 0, jEnd = handles.length; j < jEnd; ++j) {
@@ -863,6 +872,7 @@ var SourceUtils;
                 last.parent = next.parent;
                 last.group = next.group;
                 last.drawMode = next.drawMode;
+                last.material = next.material;
                 last.materialIndex = next.materialIndex;
                 last.offset = next.offset;
                 last.count = next.count;
@@ -1099,6 +1109,7 @@ var SourceUtils;
                         throw "Multiple models with the same index.";
                     _this.models[ent.model] = new SourceUtils.BspModel(_this, ent);
                 }
+                _this.testProp = new SourceUtils.PropStatic(_this, "http://localhost:8080/mdl/models/props/de_mirage/window_a.mdl");
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -1176,6 +1187,9 @@ var SourceUtils;
                 for (var j = 0, jEnd = leaves.length; j < jEnd; ++j) {
                     drawList.addItem(leaves[j]);
                 }
+            }
+            if (this.testProp != null) {
+                drawList.addItem(this.testProp.getDrawListItem());
             }
         };
         Map.prototype.loadPvsArray = function (root, callback) {
@@ -1440,9 +1454,14 @@ var SourceUtils;
 (function (SourceUtils) {
     var PropStatic = (function (_super) {
         __extends(PropStatic, _super);
-        function PropStatic() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function PropStatic(map, url) {
+            var _this = _super.call(this) || this;
+            _this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, url);
+            return _this;
         }
+        PropStatic.prototype.getDrawListItem = function () {
+            return this.drawListItem;
+        };
         return PropStatic;
     }(SourceUtils.Entity));
     SourceUtils.PropStatic = PropStatic;
@@ -1913,7 +1932,7 @@ var SourceUtils;
         };
         SmdModel.prototype.loadIndices = function (callback) {
             var _this = this;
-            $.getJSON(this.info.verticesUrl, function (data) {
+            $.getJSON(this.info.trianglesUrl, function (data) {
                 _this.indices = data;
                 _this.acquireMeshHandles();
             }).always(function () { return callback(false); });
@@ -1921,10 +1940,12 @@ var SourceUtils;
         SmdModel.prototype.acquireMeshHandles = function () {
             var meshData = new SourceUtils.MeshData(this.vertices, this.indices);
             for (var i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
-                var offset = this.info.meshes[i].vertexOffset;
+                var mesh = this.info.meshes[i];
+                var offset = mesh.vertexOffset;
+                var element = meshData.elements[i];
+                element.material = mesh.material;
                 if (offset === 0)
                     continue;
-                var element = meshData.elements[i];
                 for (var j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
                     meshData.indices[j] += offset;
                 }
@@ -2343,7 +2364,7 @@ var SourceUtils;
     var VisLeaf = (function (_super) {
         __extends(VisLeaf, _super);
         function VisLeaf(model, info) {
-            var _this = _super.call(this, "l", info.index) || this;
+            var _this = _super.call(this, model.map, "l", info.index) || this;
             _this.isLeaf = true;
             var min = info.min;
             var max = info.max;
@@ -2359,7 +2380,7 @@ var SourceUtils;
             dstArray.push(this);
         };
         return VisLeaf;
-    }(SourceUtils.DrawListItem));
+    }(SourceUtils.BspDrawListItem));
     SourceUtils.VisLeaf = VisLeaf;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -2430,6 +2451,7 @@ var SourceUtils;
         };
         WorldMeshHandle.prototype.canMerge = function (other) {
             return this.materialIndex === other.materialIndex
+                && this.material === other.material
                 && this.offset + this.count === other.offset
                 && this.group === other.group
                 && this.parent === other.parent

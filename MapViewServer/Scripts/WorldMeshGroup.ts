@@ -44,6 +44,7 @@
 
         canMerge(other: WorldMeshHandle): boolean {
             return this.materialIndex === other.materialIndex
+                && this.material === other.material
                 && this.offset + this.count === other.offset
                 && this.group === other.group
                 && this.parent === other.parent

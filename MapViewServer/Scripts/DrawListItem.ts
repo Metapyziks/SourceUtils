@@ -52,7 +52,7 @@
 
         protected onRequestMeshHandles(): void {}
 
-        getMeshHandles(loader: FaceLoader): WorldMeshHandle[] {
+        getMeshHandles(): WorldMeshHandle[] {
             if (this.meshHandles == null) {
                 this.onRequestMeshHandles();
             }
@@ -73,6 +73,7 @@
 
         constructor(map: Map, tokenPrefix: string, tokenIndex: number) {
             super();
+            this.map = map;
             this.tokenPrefix = tokenPrefix;
             this.tokenIndex = tokenIndex;
         }
@@ -104,7 +105,7 @@
         protected onRequestMeshHandles(): void {
             if (this.mdl != null) return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
-            this.mdl.addMeshLoadCallback(model => this.onMeshLoad);
+            this.mdl.addMeshLoadCallback(model => this.onMeshLoad(model));
         }
 
         private onMeshLoad(model: SmdModel): void {

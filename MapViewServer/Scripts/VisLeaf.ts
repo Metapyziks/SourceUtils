@@ -1,5 +1,5 @@
 ﻿namespace SourceUtils {
-    export class VisLeaf extends DrawListItem implements IVisElem {
+    export class VisLeaf extends BspDrawListItem implements IVisElem {
         isLeaf = true;
 
         leafIndex: number;
@@ -9,7 +9,7 @@
         canSeeSky3D: boolean;
 
         constructor(model: BspModel, info: Api.IBspLeaf) {
-            super("l", info.index);
+            super(model.map, "l", info.index);
 
             const min = info.min;
             const max = info.max;
