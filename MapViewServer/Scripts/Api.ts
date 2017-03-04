@@ -100,12 +100,7 @@
             indices: string | number[];
         }
 
-        export interface IFaces extends IVertexContainer, IIndicesContainer {
-            components: MeshComponent;
-            elements: IElement[];
-            vertices: string | number[];
-            indices: string | number[];
-        }
+        export interface IFaces extends IVertexContainer, IIndicesContainer { }
 
         export interface IBspFacesResponse {
             facesList: IFaces[];
@@ -193,6 +188,33 @@
             pngUrl: string;
             mipmaps: number;
         }
+
+        export interface ISmdMesh {
+            material: number;
+            center: IVector3;
+            vertexOffset: number;
+        }
+
+        export interface ISmdModel {
+            name: string;
+            radius: number;
+            verticesUrl: string;
+            trianglesUrl: string;
+            meshes: ISmdMesh;
+        }
+
+        export interface ISmdBodyPart {
+            name: string;
+            models: ISmdModel[];
+        }
+
+        export interface IMdlResponse {
+            materials: IMaterial[];
+            bodyParts: ISmdBodyPart[];
+        }
+
+        export interface IVvdResponse extends IVertexContainer { }
+        export interface IVtxResponse extends IIndicesContainer { }
 
         export interface IColor32 {
             r: number;

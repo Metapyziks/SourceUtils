@@ -4,7 +4,11 @@
         loadNext(callback: (requeue: boolean) => void): void;
     }
 
-    export abstract class Loader<TLoadable extends ILoadable<TLoadable>> {
+    export interface ILoader {
+        update(): void;
+    }
+
+    export abstract class Loader<TLoadable extends ILoadable<TLoadable>> implements ILoader {
         maxConcurrentRequests = 4;
 
         private queue: TLoadable[] = [];

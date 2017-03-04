@@ -23,13 +23,13 @@
             return total;
         }
 
-        addFaces(faces: FaceData): WorldMeshHandle[] {
+        addMeshData(data: MeshData): WorldMeshHandle[] {
             for (let i = 0; i < this.groups.length; ++i) {
-                if (this.groups[i].canAddFaces(faces)) return this.groups[i].addFaces(faces);
+                if (this.groups[i].canAddMeshData(data)) return this.groups[i].addMeshData(data);
             }
 
-            const newGroup = new WorldMeshGroup(this.gl, faces.components);
-            const result = newGroup.addFaces(faces);
+            const newGroup = new WorldMeshGroup(this.gl, data.components);
+            const result = newGroup.addMeshData(data);
             this.groups.push(newGroup);
             return result;
         }

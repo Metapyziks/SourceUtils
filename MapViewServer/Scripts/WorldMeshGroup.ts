@@ -151,9 +151,9 @@
             return newArray;
         }
 
-        canAddFaces(faces: FaceData): boolean {
-            return this.components === faces.components && this.vertCount + faces.vertices.length <= this.maxVertLength &&
-                this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
+        canAddMeshData(data: MeshData): boolean {
+            return this.components === data.components && this.vertCount + data.vertices.length <= this.maxVertLength &&
+                this.indexCount + data.indices.length <= WorldMeshGroup.maxIndices;
         }
 
         private updateBuffer<TArray extends Float32Array | Uint16Array>(target: number,
@@ -187,15 +187,15 @@
             }
         }
 
-        addFaces(faces: FaceData): WorldMeshHandle[] {
-            if (!this.canAddFaces(faces)) {
+        addMeshData(data: MeshData): WorldMeshHandle[] {
+            if (!this.canAddMeshData(data)) {
                 throw new Error("Can't add faces to WorldMeshGroup (would exceed size limit).");
             }
 
             const gl = this.gl;
 
-            const newVertices = faces.vertices;
-            const newIndices = faces.indices;
+            const newVertices = data.vertices;
+            const newIndices = data.indices;
 
             const vertexOffset = this.vertCount;
             const oldVertices = this.vertexData;
@@ -223,10 +223,10 @@
             this.updateBuffer(gl.ARRAY_BUFFER, this.vertices, this.vertexData, newVertices, oldVertices, vertexOffset);
             this.updateBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices, this.indexData, newIndices, oldIndices, indexOffset);
 
-            const handles = new Array<WorldMeshHandle>(faces.elements.length);
+            const handles = new Array<WorldMeshHandle>(data.elements.length);
 
-            for (let i = 0; i < faces.elements.length; ++i) {
-                const element = faces.elements[i];
+            for (let i = 0; i < data.elements.length; ++i) {
+                const element = data.elements[i];
                 handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.offset + indexOffset, element.count);
             }
 

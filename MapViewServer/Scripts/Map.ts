@@ -11,6 +11,8 @@ namespace SourceUtils {
 
         private app: AppBase;
 
+        private loaders: ILoader[] = [];
+
         private lightmap: Texture;
         private blankTexture: Texture;
         private blankMaterial: Material;
@@ -29,8 +31,9 @@ namespace SourceUtils {
 
             this.app = app;
 
-            this.faceLoader = new FaceLoader(this);
-            this.textureLoader = new TextureLoader(app.getContext());
+            this.faceLoader = this.addLoader(new FaceLoader(this));
+            this.textureLoader = this.addLoader(new TextureLoader(app.getContext()));
+
             this.meshManager = new WorldMeshManager(app.getContext());
             this.shaderManager = new ShaderManager(app.getContext());
 
@@ -41,6 +44,11 @@ namespace SourceUtils {
             this.errorMaterial.properties.baseTexture = new ErrorTexture(app.getContext());
 
             this.loadInfo(url);
+        }
+
+        private addLoader<TLoader extends ILoader>(loader: TLoader): TLoader {
+            this.loaders.push(loader);
+            return loader;
         }
 
         getApp(): AppBase {
@@ -135,8 +143,9 @@ namespace SourceUtils {
         }
 
         update(): void {
-            this.faceLoader.update();
-            this.textureLoader.update();
+            for (let i = 0; i < this.loaders.length; ++i) {
+                this.loaders[i].update();
+            }
         }
 
         getPvsArray(root: VisLeaf, callback: (pvs: VisLeaf[]) => void): void {

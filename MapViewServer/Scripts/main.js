@@ -852,16 +852,20 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var FaceData = (function () {
-        function FaceData(faces) {
-            this.components = faces.components;
-            this.elements = faces.elements;
-            this.vertices = SourceUtils.Utils.decompressFloat32Array(faces.vertices);
-            this.indices = SourceUtils.Utils.decompressUint16Array(faces.indices);
+    var MeshData = (function () {
+        function MeshData(facesOrVertData, indexData) {
+            var vertData = facesOrVertData;
+            if (indexData == null) {
+                indexData = facesOrVertData;
+            }
+            this.components = vertData.components;
+            this.elements = indexData.elements;
+            this.vertices = SourceUtils.Utils.decompressFloat32Array(vertData.vertices);
+            this.indices = SourceUtils.Utils.decompressUint16Array(indexData.indices);
         }
-        return FaceData;
+        return MeshData;
     }());
-    SourceUtils.FaceData = FaceData;
+    SourceUtils.MeshData = MeshData;
     var FaceLoader = (function () {
         function FaceLoader(map) {
             this.queue = [];
@@ -915,7 +919,7 @@ var SourceUtils;
                 for (var i = 0; i < data.facesList.length; ++i) {
                     var faces = data.facesList[i];
                     var task = tasks[i];
-                    var handles = _this.map.meshManager.addFaces(new FaceData(faces));
+                    var handles = _this.map.meshManager.addMeshData(new MeshData(faces));
                     task.onLoadFaces(handles);
                 }
             }).fail(function () {
@@ -994,12 +998,13 @@ var SourceUtils;
         __extends(Map, _super);
         function Map(app, url) {
             var _this = _super.call(this) || this;
+            _this.loaders = [];
             _this.models = [];
             _this.displacements = [];
             _this.materials = [];
             _this.app = app;
-            _this.faceLoader = new SourceUtils.FaceLoader(_this);
-            _this.textureLoader = new SourceUtils.TextureLoader(app.getContext());
+            _this.faceLoader = _this.addLoader(new SourceUtils.FaceLoader(_this));
+            _this.textureLoader = _this.addLoader(new SourceUtils.TextureLoader(app.getContext()));
             _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
             _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
             _this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
@@ -1010,6 +1015,10 @@ var SourceUtils;
             _this.loadInfo(url);
             return _this;
         }
+        Map.prototype.addLoader = function (loader) {
+            this.loaders.push(loader);
+            return loader;
+        };
         Map.prototype.getApp = function () {
             return this.app;
         };
@@ -1089,8 +1098,9 @@ var SourceUtils;
             }
         };
         Map.prototype.update = function () {
-            this.faceLoader.update();
-            this.textureLoader.update();
+            for (var i = 0; i < this.loaders.length; ++i) {
+                this.loaders[i].update();
+            }
         };
         Map.prototype.getPvsArray = function (root, callback) {
             var pvs = this.pvsArray[root.cluster];
@@ -1825,6 +1835,105 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
+    var SmdModel = (function () {
+        function SmdModel(mdl, info) {
+            this.mdl = mdl;
+            this.info = info;
+        }
+        SmdModel.prototype.loadNext = function (callback) {
+            if (this.vertices == null) {
+                this.loadVertices(callback);
+            }
+            else if (this.indices == null) {
+                this.loadIndices(callback);
+            }
+            else {
+                callback(false);
+            }
+        };
+        SmdModel.prototype.loadVertices = function (callback) {
+            var _this = this;
+            $.getJSON(this.info.verticesUrl, function (data) {
+                _this.vertices = data;
+                callback(true);
+            }).fail(function () { return callback(false); });
+        };
+        SmdModel.prototype.loadIndices = function (callback) {
+            var _this = this;
+            $.getJSON(this.info.verticesUrl, function (data) {
+                _this.indices = data;
+                _this.handles = _this.mdl.getMap().meshManager.addMeshData(new SourceUtils.MeshData(_this.vertices, _this.indices));
+                _this.vertices = null;
+                _this.indices = null;
+            }).always(function () { return callback(false); });
+        };
+        return SmdModel;
+    }());
+    SourceUtils.SmdModel = SmdModel;
+    var SmdBodyPart = (function () {
+        function SmdBodyPart(mdl, info) {
+            this.name = info.name;
+            this.models = [];
+            for (var i = 0; i < info.models.length; ++i) {
+                this.models.push(new SmdModel(mdl, info.models[i]));
+            }
+        }
+        return SmdBodyPart;
+    }());
+    SourceUtils.SmdBodyPart = SmdBodyPart;
+    var StudioModel = (function () {
+        function StudioModel(map, url) {
+            this.map = map;
+            this.mdlUrl = url;
+        }
+        StudioModel.prototype.getMap = function () { return this.map; };
+        StudioModel.prototype.shouldLoadBefore = function (other) {
+            return true;
+        };
+        StudioModel.prototype.loadNext = function (callback) {
+            var _this = this;
+            if (this.info == null) {
+                this.loadInfo(callback);
+                return;
+            }
+            if (this.toLoad.length === 0) {
+                callback(false);
+                return;
+            }
+            var next = this.toLoad[0];
+            next.loadNext(function (requeue2) {
+                if (!requeue2) {
+                    _this.toLoad.splice(0, 1);
+                }
+                callback(_this.toLoad.length > 0);
+            });
+        };
+        StudioModel.prototype.loadInfo = function (callback) {
+            var _this = this;
+            $.getJSON(this.mdlUrl, function (data) {
+                _this.info = data;
+                _this.materials = [];
+                _this.bodyParts = [];
+                _this.toLoad = [];
+                for (var i = 0; i < data.materials.length; ++i) {
+                    _this.materials.push(new SourceUtils.Material(_this.map, data.materials[i]));
+                }
+                for (var i = 0; i < data.bodyParts.length; ++i) {
+                    var bodyPart = new SmdBodyPart(_this, data.bodyParts[i]);
+                    _this.bodyParts.push(bodyPart);
+                    for (var j = 0; j < bodyPart.models.length; ++j) {
+                        _this.toLoad.push(bodyPart.models[j]);
+                    }
+                }
+                callback(true);
+            }).fail(function () { return callback(false); });
+        };
+        return StudioModel;
+    }());
+    SourceUtils.StudioModel = StudioModel;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
     var Texture = (function () {
         function Texture(gl, target) {
             this.highestLevel = Number.MIN_VALUE;
@@ -2290,9 +2399,9 @@ var SourceUtils;
                 newArray.set(array, 0);
             return newArray;
         };
-        WorldMeshGroup.prototype.canAddFaces = function (faces) {
-            return this.components === faces.components && this.vertCount + faces.vertices.length <= this.maxVertLength &&
-                this.indexCount + faces.indices.length <= WorldMeshGroup.maxIndices;
+        WorldMeshGroup.prototype.canAddMeshData = function (data) {
+            return this.components === data.components && this.vertCount + data.vertices.length <= this.maxVertLength &&
+                this.indexCount + data.indices.length <= WorldMeshGroup.maxIndices;
         };
         WorldMeshGroup.prototype.updateBuffer = function (target, buffer, data, newData, oldData, offset) {
             var gl = this.gl;
@@ -2317,13 +2426,13 @@ var SourceUtils;
                     throw new Error("Unknown primitive type '" + primitiveType + "'.");
             }
         };
-        WorldMeshGroup.prototype.addFaces = function (faces) {
-            if (!this.canAddFaces(faces)) {
+        WorldMeshGroup.prototype.addMeshData = function (data) {
+            if (!this.canAddMeshData(data)) {
                 throw new Error("Can't add faces to WorldMeshGroup (would exceed size limit).");
             }
             var gl = this.gl;
-            var newVertices = faces.vertices;
-            var newIndices = faces.indices;
+            var newVertices = data.vertices;
+            var newIndices = data.indices;
             var vertexOffset = this.vertCount;
             var oldVertices = this.vertexData;
             this.vertexData = this.ensureCapacity(this.vertexData, this.vertCount + newVertices.length, function (size) { return new Float32Array(size); });
@@ -2340,9 +2449,9 @@ var SourceUtils;
             this.indexCount += newIndices.length;
             this.updateBuffer(gl.ARRAY_BUFFER, this.vertices, this.vertexData, newVertices, oldVertices, vertexOffset);
             this.updateBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices, this.indexData, newIndices, oldIndices, indexOffset);
-            var handles = new Array(faces.elements.length);
-            for (var i = 0; i < faces.elements.length; ++i) {
-                var element = faces.elements[i];
+            var handles = new Array(data.elements.length);
+            for (var i = 0; i < data.elements.length; ++i) {
+                var element = data.elements[i];
                 handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.offset + indexOffset, element.count);
             }
             return handles;
@@ -2399,13 +2508,13 @@ var SourceUtils;
             }
             return total;
         };
-        WorldMeshManager.prototype.addFaces = function (faces) {
+        WorldMeshManager.prototype.addMeshData = function (data) {
             for (var i = 0; i < this.groups.length; ++i) {
-                if (this.groups[i].canAddFaces(faces))
-                    return this.groups[i].addFaces(faces);
+                if (this.groups[i].canAddMeshData(data))
+                    return this.groups[i].addMeshData(data);
             }
-            var newGroup = new SourceUtils.WorldMeshGroup(this.gl, faces.components);
-            var result = newGroup.addFaces(faces);
+            var newGroup = new SourceUtils.WorldMeshGroup(this.gl, data.components);
+            var result = newGroup.addMeshData(data);
             this.groups.push(newGroup);
             return result;
         };
