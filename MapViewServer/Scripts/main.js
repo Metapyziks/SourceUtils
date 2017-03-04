@@ -806,6 +806,7 @@ var SourceUtils;
             this.items = [];
             this.handles = [];
             this.merged = [];
+            this.isBuildingList = false;
             this.map = map;
         }
         DrawList.prototype.clear = function () {
@@ -825,6 +826,8 @@ var SourceUtils;
             item.onAddToDrawList(this);
         };
         DrawList.prototype.updateItem = function (item) {
+            if (this.isBuildingList)
+                return;
             this.handles = null;
         };
         DrawList.prototype.renderHandle = function (handle, context) {
@@ -877,6 +880,7 @@ var SourceUtils;
         };
         DrawList.prototype.buildHandleList = function () {
             this.handles = [];
+            this.isBuildingList = true;
             for (var i = 0, iEnd = this.items.length; i < iEnd; ++i) {
                 var handles = this.items[i].getMeshHandles();
                 if (handles == null)
@@ -892,6 +896,7 @@ var SourceUtils;
                     this.handles.push(handle);
                 }
             }
+            this.isBuildingList = false;
             this.handles.sort(DrawList.compareHandles);
             this.merged = [];
             var last = null;
@@ -2034,6 +2039,7 @@ var SourceUtils;
     SourceUtils.SmdBodyPart = SmdBodyPart;
     var StudioModel = (function () {
         function StudioModel(map, url) {
+            this.loaded = [];
             this.meshLoadCallbacks = [];
             this.map = map;
             this.mdlUrl = url;
@@ -2060,6 +2066,7 @@ var SourceUtils;
                 if (!requeue2) {
                     _this.toLoad.splice(0, 1);
                     if (next.getMeshHandles() != null) {
+                        _this.loaded.push(next);
                         _this.dispatchMeshLoadEvent(next);
                     }
                 }
@@ -2072,6 +2079,9 @@ var SourceUtils;
             }
         };
         StudioModel.prototype.addMeshLoadCallback = function (callback) {
+            for (var i = 0; i < this.loaded.length; ++i) {
+                callback(this.loaded[i]);
+            }
             this.meshLoadCallbacks.push(callback);
         };
         StudioModel.prototype.loadInfo = function (callback) {

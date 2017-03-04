@@ -90,6 +90,7 @@
         private materials: Material[];
         private bodyParts: SmdBodyPart[];
         private toLoad: SmdModel[];
+        private loaded: SmdModel[] = [];
         private meshLoadCallbacks: ((model: SmdModel) => void)[] = [];
 
         constructor(map: Map, url: string) {
@@ -124,6 +125,7 @@
                     this.toLoad.splice(0, 1);
 
                     if (next.getMeshHandles() != null) {
+                        this.loaded.push(next);
                         this.dispatchMeshLoadEvent(next);
                     }
                 }
@@ -138,6 +140,10 @@
         }
 
         addMeshLoadCallback(callback: (model: SmdModel) => void): void {
+            for (let i = 0; i < this.loaded.length; ++i) {
+                callback(this.loaded[i]);
+            }
+
             this.meshLoadCallbacks.push(callback);
         }
 

@@ -143,7 +143,10 @@
             item.onAddToDrawList(this);
         }
 
+        private isBuildingList: boolean = false;
+
         updateItem(item: DrawListItem): void {
+            if (this.isBuildingList) return;
             this.handles = null;
         }
 
@@ -206,6 +209,7 @@
 
         private buildHandleList(): void {
             this.handles = [];
+            this.isBuildingList = true;
 
             for (let i = 0, iEnd = this.items.length; i < iEnd; ++i) {
                 const handles = this.items[i].getMeshHandles();
@@ -221,6 +225,8 @@
                     this.handles.push(handle);
                 }
             }
+
+            this.isBuildingList = false;
 
             this.handles.sort(DrawList.compareHandles);
 
