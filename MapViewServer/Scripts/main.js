@@ -420,8 +420,15 @@ var SourceUtils;
             if (target != null)
                 target.copy(this.inverseMatrix);
         };
-        Entity.prototype.setPosition = function (value) {
-            this.position.set(value.x, value.y, value.z);
+        Entity.prototype.setPosition = function (valueOrX, y, z) {
+            if (y !== undefined) {
+                var x = valueOrX;
+                this.position.set(x, y, z);
+            }
+            else {
+                var value = valueOrX;
+                this.position.set(value.x, value.y, value.z);
+            }
             this.invalidateMatrices();
         };
         Entity.prototype.getPosition = function (target) {
@@ -1049,6 +1056,7 @@ var SourceUtils;
             _this.loaders = [];
             _this.models = [];
             _this.displacements = [];
+            _this.staticProps = [];
             _this.materials = [];
             _this.app = app;
             _this.faceLoader = _this.addLoader(new SourceUtils.FaceLoader(_this));
@@ -1109,7 +1117,6 @@ var SourceUtils;
                         throw "Multiple models with the same index.";
                     _this.models[ent.model] = new SourceUtils.BspModel(_this, ent);
                 }
-                _this.testProp = new SourceUtils.PropStatic(_this, "http://localhost:8080/mdl/models/props/de_mirage/window_a.mdl");
             });
         };
         Map.prototype.loadDisplacements = function () {
@@ -1188,8 +1195,13 @@ var SourceUtils;
                     drawList.addItem(leaves[j]);
                 }
             }
-            if (this.testProp != null) {
-                drawList.addItem(this.testProp.getDrawListItem());
+            for (var i = 0, iEnd = this.staticProps.length; i < iEnd; ++i) {
+                var prop = this.staticProps[i];
+                if (prop == null)
+                    continue;
+                if (!this.isAnyClusterVisible(prop.clusters, drawList))
+                    continue;
+                drawList.addItem(prop.getDrawListItem());
             }
         };
         Map.prototype.loadPvsArray = function (root, callback) {
@@ -1456,7 +1468,9 @@ var SourceUtils;
         __extends(PropStatic, _super);
         function PropStatic(map, url) {
             var _this = _super.call(this) || this;
+            _this.clusters = [];
             _this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, url);
+            _this.drawListItem.parent = _this;
             return _this;
         }
         PropStatic.prototype.getDrawListItem = function () {

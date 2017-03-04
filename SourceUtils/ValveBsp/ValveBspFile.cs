@@ -142,9 +142,12 @@ namespace SourceUtils
         [BspLump(LumpType.ENTITIES)]
         public EntityLump Entities { get; private set; }
 
-        public DisplacementManager DisplacementManager { get; }
+        [BspLump(LumpType.GAME_LUMP)]
+        public GameLump GameData { get; private set; }
 
+        public DisplacementManager DisplacementManager { get; }
         public LightmapLayout LightmapLayout { get; }
+        public StaticProps StaticProps { get; }
 
         private readonly string _filePath;
         private readonly Header _header;
@@ -165,6 +168,7 @@ namespace SourceUtils
 
             DisplacementManager = new DisplacementManager( this );
             LightmapLayout = new LightmapLayout( this );
+            StaticProps = new StaticProps( this );
         }
 
         private LumpInfo GetLumpInfo( LumpType type )
@@ -209,7 +213,7 @@ namespace SourceUtils
         public Stream GetLumpStream( LumpType type )
         {
             var info = GetLumpInfo( type );
-            var stream = new SubStream( GetBspStream( this ), info.Offset, info.Length );
+            var stream = new SubStream( GetBspStream( this ), info.Offset, info.Length, false );
             stream.Seek( 0, SeekOrigin.Begin );
             return stream;
         }

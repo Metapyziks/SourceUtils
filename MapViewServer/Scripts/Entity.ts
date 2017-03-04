@@ -50,8 +50,17 @@ namespace SourceUtils {
             if (target != null) target.copy(this.inverseMatrix);
         }
 
-        setPosition(value: THREE.Vector3 | Api.IVector3): void {
-            this.position.set(value.x, value.y, value.z);
+        setPosition(value: THREE.Vector3 | Api.IVector3): void;
+        setPosition(x: number, y: number, z: number): void;
+        setPosition(valueOrX: THREE.Vector3 | Api.IVector3 | number, y?: number, z?: number): void
+        {
+            if (y !== undefined) {
+                const x = valueOrX as number;
+                this.position.set(x, y, z);
+            } else {
+                const value = valueOrX as (THREE.Vector3 | Api.IVector3);
+                this.position.set(value.x, value.y, value.z);
+            }
             this.invalidateMatrices();
         }
 

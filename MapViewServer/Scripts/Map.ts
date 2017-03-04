@@ -23,12 +23,11 @@ namespace SourceUtils {
 
         private models: BspModel[] = [];
         private displacements: Displacement[] = [];
+        private staticProps: PropStatic[] = [];
         private materials: Material[] = [];
 
         private clusters: VisLeaf[][];
         private pvsArray: VisLeaf[][];
-
-        private testProp: PropStatic;
 
         constructor(app: AppBase, url: string) {
             super();
@@ -106,8 +105,6 @@ namespace SourceUtils {
                         if (this.models[ent.model] !== undefined) throw "Multiple models with the same index.";
                         this.models[ent.model] = new BspModel(this, ent);
                     }
-
-                    this.testProp = new PropStatic(this, "http://localhost:8080/mdl/models/props/de_mirage/window_a.mdl");
                 });
         }
 
@@ -185,8 +182,7 @@ namespace SourceUtils {
                 }
             }
 
-            for (let i = 1, iEnd = this.models.length; i < iEnd; ++i)
-            {
+            for (let i = 1, iEnd = this.models.length; i < iEnd; ++i) {
                 const model = this.models[i];
                 if (model == null) continue;
                 if (!this.isAnyClusterVisible(model.clusters, drawList)) continue;
@@ -197,8 +193,11 @@ namespace SourceUtils {
                 }
             }
 
-            if (this.testProp != null) {
-                drawList.addItem(this.testProp.getDrawListItem());
+            for (let i = 0, iEnd = this.staticProps.length; i < iEnd; ++i) {
+                const prop = this.staticProps[i];
+                if (prop == null) continue;
+                if (!this.isAnyClusterVisible(prop.clusters, drawList)) continue;
+                drawList.addItem(prop.getDrawListItem());
             }
         }
 

@@ -19,13 +19,16 @@ namespace SourceUtils
         }
 
         private readonly long _offset;
+        private readonly bool _ownsBaseStream;
 
-        public SubStream( Stream baseStream, long offset, long length )
+        public SubStream( Stream baseStream, long offset, long length, bool ownsBaseStream )
         {
             BaseStream = baseStream;
 
             _offset = offset;
             Length = length;
+
+            _ownsBaseStream = ownsBaseStream;
         }
 
         public override void Flush()
@@ -70,6 +73,13 @@ namespace SourceUtils
         public override void Write( byte[] buffer, int offset, int count )
         {
             throw new NotImplementedException();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            base.Dispose( disposing );
+
+            if ( _ownsBaseStream && disposing ) BaseStream.Dispose();
         }
     }
 }
