@@ -6,6 +6,8 @@ namespace SourceUtils {
 
         faceLoader: FaceLoader;
         textureLoader: TextureLoader;
+        modelLoader: StudioModelLoader;
+
         meshManager: WorldMeshManager;
         shaderManager: ShaderManager;
 
@@ -33,6 +35,7 @@ namespace SourceUtils {
 
             this.faceLoader = this.addLoader(new FaceLoader(this));
             this.textureLoader = this.addLoader(new TextureLoader(app.getContext()));
+            this.modelLoader = this.addLoader(new StudioModelLoader(this));
 
             this.meshManager = new WorldMeshManager(app.getContext());
             this.shaderManager = new ShaderManager(app.getContext());

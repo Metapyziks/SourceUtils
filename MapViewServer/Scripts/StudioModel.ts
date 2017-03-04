@@ -14,6 +14,10 @@
             this.info = info;
         }
 
+        getMeshHandles(): WorldMeshHandle[] {
+            return this.handles;
+        }
+
         loadNext(callback: (requeue: boolean) => void): void {
             if (this.vertices == null) {
                 this.loadVertices(callback);
@@ -34,10 +38,30 @@
         private loadIndices(callback: (requeue: boolean) => void): void {
             $.getJSON(this.info.verticesUrl, (data: Api.IVtxResponse) => {
                 this.indices = data;
-                this.handles = this.mdl.getMap().meshManager.addMeshData(new MeshData(this.vertices, this.indices));
-                this.vertices = null;
-                this.indices = null;
+                this.acquireMeshHandles();
             }).always(() => callback(false));
+        }
+
+        private acquireMeshHandles(): void {
+            const meshData = new MeshData(this.vertices, this.indices);
+
+            for (let i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
+                const offset = this.info.meshes[i].vertexOffset;
+                if (offset === 0) continue;
+                const element = meshData.elements[i];
+                for (let j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
+                    meshData.indices[j] += offset;
+                }
+            }
+
+            this.handles = this.mdl.getMap().meshManager.addMeshData(meshData);
+
+            for (let i = 0; i < this.handles.length; ++i) {
+                this.handles[i].material = this.mdl.getMaterial(this.handles[i].materialIndex);
+            }
+
+            this.vertices = null;
+            this.indices = null;
         }
     }
 
@@ -62,6 +86,7 @@
         private materials: Material[];
         private bodyParts: SmdBodyPart[];
         private toLoad: SmdModel[];
+        private meshLoadCallbacks: ((model: SmdModel) => void)[] = [];
 
         constructor(map: Map, url: string) {
             this.map = map;
@@ -69,6 +94,10 @@
         }
 
         getMap(): Map { return this.map; }
+
+        getMaterial(index: number): Material {
+            return this.materials[index];
+        }
 
         shouldLoadBefore(other: StudioModel): boolean {
             return true;
@@ -89,9 +118,23 @@
             next.loadNext(requeue2 => {
                 if (!requeue2) {
                     this.toLoad.splice(0, 1);
+
+                    if (next.getMeshHandles() != null) {
+                        this.dispatchMeshLoadEvent(next);
+                    }
                 }
                 callback(this.toLoad.length > 0);
             });
+        }
+
+        private dispatchMeshLoadEvent(model: SmdModel): void {
+            for (let i = 0; i < this.meshLoadCallbacks.length; ++i) {
+                this.meshLoadCallbacks[i](model);
+            }
+        }
+
+        addMeshLoadCallback(callback: (model: SmdModel) => void): void {
+            this.meshLoadCallbacks.push(callback);
         }
 
         private loadInfo(callback: (success: boolean) => void): void {

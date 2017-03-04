@@ -22,6 +22,12 @@
             this.count = count;
         }
 
+        clone(newParent: Entity): WorldMeshHandle {
+            const copy = new WorldMeshHandle(this.group, this.drawMode, this.material || this.materialIndex, this.offset, this.count);
+            copy.parent = newParent;
+            return copy;
+        }
+
         compareTo(other: WorldMeshHandle): number
         {
             if (this.parent !== other.parent) {

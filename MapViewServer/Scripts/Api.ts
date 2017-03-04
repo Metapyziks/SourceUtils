@@ -200,7 +200,7 @@
             radius: number;
             verticesUrl: string;
             trianglesUrl: string;
-            meshes: ISmdMesh;
+            meshes: ISmdMesh[];
         }
 
         export interface ISmdBodyPart {

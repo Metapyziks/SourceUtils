@@ -1,19 +1,23 @@
 ﻿namespace SourceUtils {
-    export class DrawListItem implements IFaceLoadTarget {
+    export class DrawListItem {
         bounds: THREE.Box3;
         parent: Entity;
 
-        private tokenPrefix: string;
-        private tokenIndex: number;
-
         private drawLists: DrawList[] = [];
-
-        private loadedFaces = false;
         private meshHandles: WorldMeshHandle[];
 
-        constructor(tokenPrefix: string, tokenIndex: number) {
-            this.tokenPrefix = tokenPrefix;
-            this.tokenIndex = tokenIndex;
+        addMeshHandles(handles: WorldMeshHandle[]) {
+            if (this.meshHandles == null) this.meshHandles = [];
+
+            for (let i = 0, iEnd = handles.length; i < iEnd; ++i) {
+                this.meshHandles.push(handles[i].clone(this.parent));
+            }
+
+            if (this.getIsVisible()) {
+                for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                    this.drawLists[i].updateItem(this);
+                }
+            }
         }
 
         getIsVisible(): boolean {
@@ -46,10 +50,11 @@
             throw "Item removed from a draw list it isn't a member of.";
         }
 
+        protected onRequestMeshHandles(): void {}
+
         getMeshHandles(loader: FaceLoader): WorldMeshHandle[] {
-            if (!this.loadedFaces) {
-                this.loadedFaces = true;
-                loader.loadFaces(this);
+            if (this.meshHandles == null) {
+                this.onRequestMeshHandles();
             }
 
             return this.meshHandles;
@@ -57,6 +62,26 @@
 
         private static rootCenter = new THREE.Vector3();
         private static thisCenter = new THREE.Vector3();
+    }
+
+    export class BspDrawListItem extends DrawListItem implements IFaceLoadTarget {
+        private map: Map;
+        private loadingFaces = false;
+
+        private tokenPrefix: string;
+        private tokenIndex: number;
+
+        constructor(map: Map, tokenPrefix: string, tokenIndex: number) {
+            super();
+            this.tokenPrefix = tokenPrefix;
+            this.tokenIndex = tokenIndex;
+        }
+
+        protected onRequestMeshHandles(): void {
+            if (this.loadingFaces) return;
+            this.loadingFaces = true;
+            this.map.faceLoader.loadFaces(this);
+        }
 
         faceLoadPriority(map: Map): number {
             if (!this.getIsVisible()) return Number.POSITIVE_INFINITY;
@@ -65,21 +90,31 @@
         }
 
         onLoadFaces(handles: WorldMeshHandle[]): void {
-
-            if (this.parent != null) {
-                for (let i = 0, iEnd = handles.length; i < iEnd; ++i) {
-                    handles[i].parent = this.parent;
-                }
-            }
-
-            this.meshHandles = handles;
-            if (this.getIsVisible()) {
-                for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
-                    this.drawLists[i].updateItem(this);
-                }
-            }
+            this.addMeshHandles(handles);
         }
 
         getApiQueryToken(): string { return `${this.tokenPrefix}${this.tokenIndex}`; }
+    }
+
+    export class StudioModelDrawListItem extends DrawListItem {
+        private map: Map;
+        private mdlUrl: string;
+        private mdl: StudioModel;
+
+        protected onRequestMeshHandles(): void {
+            if (this.mdl != null) return;
+            this.mdl = this.map.modelLoader.load(this.mdlUrl);
+            this.mdl.addMeshLoadCallback(model => this.onMeshLoad);
+        }
+
+        private onMeshLoad(model: SmdModel): void {
+            this.addMeshHandles(model.getMeshHandles());
+        }
+
+        constructor(map: Map, url: string) {
+            super();
+            this.map = map;
+            this.mdlUrl = url;
+        }
     }
 }
