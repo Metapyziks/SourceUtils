@@ -62,6 +62,15 @@ namespace SourceUtils.ValveBsp
             _bspFile = bsp;
         }
 
+        public int ModelCount
+        {
+            get
+            {
+                EnsureLoaded();
+                return _modelDict.Length;
+            }
+        }
+
         public int PropCount
         {
             get
@@ -71,11 +80,16 @@ namespace SourceUtils.ValveBsp
             }
         }
 
-        public string GetPropModel( int propIndex, out int skin )
+        public string GetModelName( int modelIndex )
+        {
+            return _modelDict[modelIndex];
+        }
+
+        public void GetPropModelSkin( int propIndex, out int modelIndex, out int skin )
         {
             EnsureLoaded();
+            modelIndex = _props[propIndex].PropType;
             skin = _props[propIndex].Skin;
-            return _modelDict[_props[propIndex].PropType];
         }
 
         public IEnumerable<int> GetPropLeaves( int propIndex )
@@ -112,20 +126,26 @@ namespace SourceUtils.ValveBsp
             {
                 if ( _props != null ) return;
 
+                const int charBufferSize = 128;
+
                 using ( var reader = new BinaryReader( _bspFile.GameData.OpenItem( "sprp" ) ) )
                 {
-                    var charBuffer = new byte[128];
+                    var charBuffer = new byte[charBufferSize];
 
                     _modelDict = new string[reader.ReadInt32()];
                     for ( var i = 0; i < _modelDict.Length; ++i )
                     {
-                        reader.BaseStream.Read( charBuffer, 0, 128 );
-                        var end = Array.IndexOf( charBuffer, 0 );
+                        reader.BaseStream.Read( charBuffer, 0, charBufferSize );
+                        int end;
+                        for ( end = 0; end < charBufferSize && charBuffer[end] != 0; ++end ) ;
                         _modelDict[i] = Encoding.ASCII.GetString( charBuffer, 0, end );
                     }
 
-                    _leafDict = LumpReader<ushort>.ReadLumpFromStream( reader.BaseStream, reader.ReadInt32() );
-                    _props = LumpReader<StaticProp>.ReadLumpFromStream( reader.BaseStream, reader.ReadInt32() );
+                    var leafCount = reader.ReadInt32();
+                    _leafDict = LumpReader<ushort>.ReadLumpFromStream( reader.BaseStream, leafCount );
+
+                    var propCount = reader.ReadInt32();
+                    _props = LumpReader<StaticProp>.ReadLumpFromStream( reader.BaseStream, propCount );
                 }
             }
         }

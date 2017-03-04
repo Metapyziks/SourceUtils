@@ -127,7 +127,8 @@ namespace MapViewServer
                 {"facesUrl", GetActionUrl( nameof( GetFaces ), Replace( "mapName", mapName ) )},
                 {"visibilityUrl", GetActionUrl( nameof( GetVisibility ), Replace( "mapName", mapName ) )},
                 {"lightmapUrl", GetActionUrl( nameof( GetLightmap ), Replace( "mapName", mapName ) )},
-                {"materialsUrl", GetActionUrl( nameof( GetMaterials ), Replace( "mapName", mapName ) )}
+                {"materialsUrl", GetActionUrl( nameof( GetMaterials ), Replace( "mapName", mapName ) )},
+                {"staticPropsUrl", GetActionUrl( nameof( GetStaticProps ), Replace( "mapName", mapName ) )}
             };
         }
     }

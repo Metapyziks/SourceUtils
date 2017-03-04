@@ -16,6 +16,7 @@
             visibilityUrl: string;
             lightmapUrl: string;
             materialsUrl: string;
+            staticPropsUrl: string;
         }
 
         export interface IFuncBrush {
@@ -143,6 +144,35 @@
 
         export interface IBspMaterialsResponse {
             materials: IMaterial[];
+        }
+
+        export enum StaticPropFlags
+        {
+            Fades = 1,
+            UseLightingOrigin = 2,
+            NoDraw = 4,
+            IgnoreNormals = 8,
+            NoShadow = 0x10,
+            Unused = 0x20,
+            NoPerVertexLighting = 0x40,
+            NoSelfShadowing = 0x80
+        }
+
+        export interface IStaticProp {
+            model: number | string;
+            skin: number;
+            origin: IVector3;
+            angles: IVector3;
+            flags: StaticPropFlags;
+            solid: boolean;
+            diffuse: number;
+            clusters: number[];
+        }
+
+        export interface IBspStaticPropsResponse
+        {
+            models: string[];
+            props: IStaticProp[];
         }
 
         export enum VtfFlags {

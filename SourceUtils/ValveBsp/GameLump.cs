@@ -40,7 +40,7 @@ namespace SourceUtils
                 var idInt = 0;
                 for ( var i = 0; i < 4; ++i )
                 {
-                    idInt |= (id[i] & 0xff) << i;
+                    idInt |= (id[3 - i] & 0xff) << (i << 3);
                 }
 
                 return OpenItem( idInt );
@@ -50,10 +50,8 @@ namespace SourceUtils
             {
                 EnsureLoaded();
 
-                var lumpStart = _bspFile.GetLumpInfo( LumpType ).Offset;
                 var item = _items[id];
-
-                return new SubStream( _bspFile.GetLumpStream( LumpType ), item.FileOffset - lumpStart, item.FileLength, true );
+                return _bspFile.GetSubStream( item.FileOffset, item.FileLength );
             }
 
             private void EnsureLoaded()

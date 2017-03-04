@@ -94,9 +94,11 @@ namespace SourceUtils {
                     }
 
                     this.pvsArray = new Array<Array<VisLeaf>>(data.numClusters);
+                    this.lightmap = new Lightmap(this.app.getContext(), data.lightmapUrl);
+
                     this.loadDisplacements();
                     this.loadMaterials();
-                    this.lightmap = new Lightmap(this.app.getContext(), data.lightmapUrl);
+                    this.loadStaticProps();
 
                     this.skyMaterial = new Material(this, data.skyMaterial);
 
@@ -131,6 +133,22 @@ namespace SourceUtils {
                         } else {
                             this.materials.push(new Material(this, data.materials[i]));
                         }
+                    }
+                });
+        }
+
+        private loadStaticProps(): void {
+            $.getJSON(this.info.staticPropsUrl,
+                (data: Api.IBspStaticPropsResponse) => {
+                    this.staticProps = [];
+
+                    for (let i = 0; i < data.props.length; ++i) {
+                        const prop = data.props[i];
+                        if (typeof prop.model === "number") {
+                            prop.model = data.models[prop.model];
+                        }
+
+                        this.staticProps.push(new PropStatic(this, prop));
                     }
                 });
         }

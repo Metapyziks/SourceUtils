@@ -86,6 +86,27 @@ namespace SourceUtils {
             this.invalidateMatrices();
         }
 
+        private static tempEuler = new THREE.Euler(0, 0, 0, "ZYX");
+
+        setAngles(value: THREE.Vector3 | Api.IVector3): void;
+        setAngles(pitch: number, yaw: number, roll: number): void;
+        setAngles(valueOrPitch: THREE.Vector3 | Api.IVector3 | number, yaw?: number, roll?: number): void {
+            let pitch: number;
+            if (typeof valueOrPitch === "number") {
+                pitch = valueOrPitch;
+            } else {
+                pitch = valueOrPitch.x;
+                yaw = valueOrPitch.y;
+                roll = valueOrPitch.z;
+            }
+
+            Entity.tempEuler.x = roll * Math.PI / 180;
+            Entity.tempEuler.y = pitch * Math.PI / 180;
+            Entity.tempEuler.z = yaw * Math.PI / 180;
+
+            this.rotation.setFromEuler(Entity.tempEuler, true);
+        }
+
         copyRotation(other: Entity): void {
             this.setRotation(other.rotation);
         }

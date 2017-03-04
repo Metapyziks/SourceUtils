@@ -70,12 +70,12 @@ namespace SourceUtils
             return _sReadLumpList[0];
         }
 
-        public static void ReadLumpFromStream(Stream stream, int count, Action<TLump> handler)
+        public static void ReadLumpFromStream(Stream stream, int count, Action<TLump> handler, bool reseekPerItem = true)
         {
-            ReadLumpFromStream( stream, count, ( index, lump ) => handler( lump ) );
+            ReadLumpFromStream( stream, count, ( index, lump ) => handler( lump ), reseekPerItem );
         }
 
-        public static void ReadLumpFromStream(Stream stream, int count, Action<int, TLump> handler)
+        public static void ReadLumpFromStream(Stream stream, int count, Action<int, TLump> handler, bool reseekPerItem = true)
         {
             if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
             else _sReadLumpList.Clear();
@@ -84,17 +84,20 @@ namespace SourceUtils
             var start = stream.Position;
 
             ReadLumpFromStream(stream, count, _sReadLumpList);
+            var end = stream.Position;
 
             for (var i = 0; i < count; ++i)
             {
-                stream.Seek(start + i*size, SeekOrigin.Begin);
+                if (reseekPerItem) stream.Seek(start + i*size, SeekOrigin.Begin);
                 handler(i, _sReadLumpList[i]);
             }
+
+            if (reseekPerItem) stream.Seek( end, SeekOrigin.Begin );
         }
 
         public static void ReadLumpFromStream( Stream stream, int count, TLump[] dst, int dstOffset = 0 )
         {
-            ReadLumpFromStream(stream, count, (index, item) => dst[dstOffset + index] = item);
+            ReadLumpFromStream( stream, count, ( index, item ) => dst[dstOffset + index] = item, false );
         }
 
         public static TLump[] ReadLumpFromStream(Stream stream, int count)

@@ -68,6 +68,7 @@
     <Compile Include="Bsp\BspController.cs" />
     <Compile Include="Bsp\BspFaces.cs" />
     <Compile Include="Bsp\BspMaterials.cs" />
+    <Compile Include="Bsp\BspProps.cs" />
     <Compile Include="Bsp\BspViewer.cs" />
     <Compile Include="LZString.cs" />
     <Compile Include="MdlController.cs" />

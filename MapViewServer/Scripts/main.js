@@ -34,6 +34,17 @@ var SourceUtils;
             MaterialPropertyType[MaterialPropertyType["texture2D"] = 2] = "texture2D";
             MaterialPropertyType[MaterialPropertyType["textureCube"] = 3] = "textureCube";
         })(MaterialPropertyType = Api.MaterialPropertyType || (Api.MaterialPropertyType = {}));
+        var StaticPropFlags;
+        (function (StaticPropFlags) {
+            StaticPropFlags[StaticPropFlags["Fades"] = 1] = "Fades";
+            StaticPropFlags[StaticPropFlags["UseLightingOrigin"] = 2] = "UseLightingOrigin";
+            StaticPropFlags[StaticPropFlags["NoDraw"] = 4] = "NoDraw";
+            StaticPropFlags[StaticPropFlags["IgnoreNormals"] = 8] = "IgnoreNormals";
+            StaticPropFlags[StaticPropFlags["NoShadow"] = 16] = "NoShadow";
+            StaticPropFlags[StaticPropFlags["Unused"] = 32] = "Unused";
+            StaticPropFlags[StaticPropFlags["NoPerVertexLighting"] = 64] = "NoPerVertexLighting";
+            StaticPropFlags[StaticPropFlags["NoSelfShadowing"] = 128] = "NoSelfShadowing";
+        })(StaticPropFlags = Api.StaticPropFlags || (Api.StaticPropFlags = {}));
         var VtfFlags;
         (function (VtfFlags) {
             VtfFlags[VtfFlags["POINTSAMPLE"] = 1] = "POINTSAMPLE";
@@ -449,6 +460,21 @@ var SourceUtils;
             this.rotation.copy(value);
             this.invalidateMatrices();
         };
+        Entity.prototype.setAngles = function (valueOrPitch, yaw, roll) {
+            var pitch;
+            if (typeof valueOrPitch === "number") {
+                pitch = valueOrPitch;
+            }
+            else {
+                pitch = valueOrPitch.x;
+                yaw = valueOrPitch.y;
+                roll = valueOrPitch.z;
+            }
+            Entity.tempEuler.x = roll * Math.PI / 180;
+            Entity.tempEuler.y = pitch * Math.PI / 180;
+            Entity.tempEuler.z = yaw * Math.PI / 180;
+            this.rotation.setFromEuler(Entity.tempEuler, true);
+        };
         Entity.prototype.copyRotation = function (other) {
             this.setRotation(other.rotation);
         };
@@ -467,6 +493,7 @@ var SourceUtils;
         return Entity;
     }());
     Entity.nextSortIndex = 0;
+    Entity.tempEuler = new THREE.Euler(0, 0, 0, "ZYX");
     SourceUtils.Entity = Entity;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="Entity.ts"/>
@@ -1107,9 +1134,10 @@ var SourceUtils;
                     _this.clusters[i] = new Array();
                 }
                 _this.pvsArray = new Array(data.numClusters);
+                _this.lightmap = new SourceUtils.Lightmap(_this.app.getContext(), data.lightmapUrl);
                 _this.loadDisplacements();
                 _this.loadMaterials();
-                _this.lightmap = new SourceUtils.Lightmap(_this.app.getContext(), data.lightmapUrl);
+                _this.loadStaticProps();
                 _this.skyMaterial = new SourceUtils.Material(_this, data.skyMaterial);
                 for (var i = 0; i < data.brushEnts.length; ++i) {
                     var ent = data.brushEnts[i];
@@ -1140,6 +1168,19 @@ var SourceUtils;
                     else {
                         _this.materials.push(new SourceUtils.Material(_this, data.materials[i]));
                     }
+                }
+            });
+        };
+        Map.prototype.loadStaticProps = function () {
+            var _this = this;
+            $.getJSON(this.info.staticPropsUrl, function (data) {
+                _this.staticProps = [];
+                for (var i = 0; i < data.props.length; ++i) {
+                    var prop = data.props[i];
+                    if (typeof prop.model === "number") {
+                        prop.model = data.models[prop.model];
+                    }
+                    _this.staticProps.push(new SourceUtils.PropStatic(_this, prop));
                 }
             });
         };
@@ -1466,10 +1507,16 @@ var SourceUtils;
 (function (SourceUtils) {
     var PropStatic = (function (_super) {
         __extends(PropStatic, _super);
-        function PropStatic(map, url) {
+        function PropStatic(map, info) {
             var _this = _super.call(this) || this;
             _this.clusters = [];
-            _this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, url);
+            _this.setPosition(info.origin);
+            _this.setAngles(info.angles);
+            _this.info = info;
+            if ((info.flags & SourceUtils.Api.StaticPropFlags.NoDraw) !== 0 || typeof info.model !== "string")
+                return _this;
+            _this.clusters = info.clusters;
+            _this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, info.model);
             _this.drawListItem.parent = _this;
             return _this;
         }

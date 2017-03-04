@@ -213,7 +213,12 @@ namespace SourceUtils
         public Stream GetLumpStream( LumpType type )
         {
             var info = GetLumpInfo( type );
-            var stream = new SubStream( GetBspStream( this ), info.Offset, info.Length, false );
+            return GetSubStream( info.Offset, info.Length );
+        }
+
+        public Stream GetSubStream( long offset, long length )
+        {
+            var stream = new SubStream( GetBspStream( this ), offset, length, false );
             stream.Seek( 0, SeekOrigin.Begin );
             return stream;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
 using SourceUtils.ValveBsp;
@@ -6,9 +7,16 @@ using Ziks.WebServer;
 
 namespace MapViewServer
 {
-    [Prefix("/mdl")]
+    [Prefix(UrlPrefix)]
     public class MdlController : ResourceController
     {
+        public const string UrlPrefix = "/mdl";
+
+        public static string GetUrl( HttpListenerRequest request, string path, string mapName = null )
+        {
+            return $"http://{request.Url.Authority}{UrlPrefix}/{path}";
+        }
+
         [Get( MatchAllUrl = false, Extension = ".mdl")]
         public JToken GetIndex()
         {
