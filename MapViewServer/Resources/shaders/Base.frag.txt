@@ -1,0 +1,19 @@
+﻿precision mediump float;
+
+varying vec2 vTextureCoord;
+
+uniform sampler2D uBaseTexture;
+
+// x: near fog density, y: far plane fog density, z: min density, w: max density
+uniform vec4 uFogParams;
+uniform vec3 uFogColor;
+
+vec3 applyFog(vec3 inColor)
+{
+    float depth = ((2.0 * gl_FragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near)) / gl_FragCoord.w;
+    float fogDensity = uFogParams.x + uFogParams.y * depth;
+
+    fogDensity = min(max(fogDensity, uFogParams.z), uFogParams.w);
+
+    return mix(inColor, uFogColor, fogDensity);
+}

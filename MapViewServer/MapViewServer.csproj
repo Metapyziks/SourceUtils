@@ -84,6 +84,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Content Include="Resources\shaders\Base.frag.txt" />
+    <Content Include="Resources\shaders\Base.vert.txt" />
     <Content Include="Resources\shaders\Lightmapped2WayBlend.frag.txt" />
     <Content Include="Resources\shaders\Lightmapped2WayBlend.vert.txt" />
     <Content Include="Resources\shaders\LightmappedBase.frag.txt" />

@@ -1,0 +1,14 @@
+﻿attribute vec3 aPosition;
+attribute vec2 aTextureCoord;
+
+varying vec2 vTextureCoord;
+
+uniform mat4 uProjection;
+uniform mat4 uModelView;
+
+void Base_main()
+{
+    gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
+    
+    vTextureCoord = aTextureCoord;
+}
