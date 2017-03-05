@@ -180,6 +180,12 @@ namespace MapViewServer
 
             switch ( shader.ToLower() )
             {
+                case "lightmappedgeneric":
+                    shaderName = "LightmappedGeneric";
+                    break;
+                case "vertexlitgeneric":
+                    shaderName = "VertexLitGeneric";
+                    break;
                 case "worldvertextransition":
                     shaderName = "Lightmapped2WayBlend";
                     break;

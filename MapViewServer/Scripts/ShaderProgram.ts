@@ -184,21 +184,23 @@ namespace SourceUtils {
         private static includeRegex = /^\s*#include\s+\"([^"]+)\"\s*$/m;
 
         private getShaderSource(url: string, action: (source: string) => void): void {
-            $.get(`${url}?v=${Math.random()}`, (source: string) => {
-                const match = source.match(ShaderProgram.includeRegex);
+            $.get(`${url}?v=${Math.random()}`,
+                (source: string) => {
+                    const match = source.match(ShaderProgram.includeRegex);
 
-                if (match == null) {
-                    action(source);
-                    return;
-                }
+                    if (match == null) {
+                        action(source);
+                        return;
+                    }
 
-                const fileName = match[1];
-                const dirName = url.substr(0, url.lastIndexOf("/") + 1);
+                    const fileName = match[1];
+                    const dirName = url.substr(0, url.lastIndexOf("/") + 1);
 
-                this.getShaderSource(`${dirName}${fileName}`, include => {
-                    action(source.replace(match[0], include));
+                    this.getShaderSource(`${dirName}${fileName}`,
+                        include => {
+                            action(source.replace(match[0], include));
+                        });
                 });
-            });
         }
 
         protected loadShaderSource(type: number, url: string): void {
@@ -341,7 +343,8 @@ namespace SourceUtils {
             return true;
         }
 
-        protected setTexture(uniform: Uniform, target: number, unit: number, value: Texture, defaultValue?: Texture): boolean {
+        protected setTexture(uniform: Uniform, target: number, unit: number, value: Texture, defaultValue?: Texture):
+            boolean {
             const gl = this.getContext();
 
             if (value == null || !value.isLoaded()) {
@@ -358,10 +361,8 @@ namespace SourceUtils {
     }
 
     export namespace Shaders {
-        export class LightmappedBase extends ShaderProgram {
+        export class Base extends ShaderProgram {
             baseTexture: Uniform;
-            lightmap: Uniform;
-            lightmapParams: Uniform;
 
             fogParams: Uniform;
             fogColor: Uniform;
@@ -369,15 +370,10 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.sortOrder = 0;
-
                 this.addAttribute("aPosition", Api.MeshComponent.position);
                 this.addAttribute("aTextureCoord", Api.MeshComponent.uv);
-                this.addAttribute("aLightmapCoord", Api.MeshComponent.uv2);
 
                 this.baseTexture = new Uniform(this, "uBaseTexture");
-                this.lightmap = new Uniform(this, "uLightmap");
-                this.lightmapParams = new Uniform(this, "uLightmapParams");
 
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
@@ -400,6 +396,36 @@ namespace SourceUtils {
                 } else {
                     this.fogParams.set4f(0, 0, 0, 0);
                 }
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean {
+                if (!super.changeMaterial(material)) return false;
+
+                const gl = this.getContext();
+                const blank = material.getMap().getBlankTexture();
+                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
+
+                return true;
+            }
+        }
+
+        export class LightmappedBase extends Base {
+            lightmap: Uniform;
+            lightmapParams: Uniform;
+
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                this.sortOrder = 0;
+
+                this.addAttribute("aLightmapCoord", Api.MeshComponent.uv2);
+
+                this.lightmap = new Uniform(this, "uLightmap");
+                this.lightmapParams = new Uniform(this, "uLightmapParams");
+            }
+
+            prepareForRendering(map: Map, context: RenderContext): void {
+                super.prepareForRendering(map, context);
 
                 const lightMap = map.getLightmap();
 
@@ -411,16 +437,6 @@ namespace SourceUtils {
                 } else {
                     this.lightmapParams.set4f(1, 1, 1, 1);
                 }
-            }
-
-            changeMaterial(material: SourceUtils.Material): boolean {
-                if (!super.changeMaterial(material)) return false;
-
-                const gl = this.getContext();
-                const blank = material.getMap().getBlankTexture();
-                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
-
-                return true;
             }
         }
 
@@ -492,13 +508,11 @@ namespace SourceUtils {
             }
         }
 
-        export class Lightmapped2WayBlend extends LightmappedBase
-        {
+        export class Lightmapped2WayBlend extends LightmappedBase {
             baseTexture2: Uniform;
             blendModulateTexture: Uniform;
 
-            constructor(manager: ShaderManager)
-            {
+            constructor(manager: ShaderManager) {
                 super(manager);
 
                 this.addAttribute("aAlpha", Api.MeshComponent.alpha);
@@ -512,14 +526,43 @@ namespace SourceUtils {
                 this.blendModulateTexture = new Uniform(this, "uBlendModulateTexture");
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean
-            {
+            changeMaterial(material: SourceUtils.Material): boolean {
                 if (!super.changeMaterial(material)) return false;
-                
+
                 const gl = this.getContext();
                 const blank = material.getMap().getBlankTexture();
                 this.setTexture(this.baseTexture, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
-                this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D, 2, material.properties.blendModulateTexture, blank);
+                this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D,
+                    2, material.properties.blendModulateTexture, blank);
+
+                return true;
+            }
+        }
+
+        export class VertexLitGeneric extends Base {
+            albedoModulation: Uniform;
+            alphaTest: Uniform;
+
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                this.sortOrder = 0;
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
+
+                this.albedoModulation = new Uniform(this, "uAlbedoModulation");
+                this.alphaTest = new Uniform(this, "uAlphaTest");
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean {
+                if (!super.changeMaterial(material)) return false;
+
+                // TODO
+                this.albedoModulation.set3f(1, 1, 1);
+                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
 
                 return true;
             }

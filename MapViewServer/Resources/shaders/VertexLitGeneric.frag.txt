@@ -1,0 +1,14 @@
+﻿#include "Base.frag.txt"
+
+uniform vec3 uAlbedoModulation;
+uniform float uAlphaTest;
+
+void main()
+{
+    vec4 texSample = texture2D(uBaseTexture, vTextureCoord);
+    if (texSample.a <= uAlphaTest - 0.5) discard;
+
+    vec3 color = applyFog(texSample.rgb * uAlbedoModulation);
+
+    gl_FragColor = vec4(color, 1);
+}

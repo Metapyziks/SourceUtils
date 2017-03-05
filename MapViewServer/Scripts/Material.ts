@@ -55,10 +55,12 @@
             }
         }
 
+        drawOrderCompareTo(other: Material): number {
+            return this.program.sortOrder - other.program.sortOrder;
+        }
+
         compareTo(other: Material): number {
             if (other === this) return 0;
-            const programCompare = this.program.compareTo(other.program);
-            if (programCompare !== 0) return programCompare;
             return this.sortIndex - other.sortIndex;
         }
 

@@ -28,13 +28,16 @@
             return copy;
         }
 
-        compareTo(other: WorldMeshHandle): number
-        {
+        compareTo(other: WorldMeshHandle): number {
+            const sortComp = this.material.drawOrderCompareTo(other.material);
+            if (sortComp !== 0) return sortComp;
+
             if (this.parent !== other.parent) {
                 return this.parent != null
                     ? this.parent.compareTo(other.parent)
                     : other.parent.compareTo(this.parent);
             }
+
             const matComp = this.material.compareTo(other.material);
             if (matComp !== 0) return matComp;
             const groupComp = this.group.compareTo(other.group);

@@ -106,6 +106,8 @@
     <Content Include="Resources\shaders\LightmappedTranslucent.frag.txt" />
     <Content Include="Resources\shaders\Sky.frag.txt" />
     <Content Include="Resources\shaders\Sky.vert.txt" />
+    <Content Include="Resources\shaders\VertexLitGeneric.frag.txt" />
+    <Content Include="Resources\shaders\VertexLitGeneric.vert.txt" />
     <Content Include="Scripts\main.js" />
   </ItemGroup>
   <ItemGroup>

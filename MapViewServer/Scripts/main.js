@@ -1486,12 +1486,12 @@ var SourceUtils;
                     break;
             }
         };
+        Material.prototype.drawOrderCompareTo = function (other) {
+            return this.program.sortOrder - other.program.sortOrder;
+        };
         Material.prototype.compareTo = function (other) {
             if (other === this)
                 return 0;
-            var programCompare = this.program.compareTo(other.program);
-            if (programCompare !== 0)
-                return programCompare;
             return this.sortIndex - other.sortIndex;
         };
         Material.prototype.getMap = function () {
@@ -1814,22 +1814,18 @@ var SourceUtils;
     SourceUtils.ShaderProgram = ShaderProgram;
     var Shaders;
     (function (Shaders) {
-        var LightmappedBase = (function (_super) {
-            __extends(LightmappedBase, _super);
-            function LightmappedBase(manager) {
+        var Base = (function (_super) {
+            __extends(Base, _super);
+            function Base(manager) {
                 var _this = _super.call(this, manager) || this;
-                _this.sortOrder = 0;
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.position);
                 _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.uv);
-                _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
                 _this.baseTexture = new Uniform(_this, "uBaseTexture");
-                _this.lightmap = new Uniform(_this, "uLightmap");
-                _this.lightmapParams = new Uniform(_this, "uLightmapParams");
                 _this.fogParams = new Uniform(_this, "uFogParams");
                 _this.fogColor = new Uniform(_this, "uFogColor");
                 return _this;
             }
-            LightmappedBase.prototype.prepareForRendering = function (map, context) {
+            Base.prototype.prepareForRendering = function (map, context) {
                 _super.prototype.prepareForRendering.call(this, map, context);
                 var fog = context.fogParams;
                 if (fog != null && fog.fogEnabled) {
@@ -1843,6 +1839,30 @@ var SourceUtils;
                 else {
                     this.fogParams.set4f(0, 0, 0, 0);
                 }
+            };
+            Base.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                var gl = this.getContext();
+                var blank = material.getMap().getBlankTexture();
+                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
+                return true;
+            };
+            return Base;
+        }(ShaderProgram));
+        Shaders.Base = Base;
+        var LightmappedBase = (function (_super) {
+            __extends(LightmappedBase, _super);
+            function LightmappedBase(manager) {
+                var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 0;
+                _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.uv2);
+                _this.lightmap = new Uniform(_this, "uLightmap");
+                _this.lightmapParams = new Uniform(_this, "uLightmapParams");
+                return _this;
+            }
+            LightmappedBase.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
                 var lightMap = map.getLightmap();
                 var gl = this.getContext();
                 this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, lightMap, map.getBlankTexture());
@@ -1853,16 +1873,8 @@ var SourceUtils;
                     this.lightmapParams.set4f(1, 1, 1, 1);
                 }
             };
-            LightmappedBase.prototype.changeMaterial = function (material) {
-                if (!_super.prototype.changeMaterial.call(this, material))
-                    return false;
-                var gl = this.getContext();
-                var blank = material.getMap().getBlankTexture();
-                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
-                return true;
-            };
             return LightmappedBase;
-        }(ShaderProgram));
+        }(Base));
         Shaders.LightmappedBase = LightmappedBase;
         var LightmappedGeneric = (function (_super) {
             __extends(LightmappedGeneric, _super);
@@ -1940,6 +1952,29 @@ var SourceUtils;
             return Lightmapped2WayBlend;
         }(LightmappedBase));
         Shaders.Lightmapped2WayBlend = Lightmapped2WayBlend;
+        var VertexLitGeneric = (function (_super) {
+            __extends(VertexLitGeneric, _super);
+            function VertexLitGeneric(manager) {
+                var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 0;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
+                _this.albedoModulation = new Uniform(_this, "uAlbedoModulation");
+                _this.alphaTest = new Uniform(_this, "uAlphaTest");
+                return _this;
+            }
+            VertexLitGeneric.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                // TODO
+                this.albedoModulation.set3f(1, 1, 1);
+                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
+                return true;
+            };
+            return VertexLitGeneric;
+        }(Base));
+        Shaders.VertexLitGeneric = VertexLitGeneric;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
@@ -2507,6 +2542,9 @@ var SourceUtils;
             return copy;
         };
         WorldMeshHandle.prototype.compareTo = function (other) {
+            var sortComp = this.material.drawOrderCompareTo(other.material);
+            if (sortComp !== 0)
+                return sortComp;
             if (this.parent !== other.parent) {
                 return this.parent != null
                     ? this.parent.compareTo(other.parent)
