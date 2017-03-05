@@ -167,12 +167,17 @@
             solid: boolean;
             diffuse: number;
             clusters: number[];
+            vertLightingUrl?: string;
         }
 
         export interface IBspStaticPropsResponse
         {
             models: string[];
             props: IStaticProp[];
+        }
+
+        export interface IBspVertLightingResponse {
+            meshes: (string | number[])[];
         }
 
         export enum VtfFlags {
