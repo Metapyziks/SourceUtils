@@ -17,7 +17,8 @@ namespace MapViewServer
 
         public static ValveMaterialFile OpenVmt( ValveBspFile bsp, string name )
         {
-            if (!name.StartsWith( "materials/" )) name = $"materials/{name}.vmt";
+            if (!name.StartsWith( "materials/" )) name = $"materials/{name}";
+            if ( !name.EndsWith( ".vmt" ) ) name = $"{name}.vmt";
             IResourceProvider provider;
 
             if ( bsp != null && bsp.PakFile.ContainsFile( name ) )

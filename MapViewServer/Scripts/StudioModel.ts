@@ -155,7 +155,7 @@
                 this.toLoad = [];
 
                 for (let i = 0; i < data.materials.length; ++i) {
-                    this.materials.push(new Material(this.map, data.materials[i]));
+                    this.materials.push(data.materials[i] == null ? null : new Material(this.map, data.materials[i]));
                 }
 
                 for (let i = 0; i < data.bodyParts.length; ++i) {

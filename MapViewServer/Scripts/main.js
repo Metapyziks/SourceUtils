@@ -2092,7 +2092,7 @@ var SourceUtils;
                 _this.bodyParts = [];
                 _this.toLoad = [];
                 for (var i = 0; i < data.materials.length; ++i) {
-                    _this.materials.push(new SourceUtils.Material(_this.map, data.materials[i]));
+                    _this.materials.push(data.materials[i] == null ? null : new SourceUtils.Material(_this.map, data.materials[i]));
                 }
                 for (var i = 0; i < data.bodyParts.length; ++i) {
                     var bodyPart = new SmdBodyPart(_this, data.bodyParts[i]);

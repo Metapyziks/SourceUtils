@@ -14,7 +14,16 @@ namespace MapViewServer
     {
         public const string UrlPrefix = "/vtf";
 
-        private const string DefaultFormat = "json";
+        public static string GetUrl( HttpListenerRequest request, string path, string mapName = null )
+        {
+            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path}";
+        }
+
+        public static string GetPngUrl( HttpListenerRequest request, string path, string mapName = null, int mipMap = -1 )
+        {
+            var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
+            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}?mipmap={mipMapString}";
+        }
 
         protected override string FilePath
         {
@@ -26,23 +35,6 @@ namespace MapViewServer
                 if ( string.IsNullOrEmpty( ext ) ) return $"{basePath}.vtf";
                 return $"{basePath.Substring( 0, basePath.LastIndexOf( '.' ) )}.vtf";
             }
-        }
-
-        private static string GetProviderPrefix( string mapName = null )
-        {
-            return mapName == null ? "vpk" : $"pak/{mapName}";
-        }
-
-        public static string GetUrl( HttpListenerRequest request, string path, string mapName = null )
-        {
-            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path}";
-        }
-
-        public static string GetPngUrl( HttpListenerRequest request, string path, string mapName = null, int mipMap = -1 )
-        {
-            var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
-            return
-                $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}?mipmap={mipMapString}";
         }
 
         private JObject GetJson( IResourceProvider provider, string filePath, string mapName = null )

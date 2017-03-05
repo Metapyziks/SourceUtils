@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace SourceUtils
 {
@@ -11,16 +11,16 @@ namespace SourceUtils
         public class PakFileLump : ILump, IResourceProvider, IDisposable
         {
             [ThreadStatic]
-            private static Dictionary<PakFileLump, ZipArchive> _sArchivePool;
+            private static Dictionary<PakFileLump, ZipFile> _sArchivePool;
 
-            private static ZipArchive GetZipArchive( PakFileLump pak )
+            private static ZipFile GetZipArchive( PakFileLump pak )
             {
-                if (_sArchivePool == null) _sArchivePool = new Dictionary<PakFileLump, ZipArchive>();
+                if (_sArchivePool == null) _sArchivePool = new Dictionary<PakFileLump, ZipFile>();
 
-                ZipArchive archive;
+                ZipFile archive;
                 if ( _sArchivePool.TryGetValue( pak, out archive ) ) return archive;
 
-                archive = new ZipArchive( pak._bspFile.GetLumpStream( pak.LumpType ), ZipArchiveMode.Read );
+                archive = new ZipFile( pak._bspFile.GetLumpStream( pak.LumpType ) );
                 _sArchivePool.Add( pak, archive );
 
                 lock ( pak._threadArchives )
@@ -33,7 +33,7 @@ namespace SourceUtils
 
             public LumpType LumpType { get; }
 
-            private readonly List<ZipArchive> _threadArchives = new List<ZipArchive>();
+            private readonly List<ZipFile> _threadArchives = new List<ZipFile>();
 
             private readonly ValveBspFile _bspFile;
             private bool _loaded;
@@ -55,13 +55,14 @@ namespace SourceUtils
                     if ( _loaded ) return;
                     _loaded = true;
 
-                    using ( var archive = new ZipArchive( _bspFile.GetLumpStream( LumpType ), ZipArchiveMode.Read ) )
+                    using ( var archive = new ZipFile( _bspFile.GetLumpStream( LumpType ) ) )
                     {
                         _entryDict.Clear();
-                        for ( var i = 0; i < archive.Entries.Count; ++i )
+                        for ( var i = 0; i < archive.Count; ++i )
                         {
-                            var entry = archive.Entries[i];
-                            _entryDict.Add( $"/{entry.FullName}", i );
+                            var entry = archive[i];
+                            if ( !entry.IsFile ) continue;
+                            _entryDict.Add( $"/{entry.Name}", i );
                         }
                     }
                 }
@@ -99,7 +100,8 @@ namespace SourceUtils
             public Stream OpenFile( string filePath )
             {
                 EnsureLoaded();
-                return GetZipArchive( this ).Entries[_entryDict[$"/{filePath}"]].Open();
+                var archive = GetZipArchive( this );
+                return archive.GetInputStream( _entryDict[$"/{filePath}"] );
             }
 
             public void Dispose()
@@ -108,7 +110,7 @@ namespace SourceUtils
                 {
                     foreach ( var archive in _threadArchives )
                     {
-                        archive.Dispose();
+                        archive.Close();
                     }
 
                     _threadArchives.Clear();

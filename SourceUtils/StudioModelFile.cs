@@ -301,17 +301,20 @@ namespace SourceUtils
             return GetMeshes( model.MeshIndex, model.NumMeshes );
         }
 
-        public string GetMaterialName(IResourceProvider provider, int index)
+        public string GetMaterialName(int index, params IResourceProvider[] providers)
         {
             if ( _cachedFullMaterialPaths[index] != null ) return _cachedFullMaterialPaths[index];
             if ( _materialPaths.Length == 0 ) return _cachedFullMaterialPaths[index] = _materialNames[index];
 
             foreach ( var path in _materialPaths )
             {
-                var fullPath = path + _materialNames[index];
-                if ( provider.ContainsFile( fullPath ) ) return _cachedFullMaterialPaths[index] = fullPath;
-                fullPath = $"materials/{fullPath}";
-                if ( provider.ContainsFile( fullPath ) ) return _cachedFullMaterialPaths[index] = fullPath;
+                var fullPath = (path + _materialNames[index]).Replace( '\\', '/' );
+                if ( !fullPath.StartsWith( "materials/" ) ) fullPath = $"materials/{fullPath}";
+
+                foreach ( var provider in providers )
+                {
+                    if ( provider.ContainsFile( fullPath ) ) return _cachedFullMaterialPaths[index] = fullPath;
+                }
             }
 
             return _cachedFullMaterialPaths[index] = _materialNames[index];

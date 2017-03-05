@@ -7,9 +7,9 @@ namespace MapViewServer
 {
     partial class BspController
     {
-        private string GetModelUrl( string filePath )
+        private string GetModelUrl( string filePath, string mapName = null )
         {
-            return MdlController.GetUrl( Request, filePath );
+            return MdlController.GetUrl( Request, filePath, mapName );
         }
 
         [Get( "/{mapName}/static-props" )]
@@ -23,7 +23,10 @@ namespace MapViewServer
             var modelCount = bsp.StaticProps.ModelCount;
             for ( var i = 0; i < modelCount; ++i )
             {
-                models.Add( GetModelUrl( bsp.StaticProps.GetModelName( i ) ) );
+                var modelName = bsp.StaticProps.GetModelName( i );
+                models.Add( bsp.PakFile.ContainsFile( modelName )
+                    ? GetModelUrl( modelName, mapName )
+                    : GetModelUrl( modelName ) );
             }
 
             var response = new JArray();

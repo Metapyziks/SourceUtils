@@ -20,6 +20,8 @@ namespace MapViewServer
 
     public abstract class ResourceController : Controller
     {
+        public virtual bool CanBeInPakFile => false;
+
         protected virtual string FilePath
         {
             get
@@ -29,6 +31,11 @@ namespace MapViewServer
 
                 return HttpUtility.UrlDecode( matched.MakeRelativeUri( requested ).OriginalString );
             }
+        }
+
+        protected static string GetProviderPrefix( string mapName = null )
+        {
+            return mapName == null ? "vpk" : $"pak/{mapName}";
         }
         
         protected override void OnServiceJson( JToken token )
