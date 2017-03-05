@@ -50,7 +50,7 @@ namespace MapViewServer
                     clusters.Add( bsp.Leaves[leaf].Cluster );
                 }
 
-                response.Add( new JObject
+                var obj = new JObject
                 {
                     {"model", modelIndex},
                     {"skin", skin},
@@ -60,13 +60,54 @@ namespace MapViewServer
                     {"solid", solid},
                     {"diffuse", diffMod},
                     {"clusters", clusters}
-                } );
+                };
+
+                if ( (flags & StaticPropFlags.NoPerVertexLighting) == 0 )
+                {
+                    obj.Add( "vertLightingUrl", GetActionUrl( nameof( GetVertexLighting ),
+                        Replace( "mapName", mapName ),
+                        Replace( "index", i ) ) );
+                }
+
+                response.Add( obj );
             }
 
             return new JObject
             {
                 {"models", models},
                 {"props", response}
+            };
+        }
+
+        [Get( "/{mapName}/vert-lighting" )]
+        public JToken GetVertexLighting( [Url] string mapName, int index )
+        {
+            if ( CheckNotExpired( mapName ) ) return null;
+
+            var bsp = GetBspFile( Request, mapName );
+
+            var hdrPath = $"sp_hdr_{index}.vhv";
+            var ldrPath = $"sp_{index}.vhv";
+            var existingPath = bsp.PakFile.ContainsFile( hdrPath )
+                ? hdrPath : bsp.PakFile.ContainsFile( ldrPath ) ? ldrPath : null;
+
+            ValveVertexLightingFile vhv;
+            using ( var stream = bsp.PakFile.OpenFile( existingPath ) )
+            {
+                vhv = new ValveVertexLightingFile( stream );
+            }
+
+            var array = new JArray();
+
+            var meshCount = vhv.GetMeshCount( 0 );
+            for ( var meshId = 0; meshId < meshCount; ++meshId )
+            {
+                array.Add( SerializeArray( vhv.GetSamples( 0, meshId ) ) );
+            }
+
+            return new JObject
+            {
+                {"meshes", array}
             };
         }
     }

@@ -87,22 +87,26 @@ namespace SourceUtils
                     _samples[i] = new uint[meshHeaders.Count( x => x.Lod == i )][];
                 }
 
-                var meshIndex = 0;
-                var lastLod = 0;
                 foreach (var meshHeader in meshHeaders)
                 {
-                    if ( lastLod != meshHeader.Lod )
-                    {
-                        lastLod = meshHeader.Lod;
-                        meshIndex = 0;
-                    }
-
                     stream.Seek(meshHeader.VertOffset, SeekOrigin.Begin);
-                    _samples[lastLod][meshIndex] = LumpReader<VertexData2>.ReadLumpFromStream(stream, meshHeader.VertCount, x => x.GetVertexColor());
 
-                    meshIndex += 1;
+                    var samples = _samples[meshHeader.Lod];
+                    var meshIndex = Array.IndexOf( samples, null );
+
+                    samples[meshIndex] = LumpReader<VertexData2>.ReadLumpFromStream(stream, meshHeader.VertCount, x => x.GetVertexColor());
                 }
             }
+        }
+
+        public int GetMeshCount( int lod )
+        {
+            return lod < _samples.Length ? _samples[lod].Length : 0;
+        }
+
+        public uint[] GetSamples( int lod, int mesh )
+        {
+            return _samples[lod][mesh];
         }
     }
 }
