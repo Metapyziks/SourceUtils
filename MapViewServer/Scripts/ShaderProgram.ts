@@ -543,7 +543,10 @@ namespace SourceUtils {
 
         export class VertexLitGeneric extends Base {
             alpha: Uniform;
+            translucent: Uniform;
             alphaTest: Uniform;
+
+            protected isTranslucent = false;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -558,7 +561,14 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
 
                 this.alpha = new Uniform(this, "uAlpha");
+                this.translucent = new Uniform(this, "uTranslucent");
                 this.alphaTest = new Uniform(this, "uAlphaTest");
+            }
+
+            prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void {
+                super.prepareForRendering(map, context);
+
+                this.translucent.set1f(this.isTranslucent ? 1.0 : 0.0);
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
@@ -575,6 +585,8 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
+                this.isTranslucent = true;
+
                 this.sortOrder = 2000;
             }
 
@@ -585,7 +597,7 @@ namespace SourceUtils {
 
                 gl.depthMask(false);
 
-                //gl.enable(gl.BLEND);
+                gl.enable(gl.BLEND);
                 gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
             }
 
@@ -593,7 +605,7 @@ namespace SourceUtils {
                 const gl = this.getContext();
 
                 gl.depthMask(true);
-                //gl.disable(gl.BLEND);
+                gl.disable(gl.BLEND);
 
                 super.cleanupPostRender(map, context);
             }

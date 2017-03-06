@@ -13,10 +13,13 @@
                 this.meshHandles.push(handles[i].clone(this.parent));
             }
 
-            if (this.getIsVisible()) {
-                for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
-                    this.drawLists[i].updateItem(this);
-                }
+            this.invalidateDrawLists();
+        }
+
+        invalidateDrawLists(): void {
+            if (!this.getIsVisible()) return;
+            for (let i = 0, iEnd = this.drawLists.length; i < iEnd; ++i) {
+                this.drawLists[i].updateItem(this);
             }
         }
 

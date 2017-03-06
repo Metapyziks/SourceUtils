@@ -32,7 +32,6 @@
         private queue: IFaceLoadTarget[] = [];
         private active: IFaceLoadTarget[][] = [];
 
-        maxConcurrentRequests = 4;
         maxLeavesPerRequest = 512;
 
         constructor(map: Map) {
@@ -41,7 +40,6 @@
 
         loadFaces(target: IFaceLoadTarget): void {
             this.queue.push(target);
-            this.update();
         }
 
         private getNextTask(): IFaceLoadTarget {
@@ -66,8 +64,8 @@
             return result;
         }
 
-        update(): void {
-            if (this.queue.length <= 0 || this.active.length >= this.maxConcurrentRequests) return;
+        update(requestQuota: number): number {
+            if (this.queue.length <= 0 || this.active.length >= requestQuota) return this.active.length;
 
             let query = "";
 
@@ -81,7 +79,7 @@
                 tasks.push(next);
             }
 
-            if (tasks.length === 0) return;
+            if (tasks.length === 0) return this.active.length;
 
             this.active.push(tasks);
 
@@ -101,8 +99,9 @@
             }).always(() => {
                 const index = this.active.indexOf(tasks);
                 this.active.splice(index, 1);
-                this.update();
             });
+
+            return this.active.length;
         }
     }
 }

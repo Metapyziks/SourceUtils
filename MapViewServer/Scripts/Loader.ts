@@ -5,12 +5,10 @@
     }
 
     export interface ILoader {
-        update(): void;
+        update(requestQuota: number): number;
     }
 
     export abstract class Loader<TLoadable extends ILoadable<TLoadable>> implements ILoader {
-        maxConcurrentRequests = 4;
-
         private queue: TLoadable[] = [];
         private loaded: { [url: string]: TLoadable } = {};
         private active = 0;
@@ -33,7 +31,7 @@
         protected abstract onCreateItem(url: string): TLoadable;
 
         private getNextToLoad(): TLoadable {
-            if (this.queue.length <= 0 || this.active >= this.maxConcurrentRequests) return null;
+            if (this.queue.length <= 0) return null;
 
             let bestIndex = 0;
             let bestItem = this.queue[0];
@@ -49,9 +47,9 @@
             return this.queue.splice(bestIndex, 1)[0];
         }
 
-        update(): void {
+        update(requestQuota: number): number {
             let next: TLoadable;
-            while ((next = this.getNextToLoad()) != null) {
+            while (this.active < requestQuota && (next = this.getNextToLoad()) != null) {
                 ++this.active;
 
                 const nextCopy = next;
@@ -60,6 +58,8 @@
                     if (requeue) this.queue.push(nextCopy);
                 });
             }
+
+            return this.active;
         }
     }
 }

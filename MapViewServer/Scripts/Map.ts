@@ -36,9 +36,9 @@ namespace SourceUtils {
             this.app = app;
 
             this.faceLoader = this.addLoader(new FaceLoader(this));
-            this.textureLoader = this.addLoader(new TextureLoader(app.getContext()));
             this.modelLoader = this.addLoader(new StudioModelLoader(this));
             this.hardwareVertsLoader = this.addLoader(new HardwareVertsLoader());
+            this.textureLoader = this.addLoader(new TextureLoader(app.getContext()));
 
             this.meshManager = new WorldMeshManager(app.getContext());
             this.shaderManager = new ShaderManager(app.getContext());
@@ -73,8 +73,7 @@ namespace SourceUtils {
             return this.models.length > 0 ? this.models[0] : null;
         }
 
-        setSkyMaterialEnabled(value: boolean): void
-        {
+        setSkyMaterialEnabled(value: boolean): void {
             if (this.skyMaterial != null) this.skyMaterial.enabled = value;
         }
 
@@ -120,6 +119,8 @@ namespace SourceUtils {
                     for (let i = 0; i < data.displacements.length; ++i) {
                         this.displacements.push(new Displacement(this.getWorldSpawn(), data.displacements[i]));
                     }
+
+                    this.forcePvsInvalidation();
                 });
         }
 
@@ -136,6 +137,8 @@ namespace SourceUtils {
                             this.materials.push(new Material(this, data.materials[i]));
                         }
                     }
+
+                    this.forcePvsInvalidation();
                 });
         }
 
@@ -152,7 +155,18 @@ namespace SourceUtils {
 
                         this.staticProps.push(new PropStatic(this, prop));
                     }
+
+                    this.forcePvsInvalidation();
                 });
+        }
+
+        private forcePvsInvalidation(): void {
+            const world = this.getWorldSpawn();
+            if (world == null) return;
+            const leaves = world.getLeaves();
+            for (let i = 0; i < leaves.length; ++i) {
+                leaves[i].invalidateDrawLists();
+            }
         }
 
         onModelLoaded(model: BspModel): void {
@@ -168,7 +182,7 @@ namespace SourceUtils {
 
         update(): void {
             for (let i = 0; i < this.loaders.length; ++i) {
-                this.loaders[i].update();
+                this.loaders[i].update(4);
             }
         }
 
@@ -182,8 +196,7 @@ namespace SourceUtils {
             this.loadPvsArray(root, callback);
         }
 
-        private isAnyClusterVisible(clusters: number[], drawList: DrawList): boolean
-        {
+        private isAnyClusterVisible(clusters: number[], drawList: DrawList): boolean {
             for (let j = 0, jEnd = clusters.length; j < jEnd; ++j) {
                 if (this.clusters[clusters[j]][0].getIsInDrawList(drawList)) return true;
             }
