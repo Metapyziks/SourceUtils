@@ -23,20 +23,20 @@ namespace SourceUtils
 
         private interface IVertexData
         {
-            uint GetVertexColor();
+            VertexData4 GetVertexColor();
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        private struct VertexData4 : IVertexData
+        public struct VertexData4 : IVertexData
         {
             public byte B;
             public byte G;
             public byte R;
             public byte A;
 
-            public uint GetVertexColor()
+            public VertexData4 GetVertexColor()
             {
-                return (uint) ((A << 24) | (R << 16) | (G << 8) | (B << 0));
+                return this;
             }
         }
 
@@ -47,9 +47,9 @@ namespace SourceUtils
             public int Unknown0;
             public int Unknown1;
             
-            public uint GetVertexColor()
+            public VertexData4 GetVertexColor()
             {
-                return Color.GetVertexColor();
+                return Color;
             }
         }
         
@@ -58,7 +58,7 @@ namespace SourceUtils
             return new ValveVertexLightingFile(stream);
         }
 
-        private readonly uint[][][] _samples;
+        private readonly VertexData4[][][] _samples;
 
         public ValveVertexLightingFile( Stream stream )
         {
@@ -80,11 +80,11 @@ namespace SourceUtils
                 var meshHeaders = new List<VhvMeshHeader>();
                 LumpReader<VhvMeshHeader>.ReadLumpFromStream(stream, meshCount, meshHeaders);
 
-                _samples = new uint[meshHeaders.Max( x => x.Lod ) + 1][][];
+                _samples = new VertexData4[meshHeaders.Max( x => x.Lod ) + 1][][];
 
                 for ( var i = 0; i < _samples.Length; ++i )
                 {
-                    _samples[i] = new uint[meshHeaders.Count( x => x.Lod == i )][];
+                    _samples[i] = new VertexData4[meshHeaders.Count( x => x.Lod == i )][];
                 }
 
                 foreach (var meshHeader in meshHeaders)
@@ -104,7 +104,7 @@ namespace SourceUtils
             return lod < _samples.Length ? _samples[lod].Length : 0;
         }
 
-        public uint[] GetSamples( int lod, int mesh )
+        public VertexData4[] GetSamples( int lod, int mesh )
         {
             return _samples[lod][mesh];
         }

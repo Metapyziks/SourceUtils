@@ -89,6 +89,8 @@
         private hasUv2s = false;
         private alphaOffset: number;
         private hasAlphas = false;
+        private rgbOffset: number;
+        private hasRgbs = false;
 
         constructor(gl: WebGLRenderingContext, components: Api.MeshComponent) {
             this.id = WorldMeshGroup.nextId++;
@@ -99,36 +101,43 @@
 
             this.vertexSize = 0;
 
-            if ((components & Api.MeshComponent.position) === Api.MeshComponent.position) {
+            if ((components & Api.MeshComponent.Position) === Api.MeshComponent.Position) {
                 this.hasPositions = true;
                 this.positionOffset = this.vertexSize;
                 this.vertexSize += 3;
             }
 
-            if ((components & Api.MeshComponent.normal) === Api.MeshComponent.normal) {
+            if ((components & Api.MeshComponent.Normal) === Api.MeshComponent.Normal) {
                 this.hasNormals = true;
                 this.normalOffset = this.vertexSize;
                 this.vertexSize += 3;
             }
 
-            if ((components & Api.MeshComponent.uv) === Api.MeshComponent.uv) {
+            if ((components & Api.MeshComponent.Uv) === Api.MeshComponent.Uv) {
                 this.hasUvs = true;
                 this.uvOffset = this.vertexSize;
                 this.vertexSize += 2;
             }
 
-            if ((components & Api.MeshComponent.uv2) === Api.MeshComponent.uv2)
+            if ((components & Api.MeshComponent.Uv2) === Api.MeshComponent.Uv2)
             {
                 this.hasUv2s = true;
                 this.uv2Offset = this.vertexSize;
                 this.vertexSize += 2;
             }
 
-            if ((components & Api.MeshComponent.alpha) === Api.MeshComponent.alpha)
+            if ((components & Api.MeshComponent.Alpha) === Api.MeshComponent.Alpha)
             {
                 this.hasAlphas = true;
                 this.alphaOffset = this.vertexSize;
                 this.vertexSize += 1;
+            }
+
+            if ((components & Api.MeshComponent.Rgb) === Api.MeshComponent.Rgb)
+            {
+                this.hasRgbs = true;
+                this.rgbOffset = this.vertexSize;
+                this.vertexSize += 3;
             }
 
             this.maxVertLength = this.vertexSize * 65536;
@@ -252,10 +261,11 @@
 
             program.enableMeshComponents(this.components);
 
-            program.setVertexAttribPointer(Api.MeshComponent.position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.alpha, 1, gl.FLOAT, false, stride, this.alphaOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, this.alphaOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, this.rgbOffset * 4);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
         }

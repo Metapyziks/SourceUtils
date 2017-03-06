@@ -84,11 +84,12 @@
         }
 
         export enum MeshComponent {
-            position = 1,
-            normal = 2,
-            uv = 4,
-            uv2 = 8,
-            alpha = 16
+            Position = 1,
+            Normal = 2,
+            Uv = 4,
+            Uv2 = 8,
+            Alpha = 16,
+            Rgb = 32
         }
 
         export interface IVertexContainer {
@@ -165,7 +166,6 @@
             angles: IVector3;
             flags: StaticPropFlags;
             solid: boolean;
-            diffuse: number;
             clusters: number[];
             vertLightingUrl?: string;
         }

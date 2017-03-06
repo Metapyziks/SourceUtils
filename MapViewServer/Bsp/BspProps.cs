@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 using SourceUtils;
 using SourceUtils.ValveBsp;
 using Ziks.WebServer;
@@ -58,7 +60,6 @@ namespace MapViewServer
                     {"angles", angles.ToJson()},
                     {"flags", (int) flags},
                     {"solid", solid},
-                    {"diffuse", diffMod},
                     {"clusters", clusters}
                 };
 
@@ -66,7 +67,8 @@ namespace MapViewServer
                 {
                     obj.Add( "vertLightingUrl", GetActionUrl( nameof( GetVertexLighting ),
                         Replace( "mapName", mapName ),
-                        Replace( "index", i ) ) );
+                        Replace( "index", i ),
+                        Replace( "albedo", diffMod & 0xffffff ) ) );
                 }
 
                 response.Add( obj );
@@ -80,7 +82,7 @@ namespace MapViewServer
         }
 
         [Get( "/{mapName}/vert-lighting" )]
-        public JToken GetVertexLighting( [Url] string mapName, int index )
+        public JToken GetVertexLighting( [Url] string mapName, int index, int albedo = 0xffffff )
         {
             if ( CheckNotExpired( mapName ) ) return null;
 
@@ -99,10 +101,22 @@ namespace MapViewServer
 
             var array = new JArray();
 
+            var albedoColor = Color32.FromArgb( (int) albedo );
+            var rMul = albedoColor.R / 255f;
+            var gMul = albedoColor.G / 255f;
+            var bMul = albedoColor.B / 255f;
+
             var meshCount = vhv.GetMeshCount( 0 );
             for ( var meshId = 0; meshId < meshCount; ++meshId )
             {
-                array.Add( SerializeArray( vhv.GetSamples( 0, meshId ) ) );
+                array.Add( SerializeArray( vhv.GetSamples( 0, meshId ), sample =>
+                {
+                    var r = (int) Math.Round(Math.Min(sample.R * rMul, 255));
+                    var g = (int) Math.Round(Math.Min(sample.G * gMul, 255));
+                    var b = (int) Math.Round(Math.Min(sample.B * bMul, 255));
+
+                    return $"{r},{g},{b}";
+                } ) );
             }
 
             return new JObject

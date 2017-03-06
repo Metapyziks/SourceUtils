@@ -370,8 +370,8 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.addAttribute("aPosition", Api.MeshComponent.position);
-                this.addAttribute("aTextureCoord", Api.MeshComponent.uv);
+                this.addAttribute("aPosition", Api.MeshComponent.Position);
+                this.addAttribute("aTextureCoord", Api.MeshComponent.Uv);
 
                 this.baseTexture = new Uniform(this, "uBaseTexture");
 
@@ -418,7 +418,7 @@ namespace SourceUtils {
 
                 this.sortOrder = 0;
 
-                this.addAttribute("aLightmapCoord", Api.MeshComponent.uv2);
+                this.addAttribute("aLightmapCoord", Api.MeshComponent.Uv2);
 
                 this.lightmap = new Uniform(this, "uLightmap");
                 this.lightmapParams = new Uniform(this, "uLightmapParams");
@@ -515,7 +515,7 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.addAttribute("aAlpha", Api.MeshComponent.alpha);
+                this.addAttribute("aAlpha", Api.MeshComponent.Alpha);
 
                 const gl = this.getContext();
 
@@ -540,7 +540,6 @@ namespace SourceUtils {
         }
 
         export class VertexLitGeneric extends Base {
-            albedoModulation: Uniform;
             alphaTest: Uniform;
 
             constructor(manager: ShaderManager) {
@@ -548,20 +547,19 @@ namespace SourceUtils {
 
                 this.sortOrder = 0;
 
+                this.addAttribute("aColor", Api.MeshComponent.Rgb);
+
                 const gl = this.getContext();
 
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
 
-                this.albedoModulation = new Uniform(this, "uAlbedoModulation");
                 this.alphaTest = new Uniform(this, "uAlphaTest");
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
                 if (!super.changeMaterial(material)) return false;
 
-                // TODO
-                this.albedoModulation.set3f(1, 1, 1);
                 this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
 
                 return true;
@@ -582,7 +580,7 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
 
-                this.addAttribute("aPosition", Api.MeshComponent.position);
+                this.addAttribute("aPosition", Api.MeshComponent.Position);
 
                 this.cameraPos = new Uniform(this, "uCameraPos");
                 this.skyCube = new Uniform(this, "uSkyCube");

@@ -127,8 +127,8 @@ namespace MapViewServer
         {
             switch ( components )
             {
-                case MeshComponent.Position | MeshComponent.Uv:
-                    return vert => $"{vert.Position.X},{vert.Position.Y},{vert.Position.Z},{vert.TexCoordX},{vert.TexCoordY}";
+                case MeshComponent.Position | MeshComponent.Uv | MeshComponent.Rgb:
+                    return vert => $"{vert.Position.X},{vert.Position.Y},{vert.Position.Z},{vert.TexCoordX},{vert.TexCoordY},255,255,255";
                 default:
                     throw new NotImplementedException();
             }
@@ -142,10 +142,12 @@ namespace MapViewServer
                 vvd = new ValveVertexFile( vvdStream );
             }
 
+            if ( index != 0 ) throw new NotImplementedException();
+
             var vertArray = new ValveVertexFile.StudioVertex[count];
             vvd.GetVertices( 0, vertArray, 0 );
 
-            const MeshComponent components = MeshComponent.Position | MeshComponent.Uv;
+            const MeshComponent components = MeshComponent.Position | MeshComponent.Uv | MeshComponent.Rgb;
 
             return new JObject
             {

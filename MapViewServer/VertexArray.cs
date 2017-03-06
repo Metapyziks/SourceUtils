@@ -14,7 +14,8 @@ namespace MapViewServer
         Normal = 2,
         Uv = 4,
         Uv2 = 8,
-        Alpha = 16
+        Alpha = 16,
+        Rgb = 32
     }
 
     public class VertexArray
