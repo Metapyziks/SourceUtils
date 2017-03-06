@@ -100,22 +100,34 @@
     export class StudioModelDrawListItem extends DrawListItem {
         private map: Map;
         private mdlUrl: string;
+        private vhvUrl: string;
         private mdl: StudioModel;
+        private vhv: HardwareVerts;
 
         protected onRequestMeshHandles(): void {
             if (this.mdl != null) return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
-            this.mdl.addMeshLoadCallback(model => this.onMeshLoad(model));
+            if (this.vhvUrl != null)
+            {
+                this.vhv = this.map.hardwareVertsLoader.load(this.vhvUrl);
+                this.vhv.setLoadCallback(() => {
+                    if (this.mdl.hasLoadedModel(0, 0)) this.onModelLoad(this.mdl.getModel(0, 0));
+                });
+            }
+            this.mdl.addModelLoadCallback(model => {
+                if (model !== this.mdl.getModel(0, 0) || this.vhv == null || this.vhv.hasLoaded()) this.onModelLoad(model);
+            });
         }
 
-        private onMeshLoad(model: SmdModel): void {
-            this.addMeshHandles(model.getMeshHandles());
+        private onModelLoad(model: SmdModel): void {
+            this.addMeshHandles(model.createMeshHandles(model === this.mdl.getModel(0, 0) ? this.vhv : null));
         }
 
-        constructor(map: Map, url: string) {
+        constructor(map: Map, mdlUrl: string, vhvUrl?: string) {
             super();
             this.map = map;
-            this.mdlUrl = url;
+            this.mdlUrl = mdlUrl;
+            this.vhvUrl = vhvUrl;
         }
     }
 }

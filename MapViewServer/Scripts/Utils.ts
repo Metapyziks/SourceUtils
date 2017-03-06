@@ -16,6 +16,7 @@ namespace SourceUtils {
         }
 
         static decompress<T>(value: string | T): T {
+            if (value == null) return null;
             return typeof value === "string"
                 ? JSON.parse(LZString.decompressFromBase64(value))
                 : value as T;

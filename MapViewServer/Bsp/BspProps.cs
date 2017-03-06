@@ -101,7 +101,7 @@ namespace MapViewServer
 
             var array = new JArray();
 
-            var albedoColor = Color32.FromArgb( (int) albedo );
+            var albedoColor = Color32.FromBgr( albedo );
             var rMul = albedoColor.R / 255f;
             var gMul = albedoColor.G / 255f;
             var bMul = albedoColor.B / 255f;

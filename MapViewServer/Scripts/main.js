@@ -99,6 +99,8 @@ var SourceUtils;
             return new Uint32Array(Utils.decompress(value));
         };
         Utils.decompress = function (value) {
+            if (value == null)
+                return null;
             return typeof value === "string"
                 ? JSON.parse(LZString.decompressFromBase64(value))
                 : value;
@@ -677,20 +679,31 @@ var SourceUtils;
     SourceUtils.BspDrawListItem = BspDrawListItem;
     var StudioModelDrawListItem = (function (_super) {
         __extends(StudioModelDrawListItem, _super);
-        function StudioModelDrawListItem(map, url) {
+        function StudioModelDrawListItem(map, mdlUrl, vhvUrl) {
             _super.call(this);
             this.map = map;
-            this.mdlUrl = url;
+            this.mdlUrl = mdlUrl;
+            this.vhvUrl = vhvUrl;
         }
         StudioModelDrawListItem.prototype.onRequestMeshHandles = function () {
             var _this = this;
             if (this.mdl != null)
                 return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
-            this.mdl.addMeshLoadCallback(function (model) { return _this.onMeshLoad(model); });
+            if (this.vhvUrl != null) {
+                this.vhv = this.map.hardwareVertsLoader.load(this.vhvUrl);
+                this.vhv.setLoadCallback(function () {
+                    if (_this.mdl.hasLoadedModel(0, 0))
+                        _this.onModelLoad(_this.mdl.getModel(0, 0));
+                });
+            }
+            this.mdl.addModelLoadCallback(function (model) {
+                if (model !== _this.mdl.getModel(0, 0) || _this.vhv == null || _this.vhv.hasLoaded())
+                    _this.onModelLoad(model);
+            });
         };
-        StudioModelDrawListItem.prototype.onMeshLoad = function (model) {
-            this.addMeshHandles(model.getMeshHandles());
+        StudioModelDrawListItem.prototype.onModelLoad = function (model) {
+            this.addMeshHandles(model.createMeshHandles(model === this.mdl.getModel(0, 0) ? this.vhv : null));
         };
         return StudioModelDrawListItem;
     }(DrawListItem));
@@ -1073,6 +1086,21 @@ var SourceUtils;
     }());
     SourceUtils.Loader = Loader;
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="Loader.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var HardwareVertsLoader = (function (_super) {
+        __extends(HardwareVertsLoader, _super);
+        function HardwareVertsLoader() {
+            _super.call(this);
+        }
+        HardwareVertsLoader.prototype.onCreateItem = function (url) {
+            return new SourceUtils.HardwareVerts(url);
+        };
+        return HardwareVertsLoader;
+    }(SourceUtils.Loader));
+    SourceUtils.HardwareVertsLoader = HardwareVertsLoader;
+})(SourceUtils || (SourceUtils = {}));
 /// <reference path="AppBase.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
@@ -1089,6 +1117,7 @@ var SourceUtils;
             this.faceLoader = this.addLoader(new SourceUtils.FaceLoader(this));
             this.textureLoader = this.addLoader(new SourceUtils.TextureLoader(app.getContext()));
             this.modelLoader = this.addLoader(new SourceUtils.StudioModelLoader(this));
+            this.hardwareVertsLoader = this.addLoader(new SourceUtils.HardwareVertsLoader());
             this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
             this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
             this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
@@ -1514,7 +1543,7 @@ var SourceUtils;
             if ((info.flags & SourceUtils.Api.StaticPropFlags.NoDraw) !== 0 || typeof info.model !== "string")
                 return;
             this.clusters = info.clusters;
-            this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, info.model);
+            this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, info.model, info.vertLightingUrl);
             this.drawListItem.parent = this;
         }
         PropStatic.prototype.getDrawListItem = function () {
@@ -1523,6 +1552,37 @@ var SourceUtils;
         return PropStatic;
     }(SourceUtils.Entity));
     SourceUtils.PropStatic = PropStatic;
+    var HardwareVerts = (function () {
+        function HardwareVerts(url) {
+            this.vhvUrl = url;
+        }
+        HardwareVerts.prototype.setLoadCallback = function (callback) {
+            this.loadCallback = callback;
+            if (this.hasLoaded())
+                callback();
+        };
+        HardwareVerts.prototype.hasLoaded = function () {
+            return this.info != null;
+        };
+        HardwareVerts.prototype.getSamples = function (meshId) {
+            return SourceUtils.Utils.decompress(this.info.meshes[meshId]);
+        };
+        HardwareVerts.prototype.shouldLoadBefore = function (other) { return true; };
+        HardwareVerts.prototype.loadNext = function (callback) {
+            var _this = this;
+            if (this.info != null) {
+                callback(false);
+                return;
+            }
+            $.getJSON(this.vhvUrl, function (data) {
+                _this.info = data;
+                if (_this.loadCallback != null)
+                    _this.loadCallback();
+            }).always(function () { return callback(false); });
+        };
+        return HardwareVerts;
+    }());
+    SourceUtils.HardwareVerts = HardwareVerts;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1993,8 +2053,48 @@ var SourceUtils;
             this.mdl = mdl;
             this.info = info;
         }
-        SmdModel.prototype.getMeshHandles = function () {
-            return this.handles;
+        SmdModel.prototype.hasLoaded = function () {
+            return this.indices != null && this.vertices != null;
+        };
+        SmdModel.prototype.updateIndexOffsets = function () {
+            for (var i = 0; i < this.info.meshes.length && i < this.indices.elements.length; ++i) {
+                var mesh = this.info.meshes[i];
+                var element = this.indices.elements[i];
+                var offset = mesh.vertexOffset;
+                element.material = mesh.material;
+                if (offset === 0)
+                    continue;
+                var indices = this.indices.indices;
+                for (var j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
+                    indices[j] += offset;
+                }
+            }
+        };
+        SmdModel.prototype.createMeshHandles = function (vertexColors) {
+            var meshData = new SourceUtils.MeshData(this.vertices, this.indices);
+            for (var i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
+                var mesh = this.info.meshes[i];
+                var offset = mesh.vertexOffset;
+                if (vertexColors != null) {
+                    var meshColors = SourceUtils.Utils.decompress(vertexColors.getSamples(i));
+                    if (meshColors != null) {
+                        // TODO: make generic
+                        var itemSize = 8;
+                        var itemOffset = 5 + offset * itemSize;
+                        var verts = meshData.vertices;
+                        for (var j = 0, jEnd = meshColors.length / 3; j < jEnd; ++j) {
+                            verts[j * itemSize + itemOffset + 0] = meshColors[j * 3 + 0];
+                            verts[j * itemSize + itemOffset + 1] = meshColors[j * 3 + 1];
+                            verts[j * itemSize + itemOffset + 2] = meshColors[j * 3 + 2];
+                        }
+                    }
+                }
+            }
+            var handles = this.mdl.getMap().meshManager.addMeshData(meshData);
+            for (var i = 0; i < handles.length; ++i) {
+                handles[i].material = this.mdl.getMaterial(handles[i].materialIndex);
+            }
+            return handles;
         };
         SmdModel.prototype.loadNext = function (callback) {
             if (this.vertices == null) {
@@ -2011,6 +2111,7 @@ var SourceUtils;
             var _this = this;
             $.getJSON(this.info.verticesUrl, function (data) {
                 _this.vertices = data;
+                _this.vertices.vertices = SourceUtils.Utils.decompress(_this.vertices.vertices);
                 callback(true);
             }).fail(function () { return callback(false); });
         };
@@ -2018,28 +2119,9 @@ var SourceUtils;
             var _this = this;
             $.getJSON(this.info.trianglesUrl, function (data) {
                 _this.indices = data;
-                _this.acquireMeshHandles();
+                _this.indices.indices = SourceUtils.Utils.decompress(_this.indices.indices);
+                _this.updateIndexOffsets();
             }).always(function () { return callback(false); });
-        };
-        SmdModel.prototype.acquireMeshHandles = function () {
-            var meshData = new SourceUtils.MeshData(this.vertices, this.indices);
-            for (var i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
-                var mesh = this.info.meshes[i];
-                var offset = mesh.vertexOffset;
-                var element = meshData.elements[i];
-                element.material = mesh.material;
-                if (offset === 0)
-                    continue;
-                for (var j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
-                    meshData.indices[j] += offset;
-                }
-            }
-            this.handles = this.mdl.getMap().meshManager.addMeshData(meshData);
-            for (var i = 0; i < this.handles.length; ++i) {
-                this.handles[i].material = this.mdl.getMaterial(this.handles[i].materialIndex);
-            }
-            this.vertices = null;
-            this.indices = null;
         };
         return SmdModel;
     }());
@@ -2058,11 +2140,19 @@ var SourceUtils;
     var StudioModel = (function () {
         function StudioModel(map, url) {
             this.loaded = [];
-            this.meshLoadCallbacks = [];
+            this.modelLoadCallbacks = [];
             this.map = map;
             this.mdlUrl = url;
         }
         StudioModel.prototype.getMap = function () { return this.map; };
+        StudioModel.prototype.hasLoadedModel = function (bodyPart, model) {
+            if (this.bodyParts == null)
+                return false;
+            return this.bodyParts[bodyPart].models[model].hasLoaded();
+        };
+        StudioModel.prototype.getModel = function (bodyPart, model) {
+            return this.bodyParts == null ? null : this.bodyParts[bodyPart].models[model];
+        };
         StudioModel.prototype.getMaterial = function (index) {
             return this.materials[index];
         };
@@ -2083,24 +2173,24 @@ var SourceUtils;
             next.loadNext(function (requeue2) {
                 if (!requeue2) {
                     _this.toLoad.splice(0, 1);
-                    if (next.getMeshHandles() != null) {
+                    if (next.hasLoaded() != null) {
                         _this.loaded.push(next);
-                        _this.dispatchMeshLoadEvent(next);
+                        _this.dispatchModelLoadEvent(next);
                     }
                 }
                 callback(_this.toLoad.length > 0);
             });
         };
-        StudioModel.prototype.dispatchMeshLoadEvent = function (model) {
-            for (var i = 0; i < this.meshLoadCallbacks.length; ++i) {
-                this.meshLoadCallbacks[i](model);
+        StudioModel.prototype.dispatchModelLoadEvent = function (model) {
+            for (var i = 0; i < this.modelLoadCallbacks.length; ++i) {
+                this.modelLoadCallbacks[i](model);
             }
         };
-        StudioModel.prototype.addMeshLoadCallback = function (callback) {
+        StudioModel.prototype.addModelLoadCallback = function (callback) {
             for (var i = 0; i < this.loaded.length; ++i) {
                 callback(this.loaded[i]);
             }
-            this.meshLoadCallbacks.push(callback);
+            this.modelLoadCallbacks.push(callback);
         };
         StudioModel.prototype.loadInfo = function (callback) {
             var _this = this;

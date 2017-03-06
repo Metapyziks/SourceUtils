@@ -8,6 +8,10 @@ namespace SourceUtils
         {
             return new Color32( (byte) ((rgb >> 16) & 0xff), (byte) ((rgb >> 8) & 0xff), (byte) (rgb & 0xff) );
         }
+        public static Color32 FromBgr( int bgr )
+        {
+            return new Color32( (byte) (bgr & 0xff), (byte) ((bgr >> 8) & 0xff), (byte) ((bgr >> 16) & 0xff) );
+        }
         
         public static Color32 FromArgb( int argb )
         {
