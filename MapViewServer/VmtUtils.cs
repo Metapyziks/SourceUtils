@@ -176,24 +176,25 @@ namespace MapViewServer
 
             SerializeShaderProperties( request, bsp, vmt, shader, vmtDir, propArray );
 
-            var shaderName = "LightmappedGeneric";
+            var variant = "Generic";
+            if ( propArray.Any(x => (string) x["name"] == "translucent" && (bool) x["value"] ) )
+            {
+                variant = "Translucent";
+            }
+
+            var shaderName = $"Lightmapped{variant}";
 
             switch ( shader.ToLower() )
             {
                 case "lightmappedgeneric":
-                    shaderName = "LightmappedGeneric";
+                    shaderName = $"Lightmapped{variant}";
                     break;
                 case "vertexlitgeneric":
-                    shaderName = "VertexLitGeneric";
+                    shaderName = $"VertexLit{variant}";
                     break;
                 case "worldvertextransition":
                     shaderName = "Lightmapped2WayBlend";
                     break;
-            }
-
-            if ( shaderName == "LightmappedGeneric" && propArray.Any(x => (string) x["name"] == "translucent" ) )
-            {
-                shaderName = "LightmappedTranslucent";
             }
 
             return new JObject

@@ -177,6 +177,7 @@ namespace SourceUtils {
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
 
+            gl.disable(gl.BLEND);
 
             if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
                 this.map.setSkyMaterialEnabled(true);

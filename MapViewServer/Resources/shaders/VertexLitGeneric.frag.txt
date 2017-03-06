@@ -3,6 +3,7 @@
 varying vec3 vColor;
 
 uniform float uAlphaTest;
+uniform float uAlpha;
 
 void main()
 {
@@ -11,5 +12,5 @@ void main()
 
     vec3 color = applyFog(texSample.rgb * vColor);
 
-    gl_FragColor = vec4(color, 1);
+    gl_FragColor = vec4(color, texSample.a * uAlpha);
 }

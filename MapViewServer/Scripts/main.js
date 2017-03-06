@@ -1429,6 +1429,7 @@ var SourceUtils;
             gl.depthFunc(gl.LESS);
             gl.enable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
+            gl.disable(gl.BLEND);
             if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
                 this.map.setSkyMaterialEnabled(true);
                 this.camera.getPosition(this.skyCameraPos);
@@ -2008,17 +2009,41 @@ var SourceUtils;
                 var gl = this.getContext();
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
+                this.alpha = new Uniform(this, "uAlpha");
                 this.alphaTest = new Uniform(this, "uAlphaTest");
             }
             VertexLitGeneric.prototype.changeMaterial = function (material) {
                 if (!_super.prototype.changeMaterial.call(this, material))
                     return false;
+                this.alpha.set1f(material.properties.alpha === undefined ? 1 : material.properties.alpha);
                 this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
                 return true;
             };
             return VertexLitGeneric;
         }(Base));
         Shaders.VertexLitGeneric = VertexLitGeneric;
+        var VertexLitTranslucent = (function (_super) {
+            __extends(VertexLitTranslucent, _super);
+            function VertexLitTranslucent(manager) {
+                _super.call(this, manager);
+                this.sortOrder = 2000;
+            }
+            VertexLitTranslucent.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
+                var gl = this.getContext();
+                gl.depthMask(false);
+                //gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            };
+            VertexLitTranslucent.prototype.cleanupPostRender = function (map, context) {
+                var gl = this.getContext();
+                gl.depthMask(true);
+                //gl.disable(gl.BLEND);
+                _super.prototype.cleanupPostRender.call(this, map, context);
+            };
+            return VertexLitTranslucent;
+        }(VertexLitGeneric));
+        Shaders.VertexLitTranslucent = VertexLitTranslucent;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {

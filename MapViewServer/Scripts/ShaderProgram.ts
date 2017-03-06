@@ -367,6 +367,8 @@ namespace SourceUtils {
             fogParams: Uniform;
             fogColor: Uniform;
 
+            protected blend: boolean;
+
             constructor(manager: ShaderManager) {
                 super(manager);
 
@@ -540,6 +542,7 @@ namespace SourceUtils {
         }
 
         export class VertexLitGeneric extends Base {
+            alpha: Uniform;
             alphaTest: Uniform;
 
             constructor(manager: ShaderManager) {
@@ -554,15 +557,45 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
 
+                this.alpha = new Uniform(this, "uAlpha");
                 this.alphaTest = new Uniform(this, "uAlphaTest");
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
                 if (!super.changeMaterial(material)) return false;
 
+                this.alpha.set1f(material.properties.alpha === undefined ? 1 : material.properties.alpha);
                 this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
 
                 return true;
+            }
+        }
+
+        export class VertexLitTranslucent extends VertexLitGeneric {
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                this.sortOrder = 2000;
+            }
+
+            prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
+                super.prepareForRendering(map, context);
+
+                const gl = this.getContext();
+
+                gl.depthMask(false);
+
+                //gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            }
+
+            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void {
+                const gl = this.getContext();
+
+                gl.depthMask(true);
+                //gl.disable(gl.BLEND);
+
+                super.cleanupPostRender(map, context);
             }
         }
 
