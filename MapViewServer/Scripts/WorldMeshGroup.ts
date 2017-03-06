@@ -246,7 +246,7 @@
 
             for (let i = 0; i < data.elements.length; ++i) {
                 const element = data.elements[i];
-                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.offset + indexOffset, element.count);
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.indexOffset + indexOffset, element.indexCount);
             }
 
             return handles;

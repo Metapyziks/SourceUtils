@@ -2054,29 +2054,15 @@ var SourceUtils;
             this.info = info;
         }
         SmdModel.prototype.hasLoaded = function () {
-            return this.indices != null && this.vertices != null;
-        };
-        SmdModel.prototype.updateIndexOffsets = function () {
-            for (var i = 0; i < this.info.meshes.length && i < this.indices.elements.length; ++i) {
-                var mesh = this.info.meshes[i];
-                var element = this.indices.elements[i];
-                var offset = mesh.vertexOffset;
-                element.material = mesh.material;
-                if (offset === 0)
-                    continue;
-                var indices = this.indices.indices;
-                for (var j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
-                    indices[j] += offset;
-                }
-            }
+            return this.meshData != null;
         };
         SmdModel.prototype.createMeshHandles = function (vertexColors) {
-            var meshData = new SourceUtils.MeshData(this.vertices, this.indices);
-            for (var i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
-                var mesh = this.info.meshes[i];
-                var offset = mesh.vertexOffset;
-                if (vertexColors != null) {
+            var meshData = new SourceUtils.MeshData(this.meshData);
+            if (vertexColors != null) {
+                for (var i = 0; i < meshData.elements.length; ++i) {
                     var meshColors = SourceUtils.Utils.decompress(vertexColors.getSamples(i));
+                    var offset = meshData.elements[i].vertexOffset;
+                    var count = meshData.elements[i].vertexCount;
                     if (meshColors != null) {
                         // TODO: make generic
                         var itemSize = 8;
@@ -2097,31 +2083,21 @@ var SourceUtils;
             return handles;
         };
         SmdModel.prototype.loadNext = function (callback) {
-            if (this.vertices == null) {
-                this.loadVertices(callback);
-            }
-            else if (this.indices == null) {
-                this.loadIndices(callback);
+            if (this.meshData == null) {
+                this.loadMeshData(callback);
             }
             else {
                 callback(false);
             }
         };
-        SmdModel.prototype.loadVertices = function (callback) {
+        SmdModel.prototype.loadMeshData = function (callback) {
             var _this = this;
-            $.getJSON(this.info.verticesUrl, function (data) {
-                _this.vertices = data;
-                _this.vertices.vertices = SourceUtils.Utils.decompress(_this.vertices.vertices);
+            $.getJSON(this.info.meshDataUrl, function (data) {
+                _this.meshData = data;
+                _this.meshData.vertices = SourceUtils.Utils.decompress(_this.meshData.vertices);
+                _this.meshData.indices = SourceUtils.Utils.decompress(_this.meshData.indices);
                 callback(true);
             }).fail(function () { return callback(false); });
-        };
-        SmdModel.prototype.loadIndices = function (callback) {
-            var _this = this;
-            $.getJSON(this.info.trianglesUrl, function (data) {
-                _this.indices = data;
-                _this.indices.indices = SourceUtils.Utils.decompress(_this.indices.indices);
-                _this.updateIndexOffsets();
-            }).always(function () { return callback(false); });
         };
         return SmdModel;
     }());
@@ -2173,7 +2149,7 @@ var SourceUtils;
             next.loadNext(function (requeue2) {
                 if (!requeue2) {
                     _this.toLoad.splice(0, 1);
-                    if (next.hasLoaded() != null) {
+                    if (next.hasLoaded()) {
                         _this.loaded.push(next);
                         _this.dispatchModelLoadEvent(next);
                     }
@@ -2758,7 +2734,7 @@ var SourceUtils;
             var handles = new Array(data.elements.length);
             for (var i = 0; i < data.elements.length; ++i) {
                 var element = data.elements[i];
-                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.offset + indexOffset, element.count);
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.indexOffset + indexOffset, element.indexCount);
             }
             return handles;
         };

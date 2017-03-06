@@ -8,5 +8,5 @@ void main()
 {
     Base_main();
 
-    vColor = aColor * (1.0 / 255.0);
+    vColor = aColor * (2.0 / 255.0);
 }

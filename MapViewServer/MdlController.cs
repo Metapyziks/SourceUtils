@@ -42,27 +42,18 @@ namespace MapViewServer
                         meshes.Add( new JObject
                         {
                             {"material", mesh.Material},
-                            {"center", mesh.Center.ToJson()},
-                            {"vertexOffset", mesh.VertexOffset}
+                            {"center", mesh.Center.ToJson()}
                         } );
                     }
 
-                    var verticesAction = mapName == null ? nameof( GetVpkVertices ) : nameof( GetPakVertices );
-                    var trianglesAction = mapName == null ? nameof( GetVpkTriangles ) : nameof( GetPakTriangles );
+                    var meshDataAction = mapName == null ? nameof( GetVpkMeshData ) : nameof( GetPakMeshData );
 
                     models.Add( new JObject
                     {
                         {"name", model.Name},
                         {"radius", model.BoundingRadius},
                         {
-                            "verticesUrl", GetActionUrl( verticesAction,
-                                ResourcePath( filePath ),
-                                Replace( "mapName", mapName ),
-                                Replace( "index", model.VertexIndex ),
-                                Replace( "count", model.NumVertices ) )
-                        },
-                        {
-                            "trianglesUrl", GetActionUrl( trianglesAction,
+                            "meshDataUrl", GetActionUrl( meshDataAction,
                                 ResourcePath( filePath ),
                                 Replace( "mapName", mapName ),
                                 Replace( "bodyPart", bodyPartIndex ),
@@ -123,60 +114,41 @@ namespace MapViewServer
             return GetIndex( bsp.PakFile, FilePath, mapName );
         }
 
-        private static Func<ValveVertexFile.StudioVertex, string> GetVertSerializer( MeshComponent components )
+        private static Func<StudioVertex, string> GetVertSerializer( MeshComponent components )
         {
             switch ( components )
             {
                 case MeshComponent.Position | MeshComponent.Uv | MeshComponent.Rgb:
-                    return vert => $"{vert.Position.X},{vert.Position.Y},{vert.Position.Z},{vert.TexCoordX},{vert.TexCoordY},255,255,255";
+                    return vert => $"{vert.Position.X},{vert.Position.Y},{vert.Position.Z},{vert.TexCoordX},{vert.TexCoordY},0,255,0";
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        private JToken GetVertices( IResourceProvider provider, int index, int count )
+        private JToken GetMeshData( IResourceProvider provider, int bodyPart, int model, int lod )
         {
+            var mdlPath = FilePath.Replace( ".mesh", ".mdl" );
+            var vvdPath = FilePath.Replace( ".mesh", ".vvd" );
+            var vtxPath = FilePath.Replace( ".mesh", ".dx90.vtx" );
+            
+            StudioModelFile mdl;
+            using ( var mdlStream = provider.OpenFile( mdlPath ) )
+            {
+                mdl = new StudioModelFile( mdlStream );
+            }
+
             ValveVertexFile vvd;
-            using ( var vvdStream = provider.OpenFile( FilePath ) )
+            using ( var vvdStream = provider.OpenFile( vvdPath ) )
             {
                 vvd = new ValveVertexFile( vvdStream );
             }
 
-            if ( index != 0 ) throw new NotImplementedException();
-
-            var vertArray = new ValveVertexFile.StudioVertex[count];
-            vvd.GetVertices( 0, vertArray, 0 );
-
             const MeshComponent components = MeshComponent.Position | MeshComponent.Uv | MeshComponent.Rgb;
 
-            return new JObject
-            {
-                {"components", (int) components },
-                {"vertices", SerializeArray( vertArray, GetVertSerializer(components), false )}
-            };
-        }
-
-        [Get("/vpk", MatchAllUrl = false, Extension = ".vvd")]
-        public JToken GetVpkVertices( int index, int count )
-        {
-            return GetVertices( Resources, index, count );
-        }
-
-        [Get("/pak/{mapName}", MatchAllUrl = false, Extension = ".vvd")]
-        public JToken GetPakVertices( [Url] string mapName, int index, int count )
-        {
-            var bsp = BspController.GetBspFile( Request, mapName );
-            return GetVertices( bsp.PakFile, index, count );
-        }
-
-        private JToken GetTriangles( IResourceProvider provider, int bodyPart, int model, int lod )
-        {
-            var filePath = FilePath.Replace( ".vtx", ".dx90.vtx" );
-
             ValveTriangleFile vtx;
-            using ( var vtxStream = provider.OpenFile( filePath ) )
+            using ( var vtxStream = provider.OpenFile( vtxPath ) )
             {
-                vtx = new ValveTriangleFile( vtxStream );
+                vtx = new ValveTriangleFile( vtxStream, mdl, vvd );
             }
 
             var array = new JArray();
@@ -184,38 +156,46 @@ namespace MapViewServer
             var meshCount = vtx.GetMeshCount( bodyPart, model, lod );
             for ( var i = 0; i < meshCount; ++i )
             {
-                int offset, count;
-                vtx.GetMeshData( bodyPart, model, lod, i, out offset, out count );
+                int indexOffset, indexCount, vertexOffset, vertexCount;
+                vtx.GetMeshData( bodyPart, model, lod, i, out indexOffset, out indexCount, out vertexOffset, out vertexCount );
 
                 array.Add( new JObject
                 {
                     {"type", (int) PrimitiveType.TriangleList},
-                    {"offset", offset},
-                    {"count", count}
+                    {"material", mdl.GetMesh( bodyPart, model, i ).Material},
+                    {"indexOffset", indexOffset},
+                    {"indexCount", indexCount},
+                    {"vertexOffset", vertexOffset},
+                    {"vertexCount", vertexCount}
                 } );
             }
 
             var indexArray = new int[vtx.GetIndexCount( bodyPart, model, lod )];
             vtx.GetIndices( bodyPart, model, lod, indexArray );
 
+            var vertArray = new StudioVertex[vtx.GetVertexCount( bodyPart, model, lod )];
+            vtx.GetVertices( bodyPart, model, lod, vertArray );
+
             return new JObject
             {
+                {"components", (int) components },
                 {"elements", array},
+                {"vertices", SerializeArray( vertArray, GetVertSerializer(components), false )},
                 {"indices", SerializeArray( indexArray )}
             };
         }
         
-        [Get("/vpk", MatchAllUrl = false, Extension = ".vtx")]
-        public JToken GetVpkTriangles( int bodyPart, int model, int lod )
+        [Get("/vpk", MatchAllUrl = false, Extension = ".mesh")]
+        public JToken GetVpkMeshData( int bodyPart, int model, int lod )
         {
-            return GetTriangles( Resources, bodyPart, model, lod );
+            return GetMeshData( Resources, bodyPart, model, lod );
         }
         
-        [Get("/pak/{mapName}", MatchAllUrl = false, Extension = ".vtx")]
-        public JToken GetPakTriangles( [Url] string mapName, int bodyPart, int model, int lod )
+        [Get("/pak/{mapName}", MatchAllUrl = false, Extension = ".mesh")]
+        public JToken GetPakMeshData( [Url] string mapName, int bodyPart, int model, int lod )
         {
             var bsp = BspController.GetBspFile( Request, mapName );
-            return GetTriangles( bsp.PakFile, bodyPart, model, lod );
+            return GetMeshData( bsp.PakFile, bodyPart, model, lod );
         }
     }
 }

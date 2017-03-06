@@ -285,6 +285,11 @@ namespace SourceUtils
             return _bodyPartNames[index];
         }
 
+        public StudioMesh GetMesh( int bodyPartIndex, int modelIndex, int meshIndex )
+        {
+            return _meshes[_models[_bodyParts[bodyPartIndex].ModelIndex + modelIndex].MeshIndex + meshIndex];
+        }
+
         public IEnumerable<StudioModel> GetModels( int bodyPartIndex )
         {
             var part = _bodyParts[bodyPartIndex];

@@ -7,6 +7,33 @@ using System.Runtime.InteropServices;
 
 namespace SourceUtils
 {
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct StudioVertex
+    {
+        public StudioBoneWeight BoneWeights;
+        public Vector3 Position;
+        public Vector3 Normal;
+        public float TexCoordX;
+        public float TexCoordY;
+
+        public override string ToString()
+        {
+            return $"{Position}, {Normal}, ({TexCoordX}, {TexCoordY})";
+        }
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct StudioBoneWeight
+    {
+        public float Weight0;
+        public float Weight1;
+        public float Weight2;
+        public byte Bone0;
+        public byte Bone1;
+        public byte Bone2;
+        public byte NumBones;
+    }
+
     public class ValveVertexFile
     {
         [StructLayout( LayoutKind.Sequential, Pack = 1 )]
@@ -15,33 +42,6 @@ namespace SourceUtils
             public int Lod;
             public int SourceVertexId;
             public int NumVertices;
-        }
-
-        [StructLayout( LayoutKind.Sequential, Pack = 1 )]
-        public struct StudioVertex
-        {
-            public StudioBoneWeight BoneWeights;
-            public Vector3 Position;
-            public Vector3 Normal;
-            public float TexCoordX;
-            public float TexCoordY;
-
-            public override string ToString()
-            {
-                return $"{Position}, {Normal}, ({TexCoordX}, {TexCoordY})";
-            }
-        }
-
-        [StructLayout( LayoutKind.Sequential, Pack = 1 )]
-        public struct StudioBoneWeight
-        {
-            public float Weight0;
-            public float Weight1;
-            public float Weight2;
-            public byte Bone0;
-            public byte Bone1;
-            public byte Bone2;
-            public byte NumBones;
         }
         
         public static ValveVertexFile FromStream(Stream stream)
@@ -105,21 +105,30 @@ namespace SourceUtils
             }
         }
 
-        public void GetVertices( int lod, StudioVertex[] dest, int offset )
+        public int GetVertexCount( int lod )
+        {
+            return GetVertices( lod, null );
+        }
+
+        public int GetVertices( int lod, StudioVertex[] dest, int offset = 0 )
         {
             if ( _fixups == null )
             {
-                Array.Copy( _vertices, 0, dest, offset, _numVerts[lod] );
-                return;
+                if (dest != null) Array.Copy( _vertices, 0, dest, offset, _numVerts[lod] );
+                return _numVerts[lod];
             }
+
+            var startOffset = offset;
 
             foreach ( var vertexFixup in _fixups )
             {
                 if ( vertexFixup.Lod < lod ) continue;
 
-                Array.Copy( _vertices, vertexFixup.SourceVertexId, dest, offset, vertexFixup.NumVertices );
+                if ( dest != null ) Array.Copy( _vertices, vertexFixup.SourceVertexId, dest, offset, vertexFixup.NumVertices );
                 offset += vertexFixup.NumVertices;
             }
+
+            return offset - startOffset;
         }
 
         public Vector4[] GetTangents( int lod )

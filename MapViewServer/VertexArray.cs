@@ -120,8 +120,8 @@ namespace MapViewServer
                 {
                     {"type", (int) PrimitiveType.TriangleList},
                     {"material", TexStringId},
-                    {"offset", Offset},
-                    {"count", Count}
+                    {"indexOffset", Offset},
+                    {"indexCount", Count}
                 };
             }
         }

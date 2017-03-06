@@ -111,9 +111,9 @@ namespace MapViewServer
             {
                 array.Add( SerializeArray( vhv.GetSamples( 0, meshId ), sample =>
                 {
-                    var r = (int) Math.Round(Math.Min(sample.R * rMul, 255));
-                    var g = (int) Math.Round(Math.Min(sample.G * gMul, 255));
-                    var b = (int) Math.Round(Math.Min(sample.B * bMul, 255));
+                    var r = (int) Math.Round(sample.R * rMul);
+                    var g = (int) Math.Round(sample.G * gMul);
+                    var b = (int) Math.Round(sample.B * bMul);
 
                     return $"{r},{g},{b}";
                 } ) );

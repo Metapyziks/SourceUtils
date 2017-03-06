@@ -79,8 +79,10 @@
         export interface IElement {
             type: PrimitiveType;
             material: number;
-            offset: number;
-            count: number;
+            indexOffset: number;
+            indexCount: number;
+            vertexOffset?: number;
+            vertexCount?: number;
         }
 
         export enum MeshComponent {
@@ -227,14 +229,12 @@
         export interface ISmdMesh {
             material: number;
             center: IVector3;
-            vertexOffset: number;
         }
 
         export interface ISmdModel {
             name: string;
             radius: number;
-            verticesUrl: string;
-            trianglesUrl: string;
+            meshDataUrl: string;
             meshes: ISmdMesh[];
         }
 
@@ -248,8 +248,7 @@
             bodyParts: ISmdBodyPart[];
         }
 
-        export interface IVvdResponse extends IVertexContainer { }
-        export interface IVtxResponse extends IIndicesContainer { }
+        export interface IMdlMeshDataResponse extends IVertexContainer, IIndicesContainer { }
 
         export interface IColor32 {
             r: number;

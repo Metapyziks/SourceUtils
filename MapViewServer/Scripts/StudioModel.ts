@@ -4,8 +4,7 @@
 
         private mdl: StudioModel;
 
-        private vertices: Api.IVvdResponse;
-        private indices: Api.IVtxResponse;
+        private meshData: Api.IMdlMeshDataResponse;
 
         constructor(mdl: StudioModel, info: Api.ISmdModel) {
             this.mdl = mdl;
@@ -13,49 +12,34 @@
         }
 
         hasLoaded(): boolean {
-            return this.indices != null && this.vertices != null;
-        }
-
-        private updateIndexOffsets(): void {
-            for (let i = 0; i < this.info.meshes.length && i < this.indices.elements.length; ++i) {
-                const mesh = this.info.meshes[i];
-                const element = this.indices.elements[i];
-                const offset = mesh.vertexOffset;
-                element.material = mesh.material;
-
-                if (offset === 0) continue;
-
-                const indices = this.indices.indices as number[];
-
-                for (let j = element.offset, jEnd = element.offset + element.count; j < jEnd; ++j) {
-                    indices[j] += offset;
-                }
-            }
+            return this.meshData != null;
         }
 
         createMeshHandles(vertexColors?: HardwareVerts): WorldMeshHandle[] {
-            const meshData = new MeshData(this.vertices, this.indices);
+            const meshData = new MeshData(this.meshData);
 
-            for (let i = 0; i < this.info.meshes.length && i < meshData.elements.length; ++i) {
-                const mesh = this.info.meshes[i];
-                const offset = mesh.vertexOffset;
-
-                if (vertexColors != null) {
+            if (vertexColors != null) {
+                for (let i = 0; i < meshData.elements.length; ++i)
+                {
                     const meshColors = Utils.decompress(vertexColors.getSamples(i));
-                    if (meshColors != null) {
+                    const offset = meshData.elements[i].vertexOffset;
+                    const count = meshData.elements[i].vertexCount;
+
+                    if (meshColors != null)
+                    {
                         // TODO: make generic
                         const itemSize = 8;
                         const itemOffset = 5 + offset * itemSize;
                         const verts = meshData.vertices;
 
-                        for (let j = 0, jEnd = meshColors.length / 3; j < jEnd; ++j) {
+                        for (let j = 0, jEnd = meshColors.length / 3; j < jEnd; ++j)
+                        {
                             verts[j * itemSize + itemOffset + 0] = meshColors[j * 3 + 0];
                             verts[j * itemSize + itemOffset + 1] = meshColors[j * 3 + 1];
                             verts[j * itemSize + itemOffset + 2] = meshColors[j * 3 + 2];
                         }
                     }
                 }
-
             }
 
             const handles = this.mdl.getMap().meshManager.addMeshData(meshData);
@@ -68,29 +52,20 @@
         }
 
         loadNext(callback: (requeue: boolean) => void): void {
-            if (this.vertices == null) {
-                this.loadVertices(callback);
-            } else if (this.indices == null) {
-                this.loadIndices(callback);
+            if (this.meshData == null) {
+                this.loadMeshData(callback);
             } else {
                 callback(false);
             }
         }
 
-        private loadVertices(callback: (requeue: boolean) => void): void {
-            $.getJSON(this.info.verticesUrl, (data: Api.IVvdResponse) => {
-                this.vertices = data;
-                this.vertices.vertices = Utils.decompress(this.vertices.vertices);
+        private loadMeshData(callback: (requeue: boolean) => void): void {
+            $.getJSON(this.info.meshDataUrl, (data: Api.IMdlMeshDataResponse) => {
+                this.meshData = data;
+                this.meshData.vertices = Utils.decompress(this.meshData.vertices);
+                this.meshData.indices = Utils.decompress(this.meshData.indices);
                 callback(true);
             }).fail(() => callback(false));
-        }
-
-        private loadIndices(callback: (requeue: boolean) => void): void {
-            $.getJSON(this.info.trianglesUrl, (data: Api.IVtxResponse) => {
-                this.indices = data;
-                this.indices.indices = Utils.decompress(this.indices.indices);
-                this.updateIndexOffsets();
-            }).always(() => callback(false));
         }
     }
 
@@ -158,7 +133,7 @@
                 if (!requeue2) {
                     this.toLoad.splice(0, 1);
 
-                    if (next.hasLoaded() != null) {
+                    if (next.hasLoaded()) {
                         this.loaded.push(next);
                         this.dispatchModelLoadEvent(next);
                     }
