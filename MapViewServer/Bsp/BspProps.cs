@@ -63,7 +63,7 @@ namespace MapViewServer
                     {"clusters", clusters}
                 };
 
-                if ( (flags & StaticPropFlags.NoPerVertexLighting) == 0 )
+                //if ( (flags & StaticPropFlags.NoPerVertexLighting) == 0 )
                 {
                     obj.Add( "vertLightingUrl", GetActionUrl( nameof( GetVertexLighting ),
                         Replace( "mapName", mapName ),
@@ -93,30 +93,33 @@ namespace MapViewServer
             var existingPath = bsp.PakFile.ContainsFile( hdrPath )
                 ? hdrPath : bsp.PakFile.ContainsFile( ldrPath ) ? ldrPath : null;
 
-            ValveVertexLightingFile vhv;
-            using ( var stream = bsp.PakFile.OpenFile( existingPath ) )
-            {
-                vhv = new ValveVertexLightingFile( stream );
-            }
-
             var array = new JArray();
 
-            var albedoColor = Color32.FromBgr( albedo );
-            var rMul = albedoColor.R / 255f;
-            var gMul = albedoColor.G / 255f;
-            var bMul = albedoColor.B / 255f;
-
-            var meshCount = vhv.GetMeshCount( 0 );
-            for ( var meshId = 0; meshId < meshCount; ++meshId )
+            if ( existingPath != null )
             {
-                array.Add( SerializeArray( vhv.GetSamples( 0, meshId ), sample =>
+                ValveVertexLightingFile vhv;
+                using ( var stream = bsp.PakFile.OpenFile( existingPath ) )
                 {
-                    var r = (int) Math.Round(sample.R * rMul);
-                    var g = (int) Math.Round(sample.G * gMul);
-                    var b = (int) Math.Round(sample.B * bMul);
+                    vhv = new ValveVertexLightingFile( stream );
+                }
 
-                    return $"{r},{g},{b}";
-                } ) );
+                var albedoColor = Color32.FromBgr( albedo );
+                var rMul = albedoColor.R / 255f;
+                var gMul = albedoColor.G / 255f;
+                var bMul = albedoColor.B / 255f;
+
+                var meshCount = vhv.GetMeshCount( 0 );
+                for ( var meshId = 0; meshId < meshCount; ++meshId )
+                {
+                    array.Add( SerializeArray( vhv.GetSamples( 0, meshId ), sample =>
+                    {
+                        var r = (int) Math.Round( sample.R * rMul );
+                        var g = (int) Math.Round( sample.G * gMul );
+                        var b = (int) Math.Round( sample.B * bMul );
+
+                        return $"{r},{g},{b}";
+                    } ) );
+                }
             }
 
             return new JObject

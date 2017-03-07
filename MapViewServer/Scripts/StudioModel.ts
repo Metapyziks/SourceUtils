@@ -19,27 +19,26 @@
             const meshData = new MeshData(this.meshData);
 
             if (vertexColors != null) {
-                for (let i = 0; i < meshData.elements.length; ++i)
-                {
+                for (let i = 0; i < meshData.elements.length; ++i) {
                     const meshColors = Utils.decompress(vertexColors.getSamples(i));
                     const offset = meshData.elements[i].vertexOffset;
                     const count = meshData.elements[i].vertexCount;
 
-                    if (meshColors != null)
-                    {
+                    if (meshColors != null) {
                         // TODO: make generic
                         const itemSize = 8;
-                        const itemOffset = 5 + offset * itemSize;
+                        const itemOffset = offset * itemSize;
                         const verts = meshData.vertices;
 
-                        for (let j = 0, jEnd = meshColors.length / 3; j < jEnd; ++j)
-                        {
-                            verts[j * itemSize + itemOffset + 0] = meshColors[j * 3 + 0];
-                            verts[j * itemSize + itemOffset + 1] = meshColors[j * 3 + 1];
-                            verts[j * itemSize + itemOffset + 2] = meshColors[j * 3 + 2];
+                        for (let j = 0, jEnd = count; j < jEnd; ++j) {
+                            verts[j * itemSize + itemOffset + 5] = meshColors[j * 3 + 0];
+                            verts[j * itemSize + itemOffset + 6] = meshColors[j * 3 + 1];
+                            verts[j * itemSize + itemOffset + 7] = meshColors[j * 3 + 2];
                         }
                     }
                 }
+            } else {
+                console.log(`No vertex colors! ${this.info.meshDataUrl}`);
             }
 
             const handles = this.mdl.getMap().meshManager.addMeshData(meshData);

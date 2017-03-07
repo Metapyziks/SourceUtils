@@ -302,9 +302,7 @@ namespace SourceUtils {
             }
         }
 
-        protected onDoubleClick(button: MouseButton, screenPos: THREE.Vector2): void {
-            this.toggleFullscreen();
-        }
+        protected onDoubleClick(button: MouseButton, screenPos: THREE.Vector2): void {}
 
         protected onMouseUp(button: MouseButton, screenPos: THREE.Vector2): void {
             if (button === MouseButton.Left && this.isDragging) {

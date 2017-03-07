@@ -110,15 +110,27 @@
         protected onRequestMeshHandles(): void {
             if (this.mdl != null) return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
-            if (this.vhvUrl != null)
-            {
+
+            let queuedToLoad: SmdModel[] = [];
+
+            if (this.vhvUrl != null) {
                 this.vhv = this.map.hardwareVertsLoader.load(this.vhvUrl);
                 this.vhv.setLoadCallback(() => {
-                    if (this.mdl.hasLoadedModel(0, 0)) this.onModelLoad(this.mdl.getModel(0, 0));
+                    for (let i = 0; i < queuedToLoad.length; ++i) {
+                        this.onModelLoad(queuedToLoad[i]);
+                    }
+
+                    queuedToLoad = [];
                 });
             }
-            this.mdl.addModelLoadCallback(model => {
-                if (model !== this.mdl.getModel(0, 0) || this.vhv == null || this.vhv.hasLoaded()) this.onModelLoad(model);
+
+            this.mdl.addModelLoadCallback(model =>
+            {
+                if (this.vhv != null && !this.vhv.hasLoaded()) {
+                    queuedToLoad.push(model);
+                } else {
+                    this.onModelLoad(model);
+                }
             });
         }
 

@@ -64,8 +64,10 @@ namespace SourceUtils {
             this.invalidateMatrices();
         }
 
-        getPosition(target: THREE.Vector3): void {
-            target.copy(this.position);
+        getPosition(target: THREE.Vector3 | Api.IVector3): void {
+            target.x = this.position.x;
+            target.y = this.position.y;
+            target.z = this.position.z;
         }
 
         translate(value: THREE.Vector3): void;

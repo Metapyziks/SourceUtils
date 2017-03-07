@@ -38,6 +38,10 @@ namespace SourceUtils {
 
             super.init(container);
 
+            window.onhashchange = () => {
+                this.onHashChange(window.location.hash);
+            };
+
             this.getContext().clearColor(100 / 255, 149 / 255, 237 / 255, 1);
 
             this.updateCameraAngles();
@@ -80,6 +84,8 @@ namespace SourceUtils {
             this.lookQuat.multiply(this.tempQuat);
 
             this.camera.setRotation(this.lookQuat);
+
+            this.invalidateDebugPanel();
         }
 
         protected onMouseLook(delta: THREE.Vector2): void {
@@ -89,6 +95,56 @@ namespace SourceUtils {
             this.updateCameraAngles();
         }
 
+        private lastSetHash: string;
+
+        protected onHashChange(hash: string): void {
+            if (hash == null || hash === this.lastSetHash) return;
+
+            const coords = {
+                x: 0,
+                y: 0,
+                z: 0,
+                u: this.lookAngs.x * 180 / Math.PI,
+                v: this.lookAngs.y * 180 / Math.PI
+            };
+
+            this.camera.getPosition(coords);
+            
+            const spawnPosRegexp = /([xyzuv]-?[0-9]+(?:\.[0-9]+)?)/ig;
+
+            let match = spawnPosRegexp.exec(hash);
+            while (match != null)
+            {
+                const component = match[0].charAt(0);
+                const value = parseFloat(match[0].substr(1));
+
+                coords[component] = value;
+                match = spawnPosRegexp.exec(hash);
+            }
+
+            this.camera.setPosition(coords.x, coords.y, coords.z);
+            this.lookAngs.x = coords.u * Math.PI / 180;
+            this.lookAngs.y = coords.v * Math.PI / 180;
+            this.updateCameraAngles();
+        }
+
+        private updateHash(): void {
+            const coords = {
+                x: 0,
+                y: 0,
+                z: 0,
+                u: this.lookAngs.x * 180 / Math.PI,
+                v: this.lookAngs.y * 180 / Math.PI
+            };
+
+            this.camera.getPosition(coords);
+
+            const round10 = (x: number) => Math.round(x * 10) / 10;
+            this.lastSetHash = `#x${round10(coords.x)}y${round10(coords.y)}z${round10(coords.z)}u${round10(coords.u)}v${round10(coords.v)}`;
+
+            window.location.hash = this.lastSetHash;
+        }
+
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
@@ -96,8 +152,11 @@ namespace SourceUtils {
                 if (this.map.info == null) return;
                 this.spawned = true;
 
-                this.camera.setPosition(this.map.info.playerStarts[0]);
-                this.camera.translate(0, 0, 64);
+                const playerStart = this.map.info.playerStarts[0];
+                this.camera.setPosition(playerStart);
+
+                this.onHashChange(window.location.hash);
+
                 this.mainRenderContext.fogParams = this.map.info.fog;
 
                 if (this.map.info.fog.fogEnabled && this.map.info.fog.farZ !== -1) {
@@ -131,6 +190,8 @@ namespace SourceUtils {
                 this.debugPanelInvalid = false;
                 this.updateDebugPanel();
             }
+
+            this.updateHash();
         }
 
         invalidateDebugPanel(): void {

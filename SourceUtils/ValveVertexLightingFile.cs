@@ -94,7 +94,14 @@ namespace SourceUtils
                     var samples = _samples[meshHeader.Lod];
                     var meshIndex = Array.IndexOf( samples, null );
 
-                    samples[meshIndex] = LumpReader<VertexData2>.ReadLumpFromStream(stream, meshHeader.VertCount, x => x.GetVertexColor());
+                    if ( vertFlags == 2 )
+                    {
+                        samples[meshIndex] = LumpReader<VertexData2>.ReadLumpFromStream( stream, meshHeader.VertCount, x => x.GetVertexColor() );
+                    }
+                    else
+                    {
+                        samples[meshIndex] = LumpReader<VertexData4>.ReadLumpFromStream(stream, meshHeader.VertCount, x => x.GetVertexColor());
+                    }
                 }
             }
         }

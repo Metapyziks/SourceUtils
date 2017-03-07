@@ -378,9 +378,7 @@ var SourceUtils;
                 }
             }
         };
-        AppBase.prototype.onDoubleClick = function (button, screenPos) {
-            this.toggleFullscreen();
-        };
+        AppBase.prototype.onDoubleClick = function (button, screenPos) { };
         AppBase.prototype.onMouseUp = function (button, screenPos) {
             if (button === MouseButton.Left && this.isDragging) {
                 this.isDragging = false;
@@ -479,7 +477,9 @@ var SourceUtils;
             this.invalidateMatrices();
         };
         Entity.prototype.getPosition = function (target) {
-            target.copy(this.position);
+            target.x = this.position.x;
+            target.y = this.position.y;
+            target.z = this.position.z;
         };
         Entity.prototype.translate = function (valueOrX, y, z) {
             if (typeof valueOrX === "number") {
@@ -726,16 +726,23 @@ var SourceUtils;
             if (this.mdl != null)
                 return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
+            var queuedToLoad = [];
             if (this.vhvUrl != null) {
                 this.vhv = this.map.hardwareVertsLoader.load(this.vhvUrl);
                 this.vhv.setLoadCallback(function () {
-                    if (_this.mdl.hasLoadedModel(0, 0))
-                        _this.onModelLoad(_this.mdl.getModel(0, 0));
+                    for (var i = 0; i < queuedToLoad.length; ++i) {
+                        _this.onModelLoad(queuedToLoad[i]);
+                    }
+                    queuedToLoad = [];
                 });
             }
             this.mdl.addModelLoadCallback(function (model) {
-                if (model !== _this.mdl.getModel(0, 0) || _this.vhv == null || _this.vhv.hasLoaded())
+                if (_this.vhv != null && !_this.vhv.hasLoaded()) {
+                    queuedToLoad.push(model);
+                }
+                else {
                     _this.onModelLoad(model);
+                }
             });
         };
         StudioModelDrawListItem.prototype.onModelLoad = function (model) {
@@ -1365,8 +1372,12 @@ var SourceUtils;
             this.frameCountStart = performance.now();
         }
         MapViewer.prototype.init = function (container) {
+            var _this = this;
             this.camera = new SourceUtils.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
             _super.prototype.init.call(this, container);
+            window.onhashchange = function () {
+                _this.onHashChange(window.location.hash);
+            };
             this.getContext().clearColor(100 / 255, 149 / 255, 237 / 255, 1);
             this.updateCameraAngles();
         };
@@ -1399,11 +1410,49 @@ var SourceUtils;
             this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
             this.lookQuat.multiply(this.tempQuat);
             this.camera.setRotation(this.lookQuat);
+            this.invalidateDebugPanel();
         };
         MapViewer.prototype.onMouseLook = function (delta) {
             _super.prototype.onMouseLook.call(this, delta);
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
             this.updateCameraAngles();
+        };
+        MapViewer.prototype.onHashChange = function (hash) {
+            if (hash == null || hash === this.lastSetHash)
+                return;
+            var coords = {
+                x: 0,
+                y: 0,
+                z: 0,
+                u: this.lookAngs.x * 180 / Math.PI,
+                v: this.lookAngs.y * 180 / Math.PI
+            };
+            this.camera.getPosition(coords);
+            var spawnPosRegexp = /([xyzuv]-?[0-9]+(?:\.[0-9]+)?)/ig;
+            var match = spawnPosRegexp.exec(hash);
+            while (match != null) {
+                var component = match[0].charAt(0);
+                var value = parseFloat(match[0].substr(1));
+                coords[component] = value;
+                match = spawnPosRegexp.exec(hash);
+            }
+            this.camera.setPosition(coords.x, coords.y, coords.z);
+            this.lookAngs.x = coords.u * Math.PI / 180;
+            this.lookAngs.y = coords.v * Math.PI / 180;
+            this.updateCameraAngles();
+        };
+        MapViewer.prototype.updateHash = function () {
+            var coords = {
+                x: 0,
+                y: 0,
+                z: 0,
+                u: this.lookAngs.x * 180 / Math.PI,
+                v: this.lookAngs.y * 180 / Math.PI
+            };
+            this.camera.getPosition(coords);
+            var round10 = function (x) { return Math.round(x * 10) / 10; };
+            this.lastSetHash = "#x" + round10(coords.x) + "y" + round10(coords.y) + "z" + round10(coords.z) + "u" + round10(coords.u) + "v" + round10(coords.v);
+            window.location.hash = this.lastSetHash;
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
@@ -1411,8 +1460,9 @@ var SourceUtils;
                 if (this.map.info == null)
                     return;
                 this.spawned = true;
-                this.camera.setPosition(this.map.info.playerStarts[0]);
-                this.camera.translate(0, 0, 64);
+                var playerStart = this.map.info.playerStarts[0];
+                this.camera.setPosition(playerStart);
+                this.onHashChange(window.location.hash);
                 this.mainRenderContext.fogParams = this.map.info.fog;
                 if (this.map.info.fog.fogEnabled && this.map.info.fog.farZ !== -1) {
                     this.camera.setFar(this.map.info.fog.farZ);
@@ -1443,6 +1493,7 @@ var SourceUtils;
                 this.debugPanelInvalid = false;
                 this.updateDebugPanel();
             }
+            this.updateHash();
         };
         MapViewer.prototype.invalidateDebugPanel = function () {
             this.debugPanelInvalid = true;
@@ -2151,15 +2202,18 @@ var SourceUtils;
                     if (meshColors != null) {
                         // TODO: make generic
                         var itemSize = 8;
-                        var itemOffset = 5 + offset * itemSize;
+                        var itemOffset = offset * itemSize;
                         var verts = meshData.vertices;
-                        for (var j = 0, jEnd = meshColors.length / 3; j < jEnd; ++j) {
-                            verts[j * itemSize + itemOffset + 0] = meshColors[j * 3 + 0];
-                            verts[j * itemSize + itemOffset + 1] = meshColors[j * 3 + 1];
-                            verts[j * itemSize + itemOffset + 2] = meshColors[j * 3 + 2];
+                        for (var j = 0, jEnd = count; j < jEnd; ++j) {
+                            verts[j * itemSize + itemOffset + 5] = meshColors[j * 3 + 0];
+                            verts[j * itemSize + itemOffset + 6] = meshColors[j * 3 + 1];
+                            verts[j * itemSize + itemOffset + 7] = meshColors[j * 3 + 2];
                         }
                     }
                 }
+            }
+            else {
+                console.log("No vertex colors! " + this.info.meshDataUrl);
             }
             var handles = this.mdl.getMap().meshManager.addMeshData(meshData);
             for (var i = 0; i < handles.length; ++i) {

@@ -187,9 +187,10 @@ namespace SourceUtils
 
                         LumpReader<ModelLodHeader>.ReadLumpFromStream( reader.BaseStream, model.NumLods, (lodIndex, lod) =>
                         {
-                            reader.BaseStream.Seek( lod.MeshOffset, SeekOrigin.Current );
+                            // TODO
+                            if ( lodIndex > 0 ) return;
 
-                            if ( lodIndex != 0 ) return;
+                            reader.BaseStream.Seek( lod.MeshOffset, SeekOrigin.Current );
 
                             lod.MeshOffset = meshList.Count;
 
