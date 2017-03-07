@@ -112,6 +112,7 @@ namespace SourceUtils {
 
     export class AppBase {
         canLockPointer = false;
+        doubleClickPeriod = 0.3;
 
         private container: JQuery;
         private canvas: HTMLCanvasElement;
@@ -119,6 +120,7 @@ namespace SourceUtils {
 
         private animateCallback: (time: number) => void;
         private previousTime = 0;
+        private lastClickTime = 0;
 
         private isDragging: boolean;
         private mouseScreenPos = new THREE.Vector2();
@@ -186,10 +188,42 @@ namespace SourceUtils {
                 this.heldKeys[e.which] = false;
                 this.onKeyUp(e.which as Key);
             });
+            
+            const deltaAngles = new THREE.Vector3();
+            let lastRotationSampleTime = new Date().getTime() / 1000;
+
+            const deviceRotate = (x: number, y: number, z: number, period: number, toRadians: number) => {
+                x *= toRadians / period;
+                y *= toRadians / period;
+                z *= toRadians / period;
+
+                const sampleTime = new Date().getTime() / 1000;
+                const deltaTime = sampleTime - lastRotationSampleTime;
+                lastRotationSampleTime = sampleTime;
+
+                deltaAngles.x = x * deltaTime;
+                deltaAngles.y = y * deltaTime;
+                deltaAngles.z = z * deltaTime;
+
+                this.onDeviceRotate(deltaAngles);
+            };
+
+            const wind: any = window;
+            if (wind.DeviceMotionEvent) {
+                window.addEventListener("devicemotion",
+                    evnt => {
+                        const rate = evnt.rotationRate;
+                        deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
+                    },
+                    true);
+            }
+
             this.container.contextmenu(() => false);
 
             window.addEventListener("resize", () => this.onWindowResize(), false);
         }
+
+        protected onDeviceRotate(delta: THREE.Vector3): void {}
 
         isPointerLocked(): boolean {
             return document.pointerLockElement === this.container[0];
@@ -256,7 +290,20 @@ namespace SourceUtils {
         protected onMouseDown(button: MouseButton, screenPos: THREE.Vector2): void {
             if (button === MouseButton.Left) {
                 this.dragStartScreenPos = screenPos;
+
+                const time = new Date().getTime() / 1000;
+                const sinceLast = time - this.lastClickTime;
+                this.lastClickTime = time;
+
+                if (sinceLast < this.doubleClickPeriod)
+                {
+                    this.onDoubleClick(button, screenPos);
+                }
             }
+        }
+
+        protected onDoubleClick(button: MouseButton, screenPos: THREE.Vector2): void {
+            this.toggleFullscreen();
         }
 
         protected onMouseUp(button: MouseButton, screenPos: THREE.Vector2): void {

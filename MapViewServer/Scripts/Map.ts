@@ -164,6 +164,7 @@ namespace SourceUtils {
             const world = this.getWorldSpawn();
             if (world == null) return;
             const leaves = world.getLeaves();
+            if (leaves == null) return;
             for (let i = 0; i < leaves.length; ++i) {
                 leaves[i].invalidateDrawLists();
             }

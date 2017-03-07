@@ -48,12 +48,18 @@ namespace SourceUtils {
             this.mainRenderContext = new RenderContext(this.map, this.camera);
         }
 
-        onKeyDown(key: Key): void {
+        protected onKeyDown(key: Key): void {
             super.onKeyDown(key);
 
             if (key === Key.F) {
                 this.toggleFullscreen();
             }
+        }
+
+        protected onDeviceRotate(delta: THREE.Vector3): void {
+            this.lookAngs.x += delta.z;
+            this.lookAngs.y -= delta.x;
+            this.updateCameraAngles();
         }
 
         private unitZ = new THREE.Vector3(0, 0, 1);
