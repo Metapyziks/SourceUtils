@@ -111,6 +111,8 @@ namespace SourceUtils
 
         private struct MeshData
         {
+            public int LodIndexOffset;
+            public int LodVertexOffset;
             public int IndexOffset;
             public int IndexCount;
             public int VertexOffset;
@@ -195,11 +197,15 @@ namespace SourceUtils
                             lod.MeshOffset = meshList.Count;
 
                             var lodVerts = origVerts[lodIndex];
+                            var firstLodIndex = outVertices.Count;
+                            var firstLodVertex = outVertices.Count;
 
                             LumpReader<MeshHeader>.ReadLumpFromStream( reader.BaseStream, lod.NumMeshes, (meshIndex, mesh) =>
                             {
                                 var meshData = new MeshData
                                 {
+                                    LodIndexOffset = firstLodIndex,
+                                    LodVertexOffset = firstLodVertex,
                                     IndexOffset = outIndices.Count,
                                     VertexOffset = outVertices.Count
                                 };
@@ -218,7 +224,7 @@ namespace SourceUtils
                                     LumpReader<OptimizedVertex>.ReadLumpFromStream( reader.BaseStream,
                                         stripGroup.NumVerts, verts );
 
-                                    var meshIndexOffset = outVertices.Count;
+                                    var meshIndexOffset = outVertices.Count - firstLodVertex;
                                     for ( var i = 0; i < verts.Count; ++i )
                                     {
                                         var vertIndex = origVertOffset + verts[i].OrigMeshVertId;
@@ -343,9 +349,9 @@ namespace SourceUtils
             var lodHdr = _modelLods[modelHdr.LodOffset + lod];
             var meshData = _meshes[lodHdr.MeshOffset + mesh];
 
-            indexOffset = meshData.IndexOffset;
+            indexOffset = meshData.IndexOffset - meshData.LodIndexOffset;
             indexCount = meshData.IndexCount;
-            vertexOffset = meshData.VertexOffset;
+            vertexOffset = meshData.VertexOffset - meshData.LodVertexOffset;
             vertexCount = meshData.VertexCount;
         }
     }

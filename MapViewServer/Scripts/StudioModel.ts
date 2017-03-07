@@ -1,13 +1,15 @@
 ﻿namespace SourceUtils {
-    export class SmdModel {
+    export class SmdModel
+    {
+        bodyPart: SmdBodyPart;
+        index: number;
+
         private info: Api.ISmdModel;
-
-        private mdl: StudioModel;
-
         private meshData: Api.IMdlMeshDataResponse;
 
-        constructor(mdl: StudioModel, info: Api.ISmdModel) {
-            this.mdl = mdl;
+        constructor(bodyPart: SmdBodyPart, index: number, info: Api.ISmdModel) {
+            this.bodyPart = bodyPart;
+            this.index = index;
             this.info = info;
         }
 
@@ -37,14 +39,12 @@
                         }
                     }
                 }
-            } else {
-                console.log(`No vertex colors! ${this.info.meshDataUrl}`);
             }
 
-            const handles = this.mdl.getMap().meshManager.addMeshData(meshData);
+            const handles = this.bodyPart.mdl.getMap().meshManager.addMeshData(meshData);
 
             for (let i = 0; i < handles.length; ++i) {
-                handles[i].material = this.mdl.getMaterial(handles[i].materialIndex);
+                handles[i].material = this.bodyPart.mdl.getMaterial(handles[i].materialIndex);
             }
 
             return handles;
@@ -70,14 +70,19 @@
 
     export class SmdBodyPart {
         name: string;
+
+        mdl: StudioModel;
+        index: number;
         models: SmdModel[];
 
-        constructor(mdl: StudioModel, info: Api.ISmdBodyPart) {
+        constructor(mdl: StudioModel, index: number, info: Api.ISmdBodyPart) {
             this.name = info.name;
+            this.mdl = mdl;
+            this.index = index;
             this.models = [];
 
             for (let i = 0; i < info.models.length; ++i) {
-                this.models.push(new SmdModel(mdl, info.models[i]));
+                this.models.push(new SmdModel(this, i, info.models[i]));
             }
         }
     }
@@ -167,7 +172,7 @@
                 }
 
                 for (let i = 0; i < data.bodyParts.length; ++i) {
-                    const bodyPart = new SmdBodyPart(this, data.bodyParts[i]);
+                    const bodyPart = new SmdBodyPart(this, i, data.bodyParts[i]);
                     this.bodyParts.push(bodyPart);
 
                     for (let j = 0; j < bodyPart.models.length; ++j) {

@@ -717,10 +717,15 @@ var SourceUtils;
         __extends(StudioModelDrawListItem, _super);
         function StudioModelDrawListItem(map, mdlUrl, vhvUrl) {
             _super.call(this);
+            this.bodyPartModels = (_a = {}, _a[0] = 0, _a);
             this.map = map;
             this.mdlUrl = mdlUrl;
             this.vhvUrl = vhvUrl;
+            var _a;
         }
+        StudioModelDrawListItem.prototype.shouldDisplayModel = function (model) {
+            return this.bodyPartModels[model.bodyPart.index] === model.index;
+        };
         StudioModelDrawListItem.prototype.onRequestMeshHandles = function () {
             var _this = this;
             if (this.mdl != null)
@@ -737,6 +742,8 @@ var SourceUtils;
                 });
             }
             this.mdl.addModelLoadCallback(function (model) {
+                if (!_this.shouldDisplayModel(model))
+                    return;
                 if (_this.vhv != null && !_this.vhv.hasLoaded()) {
                     queuedToLoad.push(model);
                 }
@@ -773,15 +780,19 @@ var SourceUtils;
 (function (SourceUtils) {
     var RenderContext = (function () {
         function RenderContext(map, camera) {
+            var _this = this;
             this.projectionMatrix = new THREE.Matrix4();
             this.modelMatrix = new THREE.Matrix4();
             this.viewMatrix = new THREE.Matrix4();
             this.modelViewMatrix = new THREE.Matrix4();
             this.modelViewInvalid = true;
+            this.pvsOrigin = new THREE.Vector3();
+            this.pvsFollowsCamera = true;
             this.origin = new THREE.Vector3();
             this.map = map;
             this.camera = camera;
             this.drawList = new DrawList(map);
+            this.map.addDrawListInvalidationHandler(function () { return _this.drawList.invalidate(); });
         }
         RenderContext.prototype.getProjectionMatrix = function () {
             return this.projectionMatrix.elements;
@@ -802,8 +813,14 @@ var SourceUtils;
             }
             this.modelViewInvalid = true;
         };
+        RenderContext.prototype.setPvsOrigin = function (pos) {
+            this.pvsFollowsCamera = false;
+            this.pvsOrigin.set(pos.x, pos.y, pos.z);
+        };
         RenderContext.prototype.render = function () {
             this.camera.getPosition(this.origin);
+            if (this.pvsFollowsCamera)
+                this.pvsOrigin.set(this.origin.x, this.origin.y, this.origin.z);
             var persp = this.camera;
             if (persp.getNear !== undefined) {
                 this.near = persp.getNear();
@@ -815,6 +832,9 @@ var SourceUtils;
             this.map.shaderManager.setCurrentProgram(null);
             this.updatePvs();
             this.drawList.render(this);
+        };
+        RenderContext.prototype.getClusterIndex = function () {
+            return this.pvsRoot == null ? -1 : this.pvsRoot.cluster;
         };
         RenderContext.prototype.canSeeSky2D = function () {
             return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky2D;
@@ -832,7 +852,7 @@ var SourceUtils;
             var worldSpawn = this.map.getWorldSpawn();
             if (worldSpawn == null)
                 return;
-            var root = worldSpawn.findLeaf(this.origin);
+            var root = worldSpawn.findLeaf(this.pvsOrigin);
             if (root === this.pvsRoot && !force)
                 return;
             this.pvsRoot = root;
@@ -876,10 +896,13 @@ var SourceUtils;
             this.updateItem(item);
             item.onAddToDrawList(this);
         };
-        DrawList.prototype.updateItem = function (item) {
+        DrawList.prototype.invalidate = function () {
             if (this.isBuildingList)
                 return;
             this.handles = null;
+        };
+        DrawList.prototype.updateItem = function (item) {
+            this.invalidate();
         };
         DrawList.prototype.renderHandle = function (handle, context) {
             var changedMaterial = false;
@@ -1154,6 +1177,7 @@ var SourceUtils;
             this.displacements = [];
             this.staticProps = [];
             this.materials = [];
+            this.drawListInvalidationHandlers = [];
             this.app = app;
             this.faceLoader = this.addLoader(new SourceUtils.FaceLoader(this));
             this.modelLoader = this.addLoader(new SourceUtils.StudioModelLoader(this));
@@ -1223,7 +1247,7 @@ var SourceUtils;
                 for (var i = 0; i < data.displacements.length; ++i) {
                     _this.displacements.push(new SourceUtils.Displacement(_this.getWorldSpawn(), data.displacements[i]));
                 }
-                _this.forcePvsInvalidation();
+                _this.forceDrawListInvalidation();
             });
         };
         Map.prototype.loadMaterials = function () {
@@ -1239,7 +1263,7 @@ var SourceUtils;
                         _this.materials.push(new SourceUtils.Material(_this, data.materials[i]));
                     }
                 }
-                _this.forcePvsInvalidation();
+                _this.forceDrawListInvalidation();
             });
         };
         Map.prototype.loadStaticProps = function () {
@@ -1253,18 +1277,15 @@ var SourceUtils;
                     }
                     _this.staticProps.push(new SourceUtils.PropStatic(_this, prop));
                 }
-                _this.forcePvsInvalidation();
+                _this.forceDrawListInvalidation();
             });
         };
-        Map.prototype.forcePvsInvalidation = function () {
-            var world = this.getWorldSpawn();
-            if (world == null)
-                return;
-            var leaves = world.getLeaves();
-            if (leaves == null)
-                return;
-            for (var i = 0; i < leaves.length; ++i) {
-                leaves[i].invalidateDrawLists();
+        Map.prototype.addDrawListInvalidationHandler = function (action) {
+            this.drawListInvalidationHandlers.push(action);
+        };
+        Map.prototype.forceDrawListInvalidation = function () {
+            for (var i = 0; i < this.drawListInvalidationHandlers.length; ++i) {
+                this.drawListInvalidationHandlers[i]();
             }
         };
         Map.prototype.onModelLoaded = function (model) {
@@ -1452,7 +1473,12 @@ var SourceUtils;
             this.camera.getPosition(coords);
             var round10 = function (x) { return Math.round(x * 10) / 10; };
             this.lastSetHash = "#x" + round10(coords.x) + "y" + round10(coords.y) + "z" + round10(coords.z) + "u" + round10(coords.u) + "v" + round10(coords.v);
-            window.location.hash = this.lastSetHash;
+            if (history.replaceState != null) {
+                history.replaceState(null, null, this.lastSetHash);
+            }
+            else {
+                location.hash = this.lastSetHash;
+            }
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
@@ -1462,6 +1488,7 @@ var SourceUtils;
                 this.spawned = true;
                 var playerStart = this.map.info.playerStarts[0];
                 this.camera.setPosition(playerStart);
+                this.camera.translate(0, 0, 64);
                 this.onHashChange(window.location.hash);
                 this.mainRenderContext.fogParams = this.map.info.fog;
                 if (this.map.info.fog.fogEnabled && this.map.info.fog.farZ !== -1) {
@@ -1470,6 +1497,7 @@ var SourceUtils;
                 if (this.map.info.skyCamera.enabled) {
                     this.skyCamera = new SourceUtils.PerspectiveCamera(this.camera.getFov(), this.camera.getAspect(), this.camera.getNear(), this.camera.getFar());
                     this.skyRenderContext = new SourceUtils.RenderContext(this.map, this.skyCamera);
+                    this.skyRenderContext.setPvsOrigin(this.map.info.skyCamera.origin);
                     this.skyRenderContext.fogParams = this.map.info.skyCamera;
                 }
             }
@@ -1504,7 +1532,8 @@ var SourceUtils;
                 + '<span class="debug-label">Frame time:</span>&nbsp;<span class="debug-value" id="debug-frame-time"></span><br/>'
                 + '<span class="debug-label">Frame rate:</span>&nbsp;<span class="debug-value" id="debug-frame-rate"></span><br/>'
                 + '<span class="debug-label">Draw calls:</span>&nbsp;<span class="debug-value" id="debug-draw-calls"></span><br/>'
-                + '<span class="debug-label">Camera pos:</span>&nbsp;<span class="debug-value" id="debug-camera-pos"></span>');
+                + '<span class="debug-label">Camera pos:</span>&nbsp;<span class="debug-value" id="debug-camera-pos"></span><br/>'
+                + '<span class="debug-label">Cluster id:</span>&nbsp;<span class="debug-value" id="debug-cluster-id"></span>');
         };
         MapViewer.prototype.updateDebugPanel = function () {
             if (this.debugPanel == null)
@@ -1524,6 +1553,7 @@ var SourceUtils;
             this.debugPanel.find("#debug-frame-rate").text((1000 / this.lastAvgFrameTime).toPrecision(5) + " fps");
             this.debugPanel.find("#debug-draw-calls").text("" + drawCalls);
             this.debugPanel.find("#debug-camera-pos").text(Math.round(cameraPos.x) + ", " + Math.round(cameraPos.y) + ", " + Math.round(cameraPos.z));
+            this.debugPanel.find("#debug-cluster-id").text("" + this.mainRenderContext.getClusterIndex());
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             var gl = this.getContext();
@@ -2185,8 +2215,9 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var SmdModel = (function () {
-        function SmdModel(mdl, info) {
-            this.mdl = mdl;
+        function SmdModel(bodyPart, index, info) {
+            this.bodyPart = bodyPart;
+            this.index = index;
             this.info = info;
         }
         SmdModel.prototype.hasLoaded = function () {
@@ -2212,12 +2243,9 @@ var SourceUtils;
                     }
                 }
             }
-            else {
-                console.log("No vertex colors! " + this.info.meshDataUrl);
-            }
-            var handles = this.mdl.getMap().meshManager.addMeshData(meshData);
+            var handles = this.bodyPart.mdl.getMap().meshManager.addMeshData(meshData);
             for (var i = 0; i < handles.length; ++i) {
-                handles[i].material = this.mdl.getMaterial(handles[i].materialIndex);
+                handles[i].material = this.bodyPart.mdl.getMaterial(handles[i].materialIndex);
             }
             return handles;
         };
@@ -2242,11 +2270,13 @@ var SourceUtils;
     }());
     SourceUtils.SmdModel = SmdModel;
     var SmdBodyPart = (function () {
-        function SmdBodyPart(mdl, info) {
+        function SmdBodyPart(mdl, index, info) {
             this.name = info.name;
+            this.mdl = mdl;
+            this.index = index;
             this.models = [];
             for (var i = 0; i < info.models.length; ++i) {
-                this.models.push(new SmdModel(mdl, info.models[i]));
+                this.models.push(new SmdModel(this, i, info.models[i]));
             }
         }
         return SmdBodyPart;
@@ -2318,7 +2348,7 @@ var SourceUtils;
                     _this.materials.push(data.materials[i] == null ? null : new SourceUtils.Material(_this.map, data.materials[i]));
                 }
                 for (var i = 0; i < data.bodyParts.length; ++i) {
-                    var bodyPart = new SmdBodyPart(_this, data.bodyParts[i]);
+                    var bodyPart = new SmdBodyPart(_this, i, data.bodyParts[i]);
                     _this.bodyParts.push(bodyPart);
                     for (var j = 0; j < bodyPart.models.length; ++j) {
                         _this.toLoad.push(bodyPart.models[j]);

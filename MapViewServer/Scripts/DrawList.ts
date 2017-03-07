@@ -12,6 +12,9 @@
         private pvsRoot: VisLeaf;
         private drawList: DrawList;
 
+        private pvsOrigin = new THREE.Vector3();
+
+        pvsFollowsCamera = true;
         fogParams: Api.IFogParams;
 
         origin = new THREE.Vector3();
@@ -22,6 +25,8 @@
             this.map = map;
             this.camera = camera;
             this.drawList = new DrawList(map);
+
+            this.map.addDrawListInvalidationHandler(() => this.drawList.invalidate());
         }
 
         getProjectionMatrix(): Float32Array {
@@ -46,8 +51,15 @@
             this.modelViewInvalid = true;
         }
 
-        render(): void {
+        setPvsOrigin(pos: THREE.Vector3 | Api.IVector3): void {
+            this.pvsFollowsCamera = false;
+            this.pvsOrigin.set(pos.x, pos.y, pos.z);
+        }
+
+        render(): void
+        {
             this.camera.getPosition(this.origin);
+            if (this.pvsFollowsCamera) this.pvsOrigin.set(this.origin.x, this.origin.y, this.origin.z);
 
             const persp = this.camera as PerspectiveCamera;
             if (persp.getNear !== undefined) {
@@ -63,6 +75,10 @@
 
             this.updatePvs();
             this.drawList.render(this);
+        }
+
+        getClusterIndex(): number {
+            return this.pvsRoot == null ? -1 : this.pvsRoot.cluster;
         }
 
         canSeeSky2D(): boolean {
@@ -82,7 +98,7 @@
             const worldSpawn = this.map.getWorldSpawn();
             if (worldSpawn == null) return;
 
-            const root = worldSpawn.findLeaf(this.origin);
+            const root = worldSpawn.findLeaf(this.pvsOrigin);
             if (root === this.pvsRoot && !force) return;
 
             this.pvsRoot = root;
@@ -145,9 +161,13 @@
 
         private isBuildingList: boolean = false;
 
-        updateItem(item: DrawListItem): void {
+        invalidate(): void {
             if (this.isBuildingList) return;
             this.handles = null;
+        }
+
+        updateItem(item: DrawListItem): void {
+            this.invalidate();
         }
 
         private renderHandle(handle: WorldMeshHandle, context: RenderContext): void {

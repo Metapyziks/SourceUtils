@@ -142,7 +142,11 @@ namespace SourceUtils {
             const round10 = (x: number) => Math.round(x * 10) / 10;
             this.lastSetHash = `#x${round10(coords.x)}y${round10(coords.y)}z${round10(coords.z)}u${round10(coords.u)}v${round10(coords.v)}`;
 
-            window.location.hash = this.lastSetHash;
+            if (history.replaceState != null) {
+                history.replaceState(null, null, this.lastSetHash);
+            } else {
+                location.hash = this.lastSetHash;
+            }
         }
 
         protected onUpdateFrame(dt: number): void {
@@ -154,6 +158,7 @@ namespace SourceUtils {
 
                 const playerStart = this.map.info.playerStarts[0];
                 this.camera.setPosition(playerStart);
+                this.camera.translate(0, 0, 64);
 
                 this.onHashChange(window.location.hash);
 
@@ -166,6 +171,7 @@ namespace SourceUtils {
                 if (this.map.info.skyCamera.enabled) {
                     this.skyCamera = new PerspectiveCamera(this.camera.getFov(), this.camera.getAspect(), this.camera.getNear(), this.camera.getFar());
                     this.skyRenderContext = new RenderContext(this.map, this.skyCamera);
+                    this.skyRenderContext.setPvsOrigin(this.map.info.skyCamera.origin);
                     this.skyRenderContext.fogParams = this.map.info.skyCamera;
                 }
             }
@@ -204,7 +210,8 @@ namespace SourceUtils {
                 + '<span class="debug-label">Frame time:</span>&nbsp;<span class="debug-value" id="debug-frame-time"></span><br/>'
                 + '<span class="debug-label">Frame rate:</span>&nbsp;<span class="debug-value" id="debug-frame-rate"></span><br/>'
                 + '<span class="debug-label">Draw calls:</span>&nbsp;<span class="debug-value" id="debug-draw-calls"></span><br/>'
-                + '<span class="debug-label">Camera pos:</span>&nbsp;<span class="debug-value" id="debug-camera-pos"></span>');
+                + '<span class="debug-label">Camera pos:</span>&nbsp;<span class="debug-value" id="debug-camera-pos"></span><br/>'
+                + '<span class="debug-label">Cluster id:</span>&nbsp;<span class="debug-value" id="debug-cluster-id"></span>');
         }
 
         private updateDebugPanel(): void {
@@ -228,6 +235,7 @@ namespace SourceUtils {
             this.debugPanel.find("#debug-frame-rate").text(`${(1000 / this.lastAvgFrameTime).toPrecision(5)} fps`);
             this.debugPanel.find("#debug-draw-calls").text(`${drawCalls}`);
             this.debugPanel.find("#debug-camera-pos").text(`${Math.round(cameraPos.x)}, ${Math.round(cameraPos.y)}, ${Math.round(cameraPos.z)}`);
+            this.debugPanel.find("#debug-cluster-id").text(`${this.mainRenderContext.getClusterIndex()}`);
         }
 
         private skyCameraPos = new THREE.Vector3();

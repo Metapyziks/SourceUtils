@@ -107,6 +107,12 @@
         private mdl: StudioModel;
         private vhv: HardwareVerts;
 
+        private bodyPartModels: {[bodyPart:number]: number} = {[0]: 0};
+
+        private shouldDisplayModel(model: SmdModel): boolean {
+            return this.bodyPartModels[model.bodyPart.index] === model.index;
+        }
+
         protected onRequestMeshHandles(): void {
             if (this.mdl != null) return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
@@ -124,8 +130,9 @@
                 });
             }
 
-            this.mdl.addModelLoadCallback(model =>
-            {
+            this.mdl.addModelLoadCallback(model => {
+                if (!this.shouldDisplayModel(model)) return;
+
                 if (this.vhv != null && !this.vhv.hasLoaded()) {
                     queuedToLoad.push(model);
                 } else {

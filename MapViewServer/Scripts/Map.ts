@@ -30,6 +30,8 @@ namespace SourceUtils {
         private clusters: VisLeaf[][];
         private pvsArray: VisLeaf[][];
 
+        private drawListInvalidationHandlers: (() => void)[] = [];
+
         constructor(app: AppBase, url: string) {
             super();
 
@@ -120,7 +122,7 @@ namespace SourceUtils {
                         this.displacements.push(new Displacement(this.getWorldSpawn(), data.displacements[i]));
                     }
 
-                    this.forcePvsInvalidation();
+                    this.forceDrawListInvalidation();
                 });
         }
 
@@ -138,7 +140,7 @@ namespace SourceUtils {
                         }
                     }
 
-                    this.forcePvsInvalidation();
+                    this.forceDrawListInvalidation();
                 });
         }
 
@@ -156,17 +158,18 @@ namespace SourceUtils {
                         this.staticProps.push(new PropStatic(this, prop));
                     }
 
-                    this.forcePvsInvalidation();
+                    this.forceDrawListInvalidation();
                 });
         }
 
-        private forcePvsInvalidation(): void {
-            const world = this.getWorldSpawn();
-            if (world == null) return;
-            const leaves = world.getLeaves();
-            if (leaves == null) return;
-            for (let i = 0; i < leaves.length; ++i) {
-                leaves[i].invalidateDrawLists();
+        addDrawListInvalidationHandler(action: () => void): void {
+            this.drawListInvalidationHandlers.push(action);
+        }
+
+        private forceDrawListInvalidation(): void
+        {
+            for (let i = 0; i < this.drawListInvalidationHandlers.length; ++i) {
+                this.drawListInvalidationHandlers[i]();
             }
         }
 
