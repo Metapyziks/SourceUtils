@@ -169,6 +169,7 @@
             flags: StaticPropFlags;
             solid: boolean;
             clusters: number[];
+            albedo: number;
             vertLightingUrl?: string;
         }
 

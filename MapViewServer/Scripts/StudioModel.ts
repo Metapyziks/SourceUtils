@@ -17,7 +17,7 @@
             return this.meshData != null;
         }
 
-        createMeshHandles(staticParent?: Entity, vertexColors?: HardwareVerts): WorldMeshHandle[] {
+        createMeshHandles(staticParent?: Entity, vertexColors?: HardwareVerts, albedoRgb?: number): WorldMeshHandle[] {
             const meshData = new MeshData(this.meshData);
             const itemSize = 8;
 
@@ -52,11 +52,19 @@
                 }
             }
 
+            if (albedoRgb === undefined) {
+                albedoRgb = 0xffffff;
+            }
+
             if (vertexColors != null) {
                 for (let i = 0; i < meshData.elements.length; ++i) {
                     const meshColors = Utils.decompress(vertexColors.getSamples(i));
                     const offset = meshData.elements[i].vertexOffset;
                     const count = meshData.elements[i].vertexCount;
+
+                    const albedoR = (albedoRgb >> 0) & 0xff;
+                    const albedoG = (albedoRgb >> 8) & 0xff;
+                    const albedoB = (albedoRgb >> 16) & 0xff;
 
                     if (meshColors != null) {
                         // TODO: make generic
@@ -66,9 +74,9 @@
                         for (let j = 0, jEnd = count; j < jEnd; ++j) {
                             const vertStart = j * itemSize + itemOffset;
                             const colorStart = j * 3;
-                            verts[vertStart + 5] = meshColors[colorStart + 0];
-                            verts[vertStart + 6] = meshColors[colorStart + 1];
-                            verts[vertStart + 7] = meshColors[colorStart + 2];
+                            verts[vertStart + 5] = meshColors[colorStart + 0] + meshColors[colorStart + 1] / 256;
+                            verts[vertStart + 6] = meshColors[colorStart + 2] + albedoR / 256;
+                            verts[vertStart + 7] = albedoG + albedoB / 256;
                         }
                     }
                 }

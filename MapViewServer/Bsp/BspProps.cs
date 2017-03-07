@@ -60,6 +60,7 @@ namespace MapViewServer
                     {"angles", angles.ToJson()},
                     {"flags", (int) flags},
                     {"solid", solid},
+                    {"albedo", diffMod & 0xffffff },
                     {"clusters", clusters}
                 };
 
@@ -67,8 +68,7 @@ namespace MapViewServer
                 {
                     obj.Add( "vertLightingUrl", GetActionUrl( nameof( GetVertexLighting ),
                         Replace( "mapName", mapName ),
-                        Replace( "index", i ),
-                        Replace( "albedo", diffMod & 0xffffff ) ) );
+                        Replace( "index", i ) ) );
                 }
 
                 response.Add( obj );
@@ -82,7 +82,7 @@ namespace MapViewServer
         }
 
         [Get( "/{mapName}/vert-lighting" )]
-        public JToken GetVertexLighting( [Url] string mapName, int index, int albedo = 0xffffff )
+        public JToken GetVertexLighting( [Url] string mapName, int index )
         {
             if ( CheckNotExpired( mapName ) ) return null;
 
@@ -103,22 +103,10 @@ namespace MapViewServer
                     vhv = new ValveVertexLightingFile( stream );
                 }
 
-                var albedoColor = Color32.FromBgr( albedo );
-                var rMul = albedoColor.R / 255f;
-                var gMul = albedoColor.G / 255f;
-                var bMul = albedoColor.B / 255f;
-
                 var meshCount = vhv.GetMeshCount( 0 );
                 for ( var meshId = 0; meshId < meshCount; ++meshId )
                 {
-                    array.Add( SerializeArray( vhv.GetSamples( 0, meshId ), sample =>
-                    {
-                        var r = (int) Math.Round( sample.R * rMul );
-                        var g = (int) Math.Round( sample.G * gMul );
-                        var b = (int) Math.Round( sample.B * bMul );
-
-                        return $"{r},{g},{b}";
-                    } ) );
+                    array.Add( SerializeArray( vhv.GetSamples( 0, meshId ), sample => $"{sample.R},{sample.G},{sample.B}" ) );
                 }
             }
 

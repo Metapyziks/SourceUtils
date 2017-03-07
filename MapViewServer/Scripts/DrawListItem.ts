@@ -111,6 +111,8 @@
 
         private bodyPartModels: { [bodyPart: number]: number } = { [0]: 0 };
 
+        albedoRgb = 0xffffff;
+
         private shouldDisplayModel(model: SmdModel): boolean {
             return this.bodyPartModels[model.bodyPart.index] === model.index;
         }
@@ -145,7 +147,7 @@
 
         private onModelLoad(model: SmdModel): void {
             this.addMeshHandles(model.createMeshHandles(this.isStatic ? this.parent : null,
-                model === this.mdl.getModel(0, 0) ? this.vhv : null));
+                model === this.mdl.getModel(0, 0) ? this.vhv : null, this.albedoRgb));
         }
 
         constructor(map: Map, mdlUrl: string, vhvUrl?: string) {

@@ -722,6 +722,7 @@ var SourceUtils;
         function StudioModelDrawListItem(map, mdlUrl, vhvUrl) {
             _super.call(this);
             this.bodyPartModels = (_a = {}, _a[0] = 0, _a);
+            this.albedoRgb = 0xffffff;
             this.map = map;
             this.mdlUrl = mdlUrl;
             this.vhvUrl = vhvUrl;
@@ -757,7 +758,7 @@ var SourceUtils;
             });
         };
         StudioModelDrawListItem.prototype.onModelLoad = function (model) {
-            this.addMeshHandles(model.createMeshHandles(this.isStatic ? this.parent : null, model === this.mdl.getModel(0, 0) ? this.vhv : null));
+            this.addMeshHandles(model.createMeshHandles(this.isStatic ? this.parent : null, model === this.mdl.getModel(0, 0) ? this.vhv : null, this.albedoRgb));
         };
         return StudioModelDrawListItem;
     }(DrawListItem));
@@ -1685,6 +1686,7 @@ var SourceUtils;
             this.drawListItem = new SourceUtils.StudioModelDrawListItem(map, info.model, info.vertLightingUrl);
             this.drawListItem.parent = this;
             this.drawListItem.isStatic = true;
+            this.drawListItem.albedoRgb = info.albedo;
         }
         PropStatic.prototype.getDrawListItem = function () {
             return this.drawListItem;
@@ -2145,7 +2147,7 @@ var SourceUtils;
                 _super.call(this, manager);
                 this.isTranslucent = false;
                 this.sortOrder = 0;
-                this.addAttribute("aColor", SourceUtils.Api.MeshComponent.Rgb);
+                this.addAttribute("aColorCompressed", SourceUtils.Api.MeshComponent.Rgb);
                 var gl = this.getContext();
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
@@ -2228,7 +2230,7 @@ var SourceUtils;
         SmdModel.prototype.hasLoaded = function () {
             return this.meshData != null;
         };
-        SmdModel.prototype.createMeshHandles = function (staticParent, vertexColors) {
+        SmdModel.prototype.createMeshHandles = function (staticParent, vertexColors, albedoRgb) {
             var meshData = new SourceUtils.MeshData(this.meshData);
             var itemSize = 8;
             if (staticParent != null) {
@@ -2254,11 +2256,17 @@ var SourceUtils;
                     }
                 }
             }
+            if (albedoRgb === undefined) {
+                albedoRgb = 0xffffff;
+            }
             if (vertexColors != null) {
                 for (var i = 0; i < meshData.elements.length; ++i) {
                     var meshColors = SourceUtils.Utils.decompress(vertexColors.getSamples(i));
                     var offset = meshData.elements[i].vertexOffset;
                     var count = meshData.elements[i].vertexCount;
+                    var albedoR = (albedoRgb >> 0) & 0xff;
+                    var albedoG = (albedoRgb >> 8) & 0xff;
+                    var albedoB = (albedoRgb >> 16) & 0xff;
                     if (meshColors != null) {
                         // TODO: make generic
                         var itemOffset = offset * itemSize;
@@ -2266,9 +2274,9 @@ var SourceUtils;
                         for (var j = 0, jEnd = count; j < jEnd; ++j) {
                             var vertStart = j * itemSize + itemOffset;
                             var colorStart = j * 3;
-                            verts[vertStart + 5] = meshColors[colorStart + 0];
-                            verts[vertStart + 6] = meshColors[colorStart + 1];
-                            verts[vertStart + 7] = meshColors[colorStart + 2];
+                            verts[vertStart + 5] = meshColors[colorStart + 0] + meshColors[colorStart + 1] / 256;
+                            verts[vertStart + 6] = meshColors[colorStart + 2] + albedoR / 256;
+                            verts[vertStart + 7] = albedoG + albedoB / 256;
                         }
                     }
                 }

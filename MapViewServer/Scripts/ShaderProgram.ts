@@ -553,7 +553,7 @@ namespace SourceUtils {
 
                 this.sortOrder = 0;
 
-                this.addAttribute("aColor", Api.MeshComponent.Rgb);
+                this.addAttribute("aColorCompressed", Api.MeshComponent.Rgb);
 
                 const gl = this.getContext();
 
