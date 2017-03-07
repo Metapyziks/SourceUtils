@@ -223,6 +223,10 @@ namespace SourceUtils {
             window.addEventListener("resize", () => this.onWindowResize(), false);
         }
 
+        getLastUpdateTime(): number {
+            return this.previousTime * 0.001;
+        }
+
         protected onDeviceRotate(delta: THREE.Vector3): void {}
 
         isPointerLocked(): boolean {

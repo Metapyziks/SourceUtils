@@ -3,6 +3,8 @@
         bounds: THREE.Box3;
         parent: Entity;
 
+        isStatic = false;
+
         private drawLists: DrawList[] = [];
         private meshHandles: WorldMeshHandle[];
 
@@ -10,7 +12,7 @@
             if (this.meshHandles == null) this.meshHandles = [];
 
             for (let i = 0, iEnd = handles.length; i < iEnd; ++i) {
-                this.meshHandles.push(handles[i].clone(this.parent));
+                this.meshHandles.push(handles[i].clone(!this.isStatic ? this.parent : null));
             }
 
             this.invalidateDrawLists();
@@ -107,7 +109,7 @@
         private mdl: StudioModel;
         private vhv: HardwareVerts;
 
-        private bodyPartModels: {[bodyPart:number]: number} = {[0]: 0};
+        private bodyPartModels: { [bodyPart: number]: number } = { [0]: 0 };
 
         private shouldDisplayModel(model: SmdModel): boolean {
             return this.bodyPartModels[model.bodyPart.index] === model.index;
@@ -142,7 +144,8 @@
         }
 
         private onModelLoad(model: SmdModel): void {
-            this.addMeshHandles(model.createMeshHandles(model === this.mdl.getModel(0, 0) ? this.vhv : null));
+            this.addMeshHandles(model.createMeshHandles(this.isStatic ? this.parent : null,
+                model === this.mdl.getModel(0, 0) ? this.vhv : null));
         }
 
         constructor(map: Map, mdlUrl: string, vhvUrl?: string) {

@@ -17,6 +17,8 @@ namespace SourceUtils {
         private lastAvgRenderTime = 0;
         private lastAvgFrameTime = 0;
 
+        private lastHashChangeTime = -1;
+
         private debugPanelInvalid = false;
         private lastDebugPanel: JQuery;
 
@@ -84,8 +86,6 @@ namespace SourceUtils {
             this.lookQuat.multiply(this.tempQuat);
 
             this.camera.setRotation(this.lookQuat);
-
-            this.invalidateDebugPanel();
         }
 
         protected onMouseLook(delta: THREE.Vector2): void {
@@ -93,6 +93,7 @@ namespace SourceUtils {
 
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
             this.updateCameraAngles();
+            this.lastHashChangeTime = this.getLastUpdateTime();
         }
 
         private lastSetHash: string;
@@ -142,11 +143,7 @@ namespace SourceUtils {
             const round10 = (x: number) => Math.round(x * 10) / 10;
             this.lastSetHash = `#x${round10(coords.x)}y${round10(coords.y)}z${round10(coords.z)}u${round10(coords.u)}v${round10(coords.v)}`;
 
-            if (history.replaceState != null) {
-                history.replaceState(null, null, this.lastSetHash);
-            } else {
-                location.hash = this.lastSetHash;
-            }
+            location.hash = this.lastSetHash;
         }
 
         protected onUpdateFrame(dt: number): void {
@@ -160,7 +157,7 @@ namespace SourceUtils {
                 this.camera.setPosition(playerStart);
                 this.camera.translate(0, 0, 64);
 
-                this.onHashChange(window.location.hash);
+                this.onHashChange(location.hash);
 
                 this.mainRenderContext.fogParams = this.map.info.fog;
 
@@ -190,6 +187,7 @@ namespace SourceUtils {
                 this.camera.applyRotationTo(move);
                 this.camera.translate(move);
                 this.invalidateDebugPanel();
+                this.lastHashChangeTime = this.getLastUpdateTime();
             }
 
             if (this.debugPanelInvalid) {
@@ -197,7 +195,10 @@ namespace SourceUtils {
                 this.updateDebugPanel();
             }
 
-            this.updateHash();
+            if (this.lastHashChangeTime !== -1 && this.getLastUpdateTime() - this.lastHashChangeTime > 0.25) {
+                this.lastHashChangeTime = -1;
+                this.updateHash();
+            }
         }
 
         invalidateDebugPanel(): void {

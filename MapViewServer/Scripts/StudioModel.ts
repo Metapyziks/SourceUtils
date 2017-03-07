@@ -17,8 +17,40 @@
             return this.meshData != null;
         }
 
-        createMeshHandles(vertexColors?: HardwareVerts): WorldMeshHandle[] {
+        createMeshHandles(staticParent?: Entity, vertexColors?: HardwareVerts): WorldMeshHandle[] {
             const meshData = new MeshData(this.meshData);
+            const itemSize = 8;
+
+            if (staticParent != null) {
+                const transform = new THREE.Matrix4();
+                staticParent.getMatrix(transform);
+
+                const position = new THREE.Vector4();
+
+                for (let i = 0; i < meshData.elements.length; ++i) {
+                    const offset = meshData.elements[i].vertexOffset;
+                    const count = meshData.elements[i].vertexCount;
+
+                    // TODO: make generic
+                    const itemOffset = offset * itemSize;
+                    const verts = meshData.vertices;
+
+                    for (let j = 0, jEnd = count; j < jEnd; ++j) {
+                        const vertStart = j * itemSize + itemOffset;
+
+                        position.x = verts[vertStart + 0];
+                        position.y = verts[vertStart + 1];
+                        position.z = verts[vertStart + 2];
+                        position.w = 1;
+
+                        position.applyMatrix4(transform);
+
+                        verts[vertStart + 0] = position.x;
+                        verts[vertStart + 1] = position.y;
+                        verts[vertStart + 2] = position.z;
+                    }
+                }
+            }
 
             if (vertexColors != null) {
                 for (let i = 0; i < meshData.elements.length; ++i) {
@@ -28,14 +60,15 @@
 
                     if (meshColors != null) {
                         // TODO: make generic
-                        const itemSize = 8;
                         const itemOffset = offset * itemSize;
                         const verts = meshData.vertices;
 
                         for (let j = 0, jEnd = count; j < jEnd; ++j) {
-                            verts[j * itemSize + itemOffset + 5] = meshColors[j * 3 + 0];
-                            verts[j * itemSize + itemOffset + 6] = meshColors[j * 3 + 1];
-                            verts[j * itemSize + itemOffset + 7] = meshColors[j * 3 + 2];
+                            const vertStart = j * itemSize + itemOffset;
+                            const colorStart = j * 3;
+                            verts[vertStart + 5] = meshColors[colorStart + 0];
+                            verts[vertStart + 6] = meshColors[colorStart + 1];
+                            verts[vertStart + 7] = meshColors[colorStart + 2];
                         }
                     }
                 }

@@ -18,6 +18,7 @@
 
             this.drawListItem = new StudioModelDrawListItem(map, info.model as string, info.vertLightingUrl);
             this.drawListItem.parent = this;
+            this.drawListItem.isStatic = true;
         }
 
         getDrawListItem(): DrawListItem {
