@@ -106,6 +106,8 @@
     <Content Include="Resources\shaders\LightmappedTranslucent.frag.txt" />
     <Content Include="Resources\shaders\Sky.frag.txt" />
     <Content Include="Resources\shaders\Sky.vert.txt" />
+    <Content Include="Resources\shaders\UnlitGeneric.frag.txt" />
+    <Content Include="Resources\shaders\UnlitGeneric.vert.txt" />
     <Content Include="Resources\shaders\VertexLitGeneric.frag.txt" />
     <Content Include="Resources\shaders\VertexLitGeneric.vert.txt" />
     <Content Include="Scripts\main.js" />
@@ -120,12 +122,14 @@
     <TypeScriptCompile Include="Scripts\DrawListItem.ts" />
     <TypeScriptCompile Include="Scripts\Entity.ts" />
     <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
+    <TypeScriptCompile Include="Scripts\FormattedWriter.ts" />
     <TypeScriptCompile Include="Scripts\HardwareVertsLoader.ts" />
     <TypeScriptCompile Include="Scripts\Loader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />
     <TypeScriptCompile Include="Scripts\MapViewer.ts" />
     <TypeScriptCompile Include="Scripts\Material.ts" />
     <TypeScriptCompile Include="Scripts\PropStatic.ts" />
+    <TypeScriptCompile Include="Scripts\RenderContext.ts" />
     <TypeScriptCompile Include="Scripts\ShaderProgram.ts" />
     <TypeScriptCompile Include="Scripts\StudioModel.ts" />
     <TypeScriptCompile Include="Scripts\StudioModelLoader.ts" />

@@ -7,9 +7,12 @@ uniform sampler2D uBaseTexture;
 // x: near fog density, y: far plane fog density, z: min density, w: max density
 uniform vec4 uFogParams;
 uniform vec3 uFogColor;
+uniform float uNoFog;
 
 vec3 applyFog(vec3 inColor)
 {
+    if (uNoFog > 0.5) return inColor;
+
     float depth = ((2.0 * gl_FragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near)) / gl_FragCoord.w;
     float fogDensity = uFogParams.x + uFogParams.y * depth;
 

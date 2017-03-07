@@ -789,100 +789,6 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var RenderContext = (function () {
-        function RenderContext(map, camera) {
-            var _this = this;
-            this.projectionMatrix = new THREE.Matrix4();
-            this.modelMatrix = new THREE.Matrix4();
-            this.viewMatrix = new THREE.Matrix4();
-            this.modelViewMatrix = new THREE.Matrix4();
-            this.modelViewInvalid = true;
-            this.pvsOrigin = new THREE.Vector3();
-            this.pvsFollowsCamera = true;
-            this.origin = new THREE.Vector3();
-            this.map = map;
-            this.camera = camera;
-            this.drawList = new DrawList(map);
-            this.map.addDrawListInvalidationHandler(function () { return _this.drawList.invalidate(); });
-        }
-        RenderContext.prototype.getProjectionMatrix = function () {
-            return this.projectionMatrix.elements;
-        };
-        RenderContext.prototype.getModelViewMatrix = function () {
-            if (this.modelViewInvalid) {
-                this.modelViewInvalid = false;
-                this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
-            }
-            return this.modelViewMatrix.elements;
-        };
-        RenderContext.prototype.setModelTransform = function (model) {
-            if (model == null) {
-                this.modelMatrix.identity();
-            }
-            else {
-                model.getMatrix(this.modelMatrix);
-            }
-            this.modelViewInvalid = true;
-        };
-        RenderContext.prototype.setPvsOrigin = function (pos) {
-            this.pvsFollowsCamera = false;
-            this.pvsOrigin.set(pos.x, pos.y, pos.z);
-        };
-        RenderContext.prototype.render = function () {
-            this.camera.getPosition(this.origin);
-            if (this.pvsFollowsCamera)
-                this.pvsOrigin.set(this.origin.x, this.origin.y, this.origin.z);
-            var persp = this.camera;
-            if (persp.getNear !== undefined) {
-                this.near = persp.getNear();
-                this.far = persp.getFar();
-            }
-            this.camera.getProjectionMatrix(this.projectionMatrix);
-            this.camera.getInverseMatrix(this.viewMatrix);
-            this.modelViewInvalid = true;
-            this.map.shaderManager.setCurrentProgram(null);
-            this.updatePvs();
-            this.drawList.render(this);
-        };
-        RenderContext.prototype.getClusterIndex = function () {
-            return this.pvsRoot == null ? -1 : this.pvsRoot.cluster;
-        };
-        RenderContext.prototype.canSeeSky2D = function () {
-            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky2D;
-        };
-        RenderContext.prototype.canSeeSky3D = function () {
-            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
-        };
-        RenderContext.prototype.replacePvs = function (pvs) {
-            this.drawList.clear();
-            if (pvs != null)
-                this.map.appendToDrawList(this.drawList, pvs);
-        };
-        RenderContext.prototype.updatePvs = function (force) {
-            var _this = this;
-            var worldSpawn = this.map.getWorldSpawn();
-            if (worldSpawn == null)
-                return;
-            var root = worldSpawn.findLeaf(this.pvsOrigin);
-            if (root === this.pvsRoot && !force)
-                return;
-            this.pvsRoot = root;
-            if (root == null || root.cluster === -1) {
-                this.replacePvs(null);
-                return;
-            }
-            this.map.getPvsArray(root, function (pvs) {
-                if (_this.pvsRoot != null && _this.pvsRoot === root) {
-                    _this.replacePvs(pvs);
-                }
-            });
-        };
-        RenderContext.prototype.getDrawCallCount = function () {
-            return this.drawList.getDrawCalls();
-        };
-        return RenderContext;
-    }());
-    SourceUtils.RenderContext = RenderContext;
     var DrawList = (function () {
         function DrawList(map) {
             this.items = [];
@@ -1018,6 +924,11 @@ var SourceUtils;
             if (this.lastProgram != null)
                 this.lastProgram.cleanupPostRender(this.map, context);
         };
+        DrawList.prototype.logState = function (writer) {
+            writer.writeProperty("itemCount", this.items.length);
+            writer.writeProperty("handleCount", this.handles.length);
+            writer.writeProperty("mergedCount", this.merged.length);
+        };
         return DrawList;
     }());
     SourceUtils.DrawList = DrawList;
@@ -1104,6 +1015,36 @@ var SourceUtils;
         return FaceLoader;
     }());
     SourceUtils.FaceLoader = FaceLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var FormattedWriter = (function () {
+        function FormattedWriter() {
+            this.indentation = "";
+            this.lines = [];
+        }
+        FormattedWriter.prototype.clear = function () {
+            this.lines = [];
+        };
+        FormattedWriter.prototype.writeLine = function (value) {
+            this.lines.push(this.indentation + value);
+        };
+        FormattedWriter.prototype.beginBlock = function (label) {
+            this.writeLine("+ " + label);
+            this.indentation += "  ";
+        };
+        FormattedWriter.prototype.writeProperty = function (key, value) {
+            this.writeLine("- " + key + ": " + value);
+        };
+        FormattedWriter.prototype.endBlock = function () {
+            this.indentation = this.indentation.substr(0, this.indentation.length - 2);
+        };
+        FormattedWriter.prototype.getValue = function () {
+            return this.lines.join("\r\n");
+        };
+        return FormattedWriter;
+    }());
+    SourceUtils.FormattedWriter = FormattedWriter;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1377,6 +1318,11 @@ var SourceUtils;
                     callback(pvs);
             });
         };
+        Map.prototype.logState = function (writer) {
+            writer.beginBlock("meshManager");
+            this.meshManager.logState(writer);
+            writer.endBlock();
+        };
         return Map;
     }(SourceUtils.Entity));
     SourceUtils.Map = Map;
@@ -1606,6 +1552,24 @@ var SourceUtils;
                 this.countedFrames = 0;
             }
         };
+        MapViewer.prototype.debug = function () {
+            var writer = new SourceUtils.FormattedWriter();
+            this.logState(writer);
+            console.log(writer.getValue());
+        };
+        MapViewer.prototype.logState = function (writer) {
+            writer.beginBlock("map");
+            this.map.logState(writer);
+            writer.endBlock();
+            writer.beginBlock("mainRenderContext");
+            this.mainRenderContext.logState(writer);
+            writer.endBlock();
+            if (this.skyRenderContext != null) {
+                writer.beginBlock("skyRenderContext");
+                this.skyRenderContext.logState(writer);
+                writer.endBlock();
+            }
+        };
         return MapViewer;
     }(SourceUtils.AppBase));
     SourceUtils.MapViewer = MapViewer;
@@ -1617,6 +1581,7 @@ var SourceUtils;
             this.baseTexture = null;
             this.baseTexture2 = null;
             this.blendModulateTexture = null;
+            this.noFog = false;
             this.alphaTest = false;
             this.alpha = 1;
             this.noCull = false;
@@ -1735,6 +1700,114 @@ var SourceUtils;
         return HardwareVerts;
     }());
     SourceUtils.HardwareVerts = HardwareVerts;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var RenderContext = (function () {
+        function RenderContext(map, camera) {
+            var _this = this;
+            this.projectionMatrix = new THREE.Matrix4();
+            this.modelMatrix = new THREE.Matrix4();
+            this.viewMatrix = new THREE.Matrix4();
+            this.modelViewMatrix = new THREE.Matrix4();
+            this.modelViewInvalid = true;
+            this.pvsOrigin = new THREE.Vector3();
+            this.pvsFollowsCamera = true;
+            this.origin = new THREE.Vector3();
+            this.map = map;
+            this.camera = camera;
+            this.drawList = new SourceUtils.DrawList(map);
+            this.map.addDrawListInvalidationHandler(function () { return _this.drawList.invalidate(); });
+        }
+        RenderContext.prototype.getProjectionMatrix = function () {
+            return this.projectionMatrix.elements;
+        };
+        RenderContext.prototype.getModelViewMatrix = function () {
+            if (this.modelViewInvalid) {
+                this.modelViewInvalid = false;
+                this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
+            }
+            return this.modelViewMatrix.elements;
+        };
+        RenderContext.prototype.setModelTransform = function (model) {
+            if (model == null) {
+                this.modelMatrix.identity();
+            }
+            else {
+                model.getMatrix(this.modelMatrix);
+            }
+            this.modelViewInvalid = true;
+        };
+        RenderContext.prototype.setPvsOrigin = function (pos) {
+            this.pvsFollowsCamera = false;
+            this.pvsOrigin.set(pos.x, pos.y, pos.z);
+        };
+        RenderContext.prototype.render = function () {
+            this.camera.getPosition(this.origin);
+            if (this.pvsFollowsCamera)
+                this.pvsOrigin.set(this.origin.x, this.origin.y, this.origin.z);
+            var persp = this.camera;
+            if (persp.getNear !== undefined) {
+                this.near = persp.getNear();
+                this.far = persp.getFar();
+            }
+            this.camera.getProjectionMatrix(this.projectionMatrix);
+            this.camera.getInverseMatrix(this.viewMatrix);
+            this.modelViewInvalid = true;
+            this.map.shaderManager.setCurrentProgram(null);
+            this.updatePvs();
+            this.drawList.render(this);
+        };
+        RenderContext.prototype.getClusterIndex = function () {
+            return this.pvsRoot == null ? -1 : this.pvsRoot.cluster;
+        };
+        RenderContext.prototype.canSeeSky2D = function () {
+            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky2D;
+        };
+        RenderContext.prototype.canSeeSky3D = function () {
+            return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
+        };
+        RenderContext.prototype.replacePvs = function (pvs) {
+            this.drawList.clear();
+            if (pvs != null)
+                this.map.appendToDrawList(this.drawList, pvs);
+        };
+        RenderContext.prototype.updatePvs = function (force) {
+            var _this = this;
+            var worldSpawn = this.map.getWorldSpawn();
+            if (worldSpawn == null)
+                return;
+            var root = worldSpawn.findLeaf(this.pvsOrigin);
+            if (root === this.pvsRoot && !force)
+                return;
+            this.pvsRoot = root;
+            if (root == null || root.cluster === -1) {
+                this.replacePvs(null);
+                return;
+            }
+            this.map.getPvsArray(root, function (pvs) {
+                if (_this.pvsRoot != null && _this.pvsRoot === root) {
+                    _this.replacePvs(pvs);
+                }
+            });
+        };
+        RenderContext.prototype.getDrawCallCount = function () {
+            return this.drawList.getDrawCalls();
+        };
+        RenderContext.prototype.logState = function (writer) {
+            writer.beginBlock("origin");
+            writer.writeProperty("x", this.origin.x);
+            writer.writeProperty("y", this.origin.y);
+            writer.writeProperty("z", this.origin.z);
+            writer.endBlock();
+            writer.writeProperty("cluster", this.getClusterIndex());
+            writer.beginBlock("drawList");
+            this.drawList.logState(writer);
+            writer.endBlock();
+        };
+        return RenderContext;
+    }());
+    SourceUtils.RenderContext = RenderContext;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -2027,6 +2100,7 @@ var SourceUtils;
                 _this.baseTexture = new Uniform(_this, "uBaseTexture");
                 _this.fogParams = new Uniform(_this, "uFogParams");
                 _this.fogColor = new Uniform(_this, "uFogColor");
+                _this.noFog = new Uniform(_this, "uNoFog");
                 return _this;
             }
             Base.prototype.prepareForRendering = function (map, context) {
@@ -2050,6 +2124,7 @@ var SourceUtils;
                 var gl = this.getContext();
                 var blank = material.getMap().getBlankTexture();
                 this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
+                this.noFog.set1f(material.properties.noFog ? 1 : 0);
                 return true;
             };
             return Base;
@@ -2156,6 +2231,58 @@ var SourceUtils;
             return Lightmapped2WayBlend;
         }(LightmappedBase));
         Shaders.Lightmapped2WayBlend = Lightmapped2WayBlend;
+        var UnlitGeneric = (function (_super) {
+            __extends(UnlitGeneric, _super);
+            function UnlitGeneric(manager) {
+                var _this = _super.call(this, manager) || this;
+                _this.isTranslucent = false;
+                _this.sortOrder = 0;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/UnlitGeneric.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/UnlitGeneric.frag.txt");
+                _this.alpha = new Uniform(_this, "uAlpha");
+                _this.translucent = new Uniform(_this, "uTranslucent");
+                _this.alphaTest = new Uniform(_this, "uAlphaTest");
+                return _this;
+            }
+            UnlitGeneric.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
+                this.translucent.set1f(this.isTranslucent ? 1.0 : 0.0);
+            };
+            UnlitGeneric.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                this.alpha.set1f(material.properties.alpha);
+                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
+                return true;
+            };
+            return UnlitGeneric;
+        }(Base));
+        Shaders.UnlitGeneric = UnlitGeneric;
+        var UnlitTranslucent = (function (_super) {
+            __extends(UnlitTranslucent, _super);
+            function UnlitTranslucent(manager) {
+                var _this = _super.call(this, manager) || this;
+                _this.isTranslucent = true;
+                _this.sortOrder = 2000;
+                return _this;
+            }
+            UnlitTranslucent.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
+                var gl = this.getContext();
+                gl.depthMask(false);
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            };
+            UnlitTranslucent.prototype.cleanupPostRender = function (map, context) {
+                var gl = this.getContext();
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
+                _super.prototype.cleanupPostRender.call(this, map, context);
+            };
+            return UnlitTranslucent;
+        }(UnlitGeneric));
+        Shaders.UnlitTranslucent = UnlitTranslucent;
         var VertexLitGeneric = (function (_super) {
             __extends(VertexLitGeneric, _super);
             function VertexLitGeneric(manager) {
@@ -2828,12 +2955,12 @@ var SourceUtils;
                     ? this.parent.compareTo(other.parent)
                     : other.parent.compareTo(this.parent);
             }
-            var matComp = this.material.compareTo(other.material);
-            if (matComp !== 0)
-                return matComp;
             var groupComp = this.group.compareTo(other.group);
             if (groupComp !== 0)
                 return groupComp;
+            var matComp = this.material.compareTo(other.material);
+            if (matComp !== 0)
+                return matComp;
             return this.offset - other.offset;
         };
         WorldMeshHandle.prototype.canMerge = function (other) {
@@ -2854,6 +2981,7 @@ var SourceUtils;
         function WorldMeshGroup(gl, components) {
             this.vertCount = 0;
             this.indexCount = 0;
+            this.handleCount = 0;
             this.hasPositions = false;
             this.hasNormals = false;
             this.hasUvs = false;
@@ -2973,6 +3101,7 @@ var SourceUtils;
             for (var i = 0; i < data.elements.length; ++i) {
                 var element = data.elements[i];
                 handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.indexOffset + indexOffset, element.indexCount);
+                ++this.handleCount;
             }
             return handles;
         };
@@ -3001,6 +3130,13 @@ var SourceUtils;
                 this.gl.deleteBuffer(this.indices);
                 this.indices = undefined;
             }
+        };
+        WorldMeshGroup.prototype.logState = function (writer) {
+            writer.writeProperty("components", this.components);
+            writer.writeProperty("handleCount", this.handleCount);
+            writer.writeProperty("vertexSize", this.vertexSize);
+            writer.writeProperty("vertexCount", this.vertCount / this.vertexSize);
+            writer.writeProperty("indexCount", this.indexCount);
         };
         return WorldMeshGroup;
     }());
@@ -3044,6 +3180,14 @@ var SourceUtils;
                 this.groups[i].dispose();
             }
             this.groups = [];
+        };
+        WorldMeshManager.prototype.logState = function (writer) {
+            writer.writeProperty("groupCount", this.groups.length);
+            for (var i = 0; i < this.groups.length; ++i) {
+                writer.beginBlock("groups[" + i + "]");
+                this.groups[i].logState(writer);
+                writer.endBlock();
+            }
         };
         return WorldMeshManager;
     }());

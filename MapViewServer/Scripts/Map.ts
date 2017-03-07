@@ -1,7 +1,7 @@
 ﻿/// <reference path="AppBase.ts"/>
 
 namespace SourceUtils {
-    export class Map extends Entity {
+    export class Map extends Entity implements IStateLoggable {
         info: Api.IBspIndexResponse;
 
         faceLoader: FaceLoader;
@@ -166,8 +166,7 @@ namespace SourceUtils {
             this.drawListInvalidationHandlers.push(action);
         }
 
-        private forceDrawListInvalidation(): void
-        {
+        private forceDrawListInvalidation(): void {
             for (let i = 0; i < this.drawListInvalidationHandlers.length; ++i) {
                 this.drawListInvalidationHandlers[i]();
             }
@@ -255,6 +254,12 @@ namespace SourceUtils {
 
                     if (callback != null) callback(pvs);
                 });
+        }
+
+        logState(writer: FormattedWriter): void {
+            writer.beginBlock("meshManager");
+            this.meshManager.logState(writer);
+            writer.endBlock();
         }
     }
 }

@@ -139,11 +139,15 @@ namespace MapViewServer
                     case "$basetexture":
                         AddTexture2DProperty( destArray, "baseTexture", GetTextureUrl( request, bsp, props[name], vmtDir ) );
                         break;
+                    case "$texture2":
                     case "$basetexture2":
                         AddTexture2DProperty( destArray, "baseTexture2", GetTextureUrl( request, bsp, props[name], vmtDir ) );
                         break;
                     case "$blendmodulatetexture":
                         AddTexture2DProperty( destArray, "blendModulateTexture", GetTextureUrl( request, bsp, props[name], vmtDir ) );
+                        break;
+                    case "$nofog":
+                        AddBooleanProperty( destArray, "noFog", props.GetBoolean( name ) );
                         break;
                     case "$alphatest":
                         AddBooleanProperty( destArray, "alphaTest", props.GetBoolean( name ) );
@@ -197,6 +201,10 @@ namespace MapViewServer
                     break;
                 case "vertexlitgeneric":
                     shaderName = $"VertexLit{variant}";
+                    break;
+                case "unlittwotexture": // TODO
+                case "unlitgeneric":
+                    shaderName = $"Unlit{variant}";
                     break;
                 case "worldvertextransition":
                     shaderName = "Lightmapped2WayBlend";

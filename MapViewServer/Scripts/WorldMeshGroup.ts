@@ -38,10 +38,10 @@
                     : other.parent.compareTo(this.parent);
             }
 
-            const matComp = this.material.compareTo(other.material);
-            if (matComp !== 0) return matComp;
             const groupComp = this.group.compareTo(other.group);
             if (groupComp !== 0) return groupComp;
+            const matComp = this.material.compareTo(other.material);
+            if (matComp !== 0) return matComp;
             return this.offset - other.offset;
         }
 
@@ -59,7 +59,7 @@
         }
     }
 
-    export class WorldMeshGroup {
+    export class WorldMeshGroup implements IStateLoggable {
         private static maxIndices = 2147483647;
         private static nextId = 1;
 
@@ -75,6 +75,7 @@
 
         private vertCount = 0;
         private indexCount = 0;
+        private handleCount = 0;
 
         private vertexData: Float32Array;
         private indexData: Uint16Array;
@@ -247,6 +248,7 @@
             for (let i = 0; i < data.elements.length; ++i) {
                 const element = data.elements[i];
                 handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.indexOffset + indexOffset, element.indexCount);
+                ++this.handleCount;
             }
 
             return handles;
@@ -285,6 +287,14 @@
                 this.gl.deleteBuffer(this.indices);
                 this.indices = undefined;
             }
+        }
+
+        logState(writer: FormattedWriter): void {
+            writer.writeProperty("components", this.components);
+            writer.writeProperty("handleCount", this.handleCount);
+            writer.writeProperty("vertexSize", this.vertexSize);
+            writer.writeProperty("vertexCount", this.vertCount / this.vertexSize);
+            writer.writeProperty("indexCount", this.indexCount);
         }
     }
 }

@@ -12,7 +12,7 @@ vec2 decompressColorComponent(float compressed)
 
 void main()
 {
-    const float gamma = 1.6;
+    const float gamma = 1.0;
 
     Base_main();
 

@@ -1,0 +1,6 @@
+﻿#include "Base.vert.txt"
+
+void main()
+{
+    Base_main();
+}

@@ -1,7 +1,7 @@
 ﻿/// <reference path="AppBase.ts"/>
 
 namespace SourceUtils {
-    export class MapViewer extends AppBase {
+    export class MapViewer extends AppBase implements IStateLoggable {
         private map: Map;
 
         debugPanel: JQuery;
@@ -278,7 +278,7 @@ namespace SourceUtils {
             gl.finish();
 
             const t1 = performance.now();
-            
+
             this.totalRenderTime += (t1 - t0);
             this.countedFrames += 1;
 
@@ -289,6 +289,28 @@ namespace SourceUtils {
                 this.invalidateDebugPanel();
                 this.totalRenderTime = 0;
                 this.countedFrames = 0;
+            }
+        }
+
+        debug(): void {
+            const writer = new FormattedWriter();
+            this.logState(writer);
+            console.log(writer.getValue());
+        }
+
+        logState(writer: FormattedWriter): void {
+            writer.beginBlock("map");
+            this.map.logState(writer);
+            writer.endBlock();
+
+            writer.beginBlock("mainRenderContext");
+            this.mainRenderContext.logState(writer);
+            writer.endBlock();
+
+            if (this.skyRenderContext != null) {
+                writer.beginBlock("skyRenderContext");
+                this.skyRenderContext.logState(writer);
+                writer.endBlock();
             }
         }
     }

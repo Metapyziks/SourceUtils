@@ -1,5 +1,5 @@
 ﻿namespace SourceUtils {
-    export class WorldMeshManager {
+    export class WorldMeshManager implements IStateLoggable {
         private gl: WebGLRenderingContext;
         private groups: WorldMeshGroup[] = [];
 
@@ -40,6 +40,16 @@
             }
 
             this.groups = [];
+        }
+
+        logState(writer: FormattedWriter): void {
+            writer.writeProperty("groupCount", this.groups.length);
+
+            for (let i = 0; i < this.groups.length; ++i) {
+                writer.beginBlock(`groups[${i}]`);
+                this.groups[i].logState(writer);
+                writer.endBlock();
+            }
         }
     }
 }

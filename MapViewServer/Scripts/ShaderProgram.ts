@@ -366,6 +366,7 @@ namespace SourceUtils {
 
             fogParams: Uniform;
             fogColor: Uniform;
+            noFog: Uniform;
 
             protected blend: boolean;
 
@@ -379,6 +380,7 @@ namespace SourceUtils {
 
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
+                this.noFog = new Uniform(this, "uNoFog");
             }
 
             prepareForRendering(map: Map, context: RenderContext): void {
@@ -406,6 +408,8 @@ namespace SourceUtils {
                 const gl = this.getContext();
                 const blank = material.getMap().getBlankTexture();
                 this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
+
+                this.noFog.set1f(material.properties.noFog ? 1 : 0);
 
                 return true;
             }
@@ -538,6 +542,78 @@ namespace SourceUtils {
                     2, material.properties.blendModulateTexture, blank);
 
                 return true;
+            }
+        }
+
+        export class UnlitGeneric extends Base
+        {
+            alpha: Uniform;
+            translucent: Uniform;
+            alphaTest: Uniform;
+
+            protected isTranslucent = false;
+
+            constructor(manager: ShaderManager)
+            {
+                super(manager);
+
+                this.sortOrder = 0;
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/UnlitGeneric.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/UnlitGeneric.frag.txt");
+
+                this.alpha = new Uniform(this, "uAlpha");
+                this.translucent = new Uniform(this, "uTranslucent");
+                this.alphaTest = new Uniform(this, "uAlphaTest");
+            }
+
+            prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void
+            {
+                super.prepareForRendering(map, context);
+
+                this.translucent.set1f(this.isTranslucent ? 1.0 : 0.0);
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean
+            {
+                if (!super.changeMaterial(material)) return false;
+
+                this.alpha.set1f(material.properties.alpha);
+                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
+
+                return true;
+            }
+        }
+
+        export class UnlitTranslucent extends UnlitGeneric {
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                this.isTranslucent = true;
+
+                this.sortOrder = 2000;
+            }
+
+            prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
+                super.prepareForRendering(map, context);
+
+                const gl = this.getContext();
+
+                gl.depthMask(false);
+
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            }
+
+            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void {
+                const gl = this.getContext();
+
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
+
+                super.cleanupPostRender(map, context);
             }
         }
 

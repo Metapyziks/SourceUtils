@@ -4,6 +4,7 @@
         baseTexture: Texture = null;
         baseTexture2: Texture = null;
         blendModulateTexture: Texture = null;
+        noFog = false;
         alphaTest = false;
         alpha = 1;
         noCull = false;

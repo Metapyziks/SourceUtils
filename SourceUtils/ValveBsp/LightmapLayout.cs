@@ -140,10 +140,10 @@ namespace SourceUtils.ValveBsp
         public void GetUvs( int faceIndex, out Vector2 min, out Vector2 size )
         {
             var rect = GetLightmapRegion( faceIndex );
-            min.X = rect.X * _uvScale.X;
-            min.Y = rect.Y * _uvScale.Y;
-            size.X = rect.Width * _uvScale.X;
-            size.Y = rect.Height * _uvScale.Y;
+            min.X = (rect.X - 0.5f) * _uvScale.X;
+            min.Y = (rect.Y - 0.5f) * _uvScale.Y;
+            size.X = (rect.Width) * _uvScale.X;
+            size.Y = (rect.Height) * _uvScale.Y;
         }
 
         public void Write( Stream stream )
