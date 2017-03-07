@@ -3,16 +3,19 @@
 varying vec3 vLightingColor;
 varying vec3 vModulateColor;
 
-uniform float uAlphaTest;
 uniform float uAlpha;
+
+uniform float uAlphaTest;
 uniform float uTranslucent;
+uniform float uTint;
+uniform float uBaseAlphaTint;
 
 void main()
 {
     vec4 texSample = texture2D(uBaseTexture, vTextureCoord);
     if (texSample.a < uAlphaTest - 0.5) discard;
 
-    vec3 modulated = texSample.rgb * mix(vec3(1.0, 1.0, 1.0), vModulateColor, mix(1.0, texSample.a, (1.0 - uAlphaTest) * (1.0 - uTranslucent)));
+    vec3 modulated = texSample.rgb * mix(vec3(1.0, 1.0, 1.0), vModulateColor, mix(1.0, texSample.a, uBaseAlphaTint) * uTint);
 
     vec3 color = applyFog(modulated * vLightingColor);
 

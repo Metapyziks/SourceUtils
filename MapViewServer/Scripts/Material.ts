@@ -7,6 +7,8 @@
         alphaTest = false;
         alpha = 1;
         noCull = false;
+        noTint = false;
+        baseAlphaTint = false;
     }
 
     export class Material

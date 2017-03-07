@@ -44,8 +44,6 @@ namespace SourceUtils {
                 this.onHashChange(window.location.hash);
             };
 
-            this.getContext().clearColor(100 / 255, 149 / 255, 237 / 255, 1);
-
             this.updateCameraAngles();
         }
 

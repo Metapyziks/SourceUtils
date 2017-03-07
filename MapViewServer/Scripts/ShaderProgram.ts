@@ -545,6 +545,8 @@ namespace SourceUtils {
             alpha: Uniform;
             translucent: Uniform;
             alphaTest: Uniform;
+            tint: Uniform;
+            baseAlphaTint: Uniform;
 
             protected isTranslucent = false;
 
@@ -563,6 +565,8 @@ namespace SourceUtils {
                 this.alpha = new Uniform(this, "uAlpha");
                 this.translucent = new Uniform(this, "uTranslucent");
                 this.alphaTest = new Uniform(this, "uAlphaTest");
+                this.tint = new Uniform(this, "uTint");
+                this.baseAlphaTint = new Uniform(this, "uBaseAlphaTint");
             }
 
             prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void {
@@ -574,8 +578,10 @@ namespace SourceUtils {
             changeMaterial(material: SourceUtils.Material): boolean {
                 if (!super.changeMaterial(material)) return false;
 
-                this.alpha.set1f(material.properties.alpha === undefined ? 1 : material.properties.alpha);
+                this.alpha.set1f(material.properties.alpha);
                 this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
+                this.tint.set1f(material.properties.noTint ? 0 : 1);
+                this.baseAlphaTint.set1f(material.properties.baseAlphaTint ? 1 : 0);
 
                 return true;
             }

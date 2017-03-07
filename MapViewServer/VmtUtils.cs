@@ -157,6 +157,12 @@ namespace MapViewServer
                     case "$nocull":
                         AddBooleanProperty( destArray, "noCull", props.GetBoolean( name ) );
                         break;
+                    case "$notint":
+                        AddBooleanProperty( destArray, "noTint", props.GetBoolean( name ) );
+                        break;
+                    case "$blendtintbybasealpha":
+                        AddBooleanProperty( destArray, "baseAlphaTint", props.GetBoolean( name ) );
+                        break;
                 }
             }
         }

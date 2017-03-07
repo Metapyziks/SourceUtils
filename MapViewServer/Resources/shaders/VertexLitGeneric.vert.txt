@@ -12,12 +12,14 @@ vec2 decompressColorComponent(float compressed)
 
 void main()
 {
+    const float gamma = 1.6;
+
     Base_main();
 
     vec2 c0 = decompressColorComponent(aColorCompressed.x);
     vec2 c1 = decompressColorComponent(aColorCompressed.y);
     vec2 c2 = decompressColorComponent(aColorCompressed.z);
 
-    vLightingColor = vec3(c0.x, c0.y, c1.x) * 2.0;
+    vLightingColor = pow(vec3(c0.x, c0.y, c1.x) * 2.0, vec3(gamma, gamma, gamma));
     vModulateColor = vec3(c1.y, c2.x, c2.y);
 }
