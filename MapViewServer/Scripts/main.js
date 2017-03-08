@@ -1,13 +1,8 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var SourceUtils;
 (function (SourceUtils) {
     var Api;
@@ -641,6 +636,124 @@ var SourceUtils;
         return PerspectiveCamera;
     }(Camera));
     SourceUtils.PerspectiveCamera = PerspectiveCamera;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var CommandBufferParameter;
+    (function (CommandBufferParameter) {
+        CommandBufferParameter[CommandBufferParameter["ProjectionMatrix"] = 0] = "ProjectionMatrix";
+        CommandBufferParameter[CommandBufferParameter["ModelViewMatrix"] = 1] = "ModelViewMatrix";
+        CommandBufferParameter[CommandBufferParameter["TimeParams"] = 2] = "TimeParams";
+    })(CommandBufferParameter = SourceUtils.CommandBufferParameter || (SourceUtils.CommandBufferParameter = {}));
+    var CommandBuffer = (function () {
+        function CommandBuffer(context) {
+            this.commands = [];
+            this.boundTextures = [];
+            this.parameters = [];
+            this.context = context;
+        }
+        CommandBuffer.prototype.clear = function () {
+            this.boundTextures = [];
+            this.commands = [];
+            this.currentProgram = undefined;
+        };
+        CommandBuffer.prototype.setParameter = function (param, value) {
+            while (this.parameters.length <= param) {
+                this.parameters.push(undefined);
+            }
+            this.parameters[param] = value;
+        };
+        CommandBuffer.prototype.run = function (renderContext) {
+            var gl = this.context;
+            for (var i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
+                var command = this.commands[i];
+                command.action(gl, command);
+            }
+        };
+        CommandBuffer.prototype.push = function (action, args) {
+            args.action = action;
+            this.commands.push(args);
+        };
+        CommandBuffer.prototype.useProgram = function (program) {
+            if (this.currentProgram === program)
+                return;
+            this.currentProgram = program;
+            this.push(this.onUseProgram, { program: program.getProgram() });
+            program.bufferSetup(this);
+        };
+        CommandBuffer.prototype.onUseProgram = function (gl, args) {
+            gl.useProgram(args.program);
+        };
+        CommandBuffer.prototype.setUniformParameter = function (uniform, parameter) {
+            this.push(this.onUseProgram, { uniform: uniform, parameter: parameter });
+        };
+        CommandBuffer.prototype.onSetUniformParameter = function (gl, args) {
+            var value = this.parameters[args.parameter];
+            if (value === undefined)
+                return;
+            switch (args.parameter) {
+                case CommandBufferParameter.ProjectionMatrix:
+                case CommandBufferParameter.ModelViewMatrix:
+                    gl.uniformMatrix4fv(args.uniform, false, value);
+                    break;
+                case CommandBufferParameter.TimeParams:
+                    gl.uniform4fv(args.uniform, value);
+                    break;
+            }
+        };
+        CommandBuffer.prototype.setUniform1F = function (uniform, x) {
+            this.push(this.onSetUniform1F, { uniform: uniform, x: x });
+        };
+        CommandBuffer.prototype.onSetUniform1F = function (gl, args) {
+            gl.uniform1f(args.uniform, args.x);
+        };
+        CommandBuffer.prototype.setUniform1I = function (uniform, x) {
+            this.push(this.onSetUniform1I, { uniform: uniform, x: x });
+        };
+        CommandBuffer.prototype.onSetUniform1I = function (gl, args) {
+            gl.uniform1i(args.uniform, args.x);
+        };
+        CommandBuffer.prototype.setUniform2F = function (uniform, x, y) {
+            this.push(this.onSetUniform2F, { uniform: uniform, x: x, y: y });
+        };
+        CommandBuffer.prototype.onSetUniform2F = function (gl, args) {
+            gl.uniform2f(args.uniform, args.x, args.y);
+        };
+        CommandBuffer.prototype.setUniform3F = function (uniform, x, y, z) {
+            this.push(this.onSetUniform3F, { uniform: uniform, x: x, y: y, z: z });
+        };
+        CommandBuffer.prototype.onSetUniform3F = function (gl, args) {
+            gl.uniform3f(args.uniform, args.x, args.y, args.z);
+        };
+        CommandBuffer.prototype.setUniform4F = function (uniform, x, y, z, w) {
+            this.push(this.onSetUniform4F, { uniform: uniform, x: x, y: y, z: z, w: w });
+        };
+        CommandBuffer.prototype.onSetUniform4F = function (gl, args) {
+            gl.uniform4f(args.uniform, args.x, args.y, args.z, args.w);
+        };
+        CommandBuffer.prototype.setUniformMatrix4 = function (uniform, transpose, values) {
+            this.push(this.onSetUniform4F, { uniform: uniform, transpose: transpose, values: values });
+        };
+        CommandBuffer.prototype.onSetUniformMatrix4 = function (gl, args) {
+            gl.uniformMatrix4fv(args.uniform, args.transpose, args.values);
+        };
+        CommandBuffer.prototype.bindTexture = function (unit, value) {
+            while (unit >= this.boundTextures.length) {
+                this.boundTextures.push(null);
+            }
+            if (this.boundTextures[unit] === value)
+                return;
+            this.boundTextures[unit] = value;
+            unit += this.context.TEXTURE0;
+            this.push(this.onBindTexture, { unit: unit, target: value.getTarget(), texture: value.getHandle() });
+        };
+        CommandBuffer.prototype.onBindTexture = function (gl, args) {
+            gl.activeTexture(args.unit);
+            gl.bindTexture(args.target, args.texture);
+        };
+        return CommandBuffer;
+    }());
+    SourceUtils.CommandBuffer = CommandBuffer;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1887,42 +2000,202 @@ var SourceUtils;
                 return this.location;
             if (!this.program.isCompiled())
                 return undefined;
-            this.location = this.gl.getUniformLocation(this.program.getProgram(), this.name);
+            return this.location = this.gl.getUniformLocation(this.program.getProgram(), this.name);
         };
-        Uniform.prototype.set1i = function (x) {
-            this.gl.uniform1i(this.getLocation(), x);
+        Uniform.prototype.reset = function () {
+            this.parameter = undefined;
         };
-        Uniform.prototype.set1f = function (x) {
-            this.gl.uniform1f(this.getLocation(), x);
-        };
-        Uniform.prototype.set2f = function (x, y) {
-            this.gl.uniform2f(this.getLocation(), x, y);
-        };
-        Uniform.prototype.set3f = function (x, y, z) {
-            this.gl.uniform3f(this.getLocation(), x, y, z);
-        };
-        Uniform.prototype.set4f = function (x, y, z, w) {
-            this.gl.uniform4f(this.getLocation(), x, y, z, w);
-        };
-        Uniform.prototype.setMatrix4f = function (value, transpose) {
-            if (transpose === void 0) { transpose = false; }
-            this.gl.uniformMatrix4fv(this.getLocation(), transpose, value);
+        Uniform.prototype.bufferParameter = function (buf, param) {
+            if (this.parameter === param)
+                return;
+            this.parameter = param;
+            buf.setUniformParameter(this.getLocation(), param);
         };
         return Uniform;
     }());
     SourceUtils.Uniform = Uniform;
+    var Uniform1F = (function (_super) {
+        __extends(Uniform1F, _super);
+        function Uniform1F() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Uniform1F.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.x = undefined;
+        };
+        Uniform1F.prototype.bufferValue = function (buf, x) {
+            if (this.x === x)
+                return;
+            this.x = x;
+            buf.setUniform1F(this.getLocation(), x);
+        };
+        Uniform1F.prototype.set = function (x) {
+            this.gl.uniform1f(this.getLocation(), x);
+        };
+        return Uniform1F;
+    }(Uniform));
+    SourceUtils.Uniform1F = Uniform1F;
+    var Uniform1I = (function (_super) {
+        __extends(Uniform1I, _super);
+        function Uniform1I() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Uniform1I.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.x = undefined;
+        };
+        Uniform1I.prototype.bufferValue = function (buf, x) {
+            if (this.x === x)
+                return;
+            this.x = x;
+            buf.setUniform1I(this.getLocation(), x);
+        };
+        Uniform1I.prototype.set = function (x) {
+            this.gl.uniform1i(this.getLocation(), x);
+        };
+        return Uniform1I;
+    }(Uniform));
+    SourceUtils.Uniform1I = Uniform1I;
+    var Uniform2F = (function (_super) {
+        __extends(Uniform2F, _super);
+        function Uniform2F() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Uniform2F.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.x = undefined;
+            this.y = undefined;
+        };
+        Uniform2F.prototype.bufferValue = function (buf, x, y) {
+            if (this.x === x && this.y === y)
+                return;
+            this.x = x;
+            this.y = y;
+            buf.setUniform2F(this.getLocation(), x, y);
+        };
+        Uniform2F.prototype.set = function (x, y) {
+            this.gl.uniform2f(this.getLocation(), x, y);
+        };
+        return Uniform2F;
+    }(Uniform));
+    SourceUtils.Uniform2F = Uniform2F;
+    var Uniform3F = (function (_super) {
+        __extends(Uniform3F, _super);
+        function Uniform3F() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Uniform3F.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.x = undefined;
+            this.y = undefined;
+            this.z = undefined;
+        };
+        Uniform3F.prototype.bufferValue = function (buf, x, y, z) {
+            if (this.x === x && this.y === y && this.z === z)
+                return;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            buf.setUniform3F(this.getLocation(), x, y, z);
+        };
+        Uniform3F.prototype.set = function (x, y, z) {
+            this.gl.uniform3f(this.getLocation(), x, y, z);
+        };
+        return Uniform3F;
+    }(Uniform));
+    SourceUtils.Uniform3F = Uniform3F;
+    var Uniform4F = (function (_super) {
+        __extends(Uniform4F, _super);
+        function Uniform4F() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Uniform4F.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.x = undefined;
+            this.y = undefined;
+            this.z = undefined;
+            this.w = undefined;
+        };
+        Uniform4F.prototype.bufferValue = function (buf, x, y, z, w) {
+            if (this.x === x && this.y === y && this.z === z && this.w === w)
+                return;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+            buf.setUniform4F(this.getLocation(), x, y, z, w);
+        };
+        Uniform4F.prototype.set = function (x, y, z, w) {
+            this.gl.uniform4f(this.getLocation(), x, y, z, w);
+        };
+        return Uniform4F;
+    }(Uniform));
+    SourceUtils.Uniform4F = Uniform4F;
+    var UniformSampler = (function (_super) {
+        __extends(UniformSampler, _super);
+        function UniformSampler(program, name) {
+            var _this = _super.call(this, program, name) || this;
+            _this.texUnit = program.reserveNextTextureUnit();
+            return _this;
+        }
+        UniformSampler.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.value = undefined;
+        };
+        UniformSampler.prototype.bufferValue = function (buf, tex) {
+            buf.bindTexture(this.texUnit, tex);
+            if (this.value !== this.texUnit) {
+                this.value = this.texUnit;
+                buf.setUniform1I(this.getLocation(), this.texUnit);
+            }
+        };
+        UniformSampler.prototype.set = function (tex) {
+            this.gl.activeTexture(this.gl.TEXTURE0 + this.texUnit);
+            this.gl.bindTexture(tex.getTarget(), tex.getHandle());
+            this.gl.uniform1i(this.getLocation(), this.texUnit);
+        };
+        return UniformSampler;
+    }(Uniform));
+    SourceUtils.UniformSampler = UniformSampler;
+    var UniformMatrix4 = (function (_super) {
+        __extends(UniformMatrix4, _super);
+        function UniformMatrix4() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        UniformMatrix4.prototype.reset = function () {
+            _super.prototype.reset.call(this);
+            this.transpose = undefined;
+            this.values = undefined;
+        };
+        UniformMatrix4.prototype.bufferValue = function (buf, transpose, values) {
+            if (this.transpose === transpose && this.values === values)
+                return;
+            this.transpose = transpose;
+            this.values = values;
+            buf.setUniformMatrix4(this.getLocation(), transpose, values);
+        };
+        UniformMatrix4.prototype.set = function (transpose, values) {
+            this.gl.uniformMatrix4fv(this.getLocation(), transpose, values);
+        };
+        return UniformMatrix4;
+    }(Uniform));
+    SourceUtils.UniformMatrix4 = UniformMatrix4;
     var ShaderProgram = (function () {
         function ShaderProgram(manager) {
             this.compiled = false;
+            this.nextTextureUnit = 0;
             this.attribNames = {};
             this.attribs = {};
             this.sortOrder = 0;
             this.enabledComponents = 0;
             this.manager = manager;
             this.sortIndex = ShaderProgram.nextSortIndex++;
-            this.projectionMatrix = new Uniform(this, "uProjection");
-            this.modelViewMatrix = new Uniform(this, "uModelView");
+            this.projectionMatrix = new UniformMatrix4(this, "uProjection");
+            this.modelViewMatrix = new UniformMatrix4(this, "uModelView");
         }
+        ShaderProgram.prototype.reserveNextTextureUnit = function () {
+            return this.nextTextureUnit++;
+        };
         ShaderProgram.prototype.dispose = function () {
             if (this.program !== undefined) {
                 this.getContext().deleteProgram(this.program);
@@ -2066,6 +2339,9 @@ var SourceUtils;
         ShaderProgram.prototype.disableMeshComponents = function () {
             this.enableMeshComponents(0);
         };
+        ShaderProgram.prototype.bufferSetup = function (buf) {
+            buf.setUniformMatrix4(this.projectionMatrix, false, context);
+        };
         ShaderProgram.prototype.prepareForRendering = function (map, context) {
             if (!this.isCompiled())
                 return;
@@ -2119,11 +2395,11 @@ var SourceUtils;
                 var _this = _super.call(this, manager) || this;
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.Position);
                 _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.Uv);
-                _this.baseTexture = new Uniform(_this, "uBaseTexture");
-                _this.time = new Uniform(_this, "uTime");
-                _this.fogParams = new Uniform(_this, "uFogParams");
-                _this.fogColor = new Uniform(_this, "uFogColor");
-                _this.noFog = new Uniform(_this, "uNoFog");
+                _this.baseTexture = new UniformSampler(_this, "uBaseTexture");
+                _this.time = new Uniform1F(_this, "uTime");
+                _this.fogParams = new Uniform4F(_this, "uFogParams");
+                _this.fogColor = new Uniform3F(_this, "uFogColor");
+                _this.noFog = new Uniform1F(_this, "uNoFog");
                 return _this;
             }
             Base.prototype.prepareForRendering = function (map, context) {
@@ -2160,8 +2436,8 @@ var SourceUtils;
                 var _this = _super.call(this, manager) || this;
                 _this.sortOrder = 0;
                 _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.Uv2);
-                _this.lightmap = new Uniform(_this, "uLightmap");
-                _this.lightmapParams = new Uniform(_this, "uLightmapParams");
+                _this.lightmap = new UniformSampler(_this, "uLightmap");
+                _this.lightmapParams = new Uniform4F(_this, "uLightmapParams");
                 return _this;
             }
             LightmappedBase.prototype.prepareForRendering = function (map, context) {
@@ -2186,7 +2462,7 @@ var SourceUtils;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
-                _this.alphaTest = new Uniform(_this, "uAlphaTest");
+                _this.alphaTest = new Uniform1F(_this, "uAlphaTest");
                 return _this;
             }
             LightmappedGeneric.prototype.changeMaterial = function (material) {
@@ -2206,7 +2482,7 @@ var SourceUtils;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
-                _this.alpha = new Uniform(_this, "uAlpha");
+                _this.alpha = new Uniform1F(_this, "uAlpha");
                 return _this;
             }
             LightmappedTranslucent.prototype.prepareForRendering = function (map, context) {
@@ -2240,8 +2516,8 @@ var SourceUtils;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
-                _this.baseTexture2 = new Uniform(_this, "uBaseTexture2");
-                _this.blendModulateTexture = new Uniform(_this, "uBlendModulateTexture");
+                _this.baseTexture2 = new UniformSampler(_this, "uBaseTexture2");
+                _this.blendModulateTexture = new UniformSampler(_this, "uBlendModulateTexture");
                 return _this;
             }
             Lightmapped2WayBlend.prototype.changeMaterial = function (material) {
@@ -2265,9 +2541,9 @@ var SourceUtils;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/UnlitGeneric.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/UnlitGeneric.frag.txt");
-                _this.alpha = new Uniform(_this, "uAlpha");
-                _this.translucent = new Uniform(_this, "uTranslucent");
-                _this.alphaTest = new Uniform(_this, "uAlphaTest");
+                _this.alpha = new Uniform1F(_this, "uAlpha");
+                _this.translucent = new Uniform1F(_this, "uTranslucent");
+                _this.alphaTest = new Uniform1F(_this, "uAlphaTest");
                 return _this;
             }
             UnlitGeneric.prototype.prepareForRendering = function (map, context) {
@@ -2318,11 +2594,11 @@ var SourceUtils;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
-                _this.alpha = new Uniform(_this, "uAlpha");
-                _this.translucent = new Uniform(_this, "uTranslucent");
-                _this.alphaTest = new Uniform(_this, "uAlphaTest");
-                _this.tint = new Uniform(_this, "uTint");
-                _this.baseAlphaTint = new Uniform(_this, "uBaseAlphaTint");
+                _this.alpha = new Uniform1F(_this, "uAlpha");
+                _this.translucent = new Uniform1F(_this, "uTranslucent");
+                _this.alphaTest = new Uniform1F(_this, "uAlphaTest");
+                _this.tint = new Uniform1F(_this, "uTint");
+                _this.baseAlphaTint = new Uniform1F(_this, "uBaseAlphaTint");
                 return _this;
             }
             VertexLitGeneric.prototype.prepareForRendering = function (map, context) {
@@ -2373,7 +2649,7 @@ var SourceUtils;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
-                _this.normalMap = new Uniform(_this, "uNormalMap");
+                _this.normalMap = new UniformSampler(_this, "uNormalMap");
                 return _this;
             }
             Water.prototype.prepareForRendering = function (map, context) {
@@ -2409,8 +2685,8 @@ var SourceUtils;
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Sky.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Sky.frag.txt");
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.Position);
-                _this.cameraPos = new Uniform(_this, "uCameraPos");
-                _this.skyCube = new Uniform(_this, "uSkyCube");
+                _this.cameraPos = new Uniform3F(_this, "uCameraPos");
+                _this.skyCube = new UniformSampler(_this, "uSkyCube");
                 return _this;
             }
             Sky.prototype.prepareForRendering = function (map, context) {
@@ -2635,6 +2911,9 @@ var SourceUtils;
             this.minFilter = gl.LINEAR;
             this.magFilter = gl.LINEAR;
         }
+        Texture.prototype.getTarget = function () {
+            return this.target;
+        };
         Texture.prototype.isLoaded = function () {
             return this.getHandle() !== undefined;
         };

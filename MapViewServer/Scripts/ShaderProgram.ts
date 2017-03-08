@@ -54,11 +54,14 @@ namespace SourceUtils {
         [component: number]: number;
     }
 
-    export class Uniform {
-        private gl: WebGLRenderingContext;
+    export abstract class Uniform {
+        protected gl: WebGLRenderingContext;
+
         private program: ShaderProgram;
         private name: string;
         private location: WebGLUniformLocation;
+
+        private parameter: CommandBufferParameter;
 
         constructor(program: ShaderProgram, name: string) {
             this.program = program;
@@ -66,34 +69,187 @@ namespace SourceUtils {
             this.gl = program.getContext();
         }
 
-        getLocation(): WebGLUniformLocation {
+        protected getLocation(): WebGLUniformLocation {
             if (this.location !== undefined) return this.location;
             if (!this.program.isCompiled()) return undefined;
-            this.location = this.gl.getUniformLocation(this.program.getProgram(), this.name);
+            return this.location = this.gl.getUniformLocation(this.program.getProgram(), this.name);
         }
 
-        set1i(x: number): void {
-            this.gl.uniform1i(this.getLocation(), x);
+        reset(): void {
+            this.parameter = undefined;
         }
 
-        set1f(x: number): void {
+        bufferParameter(buf: CommandBuffer, param: CommandBufferParameter) {
+            if (this.parameter === param) return;
+            this.parameter = param;
+            buf.setUniformParameter(this.getLocation(), param);
+        }
+    }
+
+    export class Uniform1F extends Uniform {
+        private x: number;
+
+        reset(): void {
+            super.reset();
+            this.x = undefined;
+        }
+
+        bufferValue(buf: CommandBuffer, x: number): void {
+            if (this.x === x) return;
+            this.x = x;
+            buf.setUniform1F(this.getLocation(), x);
+        }
+
+        set(x: number): void {
             this.gl.uniform1f(this.getLocation(), x);
         }
+    }
 
-        set2f(x: number, y: number): void {
+    export class Uniform1I extends Uniform {
+        private x: number;
+
+        reset(): void {
+            super.reset();
+            this.x = undefined;
+        }
+
+        bufferValue(buf: CommandBuffer, x: number): void {
+            if (this.x === x) return;
+            this.x = x;
+            buf.setUniform1I(this.getLocation(), x);
+        }
+
+        set(x: number): void {
+            this.gl.uniform1i(this.getLocation(), x);
+        }
+    }
+
+    export class Uniform2F extends Uniform {
+        private x: number;
+        private y: number;
+
+        reset(): void {
+            super.reset();
+            this.x = undefined;
+            this.y = undefined;
+        }
+
+        bufferValue(buf: CommandBuffer, x: number, y: number): void {
+            if (this.x === x && this.y === y) return;
+            this.x = x;
+            this.y = y;
+            buf.setUniform2F(this.getLocation(), x, y);
+        }
+
+        set(x: number, y: number): void {
             this.gl.uniform2f(this.getLocation(), x, y);
         }
+    }
 
-        set3f(x: number, y: number, z: number): void {
+    export class Uniform3F extends Uniform {
+        private x: number;
+        private y: number;
+        private z: number;
+
+        reset(): void {
+            super.reset();
+            this.x = undefined;
+            this.y = undefined;
+            this.z = undefined;
+        }
+
+        bufferValue(buf: CommandBuffer, x: number, y: number, z: number): void {
+            if (this.x === x && this.y === y && this.z === z) return;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            buf.setUniform3F(this.getLocation(), x, y, z);
+        }
+
+        set(x: number, y: number, z: number): void {
             this.gl.uniform3f(this.getLocation(), x, y, z);
         }
+    }
 
-        set4f(x: number, y: number, z: number, w: number): void {
-            this.gl.uniform4f(this.getLocation(), x, y, z, w);
+    export class Uniform4F extends Uniform {
+        private x: number;
+        private y: number;
+        private z: number;
+        private w: number;
+
+        reset(): void {
+            super.reset();
+            this.x = undefined;
+            this.y = undefined;
+            this.z = undefined;
+            this.w = undefined;
         }
 
-        setMatrix4f(value: Float32Array, transpose: boolean = false): void {
-            this.gl.uniformMatrix4fv(this.getLocation(), transpose, value);
+        bufferValue(buf: CommandBuffer, x: number, y: number, z: number, w: number): void {
+            if (this.x === x && this.y === y && this.z === z && this.w === w) return;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+            buf.setUniform4F(this.getLocation(), x, y, z, w);
+        }
+
+        set(x: number, y: number, z: number, w: number): void {
+            this.gl.uniform4f(this.getLocation(), x, y, z, w);
+        }
+    }
+
+    export class UniformSampler extends Uniform {
+        private value: number;
+
+        private texUnit: number;
+
+        constructor(program: ShaderProgram, name: string) {
+            super(program, name);
+            this.texUnit = program.reserveNextTextureUnit();
+        }
+
+        reset(): void {
+            super.reset();
+            this.value = undefined;
+        }
+
+        bufferValue(buf: CommandBuffer, tex: Texture): void {
+            buf.bindTexture(this.texUnit, tex);
+
+            if (this.value !== this.texUnit) {
+                this.value = this.texUnit;
+                buf.setUniform1I(this.getLocation(), this.texUnit);
+            }
+        }
+
+        set(tex: Texture): void {
+            this.gl.activeTexture(this.gl.TEXTURE0 + this.texUnit);
+            this.gl.bindTexture(tex.getTarget(), tex.getHandle());
+            this.gl.uniform1i(this.getLocation(), this.texUnit);
+        }
+    }
+
+    export class UniformMatrix4 extends Uniform {
+        private transpose: boolean;
+        private values: Float32Array;
+
+        reset(): void {
+            super.reset();
+            this.transpose = undefined;
+            this.values = undefined;
+        }
+
+        bufferValue(buf: CommandBuffer, transpose: boolean, values: Float32Array): void {
+            if (this.transpose === transpose && this.values === values) return;
+            this.transpose = transpose;
+            this.values = values;
+
+            buf.setUniformMatrix4(this.getLocation(), transpose, values);
+        }
+
+        set(transpose: boolean, values: Float32Array): void {
+            this.gl.uniformMatrix4fv(this.getLocation(), transpose, values);
         }
     }
 
@@ -109,21 +265,27 @@ namespace SourceUtils {
         private vertSource: string;
         private fragSource: string;
 
+        private nextTextureUnit = 0;
+
         private attribNames: { [name: string]: Api.MeshComponent } = {};
         private attribs: IProgramAttributes = {};
 
         sortOrder = 0;
 
-        projectionMatrix: Uniform;
-        modelViewMatrix: Uniform;
+        projectionMatrix: UniformMatrix4;
+        modelViewMatrix: UniformMatrix4;
 
         constructor(manager: ShaderManager) {
             this.manager = manager;
 
             this.sortIndex = ShaderProgram.nextSortIndex++;
 
-            this.projectionMatrix = new Uniform(this, "uProjection");
-            this.modelViewMatrix = new Uniform(this, "uModelView");
+            this.projectionMatrix = new UniformMatrix4(this, "uProjection");
+            this.modelViewMatrix = new UniformMatrix4(this, "uModelView");
+        }
+
+        reserveNextTextureUnit(): number {
+            return this.nextTextureUnit++;
         }
 
         dispose(): void {
@@ -312,6 +474,10 @@ namespace SourceUtils {
 
         private noCull: boolean;
 
+        bufferSetup(buf: CommandBuffer): void {
+            buf.setUniformMatrix4(this.projectionMatrix, false, context);
+        }
+
         prepareForRendering(map: Map, context: RenderContext): void {
             if (!this.isCompiled()) return;
 
@@ -362,13 +528,13 @@ namespace SourceUtils {
 
     export namespace Shaders {
         export class Base extends ShaderProgram {
-            baseTexture: Uniform;
+            baseTexture: UniformSampler;
 
-            time: Uniform;
+            time: Uniform1F;
 
-            fogParams: Uniform;
-            fogColor: Uniform;
-            noFog: Uniform;
+            fogParams: Uniform4F;
+            fogColor: Uniform3F;
+            noFog: Uniform1F;
 
             protected blend: boolean;
 
@@ -378,12 +544,12 @@ namespace SourceUtils {
                 this.addAttribute("aPosition", Api.MeshComponent.Position);
                 this.addAttribute("aTextureCoord", Api.MeshComponent.Uv);
 
-                this.baseTexture = new Uniform(this, "uBaseTexture");
+                this.baseTexture = new UniformSampler(this, "uBaseTexture");
 
-                this.time = new Uniform(this, "uTime");
-                this.fogParams = new Uniform(this, "uFogParams");
-                this.fogColor = new Uniform(this, "uFogColor");
-                this.noFog = new Uniform(this, "uNoFog");
+                this.time = new Uniform1F(this, "uTime");
+                this.fogParams = new Uniform4F(this, "uFogParams");
+                this.fogColor = new Uniform3F(this, "uFogColor");
+                this.noFog = new Uniform1F(this, "uNoFog");
             }
 
             prepareForRendering(map: Map, context: RenderContext): void {
@@ -421,8 +587,8 @@ namespace SourceUtils {
         }
 
         export class LightmappedBase extends Base {
-            lightmap: Uniform;
-            lightmapParams: Uniform;
+            lightmap: UniformSampler;
+            lightmapParams: Uniform4F;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -431,8 +597,8 @@ namespace SourceUtils {
 
                 this.addAttribute("aLightmapCoord", Api.MeshComponent.Uv2);
 
-                this.lightmap = new Uniform(this, "uLightmap");
-                this.lightmapParams = new Uniform(this, "uLightmapParams");
+                this.lightmap = new UniformSampler(this, "uLightmap");
+                this.lightmapParams = new Uniform4F(this, "uLightmapParams");
             }
 
             prepareForRendering(map: Map, context: RenderContext): void {
@@ -452,7 +618,7 @@ namespace SourceUtils {
         }
 
         export class LightmappedGeneric extends LightmappedBase {
-            alphaTest: Uniform;
+            alphaTest: Uniform1F;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -462,7 +628,7 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
 
-                this.alphaTest = new Uniform(this, "uAlphaTest");
+                this.alphaTest = new Uniform1F(this, "uAlphaTest");
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
@@ -475,7 +641,7 @@ namespace SourceUtils {
         }
 
         export class LightmappedTranslucent extends LightmappedBase {
-            alpha: Uniform;
+            alpha: Uniform1F;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -487,7 +653,7 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
 
-                this.alpha = new Uniform(this, "uAlpha");
+                this.alpha = new Uniform1F(this, "uAlpha");
             }
 
             prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
@@ -520,8 +686,8 @@ namespace SourceUtils {
         }
 
         export class Lightmapped2WayBlend extends LightmappedBase {
-            baseTexture2: Uniform;
-            blendModulateTexture: Uniform;
+            baseTexture2: UniformSampler;
+            blendModulateTexture: UniformSampler;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -535,8 +701,8 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
 
-                this.baseTexture2 = new Uniform(this, "uBaseTexture2");
-                this.blendModulateTexture = new Uniform(this, "uBlendModulateTexture");
+                this.baseTexture2 = new UniformSampler(this, "uBaseTexture2");
+                this.blendModulateTexture = new UniformSampler(this, "uBlendModulateTexture");
             }
 
             changeMaterial(material: SourceUtils.Material): boolean {
@@ -554,9 +720,9 @@ namespace SourceUtils {
 
         export class UnlitGeneric extends Base
         {
-            alpha: Uniform;
-            translucent: Uniform;
-            alphaTest: Uniform;
+            alpha: Uniform1F;
+            translucent: Uniform1F;
+            alphaTest: Uniform1F;
 
             protected isTranslucent = false;
 
@@ -571,9 +737,9 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/UnlitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/UnlitGeneric.frag.txt");
 
-                this.alpha = new Uniform(this, "uAlpha");
-                this.translucent = new Uniform(this, "uTranslucent");
-                this.alphaTest = new Uniform(this, "uAlphaTest");
+                this.alpha = new Uniform1F(this, "uAlpha");
+                this.translucent = new Uniform1F(this, "uTranslucent");
+                this.alphaTest = new Uniform1F(this, "uAlphaTest");
             }
 
             prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void
@@ -625,11 +791,11 @@ namespace SourceUtils {
         }
 
         export class VertexLitGeneric extends Base {
-            alpha: Uniform;
-            translucent: Uniform;
-            alphaTest: Uniform;
-            tint: Uniform;
-            baseAlphaTint: Uniform;
+            alpha: Uniform1F;
+            translucent: Uniform1F;
+            alphaTest: Uniform1F;
+            tint: Uniform1F;
+            baseAlphaTint: Uniform1F;
 
             protected isTranslucent = false;
 
@@ -645,11 +811,11 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
 
-                this.alpha = new Uniform(this, "uAlpha");
-                this.translucent = new Uniform(this, "uTranslucent");
-                this.alphaTest = new Uniform(this, "uAlphaTest");
-                this.tint = new Uniform(this, "uTint");
-                this.baseAlphaTint = new Uniform(this, "uBaseAlphaTint");
+                this.alpha = new Uniform1F(this, "uAlpha");
+                this.translucent = new Uniform1F(this, "uTranslucent");
+                this.alphaTest = new Uniform1F(this, "uAlphaTest");
+                this.tint = new Uniform1F(this, "uTint");
+                this.baseAlphaTint = new Uniform1F(this, "uBaseAlphaTint");
             }
 
             prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void {
@@ -702,7 +868,7 @@ namespace SourceUtils {
 
         export class Water extends Base
         {
-            normalMap: Uniform;
+            normalMap: UniformSampler;
 
             constructor(manager: ShaderManager)
             {
@@ -715,7 +881,7 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
 
-                this.normalMap = new Uniform(this, "uNormalMap");
+                this.normalMap = new UniformSampler(this, "uNormalMap");
             }
 
             prepareForRendering(map: Map, context: RenderContext): void
@@ -753,8 +919,8 @@ namespace SourceUtils {
         }
 
         export class Sky extends ShaderProgram {
-            cameraPos: Uniform;
-            skyCube: Uniform;
+            cameraPos: Uniform3F;
+            skyCube: UniformSampler;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -768,8 +934,8 @@ namespace SourceUtils {
 
                 this.addAttribute("aPosition", Api.MeshComponent.Position);
 
-                this.cameraPos = new Uniform(this, "uCameraPos");
-                this.skyCube = new Uniform(this, "uSkyCube");
+                this.cameraPos = new Uniform3F(this, "uCameraPos");
+                this.skyCube = new UniformSampler(this, "uSkyCube");
             }
 
             prepareForRendering(map: Map, context: RenderContext): void {

@@ -20,6 +20,10 @@
             this.magFilter = gl.LINEAR;
         }
 
+        getTarget(): number {
+            return this.target;
+        }
+
         isLoaded(): boolean {
             return this.getHandle() !== undefined;
         }
