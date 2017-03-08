@@ -1,14 +1,19 @@
-﻿namespace SourceUtils {
+﻿/// <reference path="FormattedWriter.ts"/>
+/// <reference path="Entity.ts"/>
+
+namespace SourceUtils {
     export class WorldMeshHandle {
         group: WorldMeshGroup;
         parent: Entity;
         drawMode: number;
         materialIndex: number;
         material: Material;
-        offset: number;
-        count: number;
+        vertexOffset: number;
+        indexOffset: number;
+        indexCount: number;
 
-        constructor(group?: WorldMeshGroup, drawMode?: number, material?: number | Material, offset?: number, count?: number) {
+        constructor(group?: WorldMeshGroup, drawMode?: number, material?: number | Material,
+            vertexOffset?: number, indexOffset?: number, indexCount?: number) {
             this.group = group;
             this.drawMode = drawMode;
 
@@ -18,12 +23,14 @@
                 this.material = material;
             }
 
-            this.offset = offset;
-            this.count = count;
+            this.vertexOffset = vertexOffset;
+            this.indexOffset = indexOffset;
+            this.indexCount = indexCount;
         }
 
         clone(newParent: Entity): WorldMeshHandle {
-            const copy = new WorldMeshHandle(this.group, this.drawMode, this.material || this.materialIndex, this.offset, this.count);
+            const copy = new WorldMeshHandle(this.group, this.drawMode, this.material || this.materialIndex,
+                this.vertexOffset, this.indexOffset, this.indexCount);
             copy.parent = newParent;
             return copy;
         }
@@ -42,25 +49,26 @@
             if (groupComp !== 0) return groupComp;
             const matComp = this.material.compareTo(other.material);
             if (matComp !== 0) return matComp;
-            return this.offset - other.offset;
+            return this.indexOffset - other.indexOffset;
         }
 
         canMerge(other: WorldMeshHandle): boolean {
             return this.materialIndex === other.materialIndex
                 && this.material === other.material
-                && this.offset + this.count === other.offset
                 && this.group === other.group
+                && this.vertexOffset === other.vertexOffset
+                && this.indexOffset + this.indexCount === other.indexOffset
                 && this.parent === other.parent
                 && this.drawMode === other.drawMode;
         }
 
         merge(other: WorldMeshHandle): void {
-            this.count += other.count;
+            this.indexCount += other.indexCount;
         }
     }
 
     export class WorldMeshGroup implements IStateLoggable {
-        private static maxIndices = 2147483647;
+        private static maxIndices = 2147483648;
         private static nextId = 1;
 
         private id: number;
@@ -69,6 +77,8 @@
         private components: Api.MeshComponent;
         private vertexSize: number;
         private maxVertLength: number;
+        private lastSubBufferOffset = 0;
+        private maxSubBufferLength: number;
 
         private vertices: WebGLBuffer;
         private indices: WebGLBuffer;
@@ -141,7 +151,8 @@
                 this.vertexSize += 3;
             }
 
-            this.maxVertLength = this.vertexSize * 65536;
+            this.maxVertLength = 2147483648;
+            this.maxSubBufferLength = this.vertexSize * 65536; 
         }
 
         compareTo(other: WorldMeshGroup): number {
@@ -232,7 +243,11 @@
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
 
-            const elementOffset = Math.round(vertexOffset / this.vertexSize);
+            if (this.vertCount - this.lastSubBufferOffset * this.vertexSize > this.maxSubBufferLength) {
+                this.lastSubBufferOffset = Math.round(vertexOffset / this.vertexSize);
+            }
+
+            const elementOffset = Math.round(vertexOffset / this.vertexSize) - this.lastSubBufferOffset;
             for (let i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                 newIndices[i] += elementOffset;
             }
@@ -247,29 +262,33 @@
 
             for (let i = 0; i < data.elements.length; ++i) {
                 const element = data.elements[i];
-                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.indexOffset + indexOffset, element.indexCount);
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, this.lastSubBufferOffset, element.indexOffset + indexOffset, element.indexCount);
                 ++this.handleCount;
             }
 
             return handles;
         }
 
-        prepareForRendering(program: ShaderProgram): void {
+        bindBuffers(program: ShaderProgram): void {
+            const gl = this.gl;
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
+
+            program.enableMeshComponents(this.components);
+        }
+
+        setAttribPointers(program: ShaderProgram, vertexOffset: number): void {
             const gl = this.gl;
 
             const stride = this.vertexSize * 4;
+            const baseOffset = vertexOffset * stride;
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-
-            program.enableMeshComponents(this.components);
-
-            program.setVertexAttribPointer(Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, this.alphaOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, this.rgbOffset * 4);
-
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
+            program.setVertexAttribPointer(Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, baseOffset + this.positionOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, baseOffset + this.uvOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, baseOffset + this.uv2Offset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, baseOffset + this.alphaOffset * 4);
+            program.setVertexAttribPointer(Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, baseOffset + this.rgbOffset * 4);
         }
 
         renderElements(drawMode: number, offset: number, count: number): void {

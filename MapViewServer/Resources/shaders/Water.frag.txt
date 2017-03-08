@@ -1,0 +1,19 @@
+﻿#include "Base.frag.txt"
+
+uniform sampler2D uNormalMap;
+
+void main()
+{
+    vec4 texSample = texture2D(uBaseTexture, vTextureCoord);
+    vec4 normSampleA = texture2D(uNormalMap, vTextureCoord * 0.25 + vec2(0.02, 0.02) * uTime.x);
+    vec4 normSampleB = texture2D(uNormalMap, vTextureCoord * 0.33 + vec2(-0.06, 0.08) * uTime.x);
+    vec3 normal = normalize(normSampleA.xyz + normSampleB.xyz - vec3(1.0, 1.0, 1.0));
+
+    vec3 exampleLightDir = normalize(vec3(sin(uTime.x), cos(uTime.x), -2.0));
+    float lightIntensity = pow(dot(exampleLightDir, -normal), 8.0);
+
+    vec3 color = applyFog(texSample.rgb * lightIntensity);
+    float alpha = lightIntensity;
+
+    gl_FragColor = vec4(color, alpha);
+}

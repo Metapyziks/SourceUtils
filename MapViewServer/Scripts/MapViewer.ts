@@ -275,8 +275,6 @@ namespace SourceUtils {
                 this.mainRenderContext.render();
             }
 
-            gl.finish();
-
             const t1 = performance.now();
 
             this.totalRenderTime += (t1 - t0);

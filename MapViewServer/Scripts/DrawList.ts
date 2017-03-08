@@ -8,6 +8,7 @@
 
         private lastParent: Entity;
         private lastGroup: WorldMeshGroup;
+        private lastVertexOffset: number;
         private lastProgram: ShaderProgram;
         private lastMaterialIndex: number;
         private lastMaterial: Material;
@@ -96,10 +97,16 @@
 
             if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
-                this.lastGroup.prepareForRendering(this.lastProgram);
+                this.lastVertexOffset = undefined;
+                this.lastGroup.bindBuffers(this.lastProgram);
             }
 
-            this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
+            if (this.lastVertexOffset !== handle.vertexOffset) {
+                this.lastVertexOffset = handle.vertexOffset;
+                this.lastGroup.setAttribPointers(this.lastProgram, this.lastVertexOffset);
+            }
+
+            this.lastGroup.renderElements(handle.drawMode, handle.indexOffset, handle.indexCount);
         }
 
         private static compareHandles(a: WorldMeshHandle, b: WorldMeshHandle): number {
@@ -116,7 +123,7 @@
 
                 for (let j = 0, jEnd = handles.length; j < jEnd; ++j) {
                     const handle = handles[j];
-                    if (handle.count === 0) continue;
+                    if (handle.indexCount === 0) continue;
                     if (handle.material == null) {
                         if ((handle.material = this.map.getMaterial(handle.materialIndex)) == null) continue;
                     }
@@ -149,8 +156,9 @@
                 last.drawMode = next.drawMode;
                 last.material = next.material;
                 last.materialIndex = next.materialIndex;
-                last.offset = next.offset;
-                last.count = next.count;
+                last.vertexOffset = next.vertexOffset;
+                last.indexOffset = next.indexOffset;
+                last.indexCount = next.indexCount;
             }
 
             (this.map.getApp() as MapViewer).invalidateDebugPanel();
@@ -159,6 +167,7 @@
         render(context: RenderContext): void {
             this.lastParent = undefined;
             this.lastGroup = undefined;
+            this.lastVertexOffset = undefined;
             this.lastProgram = undefined;
             this.lastMaterial = undefined;
             this.lastMaterialIndex = undefined;

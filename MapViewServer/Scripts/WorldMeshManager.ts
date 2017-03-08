@@ -1,4 +1,7 @@
-﻿namespace SourceUtils {
+﻿/// <reference path="WorldMeshGroup.ts"/>
+
+namespace SourceUtils
+{
     export class WorldMeshManager implements IStateLoggable {
         private gl: WebGLRenderingContext;
         private groups: WorldMeshGroup[] = [];

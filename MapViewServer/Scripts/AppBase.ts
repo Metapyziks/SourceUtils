@@ -236,13 +236,16 @@ namespace SourceUtils {
         toggleFullscreen(): void {
             const container = this.getContainer();
 
-            if (document.fullscreenElement === container || document.webkitFullscreenElement === container) {
+            if (document.fullscreenElement === container || document.webkitFullscreenElement === container || document.mozFullScreenElement === container) {
                 if (document.exitFullscreen) document.exitFullscreen();
                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
             } else if (container.requestFullscreen) {
                 container.requestFullscreen();
             } else if (container.webkitRequestFullscreen) {
                 container.webkitRequestFullscreen();
+            } else if (container.mozRequestFullScreen) {
+                container.mozRequestFullScreen();
             }
         }
 
@@ -360,10 +363,10 @@ namespace SourceUtils {
         animate(dt?: number): void {
             dt = dt || 0;
 
-            requestAnimationFrame(this.animateCallback);
-
             this.onUpdateFrame(dt);
             this.onRenderFrame(dt);
+
+            requestAnimationFrame(this.animateCallback);
         }
 
         protected onUpdateFrame(dt: number): void { }

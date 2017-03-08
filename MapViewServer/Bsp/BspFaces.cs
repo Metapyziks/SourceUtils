@@ -200,7 +200,7 @@ namespace MapViewServer
 
         private static void SerializeFace( ValveBspFile bsp, int index, VertexArray verts )
         {
-            const SurfFlags ignoreFlags = SurfFlags.NODRAW;
+            const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.LIGHT;
             const SurfFlags skyFlags = SurfFlags.SKY2D | SurfFlags.SKY;
 
             var face = bsp.FacesHdr[index];

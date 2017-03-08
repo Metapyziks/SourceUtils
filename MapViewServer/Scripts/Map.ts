@@ -18,6 +18,7 @@ namespace SourceUtils {
 
         private lightmap: Texture;
         private blankTexture: Texture;
+        private blankNormalMap: Texture;
         private blankMaterial: Material;
         private errorMaterial: Material;
         private skyMaterial: Material;
@@ -46,6 +47,7 @@ namespace SourceUtils {
             this.shaderManager = new ShaderManager(app.getContext());
 
             this.blankTexture = new BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            this.blankNormalMap = new BlankTexture(app.getContext(), new THREE.Color(0.5, 0.5, 1.0));
             this.blankMaterial = new Material(this, "LightmappedGeneric");
             this.blankMaterial.properties.baseTexture = this.blankTexture;
             this.errorMaterial = new Material(this, "LightmappedGeneric");
@@ -69,6 +71,10 @@ namespace SourceUtils {
 
         getBlankTexture(): Texture {
             return this.blankTexture;
+        }
+
+        getBlankNormalMap(): Texture {
+            return this.blankNormalMap;
         }
 
         getWorldSpawn(): BspModel {

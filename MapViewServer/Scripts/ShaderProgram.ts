@@ -364,6 +364,8 @@ namespace SourceUtils {
         export class Base extends ShaderProgram {
             baseTexture: Uniform;
 
+            time: Uniform;
+
             fogParams: Uniform;
             fogColor: Uniform;
             noFog: Uniform;
@@ -378,6 +380,7 @@ namespace SourceUtils {
 
                 this.baseTexture = new Uniform(this, "uBaseTexture");
 
+                this.time = new Uniform(this, "uTime");
                 this.fogParams = new Uniform(this, "uFogParams");
                 this.fogColor = new Uniform(this, "uFogColor");
                 this.noFog = new Uniform(this, "uNoFog");
@@ -385,6 +388,8 @@ namespace SourceUtils {
 
             prepareForRendering(map: Map, context: RenderContext): void {
                 super.prepareForRendering(map, context);
+
+                this.time.set4f(context.time, 0, 0, 0);
 
                 const fog = context.fogParams;
                 if (fog != null && fog.fogEnabled) {
@@ -521,6 +526,8 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
+                this.sortOrder = 100;
+
                 this.addAttribute("aAlpha", Api.MeshComponent.Alpha);
 
                 const gl = this.getContext();
@@ -537,7 +544,7 @@ namespace SourceUtils {
 
                 const gl = this.getContext();
                 const blank = material.getMap().getBlankTexture();
-                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
+                this.setTexture(this.baseTexture2, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
                 this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D,
                     2, material.properties.blendModulateTexture, blank);
 
@@ -557,7 +564,7 @@ namespace SourceUtils {
             {
                 super(manager);
 
-                this.sortOrder = 0;
+                this.sortOrder = 200;
 
                 const gl = this.getContext();
 
@@ -593,7 +600,7 @@ namespace SourceUtils {
 
                 this.isTranslucent = true;
 
-                this.sortOrder = 2000;
+                this.sortOrder = 2200;
             }
 
             prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
@@ -629,7 +636,7 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.sortOrder = 0;
+                this.sortOrder = 400;
 
                 this.addAttribute("aColorCompressed", Api.MeshComponent.Rgb);
 
@@ -669,7 +676,7 @@ namespace SourceUtils {
 
                 this.isTranslucent = true;
 
-                this.sortOrder = 2000;
+                this.sortOrder = 2400;
             }
 
             prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
@@ -690,6 +697,58 @@ namespace SourceUtils {
                 gl.disable(gl.BLEND);
 
                 super.cleanupPostRender(map, context);
+            }
+        }
+
+        export class Water extends Base
+        {
+            normalMap: Uniform;
+
+            constructor(manager: ShaderManager)
+            {
+                super(manager);
+
+                this.sortOrder = 3000;
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
+
+                this.normalMap = new Uniform(this, "uNormalMap");
+            }
+
+            prepareForRendering(map: Map, context: RenderContext): void
+            {
+                super.prepareForRendering(map, context);
+
+                const gl = this.getContext();
+
+                gl.depthMask(false);
+
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            }
+
+            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void
+            {
+                const gl = this.getContext();
+
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
+
+                super.cleanupPostRender(map, context);
+            }
+
+            changeMaterial(material: SourceUtils.Material): boolean
+            {
+                if (!super.changeMaterial(material)) return false;
+
+                const gl = this.getContext();
+                const blank = material.getMap().getBlankNormalMap();
+                this.setTexture(this.normalMap, gl.TEXTURE_2D, 3, material.properties.normalMap, blank);
+
+                return true;
             }
         }
 

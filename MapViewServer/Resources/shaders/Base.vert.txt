@@ -1,6 +1,7 @@
 ﻿attribute vec3 aPosition;
 attribute vec2 aTextureCoord;
 
+varying float vDepth;
 varying vec2 vTextureCoord;
 
 uniform mat4 uProjection;
@@ -8,7 +9,10 @@ uniform mat4 uModelView;
 
 void Base_main()
 {
-    gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
+    vec4 viewPos = uModelView * vec4(aPosition, 1.0);
+
+    gl_Position = uProjection * viewPos;
     
+    vDepth = -viewPos.z;
     vTextureCoord = aTextureCoord;
 }

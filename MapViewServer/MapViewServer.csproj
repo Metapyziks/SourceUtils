@@ -110,6 +110,8 @@
     <Content Include="Resources\shaders\UnlitGeneric.vert.txt" />
     <Content Include="Resources\shaders\VertexLitGeneric.frag.txt" />
     <Content Include="Resources\shaders\VertexLitGeneric.vert.txt" />
+    <Content Include="Resources\shaders\Water.frag.txt" />
+    <Content Include="Resources\shaders\Water.vert.txt" />
     <Content Include="Scripts\main.js" />
   </ItemGroup>
   <ItemGroup>

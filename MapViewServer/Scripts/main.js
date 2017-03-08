@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var SourceUtils;
 (function (SourceUtils) {
     var Api;
@@ -320,17 +325,22 @@ var SourceUtils;
         };
         AppBase.prototype.toggleFullscreen = function () {
             var container = this.getContainer();
-            if (document.fullscreenElement === container || document.webkitFullscreenElement === container) {
+            if (document.fullscreenElement === container || document.webkitFullscreenElement === container || document.mozFullScreenElement === container) {
                 if (document.exitFullscreen)
                     document.exitFullscreen();
                 else if (document.webkitExitFullscreen)
                     document.webkitExitFullscreen();
+                else if (document.mozCancelFullScreen)
+                    document.mozCancelFullScreen();
             }
             else if (container.requestFullscreen) {
                 container.requestFullscreen();
             }
             else if (container.webkitRequestFullscreen) {
                 container.webkitRequestFullscreen();
+            }
+            else if (container.mozRequestFullScreen) {
+                container.mozRequestFullScreen();
             }
         };
         AppBase.prototype.getContainer = function () {
@@ -418,9 +428,9 @@ var SourceUtils;
         AppBase.prototype.onUpdateCamera = function () { };
         AppBase.prototype.animate = function (dt) {
             dt = dt || 0;
-            requestAnimationFrame(this.animateCallback);
             this.onUpdateFrame(dt);
             this.onRenderFrame(dt);
+            requestAnimationFrame(this.animateCallback);
         };
         AppBase.prototype.onUpdateFrame = function (dt) { };
         AppBase.prototype.onRenderFrame = function (dt) { };
@@ -862,9 +872,14 @@ var SourceUtils;
             }
             if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
-                this.lastGroup.prepareForRendering(this.lastProgram);
+                this.lastVertexOffset = undefined;
+                this.lastGroup.bindBuffers(this.lastProgram);
             }
-            this.lastGroup.renderElements(handle.drawMode, handle.offset, handle.count);
+            if (this.lastVertexOffset !== handle.vertexOffset) {
+                this.lastVertexOffset = handle.vertexOffset;
+                this.lastGroup.setAttribPointers(this.lastProgram, this.lastVertexOffset);
+            }
+            this.lastGroup.renderElements(handle.drawMode, handle.indexOffset, handle.indexCount);
         };
         DrawList.compareHandles = function (a, b) {
             return a.compareTo(b);
@@ -878,7 +893,7 @@ var SourceUtils;
                     continue;
                 for (var j = 0, jEnd = handles.length; j < jEnd; ++j) {
                     var handle = handles[j];
-                    if (handle.count === 0)
+                    if (handle.indexCount === 0)
                         continue;
                     if (handle.material == null) {
                         if ((handle.material = this.map.getMaterial(handle.materialIndex)) == null)
@@ -904,14 +919,16 @@ var SourceUtils;
                 last.drawMode = next.drawMode;
                 last.material = next.material;
                 last.materialIndex = next.materialIndex;
-                last.offset = next.offset;
-                last.count = next.count;
+                last.vertexOffset = next.vertexOffset;
+                last.indexOffset = next.indexOffset;
+                last.indexCount = next.indexCount;
             }
             this.map.getApp().invalidateDebugPanel();
         };
         DrawList.prototype.render = function (context) {
             this.lastParent = undefined;
             this.lastGroup = undefined;
+            this.lastVertexOffset = undefined;
             this.lastProgram = undefined;
             this.lastMaterial = undefined;
             this.lastMaterialIndex = undefined;
@@ -1138,6 +1155,7 @@ var SourceUtils;
             _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
             _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
             _this.blankTexture = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
+            _this.blankNormalMap = new SourceUtils.BlankTexture(app.getContext(), new THREE.Color(0.5, 0.5, 1.0));
             _this.blankMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
             _this.blankMaterial.properties.baseTexture = _this.blankTexture;
             _this.errorMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
@@ -1157,6 +1175,9 @@ var SourceUtils;
         };
         Map.prototype.getBlankTexture = function () {
             return this.blankTexture;
+        };
+        Map.prototype.getBlankNormalMap = function () {
+            return this.blankNormalMap;
         };
         Map.prototype.getWorldSpawn = function () {
             return this.models.length > 0 ? this.models[0] : null;
@@ -1539,7 +1560,6 @@ var SourceUtils;
             if (this.mainRenderContext != null) {
                 this.mainRenderContext.render();
             }
-            gl.finish();
             var t1 = performance.now();
             this.totalRenderTime += (t1 - t0);
             this.countedFrames += 1;
@@ -1581,6 +1601,7 @@ var SourceUtils;
             this.baseTexture = null;
             this.baseTexture2 = null;
             this.blendModulateTexture = null;
+            this.normalMap = null;
             this.noFog = false;
             this.alphaTest = false;
             this.alpha = 1;
@@ -1746,6 +1767,7 @@ var SourceUtils;
             this.camera.getPosition(this.origin);
             if (this.pvsFollowsCamera)
                 this.pvsOrigin.set(this.origin.x, this.origin.y, this.origin.z);
+            this.time = performance.now() * 0.001;
             var persp = this.camera;
             if (persp.getNear !== undefined) {
                 this.near = persp.getNear();
@@ -2098,6 +2120,7 @@ var SourceUtils;
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.Position);
                 _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.Uv);
                 _this.baseTexture = new Uniform(_this, "uBaseTexture");
+                _this.time = new Uniform(_this, "uTime");
                 _this.fogParams = new Uniform(_this, "uFogParams");
                 _this.fogColor = new Uniform(_this, "uFogColor");
                 _this.noFog = new Uniform(_this, "uNoFog");
@@ -2105,6 +2128,7 @@ var SourceUtils;
             }
             Base.prototype.prepareForRendering = function (map, context) {
                 _super.prototype.prepareForRendering.call(this, map, context);
+                this.time.set4f(context.time, 0, 0, 0);
                 var fog = context.fogParams;
                 if (fog != null && fog.fogEnabled) {
                     var densMul = fog.fogMaxDensity / ((fog.fogEnd - fog.fogStart) * (context.far - context.near));
@@ -2211,6 +2235,7 @@ var SourceUtils;
             __extends(Lightmapped2WayBlend, _super);
             function Lightmapped2WayBlend(manager) {
                 var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 100;
                 _this.addAttribute("aAlpha", SourceUtils.Api.MeshComponent.Alpha);
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
@@ -2224,7 +2249,7 @@ var SourceUtils;
                     return false;
                 var gl = this.getContext();
                 var blank = material.getMap().getBlankTexture();
-                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
+                this.setTexture(this.baseTexture2, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
                 this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D, 2, material.properties.blendModulateTexture, blank);
                 return true;
             };
@@ -2236,7 +2261,7 @@ var SourceUtils;
             function UnlitGeneric(manager) {
                 var _this = _super.call(this, manager) || this;
                 _this.isTranslucent = false;
-                _this.sortOrder = 0;
+                _this.sortOrder = 200;
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/UnlitGeneric.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/UnlitGeneric.frag.txt");
@@ -2264,7 +2289,7 @@ var SourceUtils;
             function UnlitTranslucent(manager) {
                 var _this = _super.call(this, manager) || this;
                 _this.isTranslucent = true;
-                _this.sortOrder = 2000;
+                _this.sortOrder = 2200;
                 return _this;
             }
             UnlitTranslucent.prototype.prepareForRendering = function (map, context) {
@@ -2288,7 +2313,7 @@ var SourceUtils;
             function VertexLitGeneric(manager) {
                 var _this = _super.call(this, manager) || this;
                 _this.isTranslucent = false;
-                _this.sortOrder = 0;
+                _this.sortOrder = 400;
                 _this.addAttribute("aColorCompressed", SourceUtils.Api.MeshComponent.Rgb);
                 var gl = _this.getContext();
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
@@ -2321,7 +2346,7 @@ var SourceUtils;
             function VertexLitTranslucent(manager) {
                 var _this = _super.call(this, manager) || this;
                 _this.isTranslucent = true;
-                _this.sortOrder = 2000;
+                _this.sortOrder = 2400;
                 return _this;
             }
             VertexLitTranslucent.prototype.prepareForRendering = function (map, context) {
@@ -2340,6 +2365,41 @@ var SourceUtils;
             return VertexLitTranslucent;
         }(VertexLitGeneric));
         Shaders.VertexLitTranslucent = VertexLitTranslucent;
+        var Water = (function (_super) {
+            __extends(Water, _super);
+            function Water(manager) {
+                var _this = _super.call(this, manager) || this;
+                _this.sortOrder = 3000;
+                var gl = _this.getContext();
+                _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
+                _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
+                _this.normalMap = new Uniform(_this, "uNormalMap");
+                return _this;
+            }
+            Water.prototype.prepareForRendering = function (map, context) {
+                _super.prototype.prepareForRendering.call(this, map, context);
+                var gl = this.getContext();
+                gl.depthMask(false);
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            };
+            Water.prototype.cleanupPostRender = function (map, context) {
+                var gl = this.getContext();
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
+                _super.prototype.cleanupPostRender.call(this, map, context);
+            };
+            Water.prototype.changeMaterial = function (material) {
+                if (!_super.prototype.changeMaterial.call(this, material))
+                    return false;
+                var gl = this.getContext();
+                var blank = material.getMap().getBlankNormalMap();
+                this.setTexture(this.normalMap, gl.TEXTURE_2D, 3, material.properties.normalMap, blank);
+                return true;
+            };
+            return Water;
+        }(Base));
+        Shaders.Water = Water;
         var Sky = (function (_super) {
             __extends(Sky, _super);
             function Sky(manager) {
@@ -2926,10 +2986,12 @@ var SourceUtils;
     }());
     SourceUtils.VisNode = VisNode;
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="FormattedWriter.ts"/>
+/// <reference path="Entity.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WorldMeshHandle = (function () {
-        function WorldMeshHandle(group, drawMode, material, offset, count) {
+        function WorldMeshHandle(group, drawMode, material, vertexOffset, indexOffset, indexCount) {
             this.group = group;
             this.drawMode = drawMode;
             if (typeof material === "number") {
@@ -2938,11 +3000,12 @@ var SourceUtils;
             else {
                 this.material = material;
             }
-            this.offset = offset;
-            this.count = count;
+            this.vertexOffset = vertexOffset;
+            this.indexOffset = indexOffset;
+            this.indexCount = indexCount;
         }
         WorldMeshHandle.prototype.clone = function (newParent) {
-            var copy = new WorldMeshHandle(this.group, this.drawMode, this.material || this.materialIndex, this.offset, this.count);
+            var copy = new WorldMeshHandle(this.group, this.drawMode, this.material || this.materialIndex, this.vertexOffset, this.indexOffset, this.indexCount);
             copy.parent = newParent;
             return copy;
         };
@@ -2961,24 +3024,26 @@ var SourceUtils;
             var matComp = this.material.compareTo(other.material);
             if (matComp !== 0)
                 return matComp;
-            return this.offset - other.offset;
+            return this.indexOffset - other.indexOffset;
         };
         WorldMeshHandle.prototype.canMerge = function (other) {
             return this.materialIndex === other.materialIndex
                 && this.material === other.material
-                && this.offset + this.count === other.offset
                 && this.group === other.group
+                && this.vertexOffset === other.vertexOffset
+                && this.indexOffset + this.indexCount === other.indexOffset
                 && this.parent === other.parent
                 && this.drawMode === other.drawMode;
         };
         WorldMeshHandle.prototype.merge = function (other) {
-            this.count += other.count;
+            this.indexCount += other.indexCount;
         };
         return WorldMeshHandle;
     }());
     SourceUtils.WorldMeshHandle = WorldMeshHandle;
     var WorldMeshGroup = (function () {
         function WorldMeshGroup(gl, components) {
+            this.lastSubBufferOffset = 0;
             this.vertCount = 0;
             this.indexCount = 0;
             this.handleCount = 0;
@@ -3024,7 +3089,8 @@ var SourceUtils;
                 this.rgbOffset = this.vertexSize;
                 this.vertexSize += 3;
             }
-            this.maxVertLength = this.vertexSize * 65536;
+            this.maxVertLength = 2147483648;
+            this.maxSubBufferLength = this.vertexSize * 65536;
         }
         WorldMeshGroup.prototype.compareTo = function (other) {
             return this.id - other.id;
@@ -3089,7 +3155,10 @@ var SourceUtils;
             this.indexData = this.ensureCapacity(this.indexData, this.indexCount + newIndices.length, function (size) { return new Uint16Array(size); });
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
-            var elementOffset = Math.round(vertexOffset / this.vertexSize);
+            if (this.vertCount - this.lastSubBufferOffset * this.vertexSize > this.maxSubBufferLength) {
+                this.lastSubBufferOffset = Math.round(vertexOffset / this.vertexSize);
+            }
+            var elementOffset = Math.round(vertexOffset / this.vertexSize) - this.lastSubBufferOffset;
             for (var i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                 newIndices[i] += elementOffset;
             }
@@ -3100,22 +3169,26 @@ var SourceUtils;
             var handles = new Array(data.elements.length);
             for (var i = 0; i < data.elements.length; ++i) {
                 var element = data.elements[i];
-                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, element.indexOffset + indexOffset, element.indexCount);
+                handles[i] = new WorldMeshHandle(this, this.getDrawMode(element.type), element.material, this.lastSubBufferOffset, element.indexOffset + indexOffset, element.indexCount);
                 ++this.handleCount;
             }
             return handles;
         };
-        WorldMeshGroup.prototype.prepareForRendering = function (program) {
+        WorldMeshGroup.prototype.bindBuffers = function (program) {
+            var gl = this.gl;
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
+            program.enableMeshComponents(this.components);
+        };
+        WorldMeshGroup.prototype.setAttribPointers = function (program, vertexOffset) {
             var gl = this.gl;
             var stride = this.vertexSize * 4;
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            program.enableMeshComponents(this.components);
-            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, this.positionOffset * 4);
-            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, this.uvOffset * 4);
-            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, this.uv2Offset * 4);
-            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, this.alphaOffset * 4);
-            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, this.rgbOffset * 4);
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
+            var baseOffset = vertexOffset * stride;
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, baseOffset + this.positionOffset * 4);
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, baseOffset + this.uvOffset * 4);
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, baseOffset + this.uv2Offset * 4);
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, baseOffset + this.alphaOffset * 4);
+            program.setVertexAttribPointer(SourceUtils.Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, baseOffset + this.rgbOffset * 4);
         };
         WorldMeshGroup.prototype.renderElements = function (drawMode, offset, count) {
             var gl = this.gl;
@@ -3140,10 +3213,11 @@ var SourceUtils;
         };
         return WorldMeshGroup;
     }());
-    WorldMeshGroup.maxIndices = 2147483647;
+    WorldMeshGroup.maxIndices = 2147483648;
     WorldMeshGroup.nextId = 1;
     SourceUtils.WorldMeshGroup = WorldMeshGroup;
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="WorldMeshGroup.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WorldMeshManager = (function () {

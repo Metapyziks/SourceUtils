@@ -21,6 +21,8 @@
         near: number;
         far: number;
 
+        time: number;
+
         constructor(map: Map, camera: Camera) {
             this.map = map;
             this.camera = camera;
@@ -59,6 +61,8 @@
         render(): void {
             this.camera.getPosition(this.origin);
             if (this.pvsFollowsCamera) this.pvsOrigin.set(this.origin.x, this.origin.y, this.origin.z);
+
+            this.time = performance.now() * 0.001;
 
             const persp = this.camera as PerspectiveCamera;
             if (persp.getNear !== undefined) {

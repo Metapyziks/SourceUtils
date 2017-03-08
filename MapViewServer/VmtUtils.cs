@@ -146,6 +146,9 @@ namespace MapViewServer
                     case "$blendmodulatetexture":
                         AddTexture2DProperty( destArray, "blendModulateTexture", GetTextureUrl( request, bsp, props[name], vmtDir ) );
                         break;
+                    case "$normalmap":
+                        AddTexture2DProperty( destArray, "normalMap", GetTextureUrl( request, bsp, props[name], vmtDir ) );
+                        break;
                     case "$nofog":
                         AddBooleanProperty( destArray, "noFog", props.GetBoolean( name ) );
                         break;
@@ -178,6 +181,7 @@ namespace MapViewServer
 
         public static JToken SerializeVmt( HttpListenerRequest request, ValveBspFile bsp, ValveMaterialFile vmt, string path )
         {
+            // TODO: Proper patch shader support
             var shader = vmt.Shaders.FirstOrDefault();
             if ( shader == null ) return null;
 
@@ -208,6 +212,9 @@ namespace MapViewServer
                     break;
                 case "worldvertextransition":
                     shaderName = "Lightmapped2WayBlend";
+                    break;
+                case "water":
+                    shaderName = "Water";
                     break;
             }
 
