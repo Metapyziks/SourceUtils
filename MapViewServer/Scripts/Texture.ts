@@ -14,6 +14,8 @@
         width: number;
         height: number;
 
+        protected allowAnisotropicFiltering = true;
+
         protected wrapS: number;
         protected wrapT: number;
         protected minFilter: number;
@@ -77,7 +79,7 @@
             gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
             gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
 
-            if (this.minFilter !== gl.NEAREST) {
+            if (this.allowAnisotropicFiltering && this.minFilter !== gl.NEAREST) {
                 const anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
                 if (anisoExt != null) {
                     gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
@@ -160,6 +162,14 @@
 
             this.wrapS = gl.CLAMP_TO_EDGE;
             this.wrapT = gl.CLAMP_TO_EDGE;
+            this.minFilter = gl.NEAREST;
+            this.magFilter = gl.NEAREST;
+
+            this.allowAnisotropicFiltering = false;
+
+            if (this.format === gl.DEPTH_COMPONENT) {
+                gl.getExtension("WEBGL_depth_texture");
+            }
 
             this.resize(width, height);
         }
@@ -175,6 +185,7 @@
             this.getOrCreateHandle();
 
             gl.texImage2D(this.getTarget(), 0, this.format, this.width, this.height, 0, this.format, this.type, null);
+            gl.bindTexture(this.getTarget(), null);
         }
     }
 

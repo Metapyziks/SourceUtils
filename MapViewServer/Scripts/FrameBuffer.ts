@@ -18,10 +18,10 @@
         constructor(gl: WebGLRenderingContext, width: number, height: number, depthTexture: boolean) {
             this.context = gl;
 
-            this.frameTexture = new RenderTexture(gl, 16, 16, gl.RGBA, gl.UNSIGNED_BYTE);
+            this.frameTexture = new RenderTexture(gl, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE);
 
             if (depthTexture) {
-                this.depthTexture = new RenderTexture(gl, 16, 16, gl.DEPTH_COMPONENT16, gl.UNSIGNED_SHORT);
+                this.depthTexture = new RenderTexture(gl, 256, 256, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT);
             }
 
             this.frameBuffer = gl.createFramebuffer();

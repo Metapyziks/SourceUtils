@@ -1,13 +1,8 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var SourceUtils;
 (function (SourceUtils) {
     var Api;
@@ -654,6 +649,7 @@ var SourceUtils;
         function Texture(gl, target) {
             this.highestLevel = Number.MIN_VALUE;
             this.lowestLevel = Number.MAX_VALUE;
+            this.allowAnisotropicFiltering = true;
             this.sortIndex = Texture.nextSortIndex++;
             this.context = gl;
             this.target = target;
@@ -697,7 +693,7 @@ var SourceUtils;
             gl.texParameteri(target, gl.TEXTURE_WRAP_T, this.wrapT);
             gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
             gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
-            if (this.minFilter !== gl.NEAREST) {
+            if (this.allowAnisotropicFiltering && this.minFilter !== gl.NEAREST) {
                 var anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
                 if (anisoExt != null) {
                     gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
@@ -764,6 +760,12 @@ var SourceUtils;
             _this.type = type;
             _this.wrapS = gl.CLAMP_TO_EDGE;
             _this.wrapT = gl.CLAMP_TO_EDGE;
+            _this.minFilter = gl.NEAREST;
+            _this.magFilter = gl.NEAREST;
+            _this.allowAnisotropicFiltering = false;
+            if (_this.format === gl.DEPTH_COMPONENT) {
+                gl.getExtension("WEBGL_depth_texture");
+            }
             _this.resize(width, height);
             return _this;
         }
@@ -775,6 +777,7 @@ var SourceUtils;
             this.height = height;
             this.getOrCreateHandle();
             gl.texImage2D(this.getTarget(), 0, this.format, this.width, this.height, 0, this.format, this.type, null);
+            gl.bindTexture(this.getTarget(), null);
         };
         return RenderTexture;
     }(Texture));
@@ -1673,9 +1676,9 @@ var SourceUtils;
     var FrameBuffer = (function () {
         function FrameBuffer(gl, width, height, depthTexture) {
             this.context = gl;
-            this.frameTexture = new SourceUtils.RenderTexture(gl, 16, 16, gl.RGBA, gl.UNSIGNED_BYTE);
+            this.frameTexture = new SourceUtils.RenderTexture(gl, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE);
             if (depthTexture) {
-                this.depthTexture = new SourceUtils.RenderTexture(gl, 16, 16, gl.DEPTH_COMPONENT16, gl.UNSIGNED_SHORT);
+                this.depthTexture = new SourceUtils.RenderTexture(gl, 256, 256, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT);
             }
             this.frameBuffer = gl.createFramebuffer();
             gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
