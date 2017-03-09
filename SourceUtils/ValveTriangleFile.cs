@@ -325,7 +325,7 @@ namespace SourceUtils
                     offset += meshData.VertexCount;
                 }
 
-                total += meshData.IndexCount;
+                total += meshData.VertexCount;
             }
 
             return total;
