@@ -1,9 +1,11 @@
 ﻿namespace SourceUtils {
     export class TextureLoader extends Loader<ValveTexture> {
+        private map: Map;
         private context: WebGLRenderingContext;
 
-        constructor(gl: WebGLRenderingContext) {
+        constructor(map: Map, gl: WebGLRenderingContext) {
             super();
+            this.map = map;
             this.context = gl;
         }
 
@@ -15,6 +17,12 @@
             }
 
             return new ValveTexture2D(this.context, url);
+        }
+
+        protected onFinishedLoadStep(item: ValveTexture): void {
+            if (item.firstTimeLoaded()) {
+                this.map.forceDrawListInvalidation(false);
+            }
         }
 
         load2D(url: string): ValveTexture2D {

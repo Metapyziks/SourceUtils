@@ -30,6 +30,8 @@
 
         protected abstract onCreateItem(url: string): TLoadable;
 
+        protected onFinishedLoadStep(item: TLoadable): void { }
+
         private getNextToLoad(): TLoadable {
             if (this.queue.length <= 0) return null;
 
@@ -56,6 +58,7 @@
                 next.loadNext(requeue => {
                     --this.active;
                     if (requeue) this.queue.push(nextCopy);
+                    this.onFinishedLoadStep(nextCopy);
                 });
             }
 

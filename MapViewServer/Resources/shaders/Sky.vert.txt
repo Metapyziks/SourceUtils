@@ -3,12 +3,13 @@
 varying vec3 vWorldPos;
 
 uniform mat4 uProjection;
-uniform mat4 uModelView;
+uniform mat4 uView;
+uniform mat4 uModel;
 
 void main()
 {
-    vWorldPos = aPosition;
-    vec4 pos = uProjection * uModelView * vec4(aPosition, 1.0);
+    vWorldPos = (uModel * vec4(aPosition, 1.0)).xyz;
+    vec4 pos = uProjection * uView * vec4(vWorldPos.xyz, 1.0);
 
     pos.z = pos.w - 1.0 / 256.0;
 

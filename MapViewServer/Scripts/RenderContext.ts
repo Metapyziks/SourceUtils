@@ -6,11 +6,11 @@
         private projectionMatrix = new THREE.Matrix4();
         private modelMatrix = new THREE.Matrix4();
         private viewMatrix = new THREE.Matrix4();
-        private modelViewMatrix = new THREE.Matrix4();
-        private modelViewInvalid = true;
 
         private pvsRoot: VisLeaf;
         private drawList: DrawList;
+        private commandBuffer: CommandBuffer;
+        private commandBufferInvalid = true;
 
         private pvsOrigin = new THREE.Vector3();
 
@@ -26,22 +26,38 @@
         constructor(map: Map, camera: Camera) {
             this.map = map;
             this.camera = camera;
-            this.drawList = new DrawList(map);
+            this.drawList = new DrawList(this);
+            this.commandBuffer = new CommandBuffer(map.shaderManager.getContext());
 
-            this.map.addDrawListInvalidationHandler(() => this.drawList.invalidate());
+            this.map.addDrawListInvalidationHandler((geom: boolean) => this.drawList.invalidate(geom));
+        }
+
+        invalidate(): void {
+            this.commandBufferInvalid = true;
+        }
+
+        getMap(): Map {
+            return this.map;
+        }
+
+        getShaderManager(): ShaderManager {
+            return this.map.shaderManager;
+        }
+
+        getLightmap(): Texture {
+            return this.map.getLightmap();
         }
 
         getProjectionMatrix(): Float32Array {
             return this.projectionMatrix.elements;
         }
 
-        getModelViewMatrix(): Float32Array {
-            if (this.modelViewInvalid) {
-                this.modelViewInvalid = false;
-                this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
-            }
+        getViewMatrix(): Float32Array {
+            return this.viewMatrix.elements;
+        }
 
-            return this.modelViewMatrix.elements;
+        getModelMatrix(): Float32Array {
+            return this.modelMatrix.elements;
         }
 
         setModelTransform(model: Entity): void {
@@ -50,7 +66,6 @@
             } else {
                 model.getMatrix(this.modelMatrix);
             }
-            this.modelViewInvalid = true;
         }
 
         setPvsOrigin(pos: THREE.Vector3 | Api.IVector3): void {
@@ -72,12 +87,17 @@
 
             this.camera.getProjectionMatrix(this.projectionMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
-            this.modelViewInvalid = true;
-
-            this.map.shaderManager.setCurrentProgram(null);
 
             this.updatePvs();
-            this.drawList.render(this);
+
+            if (this.commandBufferInvalid) {
+                this.commandBufferInvalid = false;
+
+                this.commandBuffer.clear();
+                this.drawList.appendToBuffer(this.commandBuffer, this);
+            }
+
+            this.commandBuffer.run(this);
         }
 
         getClusterIndex(): number {
@@ -94,7 +114,11 @@
 
         private replacePvs(pvs: VisLeaf[]): void {
             this.drawList.clear();
-            if (pvs != null) this.map.appendToDrawList(this.drawList, pvs);
+            this.commandBufferInvalid = true;
+
+            if (pvs != null) {
+                this.map.appendToDrawList(this.drawList, pvs);
+            }
         }
 
         updatePvs(force?: boolean): void {

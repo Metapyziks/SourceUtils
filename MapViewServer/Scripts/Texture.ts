@@ -108,7 +108,7 @@
             if (callBack != null) callBack();
         }
 
-        protected loadPixels(width: number, height: number, values: Uint8Array): void {
+        protected loadPixels(width: number, height: number, values: Uint8Array, target?: number): void {
             const gl = this.context;
 
             this.getOrCreateHandle();
@@ -116,7 +116,11 @@
             this.width = width;
             this.height = height;
 
-            gl.texImage2D(this.target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
+            if (target === undefined) {
+                target = this.target;
+            }
+
+            gl.texImage2D(target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
         }
     }
 
@@ -131,7 +135,7 @@
         }
     }
 
-    export class BlankTexture extends Texture {
+    export class BlankTexture2D extends Texture {
         constructor(gl: WebGLRenderingContext, color: THREE.Color) {
             super(gl, gl.TEXTURE_2D);
 
@@ -139,7 +143,26 @@
         }
     }
 
-    export class ErrorTexture extends Texture {
+    export class BlankTextureCube extends Texture
+    {
+        constructor(gl: WebGLRenderingContext, color: THREE.Color)
+        {
+            super(gl, gl.TEXTURE_CUBE_MAP);
+
+            const pixels = new Uint8Array([
+                Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255
+            ]);
+
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_X);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_Y);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_Z);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_POSITIVE_X);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_POSITIVE_Y);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_POSITIVE_Z);
+        }
+    }
+
+    export class ErrorTexture2D extends Texture {
         constructor(gl: WebGLRenderingContext) {
             super(gl, gl.TEXTURE_2D);
 
@@ -174,6 +197,7 @@
         }
 
         private usesSinceLastLoad = 0;
+        private wasLoaded = false;
 
         constructor(gl: WebGLRenderingContext, target: number) {
             super(gl, target);
@@ -181,6 +205,12 @@
 
         protected onGetHandle(): void {
             ++this.usesSinceLastLoad;
+        }
+
+        firstTimeLoaded(): boolean {
+            if (this.wasLoaded || !this.isLoaded()) return false;
+            this.wasLoaded = true;
+            return true;
         }
 
         getUsesSinceLastLoad(): number {

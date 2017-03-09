@@ -17,8 +17,6 @@ namespace SourceUtils {
         private loaders: ILoader[] = [];
 
         private lightmap: Texture;
-        private blankTexture: Texture;
-        private blankNormalMap: Texture;
         private blankMaterial: Material;
         private errorMaterial: Material;
         private skyMaterial: Material;
@@ -31,7 +29,7 @@ namespace SourceUtils {
         private clusters: VisLeaf[][];
         private pvsArray: VisLeaf[][];
 
-        private drawListInvalidationHandlers: (() => void)[] = [];
+        private drawListInvalidationHandlers: ((geom: boolean) => void)[] = [];
 
         constructor(app: AppBase, url: string) {
             super();
@@ -41,17 +39,15 @@ namespace SourceUtils {
             this.faceLoader = this.addLoader(new FaceLoader(this));
             this.modelLoader = this.addLoader(new StudioModelLoader(this));
             this.hardwareVertsLoader = this.addLoader(new HardwareVertsLoader());
-            this.textureLoader = this.addLoader(new TextureLoader(app.getContext()));
+            this.textureLoader = this.addLoader(new TextureLoader(this, app.getContext()));
 
             this.meshManager = new WorldMeshManager(app.getContext());
             this.shaderManager = new ShaderManager(app.getContext());
 
-            this.blankTexture = new BlankTexture(app.getContext(), new THREE.Color(1, 1, 1));
-            this.blankNormalMap = new BlankTexture(app.getContext(), new THREE.Color(0.5, 0.5, 1.0));
             this.blankMaterial = new Material(this, "LightmappedGeneric");
-            this.blankMaterial.properties.baseTexture = this.blankTexture;
+            this.blankMaterial.properties.baseTexture = this.shaderManager.getBlankTexture();
             this.errorMaterial = new Material(this, "LightmappedGeneric");
-            this.errorMaterial.properties.baseTexture = new ErrorTexture(app.getContext());
+            this.errorMaterial.properties.baseTexture = new ErrorTexture2D(app.getContext());
 
             this.loadInfo(url);
         }
@@ -66,15 +62,7 @@ namespace SourceUtils {
         }
 
         getLightmap(): Texture {
-            return this.lightmap || this.blankTexture;
-        }
-
-        getBlankTexture(): Texture {
-            return this.blankTexture;
-        }
-
-        getBlankNormalMap(): Texture {
-            return this.blankNormalMap;
+            return this.lightmap || this.shaderManager.getBlankTexture();
         }
 
         getWorldSpawn(): BspModel {
@@ -128,7 +116,7 @@ namespace SourceUtils {
                         this.displacements.push(new Displacement(this.getWorldSpawn(), data.displacements[i]));
                     }
 
-                    this.forceDrawListInvalidation();
+                    this.forceDrawListInvalidation(true);
                 });
         }
 
@@ -146,7 +134,7 @@ namespace SourceUtils {
                         }
                     }
 
-                    this.forceDrawListInvalidation();
+                    this.forceDrawListInvalidation(false);
                 });
         }
 
@@ -164,17 +152,17 @@ namespace SourceUtils {
                         this.staticProps.push(new PropStatic(this, prop));
                     }
 
-                    this.forceDrawListInvalidation();
+                    this.forceDrawListInvalidation(true);
                 });
         }
 
-        addDrawListInvalidationHandler(action: () => void): void {
+        addDrawListInvalidationHandler(action: (geom: boolean) => void): void {
             this.drawListInvalidationHandlers.push(action);
         }
 
-        private forceDrawListInvalidation(): void {
+        forceDrawListInvalidation(geom: boolean): void {
             for (let i = 0; i < this.drawListInvalidationHandlers.length; ++i) {
-                this.drawListInvalidationHandlers[i]();
+                this.drawListInvalidationHandlers[i](geom);
             }
         }
 

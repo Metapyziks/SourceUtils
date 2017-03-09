@@ -247,11 +247,8 @@ namespace SourceUtils {
             gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LESS);
-
-            gl.enable(gl.CULL_FACE);
+            
             gl.cullFace(gl.FRONT);
-
-            gl.disable(gl.BLEND);
 
             if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
                 this.map.setSkyMaterialEnabled(true);
@@ -264,6 +261,7 @@ namespace SourceUtils {
                 this.skyCamera.setPosition(this.skyCameraPos);
                 this.skyRenderContext.render();
 
+                gl.depthMask(true);
                 gl.clear(gl.DEPTH_BUFFER_BIT);
 
                 this.map.setSkyMaterialEnabled(false);

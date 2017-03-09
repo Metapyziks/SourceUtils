@@ -75,9 +75,5 @@
         getProgram(): ShaderProgram {
             return this.program;
         }
-
-        prepareForRendering(): boolean {
-            return this.enabled && this.program.changeMaterial(this);
-        }
     }
 }

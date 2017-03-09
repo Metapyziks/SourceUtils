@@ -269,31 +269,30 @@ namespace SourceUtils {
             return handles;
         }
 
-        bindBuffers(program: ShaderProgram): void {
+        bufferBindBuffers(buf: CommandBuffer, program: ShaderProgram): void {
             const gl = this.gl;
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
+            buf.bindBuffer(gl.ARRAY_BUFFER, this.vertices);
+            buf.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indices);
 
-            program.enableMeshComponents(this.components);
+            program.bufferEnableMeshComponents(buf, this.components);
         }
 
-        setAttribPointers(program: ShaderProgram, vertexOffset: number): void {
+        bufferAttribPointers(buf: CommandBuffer, program: ShaderProgram, vertexOffset: number): void {
             const gl = this.gl;
 
             const stride = this.vertexSize * 4;
             const baseOffset = vertexOffset * stride;
 
-            program.setVertexAttribPointer(Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, baseOffset + this.positionOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, baseOffset + this.uvOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, baseOffset + this.uv2Offset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, baseOffset + this.alphaOffset * 4);
-            program.setVertexAttribPointer(Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, baseOffset + this.rgbOffset * 4);
+            program.bufferAttribPointer(buf, Api.MeshComponent.Position, 3, gl.FLOAT, false, stride, baseOffset + this.positionOffset * 4);
+            program.bufferAttribPointer(buf, Api.MeshComponent.Uv, 2, gl.FLOAT, false, stride, baseOffset + this.uvOffset * 4);
+            program.bufferAttribPointer(buf, Api.MeshComponent.Uv2, 2, gl.FLOAT, false, stride, baseOffset + this.uv2Offset * 4);
+            program.bufferAttribPointer(buf, Api.MeshComponent.Alpha, 1, gl.FLOAT, false, stride, baseOffset + this.alphaOffset * 4);
+            program.bufferAttribPointer(buf, Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, baseOffset + this.rgbOffset * 4);
         }
 
-        renderElements(drawMode: number, offset: number, count: number): void {
-            const gl = this.gl;
-            gl.drawElements(drawMode, count, gl.UNSIGNED_SHORT, offset * 2);
+        bufferRenderElements(buf: CommandBuffer, mode: number, offset: number, count: number): void {
+            buf.drawElements(mode, count, this.gl.UNSIGNED_SHORT, offset * 2);
         }
 
         dispose(): void {

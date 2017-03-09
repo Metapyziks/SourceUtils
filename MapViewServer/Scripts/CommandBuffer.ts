@@ -1,10 +1,12 @@
-﻿
+﻿/// <reference path="Texture.ts"/>>
+
 namespace SourceUtils {
     export type CommandBufferAction = (gl: WebGLRenderingContext, args: ICommandBufferItem) => void;
 
     export interface ICommandBufferItem {
         action?: CommandBufferAction;
 
+        parameters?: { [param: number]: Float32Array };
         parameter?: CommandBufferParameter;
         program?: WebGLProgram;
         uniform?: WebGLUniformLocation;
@@ -14,6 +16,17 @@ namespace SourceUtils {
         transpose?: boolean;
         values?: Float32Array;
         context?: RenderContext;
+        cap?: number;
+        enabled?: boolean;
+        buffer?: WebGLBuffer;
+        index?: number;
+        mode?: number;
+        type?: number;
+        offset?: number;
+        count?: number;
+        size?: number;
+        normalized?: boolean;
+        stride?: number;
         x?: number;
         y?: number;
         z?: number;
@@ -22,40 +35,54 @@ namespace SourceUtils {
 
     export enum CommandBufferParameter {
         ProjectionMatrix,
-        ModelViewMatrix,
+        ViewMatrix,
+        CameraPos,
         TimeParams
     }
 
     export class CommandBuffer {
         private context: WebGLRenderingContext;
 
-        private commands: ICommandBufferItem[] = [];
+        private commands: ICommandBufferItem[];
 
-        private boundTextures: Texture[] = [];
-        private currentProgram: ShaderProgram;
+        private boundTextures: { [unit: number]: Texture };
+        private boundBuffers: { [target: number]: WebGLBuffer };
+        private capStates: { [cap: number]: boolean };
 
-        private parameters: Float32Array[] = [];
+        private parameters: { [param: number]: Float32Array } = {};
 
         constructor(context: WebGLRenderingContext) {
             this.context = context;
+            this.clear();
         }
 
         clear(): void {
-            this.boundTextures = [];
+            this.boundTextures = {};
+            this.boundBuffers = {};
+            this.capStates = {};
             this.commands = [];
-            this.currentProgram = undefined;
         }
 
         setParameter(param: CommandBufferParameter, value: Float32Array): void {
-            while (this.parameters.length <= param) {
-                this.parameters.push(undefined);
-            }
-
             this.parameters[param] = value;
         }
 
+        private cameraPos = new Float32Array(3);
+        private timeParams = new Float32Array(4);
+
         run(renderContext: RenderContext): void {
             const gl = this.context;
+
+            this.cameraPos[0] = renderContext.origin.x;
+            this.cameraPos[1] = renderContext.origin.y;
+            this.cameraPos[2] = renderContext.origin.z;
+
+            this.timeParams[0] = renderContext.time;
+
+            this.setParameter(CommandBufferParameter.ProjectionMatrix, renderContext.getProjectionMatrix());
+            this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
+            this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
+            this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
 
             for (let i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
                 const command = this.commands[i];
@@ -68,102 +95,189 @@ namespace SourceUtils {
             this.commands.push(args);
         }
 
-        useProgram(program: ShaderProgram): void {
-            if (this.currentProgram === program) return;
-            this.currentProgram = program;
+        private setCap(cap: number, enabled: boolean): void {
+            if (this.capStates[cap] === enabled) return;
+            this.capStates[cap] = enabled;
 
-            this.push(this.onUseProgram, { program: program.getProgram() });
-
-            program.bufferSetup(this);
+            this.push(enabled ? this.onEnable : this.onDisable, { cap: cap });
         }
 
-        private onUseProgram(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        enable(cap: number): void {
+            this.setCap(cap, true);
+        }
+
+        private onEnable(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.enable(args.cap);
+        }
+
+        disable(cap: number): void {
+            this.setCap(cap, false);
+        }
+
+        private onDisable(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.disable(args.cap);
+        }
+
+        depthMask(flag: boolean): void {
+            this.push(this.onDepthMask, { enabled: flag });
+        }
+
+        private onDepthMask(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.depthMask(args.enabled);
+        }
+
+        blendFuncSeparate(srcRgb: number, dstRgb: number, srcAlpha: number, dstAlpha: number): void {
+            this.push(this.onBlendFuncSeparate, { x: srcRgb, y: dstRgb, z: srcAlpha, w: dstAlpha });
+        }
+
+        private onBlendFuncSeparate(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.blendFuncSeparate(args.x, args.y, args.z, args.w);
+        }
+
+        useProgram(program: ShaderProgram): void {
+            this.push(this.onUseProgram, { program: program.getProgram() });
+        }
+
+        private onUseProgram(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.useProgram(args.program);
         }
 
-        setUniformParameter(uniform: WebGLUniformLocation, parameter: CommandBufferParameter) {
-            this.push(this.onUseProgram, { uniform: uniform, parameter: parameter });
+        setUniformParameter(uniform: WebGLUniformLocation, parameter: CommandBufferParameter): void {
+            if (uniform == null) return;
+            this.push(this.onSetUniformParameter, { uniform: uniform, parameters: this.parameters, parameter: parameter });
         }
 
-        private onSetUniformParameter(gl: WebGLRenderingContext, args: ICommandBufferItem) {
-            const value = this.parameters[args.parameter];
+        private onSetUniformParameter(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            const value = args.parameters[args.parameter];
             if (value === undefined) return;
 
             switch (args.parameter) {
-                case CommandBufferParameter.ProjectionMatrix:
-                case CommandBufferParameter.ModelViewMatrix:
-                    gl.uniformMatrix4fv(args.uniform, false, value);
-                    break;
-                case CommandBufferParameter.TimeParams:
-                    gl.uniform4fv(args.uniform, value);
-                    break;
+            case CommandBufferParameter.ProjectionMatrix:
+            case CommandBufferParameter.ViewMatrix:
+                gl.uniformMatrix4fv(args.uniform, false, value);
+                break;
+            case CommandBufferParameter.CameraPos:
+                gl.uniform3f(args.uniform, value[0], value[1], value[2]);
+                break;
+            case CommandBufferParameter.TimeParams:
+                gl.uniform4f(args.uniform, value[0], value[1], value[2], value[3]);
+                break;
             }
         }
 
         setUniform1F(uniform: WebGLUniformLocation, x: number): void {
+            if (uniform == null) return;
             this.push(this.onSetUniform1F, { uniform: uniform, x: x });
         }
 
-        private onSetUniform1F(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onSetUniform1F(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.uniform1f(args.uniform, args.x);
         }
 
         setUniform1I(uniform: WebGLUniformLocation, x: number): void {
+            if (uniform == null) return;
             this.push(this.onSetUniform1I, { uniform: uniform, x: x });
         }
 
-        private onSetUniform1I(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onSetUniform1I(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.uniform1i(args.uniform, args.x);
         }
 
         setUniform2F(uniform: WebGLUniformLocation, x: number, y: number): void {
+            if (uniform == null) return;
             this.push(this.onSetUniform2F, { uniform: uniform, x: x, y: y });
         }
 
-        private onSetUniform2F(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onSetUniform2F(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.uniform2f(args.uniform, args.x, args.y);
         }
 
         setUniform3F(uniform: WebGLUniformLocation, x: number, y: number, z: number): void {
+            if (uniform == null) return;
             this.push(this.onSetUniform3F, { uniform: uniform, x: x, y: y, z: z });
         }
 
-        private onSetUniform3F(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onSetUniform3F(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.uniform3f(args.uniform, args.x, args.y, args.z);
         }
 
         setUniform4F(uniform: WebGLUniformLocation, x: number, y: number, z: number, w: number): void {
+            if (uniform == null) return;
             this.push(this.onSetUniform4F, { uniform: uniform, x: x, y: y, z: z, w: w });
         }
 
-        private onSetUniform4F(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onSetUniform4F(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.uniform4f(args.uniform, args.x, args.y, args.z, args.w);
         }
 
         setUniformMatrix4(uniform: WebGLUniformLocation, transpose: boolean, values: Float32Array): void {
-            this.push(this.onSetUniform4F, { uniform: uniform, transpose: transpose, values: values });
+            if (uniform == null) return;
+            this.push(this.onSetUniformMatrix4, { uniform: uniform, transpose: transpose, values: values });
         }
 
-        private onSetUniformMatrix4(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onSetUniformMatrix4(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.uniformMatrix4fv(args.uniform, args.transpose, args.values);
         }
 
         bindTexture(unit: number, value: Texture): void {
-            while (unit >= this.boundTextures.length) {
-                this.boundTextures.push(null);
-            }
-
             if (this.boundTextures[unit] === value) return;
             this.boundTextures[unit] = value;
 
-            unit += this.context.TEXTURE0;
-
-            this.push(this.onBindTexture, { unit: unit, target: value.getTarget(), texture: value.getHandle() });
+            this.push(this.onBindTexture,
+                { unit: unit + this.context.TEXTURE0, target: value.getTarget(), texture: value.getHandle() });
         }
 
-        private onBindTexture(gl: WebGLRenderingContext, args: ICommandBufferItem) {
+        private onBindTexture(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.activeTexture(args.unit);
             gl.bindTexture(args.target, args.texture);
+        }
+
+        bindBuffer(target: number, buffer: WebGLBuffer): void {
+            if (this.boundBuffers[target] === buffer) return;
+            this.boundBuffers[target] = buffer;
+
+            this.push(this.onBindBuffer, { target: target, buffer: buffer });
+        }
+
+        private onBindBuffer(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.bindBuffer(args.target, args.buffer);
+        }
+
+        enableVertexAttribArray(index: number): void {
+            this.push(this.onEnableVertexAttribArray, { index: index });
+        }
+
+        private onEnableVertexAttribArray(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.enableVertexAttribArray(args.index);
+        }
+
+        disableVertexAttribArray(index: number): void {
+            this.push(this.onDisableVertexAttribArray, { index: index });
+        }
+
+        private onDisableVertexAttribArray(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.disableVertexAttribArray(args.index);
+        }
+
+        vertexAttribPointer(index: number,
+            size: number,
+            type: number,
+            normalized: boolean,
+            stride: number,
+            offset: number): void {
+            this.push(this.onVertexAttribPointer, { index: index, size: size, type: type, normalized: normalized, stride: stride, offset: offset });
+        }
+
+        private onVertexAttribPointer(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.vertexAttribPointer(args.index, args.size, args.type, args.normalized, args.stride, args.offset);
+        }
+
+        drawElements(mode: number, count: number, type: number, offset: number): void {
+            this.push(this.onDrawElements, { mode: mode, count: count, type: type, offset: offset });
+        }
+
+        private onDrawElements(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.drawElements(args.mode, args.count, args.type, args.offset);
         }
     }
 }

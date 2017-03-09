@@ -1,5 +1,7 @@
 ﻿namespace SourceUtils {
-    export class DrawList implements IStateLoggable {
+    export class DrawList implements IStateLoggable
+    {
+        private context: RenderContext;
         private map: Map;
 
         private items: DrawListItem[] = [];
@@ -15,8 +17,9 @@
         private lastIndex: number;
         private canRender: boolean;
 
-        constructor(map: Map) {
-            this.map = map;
+        constructor(context: RenderContext) {
+            this.context = context;
+            this.map = context.getMap();
         }
 
         clear(): void {
@@ -41,16 +44,17 @@
 
         private isBuildingList: boolean = false;
 
-        invalidate(): void {
+        invalidate(geom: boolean): void {
             if (this.isBuildingList) return;
-            this.handles = null;
+            if (geom) this.handles = null;
+            this.context.invalidate();
         }
 
         updateItem(item: DrawListItem): void {
-            this.invalidate();
+            this.invalidate(true);
         }
 
-        private renderHandle(handle: WorldMeshHandle, context: RenderContext): void {
+        private bufferHandle(buf: CommandBuffer, handle: WorldMeshHandle, context: RenderContext): void {
             let changedMaterial = false;
             let changedProgram = false;
             let changedTransform = false;
@@ -77,36 +81,47 @@
                     return;
                 }
 
-                if (this.lastProgram !== this.lastMaterial.getProgram()) {
-                    if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, context);
+                if (this.lastProgram !== this.lastMaterial.getProgram())
+                {
+                    if (this.lastProgram !== undefined) {
+                        this.lastProgram.bufferDisableMeshComponents(buf);
+                    }
 
                     this.lastProgram = this.lastMaterial.getProgram();
-                    this.lastProgram.prepareForRendering(this.map, context);
+
                     changedProgram = true;
                     changedTransform = true;
                 }
 
-                this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.prepareForRendering();
+                this.canRender = this.lastProgram.isCompiled() && this.lastMaterial.enabled;
             }
 
             if (!this.canRender) return;
 
+            if (changedProgram) {
+                this.lastProgram.bufferSetup(buf, context);
+            }
+
+            if (changedMaterial) {
+                this.lastProgram.bufferMaterial(buf, this.lastMaterial);
+            }
+
             if (changedTransform) {
-                this.lastProgram.changeModelTransform(context);
+                this.lastProgram.bufferModelMatrix(buf, context.getModelMatrix());
             }
 
             if (this.lastGroup !== handle.group || changedProgram) {
                 this.lastGroup = handle.group;
                 this.lastVertexOffset = undefined;
-                this.lastGroup.bindBuffers(this.lastProgram);
+                this.lastGroup.bufferBindBuffers(buf, this.lastProgram);
             }
 
             if (this.lastVertexOffset !== handle.vertexOffset) {
                 this.lastVertexOffset = handle.vertexOffset;
-                this.lastGroup.setAttribPointers(this.lastProgram, this.lastVertexOffset);
+                this.lastGroup.bufferAttribPointers(buf, this.lastProgram, this.lastVertexOffset);
             }
 
-            this.lastGroup.renderElements(handle.drawMode, handle.indexOffset, handle.indexCount);
+            this.lastGroup.bufferRenderElements(buf, handle.drawMode, handle.indexOffset, handle.indexCount);
         }
 
         private static compareHandles(a: WorldMeshHandle, b: WorldMeshHandle): number {
@@ -164,7 +179,7 @@
             (this.map.getApp() as MapViewer).invalidateDebugPanel();
         }
 
-        render(context: RenderContext): void {
+        appendToBuffer(buf: CommandBuffer, context: RenderContext): void {
             this.lastParent = undefined;
             this.lastGroup = undefined;
             this.lastVertexOffset = undefined;
@@ -175,11 +190,15 @@
 
             if (this.handles == null) this.buildHandleList();
 
+            context.getShaderManager().resetUniformCache();
+
             for (let i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.renderHandle(this.merged[i], context);
+                this.bufferHandle(buf, this.merged[i], context);
             }
 
-            if (this.lastProgram != null) this.lastProgram.cleanupPostRender(this.map, context);
+            if (this.lastProgram !== undefined) {
+                this.lastProgram.bufferDisableMeshComponents(buf);
+            }
         }
 
         logState(writer: FormattedWriter): void {

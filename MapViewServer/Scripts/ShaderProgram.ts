@@ -1,29 +1,43 @@
 ﻿
 namespace SourceUtils {
     export class ShaderManager {
+        private blankTexture: Texture;
+        private blankNormalMap: Texture;
+        private blankTextureCube: Texture;
+
         private programs: { [name: string]: ShaderProgram } = {};
         private gl: WebGLRenderingContext;
 
-        private currentProgram: ShaderProgram;
-
         constructor(gl: WebGLRenderingContext) {
             this.gl = gl;
+
+            this.blankTexture = new BlankTexture2D(gl, new THREE.Color(1, 1, 1));
+            this.blankNormalMap = new BlankTexture2D(gl, new THREE.Color(0.5, 0.5, 1.0));
+            this.blankTextureCube = new BlankTextureCube(gl, new THREE.Color(1, 1, 1));
+        }
+
+        resetUniformCache(): void {
+            for (let name in this.programs) {
+                if (this.programs.hasOwnProperty(name)) {
+                    this.programs[name].resetUniformCache();
+                }
+            }
+        }
+
+        getBlankTexture(): Texture {
+            return this.blankTexture;
+        }
+
+        getBlankNormalMap(): Texture {
+            return this.blankNormalMap;
+        }
+
+        getBlankTextureCube(): Texture {
+            return this.blankTexture;
         }
 
         getContext(): WebGLRenderingContext {
             return this.gl;
-        }
-
-        getCurrentProgram(): ShaderProgram {
-            return this.currentProgram;
-        }
-
-        setCurrentProgram(program: ShaderProgram): void {
-            if (this.currentProgram != null) {
-                this.currentProgram.disableMeshComponents();
-            }
-
-            this.currentProgram = program;
         }
 
         get(name: string): ShaderProgram {
@@ -201,6 +215,7 @@ namespace SourceUtils {
 
     export class UniformSampler extends Uniform {
         private value: number;
+        private default: Texture;
 
         private texUnit: number;
 
@@ -209,12 +224,20 @@ namespace SourceUtils {
             this.texUnit = program.reserveNextTextureUnit();
         }
 
+        setDefault(tex: Texture): void {
+            this.default = tex;
+        }
+
         reset(): void {
             super.reset();
             this.value = undefined;
         }
 
         bufferValue(buf: CommandBuffer, tex: Texture): void {
+            if (tex == null || !tex.isLoaded()) {
+                tex = this.default;
+            }
+
             buf.bindTexture(this.texUnit, tex);
 
             if (this.value !== this.texUnit) {
@@ -224,6 +247,11 @@ namespace SourceUtils {
         }
 
         set(tex: Texture): void {
+
+            if (tex == null || !tex.isLoaded()) {
+                tex = this.default;
+            }
+
             this.gl.activeTexture(this.gl.TEXTURE0 + this.texUnit);
             this.gl.bindTexture(tex.getTarget(), tex.getHandle());
             this.gl.uniform1i(this.getLocation(), this.texUnit);
@@ -253,6 +281,10 @@ namespace SourceUtils {
         }
     }
 
+    export interface IUniformCtor<TUniform extends Uniform> {
+        new (program: ShaderProgram, name: string): TUniform;
+    }
+
     export class ShaderProgram {
         private static nextSortIndex = 0;
 
@@ -269,23 +301,32 @@ namespace SourceUtils {
 
         private attribNames: { [name: string]: Api.MeshComponent } = {};
         private attribs: IProgramAttributes = {};
+        private uniforms: Uniform[] = [];
 
         sortOrder = 0;
 
         projectionMatrix: UniformMatrix4;
-        modelViewMatrix: UniformMatrix4;
+        viewMatrix: UniformMatrix4;
+        modelMatrix: UniformMatrix4;
 
         constructor(manager: ShaderManager) {
             this.manager = manager;
 
             this.sortIndex = ShaderProgram.nextSortIndex++;
 
-            this.projectionMatrix = new UniformMatrix4(this, "uProjection");
-            this.modelViewMatrix = new UniformMatrix4(this, "uModelView");
+            this.projectionMatrix = this.addUniform(UniformMatrix4, "uProjection");
+            this.viewMatrix = this.addUniform(UniformMatrix4, "uView");
+            this.modelMatrix = this.addUniform(UniformMatrix4, "uModel");
         }
 
         reserveNextTextureUnit(): number {
             return this.nextTextureUnit++;
+        }
+
+        resetUniformCache(): void {
+            for (let i = 0; i < this.uniforms.length; ++i) {
+                this.uniforms[i].reset();
+            }
         }
 
         dispose(): void {
@@ -309,7 +350,7 @@ namespace SourceUtils {
             return this.program;
         }
 
-        setVertexAttribPointer(component: Api.MeshComponent,
+        bufferAttribPointer(buf: CommandBuffer, component: Api.MeshComponent,
             size: number,
             type: number,
             normalized: boolean,
@@ -318,25 +359,21 @@ namespace SourceUtils {
             const loc = this.attribs[component];
             if (loc === undefined) return;
 
-            this.getContext().vertexAttribPointer(loc, size, type, normalized, stride, offset);
+            buf.vertexAttribPointer(loc, size, type, normalized, stride, offset);
         }
 
         isCompiled(): boolean {
             return this.compiled;
         }
 
-        use(): boolean {
-            if (this.program === undefined) return false;
-            if (this.manager.getCurrentProgram() === this) return true;
-
-            this.manager.setCurrentProgram(this);
-            this.getContext().useProgram(this.program);
-
-            return true;
+        protected addAttribute(name: string, component: Api.MeshComponent): void {
+            this.attribNames[name] = component;
         }
 
-        protected addAttribute(name: string, component: Api.MeshComponent) {
-            this.attribNames[name] = component;
+        protected addUniform<TUniform extends Uniform>(ctor: IUniformCtor<TUniform>, name: string): TUniform {
+            const uniform = new ctor(this, name);
+            this.uniforms.push(uniform);
+            return uniform;
         }
 
         getContext(): WebGLRenderingContext {
@@ -449,8 +486,7 @@ namespace SourceUtils {
 
         private enabledComponents: Api.MeshComponent = 0;
 
-        enableMeshComponents(components: Api.MeshComponent) {
-            const gl = this.getContext();
+        bufferEnableMeshComponents(buf: CommandBuffer, components: Api.MeshComponent) {
             const diff = this.enabledComponents ^ components;
 
             let component = 1;
@@ -458,8 +494,8 @@ namespace SourceUtils {
                 if ((diff & component) === component) {
                     const attrib = this.attribs[component];
                     if (attrib !== undefined) {
-                        if ((components & component) === component) gl.enableVertexAttribArray(attrib);
-                        else gl.disableVertexAttribArray(attrib);
+                        if ((components & component) === component) buf.enableVertexAttribArray(attrib);
+                        else buf.disableVertexAttribArray(attrib);
                     }
                 }
                 component <<= 1;
@@ -468,61 +504,28 @@ namespace SourceUtils {
             this.enabledComponents = components;
         }
 
-        disableMeshComponents() {
-            this.enableMeshComponents(0 as Api.MeshComponent);
+        bufferDisableMeshComponents(buf: CommandBuffer) {
+            this.bufferEnableMeshComponents(buf, 0 as Api.MeshComponent);
         }
 
-        private noCull: boolean;
-
-        bufferSetup(buf: CommandBuffer): void {
-            buf.setUniformMatrix4(this.projectionMatrix, false, context);
+        bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+            buf.useProgram(this);
+            this.projectionMatrix.bufferParameter(buf, CommandBufferParameter.ProjectionMatrix);
+            this.viewMatrix.bufferParameter(buf, CommandBufferParameter.ViewMatrix);
         }
 
-        prepareForRendering(map: Map, context: RenderContext): void {
-            if (!this.isCompiled()) return;
-
-            this.use();
-            this.projectionMatrix.setMatrix4f(context.getProjectionMatrix());
-
-            this.noCull = false;
+        bufferModelMatrix(buf: CommandBuffer, value: Float32Array): void {
+            this.modelMatrix.bufferValue(buf, false, value);
         }
 
-        changeModelTransform(context: RenderContext): void {
-            if (!this.isCompiled()) return;
-            this.modelViewMatrix.setMatrix4f(context.getModelViewMatrix());
-        }
-
-        cleanupPostRender(map: Map, context: RenderContext): void {
-            const gl = this.getContext();
-            if (this.noCull) gl.enable(gl.CULL_FACE);
-        }
-
-        changeMaterial(material: Material): boolean {
+        bufferMaterial(buf: CommandBuffer, material: Material): void {
             const gl = this.getContext();
 
-            if (this.noCull !== material.properties.noCull) {
-                this.noCull = material.properties.noCull;
-                if (this.noCull) gl.disable(gl.CULL_FACE);
-                else gl.enable(gl.CULL_FACE);
+            if (material.properties.noCull) {
+                buf.disable(gl.CULL_FACE);
+            } else {
+                buf.enable(gl.CULL_FACE);
             }
-
-            return true;
-        }
-
-        protected setTexture(uniform: Uniform, target: number, unit: number, value: Texture, defaultValue?: Texture):
-            boolean {
-            const gl = this.getContext();
-
-            if (value == null || !value.isLoaded()) {
-                if (defaultValue == null) return false;
-                value = defaultValue;
-            }
-
-            gl.activeTexture(gl.TEXTURE0 + unit);
-            gl.bindTexture(target, value.getHandle());
-
-            uniform.set1i(unit);
-            return true;
         }
     }
 
@@ -530,13 +533,13 @@ namespace SourceUtils {
         export class Base extends ShaderProgram {
             baseTexture: UniformSampler;
 
-            time: Uniform1F;
+            time: Uniform4F;
 
             fogParams: Uniform4F;
             fogColor: Uniform3F;
             noFog: Uniform1F;
 
-            protected blend: boolean;
+            protected isTranslucent = false;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -544,18 +547,19 @@ namespace SourceUtils {
                 this.addAttribute("aPosition", Api.MeshComponent.Position);
                 this.addAttribute("aTextureCoord", Api.MeshComponent.Uv);
 
-                this.baseTexture = new UniformSampler(this, "uBaseTexture");
+                this.baseTexture = this.addUniform(UniformSampler, "uBaseTexture");
+                this.baseTexture.setDefault(manager.getBlankTexture());
 
-                this.time = new Uniform1F(this, "uTime");
-                this.fogParams = new Uniform4F(this, "uFogParams");
-                this.fogColor = new Uniform3F(this, "uFogColor");
-                this.noFog = new Uniform1F(this, "uNoFog");
+                this.time = this.addUniform(Uniform4F, "uTime");
+                this.fogParams = this.addUniform(Uniform4F, "uFogParams");
+                this.fogColor = this.addUniform(Uniform3F, "uFogColor");
+                this.noFog = this.addUniform(Uniform1F, "uNoFog");
             }
 
-            prepareForRendering(map: Map, context: RenderContext): void {
-                super.prepareForRendering(map, context);
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
 
-                this.time.set4f(context.time, 0, 0, 0);
+                this.time.bufferParameter(buf, CommandBufferParameter.TimeParams);
 
                 const fog = context.fogParams;
                 if (fog != null && fog.fogEnabled) {
@@ -566,23 +570,32 @@ namespace SourceUtils {
 
                     const clrMul = 1 / 255;
 
-                    this.fogParams.set4f(nearDensity, farDensity, 0, fog.fogMaxDensity);
-                    this.fogColor.set3f(fog.fogColor.r * clrMul, fog.fogColor.g * clrMul, fog.fogColor.b * clrMul);
+                    this.fogParams.bufferValue(buf, nearDensity, farDensity, 0, fog.fogMaxDensity);
+                    this.fogColor.bufferValue(buf,
+                        fog.fogColor.r * clrMul,
+                        fog.fogColor.g * clrMul,
+                        fog.fogColor.b * clrMul);
                 } else {
-                    this.fogParams.set4f(0, 0, 0, 0);
+                    this.fogParams.bufferValue(buf, 0, 0, 0, 0);
+                }
+
+                const gl = this.getContext();
+
+                if (this.isTranslucent) {
+                    buf.depthMask(false);
+                    buf.enable(gl.BLEND);
+                    buf.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+                } else {
+                    buf.depthMask(true);
+                    buf.disable(gl.BLEND);
                 }
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean {
-                if (!super.changeMaterial(material)) return false;
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                const gl = this.getContext();
-                const blank = material.getMap().getBlankTexture();
-                this.setTexture(this.baseTexture, gl.TEXTURE_2D, 0, material.properties.baseTexture, blank);
-
-                this.noFog.set1f(material.properties.noFog ? 1 : 0);
-
-                return true;
+                this.baseTexture.bufferValue(buf, material.properties.baseTexture);
+                this.noFog.bufferValue(buf, material.properties.noFog ? 1 : 0);
             }
         }
 
@@ -597,22 +610,27 @@ namespace SourceUtils {
 
                 this.addAttribute("aLightmapCoord", Api.MeshComponent.Uv2);
 
-                this.lightmap = new UniformSampler(this, "uLightmap");
-                this.lightmapParams = new Uniform4F(this, "uLightmapParams");
+                this.lightmap = this.addUniform(UniformSampler, "uLightmap");
+                this.lightmap.setDefault(manager.getBlankTexture());
+
+                this.lightmapParams = this.addUniform(Uniform4F, "uLightmapParams");
             }
 
-            prepareForRendering(map: Map, context: RenderContext): void {
-                super.prepareForRendering(map, context);
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
 
-                const lightMap = map.getLightmap();
+                const lightmap = context.getLightmap();
 
-                const gl = this.getContext();
-                this.setTexture(this.lightmap, gl.TEXTURE_2D, 5, lightMap, map.getBlankTexture());
+                this.lightmap.bufferValue(buf, lightmap);
 
-                if (lightMap != null && lightMap.isLoaded()) {
-                    this.lightmapParams.set4f(lightMap.width, lightMap.height, 1 / lightMap.width, 1 / lightMap.height);
+                if (lightmap != null && lightmap.isLoaded()) {
+                    this.lightmapParams.bufferValue(buf,
+                        lightmap.width,
+                        lightmap.height,
+                        1 / lightmap.width,
+                        1 / lightmap.height);
                 } else {
-                    this.lightmapParams.set4f(1, 1, 1, 1);
+                    this.lightmapParams.bufferValue(buf, 1, 1, 1, 1);
                 }
             }
         }
@@ -628,15 +646,13 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedGeneric.frag.txt");
 
-                this.alphaTest = new Uniform1F(this, "uAlphaTest");
+                this.alphaTest = this.addUniform(Uniform1F, "uAlphaTest");
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean {
-                if (!super.changeMaterial(material)) return false;
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
-
-                return true;
+                this.alphaTest.bufferValue(buf, material.properties.alphaTest ? 1 : 0);
             }
         }
 
@@ -647,41 +663,20 @@ namespace SourceUtils {
                 super(manager);
 
                 this.sortOrder = 2000;
+                this.isTranslucent = true;
 
                 const gl = this.getContext();
 
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/LightmappedGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/LightmappedTranslucent.frag.txt");
 
-                this.alpha = new Uniform1F(this, "uAlpha");
+                this.alpha = this.addUniform(Uniform1F, "uAlpha");
             }
 
-            prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
-                super.prepareForRendering(map, context);
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                const gl = this.getContext();
-
-                gl.depthMask(false);
-
-                gl.enable(gl.BLEND);
-                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-            }
-
-            changeMaterial(material: SourceUtils.Material): boolean {
-                if (!super.changeMaterial(material)) return false;
-
-                this.alpha.set1f(material.properties.alpha);
-
-                return true;
-            }
-
-            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void {
-                const gl = this.getContext();
-
-                gl.depthMask(true);
-                gl.disable(gl.BLEND);
-
-                super.cleanupPostRender(map, context);
+                this.alpha.bufferValue(buf, material.properties.alpha);
             }
         }
 
@@ -701,33 +696,27 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
 
-                this.baseTexture2 = new UniformSampler(this, "uBaseTexture2");
-                this.blendModulateTexture = new UniformSampler(this, "uBlendModulateTexture");
+                this.baseTexture2 = this.addUniform(UniformSampler, "uBaseTexture2");
+                this.baseTexture2.setDefault(manager.getBlankTexture());
+
+                this.blendModulateTexture = this.addUniform(UniformSampler, "uBlendModulateTexture");
+                this.blendModulateTexture.setDefault(manager.getBlankTexture());
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean {
-                if (!super.changeMaterial(material)) return false;
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                const gl = this.getContext();
-                const blank = material.getMap().getBlankTexture();
-                this.setTexture(this.baseTexture2, gl.TEXTURE_2D, 1, material.properties.baseTexture2, blank);
-                this.setTexture(this.blendModulateTexture, gl.TEXTURE_2D,
-                    2, material.properties.blendModulateTexture, blank);
-
-                return true;
+                this.baseTexture2.bufferValue(buf, material.properties.baseTexture2);
+                this.blendModulateTexture.bufferValue(buf, material.properties.blendModulateTexture);
             }
         }
 
-        export class UnlitGeneric extends Base
-        {
+        export class UnlitGeneric extends Base {
             alpha: Uniform1F;
             translucent: Uniform1F;
             alphaTest: Uniform1F;
 
-            protected isTranslucent = false;
-
-            constructor(manager: ShaderManager)
-            {
+            constructor(manager: ShaderManager) {
                 super(manager);
 
                 this.sortOrder = 200;
@@ -737,26 +726,22 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/UnlitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/UnlitGeneric.frag.txt");
 
-                this.alpha = new Uniform1F(this, "uAlpha");
-                this.translucent = new Uniform1F(this, "uTranslucent");
-                this.alphaTest = new Uniform1F(this, "uAlphaTest");
+                this.alpha = this.addUniform(Uniform1F, "uAlpha");
+                this.translucent = this.addUniform(Uniform1F, "uTranslucent");
+                this.alphaTest = this.addUniform(Uniform1F, "uAlphaTest");
             }
 
-            prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void
-            {
-                super.prepareForRendering(map, context);
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
 
-                this.translucent.set1f(this.isTranslucent ? 1.0 : 0.0);
+                this.translucent.bufferValue(buf, this.isTranslucent ? 1 : 0);
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean
-            {
-                if (!super.changeMaterial(material)) return false;
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                this.alpha.set1f(material.properties.alpha);
-                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
-
-                return true;
+                this.alpha.bufferValue(buf, material.properties.alpha);
+                this.alphaTest.bufferValue(buf, material.properties.alphaTest ? 1 : 0);
             }
         }
 
@@ -764,29 +749,8 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.isTranslucent = true;
-
                 this.sortOrder = 2200;
-            }
-
-            prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
-                super.prepareForRendering(map, context);
-
-                const gl = this.getContext();
-
-                gl.depthMask(false);
-
-                gl.enable(gl.BLEND);
-                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-            }
-
-            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void {
-                const gl = this.getContext();
-
-                gl.depthMask(true);
-                gl.disable(gl.BLEND);
-
-                super.cleanupPostRender(map, context);
+                this.isTranslucent = true;
             }
         }
 
@@ -796,8 +760,6 @@ namespace SourceUtils {
             alphaTest: Uniform1F;
             tint: Uniform1F;
             baseAlphaTint: Uniform1F;
-
-            protected isTranslucent = false;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -811,28 +773,26 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/VertexLitGeneric.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/VertexLitGeneric.frag.txt");
 
-                this.alpha = new Uniform1F(this, "uAlpha");
-                this.translucent = new Uniform1F(this, "uTranslucent");
-                this.alphaTest = new Uniform1F(this, "uAlphaTest");
-                this.tint = new Uniform1F(this, "uTint");
-                this.baseAlphaTint = new Uniform1F(this, "uBaseAlphaTint");
+                this.alpha = this.addUniform(Uniform1F, "uAlpha");
+                this.translucent = this.addUniform(Uniform1F, "uTranslucent");
+                this.alphaTest = this.addUniform(Uniform1F, "uAlphaTest");
+                this.tint = this.addUniform(Uniform1F, "uTint");
+                this.baseAlphaTint = this.addUniform(Uniform1F, "uBaseAlphaTint");
             }
 
-            prepareForRendering(map: SourceUtils.Map, context: SourceUtils.RenderContext): void {
-                super.prepareForRendering(map, context);
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
 
-                this.translucent.set1f(this.isTranslucent ? 1.0 : 0.0);
+                this.translucent.bufferValue(buf, this.isTranslucent ? 1 : 0);
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean {
-                if (!super.changeMaterial(material)) return false;
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                this.alpha.set1f(material.properties.alpha);
-                this.alphaTest.set1f(material.properties.alphaTest ? 1 : 0);
-                this.tint.set1f(material.properties.noTint ? 0 : 1);
-                this.baseAlphaTint.set1f(material.properties.baseAlphaTint ? 1 : 0);
-
-                return true;
+                this.alpha.bufferValue(buf, material.properties.alpha);
+                this.alphaTest.bufferValue(buf, material.properties.alphaTest ? 1 : 0);
+                this.tint.bufferValue(buf, material.properties.noTint ? 0 : 1);
+                this.baseAlphaTint.bufferValue(buf, material.properties.baseAlphaTint ? 1 : 0);
             }
         }
 
@@ -840,81 +800,33 @@ namespace SourceUtils {
             constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.isTranslucent = true;
-
                 this.sortOrder = 2400;
-            }
-
-            prepareForRendering(map: SourceUtils.Map, context: RenderContext): void {
-                super.prepareForRendering(map, context);
-
-                const gl = this.getContext();
-
-                gl.depthMask(false);
-
-                gl.enable(gl.BLEND);
-                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-            }
-
-            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void {
-                const gl = this.getContext();
-
-                gl.depthMask(true);
-                gl.disable(gl.BLEND);
-
-                super.cleanupPostRender(map, context);
+                this.isTranslucent = true;
             }
         }
 
-        export class Water extends Base
-        {
+        export class Water extends Base {
             normalMap: UniformSampler;
 
-            constructor(manager: ShaderManager)
-            {
+            constructor(manager: ShaderManager) {
                 super(manager);
 
-                this.sortOrder = 3000;
+                this.sortOrder = 1900;
+                this.isTranslucent = true;
 
                 const gl = this.getContext();
 
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
 
-                this.normalMap = new UniformSampler(this, "uNormalMap");
+                this.normalMap = this.addUniform(UniformSampler, "uNormalMap");
+                this.normalMap.setDefault(manager.getBlankNormalMap());
             }
 
-            prepareForRendering(map: Map, context: RenderContext): void
-            {
-                super.prepareForRendering(map, context);
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                const gl = this.getContext();
-
-                gl.depthMask(false);
-
-                gl.enable(gl.BLEND);
-                gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-            }
-
-            cleanupPostRender(map: SourceUtils.Map, context: RenderContext): void
-            {
-                const gl = this.getContext();
-
-                gl.depthMask(true);
-                gl.disable(gl.BLEND);
-
-                super.cleanupPostRender(map, context);
-            }
-
-            changeMaterial(material: SourceUtils.Material): boolean
-            {
-                if (!super.changeMaterial(material)) return false;
-
-                const gl = this.getContext();
-                const blank = material.getMap().getBlankNormalMap();
-                this.setTexture(this.normalMap, gl.TEXTURE_2D, 3, material.properties.normalMap, blank);
-
-                return true;
+                this.normalMap.bufferValue(buf, material.properties.normalMap);
             }
         }
 
@@ -934,23 +846,21 @@ namespace SourceUtils {
 
                 this.addAttribute("aPosition", Api.MeshComponent.Position);
 
-                this.cameraPos = new Uniform3F(this, "uCameraPos");
-                this.skyCube = new UniformSampler(this, "uSkyCube");
+                this.cameraPos = this.addUniform(Uniform3F, "uCameraPos");
+                this.skyCube = this.addUniform(UniformSampler, "uSkyCube");
+                this.skyCube.setDefault(manager.getBlankTextureCube());
             }
 
-            prepareForRendering(map: Map, context: RenderContext): void {
-                super.prepareForRendering(map, context);
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
 
-                this.cameraPos.set3f(context.origin.x, context.origin.y, context.origin.z);
+                this.cameraPos.bufferParameter(buf, CommandBufferParameter.CameraPos);
             }
 
-            changeMaterial(material: SourceUtils.Material): boolean {
-                super.changeMaterial(material);
+            bufferMaterial(buf: CommandBuffer, material: Material): void {
+                super.bufferMaterial(buf, material);
 
-                const gl = this.getContext();
-                const tex = material.properties.baseTexture;
-
-                return this.setTexture(this.skyCube, gl.TEXTURE_CUBE_MAP, 0, tex);
+                this.skyCube.bufferValue(buf, material.properties.baseTexture);
             }
         }
     }
