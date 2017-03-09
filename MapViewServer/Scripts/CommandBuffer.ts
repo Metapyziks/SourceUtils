@@ -6,7 +6,7 @@ namespace SourceUtils {
     export interface ICommandBufferItem {
         action?: CommandBufferAction;
 
-        parameters?: { [param: number]: Float32Array };
+        parameters?: { [param: number]: Float32Array | Texture };
         parameter?: CommandBufferParameter;
         program?: WebGLProgram;
         uniform?: WebGLUniformLocation;
@@ -19,6 +19,8 @@ namespace SourceUtils {
         cap?: number;
         enabled?: boolean;
         buffer?: WebGLBuffer;
+        framebuffer?: FrameBuffer;
+        fitView?: boolean;
         index?: number;
         mode?: number;
         type?: number;
@@ -27,6 +29,7 @@ namespace SourceUtils {
         size?: number;
         normalized?: boolean;
         stride?: number;
+        app?: AppBase;
         x?: number;
         y?: number;
         z?: number;
@@ -37,7 +40,9 @@ namespace SourceUtils {
         ProjectionMatrix,
         ViewMatrix,
         CameraPos,
-        TimeParams
+        TimeParams,
+        RefractColorMap,
+        RefractDepthMap
     }
 
     export class CommandBuffer {
@@ -49,7 +54,9 @@ namespace SourceUtils {
         private boundBuffers: { [target: number]: WebGLBuffer };
         private capStates: { [cap: number]: boolean };
 
-        private parameters: { [param: number]: Float32Array } = {};
+        private parameters: { [param: number]: Float32Array | Texture } = {};
+
+        private lastCommand: ICommandBufferItem;
 
         constructor(context: WebGLRenderingContext) {
             this.context = context;
@@ -61,17 +68,22 @@ namespace SourceUtils {
             this.boundBuffers = {};
             this.capStates = {};
             this.commands = [];
+            this.lastCommand = null;
         }
 
-        setParameter(param: CommandBufferParameter, value: Float32Array): void {
+        setParameter(param: CommandBufferParameter, value: Float32Array | Texture): void {
             this.parameters[param] = value;
         }
 
         private cameraPos = new Float32Array(3);
         private timeParams = new Float32Array(4);
 
+        private app: AppBase;
+
         run(renderContext: RenderContext): void {
             const gl = this.context;
+
+            this.app = renderContext.getMap().getApp();
 
             this.cameraPos[0] = renderContext.origin.x;
             this.cameraPos[1] = renderContext.origin.y;
@@ -84,6 +96,13 @@ namespace SourceUtils {
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
 
+            const refractBuffer = renderContext.getRefractFrameBuffer();
+
+            if (refractBuffer != null) {
+                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getColorTexture());
+                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getDepthTexture());
+            }
+
             for (let i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
                 const command = this.commands[i];
                 command.action(gl, command);
@@ -93,6 +112,7 @@ namespace SourceUtils {
         private push(action: CommandBufferAction, args: ICommandBufferItem): void {
             args.action = action;
             this.commands.push(args);
+            this.lastCommand = args;
         }
 
         private setCap(cap: number, enabled: boolean): void {
@@ -142,9 +162,21 @@ namespace SourceUtils {
             gl.useProgram(args.program);
         }
 
-        setUniformParameter(uniform: WebGLUniformLocation, parameter: CommandBufferParameter): void {
+        setUniformParameter(uniform: Uniform, parameter: CommandBufferParameter): void {
             if (uniform == null) return;
-            this.push(this.onSetUniformParameter, { uniform: uniform, parameters: this.parameters, parameter: parameter });
+            const loc = uniform.getLocation();
+            if (loc == null) return;
+
+            const args: ICommandBufferItem = { uniform: loc, parameters: this.parameters, parameter: parameter };
+
+            if (uniform.isSampler) {
+                const sampler = uniform as UniformSampler;
+                this.setUniform1I(loc, sampler.getTexUnit());
+
+                args.unit = sampler.getTexUnit();
+            }
+
+            this.push(this.onSetUniformParameter, args);
         }
 
         private onSetUniformParameter(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
@@ -154,13 +186,20 @@ namespace SourceUtils {
             switch (args.parameter) {
             case CommandBufferParameter.ProjectionMatrix:
             case CommandBufferParameter.ViewMatrix:
-                gl.uniformMatrix4fv(args.uniform, false, value);
+                gl.uniformMatrix4fv(args.uniform, false, value as Float32Array);
                 break;
             case CommandBufferParameter.CameraPos:
                 gl.uniform3f(args.uniform, value[0], value[1], value[2]);
                 break;
             case CommandBufferParameter.TimeParams:
                 gl.uniform4f(args.uniform, value[0], value[1], value[2], value[3]);
+                break;
+            case CommandBufferParameter.RefractColorMap:
+            case CommandBufferParameter.RefractDepthMap:
+                const tex = value as Texture;
+
+                gl.activeTexture(args.unit);
+                gl.bindTexture(tex.getTarget(), tex.getHandle());
                 break;
             }
         }
@@ -273,11 +312,40 @@ namespace SourceUtils {
         }
 
         drawElements(mode: number, count: number, type: number, offset: number): void {
+            // Assuming GL_UNSIGNED_SHORT
+            const elemSize = 2;
+
+            if (this.lastCommand.action === this.onDrawElements &&
+                this.lastCommand.type === type &&
+                this.lastCommand.offset + this.lastCommand.count * elemSize === offset) {
+                this.lastCommand.count += count;
+                return;
+            }
+
             this.push(this.onDrawElements, { mode: mode, count: count, type: type, offset: offset });
         }
 
         private onDrawElements(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
             gl.drawElements(args.mode, args.count, args.type, args.offset);
+        }
+
+        bindFramebuffer(buffer: FrameBuffer, fitView?: boolean): void {
+            this.push(this.onBindFramebuffer, { framebuffer: buffer, fitView: fitView, app: this.app });
+        }
+
+        private onBindFramebuffer(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            const buffer = args.framebuffer;
+
+            if (buffer == null) {
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                return;
+            }
+
+            if (args.fitView) {
+                buffer.resize(args.app.getWidth(), args.app.getHeight());
+            }
+
+            gl.bindFramebuffer(gl.FRAMEBUFFER, buffer.getHandle());
         }
     }
 }

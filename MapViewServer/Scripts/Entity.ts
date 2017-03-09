@@ -40,6 +40,11 @@ namespace SourceUtils {
             if (target != null) target.copy(this.matrix);
         }
 
+        getMatrixElements(): Float32Array {
+            this.getMatrix();
+            return this.matrix.elements;
+        }
+
         getInverseMatrix(target?: THREE.Matrix4): void {
             if (this.inverseMatrixInvalid) {
                 this.inverseMatrixInvalid = false;

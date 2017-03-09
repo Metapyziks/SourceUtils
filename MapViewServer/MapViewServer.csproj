@@ -126,6 +126,7 @@
     <TypeScriptCompile Include="Scripts\Entity.ts" />
     <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
     <TypeScriptCompile Include="Scripts\FormattedWriter.ts" />
+    <TypeScriptCompile Include="Scripts\FrameBuffer.ts" />
     <TypeScriptCompile Include="Scripts\HardwareVertsLoader.ts" />
     <TypeScriptCompile Include="Scripts\Loader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />

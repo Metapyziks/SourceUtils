@@ -158,6 +158,9 @@ namespace MapViewServer
                     case "$translucent":
                         AddBooleanProperty( destArray, "translucent", props.GetBoolean( name ) );
                         break;
+                    case "$refract":
+                        AddBooleanProperty( destArray, "refract", props.GetBoolean( name ) );
+                        break;
                     case "$alpha":
                         AddNumberProperty( destArray, "alpha", props.GetSingle( name ) );
                         break;

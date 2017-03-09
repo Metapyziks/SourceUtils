@@ -51,20 +51,6 @@ namespace SourceUtils {
             if (matComp !== 0) return matComp;
             return this.indexOffset - other.indexOffset;
         }
-
-        canMerge(other: WorldMeshHandle): boolean {
-            return this.materialIndex === other.materialIndex
-                && this.material === other.material
-                && this.group === other.group
-                && this.vertexOffset === other.vertexOffset
-                && this.indexOffset + this.indexCount === other.indexOffset
-                && this.parent === other.parent
-                && this.drawMode === other.drawMode;
-        }
-
-        merge(other: WorldMeshHandle): void {
-            this.indexCount += other.indexCount;
-        }
     }
 
     export class WorldMeshGroup implements IStateLoggable {

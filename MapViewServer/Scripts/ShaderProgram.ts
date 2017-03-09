@@ -77,13 +77,15 @@ namespace SourceUtils {
 
         private parameter: CommandBufferParameter;
 
+        isSampler = false;
+
         constructor(program: ShaderProgram, name: string) {
             this.program = program;
             this.name = name;
             this.gl = program.getContext();
         }
 
-        protected getLocation(): WebGLUniformLocation {
+        getLocation(): WebGLUniformLocation {
             if (this.location !== undefined) return this.location;
             if (!this.program.isCompiled()) return undefined;
             return this.location = this.gl.getUniformLocation(this.program.getProgram(), this.name);
@@ -96,7 +98,7 @@ namespace SourceUtils {
         bufferParameter(buf: CommandBuffer, param: CommandBufferParameter) {
             if (this.parameter === param) return;
             this.parameter = param;
-            buf.setUniformParameter(this.getLocation(), param);
+            buf.setUniformParameter(this, param);
         }
     }
 
@@ -221,7 +223,14 @@ namespace SourceUtils {
 
         constructor(program: ShaderProgram, name: string) {
             super(program, name);
+
+            this.isSampler = true;
+
             this.texUnit = program.reserveNextTextureUnit();
+        }
+
+        getTexUnit(): number {
+            return this.texUnit;
         }
 
         setDefault(tex: Texture): void {

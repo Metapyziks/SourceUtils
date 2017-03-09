@@ -4,8 +4,10 @@
         private camera: Camera;
 
         private projectionMatrix = new THREE.Matrix4();
-        private modelMatrix = new THREE.Matrix4();
+        private identityMatrix = new THREE.Matrix4().identity();
         private viewMatrix = new THREE.Matrix4();
+
+        private modelMatrixElems: Float32Array;
 
         private pvsRoot: VisLeaf;
         private drawList: DrawList;
@@ -13,6 +15,8 @@
         private commandBufferInvalid = true;
 
         private pvsOrigin = new THREE.Vector3();
+
+        private refractFrameBuffer: FrameBuffer;
 
         pvsFollowsCamera = true;
         fogParams: Api.IFogParams;
@@ -30,6 +34,10 @@
             this.commandBuffer = new CommandBuffer(map.shaderManager.getContext());
 
             this.map.addDrawListInvalidationHandler((geom: boolean) => this.drawList.invalidate(geom));
+        }
+
+        getRefractFrameBuffer(): FrameBuffer {
+            return this.refractFrameBuffer;
         }
 
         invalidate(): void {
@@ -57,14 +65,14 @@
         }
 
         getModelMatrix(): Float32Array {
-            return this.modelMatrix.elements;
+            return this.modelMatrixElems;
         }
 
         setModelTransform(model: Entity): void {
             if (model == null) {
-                this.modelMatrix.identity();
+                this.modelMatrixElems = this.identityMatrix.elements;
             } else {
-                model.getMatrix(this.modelMatrix);
+                this.modelMatrixElems = model.getMatrixElements();
             }
         }
 
@@ -98,6 +106,22 @@
             }
 
             this.commandBuffer.run(this);
+        }
+
+        bufferRefractTargetBegin(buf: CommandBuffer): void {
+            const app = this.map.getApp();
+            const width = app.getWidth();
+            const height = app.getHeight();
+
+            if (this.refractFrameBuffer === undefined) {
+                this.refractFrameBuffer = new FrameBuffer(this.map.shaderManager.getContext(), width, height, true);
+            }
+
+            buf.bindFramebuffer(this.refractFrameBuffer, true);
+        }
+
+        bufferRefractTargetEnd(buf: CommandBuffer): void {
+            buf.bindFramebuffer(null);
         }
 
         getClusterIndex(): number {

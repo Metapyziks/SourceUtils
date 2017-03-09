@@ -471,6 +471,10 @@ var SourceUtils;
             if (target != null)
                 target.copy(this.matrix);
         };
+        Entity.prototype.getMatrixElements = function () {
+            this.getMatrix();
+            return this.matrix.elements;
+        };
         Entity.prototype.getInverseMatrix = function (target) {
             if (this.inverseMatrixInvalid) {
                 this.inverseMatrixInvalid = false;
@@ -650,11 +654,17 @@ var SourceUtils;
         function Texture(gl, target) {
             this.highestLevel = Number.MIN_VALUE;
             this.lowestLevel = Number.MAX_VALUE;
+            this.sortIndex = Texture.nextSortIndex++;
             this.context = gl;
             this.target = target;
+            this.wrapS = gl.REPEAT;
+            this.wrapT = gl.REPEAT;
             this.minFilter = gl.LINEAR;
             this.magFilter = gl.LINEAR;
         }
+        Texture.prototype.compareTo = function (other) {
+            return this.sortIndex - other.sortIndex;
+        };
         Texture.prototype.getTarget = function () {
             return this.target;
         };
@@ -683,8 +693,8 @@ var SourceUtils;
         };
         Texture.prototype.setupTexParams = function (target) {
             var gl = this.context;
-            gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.REPEAT);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_S, this.wrapS);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_T, this.wrapT);
             gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
             gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
             if (this.minFilter !== gl.NEAREST) {
@@ -736,9 +746,39 @@ var SourceUtils;
             }
             gl.texImage2D(target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
         };
+        Texture.prototype.dispose = function () {
+            if (this.handle !== undefined) {
+                this.context.deleteTexture(this.handle);
+                this.handle = undefined;
+            }
+        };
         return Texture;
     }());
+    Texture.nextSortIndex = 0;
     SourceUtils.Texture = Texture;
+    var RenderTexture = (function (_super) {
+        __extends(RenderTexture, _super);
+        function RenderTexture(gl, width, height, format, type) {
+            var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
+            _this.format = format;
+            _this.type = type;
+            _this.wrapS = gl.CLAMP_TO_EDGE;
+            _this.wrapT = gl.CLAMP_TO_EDGE;
+            _this.resize(width, height);
+            return _this;
+        }
+        RenderTexture.prototype.resize = function (width, height) {
+            if (this.width === width && this.height === height)
+                return;
+            var gl = this.getContext();
+            this.width = width;
+            this.height = height;
+            this.getOrCreateHandle();
+            gl.texImage2D(this.getTarget(), 0, this.format, this.width, this.height, 0, this.format, this.type, null);
+        };
+        return RenderTexture;
+    }(Texture));
+    SourceUtils.RenderTexture = RenderTexture;
     var Lightmap = (function (_super) {
         __extends(Lightmap, _super);
         function Lightmap(gl, url) {
@@ -961,6 +1001,8 @@ var SourceUtils;
         CommandBufferParameter[CommandBufferParameter["ViewMatrix"] = 1] = "ViewMatrix";
         CommandBufferParameter[CommandBufferParameter["CameraPos"] = 2] = "CameraPos";
         CommandBufferParameter[CommandBufferParameter["TimeParams"] = 3] = "TimeParams";
+        CommandBufferParameter[CommandBufferParameter["RefractColorMap"] = 4] = "RefractColorMap";
+        CommandBufferParameter[CommandBufferParameter["RefractDepthMap"] = 5] = "RefractDepthMap";
     })(CommandBufferParameter = SourceUtils.CommandBufferParameter || (SourceUtils.CommandBufferParameter = {}));
     var CommandBuffer = (function () {
         function CommandBuffer(context) {
@@ -975,12 +1017,14 @@ var SourceUtils;
             this.boundBuffers = {};
             this.capStates = {};
             this.commands = [];
+            this.lastCommand = null;
         };
         CommandBuffer.prototype.setParameter = function (param, value) {
             this.parameters[param] = value;
         };
         CommandBuffer.prototype.run = function (renderContext) {
             var gl = this.context;
+            this.app = renderContext.getMap().getApp();
             this.cameraPos[0] = renderContext.origin.x;
             this.cameraPos[1] = renderContext.origin.y;
             this.cameraPos[2] = renderContext.origin.z;
@@ -989,6 +1033,11 @@ var SourceUtils;
             this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
+            var refractBuffer = renderContext.getRefractFrameBuffer();
+            if (refractBuffer != null) {
+                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getColorTexture());
+                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getDepthTexture());
+            }
             for (var i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
                 var command = this.commands[i];
                 command.action(gl, command);
@@ -997,6 +1046,7 @@ var SourceUtils;
         CommandBuffer.prototype.push = function (action, args) {
             args.action = action;
             this.commands.push(args);
+            this.lastCommand = args;
         };
         CommandBuffer.prototype.setCap = function (cap, enabled) {
             if (this.capStates[cap] === enabled)
@@ -1037,7 +1087,16 @@ var SourceUtils;
         CommandBuffer.prototype.setUniformParameter = function (uniform, parameter) {
             if (uniform == null)
                 return;
-            this.push(this.onSetUniformParameter, { uniform: uniform, parameters: this.parameters, parameter: parameter });
+            var loc = uniform.getLocation();
+            if (loc == null)
+                return;
+            var args = { uniform: loc, parameters: this.parameters, parameter: parameter };
+            if (uniform.isSampler) {
+                var sampler = uniform;
+                this.setUniform1I(loc, sampler.getTexUnit());
+                args.unit = sampler.getTexUnit();
+            }
+            this.push(this.onSetUniformParameter, args);
         };
         CommandBuffer.prototype.onSetUniformParameter = function (gl, args) {
             var value = args.parameters[args.parameter];
@@ -1053,6 +1112,12 @@ var SourceUtils;
                     break;
                 case CommandBufferParameter.TimeParams:
                     gl.uniform4f(args.uniform, value[0], value[1], value[2], value[3]);
+                    break;
+                case CommandBufferParameter.RefractColorMap:
+                case CommandBufferParameter.RefractDepthMap:
+                    var tex = value;
+                    gl.activeTexture(args.unit);
+                    gl.bindTexture(tex.getTarget(), tex.getHandle());
                     break;
             }
         };
@@ -1142,10 +1207,32 @@ var SourceUtils;
             gl.vertexAttribPointer(args.index, args.size, args.type, args.normalized, args.stride, args.offset);
         };
         CommandBuffer.prototype.drawElements = function (mode, count, type, offset) {
+            // Assuming GL_UNSIGNED_SHORT
+            var elemSize = 2;
+            if (this.lastCommand.action === this.onDrawElements &&
+                this.lastCommand.type === type &&
+                this.lastCommand.offset + this.lastCommand.count * elemSize === offset) {
+                this.lastCommand.count += count;
+                return;
+            }
             this.push(this.onDrawElements, { mode: mode, count: count, type: type, offset: offset });
         };
         CommandBuffer.prototype.onDrawElements = function (gl, args) {
             gl.drawElements(args.mode, args.count, args.type, args.offset);
+        };
+        CommandBuffer.prototype.bindFramebuffer = function (buffer, fitView) {
+            this.push(this.onBindFramebuffer, { framebuffer: buffer, fitView: fitView, app: this.app });
+        };
+        CommandBuffer.prototype.onBindFramebuffer = function (gl, args) {
+            var buffer = args.framebuffer;
+            if (buffer == null) {
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                return;
+            }
+            if (args.fitView) {
+                buffer.resize(args.app.getWidth(), args.app.getHeight());
+            }
+            gl.bindFramebuffer(gl.FRAMEBUFFER, buffer.getHandle());
         };
         return CommandBuffer;
     }());
@@ -1311,8 +1398,8 @@ var SourceUtils;
     var DrawList = (function () {
         function DrawList(context) {
             this.items = [];
-            this.handles = [];
-            this.merged = [];
+            this.opaque = [];
+            this.translucent = [];
             this.isBuildingList = false;
             this.context = context;
             this.map = context.getMap();
@@ -1322,11 +1409,11 @@ var SourceUtils;
                 this.items[i].onRemoveFromDrawList(this);
             }
             this.items = [];
-            this.handles = [];
-            this.merged = [];
+            this.opaque = [];
+            this.translucent = [];
         };
         DrawList.prototype.getDrawCalls = function () {
-            return this.merged == null ? 0 : this.merged.length;
+            return this.opaque.length + this.translucent.length;
         };
         DrawList.prototype.addItem = function (item) {
             this.items.push(item);
@@ -1337,7 +1424,7 @@ var SourceUtils;
             if (this.isBuildingList)
                 return;
             if (geom)
-                this.handles = null;
+                this.invalid = true;
             this.context.invalidate();
         };
         DrawList.prototype.updateItem = function (item) {
@@ -1403,7 +1490,9 @@ var SourceUtils;
             return a.compareTo(b);
         };
         DrawList.prototype.buildHandleList = function () {
-            this.handles = [];
+            this.opaque = [];
+            this.translucent = [];
+            this.hasRefraction = false;
             this.isBuildingList = true;
             for (var i = 0, iEnd = this.items.length; i < iEnd; ++i) {
                 var handles = this.items[i].getMeshHandles();
@@ -1417,30 +1506,18 @@ var SourceUtils;
                         if ((handle.material = this.map.getMaterial(handle.materialIndex)) == null)
                             continue;
                     }
-                    this.handles.push(handle);
+                    if (handle.material.properties.translucent || handle.material.properties.refract) {
+                        if (handle.material.properties.refract)
+                            this.hasRefraction = true;
+                        this.translucent.push(handle);
+                    }
+                    else
+                        this.opaque.push(handle);
                 }
             }
             this.isBuildingList = false;
-            this.handles.sort(DrawList.compareHandles);
-            this.merged = [];
-            var last = null;
-            for (var i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
-                var next = this.handles[i];
-                if (last != null && last.canMerge(next)) {
-                    last.merge(next);
-                    continue;
-                }
-                last = new SourceUtils.WorldMeshHandle();
-                this.merged.push(last);
-                last.parent = next.parent;
-                last.group = next.group;
-                last.drawMode = next.drawMode;
-                last.material = next.material;
-                last.materialIndex = next.materialIndex;
-                last.vertexOffset = next.vertexOffset;
-                last.indexOffset = next.indexOffset;
-                last.indexCount = next.indexCount;
-            }
+            this.opaque.sort(DrawList.compareHandles);
+            this.translucent.sort(DrawList.compareHandles);
             this.map.getApp().invalidateDebugPanel();
         };
         DrawList.prototype.appendToBuffer = function (buf, context) {
@@ -1451,11 +1528,18 @@ var SourceUtils;
             this.lastMaterial = undefined;
             this.lastMaterialIndex = undefined;
             this.lastIndex = undefined;
-            if (this.handles == null)
+            if (this.invalid)
                 this.buildHandleList();
             context.getShaderManager().resetUniformCache();
-            for (var i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.bufferHandle(buf, this.merged[i], context);
+            if (this.hasRefraction)
+                context.bufferRefractTargetBegin(buf);
+            for (var i = 0, iEnd = this.opaque.length; i < iEnd; ++i) {
+                this.bufferHandle(buf, this.opaque[i], context);
+            }
+            if (this.hasRefraction)
+                context.bufferRefractTargetEnd(buf);
+            for (var i = 0, iEnd = this.translucent.length; i < iEnd; ++i) {
+                this.bufferHandle(buf, this.translucent[i], context);
             }
             if (this.lastProgram !== undefined) {
                 this.lastProgram.bufferDisableMeshComponents(buf);
@@ -1463,8 +1547,9 @@ var SourceUtils;
         };
         DrawList.prototype.logState = function (writer) {
             writer.writeProperty("itemCount", this.items.length);
-            writer.writeProperty("handleCount", this.handles.length);
-            writer.writeProperty("mergedCount", this.merged.length);
+            writer.writeProperty("opaqueCount", this.opaque.length);
+            writer.writeProperty("translucentCount", this.translucent.length);
+            writer.writeProperty("hasRefraction", this.hasRefraction);
         };
         return DrawList;
     }());
@@ -1582,6 +1667,77 @@ var SourceUtils;
         return FormattedWriter;
     }());
     SourceUtils.FormattedWriter = FormattedWriter;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var FrameBuffer = (function () {
+        function FrameBuffer(gl, width, height, depthTexture) {
+            this.context = gl;
+            this.frameTexture = new SourceUtils.RenderTexture(gl, 16, 16, gl.RGBA, gl.UNSIGNED_BYTE);
+            if (depthTexture) {
+                this.depthTexture = new SourceUtils.RenderTexture(gl, 16, 16, gl.DEPTH_COMPONENT16, gl.UNSIGNED_SHORT);
+            }
+            this.frameBuffer = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.frameTexture.getHandle(), 0);
+            if (this.depthTexture !== undefined) {
+                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthTexture.getHandle(), 0);
+            }
+            var state = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            if (state !== gl.FRAMEBUFFER_COMPLETE) {
+                throw new Error("Unexpected framebuffer state: " + state + ".");
+            }
+            this.resize(width, height);
+        }
+        FrameBuffer.nextPowerOf2 = function (val) {
+            var po2 = 1;
+            while (po2 < val)
+                po2 <<= 1;
+            return po2;
+        };
+        FrameBuffer.prototype.getColorTexture = function () { return this.frameTexture; };
+        FrameBuffer.prototype.getDepthTexture = function () { return this.depthTexture; };
+        FrameBuffer.prototype.dispose = function () {
+            if (this.frameBuffer !== undefined) {
+                this.context.deleteFramebuffer(this.frameBuffer);
+                this.frameBuffer = undefined;
+            }
+            if (this.frameTexture !== undefined) {
+                this.frameTexture.dispose();
+                this.frameTexture = undefined;
+            }
+            if (this.depthTexture !== undefined) {
+                this.depthTexture.dispose();
+                this.depthTexture = undefined;
+            }
+        };
+        FrameBuffer.prototype.resize = function (width, height) {
+            if (this.width === width && this.height === height)
+                return;
+            this.width = width;
+            this.height = height;
+            var po2Width = FrameBuffer.nextPowerOf2(width);
+            var po2Height = FrameBuffer.nextPowerOf2(height);
+            this.frameTexture.resize(po2Width, po2Height);
+            if (this.depthTexture !== undefined) {
+                this.depthTexture.resize(po2Width, po2Height);
+            }
+        };
+        FrameBuffer.prototype.getHandle = function () {
+            return this.frameBuffer;
+        };
+        FrameBuffer.prototype.begin = function () {
+            var gl = this.context;
+            gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
+        };
+        FrameBuffer.prototype.end = function () {
+            var gl = this.context;
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        };
+        return FrameBuffer;
+    }());
+    SourceUtils.FrameBuffer = FrameBuffer;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -2111,6 +2267,8 @@ var SourceUtils;
 (function (SourceUtils) {
     var MaterialProperties = (function () {
         function MaterialProperties() {
+            this.translucent = false;
+            this.refract = false;
             this.baseTexture = null;
             this.baseTexture2 = null;
             this.blendModulateTexture = null;
@@ -2162,7 +2320,10 @@ var SourceUtils;
         Material.prototype.compareTo = function (other) {
             if (other === this)
                 return 0;
-            return this.sortIndex - other.sortIndex;
+            var thisTex = this.properties.baseTexture;
+            var thatTex = other.properties.baseTexture;
+            var texComp = thisTex != null && thatTex != null ? thisTex.compareTo(thatTex) : thisTex != null ? 1 : thatTex != null ? -1 : 0;
+            return texComp !== 0 ? texComp : this.sortIndex - other.sortIndex;
         };
         Material.prototype.getMap = function () {
             return this.map;
@@ -2238,7 +2399,7 @@ var SourceUtils;
         function RenderContext(map, camera) {
             var _this = this;
             this.projectionMatrix = new THREE.Matrix4();
-            this.modelMatrix = new THREE.Matrix4();
+            this.identityMatrix = new THREE.Matrix4().identity();
             this.viewMatrix = new THREE.Matrix4();
             this.commandBufferInvalid = true;
             this.pvsOrigin = new THREE.Vector3();
@@ -2250,6 +2411,9 @@ var SourceUtils;
             this.commandBuffer = new SourceUtils.CommandBuffer(map.shaderManager.getContext());
             this.map.addDrawListInvalidationHandler(function (geom) { return _this.drawList.invalidate(geom); });
         }
+        RenderContext.prototype.getRefractFrameBuffer = function () {
+            return this.refractFrameBuffer;
+        };
         RenderContext.prototype.invalidate = function () {
             this.commandBufferInvalid = true;
         };
@@ -2269,14 +2433,14 @@ var SourceUtils;
             return this.viewMatrix.elements;
         };
         RenderContext.prototype.getModelMatrix = function () {
-            return this.modelMatrix.elements;
+            return this.modelMatrixElems;
         };
         RenderContext.prototype.setModelTransform = function (model) {
             if (model == null) {
-                this.modelMatrix.identity();
+                this.modelMatrixElems = this.identityMatrix.elements;
             }
             else {
-                model.getMatrix(this.modelMatrix);
+                this.modelMatrixElems = model.getMatrixElements();
             }
         };
         RenderContext.prototype.setPvsOrigin = function (pos) {
@@ -2302,6 +2466,18 @@ var SourceUtils;
                 this.drawList.appendToBuffer(this.commandBuffer, this);
             }
             this.commandBuffer.run(this);
+        };
+        RenderContext.prototype.bufferRefractTargetBegin = function (buf) {
+            var app = this.map.getApp();
+            var width = app.getWidth();
+            var height = app.getHeight();
+            if (this.refractFrameBuffer === undefined) {
+                this.refractFrameBuffer = new SourceUtils.FrameBuffer(this.map.shaderManager.getContext(), width, height, true);
+            }
+            buf.bindFramebuffer(this.refractFrameBuffer, true);
+        };
+        RenderContext.prototype.bufferRefractTargetEnd = function (buf) {
+            buf.bindFramebuffer(null);
         };
         RenderContext.prototype.getClusterIndex = function () {
             return this.pvsRoot == null ? -1 : this.pvsRoot.cluster;
@@ -2413,6 +2589,7 @@ var SourceUtils;
     SourceUtils.ShaderProgramAttributes = ShaderProgramAttributes;
     var Uniform = (function () {
         function Uniform(program, name) {
+            this.isSampler = false;
             this.program = program;
             this.name = name;
             this.gl = program.getContext();
@@ -2431,7 +2608,7 @@ var SourceUtils;
             if (this.parameter === param)
                 return;
             this.parameter = param;
-            buf.setUniformParameter(this.getLocation(), param);
+            buf.setUniformParameter(this, param);
         };
         return Uniform;
     }());
@@ -2557,9 +2734,13 @@ var SourceUtils;
         __extends(UniformSampler, _super);
         function UniformSampler(program, name) {
             var _this = _super.call(this, program, name) || this;
+            _this.isSampler = true;
             _this.texUnit = program.reserveNextTextureUnit();
             return _this;
         }
+        UniformSampler.prototype.getTexUnit = function () {
+            return this.texUnit;
+        };
         UniformSampler.prototype.setDefault = function (tex) {
             this.default = tex;
         };
@@ -3379,18 +3560,6 @@ var SourceUtils;
             if (matComp !== 0)
                 return matComp;
             return this.indexOffset - other.indexOffset;
-        };
-        WorldMeshHandle.prototype.canMerge = function (other) {
-            return this.materialIndex === other.materialIndex
-                && this.material === other.material
-                && this.group === other.group
-                && this.vertexOffset === other.vertexOffset
-                && this.indexOffset + this.indexCount === other.indexOffset
-                && this.parent === other.parent
-                && this.drawMode === other.drawMode;
-        };
-        WorldMeshHandle.prototype.merge = function (other) {
-            this.indexCount += other.indexCount;
         };
         return WorldMeshHandle;
     }());

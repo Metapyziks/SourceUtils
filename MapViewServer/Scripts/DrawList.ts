@@ -5,8 +5,9 @@
         private map: Map;
 
         private items: DrawListItem[] = [];
-        private handles: WorldMeshHandle[] = [];
-        private merged: WorldMeshHandle[] = [];
+        private invalid: boolean;
+        private opaque: WorldMeshHandle[] = [];
+        private translucent: WorldMeshHandle[] = [];
 
         private lastParent: Entity;
         private lastGroup: WorldMeshGroup;
@@ -16,6 +17,8 @@
         private lastMaterial: Material;
         private lastIndex: number;
         private canRender: boolean;
+
+        private hasRefraction: boolean;
 
         constructor(context: RenderContext) {
             this.context = context;
@@ -28,12 +31,12 @@
             }
 
             this.items = [];
-            this.handles = [];
-            this.merged = [];
+            this.opaque = [];
+            this.translucent = [];
         }
 
         getDrawCalls(): number {
-            return this.merged == null ? 0 : this.merged.length;
+            return this.opaque.length + this.translucent.length;
         }
 
         addItem(item: DrawListItem): void {
@@ -46,7 +49,7 @@
 
         invalidate(geom: boolean): void {
             if (this.isBuildingList) return;
-            if (geom) this.handles = null;
+            if (geom) this.invalid = true;
             this.context.invalidate();
         }
 
@@ -129,7 +132,10 @@
         }
 
         private buildHandleList(): void {
-            this.handles = [];
+            this.opaque = [];
+            this.translucent = [];
+            this.hasRefraction = false;
+
             this.isBuildingList = true;
 
             for (let i = 0, iEnd = this.items.length; i < iEnd; ++i) {
@@ -143,38 +149,17 @@
                         if ((handle.material = this.map.getMaterial(handle.materialIndex)) == null) continue;
                     }
 
-                    this.handles.push(handle);
+                    if (handle.material.properties.translucent || handle.material.properties.refract) {
+                        if (handle.material.properties.refract) this.hasRefraction = true;
+                        this.translucent.push(handle);
+                    } else this.opaque.push(handle);
                 }
             }
 
             this.isBuildingList = false;
 
-            this.handles.sort(DrawList.compareHandles);
-
-            this.merged = [];
-
-            let last: WorldMeshHandle = null;
-
-            for (let i = 0, iEnd = this.handles.length; i < iEnd; ++i) {
-                const next = this.handles[i];
-
-                if (last != null && last.canMerge(next)) {
-                    last.merge(next);
-                    continue;
-                }
-
-                last = new WorldMeshHandle();
-                this.merged.push(last);
-
-                last.parent = next.parent;
-                last.group = next.group;
-                last.drawMode = next.drawMode;
-                last.material = next.material;
-                last.materialIndex = next.materialIndex;
-                last.vertexOffset = next.vertexOffset;
-                last.indexOffset = next.indexOffset;
-                last.indexCount = next.indexCount;
-            }
+            this.opaque.sort(DrawList.compareHandles);
+            this.translucent.sort(DrawList.compareHandles);
 
             (this.map.getApp() as MapViewer).invalidateDebugPanel();
         }
@@ -188,12 +173,20 @@
             this.lastMaterialIndex = undefined;
             this.lastIndex = undefined;
 
-            if (this.handles == null) this.buildHandleList();
+            if (this.invalid) this.buildHandleList();
 
             context.getShaderManager().resetUniformCache();
 
-            for (let i = 0, iEnd = this.merged.length; i < iEnd; ++i) {
-                this.bufferHandle(buf, this.merged[i], context);
+            if (this.hasRefraction) context.bufferRefractTargetBegin(buf);
+
+            for (let i = 0, iEnd = this.opaque.length; i < iEnd; ++i) {
+                this.bufferHandle(buf, this.opaque[i], context);
+            }
+
+            if (this.hasRefraction) context.bufferRefractTargetEnd(buf);
+
+            for (let i = 0, iEnd = this.translucent.length; i < iEnd; ++i) {
+                this.bufferHandle(buf, this.translucent[i], context);
             }
 
             if (this.lastProgram !== undefined) {
@@ -203,8 +196,9 @@
 
         logState(writer: FormattedWriter): void {
             writer.writeProperty("itemCount", this.items.length);
-            writer.writeProperty("handleCount", this.handles.length);
-            writer.writeProperty("mergedCount", this.merged.length);
+            writer.writeProperty("opaqueCount", this.opaque.length);
+            writer.writeProperty("translucentCount", this.translucent.length);
+            writer.writeProperty("hasRefraction", this.hasRefraction);
         }
     }
 }

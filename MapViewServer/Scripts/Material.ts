@@ -1,6 +1,8 @@
 ﻿namespace SourceUtils
 {
     export class MaterialProperties {
+        translucent = false;
+        refract = false;
         baseTexture: Texture = null;
         baseTexture2: Texture = null;
         blendModulateTexture: Texture = null;
@@ -65,7 +67,11 @@
 
         compareTo(other: Material): number {
             if (other === this) return 0;
-            return this.sortIndex - other.sortIndex;
+
+            const thisTex = this.properties.baseTexture;
+            const thatTex = other.properties.baseTexture;
+            const texComp = thisTex != null && thatTex != null ? thisTex.compareTo(thatTex) : thisTex != null ? 1 : thatTex != null ? -1 : 0;
+            return texComp !== 0 ? texComp : this.sortIndex - other.sortIndex;
         }
 
         getMap(): Map {

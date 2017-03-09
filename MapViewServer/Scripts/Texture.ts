@@ -1,5 +1,10 @@
 ﻿namespace SourceUtils {
-    export class Texture {
+    export class Texture
+    {
+        private static nextSortIndex = 0;
+
+        private sortIndex: number;
+
         private target: number;
         private context: WebGLRenderingContext;
         private handle: WebGLTexture;
@@ -9,15 +14,26 @@
         width: number;
         height: number;
 
+        protected wrapS: number;
+        protected wrapT: number;
         protected minFilter: number;
         protected magFilter: number;
 
         constructor(gl: WebGLRenderingContext, target: number) {
+            this.sortIndex = Texture.nextSortIndex++;
+
             this.context = gl;
             this.target = target;
 
+            this.wrapS = gl.REPEAT;
+            this.wrapT = gl.REPEAT;
+
             this.minFilter = gl.LINEAR;
             this.magFilter = gl.LINEAR;
+        }
+
+        compareTo(other: Texture): number {
+            return this.sortIndex - other.sortIndex;
         }
 
         getTarget(): number {
@@ -56,8 +72,8 @@
         protected setupTexParams(target: number) {
             const gl = this.context;
 
-            gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.REPEAT);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_S, this.wrapS);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_T, this.wrapT);
             gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
             gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
 
@@ -121,6 +137,44 @@
             }
 
             gl.texImage2D(target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
+        }
+
+        dispose(): void {
+            if (this.handle !== undefined) {
+                this.context.deleteTexture(this.handle);
+                this.handle = undefined;
+            }
+        }
+    }
+
+    export class RenderTexture extends Texture
+    {
+        private format: number;
+        private type: number;
+
+        constructor(gl: WebGLRenderingContext, width: number, height: number, format: number, type: number) {
+            super(gl, gl.TEXTURE_2D);
+
+            this.format = format;
+            this.type = type;
+
+            this.wrapS = gl.CLAMP_TO_EDGE;
+            this.wrapT = gl.CLAMP_TO_EDGE;
+
+            this.resize(width, height);
+        }
+
+        resize(width: number, height: number): void {
+            if (this.width === width && this.height === height) return;
+
+            const gl = this.getContext();
+
+            this.width = width;
+            this.height = height;
+
+            this.getOrCreateHandle();
+
+            gl.texImage2D(this.getTarget(), 0, this.format, this.width, this.height, 0, this.format, this.type, null);
         }
     }
 
