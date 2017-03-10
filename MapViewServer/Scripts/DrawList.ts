@@ -177,16 +177,24 @@
 
             context.getShaderManager().resetUniformCache();
 
-            if (this.hasRefraction) context.bufferRefractTargetBegin(buf);
+            if (this.hasRefraction) context.bufferOpaqueTargetBegin(buf);
 
             for (let i = 0, iEnd = this.opaque.length; i < iEnd; ++i) {
                 this.bufferHandle(buf, this.opaque[i], context);
             }
 
-            if (this.hasRefraction) context.bufferRefractTargetEnd(buf);
+            if (this.hasRefraction) {
+                context.bufferRenderTargetEnd(buf);
+                context.bufferTranslucentTargetBegin(buf);
+            }
 
             for (let i = 0, iEnd = this.translucent.length; i < iEnd; ++i) {
                 this.bufferHandle(buf, this.translucent[i], context);
+            }
+
+            if (this.hasRefraction) {
+                context.bufferRenderTargetEnd(buf);
+                this.bufferHandle(buf, this.map.getComposeFrameMeshHandle(), context);
             }
 
             if (this.lastProgram !== undefined) {

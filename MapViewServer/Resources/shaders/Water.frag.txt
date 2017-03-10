@@ -15,16 +15,12 @@ void main()
     vec3 normal = normalize(normSampleA.xyz + normSampleB.xyz - vec3(1.0, 1.0, 1.0));
 
     vec2 screenPos = gl_FragCoord.xy * uScreenParams.zw;
+	
     float refractDepth = texture2D(uRefractDepth, screenPos).r;
-	if (refractDepth < gl_FragCoord.z) discard;
 
-	float fogScale = min((refractDepth - gl_FragCoord.z) * 1024.0, 1.0);
-	vec3 fogColor = vec3(56.0 / 255.0, 44.0 / 255.0, 38.0 / 255.0);
-
-	screenPos += normal.xy * min((refractDepth - gl_FragCoord.z) * 64.0, 0.1);
+	screenPos += normal.xy * 0.1;
 
     vec3 refractSample = texture2D(uRefractColor, screenPos).rgb;
-	vec3 foggyColor = mix(refractSample, fogColor, fogScale);
 
-    gl_FragColor = vec4(applyFog(foggyColor), 1.0);
+    gl_FragColor = vec4(refractSample.rg, float(refractDepth == 0.0), 1.0);
 }

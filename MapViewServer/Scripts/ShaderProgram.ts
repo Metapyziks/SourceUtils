@@ -539,6 +539,37 @@ namespace SourceUtils {
     }
 
     export namespace Shaders {
+        export class ComposeFrame extends ShaderProgram {
+            opaqueFrame: UniformSampler;
+            translucentFrame: UniformSampler;
+
+            constructor(manager: ShaderManager) {
+                super(manager);
+
+                const gl = this.getContext();
+
+                this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/ComposeFrame.vert.txt");
+                this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/ComposeFrame.frag.txt");
+
+                this.addAttribute("aScreenPos", Api.MeshComponent.Uv);
+
+                this.opaqueFrame = this.addUniform(UniformSampler, "uOpaqueFrame");
+                this.translucentFrame = this.addUniform(UniformSampler, "uTranslucentFrame");
+            }
+
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
+
+                this.opaqueFrame.bufferValue(buf, context.getOpaqueColorTexture());
+                this.translucentFrame.bufferValue(buf, context.getTranslucentColorTexture());
+
+                const gl = this.getContext();
+
+                buf.depthMask(false);
+                buf.disable(gl.DEPTH_TEST);
+            }
+        }
+
         export class Base extends ShaderProgram {
             baseTexture: UniformSampler;
 

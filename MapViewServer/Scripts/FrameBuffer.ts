@@ -9,14 +9,13 @@
         private frameTexture: RenderTexture;
         private depthTexture: RenderTexture;
 
-        constructor(gl: WebGLRenderingContext, width: number, height: number, depthTexture: boolean) {
+        constructor(gl: WebGLRenderingContext, width: number, height: number) {
             this.context = gl;
 
-            this.frameTexture = new RenderTexture(gl, width, height, gl.RGBA, gl.UNSIGNED_BYTE);
+            this.width = width;
+            this.height = height;
 
-            if (depthTexture) {
-                this.depthTexture = new RenderTexture(gl, width, height, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT);
-            }
+            this.frameTexture = new RenderTexture(gl, width, height, gl.RGBA, gl.UNSIGNED_BYTE);
 
             this.frameBuffer = gl.createFramebuffer();
 
@@ -27,13 +26,11 @@
                 this.frameTexture.getHandle(),
                 0);
 
-            if (this.depthTexture !== undefined) {
-                gl.framebufferTexture2D(gl.FRAMEBUFFER,
-                    gl.DEPTH_ATTACHMENT,
-                    gl.TEXTURE_2D,
-                    this.depthTexture.getHandle(),
-                    0);
-            }
+            this.unbindAndCheckState();
+        }
+
+        private unbindAndCheckState(): void {
+            const gl = this.context;
 
             const state = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
 
@@ -42,8 +39,25 @@
             if (state !== gl.FRAMEBUFFER_COMPLETE) {
                 throw new Error(`Unexpected framebuffer state: ${state}.`);
             }
+        }
 
-            this.resize(width, height);
+        addDepthAttachment(existing?: RenderTexture): void {
+            const gl = this.context;
+
+            if (existing == null) {
+                this.depthTexture = new RenderTexture(gl, this.width, this.height, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT);
+            } else {
+                this.depthTexture = existing;
+            }
+
+            gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER,
+                gl.DEPTH_ATTACHMENT,
+                gl.TEXTURE_2D,
+                this.depthTexture.getHandle(),
+                0);
+
+            this.unbindAndCheckState();
         }
 
         getColorTexture(): RenderTexture { return this.frameTexture; }

@@ -105,12 +105,11 @@ namespace SourceUtils {
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
             this.setParameter(CommandBufferParameter.ScreenParams, this.screenParams);
 
-            const refractBuffer = renderContext.getRefractFrameBuffer();
+            const colorTexture = renderContext.getOpaqueColorTexture();
+            const depthTexture = renderContext.getDepthTexture();
 
-            if (refractBuffer != null) {
-                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getColorTexture());
-                this.setParameter(CommandBufferParameter.RefractDepthMap, refractBuffer.getDepthTexture());
-            }
+            this.setParameter(CommandBufferParameter.RefractColorMap, colorTexture);
+            this.setParameter(CommandBufferParameter.RefractDepthMap, depthTexture);
 
             for (let i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
                 const command = this.commands[i];

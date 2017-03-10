@@ -79,6 +79,35 @@ namespace SourceUtils {
                 : (index < this.materials.length ? this.materials[index] : this.blankMaterial) || this.errorMaterial;
         }
 
+        private generateComposeFrameMeshData(): MeshData {
+            return new MeshData({
+                components: Api.MeshComponent.Uv,
+                vertices: [-1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0],
+                indices: [0, 1, 2, 0, 2, 3],
+                elements: [
+                    {
+                        type: Api.PrimitiveType.TriangleList,
+                        material: undefined,
+                        indexOffset: 0,
+                        indexCount: 6
+                    }
+                ]
+            });
+        }
+
+        private composeFrameHandle: WorldMeshHandle;
+
+        getComposeFrameMeshHandle(): WorldMeshHandle {
+            if (this.composeFrameHandle !== undefined) return this.composeFrameHandle;
+
+            this.composeFrameHandle = this.meshManager.addMeshData(this.generateComposeFrameMeshData())[0];
+            this.composeFrameHandle.parent = null;
+            this.composeFrameHandle.material = new Material(this, "ComposeFrame");
+            this.composeFrameHandle.material.properties.noCull = true;
+
+            return this.composeFrameHandle;
+        }
+
         private loadInfo(url: string): void {
             $.getJSON(url,
                 (data: Api.IBspIndexResponse) => {

@@ -16,7 +16,8 @@
 
         private pvsOrigin = new THREE.Vector3();
 
-        private refractFrameBuffer: FrameBuffer;
+        private opaqueFrameBuffer: FrameBuffer;
+        private translucentFrameBuffer: FrameBuffer;
 
         pvsFollowsCamera = true;
         fogParams: Api.IFogParams;
@@ -36,8 +37,16 @@
             this.map.addDrawListInvalidationHandler((geom: boolean) => this.drawList.invalidate(geom));
         }
 
-        getRefractFrameBuffer(): FrameBuffer {
-            return this.refractFrameBuffer;
+        getOpaqueColorTexture(): RenderTexture {
+            return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getColorTexture();
+        }
+
+        getTranslucentColorTexture(): RenderTexture {
+            return this.translucentFrameBuffer == null ? null : this.translucentFrameBuffer.getColorTexture();
+        }
+
+        getDepthTexture(): RenderTexture {
+            return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getDepthTexture();
         }
 
         invalidate(): void {
@@ -108,23 +117,43 @@
             this.commandBuffer.run(this);
         }
 
-        bufferRefractTargetBegin(buf: CommandBuffer): void {
+        private setupFrameBuffers(): void {
+            if (this.opaqueFrameBuffer !== undefined) return;
+
+            const gl = this.map.shaderManager.getContext();
+
             const app = this.map.getApp();
             const width = app.getWidth();
             const height = app.getHeight();
 
-            if (this.refractFrameBuffer === undefined) {
-                this.refractFrameBuffer = new FrameBuffer(this.map.shaderManager.getContext(), width, height, true);
-            }
+            this.opaqueFrameBuffer = new FrameBuffer(gl, width, height);
+            this.opaqueFrameBuffer.addDepthAttachment();
+
+            this.translucentFrameBuffer = new FrameBuffer(gl, width, height);
+            this.translucentFrameBuffer.addDepthAttachment(this.opaqueFrameBuffer.getDepthTexture());
+        }
+
+        bufferOpaqueTargetBegin(buf: CommandBuffer): void {
+            this.setupFrameBuffers();
 
             const gl = WebGLRenderingContext;
 
-            buf.bindFramebuffer(this.refractFrameBuffer, true);
+            buf.bindFramebuffer(this.opaqueFrameBuffer, true);
             buf.depthMask(true);
-            buf.clear(gl.DEPTH_BUFFER_BIT);
+            buf.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
         }
 
-        bufferRefractTargetEnd(buf: CommandBuffer): void {
+        bufferTranslucentTargetBegin(buf: CommandBuffer): void {
+            this.setupFrameBuffers();
+
+            const gl = WebGLRenderingContext;
+
+            buf.bindFramebuffer(this.translucentFrameBuffer, true);
+            buf.depthMask(false);
+            buf.clear(gl.COLOR_BUFFER_BIT);
+        }
+
+        bufferRenderTargetEnd(buf: CommandBuffer): void {
             buf.bindFramebuffer(null);
         }
 
