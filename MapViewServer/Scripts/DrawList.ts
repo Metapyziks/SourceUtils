@@ -185,16 +185,11 @@
 
             if (this.hasRefraction) {
                 context.bufferRenderTargetEnd(buf);
-                context.bufferTranslucentTargetBegin(buf);
+                this.bufferHandle(buf, this.map.getComposeFrameMeshHandle(), context);
             }
 
             for (let i = 0, iEnd = this.translucent.length; i < iEnd; ++i) {
                 this.bufferHandle(buf, this.translucent[i], context);
-            }
-
-            if (this.hasRefraction) {
-                context.bufferRenderTargetEnd(buf);
-                this.bufferHandle(buf, this.map.getComposeFrameMeshHandle(), context);
             }
 
             if (this.lastProgram !== undefined) {

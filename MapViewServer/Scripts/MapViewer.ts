@@ -35,10 +35,20 @@ namespace SourceUtils {
             this.frameCountStart = performance.now();
         }
 
+        private enableExtension(name: string): void {
+            const gl = this.getContext();
+            if (gl.getExtension(name) == null) {
+                console.warn(`WebGL extension '${name}' is unsupported.`);
+            }
+        }
+
         init(container: JQuery): void {
             this.camera = new PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
 
             super.init(container);
+
+            this.enableExtension("EXT_frag_depth");
+            this.enableExtension("WEBGL_depth_texture");
 
             window.onhashchange = () => {
                 this.onHashChange(window.location.hash);

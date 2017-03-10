@@ -540,8 +540,8 @@ namespace SourceUtils {
 
     export namespace Shaders {
         export class ComposeFrame extends ShaderProgram {
-            opaqueFrame: UniformSampler;
-            translucentFrame: UniformSampler;
+            frameColor: UniformSampler;
+            frameDepth: UniformSampler;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -553,20 +553,15 @@ namespace SourceUtils {
 
                 this.addAttribute("aScreenPos", Api.MeshComponent.Uv);
 
-                this.opaqueFrame = this.addUniform(UniformSampler, "uOpaqueFrame");
-                this.translucentFrame = this.addUniform(UniformSampler, "uTranslucentFrame");
+                this.frameColor = this.addUniform(UniformSampler, "uFrameColor");
+                this.frameDepth = this.addUniform(UniformSampler, "uFrameDepth");
             }
 
             bufferSetup(buf: CommandBuffer, context: RenderContext): void {
                 super.bufferSetup(buf, context);
 
-                this.opaqueFrame.bufferValue(buf, context.getOpaqueColorTexture());
-                this.translucentFrame.bufferValue(buf, context.getTranslucentColorTexture());
-
-                const gl = this.getContext();
-
-                buf.depthMask(false);
-                buf.disable(gl.DEPTH_TEST);
+                this.frameColor.bufferValue(buf, context.getOpaqueColorTexture());
+                this.frameDepth.bufferValue(buf, context.getOpaqueDepthTexture());
             }
         }
 
@@ -845,11 +840,13 @@ namespace SourceUtils {
             }
         }
 
-        export class Water extends Base {
+        export class Water extends LightmappedBase {
+            inverseProjection: UniformMatrix4;
             normalMap: UniformSampler;
             refractColor: UniformSampler;
             refractDepth: UniformSampler;
             screenParams: Uniform4F;
+            clipParams: Uniform4F;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -862,20 +859,25 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
 
+                this.inverseProjection = this.addUniform(UniformMatrix4, "uInverseProjection");
+
                 this.normalMap = this.addUniform(UniformSampler, "uNormalMap");
                 this.normalMap.setDefault(manager.getBlankNormalMap());
 
                 this.refractColor = this.addUniform(UniformSampler, "uRefractColor");
                 this.refractDepth = this.addUniform(UniformSampler, "uRefractDepth");
                 this.screenParams = this.addUniform(Uniform4F, "uScreenParams");
+                this.clipParams = this.addUniform(Uniform4F, "uClipParams");
             }
 
             bufferSetup(buf: CommandBuffer, context: RenderContext): void {
                 super.bufferSetup(buf, context);
 
+                this.inverseProjection.bufferParameter(buf, CommandBufferParameter.InverseProjectionMatrix);
                 this.refractColor.bufferParameter(buf, CommandBufferParameter.RefractColorMap);
                 this.refractDepth.bufferParameter(buf, CommandBufferParameter.RefractDepthMap);
                 this.screenParams.bufferParameter(buf, CommandBufferParameter.ScreenParams);
+                this.clipParams.bufferParameter(buf, CommandBufferParameter.ClipParams);
             }
 
             bufferMaterial(buf: CommandBuffer, material: Material): void {

@@ -1,4 +1,7 @@
-﻿#include "Base.frag.txt"
+﻿#include "LightmappedBase.frag.txt"
+
+uniform highp mat4 uProjection;
+uniform mat4 uInverseProjection;
 
 uniform sampler2D uNormalMap;
 
@@ -6,6 +9,25 @@ uniform sampler2D uRefractColor;
 uniform sampler2D uRefractDepth;
 
 uniform vec4 uScreenParams;
+uniform vec4 uClipParams;
+
+vec4 CalcEyeFromWindow(in vec3 windowSpace)
+{
+	vec3 ndcPos;
+	ndcPos.xy = (2.0 * windowSpace.xy) * (uScreenParams.zw) - vec2(1.0, 1.0);
+	ndcPos.z = (2.0 * windowSpace.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near);
+
+	vec4 clipPos;
+	clipPos.w = uProjection[3][2] / (ndcPos.z - (uProjection[2][2] / uProjection[2][3]));
+	clipPos.xyz = ndcPos * clipPos.w;
+
+	return uInverseProjection * clipPos;
+}
+
+float decompressDepth(float sample)
+{
+	return length(CalcEyeFromWindow(vec3(gl_FragCoord.xy, sample)).xyz);
+}
 
 void main()
 {
@@ -16,11 +38,20 @@ void main()
 
     vec2 screenPos = gl_FragCoord.xy * uScreenParams.zw;
 	
-    float refractDepth = texture2D(uRefractDepth, screenPos).r;
+    float opaqueDepth = decompressDepth(texture2D(uRefractDepth, screenPos).r);
+	float surfaceDepth = decompressDepth(gl_FragCoord.z);
 
-	screenPos += normal.xy * 0.1;
+	float depthDist = opaqueDepth - surfaceDepth;
 
-    vec3 refractSample = texture2D(uRefractColor, screenPos).rgb;
+	vec2 refractedScreenPos = screenPos + normal.xy * depthDist / 2048.0;
 
-    gl_FragColor = vec4(refractSample.rg, float(refractDepth == 0.0), 1.0);
+	float refractedDepth = decompressDepth(texture2D(uRefractDepth, refractedScreenPos).r);
+	float sampleMix = float(refractedDepth > surfaceDepth);
+
+    vec3 refractedSample = texture2D(uRefractColor, mix(screenPos, refractedScreenPos, sampleMix)).rgb;
+	float refractedDepthDist = mix(depthDist, refractedDepth - surfaceDepth, sampleMix);
+
+	vec3 finalColor = mix(refractedSample, applyLightmap(vec3(0.8, 0.85, 0.9)), min(pow(refractedDepthDist / 384.0, 0.33) + 0.125, 1.0));
+
+    gl_FragColor = vec4(applyFog(finalColor), 1.0);
 }

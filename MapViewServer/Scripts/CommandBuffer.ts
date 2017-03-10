@@ -39,9 +39,11 @@ namespace SourceUtils {
 
     export enum CommandBufferParameter {
         ProjectionMatrix,
+        InverseProjectionMatrix,
         ViewMatrix,
         CameraPos,
         ScreenParams,
+        ClipParams,
         TimeParams,
         RefractColorMap,
         RefractDepthMap
@@ -80,6 +82,7 @@ namespace SourceUtils {
         private cameraPos = new Float32Array(3);
         private timeParams = new Float32Array(4);
         private screenParams = new Float32Array(4);
+        private clipParams = new Float32Array(4);
 
         private app: AppBase;
 
@@ -99,14 +102,20 @@ namespace SourceUtils {
             this.screenParams[2] = 1 / this.app.getWidth();
             this.screenParams[3] = 1 / this.app.getHeight();
 
+            this.clipParams[0] = renderContext.near;
+            this.clipParams[1] = renderContext.far;
+            this.clipParams[2] = 1 / (renderContext.far - renderContext.near);
+
+            this.setParameter(CommandBufferParameter.InverseProjectionMatrix, renderContext.getInverseProjectionMatrix());
             this.setParameter(CommandBufferParameter.ProjectionMatrix, renderContext.getProjectionMatrix());
             this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
             this.setParameter(CommandBufferParameter.ScreenParams, this.screenParams);
+            this.setParameter(CommandBufferParameter.ClipParams, this.clipParams);
 
             const colorTexture = renderContext.getOpaqueColorTexture();
-            const depthTexture = renderContext.getDepthTexture();
+            const depthTexture = renderContext.getOpaqueDepthTexture();
 
             this.setParameter(CommandBufferParameter.RefractColorMap, colorTexture);
             this.setParameter(CommandBufferParameter.RefractDepthMap, depthTexture);
@@ -201,6 +210,7 @@ namespace SourceUtils {
 
             switch (args.parameter) {
             case CommandBufferParameter.ProjectionMatrix:
+            case CommandBufferParameter.InverseProjectionMatrix:
             case CommandBufferParameter.ViewMatrix:
                 gl.uniformMatrix4fv(args.uniform, false, value as Float32Array);
                 break;
@@ -209,6 +219,7 @@ namespace SourceUtils {
                 break;
             case CommandBufferParameter.TimeParams:
             case CommandBufferParameter.ScreenParams:
+            case CommandBufferParameter.ClipParams:
                 gl.uniform4f(args.uniform, value[0], value[1], value[2], value[3]);
                 break;
             case CommandBufferParameter.RefractColorMap:
@@ -363,7 +374,6 @@ namespace SourceUtils {
             }
 
             gl.bindFramebuffer(gl.FRAMEBUFFER, buffer.getHandle());
-            //gl.viewport(0, 0, args.app.getWidth(), args.app.getHeight());
         }
     }
 }

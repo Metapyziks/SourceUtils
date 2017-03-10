@@ -167,10 +167,6 @@
 
             this.allowAnisotropicFiltering = false;
 
-            if (this.format === gl.DEPTH_COMPONENT) {
-                gl.getExtension("WEBGL_depth_texture");
-            }
-
             this.resize(width, height);
         }
 

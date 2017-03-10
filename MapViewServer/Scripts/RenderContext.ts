@@ -4,6 +4,7 @@
         private camera: Camera;
 
         private projectionMatrix = new THREE.Matrix4();
+        private inverseProjectionMatrix = new THREE.Matrix4();
         private identityMatrix = new THREE.Matrix4().identity();
         private viewMatrix = new THREE.Matrix4();
 
@@ -17,7 +18,6 @@
         private pvsOrigin = new THREE.Vector3();
 
         private opaqueFrameBuffer: FrameBuffer;
-        private translucentFrameBuffer: FrameBuffer;
 
         pvsFollowsCamera = true;
         fogParams: Api.IFogParams;
@@ -41,11 +41,7 @@
             return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getColorTexture();
         }
 
-        getTranslucentColorTexture(): RenderTexture {
-            return this.translucentFrameBuffer == null ? null : this.translucentFrameBuffer.getColorTexture();
-        }
-
-        getDepthTexture(): RenderTexture {
+        getOpaqueDepthTexture(): RenderTexture {
             return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getDepthTexture();
         }
 
@@ -67,6 +63,10 @@
 
         getProjectionMatrix(): Float32Array {
             return this.projectionMatrix.elements;
+        }
+
+        getInverseProjectionMatrix(): Float32Array {
+            return this.inverseProjectionMatrix.elements;
         }
 
         getViewMatrix(): Float32Array {
@@ -103,6 +103,7 @@
             }
 
             this.camera.getProjectionMatrix(this.projectionMatrix);
+            this.inverseProjectionMatrix.getInverse(this.projectionMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
 
             this.updatePvs();
@@ -128,9 +129,6 @@
 
             this.opaqueFrameBuffer = new FrameBuffer(gl, width, height);
             this.opaqueFrameBuffer.addDepthAttachment();
-
-            this.translucentFrameBuffer = new FrameBuffer(gl, width, height);
-            this.translucentFrameBuffer.addDepthAttachment(this.opaqueFrameBuffer.getDepthTexture());
         }
 
         bufferOpaqueTargetBegin(buf: CommandBuffer): void {
@@ -141,16 +139,6 @@
             buf.bindFramebuffer(this.opaqueFrameBuffer, true);
             buf.depthMask(true);
             buf.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
-        }
-
-        bufferTranslucentTargetBegin(buf: CommandBuffer): void {
-            this.setupFrameBuffers();
-
-            const gl = WebGLRenderingContext;
-
-            buf.bindFramebuffer(this.translucentFrameBuffer, true);
-            buf.depthMask(false);
-            buf.clear(gl.COLOR_BUFFER_BIT);
         }
 
         bufferRenderTargetEnd(buf: CommandBuffer): void {

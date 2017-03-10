@@ -1,14 +1,14 @@
-﻿precision mediump float;
+﻿#extension GL_EXT_frag_depth : enable
+
+precision mediump float;
 
 varying vec2 vScreenPos;
 
-uniform sampler2D uOpaqueFrame;
-uniform sampler2D uTranslucentFrame;
+uniform sampler2D uFrameColor;
+uniform sampler2D uFrameDepth;
 
 void main()
 {
-    vec4 opaqueSample = texture2D(uOpaqueFrame, vScreenPos);
-    vec4 translucentSample = texture2D(uTranslucentFrame, vScreenPos);
-
-    gl_FragColor = vec4(mix(opaqueSample.rgb, translucentSample.rgb, translucentSample.a), max(opaqueSample.a, translucentSample.a));
+    gl_FragColor = texture2D(uFrameColor, vScreenPos);
+    gl_FragDepthEXT = texture2D(uFrameDepth, vScreenPos).r;
 }
