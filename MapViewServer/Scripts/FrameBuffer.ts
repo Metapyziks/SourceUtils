@@ -9,19 +9,13 @@
         private frameTexture: RenderTexture;
         private depthTexture: RenderTexture;
 
-        private static nextPowerOf2(val: number): number {
-            let po2 = 1;
-            while (po2 < val) po2 <<= 1;
-            return po2;
-        }
-
         constructor(gl: WebGLRenderingContext, width: number, height: number, depthTexture: boolean) {
             this.context = gl;
 
-            this.frameTexture = new RenderTexture(gl, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE);
+            this.frameTexture = new RenderTexture(gl, width, height, gl.RGBA, gl.UNSIGNED_BYTE);
 
             if (depthTexture) {
-                this.depthTexture = new RenderTexture(gl, 256, 256, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT);
+                this.depthTexture = new RenderTexture(gl, width, height, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT);
             }
 
             this.frameBuffer = gl.createFramebuffer();
@@ -78,13 +72,10 @@
             this.width = width;
             this.height = height;
 
-            const po2Width = FrameBuffer.nextPowerOf2(width);
-            const po2Height = FrameBuffer.nextPowerOf2(height);
-
-            this.frameTexture.resize(po2Width, po2Height);
+            this.frameTexture.resize(width, height);
 
             if (this.depthTexture !== undefined) {
-                this.depthTexture.resize(po2Width, po2Height);
+                this.depthTexture.resize(width, height);
             }
         }
 

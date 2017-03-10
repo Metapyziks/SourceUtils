@@ -101,7 +101,7 @@
             if (this.commandBufferInvalid) {
                 this.commandBufferInvalid = false;
 
-                this.commandBuffer.clear();
+                this.commandBuffer.clearCommands();
                 this.drawList.appendToBuffer(this.commandBuffer, this);
             }
 
@@ -117,7 +117,11 @@
                 this.refractFrameBuffer = new FrameBuffer(this.map.shaderManager.getContext(), width, height, true);
             }
 
+            const gl = WebGLRenderingContext;
+
             buf.bindFramebuffer(this.refractFrameBuffer, true);
+            buf.depthMask(true);
+            buf.clear(gl.DEPTH_BUFFER_BIT);
         }
 
         bufferRefractTargetEnd(buf: CommandBuffer): void {

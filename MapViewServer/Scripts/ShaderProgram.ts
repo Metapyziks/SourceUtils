@@ -816,6 +816,9 @@ namespace SourceUtils {
 
         export class Water extends Base {
             normalMap: UniformSampler;
+            refractColor: UniformSampler;
+            refractDepth: UniformSampler;
+            screenParams: Uniform4F;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -830,6 +833,18 @@ namespace SourceUtils {
 
                 this.normalMap = this.addUniform(UniformSampler, "uNormalMap");
                 this.normalMap.setDefault(manager.getBlankNormalMap());
+
+                this.refractColor = this.addUniform(UniformSampler, "uRefractColor");
+                this.refractDepth = this.addUniform(UniformSampler, "uRefractDepth");
+                this.screenParams = this.addUniform(Uniform4F, "uScreenParams");
+            }
+
+            bufferSetup(buf: CommandBuffer, context: RenderContext): void {
+                super.bufferSetup(buf, context);
+
+                this.refractColor.bufferParameter(buf, CommandBufferParameter.RefractColorMap);
+                this.refractDepth.bufferParameter(buf, CommandBufferParameter.RefractDepthMap);
+                this.screenParams.bufferParameter(buf, CommandBufferParameter.ScreenParams);
             }
 
             bufferMaterial(buf: CommandBuffer, material: Material): void {

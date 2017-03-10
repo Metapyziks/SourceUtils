@@ -1003,19 +1003,21 @@ var SourceUtils;
         CommandBufferParameter[CommandBufferParameter["ProjectionMatrix"] = 0] = "ProjectionMatrix";
         CommandBufferParameter[CommandBufferParameter["ViewMatrix"] = 1] = "ViewMatrix";
         CommandBufferParameter[CommandBufferParameter["CameraPos"] = 2] = "CameraPos";
-        CommandBufferParameter[CommandBufferParameter["TimeParams"] = 3] = "TimeParams";
-        CommandBufferParameter[CommandBufferParameter["RefractColorMap"] = 4] = "RefractColorMap";
-        CommandBufferParameter[CommandBufferParameter["RefractDepthMap"] = 5] = "RefractDepthMap";
+        CommandBufferParameter[CommandBufferParameter["ScreenParams"] = 3] = "ScreenParams";
+        CommandBufferParameter[CommandBufferParameter["TimeParams"] = 4] = "TimeParams";
+        CommandBufferParameter[CommandBufferParameter["RefractColorMap"] = 5] = "RefractColorMap";
+        CommandBufferParameter[CommandBufferParameter["RefractDepthMap"] = 6] = "RefractDepthMap";
     })(CommandBufferParameter = SourceUtils.CommandBufferParameter || (SourceUtils.CommandBufferParameter = {}));
     var CommandBuffer = (function () {
         function CommandBuffer(context) {
             this.parameters = {};
             this.cameraPos = new Float32Array(3);
             this.timeParams = new Float32Array(4);
+            this.screenParams = new Float32Array(4);
             this.context = context;
-            this.clear();
+            this.clearCommands();
         }
-        CommandBuffer.prototype.clear = function () {
+        CommandBuffer.prototype.clearCommands = function () {
             this.boundTextures = {};
             this.boundBuffers = {};
             this.capStates = {};
@@ -1032,14 +1034,19 @@ var SourceUtils;
             this.cameraPos[1] = renderContext.origin.y;
             this.cameraPos[2] = renderContext.origin.z;
             this.timeParams[0] = renderContext.time;
+            this.screenParams[0] = this.app.getWidth();
+            this.screenParams[1] = this.app.getHeight();
+            this.screenParams[2] = 1 / this.app.getWidth();
+            this.screenParams[3] = 1 / this.app.getHeight();
             this.setParameter(CommandBufferParameter.ProjectionMatrix, renderContext.getProjectionMatrix());
             this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
+            this.setParameter(CommandBufferParameter.ScreenParams, this.screenParams);
             var refractBuffer = renderContext.getRefractFrameBuffer();
             if (refractBuffer != null) {
                 this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getColorTexture());
-                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getDepthTexture());
+                this.setParameter(CommandBufferParameter.RefractDepthMap, refractBuffer.getDepthTexture());
             }
             for (var i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
                 var command = this.commands[i];
@@ -1050,6 +1057,12 @@ var SourceUtils;
             args.action = action;
             this.commands.push(args);
             this.lastCommand = args;
+        };
+        CommandBuffer.prototype.clear = function (mask) {
+            this.push(this.onClear, { mask: mask });
+        };
+        CommandBuffer.prototype.onClear = function (gl, args) {
+            gl.clear(args.mask);
         };
         CommandBuffer.prototype.setCap = function (cap, enabled) {
             if (this.capStates[cap] === enabled)
@@ -1114,12 +1127,13 @@ var SourceUtils;
                     gl.uniform3f(args.uniform, value[0], value[1], value[2]);
                     break;
                 case CommandBufferParameter.TimeParams:
+                case CommandBufferParameter.ScreenParams:
                     gl.uniform4f(args.uniform, value[0], value[1], value[2], value[3]);
                     break;
                 case CommandBufferParameter.RefractColorMap:
                 case CommandBufferParameter.RefractDepthMap:
                     var tex = value;
-                    gl.activeTexture(args.unit);
+                    gl.activeTexture(gl.TEXTURE0 + args.unit);
                     gl.bindTexture(tex.getTarget(), tex.getHandle());
                     break;
             }
@@ -1236,6 +1250,7 @@ var SourceUtils;
                 buffer.resize(args.app.getWidth(), args.app.getHeight());
             }
             gl.bindFramebuffer(gl.FRAMEBUFFER, buffer.getHandle());
+            //gl.viewport(0, 0, args.app.getWidth(), args.app.getHeight());
         };
         return CommandBuffer;
     }());
@@ -1676,9 +1691,9 @@ var SourceUtils;
     var FrameBuffer = (function () {
         function FrameBuffer(gl, width, height, depthTexture) {
             this.context = gl;
-            this.frameTexture = new SourceUtils.RenderTexture(gl, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE);
+            this.frameTexture = new SourceUtils.RenderTexture(gl, width, height, gl.RGBA, gl.UNSIGNED_BYTE);
             if (depthTexture) {
-                this.depthTexture = new SourceUtils.RenderTexture(gl, 256, 256, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT);
+                this.depthTexture = new SourceUtils.RenderTexture(gl, width, height, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT);
             }
             this.frameBuffer = gl.createFramebuffer();
             gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
@@ -1693,12 +1708,6 @@ var SourceUtils;
             }
             this.resize(width, height);
         }
-        FrameBuffer.nextPowerOf2 = function (val) {
-            var po2 = 1;
-            while (po2 < val)
-                po2 <<= 1;
-            return po2;
-        };
         FrameBuffer.prototype.getColorTexture = function () { return this.frameTexture; };
         FrameBuffer.prototype.getDepthTexture = function () { return this.depthTexture; };
         FrameBuffer.prototype.dispose = function () {
@@ -1720,11 +1729,9 @@ var SourceUtils;
                 return;
             this.width = width;
             this.height = height;
-            var po2Width = FrameBuffer.nextPowerOf2(width);
-            var po2Height = FrameBuffer.nextPowerOf2(height);
-            this.frameTexture.resize(po2Width, po2Height);
+            this.frameTexture.resize(width, height);
             if (this.depthTexture !== undefined) {
-                this.depthTexture.resize(po2Width, po2Height);
+                this.depthTexture.resize(width, height);
             }
         };
         FrameBuffer.prototype.getHandle = function () {
@@ -2465,7 +2472,7 @@ var SourceUtils;
             this.updatePvs();
             if (this.commandBufferInvalid) {
                 this.commandBufferInvalid = false;
-                this.commandBuffer.clear();
+                this.commandBuffer.clearCommands();
                 this.drawList.appendToBuffer(this.commandBuffer, this);
             }
             this.commandBuffer.run(this);
@@ -2477,7 +2484,10 @@ var SourceUtils;
             if (this.refractFrameBuffer === undefined) {
                 this.refractFrameBuffer = new SourceUtils.FrameBuffer(this.map.shaderManager.getContext(), width, height, true);
             }
+            var gl = WebGLRenderingContext;
             buf.bindFramebuffer(this.refractFrameBuffer, true);
+            buf.depthMask(true);
+            buf.clear(gl.DEPTH_BUFFER_BIT);
         };
         RenderContext.prototype.bufferRefractTargetEnd = function (buf) {
             buf.bindFramebuffer(null);
@@ -3201,8 +3211,17 @@ var SourceUtils;
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
                 _this.normalMap = _this.addUniform(UniformSampler, "uNormalMap");
                 _this.normalMap.setDefault(manager.getBlankNormalMap());
+                _this.refractColor = _this.addUniform(UniformSampler, "uRefractColor");
+                _this.refractDepth = _this.addUniform(UniformSampler, "uRefractDepth");
+                _this.screenParams = _this.addUniform(Uniform4F, "uScreenParams");
                 return _this;
             }
+            Water.prototype.bufferSetup = function (buf, context) {
+                _super.prototype.bufferSetup.call(this, buf, context);
+                this.refractColor.bufferParameter(buf, SourceUtils.CommandBufferParameter.RefractColorMap);
+                this.refractDepth.bufferParameter(buf, SourceUtils.CommandBufferParameter.RefractDepthMap);
+                this.screenParams.bufferParameter(buf, SourceUtils.CommandBufferParameter.ScreenParams);
+            };
             Water.prototype.bufferMaterial = function (buf, material) {
                 _super.prototype.bufferMaterial.call(this, buf, material);
                 this.normalMap.bufferValue(buf, material.properties.normalMap);

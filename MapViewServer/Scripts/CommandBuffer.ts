@@ -30,6 +30,7 @@ namespace SourceUtils {
         normalized?: boolean;
         stride?: number;
         app?: AppBase;
+        mask?: number;
         x?: number;
         y?: number;
         z?: number;
@@ -40,6 +41,7 @@ namespace SourceUtils {
         ProjectionMatrix,
         ViewMatrix,
         CameraPos,
+        ScreenParams,
         TimeParams,
         RefractColorMap,
         RefractDepthMap
@@ -60,10 +62,10 @@ namespace SourceUtils {
 
         constructor(context: WebGLRenderingContext) {
             this.context = context;
-            this.clear();
+            this.clearCommands();
         }
 
-        clear(): void {
+        clearCommands(): void {
             this.boundTextures = {};
             this.boundBuffers = {};
             this.capStates = {};
@@ -77,6 +79,7 @@ namespace SourceUtils {
 
         private cameraPos = new Float32Array(3);
         private timeParams = new Float32Array(4);
+        private screenParams = new Float32Array(4);
 
         private app: AppBase;
 
@@ -91,16 +94,22 @@ namespace SourceUtils {
 
             this.timeParams[0] = renderContext.time;
 
+            this.screenParams[0] = this.app.getWidth();
+            this.screenParams[1] = this.app.getHeight();
+            this.screenParams[2] = 1 / this.app.getWidth();
+            this.screenParams[3] = 1 / this.app.getHeight();
+
             this.setParameter(CommandBufferParameter.ProjectionMatrix, renderContext.getProjectionMatrix());
             this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
+            this.setParameter(CommandBufferParameter.ScreenParams, this.screenParams);
 
             const refractBuffer = renderContext.getRefractFrameBuffer();
 
             if (refractBuffer != null) {
                 this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getColorTexture());
-                this.setParameter(CommandBufferParameter.RefractColorMap, refractBuffer.getDepthTexture());
+                this.setParameter(CommandBufferParameter.RefractDepthMap, refractBuffer.getDepthTexture());
             }
 
             for (let i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
@@ -113,6 +122,14 @@ namespace SourceUtils {
             args.action = action;
             this.commands.push(args);
             this.lastCommand = args;
+        }
+
+        clear(mask: number): void {
+            this.push(this.onClear, { mask: mask });
+        }
+
+        private onClear(gl: WebGLRenderingContext, args: ICommandBufferItem): void {
+            gl.clear(args.mask);
         }
 
         private setCap(cap: number, enabled: boolean): void {
@@ -192,13 +209,14 @@ namespace SourceUtils {
                 gl.uniform3f(args.uniform, value[0], value[1], value[2]);
                 break;
             case CommandBufferParameter.TimeParams:
+            case CommandBufferParameter.ScreenParams:
                 gl.uniform4f(args.uniform, value[0], value[1], value[2], value[3]);
                 break;
             case CommandBufferParameter.RefractColorMap:
             case CommandBufferParameter.RefractDepthMap:
                 const tex = value as Texture;
 
-                gl.activeTexture(args.unit);
+                gl.activeTexture(gl.TEXTURE0 + args.unit);
                 gl.bindTexture(tex.getTarget(), tex.getHandle());
                 break;
             }
@@ -346,6 +364,7 @@ namespace SourceUtils {
             }
 
             gl.bindFramebuffer(gl.FRAMEBUFFER, buffer.getHandle());
+            //gl.viewport(0, 0, args.app.getWidth(), args.app.getHeight());
         }
     }
 }
