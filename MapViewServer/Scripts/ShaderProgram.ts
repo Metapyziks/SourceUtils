@@ -842,11 +842,17 @@ namespace SourceUtils {
 
         export class Water extends LightmappedBase {
             inverseProjection: UniformMatrix4;
+            inverseView: UniformMatrix4;
             normalMap: UniformSampler;
             refractColor: UniformSampler;
             refractDepth: UniformSampler;
             screenParams: Uniform4F;
             clipParams: Uniform4F;
+            cameraPos: Uniform3F;
+            waterFogParams: Uniform3F;
+            waterFogColor: Uniform3F;
+            reflectTint: Uniform3F;
+            refractAmount: Uniform1F;
 
             constructor(manager: ShaderManager) {
                 super(manager);
@@ -860,6 +866,7 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
 
                 this.inverseProjection = this.addUniform(UniformMatrix4, "uInverseProjection");
+                this.inverseView = this.addUniform(UniformMatrix4, "uInverseView");
 
                 this.normalMap = this.addUniform(UniformSampler, "uNormalMap");
                 this.normalMap.setDefault(manager.getBlankNormalMap());
@@ -868,22 +875,41 @@ namespace SourceUtils {
                 this.refractDepth = this.addUniform(UniformSampler, "uRefractDepth");
                 this.screenParams = this.addUniform(Uniform4F, "uScreenParams");
                 this.clipParams = this.addUniform(Uniform4F, "uClipParams");
+                this.cameraPos = this.addUniform(Uniform3F, "uCameraPos");
+                this.waterFogParams = this.addUniform(Uniform3F, "uWaterFogParams");
+                this.waterFogColor = this.addUniform(Uniform3F, "uWaterFogColor");
+                this.reflectTint = this.addUniform(Uniform3F, "uReflectTint");
+                this.refractAmount = this.addUniform(Uniform1F, "uRefractAmount");
             }
 
             bufferSetup(buf: CommandBuffer, context: RenderContext): void {
                 super.bufferSetup(buf, context);
 
                 this.inverseProjection.bufferParameter(buf, CommandBufferParameter.InverseProjectionMatrix);
+                this.inverseView.bufferParameter(buf, CommandBufferParameter.InverseViewMatrix);
                 this.refractColor.bufferParameter(buf, CommandBufferParameter.RefractColorMap);
                 this.refractDepth.bufferParameter(buf, CommandBufferParameter.RefractDepthMap);
                 this.screenParams.bufferParameter(buf, CommandBufferParameter.ScreenParams);
                 this.clipParams.bufferParameter(buf, CommandBufferParameter.ClipParams);
+                this.cameraPos.bufferParameter(buf, CommandBufferParameter.CameraPos);
             }
 
             bufferMaterial(buf: CommandBuffer, material: Material): void {
                 super.bufferMaterial(buf, material);
 
                 this.normalMap.bufferValue(buf, material.properties.normalMap);
+
+                const fogStart = material.properties.fogStart;
+                const fogEnd = material.properties.fogEnd;
+                const fogColor = material.properties.fogColor;
+                const reflectTint = material.properties.reflectTint;
+
+                const clrMul = 1 / 255;
+
+                this.waterFogParams.bufferValue(buf, fogStart, fogEnd, 1 / (fogEnd - fogStart));
+                this.waterFogColor.bufferValue(buf, fogColor.r * clrMul, fogColor.g * clrMul, fogColor.b * clrMul);
+                this.reflectTint.bufferValue(buf, reflectTint.r * clrMul, reflectTint.g * clrMul, reflectTint.b * clrMul);
+                this.refractAmount.bufferValue(buf, material.properties.refractAmount);
             }
         }
 

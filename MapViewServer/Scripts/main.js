@@ -855,6 +855,8 @@ var SourceUtils;
         ValveTexture.prototype.shouldLoadBefore = function (other) {
             if (this.usesSinceLastLoad === 0)
                 return false;
+            if (other == null)
+                return true;
             var mipCompare = this.getLowestMipLevel() - other.getLowestMipLevel();
             if (mipCompare !== 0)
                 return mipCompare > 0;
@@ -1000,12 +1002,13 @@ var SourceUtils;
         CommandBufferParameter[CommandBufferParameter["ProjectionMatrix"] = 0] = "ProjectionMatrix";
         CommandBufferParameter[CommandBufferParameter["InverseProjectionMatrix"] = 1] = "InverseProjectionMatrix";
         CommandBufferParameter[CommandBufferParameter["ViewMatrix"] = 2] = "ViewMatrix";
-        CommandBufferParameter[CommandBufferParameter["CameraPos"] = 3] = "CameraPos";
-        CommandBufferParameter[CommandBufferParameter["ScreenParams"] = 4] = "ScreenParams";
-        CommandBufferParameter[CommandBufferParameter["ClipParams"] = 5] = "ClipParams";
-        CommandBufferParameter[CommandBufferParameter["TimeParams"] = 6] = "TimeParams";
-        CommandBufferParameter[CommandBufferParameter["RefractColorMap"] = 7] = "RefractColorMap";
-        CommandBufferParameter[CommandBufferParameter["RefractDepthMap"] = 8] = "RefractDepthMap";
+        CommandBufferParameter[CommandBufferParameter["InverseViewMatrix"] = 3] = "InverseViewMatrix";
+        CommandBufferParameter[CommandBufferParameter["CameraPos"] = 4] = "CameraPos";
+        CommandBufferParameter[CommandBufferParameter["ScreenParams"] = 5] = "ScreenParams";
+        CommandBufferParameter[CommandBufferParameter["ClipParams"] = 6] = "ClipParams";
+        CommandBufferParameter[CommandBufferParameter["TimeParams"] = 7] = "TimeParams";
+        CommandBufferParameter[CommandBufferParameter["RefractColorMap"] = 8] = "RefractColorMap";
+        CommandBufferParameter[CommandBufferParameter["RefractDepthMap"] = 9] = "RefractDepthMap";
     })(CommandBufferParameter = SourceUtils.CommandBufferParameter || (SourceUtils.CommandBufferParameter = {}));
     var CommandBuffer = (function () {
         function CommandBuffer(context) {
@@ -1044,6 +1047,7 @@ var SourceUtils;
             this.setParameter(CommandBufferParameter.InverseProjectionMatrix, renderContext.getInverseProjectionMatrix());
             this.setParameter(CommandBufferParameter.ProjectionMatrix, renderContext.getProjectionMatrix());
             this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
+            this.setParameter(CommandBufferParameter.InverseViewMatrix, renderContext.getInverseViewMatrix());
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
             this.setParameter(CommandBufferParameter.ScreenParams, this.screenParams);
@@ -1126,6 +1130,7 @@ var SourceUtils;
                 case CommandBufferParameter.ProjectionMatrix:
                 case CommandBufferParameter.InverseProjectionMatrix:
                 case CommandBufferParameter.ViewMatrix:
+                case CommandBufferParameter.InverseViewMatrix:
                     gl.uniformMatrix4fv(args.uniform, false, value);
                     break;
                 case CommandBufferParameter.CameraPos:
@@ -1350,6 +1355,23 @@ var SourceUtils;
         return BspDrawListItem;
     }(DrawListItem));
     SourceUtils.BspDrawListItem = BspDrawListItem;
+    var DrawListItemComponent = (function () {
+        function DrawListItemComponent() {
+            this.usages = [];
+        }
+        DrawListItemComponent.prototype.addUsage = function (item) {
+            this.usages.push(item);
+        };
+        DrawListItemComponent.prototype.getIsVisible = function () {
+            for (var i = 0, iEnd = this.usages.length; i < iEnd; ++i) {
+                if (this.usages[i].getIsVisible())
+                    return true;
+            }
+            return false;
+        };
+        return DrawListItemComponent;
+    }());
+    SourceUtils.DrawListItemComponent = DrawListItemComponent;
     var StudioModelDrawListItem = (function (_super) {
         __extends(StudioModelDrawListItem, _super);
         function StudioModelDrawListItem(map, mdlUrl, vhvUrl) {
@@ -1370,9 +1392,11 @@ var SourceUtils;
             if (this.mdl != null)
                 return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
+            this.mdl.addUsage(this);
             var queuedToLoad = [];
             if (this.vhvUrl != null) {
                 this.vhv = this.map.hardwareVertsLoader.load(this.vhvUrl);
+                this.vhv.addUsage(this);
                 this.vhv.setLoadCallback(function () {
                     for (var i = 0; i < queuedToLoad.length; ++i) {
                         _this.onModelLoad(queuedToLoad[i]);
@@ -1774,6 +1798,7 @@ var SourceUtils;
             this.queue = [];
             this.loaded = {};
             this.active = 0;
+            this.completed = 0;
         }
         Loader.prototype.load = function (url) {
             var loaded = this.loaded[url];
@@ -1783,6 +1808,18 @@ var SourceUtils;
             this.loaded[url] = loaded;
             this.enqueueItem(loaded);
             return loaded;
+        };
+        Loader.prototype.getQueueCount = function () {
+            return this.queue.length;
+        };
+        Loader.prototype.getActiveCount = function () {
+            return this.active;
+        };
+        Loader.prototype.getCompletedCount = function () {
+            return this.completed;
+        };
+        Loader.prototype.getTotalCount = function () {
+            return this.queue.length + this.active + this.completed;
         };
         Loader.prototype.enqueueItem = function (item) {
             this.queue.push(item);
@@ -1812,6 +1849,8 @@ var SourceUtils;
                     --_this.active;
                     if (requeue)
                         _this.queue.push(nextCopy);
+                    else
+                        ++_this.completed;
                     _this.onFinishedLoadStep(nextCopy);
                 });
             };
@@ -2339,6 +2378,11 @@ var SourceUtils;
             this.noCull = false;
             this.noTint = false;
             this.baseAlphaTint = false;
+            this.fogStart = 0;
+            this.fogEnd = 65535;
+            this.fogColor = { r: 0, g: 0, b: 0, a: 255 };
+            this.reflectTint = { r: 255, g: 255, b: 255, a: 255 };
+            this.refractAmount = 1.0;
         }
         return MaterialProperties;
     }());
@@ -2421,9 +2465,12 @@ var SourceUtils;
         return PropStatic;
     }(SourceUtils.Entity));
     SourceUtils.PropStatic = PropStatic;
-    var HardwareVerts = (function () {
+    var HardwareVerts = (function (_super) {
+        __extends(HardwareVerts, _super);
         function HardwareVerts(url) {
-            this.vhvUrl = url;
+            var _this = _super.call(this) || this;
+            _this.vhvUrl = url;
+            return _this;
         }
         HardwareVerts.prototype.setLoadCallback = function (callback) {
             this.loadCallback = callback;
@@ -2436,7 +2483,7 @@ var SourceUtils;
         HardwareVerts.prototype.getSamples = function (meshId) {
             return SourceUtils.Utils.decompress(this.info.meshes[meshId]);
         };
-        HardwareVerts.prototype.shouldLoadBefore = function (other) { return true; };
+        HardwareVerts.prototype.shouldLoadBefore = function (other) { return this.getIsVisible(); };
         HardwareVerts.prototype.loadNext = function (callback) {
             var _this = this;
             if (this.info != null) {
@@ -2450,7 +2497,7 @@ var SourceUtils;
             }).always(function () { return callback(false); });
         };
         return HardwareVerts;
-    }());
+    }(SourceUtils.DrawListItemComponent));
     SourceUtils.HardwareVerts = HardwareVerts;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -2462,6 +2509,7 @@ var SourceUtils;
             this.inverseProjectionMatrix = new THREE.Matrix4();
             this.identityMatrix = new THREE.Matrix4().identity();
             this.viewMatrix = new THREE.Matrix4();
+            this.inverseViewMatrix = new THREE.Matrix4();
             this.commandBufferInvalid = true;
             this.pvsOrigin = new THREE.Vector3();
             this.pvsFollowsCamera = true;
@@ -2499,6 +2547,9 @@ var SourceUtils;
         RenderContext.prototype.getViewMatrix = function () {
             return this.viewMatrix.elements;
         };
+        RenderContext.prototype.getInverseViewMatrix = function () {
+            return this.inverseViewMatrix.elements;
+        };
         RenderContext.prototype.getModelMatrix = function () {
             return this.modelMatrixElems;
         };
@@ -2526,6 +2577,7 @@ var SourceUtils;
             }
             this.camera.getProjectionMatrix(this.projectionMatrix);
             this.inverseProjectionMatrix.getInverse(this.projectionMatrix);
+            this.camera.getMatrix(this.inverseViewMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
             this.updatePvs();
             if (this.commandBufferInvalid) {
@@ -3293,25 +3345,42 @@ var SourceUtils;
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Water.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Water.frag.txt");
                 _this.inverseProjection = _this.addUniform(UniformMatrix4, "uInverseProjection");
+                _this.inverseView = _this.addUniform(UniformMatrix4, "uInverseView");
                 _this.normalMap = _this.addUniform(UniformSampler, "uNormalMap");
                 _this.normalMap.setDefault(manager.getBlankNormalMap());
                 _this.refractColor = _this.addUniform(UniformSampler, "uRefractColor");
                 _this.refractDepth = _this.addUniform(UniformSampler, "uRefractDepth");
                 _this.screenParams = _this.addUniform(Uniform4F, "uScreenParams");
                 _this.clipParams = _this.addUniform(Uniform4F, "uClipParams");
+                _this.cameraPos = _this.addUniform(Uniform3F, "uCameraPos");
+                _this.waterFogParams = _this.addUniform(Uniform3F, "uWaterFogParams");
+                _this.waterFogColor = _this.addUniform(Uniform3F, "uWaterFogColor");
+                _this.reflectTint = _this.addUniform(Uniform3F, "uReflectTint");
+                _this.refractAmount = _this.addUniform(Uniform1F, "uRefractAmount");
                 return _this;
             }
             Water.prototype.bufferSetup = function (buf, context) {
                 _super.prototype.bufferSetup.call(this, buf, context);
                 this.inverseProjection.bufferParameter(buf, SourceUtils.CommandBufferParameter.InverseProjectionMatrix);
+                this.inverseView.bufferParameter(buf, SourceUtils.CommandBufferParameter.InverseViewMatrix);
                 this.refractColor.bufferParameter(buf, SourceUtils.CommandBufferParameter.RefractColorMap);
                 this.refractDepth.bufferParameter(buf, SourceUtils.CommandBufferParameter.RefractDepthMap);
                 this.screenParams.bufferParameter(buf, SourceUtils.CommandBufferParameter.ScreenParams);
                 this.clipParams.bufferParameter(buf, SourceUtils.CommandBufferParameter.ClipParams);
+                this.cameraPos.bufferParameter(buf, SourceUtils.CommandBufferParameter.CameraPos);
             };
             Water.prototype.bufferMaterial = function (buf, material) {
                 _super.prototype.bufferMaterial.call(this, buf, material);
                 this.normalMap.bufferValue(buf, material.properties.normalMap);
+                var fogStart = material.properties.fogStart;
+                var fogEnd = material.properties.fogEnd;
+                var fogColor = material.properties.fogColor;
+                var reflectTint = material.properties.reflectTint;
+                var clrMul = 1 / 255;
+                this.waterFogParams.bufferValue(buf, fogStart, fogEnd, 1 / (fogEnd - fogStart));
+                this.waterFogColor.bufferValue(buf, fogColor.r * clrMul, fogColor.g * clrMul, fogColor.b * clrMul);
+                this.reflectTint.bufferValue(buf, reflectTint.r * clrMul, reflectTint.g * clrMul, reflectTint.b * clrMul);
+                this.refractAmount.bufferValue(buf, material.properties.refractAmount);
             };
             return Water;
         }(LightmappedBase));
@@ -3444,12 +3513,15 @@ var SourceUtils;
         return SmdBodyPart;
     }());
     SourceUtils.SmdBodyPart = SmdBodyPart;
-    var StudioModel = (function () {
+    var StudioModel = (function (_super) {
+        __extends(StudioModel, _super);
         function StudioModel(map, url) {
-            this.loaded = [];
-            this.modelLoadCallbacks = [];
-            this.map = map;
-            this.mdlUrl = url;
+            var _this = _super.call(this) || this;
+            _this.loaded = [];
+            _this.modelLoadCallbacks = [];
+            _this.map = map;
+            _this.mdlUrl = url;
+            return _this;
         }
         StudioModel.prototype.getMap = function () { return this.map; };
         StudioModel.prototype.hasLoadedModel = function (bodyPart, model) {
@@ -3464,7 +3536,7 @@ var SourceUtils;
             return this.materials[index];
         };
         StudioModel.prototype.shouldLoadBefore = function (other) {
-            return true;
+            return this.getIsVisible();
         };
         StudioModel.prototype.loadNext = function (callback) {
             var _this = this;
@@ -3520,7 +3592,7 @@ var SourceUtils;
             }).fail(function () { return callback(false); });
         };
         return StudioModel;
-    }());
+    }(SourceUtils.DrawListItemComponent));
     SourceUtils.StudioModel = StudioModel;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;

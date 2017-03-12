@@ -102,6 +102,22 @@
         getApiQueryToken(): string { return `${this.tokenPrefix}${this.tokenIndex}`; }
     }
 
+    export abstract class DrawListItemComponent {
+        private usages: DrawListItem[] = [];
+
+        addUsage(item: DrawListItem): void {
+            this.usages.push(item);
+        }
+
+        getIsVisible(): boolean {
+            for (let i = 0, iEnd = this.usages.length; i < iEnd; ++i) {
+                if (this.usages[i].getIsVisible()) return true;
+            }
+
+            return false;
+        }
+    }
+
     export class StudioModelDrawListItem extends DrawListItem {
         private map: Map;
         private mdlUrl: string;
@@ -120,11 +136,13 @@
         protected onRequestMeshHandles(): void {
             if (this.mdl != null) return;
             this.mdl = this.map.modelLoader.load(this.mdlUrl);
+            this.mdl.addUsage(this);
 
             let queuedToLoad: SmdModel[] = [];
 
             if (this.vhvUrl != null) {
                 this.vhv = this.map.hardwareVertsLoader.load(this.vhvUrl);
+                this.vhv.addUsage(this);
                 this.vhv.setLoadCallback(() => {
                     for (let i = 0; i < queuedToLoad.length; ++i) {
                         this.onModelLoad(queuedToLoad[i]);

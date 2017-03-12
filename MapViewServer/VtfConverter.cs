@@ -215,6 +215,15 @@ namespace MapViewServer
                 return;
             }
 
+            if (vtf.Header.HiResFormat == TextureFormat.BGR888)
+            {
+                _sMemoryStream.Write(vtf.PixelData, 0, width * height * 3);
+                _sMemoryStream.Seek(0, SeekOrigin.Begin);
+
+                Utils.ImageMagickConvert(_sMemoryStream, outStream, MagickFormat.Bgr, width, height, MagickFormat.Png);
+                return;
+            }
+
             throw new NotImplementedException( $"Vtf format: {vtf.Header.HiResFormat}." );
         }
     }

@@ -251,6 +251,7 @@
     export class ValveTexture extends Texture implements ILoadable<ValveTexture> {
         shouldLoadBefore(other: ValveTexture): boolean {
             if (this.usesSinceLastLoad === 0) return false;
+            if (other == null) return true;
             const mipCompare = this.getLowestMipLevel() - other.getLowestMipLevel();
             if (mipCompare !== 0) return mipCompare > 0;
             const scoreCompare = this.usesSinceLastLoad - other.getUsesSinceLastLoad();

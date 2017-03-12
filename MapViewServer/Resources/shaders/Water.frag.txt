@@ -2,14 +2,24 @@
 
 uniform highp mat4 uProjection;
 uniform mat4 uInverseProjection;
+uniform mat4 uInverseView;
 
 uniform sampler2D uNormalMap;
 
 uniform sampler2D uRefractColor;
 uniform sampler2D uRefractDepth;
 
+uniform float uRefractAmount;
+
 uniform vec4 uScreenParams;
 uniform vec4 uClipParams;
+uniform vec3 uCameraPos;
+
+// x: start, y: end, z: 1 / (end - start)
+uniform vec3 uWaterFogParams;
+uniform vec3 uWaterFogColor;
+
+uniform vec3 uReflectTint;
 
 vec4 CalcEyeFromWindow(in vec3 windowSpace)
 {
@@ -24,34 +34,49 @@ vec4 CalcEyeFromWindow(in vec3 windowSpace)
 	return uInverseProjection * clipPos;
 }
 
-float decompressDepth(float sample)
+vec3 getWorldPos(float sampleDepth)
 {
-	return length(CalcEyeFromWindow(vec3(gl_FragCoord.xy, sample)).xyz);
+	return (uInverseView * CalcEyeFromWindow(vec3(gl_FragCoord.xy, sampleDepth))).xyz;
+}
+
+float getWaterDepth(vec3 surfacePos, vec3 samplePos)
+{
+	return -(samplePos - surfacePos).z;
 }
 
 void main()
 {
-    vec4 texSample = texture2D(uBaseTexture, vTextureCoord);
-    vec4 normSampleA = texture2D(uNormalMap, vTextureCoord * 0.25 + vec2(0.02, 0.02) * uTime.x);
-    vec4 normSampleB = texture2D(uNormalMap, vTextureCoord * 0.33 + vec2(-0.06, 0.08) * uTime.x);
+	vec3 surfPos = getWorldPos(gl_FragCoord.z);
+	vec3 viewDir = normalize(surfPos - uCameraPos);
+
+    vec4 normSampleA = texture2D(uNormalMap, vTextureCoord + vec2(0.02, -0.02) * uTime.x);
+    vec4 normSampleB = texture2D(uNormalMap, vTextureCoord + vec2(-0.01, 0.03) * uTime.x);
     vec3 normal = normalize(normSampleA.xyz + normSampleB.xyz - vec3(1.0, 1.0, 1.0));
+
+	vec3 lightDir = normalize(vec3(3.0, -5.0, 11.0));
+	vec3 lightmapColor = applyLightmap(vec3(1.0, 1.0, 1.0));
+	float lightmapIntens = min((lightmapColor.r + lightmapColor.g + lightmapColor.b) * 0.3, 1.0);
+
+	float lightIntens = pow(max(0.0, dot(lightDir, reflect(viewDir, normal))), 8.0) * (normSampleA.w + normSampleB.w) * 0.5;
 
     vec2 screenPos = gl_FragCoord.xy * uScreenParams.zw;
 	
-    float opaqueDepth = decompressDepth(texture2D(uRefractDepth, screenPos).r);
-	float surfaceDepth = decompressDepth(gl_FragCoord.z);
+	vec3 opaquePos = getWorldPos(texture2D(uRefractDepth, screenPos).r);
+	float opaqueDepth = getWaterDepth(surfPos, opaquePos);
 
-	float depthDist = opaqueDepth - surfaceDepth;
+	vec2 refractedScreenPos = screenPos + normal.xy * opaqueDepth * uRefractAmount / 512.0;
 
-	vec2 refractedScreenPos = screenPos + normal.xy * depthDist / 2048.0;
-
-	float refractedDepth = decompressDepth(texture2D(uRefractDepth, refractedScreenPos).r);
-	float sampleMix = float(refractedDepth > surfaceDepth);
+	vec3 refractedPos = getWorldPos(texture2D(uRefractDepth, refractedScreenPos).r);
+	float refractedDepth = getWaterDepth(surfPos, refractedPos);
+	float sampleMix = float(refractedDepth > 0.0);
 
     vec3 refractedSample = texture2D(uRefractColor, mix(screenPos, refractedScreenPos, sampleMix)).rgb;
-	float refractedDepthDist = mix(depthDist, refractedDepth - surfaceDepth, sampleMix);
+	float refractedDepthDist = mix(opaqueDepth, refractedDepth, sampleMix);
 
-	vec3 finalColor = mix(refractedSample, applyLightmap(vec3(0.8, 0.85, 0.9)), min(pow(refractedDepthDist / 384.0, 0.33) + 0.125, 1.0));
+	float fogDensity = min(max((refractedDepthDist - uWaterFogParams.x) * uWaterFogParams.z, 0.0), 1.0);
 
-    gl_FragColor = vec4(applyFog(finalColor), 1.0);
+	vec3 attenuatedColor = mix(refractedSample, lightmapColor * uWaterFogColor, pow(fogDensity, 0.5));
+	vec3 litColor = mix(attenuatedColor, uReflectTint, lightIntens);
+
+    gl_FragColor = vec4(applyFog(litColor), 1.0);
 }

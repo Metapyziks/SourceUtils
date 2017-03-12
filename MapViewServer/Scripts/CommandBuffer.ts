@@ -41,6 +41,7 @@ namespace SourceUtils {
         ProjectionMatrix,
         InverseProjectionMatrix,
         ViewMatrix,
+        InverseViewMatrix,
         CameraPos,
         ScreenParams,
         ClipParams,
@@ -109,6 +110,7 @@ namespace SourceUtils {
             this.setParameter(CommandBufferParameter.InverseProjectionMatrix, renderContext.getInverseProjectionMatrix());
             this.setParameter(CommandBufferParameter.ProjectionMatrix, renderContext.getProjectionMatrix());
             this.setParameter(CommandBufferParameter.ViewMatrix, renderContext.getViewMatrix());
+            this.setParameter(CommandBufferParameter.InverseViewMatrix, renderContext.getInverseViewMatrix());
             this.setParameter(CommandBufferParameter.CameraPos, this.cameraPos);
             this.setParameter(CommandBufferParameter.TimeParams, this.timeParams);
             this.setParameter(CommandBufferParameter.ScreenParams, this.screenParams);
@@ -212,6 +214,7 @@ namespace SourceUtils {
             case CommandBufferParameter.ProjectionMatrix:
             case CommandBufferParameter.InverseProjectionMatrix:
             case CommandBufferParameter.ViewMatrix:
+            case CommandBufferParameter.InverseViewMatrix:
                 gl.uniformMatrix4fv(args.uniform, false, value as Float32Array);
                 break;
             case CommandBufferParameter.CameraPos:

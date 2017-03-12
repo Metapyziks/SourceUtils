@@ -13,6 +13,11 @@
         noCull = false;
         noTint = false;
         baseAlphaTint = false;
+        fogStart = 0;
+        fogEnd = 65535;
+        fogColor: Api.IColor32 = { r: 0, g: 0, b: 0, a: 255 };
+        reflectTint: Api.IColor32 = { r: 255, g: 255, b: 255, a: 255 };
+        refractAmount = 1.0;
     }
 
     export class Material

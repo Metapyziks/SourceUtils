@@ -143,6 +143,8 @@ namespace SourceUtils
                     return toAdd + width * height * depth;
                 case TextureFormat.BGRA8888:
                     return toAdd + ((width * height * depth) << 2);
+                case TextureFormat.BGR888:
+                    return toAdd + width * height * depth * 3;
                 default:
                     throw new NotImplementedException();
             }
@@ -184,9 +186,8 @@ namespace SourceUtils
             switch ( Header.HiResFormat )
             {
                 case TextureFormat.DXT1:
-                    break;
                 case TextureFormat.DXT5:
-                    break;
+                case TextureFormat.BGR888:
                 case TextureFormat.BGRA8888:
                     break;
                 default:
@@ -197,17 +198,23 @@ namespace SourceUtils
 
             Skip( stream, thumbSize );
 
-            var totalSize = GetImageDataSize( Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat );
+            var frameSize = GetImageDataSize( Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat );
 
-            PixelData = new byte[totalSize];
+            PixelData = new byte[frameSize * Header.Frames];
 
-            var writePos = totalSize;
+            var framesWriteOffset = frameSize;
             for ( var i = Header.MipMapCount - 1; i >= 0; --i )
             {
-                var size = GetImageDataSize( Header.Width >> i, Header.Height >> i, 1, 1, Header.HiResFormat );
+                var size = GetImageDataSize(Header.Width >> i, Header.Height >> i, 1, 1, Header.HiResFormat);
 
-                writePos -= size;
-                stream.Read( PixelData, writePos, size );
+                framesWriteOffset -= size;
+
+                var writePos = framesWriteOffset;
+                for ( var f = 0; f < Header.Frames; ++f )
+                {
+                    stream.Read( PixelData, writePos, size );
+                    writePos += frameSize;
+                }
             }
         }
     }

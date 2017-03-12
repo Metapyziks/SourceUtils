@@ -7,6 +7,7 @@
         private inverseProjectionMatrix = new THREE.Matrix4();
         private identityMatrix = new THREE.Matrix4().identity();
         private viewMatrix = new THREE.Matrix4();
+        private inverseViewMatrix = new THREE.Matrix4();
 
         private modelMatrixElems: Float32Array;
 
@@ -73,6 +74,10 @@
             return this.viewMatrix.elements;
         }
 
+        getInverseViewMatrix(): Float32Array {
+            return this.inverseViewMatrix.elements;
+        }
+
         getModelMatrix(): Float32Array {
             return this.modelMatrixElems;
         }
@@ -104,6 +109,7 @@
 
             this.camera.getProjectionMatrix(this.projectionMatrix);
             this.inverseProjectionMatrix.getInverse(this.projectionMatrix);
+            this.camera.getMatrix(this.inverseViewMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
 
             this.updatePvs();

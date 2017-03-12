@@ -128,7 +128,7 @@
         }
     }
 
-    export class StudioModel implements ILoadable<StudioModel> {
+    export class StudioModel extends DrawListItemComponent implements ILoadable<StudioModel> {
         private map: Map;
         private mdlUrl: string;
         private info: Api.IMdlResponse;
@@ -139,6 +139,8 @@
         private modelLoadCallbacks: ((model: SmdModel) => void)[] = [];
 
         constructor(map: Map, url: string) {
+            super();
+
             this.map = map;
             this.mdlUrl = url;
         }
@@ -159,7 +161,7 @@
         }
 
         shouldLoadBefore(other: StudioModel): boolean {
-            return true;
+            return this.getIsVisible();
         }
 
         loadNext(callback: (requeue: boolean) => void): void {

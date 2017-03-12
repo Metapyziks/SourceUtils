@@ -150,7 +150,7 @@ namespace MapViewServer
                         args += $"-resize {dstWidth}x{dstHeight}! ";
                     }
 
-                    if ( srcFormat == MagickFormat.Bgra )
+                    if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Bgr )
                     {
                         args += $"-size {srcWidth}x{srcHeight} -depth 8 ";
                     }
@@ -188,7 +188,7 @@ namespace MapViewServer
                     Format = srcFormat
                 };
 
-                if ( srcFormat == MagickFormat.Bgra )
+                if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Bgr )
                 {
                     readSettings.PixelStorage = new PixelStorageSettings
                     {
