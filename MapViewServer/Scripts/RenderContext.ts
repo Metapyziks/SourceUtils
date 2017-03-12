@@ -4,15 +4,21 @@
         private camera: Camera;
 
         private projectionMatrix = new THREE.Matrix4();
-        private modelMatrix = new THREE.Matrix4();
+        private inverseProjectionMatrix = new THREE.Matrix4();
+        private identityMatrix = new THREE.Matrix4().identity();
         private viewMatrix = new THREE.Matrix4();
-        private modelViewMatrix = new THREE.Matrix4();
-        private modelViewInvalid = true;
+        private inverseViewMatrix = new THREE.Matrix4();
+
+        private modelMatrixElems: Float32Array;
 
         private pvsRoot: VisLeaf;
         private drawList: DrawList;
+        private commandBuffer: CommandBuffer;
+        private commandBufferInvalid = true;
 
         private pvsOrigin = new THREE.Vector3();
+
+        private opaqueFrameBuffer: FrameBuffer;
 
         pvsFollowsCamera = true;
         fogParams: Api.IFogParams;
@@ -26,31 +32,62 @@
         constructor(map: Map, camera: Camera) {
             this.map = map;
             this.camera = camera;
-            this.drawList = new DrawList(map);
+            this.drawList = new DrawList(this);
+            this.commandBuffer = new CommandBuffer(map.shaderManager.getContext());
 
-            this.map.addDrawListInvalidationHandler(() => this.drawList.invalidate());
+            this.map.addDrawListInvalidationHandler((geom: boolean) => this.drawList.invalidate(geom));
+        }
+
+        getOpaqueColorTexture(): RenderTexture {
+            return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getColorTexture();
+        }
+
+        getOpaqueDepthTexture(): RenderTexture {
+            return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getDepthTexture();
+        }
+
+        invalidate(): void {
+            this.commandBufferInvalid = true;
+        }
+
+        getMap(): Map {
+            return this.map;
+        }
+
+        getShaderManager(): ShaderManager {
+            return this.map.shaderManager;
+        }
+
+        getLightmap(): Texture {
+            return this.map.getLightmap();
         }
 
         getProjectionMatrix(): Float32Array {
             return this.projectionMatrix.elements;
         }
 
-        getModelViewMatrix(): Float32Array {
-            if (this.modelViewInvalid) {
-                this.modelViewInvalid = false;
-                this.modelViewMatrix.multiplyMatrices(this.viewMatrix, this.modelMatrix);
-            }
+        getInverseProjectionMatrix(): Float32Array {
+            return this.inverseProjectionMatrix.elements;
+        }
 
-            return this.modelViewMatrix.elements;
+        getViewMatrix(): Float32Array {
+            return this.viewMatrix.elements;
+        }
+
+        getInverseViewMatrix(): Float32Array {
+            return this.inverseViewMatrix.elements;
+        }
+
+        getModelMatrix(): Float32Array {
+            return this.modelMatrixElems;
         }
 
         setModelTransform(model: Entity): void {
             if (model == null) {
-                this.modelMatrix.identity();
+                this.modelMatrixElems = this.identityMatrix.elements;
             } else {
-                model.getMatrix(this.modelMatrix);
+                this.modelMatrixElems = model.getMatrixElements();
             }
-            this.modelViewInvalid = true;
         }
 
         setPvsOrigin(pos: THREE.Vector3 | Api.IVector3): void {
@@ -71,13 +108,47 @@
             }
 
             this.camera.getProjectionMatrix(this.projectionMatrix);
+            this.inverseProjectionMatrix.getInverse(this.projectionMatrix);
+            this.camera.getMatrix(this.inverseViewMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
-            this.modelViewInvalid = true;
-
-            this.map.shaderManager.setCurrentProgram(null);
 
             this.updatePvs();
-            this.drawList.render(this);
+
+            if (this.commandBufferInvalid) {
+                this.commandBufferInvalid = false;
+
+                this.commandBuffer.clearCommands();
+                this.drawList.appendToBuffer(this.commandBuffer, this);
+            }
+
+            this.commandBuffer.run(this);
+        }
+
+        private setupFrameBuffers(): void {
+            if (this.opaqueFrameBuffer !== undefined) return;
+
+            const gl = this.map.shaderManager.getContext();
+
+            const app = this.map.getApp();
+            const width = app.getWidth();
+            const height = app.getHeight();
+
+            this.opaqueFrameBuffer = new FrameBuffer(gl, width, height);
+            this.opaqueFrameBuffer.addDepthAttachment();
+        }
+
+        bufferOpaqueTargetBegin(buf: CommandBuffer): void {
+            this.setupFrameBuffers();
+
+            const gl = WebGLRenderingContext;
+
+            buf.bindFramebuffer(this.opaqueFrameBuffer, true);
+            buf.depthMask(true);
+            buf.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+        }
+
+        bufferRenderTargetEnd(buf: CommandBuffer): void {
+            buf.bindFramebuffer(null);
         }
 
         getClusterIndex(): number {
@@ -94,7 +165,11 @@
 
         private replacePvs(pvs: VisLeaf[]): void {
             this.drawList.clear();
-            if (pvs != null) this.map.appendToDrawList(this.drawList, pvs);
+            this.commandBufferInvalid = true;
+
+            if (pvs != null) {
+                this.map.appendToDrawList(this.drawList, pvs);
+            }
         }
 
         updatePvs(force?: boolean): void {

@@ -11,6 +11,7 @@ namespace SourceUtils
     {
         private static readonly Regex _sPropertyRegex = new Regex(@"^([^""{}]*""(?<name>[^""]+)""|\s*(?<name>[$%a-zA-Z0-9_]+))\s*(""(?<value>[^""]+)""[^""{}]*|(?<value>\S+)\s*)$", RegexOptions.Compiled);
         private static readonly Regex _sNestedRegex = new Regex(@"^\s*(""(?<name>[^""]+)""|(?<name>[$%a-zA-Z0-9_]+))\s*$", RegexOptions.Compiled);
+        private static readonly Regex _sColorRegex = new Regex(@"^\s*\{\s*(?<red>[0-9]+)\s+(?<green>[0-9]+)\s+(?<blue>[0-9]+)\s*\}\s*$", RegexOptions.Compiled);
 
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
@@ -38,6 +39,27 @@ namespace SourceUtils
 
             float floatValue;
             return float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out floatValue) ? floatValue : @default;
+        }
+
+        public Color32 GetColor(string name, Color32 @default = default(Color32))
+        {
+            var value = GetString(name, @default.ToString());
+            var match = _sColorRegex.Match( value );
+
+            if ( !match.Success )
+            {
+                return @default;
+            }
+
+            var color = new Color32
+            {
+                R = (byte) int.Parse( match.Groups["red"].Value ),
+                G = (byte) int.Parse( match.Groups["green"].Value ),
+                B = (byte) int.Parse( match.Groups["blue"].Value ),
+                A = 255
+            };
+
+            return color;
         }
 
         public bool GetBoolean(string name, bool @default = false)

@@ -1,6 +1,6 @@
-﻿#include "Base.vert.txt"
+﻿#include "LightmappedBase.vert.txt"
 
 void main()
 {
-    Base_main();
+    LightmappedBase_main();
 }

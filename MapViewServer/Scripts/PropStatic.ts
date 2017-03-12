@@ -27,12 +27,14 @@
         }
     }
 
-    export class HardwareVerts implements ILoadable<HardwareVerts> {
+    export class HardwareVerts extends DrawListItemComponent implements ILoadable<HardwareVerts> {
         private vhvUrl: string;
         private info: Api.IBspVertLightingResponse;
         private loadCallback: () => void;
 
         constructor(url: string) {
+            super();
+
             this.vhvUrl = url;
         }
 
@@ -49,7 +51,7 @@
             return Utils.decompress(this.info.meshes[meshId]);
         }
 
-        shouldLoadBefore(other: HardwareVerts): boolean { return true; }
+        shouldLoadBefore(other: HardwareVerts): boolean { return this.getIsVisible(); }
 
         loadNext(callback: (requeue: boolean) => void): void {
             if (this.info != null) {

@@ -1,6 +1,8 @@
 ﻿namespace SourceUtils
 {
     export class MaterialProperties {
+        translucent = false;
+        refract = false;
         baseTexture: Texture = null;
         baseTexture2: Texture = null;
         blendModulateTexture: Texture = null;
@@ -11,6 +13,11 @@
         noCull = false;
         noTint = false;
         baseAlphaTint = false;
+        fogStart = 0;
+        fogEnd = 65535;
+        fogColor: Api.IColor32 = { r: 0, g: 0, b: 0, a: 255 };
+        reflectTint: Api.IColor32 = { r: 255, g: 255, b: 255, a: 255 };
+        refractAmount = 1.0;
     }
 
     export class Material
@@ -65,7 +72,11 @@
 
         compareTo(other: Material): number {
             if (other === this) return 0;
-            return this.sortIndex - other.sortIndex;
+
+            const thisTex = this.properties.baseTexture;
+            const thatTex = other.properties.baseTexture;
+            const texComp = thisTex != null && thatTex != null ? thisTex.compareTo(thatTex) : thisTex != null ? 1 : thatTex != null ? -1 : 0;
+            return texComp !== 0 ? texComp : this.sortIndex - other.sortIndex;
         }
 
         getMap(): Map {
@@ -74,10 +85,6 @@
 
         getProgram(): ShaderProgram {
             return this.program;
-        }
-
-        prepareForRendering(): boolean {
-            return this.enabled && this.program.changeMaterial(this);
         }
     }
 }

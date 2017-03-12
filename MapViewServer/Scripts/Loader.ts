@@ -12,6 +12,7 @@
         private queue: TLoadable[] = [];
         private loaded: { [url: string]: TLoadable } = {};
         private active = 0;
+        private completed = 0;
 
         load(url: string): TLoadable {
             let loaded = this.loaded[url];
@@ -24,11 +25,29 @@
             return loaded;
         }
 
+        getQueueCount(): number {
+            return this.queue.length;
+        }
+
+        getActiveCount(): number {
+            return this.active;
+        }
+
+        getCompletedCount(): number {
+            return this.completed;
+        }
+
+        getTotalCount(): number {
+            return this.queue.length + this.active + this.completed;
+        }
+
         protected enqueueItem(item: TLoadable): void {
             this.queue.push(item);
         }
 
         protected abstract onCreateItem(url: string): TLoadable;
+
+        protected onFinishedLoadStep(item: TLoadable): void { }
 
         private getNextToLoad(): TLoadable {
             if (this.queue.length <= 0) return null;
@@ -56,6 +75,8 @@
                 next.loadNext(requeue => {
                     --this.active;
                     if (requeue) this.queue.push(nextCopy);
+                    else ++this.completed;
+                    this.onFinishedLoadStep(nextCopy);
                 });
             }
 

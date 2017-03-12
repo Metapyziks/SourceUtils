@@ -1,0 +1,9 @@
+﻿attribute vec2 aScreenPos;
+
+varying vec2 vScreenPos;
+
+void main()
+{
+    vScreenPos = aScreenPos * 0.5 + vec2(0.5, 0.5);
+    gl_Position = vec4(aScreenPos, 0, 1);
+}

@@ -235,17 +235,19 @@ namespace SourceUtils {
 
         toggleFullscreen(): void {
             const container = this.getContainer();
+            const cont = container as any;
+            const doc = document as any;
 
-            if (document.fullscreenElement === container || document.webkitFullscreenElement === container || document.mozFullScreenElement === container) {
+            if (document.fullscreenElement === container || document.webkitFullscreenElement === container || doc.mozFullScreenElement === container) {
                 if (document.exitFullscreen) document.exitFullscreen();
                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+                else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
             } else if (container.requestFullscreen) {
                 container.requestFullscreen();
             } else if (container.webkitRequestFullscreen) {
                 container.webkitRequestFullscreen();
-            } else if (container.mozRequestFullScreen) {
-                container.mozRequestFullScreen();
+            } else if (cont.mozRequestFullScreen) {
+                cont.mozRequestFullScreen();
             }
         }
 

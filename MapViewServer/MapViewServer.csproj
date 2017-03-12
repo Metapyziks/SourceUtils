@@ -86,6 +86,8 @@
     <None Include="packages.config" />
     <Content Include="Resources\shaders\Base.frag.txt" />
     <Content Include="Resources\shaders\Base.vert.txt" />
+    <Content Include="Resources\shaders\ComposeFrame.frag.txt" />
+    <Content Include="Resources\shaders\ComposeFrame.vert.txt" />
     <Content Include="Resources\shaders\Lightmapped2WayBlend.frag.txt" />
     <Content Include="Resources\shaders\Lightmapped2WayBlend.vert.txt" />
     <Content Include="Resources\shaders\LightmappedBase.frag.txt" />
@@ -119,12 +121,14 @@
     <TypeScriptCompile Include="Scripts\AppBase.ts" />
     <TypeScriptCompile Include="Scripts\BspModel.ts" />
     <TypeScriptCompile Include="Scripts\Camera.ts" />
+    <TypeScriptCompile Include="Scripts\CommandBuffer.ts" />
     <TypeScriptCompile Include="Scripts\Displacement.ts" />
     <TypeScriptCompile Include="Scripts\DrawList.ts" />
     <TypeScriptCompile Include="Scripts\DrawListItem.ts" />
     <TypeScriptCompile Include="Scripts\Entity.ts" />
     <TypeScriptCompile Include="Scripts\FaceLoader.ts" />
     <TypeScriptCompile Include="Scripts\FormattedWriter.ts" />
+    <TypeScriptCompile Include="Scripts\FrameBuffer.ts" />
     <TypeScriptCompile Include="Scripts\HardwareVertsLoader.ts" />
     <TypeScriptCompile Include="Scripts\Loader.ts" />
     <TypeScriptCompile Include="Scripts\Map.ts" />

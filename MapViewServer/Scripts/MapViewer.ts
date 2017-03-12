@@ -35,10 +35,20 @@ namespace SourceUtils {
             this.frameCountStart = performance.now();
         }
 
+        private enableExtension(name: string): void {
+            const gl = this.getContext();
+            if (gl.getExtension(name) == null) {
+                console.warn(`WebGL extension '${name}' is unsupported.`);
+            }
+        }
+
         init(container: JQuery): void {
             this.camera = new PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
 
             super.init(container);
+
+            this.enableExtension("EXT_frag_depth");
+            this.enableExtension("WEBGL_depth_texture");
 
             window.onhashchange = () => {
                 this.onHashChange(window.location.hash);
@@ -247,11 +257,8 @@ namespace SourceUtils {
             gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LESS);
-
-            gl.enable(gl.CULL_FACE);
+            
             gl.cullFace(gl.FRONT);
-
-            gl.disable(gl.BLEND);
 
             if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
                 this.map.setSkyMaterialEnabled(true);
@@ -264,6 +271,7 @@ namespace SourceUtils {
                 this.skyCamera.setPosition(this.skyCameraPos);
                 this.skyRenderContext.render();
 
+                gl.depthMask(true);
                 gl.clear(gl.DEPTH_BUFFER_BIT);
 
                 this.map.setSkyMaterialEnabled(false);

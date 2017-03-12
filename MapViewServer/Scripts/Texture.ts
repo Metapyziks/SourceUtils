@@ -1,5 +1,10 @@
 ﻿namespace SourceUtils {
-    export class Texture {
+    export class Texture
+    {
+        private static nextSortIndex = 0;
+
+        private sortIndex: number;
+
         private target: number;
         private context: WebGLRenderingContext;
         private handle: WebGLTexture;
@@ -9,15 +14,32 @@
         width: number;
         height: number;
 
+        protected allowAnisotropicFiltering = true;
+
+        protected wrapS: number;
+        protected wrapT: number;
         protected minFilter: number;
         protected magFilter: number;
 
         constructor(gl: WebGLRenderingContext, target: number) {
+            this.sortIndex = Texture.nextSortIndex++;
+
             this.context = gl;
             this.target = target;
 
+            this.wrapS = gl.REPEAT;
+            this.wrapT = gl.REPEAT;
+
             this.minFilter = gl.LINEAR;
             this.magFilter = gl.LINEAR;
+        }
+
+        compareTo(other: Texture): number {
+            return this.sortIndex - other.sortIndex;
+        }
+
+        getTarget(): number {
+            return this.target;
         }
 
         isLoaded(): boolean {
@@ -52,12 +74,12 @@
         protected setupTexParams(target: number) {
             const gl = this.context;
 
-            gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.REPEAT);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_S, this.wrapS);
+            gl.texParameteri(target, gl.TEXTURE_WRAP_T, this.wrapT);
             gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
             gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
 
-            if (this.minFilter !== gl.NEAREST) {
+            if (this.allowAnisotropicFiltering && this.minFilter !== gl.NEAREST) {
                 const anisoExt = gl.getExtension("EXT_texture_filter_anisotropic");
                 if (anisoExt != null) {
                     gl.texParameterf(target, anisoExt.TEXTURE_MAX_ANISOTROPY_EXT, 4);
@@ -104,7 +126,7 @@
             if (callBack != null) callBack();
         }
 
-        protected loadPixels(width: number, height: number, values: Uint8Array): void {
+        protected loadPixels(width: number, height: number, values: Uint8Array, target?: number): void {
             const gl = this.context;
 
             this.getOrCreateHandle();
@@ -112,7 +134,54 @@
             this.width = width;
             this.height = height;
 
-            gl.texImage2D(this.target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
+            if (target === undefined) {
+                target = this.target;
+            }
+
+            gl.texImage2D(target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
+        }
+
+        dispose(): void {
+            if (this.handle !== undefined) {
+                this.context.deleteTexture(this.handle);
+                this.handle = undefined;
+            }
+        }
+    }
+
+    export class RenderTexture extends Texture
+    {
+        private format: number;
+        private type: number;
+
+        constructor(gl: WebGLRenderingContext, width: number, height: number, format: number, type: number) {
+            super(gl, gl.TEXTURE_2D);
+
+            this.format = format;
+            this.type = type;
+
+            this.wrapS = gl.CLAMP_TO_EDGE;
+            this.wrapT = gl.CLAMP_TO_EDGE;
+            this.minFilter = gl.NEAREST;
+            this.magFilter = gl.NEAREST;
+
+            this.allowAnisotropicFiltering = false;
+
+            this.resize(width, height);
+        }
+
+        resize(width: number, height: number): void {
+            if (this.width === width && this.height === height) return;
+
+            const gl = this.getContext();
+
+            this.width = width;
+            this.height = height;
+
+            this.getOrCreateHandle();
+
+            gl.texImage2D(this.getTarget(), 0, this.format, this.width, this.height, 0, this.format, this.type, null);
+            gl.bindTexture(this.getTarget(), null);
         }
     }
 
@@ -127,7 +196,7 @@
         }
     }
 
-    export class BlankTexture extends Texture {
+    export class BlankTexture2D extends Texture {
         constructor(gl: WebGLRenderingContext, color: THREE.Color) {
             super(gl, gl.TEXTURE_2D);
 
@@ -135,7 +204,26 @@
         }
     }
 
-    export class ErrorTexture extends Texture {
+    export class BlankTextureCube extends Texture
+    {
+        constructor(gl: WebGLRenderingContext, color: THREE.Color)
+        {
+            super(gl, gl.TEXTURE_CUBE_MAP);
+
+            const pixels = new Uint8Array([
+                Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255
+            ]);
+
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_X);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_Y);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_Z);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_POSITIVE_X);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_POSITIVE_Y);
+            this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_POSITIVE_Z);
+        }
+    }
+
+    export class ErrorTexture2D extends Texture {
         constructor(gl: WebGLRenderingContext) {
             super(gl, gl.TEXTURE_2D);
 
@@ -163,6 +251,7 @@
     export class ValveTexture extends Texture implements ILoadable<ValveTexture> {
         shouldLoadBefore(other: ValveTexture): boolean {
             if (this.usesSinceLastLoad === 0) return false;
+            if (other == null) return true;
             const mipCompare = this.getLowestMipLevel() - other.getLowestMipLevel();
             if (mipCompare !== 0) return mipCompare > 0;
             const scoreCompare = this.usesSinceLastLoad - other.getUsesSinceLastLoad();
@@ -170,6 +259,7 @@
         }
 
         private usesSinceLastLoad = 0;
+        private wasLoaded = false;
 
         constructor(gl: WebGLRenderingContext, target: number) {
             super(gl, target);
@@ -177,6 +267,12 @@
 
         protected onGetHandle(): void {
             ++this.usesSinceLastLoad;
+        }
+
+        firstTimeLoaded(): boolean {
+            if (this.wasLoaded || !this.isLoaded()) return false;
+            this.wasLoaded = true;
+            return true;
         }
 
         getUsesSinceLastLoad(): number {

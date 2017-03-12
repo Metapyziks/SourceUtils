@@ -108,6 +108,11 @@ namespace MapViewServer
             AddProperty( properties, name, MaterialPropertyType.Number, value );
         }
 
+        public static void AddColorProperty(JArray properties, string name, Color32 value)
+        {
+            AddProperty(properties, name, MaterialPropertyType.Number, value.ToJson());
+        }
+
         public static void AddTexture2DProperty( JArray properties, string name, string vtfUrl )
         {
             AddProperty( properties, name, MaterialPropertyType.Texture2D, vtfUrl );
@@ -158,6 +163,9 @@ namespace MapViewServer
                     case "$translucent":
                         AddBooleanProperty( destArray, "translucent", props.GetBoolean( name ) );
                         break;
+                    case "$refract":
+                        AddBooleanProperty( destArray, "refract", props.GetBoolean( name ) );
+                        break;
                     case "$alpha":
                         AddNumberProperty( destArray, "alpha", props.GetSingle( name ) );
                         break;
@@ -169,6 +177,21 @@ namespace MapViewServer
                         break;
                     case "$blendtintbybasealpha":
                         AddBooleanProperty( destArray, "baseAlphaTint", props.GetBoolean( name ) );
+                        break;
+                    case "$fogstart":
+                        AddNumberProperty(destArray, "fogStart", props.GetSingle(name));
+                        break;
+                    case "$fogend":
+                        AddNumberProperty(destArray, "fogEnd", props.GetSingle(name));
+                        break;
+                    case "$fogcolor":
+                        AddColorProperty(destArray, "fogColor", props.GetColor(name));
+                        break;
+                    case "$reflecttint":
+                        AddColorProperty( destArray, "reflectTint", props.GetColor( name ) );
+                        break;
+                    case "$refractamount":
+                        AddNumberProperty( destArray, "refractAmount", props.GetSingle( name ) );
                         break;
                 }
             }
@@ -215,6 +238,7 @@ namespace MapViewServer
                     break;
                 case "water":
                     shaderName = "Water";
+                    AddBooleanProperty( propArray, "refract", true );
                     break;
             }
 

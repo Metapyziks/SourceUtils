@@ -15,7 +15,7 @@ void main()
     float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);
     float blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));
 
-    vec3 blendedSample = mix(texSample2, texSample, blend);
+    vec3 blendedSample = mix(texSample, texSample2, blend);
 
     gl_FragColor = vec4(applyFog(applyLightmap(blendedSample)), 1);
 }
