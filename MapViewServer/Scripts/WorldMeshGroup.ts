@@ -73,8 +73,10 @@ namespace SourceUtils {
         private indexCount = 0;
         private handleCount = 0;
 
+        private uint32Supported = false;
+
         private vertexData: Float32Array;
-        private indexData: Uint16Array;
+        private indexData: Uint16Array | Uint32Array;
 
         private positionOffset: number;
         private hasPositions = false;
@@ -97,6 +99,8 @@ namespace SourceUtils {
             this.components = components;
 
             this.vertexSize = 0;
+
+            this.uint32Supported = gl.getExtension("OES_element_index_uint") != null;
 
             if ((components & Api.MeshComponent.Position) === Api.MeshComponent.Position) {
                 this.hasPositions = true;
@@ -137,8 +141,10 @@ namespace SourceUtils {
                 this.vertexSize += 3;
             }
 
+            const maxVertsPerSubBuffer = this.uint32Supported ? 2147483648 : 65536;
+
             this.maxVertLength = 2147483648;
-            this.maxSubBufferLength = this.vertexSize * 65536; 
+            this.maxSubBufferLength = this.vertexSize * maxVertsPerSubBuffer; 
         }
 
         compareTo(other: WorldMeshGroup): number {
@@ -155,8 +161,9 @@ namespace SourceUtils {
             return this.indexCount / 3;
         }
 
-        private ensureCapacity<TArray extends Float32Array |
-            Uint16Array>(array: TArray, length: number, ctor: (size: number) => TArray): TArray {
+        private ensureCapacity<TArray extends Float32Array | Uint16Array | Uint32Array>
+            (array: TArray, length: number, ctor: (size: number) => TArray): TArray
+        {
             if (array != null && array.length >= length) return array;
 
             let newLength = 2048;
@@ -173,7 +180,7 @@ namespace SourceUtils {
                 this.indexCount + data.indices.length <= WorldMeshGroup.maxIndices;
         }
 
-        private updateBuffer<TArray extends Float32Array | Uint16Array>(target: number,
+        private updateBuffer<TArray extends Float32Array | Uint16Array | Uint32Array>(target: number,
             buffer: WebGLBuffer,
             data: TArray,
             newData: TArray,
@@ -211,8 +218,8 @@ namespace SourceUtils {
 
             const gl = this.gl;
 
-            const newVertices = data.vertices;
-            const newIndices = data.indices;
+            const newVertices = new Float32Array(data.vertices);
+            const newIndices = this.uint32Supported ? new Uint32Array(data.indices) : new Uint16Array(data.indices);
 
             const vertexOffset = this.vertCount;
             const oldVertices = this.vertexData;
@@ -224,7 +231,7 @@ namespace SourceUtils {
             const oldIndices = this.indexData;
             this.indexData = this.ensureCapacity(this.indexData,
                 this.indexCount + newIndices.length,
-                size => new Uint16Array(size));
+                this.uint32Supported ? size => new Uint32Array(size) : size => new Uint16Array(size));
 
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
@@ -278,7 +285,8 @@ namespace SourceUtils {
         }
 
         bufferRenderElements(buf: CommandBuffer, mode: number, offset: number, count: number): void {
-            buf.drawElements(mode, count, this.gl.UNSIGNED_SHORT, offset * 2);
+            buf.drawElements(mode, count, this.uint32Supported ? this.gl.UNSIGNED_INT : this.gl.UNSIGNED_SHORT,
+                offset * this.indexData.BYTES_PER_ELEMENT, this.indexData.BYTES_PER_ELEMENT);
         }
 
         dispose(): void {

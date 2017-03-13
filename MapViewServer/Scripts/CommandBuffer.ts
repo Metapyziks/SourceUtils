@@ -342,10 +342,7 @@ namespace SourceUtils {
             gl.vertexAttribPointer(args.index, args.size, args.type, args.normalized, args.stride, args.offset);
         }
 
-        drawElements(mode: number, count: number, type: number, offset: number): void {
-            // Assuming GL_UNSIGNED_SHORT
-            const elemSize = 2;
-
+        drawElements(mode: number, count: number, type: number, offset: number, elemSize: number): void {
             if (this.lastCommand.action === this.onDrawElements &&
                 this.lastCommand.type === type &&
                 this.lastCommand.offset + this.lastCommand.count * elemSize === offset) {

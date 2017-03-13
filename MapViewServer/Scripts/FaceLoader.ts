@@ -8,8 +8,8 @@
     export class MeshData {
         components: Api.MeshComponent;
         elements: Api.IElement[];
-        vertices: Float32Array;
-        indices: Uint16Array;
+        vertices: number[];
+        indices: number[];
 
         constructor(faces: Api.IFaces);
         constructor(vertData: Api.IVertexContainer, indexData: Api.IIndicesContainer);
@@ -22,8 +22,8 @@
 
             this.components = vertData.components;
             this.elements = indexData.elements;
-            this.vertices = Utils.decompressFloat32Array(vertData.vertices);
-            this.indices = Utils.decompressUint16Array(indexData.indices);
+            this.vertices = Utils.decompressOrClone(vertData.vertices);
+            this.indices = Utils.decompressOrClone(indexData.indices);
         }
     }
 
