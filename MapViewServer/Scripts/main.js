@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var SourceUtils;
 (function (SourceUtils) {
     var Api;
@@ -1234,9 +1239,7 @@ var SourceUtils;
         CommandBuffer.prototype.onVertexAttribPointer = function (gl, args) {
             gl.vertexAttribPointer(args.index, args.size, args.type, args.normalized, args.stride, args.offset);
         };
-        CommandBuffer.prototype.drawElements = function (mode, count, type, offset) {
-            // Assuming GL_UNSIGNED_SHORT
-            var elemSize = 2;
+        CommandBuffer.prototype.drawElements = function (mode, count, type, offset, elemSize) {
             if (this.lastCommand.action === this.onDrawElements &&
                 this.lastCommand.type === type &&
                 this.lastCommand.offset + this.lastCommand.count * elemSize === offset) {
@@ -1614,8 +1617,8 @@ var SourceUtils;
             }
             this.components = vertData.components;
             this.elements = indexData.elements;
-            this.vertices = SourceUtils.Utils.decompressFloat32Array(vertData.vertices);
-            this.indices = SourceUtils.Utils.decompressUint16Array(indexData.indices);
+            this.vertices = SourceUtils.Utils.decompress(vertData.vertices);
+            this.indices = SourceUtils.Utils.decompress(indexData.indices);
         }
         return MeshData;
     }());
@@ -3751,6 +3754,7 @@ var SourceUtils;
             this.vertCount = 0;
             this.indexCount = 0;
             this.handleCount = 0;
+            this.uint32Supported = false;
             this.hasPositions = false;
             this.hasNormals = false;
             this.hasUvs = false;
@@ -3763,6 +3767,7 @@ var SourceUtils;
             this.indices = gl.createBuffer();
             this.components = components;
             this.vertexSize = 0;
+            this.uint32Supported = gl.getExtension("OES_element_index_uint") != null;
             if ((components & SourceUtils.Api.MeshComponent.Position) === SourceUtils.Api.MeshComponent.Position) {
                 this.hasPositions = true;
                 this.positionOffset = this.vertexSize;
@@ -3793,8 +3798,9 @@ var SourceUtils;
                 this.rgbOffset = this.vertexSize;
                 this.vertexSize += 3;
             }
+            var maxVertsPerSubBuffer = this.uint32Supported ? 2147483648 : 65536;
             this.maxVertLength = 2147483648;
-            this.maxSubBufferLength = this.vertexSize * 65536;
+            this.maxSubBufferLength = this.vertexSize * maxVertsPerSubBuffer;
         }
         WorldMeshGroup.prototype.compareTo = function (other) {
             return this.id - other.id;
@@ -3849,14 +3855,14 @@ var SourceUtils;
                 throw new Error("Can't add faces to WorldMeshGroup (would exceed size limit).");
             }
             var gl = this.gl;
-            var newVertices = data.vertices;
-            var newIndices = data.indices;
+            var newVertices = new Float32Array(data.vertices);
+            var newIndices = this.uint32Supported ? new Uint32Array(data.indices) : new Uint16Array(data.indices);
             var vertexOffset = this.vertCount;
             var oldVertices = this.vertexData;
             this.vertexData = this.ensureCapacity(this.vertexData, this.vertCount + newVertices.length, function (size) { return new Float32Array(size); });
             var indexOffset = this.indexCount;
             var oldIndices = this.indexData;
-            this.indexData = this.ensureCapacity(this.indexData, this.indexCount + newIndices.length, function (size) { return new Uint16Array(size); });
+            this.indexData = this.ensureCapacity(this.indexData, this.indexCount + newIndices.length, this.uint32Supported ? function (size) { return new Uint32Array(size); } : function (size) { return new Uint16Array(size); });
             this.vertexData.set(newVertices, vertexOffset);
             this.vertCount += newVertices.length;
             if (this.vertCount - this.lastSubBufferOffset * this.vertexSize > this.maxSubBufferLength) {
@@ -3895,7 +3901,7 @@ var SourceUtils;
             program.bufferAttribPointer(buf, SourceUtils.Api.MeshComponent.Rgb, 3, gl.FLOAT, false, stride, baseOffset + this.rgbOffset * 4);
         };
         WorldMeshGroup.prototype.bufferRenderElements = function (buf, mode, offset, count) {
-            buf.drawElements(mode, count, this.gl.UNSIGNED_SHORT, offset * 2);
+            buf.drawElements(mode, count, this.uint32Supported ? this.gl.UNSIGNED_INT : this.gl.UNSIGNED_SHORT, offset * this.indexData.BYTES_PER_ELEMENT, this.indexData.BYTES_PER_ELEMENT);
         };
         WorldMeshGroup.prototype.dispose = function () {
             if (this.vertices !== undefined) {
