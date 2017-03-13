@@ -197,21 +197,22 @@
     }
 
     export class BlankTexture2D extends Texture {
-        constructor(gl: WebGLRenderingContext, color: THREE.Color) {
+        constructor(gl: WebGLRenderingContext, r: number, g: number, b: number, a?: number) {
             super(gl, gl.TEXTURE_2D);
 
-            this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            if (a === undefined) a = 1.0;
+            this.loadPixels(1, 1, new Uint8Array([Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), Math.round(a * 255)]));
         }
     }
 
     export class BlankTextureCube extends Texture
     {
-        constructor(gl: WebGLRenderingContext, color: THREE.Color)
+        constructor(gl: WebGLRenderingContext, r: number, g: number, b: number, a?: number)
         {
             super(gl, gl.TEXTURE_CUBE_MAP);
 
             const pixels = new Uint8Array([
-                Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255
+                Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), Math.round(a * 255)
             ]);
 
             this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_X);

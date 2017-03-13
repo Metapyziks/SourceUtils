@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace SourceUtils
@@ -27,9 +29,9 @@ namespace SourceUtils
         public TextureFormat LowResFormat;
         public byte LowResWidth;
         public byte LowResHeight;
-        public ushort Depth;
     }
 
+    [Flags]
     public enum TextureFlags : uint
     {
         POINTSAMPLE = 0x00000001,
@@ -110,6 +112,25 @@ namespace SourceUtils
     [PathPrefix( "materials" )]
     public class ValveTextureFile
     {
+        private enum VtfResourceType : uint
+        {
+            LowResImage = 0x01,
+            HiResImage = 0x30
+        }
+        
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+        private struct VtfResource
+        {
+            public readonly VtfResourceType Type;
+            public readonly uint Data;
+
+            public VtfResource( VtfResourceType type, uint data )
+            {
+                Type = type;
+                Data = data;
+            }
+        }
+
         public static ValveTextureFile FromStream( Stream stream )
         {
             return new ValveTextureFile( stream );
@@ -149,9 +170,28 @@ namespace SourceUtils
                     throw new NotImplementedException();
             }
         }
+        
+        private readonly byte[] _hiResPixelData;
+        private readonly ImageData[] _imageData;
 
         public TextureHeader Header { get; }
-        public byte[] PixelData { get; }
+        public int MipmapCount { get; }
+        public int FrameCount { get; }
+        public int FaceCount { get; }
+        public int ZSliceCount { get; }
+        
+        [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+        private struct ImageData
+        {
+            public readonly int Offset;
+            public readonly int Length;
+
+            public ImageData( int offset, int length )
+            {
+                Offset = offset;
+                Length = length;
+            }
+        }
 
         [ThreadStatic] private static byte[] _sTempBuffer;
 
@@ -178,10 +218,48 @@ namespace SourceUtils
         public ValveTextureFile( Stream stream, bool onlyHeader = false )
         {
             Header = LumpReader<TextureHeader>.ReadSingleFromStream( stream );
+            var readCount = Marshal.SizeOf<TextureHeader>();
 
-            Skip( stream, Header.HeaderSize - Marshal.SizeOf<TextureHeader>() );
+            ZSliceCount = 1;
+
+            if ( Header.MajorVersion > 7 || Header.MajorVersion == 7 && Header.MinorVersion >= 2 )
+            {
+                ZSliceCount = stream.ReadByte() | (stream.ReadByte() << 8);
+                readCount += 2;
+            }
+
+            MipmapCount = Header.MipMapCount;
+            FrameCount = Header.Frames;
+            FaceCount = (Header.Flags & TextureFlags.ENVMAP) != 0 ? 6 : 1;
+
+            if ( onlyHeader ) return;
 
             var thumbSize = GetImageDataSize( Header.LowResWidth, Header.LowResHeight, 1, 1, Header.LowResFormat );
+
+            VtfResource[] resources;
+
+            if ( Header.MajorVersion > 7 || Header.MajorVersion == 7 && Header.MinorVersion >= 3 )
+            {
+                Skip( stream, 3 );
+                readCount += 3;
+                var resourceCount = stream.ReadByte() | (stream.ReadByte() << 8) | (stream.ReadByte() << 16) |
+                                (stream.ReadByte() << 24);
+                readCount += 4;
+                Skip( stream, 8 );
+                readCount += 8;
+
+                resources = LumpReader<VtfResource>.ReadLumpFromStream( stream, resourceCount );
+                readCount += Marshal.SizeOf<VtfResource>() * resourceCount;
+            }
+            else
+            {
+                resources = new VtfResource[2];
+                resources[0] = new VtfResource(VtfResourceType.LowResImage, Header.HeaderSize);
+                resources[1] = new VtfResource(VtfResourceType.HiResImage, Header.HeaderSize + (uint) thumbSize);
+            }
+
+            Skip( stream, Header.HeaderSize - readCount );
+            readCount = (int) Header.HeaderSize;
 
             switch ( Header.HiResFormat )
             {
@@ -194,28 +272,59 @@ namespace SourceUtils
                     throw new NotImplementedException( $"VTF format: {Header.HiResFormat}" );
             }
 
-            if ( onlyHeader ) return;
+            _imageData = new ImageData[MipmapCount * FrameCount * FaceCount * ZSliceCount];
 
-            Skip( stream, thumbSize );
-
-            var frameSize = GetImageDataSize( Header.Width, Header.Height, 1, Header.MipMapCount, Header.HiResFormat );
-
-            PixelData = new byte[frameSize * Header.Frames];
-
-            var framesWriteOffset = frameSize;
-            for ( var i = Header.MipMapCount - 1; i >= 0; --i )
+            var offset = 0;
+            for ( var mipmap = MipmapCount - 1; mipmap >= 0; --mipmap )
             {
-                var size = GetImageDataSize(Header.Width >> i, Header.Height >> i, 1, 1, Header.HiResFormat);
+                var length = GetImageDataSize( Header.Width >> mipmap, Header.Height >> mipmap, 1, 1, Header.HiResFormat );
 
-                framesWriteOffset -= size;
-
-                var writePos = framesWriteOffset;
-                for ( var f = 0; f < Header.Frames; ++f )
+                for ( var frame = 0; frame < FrameCount; ++frame )
+                for ( var face = 0; face < FaceCount; ++face )
+                for ( var zslice = 0; zslice < ZSliceCount; ++zslice )
                 {
-                    stream.Read( PixelData, writePos, size );
-                    writePos += frameSize;
+                    var index = GetImageDataIndex( mipmap, frame, face, zslice );
+                    _imageData[index] = new ImageData( offset, length );
+                    offset += length;
                 }
             }
+
+            var hiResEntry = resources.First( x => x.Type == VtfResourceType.HiResImage );
+
+            Skip( stream, hiResEntry.Data - readCount );
+
+            _hiResPixelData = new byte[offset];
+            stream.Read( _hiResPixelData, 0, offset );
+        }
+
+        private int GetImageDataIndex( int mipmap, int frame, int face, int zslice )
+        {
+            return zslice + ZSliceCount * (face + FaceCount * (frame + FrameCount * mipmap));
+        }
+
+        public int GetHiResPixelDataLength( int mipmap )
+        {
+            return GetHiResPixelData( mipmap, 0, 0, 0, null );
+        }
+
+        public int GetHiResPixelData( int mipmap, int frame, int face, int zslice, byte[] dst, int dstOffset = 0 )
+        {
+            var entry = _imageData[GetImageDataIndex( mipmap, frame, face, zslice )];
+            if ( dst != null ) Array.Copy( _hiResPixelData, entry.Offset, dst, dstOffset, entry.Length );
+
+            return entry.Length;
+        }
+
+        public void WriteHiResPixelData( int mipmap, int frame, int face, int zslice, BinaryWriter writer )
+        {
+            var entry = _imageData[GetImageDataIndex( mipmap, frame, face, zslice )];
+            writer.Write( _hiResPixelData, entry.Offset, entry.Length );
+        }
+
+        public void WriteHiResPixelData( int mipmap, int frame, int face, int zslice, Stream stream )
+        {
+            var entry = _imageData[GetImageDataIndex( mipmap, frame, face, zslice )];
+            stream.Write( _hiResPixelData, entry.Offset, entry.Length );
         }
     }
 }

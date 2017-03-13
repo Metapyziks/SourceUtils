@@ -94,19 +94,14 @@ namespace MapViewServer
             Utils.ImageMagickConvert( src, dst, MagickFormat.Dds, MagickFormat.Png, newWidth, newHeight );
         }
 
-        public static void ConvertToDds( ValveTextureFile vtf, Stream outStream )
-        {
-            ConvertToDds( vtf, -1, outStream );
-        }
-
-        public static unsafe void ConvertToDds( ValveTextureFile vtf, int mipMap, Stream outStream )
+        public static unsafe void ConvertToDds( ValveTextureFile vtf, int mipMap, int frame, int face, int zslice, Stream outStream )
         {
             var oneMipMap = mipMap > -1;
             if ( mipMap < 0 ) mipMap = 0;
 
             if ( mipMap >= vtf.Header.MipMapCount )
             {
-                ConvertToDds( vtf, vtf.Header.MipMapCount - 1, outStream );
+                ConvertToDds( vtf, vtf.Header.MipMapCount - 1, frame, face, zslice, outStream );
                 return;
             }
 
@@ -157,19 +152,12 @@ namespace MapViewServer
                 var endMipMap = oneMipMap ? mipMap + 1 : vtf.Header.MipMapCount;
                 for ( var i = mipMap; i < endMipMap; ++i )
                 {
-                    var offset = ValveTextureFile.GetImageDataSize(
-                        vtf.Header.Width, vtf.Header.Height,
-                        1, mipMap, vtf.Header.HiResFormat );
-                    var end = ValveTextureFile.GetImageDataSize(
-                        vtf.Header.Width, vtf.Header.Height,
-                        1, mipMap + 1, vtf.Header.HiResFormat );
-
-                    writer.Write( vtf.PixelData, offset, end - offset );
+                    vtf.WriteHiResPixelData( i, frame, face, zslice, writer );
                 }
             }
         }
 
-        public static void ConvertToPng( IResourceProvider resources, string vtfFilePath, int mipMap, Stream outStream )
+        public static void ConvertToPng( IResourceProvider resources, string vtfFilePath, int mipMap, int frame, int face, int zslice, Stream outStream )
         {
             if ( _sMemoryStream == null ) _sMemoryStream = new MemoryStream();
             else
@@ -189,7 +177,7 @@ namespace MapViewServer
 
             if ( vtf.Header.HiResFormat == TextureFormat.DXT1 || vtf.Header.HiResFormat == TextureFormat.DXT5 )
             {
-                ConvertToDds( vtf, mipMap, _sMemoryStream );
+                ConvertToDds( vtf, mipMap, frame, face, zslice, _sMemoryStream );
 
                 _sMemoryStream.Seek( 0, SeekOrigin.Begin );
 
@@ -206,21 +194,15 @@ namespace MapViewServer
                 return;
             }
 
-            if ( vtf.Header.HiResFormat == TextureFormat.BGRA8888 )
+            if ( vtf.Header.HiResFormat == TextureFormat.BGRA8888 || vtf.Header.HiResFormat == TextureFormat.BGR888 )
             {
-                _sMemoryStream.Write( vtf.PixelData, 0, width * height * 4 );
+                vtf.WriteHiResPixelData( mipMap, frame, face, zslice, _sMemoryStream );
                 _sMemoryStream.Seek( 0, SeekOrigin.Begin );
 
-                Utils.ImageMagickConvert( _sMemoryStream, outStream, MagickFormat.Bgra, width, height, MagickFormat.Png );
-                return;
-            }
+                var magickFormat = vtf.Header.HiResFormat == TextureFormat.BGRA8888
+                    ? MagickFormat.Bgra : MagickFormat.Bgr;
 
-            if (vtf.Header.HiResFormat == TextureFormat.BGR888)
-            {
-                _sMemoryStream.Write(vtf.PixelData, 0, width * height * 3);
-                _sMemoryStream.Seek(0, SeekOrigin.Begin);
-
-                Utils.ImageMagickConvert(_sMemoryStream, outStream, MagickFormat.Bgr, width, height, MagickFormat.Png);
+                Utils.ImageMagickConvert( _sMemoryStream, outStream, magickFormat, width, height, MagickFormat.Png );
                 return;
             }
 

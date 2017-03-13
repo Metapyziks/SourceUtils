@@ -285,6 +285,31 @@ namespace MapViewServer
             };
         }
 
+        [Get( "/{mapName}/cubemaps" )]
+        public JToken GetCubemaps( [Url] string mapName )
+        {
+            if ( CheckNotExpired( mapName ) ) return null;
+            
+            var bsp = GetBspFile( Request, mapName );
+
+            var array = new JArray();
+
+            foreach ( var cubemap in bsp.Cubemaps )
+            {
+                var fileName = $"materials/maps/{mapName}/c{cubemap.OriginX}_{cubemap.OriginY}_{cubemap.OriginZ}.vtf";
+                array.Add( new JObject
+                {
+                    {"origin", new Vector3( cubemap.OriginX, cubemap.OriginY, cubemap.OriginZ ).ToJson()},
+                    {"vtfUrl", VtfController.GetUrl( Request, fileName, mapName )}
+                } );
+            }
+
+            return new JObject
+            {
+                { "cubemaps", array }
+            };
+        }
+
         [Get("/{mapName}/entity-test")]
         public JToken GetEntityTest( [Url] string mapName )
         {

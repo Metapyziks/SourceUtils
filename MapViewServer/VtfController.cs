@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using MimeTypes;
 using Newtonsoft.Json.Linq;
 using SourceUtils;
@@ -17,12 +18,6 @@ namespace MapViewServer
         public static string GetUrl( HttpListenerRequest request, string path, string mapName = null )
         {
             return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path}";
-        }
-
-        public static string GetPngUrl( HttpListenerRequest request, string path, string mapName = null, int mipMap = -1 )
-        {
-            var mipMapString = mipMap == -1 ? "{mipmap}" : mipMap.ToString();
-            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}?mipmap={mipMapString}";
         }
 
         protected override string FilePath
@@ -50,12 +45,35 @@ namespace MapViewServer
             {
                 {"width", vtf.Header.Width},
                 {"height", vtf.Header.Height},
+                {"version", vtf.Header.MajorVersion + vtf.Header.MinorVersion * 0.1f },
                 {"flags", (long) vtf.Header.Flags},
-                {"pngUrl", GetPngUrl( Request, filePath, mapName, -1 )},
-                {"mipmaps", vtf.Header.MipMapCount}
+                {"pngUrl", GetPngUrl( Request, filePath, vtf, mapName )},
+                {"mipmaps", vtf.MipmapCount},
+                {"frames", vtf.FrameCount },
+                {"faces", vtf.FaceCount },
+                {"depth", vtf.ZSliceCount }
             };
 
             return response;
+        }
+
+        private void AppendToQueryString( StringBuilder queryStringBuilder, string key, int value = -1 )
+        {
+            var prefix = queryStringBuilder.Length == 0 ? "?" : "&";
+            var valueStr = value == -1 ? $"{{{key}}}" : value.ToString();
+            queryStringBuilder.Append( $"{prefix}{key}={valueStr}" );
+        }
+
+        private string GetPngUrl( HttpListenerRequest request, string path, ValveTextureFile vtf, string mapName = null )
+        {
+            var queryStringBuilder = new StringBuilder();
+
+            if ( vtf.MipmapCount > 1 ) AppendToQueryString( queryStringBuilder, "mipmap" );
+            if ( vtf.FrameCount > 1 ) AppendToQueryString( queryStringBuilder, "frame" );
+            if ( vtf.FaceCount > 1 ) AppendToQueryString( queryStringBuilder, "face" );
+            if ( vtf.ZSliceCount > 1 ) AppendToQueryString( queryStringBuilder, "zslice" );
+
+            return $"http://{request.Url.Authority}{UrlPrefix}/{GetProviderPrefix( mapName )}/{path.Replace( ".vtf", ".png" )}{queryStringBuilder}";
         }
 
         [Get( "/vpk", MatchAllUrl = false )]
@@ -71,25 +89,25 @@ namespace MapViewServer
             return GetJson( bsp.PakFile, FilePath, mapName );
         }
 
-        private void GetPng( IResourceProvider provider, string filePath, int mipmap )
+        private void GetPng( IResourceProvider provider, string filePath, int mipmap, int frame, int face, int zslice )
         {
             Response.ContentType = MimeTypeMap.GetMimeType( ".png" );
 
-            VtfConverter.ConvertToPng( provider, filePath, mipmap, Response.OutputStream );
+            VtfConverter.ConvertToPng( provider, filePath, mipmap, frame, face, zslice, Response.OutputStream );
             Response.OutputStream.Close();
         }
 
         [Get( "/vpk", MatchAllUrl = false, Extension = ".png" )]
-        public void GetPng( int mipmap = 0 )
+        public void GetPng( int mipmap = 0, int frame = 0, int face = 0, int zslice = 0)
         {
-            GetPng( Resources, FilePath, mipmap );
+            GetPng( Resources, FilePath, mipmap, frame, face, zslice );
         }
         
         [Get( "/pak/{mapName}", MatchAllUrl = false, Extension = ".png" )]
-        public void GetPng( [Url] string mapName, int mipmap = 0 )
+        public void GetPng( [Url] string mapName, int mipmap = 0, int frame = 0, int face = 0, int zslice = 0 )
         {
             var bsp = BspController.GetBspFile( Request, mapName );
-            GetPng( bsp.PakFile, FilePath, mipmap );
+            GetPng( bsp.PakFile, FilePath, mipmap, frame, face, zslice );
         }
     }
 }

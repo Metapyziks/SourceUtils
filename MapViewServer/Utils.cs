@@ -150,7 +150,7 @@ namespace MapViewServer
                         args += $"-resize {dstWidth}x{dstHeight}! ";
                     }
 
-                    if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Bgr )
+                    if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Bgr || srcFormat == MagickFormat.Rgba )
                     {
                         args += $"-size {srcWidth}x{srcHeight} -depth 8 ";
                     }
@@ -188,7 +188,7 @@ namespace MapViewServer
                     Format = srcFormat
                 };
 
-                if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Bgr )
+                if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Rgba || srcFormat == MagickFormat.Bgr )
                 {
                     readSettings.PixelStorage = new PixelStorageSettings
                     {

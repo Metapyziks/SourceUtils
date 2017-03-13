@@ -45,7 +45,7 @@ namespace SourceUtils {
             this.shaderManager = new ShaderManager(app.getContext());
 
             this.blankMaterial = new Material(this, "LightmappedGeneric");
-            this.blankMaterial.properties.baseTexture = this.shaderManager.getBlankTexture();
+            this.blankMaterial.properties.baseTexture = this.shaderManager.getWhiteTexture();
             this.errorMaterial = new Material(this, "LightmappedGeneric");
             this.errorMaterial.properties.baseTexture = new ErrorTexture2D(app.getContext());
 
@@ -62,7 +62,7 @@ namespace SourceUtils {
         }
 
         getLightmap(): Texture {
-            return this.lightmap || this.shaderManager.getBlankTexture();
+            return this.lightmap || this.shaderManager.getWhiteTexture();
         }
 
         getWorldSpawn(): BspModel {

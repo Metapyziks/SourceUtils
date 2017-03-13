@@ -145,6 +145,9 @@ namespace SourceUtils
         [BspLump(LumpType.GAME_LUMP)]
         public GameLump GameData { get; private set; }
 
+        [BspLump(LumpType.CUBEMAPS)]
+        public ArrayLump<CubemapSample> Cubemaps { get; private set; }
+
         public DisplacementManager DisplacementManager { get; }
         public LightmapLayout LightmapLayout { get; }
         public StaticProps StaticProps { get; }

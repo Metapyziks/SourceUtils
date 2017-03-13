@@ -1,6 +1,7 @@
 ﻿
 namespace SourceUtils {
     export class ShaderManager {
+        private whiteTexture: Texture;
         private blankTexture: Texture;
         private blankNormalMap: Texture;
         private blankTextureCube: Texture;
@@ -11,9 +12,10 @@ namespace SourceUtils {
         constructor(gl: WebGLRenderingContext) {
             this.gl = gl;
 
-            this.blankTexture = new BlankTexture2D(gl, new THREE.Color(1, 1, 1));
-            this.blankNormalMap = new BlankTexture2D(gl, new THREE.Color(0.5, 0.5, 1.0));
-            this.blankTextureCube = new BlankTextureCube(gl, new THREE.Color(1, 1, 1));
+            this.whiteTexture = new BlankTexture2D(gl, 1, 1, 1);
+            this.blankTexture = new BlankTexture2D(gl, 0, 0, 0, 0);
+            this.blankNormalMap = new BlankTexture2D(gl, 0.5, 0.5, 1.0);
+            this.blankTextureCube = new BlankTextureCube(gl, 1, 1, 1);
         }
 
         resetUniformCache(): void {
@@ -22,6 +24,10 @@ namespace SourceUtils {
                     this.programs[name].resetUniformCache();
                 }
             }
+        }
+
+        getWhiteTexture(): Texture {
+            return this.whiteTexture;
         }
 
         getBlankTexture(): Texture {
@@ -33,7 +39,7 @@ namespace SourceUtils {
         }
 
         getBlankTextureCube(): Texture {
-            return this.blankTexture;
+            return this.blankTextureCube;
         }
 
         getContext(): WebGLRenderingContext {
@@ -583,7 +589,7 @@ namespace SourceUtils {
                 this.addAttribute("aTextureCoord", Api.MeshComponent.Uv);
 
                 this.baseTexture = this.addUniform(UniformSampler, "uBaseTexture");
-                this.baseTexture.setDefault(manager.getBlankTexture());
+                this.baseTexture.setDefault(manager.getWhiteTexture());
 
                 this.time = this.addUniform(Uniform4F, "uTime");
                 this.fogParams = this.addUniform(Uniform4F, "uFogParams");
@@ -646,7 +652,7 @@ namespace SourceUtils {
                 this.addAttribute("aLightmapCoord", Api.MeshComponent.Uv2);
 
                 this.lightmap = this.addUniform(UniformSampler, "uLightmap");
-                this.lightmap.setDefault(manager.getBlankTexture());
+                this.lightmap.setDefault(manager.getWhiteTexture());
 
                 this.lightmapParams = this.addUniform(Uniform4F, "uLightmapParams");
             }
@@ -732,10 +738,10 @@ namespace SourceUtils {
                 this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
 
                 this.baseTexture2 = this.addUniform(UniformSampler, "uBaseTexture2");
-                this.baseTexture2.setDefault(manager.getBlankTexture());
+                this.baseTexture2.setDefault(manager.getWhiteTexture());
 
                 this.blendModulateTexture = this.addUniform(UniformSampler, "uBlendModulateTexture");
-                this.blendModulateTexture.setDefault(manager.getBlankTexture());
+                this.blendModulateTexture.setDefault(manager.getWhiteTexture());
             }
 
             bufferMaterial(buf: CommandBuffer, material: Material): void {
@@ -844,6 +850,7 @@ namespace SourceUtils {
             inverseProjection: UniformMatrix4;
             inverseView: UniformMatrix4;
             normalMap: UniformSampler;
+            simpleOverlay: UniformSampler;
             refractColor: UniformSampler;
             refractDepth: UniformSampler;
             screenParams: Uniform4F;
@@ -870,6 +877,9 @@ namespace SourceUtils {
 
                 this.normalMap = this.addUniform(UniformSampler, "uNormalMap");
                 this.normalMap.setDefault(manager.getBlankNormalMap());
+
+                this.simpleOverlay = this.addUniform(UniformSampler, "uSimpleOverlay");
+                this.simpleOverlay.setDefault(manager.getBlankTexture());
 
                 this.refractColor = this.addUniform(UniformSampler, "uRefractColor");
                 this.refractDepth = this.addUniform(UniformSampler, "uRefractDepth");
@@ -898,6 +908,7 @@ namespace SourceUtils {
                 super.bufferMaterial(buf, material);
 
                 this.normalMap.bufferValue(buf, material.properties.normalMap);
+                this.simpleOverlay.bufferValue(buf, material.properties.simpleOverlay);
 
                 const fogStart = material.properties.fogStart;
                 const fogEnd = material.properties.fogEnd;

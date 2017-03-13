@@ -805,9 +805,11 @@ var SourceUtils;
     SourceUtils.Lightmap = Lightmap;
     var BlankTexture2D = (function (_super) {
         __extends(BlankTexture2D, _super);
-        function BlankTexture2D(gl, color) {
+        function BlankTexture2D(gl, r, g, b, a) {
             var _this = _super.call(this, gl, gl.TEXTURE_2D) || this;
-            _this.loadPixels(1, 1, new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255]));
+            if (a === undefined)
+                a = 1.0;
+            _this.loadPixels(1, 1, new Uint8Array([Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), Math.round(a * 255)]));
             return _this;
         }
         return BlankTexture2D;
@@ -815,10 +817,10 @@ var SourceUtils;
     SourceUtils.BlankTexture2D = BlankTexture2D;
     var BlankTextureCube = (function (_super) {
         __extends(BlankTextureCube, _super);
-        function BlankTextureCube(gl, color) {
+        function BlankTextureCube(gl, r, g, b, a) {
             var _this = _super.call(this, gl, gl.TEXTURE_CUBE_MAP) || this;
             var pixels = new Uint8Array([
-                Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255
+                Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), Math.round(a * 255)
             ]);
             _this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_X);
             _this.loadPixels(1, 1, pixels, gl.TEXTURE_CUBE_MAP_NEGATIVE_Y);
@@ -1910,7 +1912,7 @@ var SourceUtils;
             _this.meshManager = new SourceUtils.WorldMeshManager(app.getContext());
             _this.shaderManager = new SourceUtils.ShaderManager(app.getContext());
             _this.blankMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
-            _this.blankMaterial.properties.baseTexture = _this.shaderManager.getBlankTexture();
+            _this.blankMaterial.properties.baseTexture = _this.shaderManager.getWhiteTexture();
             _this.errorMaterial = new SourceUtils.Material(_this, "LightmappedGeneric");
             _this.errorMaterial.properties.baseTexture = new SourceUtils.ErrorTexture2D(app.getContext());
             _this.loadInfo(url);
@@ -1924,7 +1926,7 @@ var SourceUtils;
             return this.app;
         };
         Map.prototype.getLightmap = function () {
-            return this.lightmap || this.shaderManager.getBlankTexture();
+            return this.lightmap || this.shaderManager.getWhiteTexture();
         };
         Map.prototype.getWorldSpawn = function () {
             return this.models.length > 0 ? this.models[0] : null;
@@ -2382,6 +2384,7 @@ var SourceUtils;
             this.baseTexture2 = null;
             this.blendModulateTexture = null;
             this.normalMap = null;
+            this.simpleOverlay = null;
             this.noFog = false;
             this.alphaTest = false;
             this.alpha = 1;
@@ -2676,9 +2679,10 @@ var SourceUtils;
         function ShaderManager(gl) {
             this.programs = {};
             this.gl = gl;
-            this.blankTexture = new SourceUtils.BlankTexture2D(gl, new THREE.Color(1, 1, 1));
-            this.blankNormalMap = new SourceUtils.BlankTexture2D(gl, new THREE.Color(0.5, 0.5, 1.0));
-            this.blankTextureCube = new SourceUtils.BlankTextureCube(gl, new THREE.Color(1, 1, 1));
+            this.whiteTexture = new SourceUtils.BlankTexture2D(gl, 1, 1, 1);
+            this.blankTexture = new SourceUtils.BlankTexture2D(gl, 0, 0, 0, 0);
+            this.blankNormalMap = new SourceUtils.BlankTexture2D(gl, 0.5, 0.5, 1.0);
+            this.blankTextureCube = new SourceUtils.BlankTextureCube(gl, 1, 1, 1);
         }
         ShaderManager.prototype.resetUniformCache = function () {
             for (var name_1 in this.programs) {
@@ -2687,6 +2691,9 @@ var SourceUtils;
                 }
             }
         };
+        ShaderManager.prototype.getWhiteTexture = function () {
+            return this.whiteTexture;
+        };
         ShaderManager.prototype.getBlankTexture = function () {
             return this.blankTexture;
         };
@@ -2694,7 +2701,7 @@ var SourceUtils;
             return this.blankNormalMap;
         };
         ShaderManager.prototype.getBlankTextureCube = function () {
-            return this.blankTexture;
+            return this.blankTextureCube;
         };
         ShaderManager.prototype.getContext = function () {
             return this.gl;
@@ -3143,7 +3150,7 @@ var SourceUtils;
                 _this.addAttribute("aPosition", SourceUtils.Api.MeshComponent.Position);
                 _this.addAttribute("aTextureCoord", SourceUtils.Api.MeshComponent.Uv);
                 _this.baseTexture = _this.addUniform(UniformSampler, "uBaseTexture");
-                _this.baseTexture.setDefault(manager.getBlankTexture());
+                _this.baseTexture.setDefault(manager.getWhiteTexture());
                 _this.time = _this.addUniform(Uniform4F, "uTime");
                 _this.fogParams = _this.addUniform(Uniform4F, "uFogParams");
                 _this.fogColor = _this.addUniform(Uniform3F, "uFogColor");
@@ -3191,7 +3198,7 @@ var SourceUtils;
                 _this.sortOrder = 0;
                 _this.addAttribute("aLightmapCoord", SourceUtils.Api.MeshComponent.Uv2);
                 _this.lightmap = _this.addUniform(UniformSampler, "uLightmap");
-                _this.lightmap.setDefault(manager.getBlankTexture());
+                _this.lightmap.setDefault(manager.getWhiteTexture());
                 _this.lightmapParams = _this.addUniform(Uniform4F, "uLightmapParams");
                 return _this;
             }
@@ -3255,9 +3262,9 @@ var SourceUtils;
                 _this.loadShaderSource(gl.VERTEX_SHADER, "/shaders/Lightmapped2WayBlend.vert.txt");
                 _this.loadShaderSource(gl.FRAGMENT_SHADER, "/shaders/Lightmapped2WayBlend.frag.txt");
                 _this.baseTexture2 = _this.addUniform(UniformSampler, "uBaseTexture2");
-                _this.baseTexture2.setDefault(manager.getBlankTexture());
+                _this.baseTexture2.setDefault(manager.getWhiteTexture());
                 _this.blendModulateTexture = _this.addUniform(UniformSampler, "uBlendModulateTexture");
-                _this.blendModulateTexture.setDefault(manager.getBlankTexture());
+                _this.blendModulateTexture.setDefault(manager.getWhiteTexture());
                 return _this;
             }
             Lightmapped2WayBlend.prototype.bufferMaterial = function (buf, material) {
@@ -3358,6 +3365,8 @@ var SourceUtils;
                 _this.inverseView = _this.addUniform(UniformMatrix4, "uInverseView");
                 _this.normalMap = _this.addUniform(UniformSampler, "uNormalMap");
                 _this.normalMap.setDefault(manager.getBlankNormalMap());
+                _this.simpleOverlay = _this.addUniform(UniformSampler, "uSimpleOverlay");
+                _this.simpleOverlay.setDefault(manager.getBlankTexture());
                 _this.refractColor = _this.addUniform(UniformSampler, "uRefractColor");
                 _this.refractDepth = _this.addUniform(UniformSampler, "uRefractDepth");
                 _this.screenParams = _this.addUniform(Uniform4F, "uScreenParams");
@@ -3382,6 +3391,7 @@ var SourceUtils;
             Water.prototype.bufferMaterial = function (buf, material) {
                 _super.prototype.bufferMaterial.call(this, buf, material);
                 this.normalMap.bufferValue(buf, material.properties.normalMap);
+                this.simpleOverlay.bufferValue(buf, material.properties.simpleOverlay);
                 var fogStart = material.properties.fogStart;
                 var fogEnd = material.properties.fogEnd;
                 var fogColor = material.properties.fogColor;

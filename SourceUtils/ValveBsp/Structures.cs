@@ -472,4 +472,13 @@ namespace SourceUtils.ValveBsp
         public readonly byte B;
         public readonly sbyte Exponent;
     }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct CubemapSample
+    {
+        public readonly int OriginX;
+        public readonly int OriginY;
+        public readonly int OriginZ;
+        public readonly int Size;
+    }
 }

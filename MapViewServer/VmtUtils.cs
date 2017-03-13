@@ -154,6 +154,9 @@ namespace MapViewServer
                     case "$normalmap":
                         AddTexture2DProperty( destArray, "normalMap", GetTextureUrl( request, bsp, props[name], vmtDir ) );
                         break;
+                    case "$simpleoverlay":
+                        AddTexture2DProperty( destArray, "simpleOverlay", GetTextureUrl( request, bsp, props[name], vmtDir )  );
+                        break;
                     case "$nofog":
                         AddBooleanProperty( destArray, "noFog", props.GetBoolean( name ) );
                         break;

@@ -7,6 +7,7 @@
         baseTexture2: Texture = null;
         blendModulateTexture: Texture = null;
         normalMap: Texture = null;
+        simpleOverlay: Texture = null;
         noFog = false;
         alphaTest = false;
         alpha = 1;
