@@ -21,5 +21,13 @@ namespace SourceUtils {
                 ? JSON.parse(LZString.decompressFromBase64(value))
                 : value as T;
         }
+
+        static decompressOrClone<T>(value: string | T[]): T[]
+        {
+            if (value == null) return null;
+            return typeof value === "string"
+                ? JSON.parse(LZString.decompressFromBase64(value))
+                : (value as T[]).slice(0);
+        }
     }
 }

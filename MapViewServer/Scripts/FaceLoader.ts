@@ -22,8 +22,8 @@
 
             this.components = vertData.components;
             this.elements = indexData.elements;
-            this.vertices = Utils.decompress(vertData.vertices);
-            this.indices = Utils.decompress(indexData.indices);
+            this.vertices = Utils.decompressOrClone(vertData.vertices);
+            this.indices = Utils.decompressOrClone(indexData.indices);
         }
     }
 

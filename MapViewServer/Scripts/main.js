@@ -110,6 +110,13 @@ var SourceUtils;
                 ? JSON.parse(LZString.decompressFromBase64(value))
                 : value;
         };
+        Utils.decompressOrClone = function (value) {
+            if (value == null)
+                return null;
+            return typeof value === "string"
+                ? JSON.parse(LZString.decompressFromBase64(value))
+                : value.slice(0);
+        };
         return Utils;
     }());
     SourceUtils.Utils = Utils;
@@ -1617,8 +1624,8 @@ var SourceUtils;
             }
             this.components = vertData.components;
             this.elements = indexData.elements;
-            this.vertices = SourceUtils.Utils.decompress(vertData.vertices);
-            this.indices = SourceUtils.Utils.decompress(indexData.indices);
+            this.vertices = SourceUtils.Utils.decompressOrClone(vertData.vertices);
+            this.indices = SourceUtils.Utils.decompressOrClone(indexData.indices);
         }
         return MeshData;
     }());
