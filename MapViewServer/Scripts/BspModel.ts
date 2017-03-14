@@ -43,6 +43,10 @@ namespace SourceUtils {
             return this.leaves;
         }
 
+        getBounds(out: THREE.Box3): void {
+            out.copy(this.root.bounds);
+        }
+
         findLeaf(pos: THREE.Vector3): VisLeaf {
             if (this.root == null) return null;
 

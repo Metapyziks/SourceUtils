@@ -112,6 +112,15 @@ namespace SourceUtils.ValveBsp
             diffuseModulation = _props[propIndex].ColorModulation;
         }
 
+        public void GetFadeInfo( int propIndex, out float fadeMin, out float fadeMax, out float fadeScale )
+        {
+            EnsureLoaded();
+
+            fadeMin = _props[propIndex].FadeMinDist;
+            fadeMax = _props[propIndex].FadeMaxDist;
+            fadeScale = _props[propIndex].ForcedFadeScale;
+        }
+
         public void GetPropTransform( int propIndex, out Vector3 origin, out Vector3 angles )
         {
             EnsureLoaded();

@@ -163,12 +163,12 @@
             return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
         }
 
-        private replacePvs(pvs: VisLeaf[]): void {
+        private replacePvs(pvsRoot: VisLeaf, pvs: VisLeaf[]): void {
             this.drawList.clear();
             this.commandBufferInvalid = true;
 
             if (pvs != null) {
-                this.map.appendToDrawList(this.drawList, pvs);
+                this.map.appendToDrawList(this.drawList, pvsRoot, pvs);
             }
         }
 
@@ -181,14 +181,14 @@
 
             this.pvsRoot = root;
             if (root == null || root.cluster === -1) {
-                this.replacePvs(null);
+                this.replacePvs(null, null);
                 return;
             }
 
             this.map.getPvsArray(root,
                 (pvs) => {
                     if (this.pvsRoot != null && this.pvsRoot === root) {
-                        this.replacePvs(pvs);
+                        this.replacePvs(this.pvsRoot, pvs);
                     }
                 });
         }

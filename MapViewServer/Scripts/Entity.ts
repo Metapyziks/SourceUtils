@@ -75,6 +75,10 @@ namespace SourceUtils {
             target.z = this.position.z;
         }
 
+        getDistanceToBounds(bounds: THREE.Box3): number {
+            return bounds.distanceToPoint(this.position);
+        }
+
         translate(value: THREE.Vector3): void;
         translate(x: number, y: number, z: number): void;
         translate(valueOrX: THREE.Vector3 | number, y?: number, z?: number): void {

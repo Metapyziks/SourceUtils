@@ -233,7 +233,17 @@ namespace SourceUtils {
             return false;
         }
 
-        appendToDrawList(drawList: DrawList, pvs: VisLeaf[]): void {
+        private rootBounds = new THREE.Box3();
+
+        appendToDrawList(drawList: DrawList, pvsRoot: VisLeaf, pvs: VisLeaf[]): void
+        {
+            if (pvsRoot == null) {
+                const worldSpawn = this.getWorldSpawn();
+                worldSpawn.getBounds(this.rootBounds);
+            } else {
+                this.rootBounds.copy(pvsRoot.bounds);
+            }
+
             for (let i = 0, iEnd = pvs.length; i < iEnd; ++i) {
                 drawList.addItem(pvs[i]);
             }
@@ -260,6 +270,7 @@ namespace SourceUtils {
                 const prop = this.staticProps[i];
                 if (prop == null) continue;
                 if (!this.isAnyClusterVisible(prop.clusters, drawList)) continue;
+                if (!prop.isWithinVisibleRange(this.rootBounds)) continue;
                 drawList.addItem(prop.getDrawListItem());
             }
         }

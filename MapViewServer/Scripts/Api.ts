@@ -171,6 +171,9 @@
             clusters: number[];
             albedo: number;
             vertLightingUrl?: string;
+            fadeMin?: number;
+            fadeMax?: number;
+            fadeScale?: number;
         }
 
         export interface IBspStaticPropsResponse

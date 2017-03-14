@@ -64,6 +64,16 @@ namespace MapViewServer
                     {"clusters", clusters}
                 };
 
+                if ( (flags & StaticPropFlags.Fades) != 0 )
+                {
+                    float fadeMin, fadeMax, fadeScale;
+                    bsp.StaticProps.GetFadeInfo( i, out fadeMin, out fadeMax, out fadeScale );
+
+                    obj.Add( "fadeMin", fadeMin );
+                    obj.Add( "fadeMax", fadeMax );
+                    obj.Add( "fadeScale", fadeScale );
+                }
+
                 //if ( (flags & StaticPropFlags.NoPerVertexLighting) == 0 )
                 {
                     obj.Add( "vertLightingUrl", GetActionUrl( nameof( GetVertexLighting ),

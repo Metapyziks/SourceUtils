@@ -507,6 +507,9 @@ var SourceUtils;
             target.y = this.position.y;
             target.z = this.position.z;
         };
+        Entity.prototype.getDistanceToBounds = function (bounds) {
+            return bounds.distanceToPoint(this.position);
+        };
         Entity.prototype.translate = function (valueOrX, y, z) {
             if (typeof valueOrX === "number") {
                 this.position.x += valueOrX;
@@ -587,6 +590,9 @@ var SourceUtils;
         };
         BspModel.prototype.getLeaves = function () {
             return this.leaves;
+        };
+        BspModel.prototype.getBounds = function (out) {
+            out.copy(this.root.bounds);
         };
         BspModel.prototype.findLeaf = function (pos) {
             if (this.root == null)
@@ -1928,6 +1934,7 @@ var SourceUtils;
             _this.staticProps = [];
             _this.materials = [];
             _this.drawListInvalidationHandlers = [];
+            _this.rootBounds = new THREE.Box3();
             _this.app = app;
             _this.faceLoader = _this.addLoader(new SourceUtils.FaceLoader(_this));
             _this.modelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
@@ -2093,7 +2100,14 @@ var SourceUtils;
             }
             return false;
         };
-        Map.prototype.appendToDrawList = function (drawList, pvs) {
+        Map.prototype.appendToDrawList = function (drawList, pvsRoot, pvs) {
+            if (pvsRoot == null) {
+                var worldSpawn = this.getWorldSpawn();
+                worldSpawn.getBounds(this.rootBounds);
+            }
+            else {
+                this.rootBounds.copy(pvsRoot.bounds);
+            }
             for (var i = 0, iEnd = pvs.length; i < iEnd; ++i) {
                 drawList.addItem(pvs[i]);
             }
@@ -2119,6 +2133,8 @@ var SourceUtils;
                 if (prop == null)
                     continue;
                 if (!this.isAnyClusterVisible(prop.clusters, drawList))
+                    continue;
+                if (!prop.isWithinVisibleRange(this.rootBounds))
                     continue;
                 drawList.addItem(prop.getDrawListItem());
             }
@@ -2499,6 +2515,12 @@ var SourceUtils;
             _this.drawListItem.albedoRgb = info.albedo;
             return _this;
         }
+        PropStatic.prototype.isWithinVisibleRange = function (bounds) {
+            if ((this.info.flags & SourceUtils.Api.StaticPropFlags.Fades) === 0)
+                return true;
+            var minDist = this.getDistanceToBounds(bounds);
+            return this.info.fadeMax >= minDist;
+        };
         PropStatic.prototype.getDrawListItem = function () {
             return this.drawListItem;
         };
@@ -2656,11 +2678,11 @@ var SourceUtils;
         RenderContext.prototype.canSeeSky3D = function () {
             return this.pvsRoot == null || this.pvsRoot.cluster === -1 || this.pvsRoot.canSeeSky3D;
         };
-        RenderContext.prototype.replacePvs = function (pvs) {
+        RenderContext.prototype.replacePvs = function (pvsRoot, pvs) {
             this.drawList.clear();
             this.commandBufferInvalid = true;
             if (pvs != null) {
-                this.map.appendToDrawList(this.drawList, pvs);
+                this.map.appendToDrawList(this.drawList, pvsRoot, pvs);
             }
         };
         RenderContext.prototype.updatePvs = function (force) {
@@ -2673,12 +2695,12 @@ var SourceUtils;
                 return;
             this.pvsRoot = root;
             if (root == null || root.cluster === -1) {
-                this.replacePvs(null);
+                this.replacePvs(null, null);
                 return;
             }
             this.map.getPvsArray(root, function (pvs) {
                 if (_this.pvsRoot != null && _this.pvsRoot === root) {
-                    _this.replacePvs(pvs);
+                    _this.replacePvs(_this.pvsRoot, pvs);
                 }
             });
         };
