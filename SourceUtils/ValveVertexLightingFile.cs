@@ -43,13 +43,19 @@ namespace SourceUtils
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         private struct VertexData2 : IVertexData
         {
-            public VertexData4 Color;
-            public int Unknown0;
-            public int Unknown1;
-            
+            public VertexData4 Color0;
+            public VertexData4 Color1;
+            public VertexData4 Color2;
+
             public VertexData4 GetVertexColor()
             {
-                return Color;
+                return new VertexData4
+                {
+                    B = (byte)((Color0.B + Color1.B + Color2.B) / 3),
+                    G = (byte)((Color0.G + Color1.G + Color2.G) / 3),
+                    R = (byte)((Color0.R + Color1.R + Color2.R) / 3),
+                    A = (byte)((Color0.A + Color1.A + Color2.A) / 3)
+                };
             }
         }
         
