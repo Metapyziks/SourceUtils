@@ -91,7 +91,7 @@ namespace MapViewServer
         private static void ConvertDdsToPng( Stream src, Stream dst, int newWidth = -1,
             int newHeight = -1 )
         {
-            Utils.ImageMagickConvert( src, dst, MagickFormat.Dds, MagickFormat.Png, newWidth, newHeight );
+            Utils.ImageMagickConvert( src, dst, MagickFormat.Dds, -1, MagickFormat.Png, newWidth, newHeight );
         }
 
         public static unsafe void ConvertToDds( ValveTextureFile vtf, int mipMap, int frame, int face, int zslice, Stream outStream )
@@ -172,12 +172,22 @@ namespace MapViewServer
                 vtf = new ValveTextureFile( vtfStream );
             }
 
+            var firstFace = face == -1 ? 0 : face;
+            var faces = face == -1 ? vtf.FaceCount : 1;
+
+            var firstFrame = frame == -1 ? 0 : frame;
+            var frames = 1; // frame == -1 ? vtf.FrameCount : 1;
+
             var width = vtf.Header.Width >> mipMap;
             var height = vtf.Header.Height >> mipMap;
 
             if ( vtf.Header.HiResFormat == TextureFormat.DXT1 || vtf.Header.HiResFormat == TextureFormat.DXT5 )
             {
-                ConvertToDds( vtf, mipMap, frame, face, zslice, _sMemoryStream );
+                for ( var frameIndex = 0; frameIndex < frames; ++frameIndex )
+                for ( var faceIndex = 0; faceIndex < faces; ++faceIndex )
+                {
+                    ConvertToDds( vtf, mipMap, firstFrame + frameIndex, firstFace + faceIndex, zslice, _sMemoryStream );
+                }
 
                 _sMemoryStream.Seek( 0, SeekOrigin.Begin );
 
@@ -185,7 +195,7 @@ namespace MapViewServer
                 {
                     width = Math.Max( 1, width );
                     height = Math.Max( 1, height );
-                    ConvertDdsToPng( _sMemoryStream, outStream, width, height );
+                    ConvertDdsToPng( _sMemoryStream, outStream, width, height * faces * frames );
                 }
                 else
                 {
@@ -194,15 +204,21 @@ namespace MapViewServer
                 return;
             }
 
-            if ( vtf.Header.HiResFormat == TextureFormat.BGRA8888 || vtf.Header.HiResFormat == TextureFormat.BGR888 )
+            if ( vtf.Header.HiResFormat == TextureFormat.BGRA8888 || vtf.Header.HiResFormat == TextureFormat.BGR888 || vtf.Header.HiResFormat == TextureFormat.RGBA16161616F )
             {
-                vtf.WriteHiResPixelData( mipMap, frame, face, zslice, _sMemoryStream );
+                for ( var frameIndex = 0; frameIndex < frames; ++frameIndex )
+                for ( var faceIndex = 0; faceIndex < faces; ++faceIndex )
+                {
+                    vtf.WriteHiResPixelData( mipMap, firstFrame + frameIndex, firstFace + faceIndex, zslice, _sMemoryStream );
+                }
+
                 _sMemoryStream.Seek( 0, SeekOrigin.Begin );
 
                 var magickFormat = vtf.Header.HiResFormat == TextureFormat.BGRA8888
-                    ? MagickFormat.Bgra : MagickFormat.Bgr;
+                    ? MagickFormat.Bgra : vtf.Header.HiResFormat == TextureFormat.RGBA16161616F ? MagickFormat.Rgba : MagickFormat.Bgr;
+                var depth = vtf.Header.HiResFormat == TextureFormat.RGBA16161616F ? 16 : 8;
 
-                Utils.ImageMagickConvert( _sMemoryStream, outStream, magickFormat, width, height, MagickFormat.Png );
+                Utils.ImageMagickConvert( _sMemoryStream, outStream, magickFormat, width, height * faces * frames, depth, MagickFormat.Png );
                 return;
             }
 

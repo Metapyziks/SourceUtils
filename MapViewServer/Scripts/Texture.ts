@@ -42,6 +42,14 @@
             return this.target;
         }
 
+        protected setTarget(target: number): void {
+            if (this.handle != null) {
+                throw new Error("Cannot set target of a texture that is already loaded.");
+            }
+
+            this.target = target;
+        }
+
         isLoaded(): boolean {
             return this.getHandle() !== undefined;
         }
@@ -102,12 +110,10 @@
             return this.handle;
         }
 
-        protected onLoad(image: HTMLImageElement, mipLevel: number, callBack?: () => void): void {
+        private onLoadSingle(image: HTMLImageElement, minX: number, minY: number, width: number, height: number, target: number, mipLevel: number): void {
             const gl = this.context;
 
-            this.getOrCreateHandle();
-
-            gl.texImage2D(this.target, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            gl.texImage2D(target, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
             if (mipLevel > this.highestLevel) {
                 this.highestLevel = mipLevel;
@@ -116,11 +122,25 @@
             if (mipLevel < this.lowestLevel) {
                 this.lowestLevel = mipLevel;
                 if (mipLevel !== 0) {
-                    gl.texImage2D(this.target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                    gl.texImage2D(target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
                 } else {
                     this.width = image.width;
                     this.height = image.height;
                 }
+            }
+        }
+
+        protected onLoad(image: HTMLImageElement, mipLevel: number, callBack?: () => void): void {
+            this.getOrCreateHandle();
+
+            if (image.height === (this.height >> mipLevel) * 6 && this.target === this.context.TEXTURE_CUBE_MAP) {
+                const faceHeight = image.height / 6;
+
+                for (let face = 0; face < 6; ++face) {
+                    this.onLoadSingle(image, 0, faceHeight * face, image.width, faceHeight, this.context.TEXTURE_CUBE_MAP_POSITIVE_X + face, mipLevel);
+                }
+            } else {
+                this.onLoadSingle(image, 0, 0, image.width, image.height, this.target, mipLevel);
             }
 
             if (callBack != null) callBack();
@@ -210,6 +230,10 @@
         constructor(gl: WebGLRenderingContext, r: number, g: number, b: number, a?: number)
         {
             super(gl, gl.TEXTURE_CUBE_MAP);
+
+            this.wrapS = gl.CLAMP_TO_EDGE;
+            this.wrapT = gl.CLAMP_TO_EDGE;
+            this.allowAnisotropicFiltering = false;
 
             const pixels = new Uint8Array([
                 Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), Math.round(a * 255)
@@ -316,6 +340,12 @@
                 (data: Api.IVtfResponse) => {
                     this.info = data;
                     this.nextLevel = Math.max(0, data.mipmaps - 1);
+
+                    if (this.info.faces === 6) {
+                        this.setTarget(this.getContext().TEXTURE_CUBE_MAP);
+                    } else if (this.info.frames > 1) {
+                        // TODO
+                    }
                 }).always(() => {
                 if (callback != null) callback();
             });
@@ -343,7 +373,11 @@
 
         constructor(gl: WebGLRenderingContext, urls: string[]) {
             super(gl, gl.TEXTURE_CUBE_MAP);
+
             this.vtfUrls = urls;
+            this.wrapS = gl.CLAMP_TO_EDGE;
+            this.wrapT = gl.CLAMP_TO_EDGE;
+            this.allowAnisotropicFiltering = false;
         }
 
         isLoaded(): boolean { return super.isLoaded() && this.loadedInfo && this.nextFace >= 6; }
@@ -379,13 +413,6 @@
                 }).fail(() => {
                 if (callback != null) callback(false);
             });
-        }
-
-        setupTexParams(target: number): void {
-            const gl = this.getContext();
-
-            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
-            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
         }
 
         protected onLoad(image: HTMLImageElement, face: number, callBack?: () => void): void {

@@ -164,6 +164,8 @@ namespace SourceUtils
                     return toAdd + width * height * depth;
                 case TextureFormat.BGRA8888:
                     return toAdd + ((width * height * depth) << 2);
+                case TextureFormat.RGBA16161616F:
+                    return toAdd + ((width * height * depth) << 3);
                 case TextureFormat.BGR888:
                     return toAdd + width * height * depth * 3;
                 default:
@@ -242,8 +244,7 @@ namespace SourceUtils
             {
                 Skip( stream, 3 );
                 readCount += 3;
-                var resourceCount = stream.ReadByte() | (stream.ReadByte() << 8) | (stream.ReadByte() << 16) |
-                                (stream.ReadByte() << 24);
+                var resourceCount = stream.ReadByte() | (stream.ReadByte() << 8) | (stream.ReadByte() << 16) | (stream.ReadByte() << 24);
                 readCount += 4;
                 Skip( stream, 8 );
                 readCount += 8;
@@ -267,6 +268,7 @@ namespace SourceUtils
                 case TextureFormat.DXT5:
                 case TextureFormat.BGR888:
                 case TextureFormat.BGRA8888:
+                case TextureFormat.RGBA16161616F:
                     break;
                 default:
                     throw new NotImplementedException( $"VTF format: {Header.HiResFormat}" );

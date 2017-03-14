@@ -73,6 +73,10 @@ namespace SourceUtils {
             if (this.skyMaterial != null) this.skyMaterial.enabled = value;
         }
 
+        getSkyMaterial(): Material {
+            return this.skyMaterial;
+        }
+
         getMaterial(index: number): Material {
             return index === -1
                 ? this.skyMaterial

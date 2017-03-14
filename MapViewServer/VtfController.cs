@@ -98,13 +98,13 @@ namespace MapViewServer
         }
 
         [Get( "/vpk", MatchAllUrl = false, Extension = ".png" )]
-        public void GetPng( int mipmap = 0, int frame = 0, int face = 0, int zslice = 0)
+        public void GetPng( int mipmap = 0, int frame = -1, int face = -1, int zslice = 0)
         {
             GetPng( Resources, FilePath, mipmap, frame, face, zslice );
         }
         
         [Get( "/pak/{mapName}", MatchAllUrl = false, Extension = ".png" )]
-        public void GetPng( [Url] string mapName, int mipmap = 0, int frame = 0, int face = 0, int zslice = 0 )
+        public void GetPng( [Url] string mapName, int mipmap = 0, int frame = -1, int face = -1, int zslice = 0 )
         {
             var bsp = BspController.GetBspFile( Request, mapName );
             GetPng( bsp.PakFile, FilePath, mipmap, frame, face, zslice );

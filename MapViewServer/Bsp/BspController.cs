@@ -266,7 +266,7 @@ namespace MapViewServer
                     }
                 }
 
-                Utils.ImageMagickConvert( pixels, Response.OutputStream, MagickFormat.Bgra, width, height, MagickFormat.Png );
+                Utils.ImageMagickConvert( pixels, Response.OutputStream, MagickFormat.Bgra, width, height, 8, MagickFormat.Png );
                 Response.OutputStream.Close();
             }
         }
@@ -296,7 +296,7 @@ namespace MapViewServer
 
             foreach ( var cubemap in bsp.Cubemaps )
             {
-                var fileName = $"materials/maps/{mapName}/c{cubemap.OriginX}_{cubemap.OriginY}_{cubemap.OriginZ}.vtf";
+                var fileName = $"materials/maps/{mapName}/c{cubemap.OriginX}_{cubemap.OriginY}_{cubemap.OriginZ}.hdr.vtf";
                 array.Add( new JObject
                 {
                     {"origin", new Vector3( cubemap.OriginX, cubemap.OriginY, cubemap.OriginZ ).ToJson()},

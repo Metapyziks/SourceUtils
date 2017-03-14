@@ -676,6 +676,12 @@ var SourceUtils;
         Texture.prototype.getTarget = function () {
             return this.target;
         };
+        Texture.prototype.setTarget = function (target) {
+            if (this.handle != null) {
+                throw new Error("Cannot set target of a texture that is already loaded.");
+            }
+            this.target = target;
+        };
         Texture.prototype.isLoaded = function () {
             return this.getHandle() !== undefined;
         };
@@ -724,22 +730,33 @@ var SourceUtils;
                 this.setupTexParams(this.target);
             return this.handle;
         };
-        Texture.prototype.onLoad = function (image, mipLevel, callBack) {
+        Texture.prototype.onLoadSingle = function (image, minX, minY, width, height, target, mipLevel) {
             var gl = this.context;
-            this.getOrCreateHandle();
-            gl.texImage2D(this.target, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            gl.texImage2D(target, mipLevel, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
             if (mipLevel > this.highestLevel) {
                 this.highestLevel = mipLevel;
             }
             if (mipLevel < this.lowestLevel) {
                 this.lowestLevel = mipLevel;
                 if (mipLevel !== 0) {
-                    gl.texImage2D(this.target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                    gl.texImage2D(target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
                 }
                 else {
                     this.width = image.width;
                     this.height = image.height;
                 }
+            }
+        };
+        Texture.prototype.onLoad = function (image, mipLevel, callBack) {
+            this.getOrCreateHandle();
+            if (image.height === (this.height >> mipLevel) * 6 && this.target === this.context.TEXTURE_CUBE_MAP) {
+                var faceHeight = image.height / 6;
+                for (var face = 0; face < 6; ++face) {
+                    this.onLoadSingle(image, 0, faceHeight * face, image.width, faceHeight, this.context.TEXTURE_CUBE_MAP_POSITIVE_X + face, mipLevel);
+                }
+            }
+            else {
+                this.onLoadSingle(image, 0, 0, image.width, image.height, this.target, mipLevel);
             }
             if (callBack != null)
                 callBack();
@@ -819,6 +836,9 @@ var SourceUtils;
         __extends(BlankTextureCube, _super);
         function BlankTextureCube(gl, r, g, b, a) {
             var _this = _super.call(this, gl, gl.TEXTURE_CUBE_MAP) || this;
+            _this.wrapS = gl.CLAMP_TO_EDGE;
+            _this.wrapT = gl.CLAMP_TO_EDGE;
+            _this.allowAnisotropicFiltering = false;
             var pixels = new Uint8Array([
                 Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), Math.round(a * 255)
             ]);
@@ -919,6 +939,12 @@ var SourceUtils;
             $.getJSON(this.vtfUrl, function (data) {
                 _this.info = data;
                 _this.nextLevel = Math.max(0, data.mipmaps - 1);
+                if (_this.info.faces === 6) {
+                    _this.setTarget(_this.getContext().TEXTURE_CUBE_MAP);
+                }
+                else if (_this.info.frames > 1) {
+                    // TODO
+                }
             }).always(function () {
                 if (callback != null)
                     callback();
@@ -945,6 +971,9 @@ var SourceUtils;
             _this.loadedInfo = false;
             _this.nextFace = 0;
             _this.vtfUrls = urls;
+            _this.wrapS = gl.CLAMP_TO_EDGE;
+            _this.wrapT = gl.CLAMP_TO_EDGE;
+            _this.allowAnisotropicFiltering = false;
             return _this;
         }
         ValveTextureCube.prototype.isLoaded = function () { return _super.prototype.isLoaded.call(this) && this.loadedInfo && this.nextFace >= 6; };
@@ -976,11 +1005,6 @@ var SourceUtils;
                 if (callback != null)
                     callback(false);
             });
-        };
-        ValveTextureCube.prototype.setupTexParams = function (target) {
-            var gl = this.getContext();
-            gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, this.minFilter);
-            gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, this.magFilter);
         };
         ValveTextureCube.prototype.onLoad = function (image, face, callBack) {
             var gl = this.getContext();
@@ -1934,6 +1958,9 @@ var SourceUtils;
         Map.prototype.setSkyMaterialEnabled = function (value) {
             if (this.skyMaterial != null)
                 this.skyMaterial.enabled = value;
+        };
+        Map.prototype.getSkyMaterial = function () {
+            return this.skyMaterial;
         };
         Map.prototype.getMaterial = function (index) {
             return index === -1
@@ -3367,6 +3394,8 @@ var SourceUtils;
                 _this.normalMap.setDefault(manager.getBlankNormalMap());
                 _this.simpleOverlay = _this.addUniform(UniformSampler, "uSimpleOverlay");
                 _this.simpleOverlay.setDefault(manager.getBlankTexture());
+                _this.environment = _this.addUniform(UniformSampler, "uEnvironment");
+                _this.environment.setDefault(manager.getBlankTextureCube());
                 _this.refractColor = _this.addUniform(UniformSampler, "uRefractColor");
                 _this.refractDepth = _this.addUniform(UniformSampler, "uRefractDepth");
                 _this.screenParams = _this.addUniform(Uniform4F, "uScreenParams");
@@ -3387,6 +3416,7 @@ var SourceUtils;
                 this.screenParams.bufferParameter(buf, SourceUtils.CommandBufferParameter.ScreenParams);
                 this.clipParams.bufferParameter(buf, SourceUtils.CommandBufferParameter.ClipParams);
                 this.cameraPos.bufferParameter(buf, SourceUtils.CommandBufferParameter.CameraPos);
+                this.environment.bufferValue(buf, context.getMap().getSkyMaterial().properties.baseTexture);
             };
             Water.prototype.bufferMaterial = function (buf, material) {
                 _super.prototype.bufferMaterial.call(this, buf, material);

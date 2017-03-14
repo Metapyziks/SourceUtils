@@ -82,9 +82,9 @@ namespace MapViewServer
         }
 
         public static void ImageMagickConvert( Stream src, Stream dst,
-            MagickFormat srcFormat, MagickFormat dstFormat, int dstWidth = -1, int dstHeight = -1 )
+            MagickFormat srcFormat, int srcDepth, MagickFormat dstFormat, int dstWidth = -1, int dstHeight = -1 )
         {
-            ImageMagickConvert( src, dst, srcFormat, -1, -1, dstFormat, dstWidth, dstHeight );
+            ImageMagickConvert( src, dst, srcFormat, -1, -1, srcDepth, dstFormat, dstWidth, dstHeight );
         }
 
         [ThreadStatic]
@@ -119,7 +119,7 @@ namespace MapViewServer
         private static MemoryStream _sBufferStream;
 
         public static void ImageMagickConvert( byte[] src, Stream dst,
-            MagickFormat srcFormat, int srcWidth, int srcHeight,
+            MagickFormat srcFormat, int srcWidth, int srcHeight, int srcDepth,
             MagickFormat dstFormat, int dstWidth = -1, int dstHeight = -1 )
         {
             if ( _sBufferStream == null ) _sBufferStream = new MemoryStream();
@@ -132,11 +132,11 @@ namespace MapViewServer
             _sBufferStream.Write( src, 0, src.Length );
             _sBufferStream.Seek( 0, SeekOrigin.Begin );
 
-            ImageMagickConvert( _sBufferStream, dst, srcFormat, srcWidth, srcHeight, dstFormat, dstWidth, dstHeight );
+            ImageMagickConvert( _sBufferStream, dst, srcFormat, srcWidth, srcHeight, srcDepth, dstFormat, dstWidth, dstHeight );
         }
 
         public static void ImageMagickConvert( Stream src, Stream dst,
-            MagickFormat srcFormat, int srcWidth, int srcHeight,
+            MagickFormat srcFormat, int srcWidth, int srcHeight, int srcDepth,
             MagickFormat dstFormat, int dstWidth = -1, int dstHeight = -1 )
         {
             if ( Environment.OSVersion.Platform == PlatformID.Unix ||
@@ -152,7 +152,7 @@ namespace MapViewServer
 
                     if ( srcFormat == MagickFormat.Bgra || srcFormat == MagickFormat.Bgr || srcFormat == MagickFormat.Rgba )
                     {
-                        args += $"-size {srcWidth}x{srcHeight} -depth 8 ";
+                        args += $"-size {srcWidth}x{srcHeight} -depth {srcDepth} ";
                     }
 
                     var processStart = new ProcessStartInfo
@@ -193,7 +193,7 @@ namespace MapViewServer
                     readSettings.PixelStorage = new PixelStorageSettings
                     {
                         Mapping = srcFormat.ToString().ToUpper(),
-                        StorageType = StorageType.Char
+                        StorageType = srcDepth == 8 ? StorageType.Char : StorageType.Short
                     };
 
                     readSettings.Width = srcWidth;

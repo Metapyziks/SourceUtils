@@ -851,6 +851,7 @@ namespace SourceUtils {
             inverseView: UniformMatrix4;
             normalMap: UniformSampler;
             simpleOverlay: UniformSampler;
+            environment: UniformSampler;
             refractColor: UniformSampler;
             refractDepth: UniformSampler;
             screenParams: Uniform4F;
@@ -881,6 +882,9 @@ namespace SourceUtils {
                 this.simpleOverlay = this.addUniform(UniformSampler, "uSimpleOverlay");
                 this.simpleOverlay.setDefault(manager.getBlankTexture());
 
+                this.environment = this.addUniform(UniformSampler, "uEnvironment");
+                this.environment.setDefault(manager.getBlankTextureCube());
+
                 this.refractColor = this.addUniform(UniformSampler, "uRefractColor");
                 this.refractDepth = this.addUniform(UniformSampler, "uRefractDepth");
                 this.screenParams = this.addUniform(Uniform4F, "uScreenParams");
@@ -902,6 +906,7 @@ namespace SourceUtils {
                 this.screenParams.bufferParameter(buf, CommandBufferParameter.ScreenParams);
                 this.clipParams.bufferParameter(buf, CommandBufferParameter.ClipParams);
                 this.cameraPos.bufferParameter(buf, CommandBufferParameter.CameraPos);
+                this.environment.bufferValue(buf, context.getMap().getSkyMaterial().properties.baseTexture);
             }
 
             bufferMaterial(buf: CommandBuffer, material: Material): void {

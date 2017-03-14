@@ -225,6 +225,9 @@
             ddsUrl: string;
             pngUrl: string;
             mipmaps: number;
+            frames: number;
+            faces: number;
+            depth: number;
         }
 
         export interface ISmdMesh {
