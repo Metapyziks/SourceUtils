@@ -22,8 +22,8 @@
             this.canSeeSky2D = (info.flags & Api.LeafFlags.Sky2D) !== 0;
             this.canSeeSky3D = (info.flags & Api.LeafFlags.Sky) !== 0;
 
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z),
-                new THREE.Vector3(max.x, max.y, max.z));
+            this.bounds = new Box3(new Vector3(min.x, min.y, min.z),
+                new Vector3(max.x, max.y, max.z));
         }
 
         getAllLeaves(dstArray: VisLeaf[]): void {

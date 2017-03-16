@@ -1,6 +1,6 @@
 ﻿namespace SourceUtils {
     export class DrawListItem {
-        bounds: THREE.Box3;
+        bounds: Box3;
         parent: Entity;
 
         isStatic = false;
@@ -65,8 +65,8 @@
             return this.meshHandles;
         }
 
-        private static rootCenter = new THREE.Vector3();
-        private static thisCenter = new THREE.Vector3();
+        private static rootCenter = new Vector3();
+        private static thisCenter = new Vector3();
     }
 
     export class BspDrawListItem extends DrawListItem implements IFaceLoadTarget {

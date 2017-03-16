@@ -8,8 +8,8 @@ namespace SourceUtils {
 
         camera: PerspectiveCamera;
 
-        private lookAngs = new THREE.Vector2();
-        private lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+        private lookAngs = new Vector2();
+        private lookQuat = new Quaternion().setIdentity();
 
         private countedFrames = 0;
         private frameCountStart = 0;
@@ -70,15 +70,15 @@ namespace SourceUtils {
             }
         }
 
-        protected onDeviceRotate(delta: THREE.Vector3): void {
+        protected onDeviceRotate(delta: Vector3): void {
             this.lookAngs.x += delta.z;
             this.lookAngs.y -= delta.x;
             this.updateCameraAngles();
         }
 
-        private unitZ = new THREE.Vector3(0, 0, 1);
-        private unitX = new THREE.Vector3(1, 0, 0);
-        private tempQuat = new THREE.Quaternion();
+        private unitZ = new Vector3(0, 0, 1);
+        private unitX = new Vector3(1, 0, 0);
+        private tempQuat = new Quaternion();
 
         protected onUpdateCamera(): void {
             this.camera.setAspect(this.getWidth() / this.getHeight());
@@ -89,14 +89,14 @@ namespace SourceUtils {
             if (this.lookAngs.y < -Math.PI * 0.5) this.lookAngs.y = -Math.PI * 0.5;
             if (this.lookAngs.y > Math.PI * 0.5) this.lookAngs.y = Math.PI * 0.5;
 
-            this.lookQuat.setFromAxisAngle(this.unitZ, this.lookAngs.x);
-            this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
+            this.lookQuat.setAxisAngle(this.unitZ, this.lookAngs.x);
+            this.tempQuat.setAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
             this.lookQuat.multiply(this.tempQuat);
 
             this.camera.setRotation(this.lookQuat);
         }
 
-        protected onMouseLook(delta: THREE.Vector2): void {
+        protected onMouseLook(delta: Vector2): void {
             super.onMouseLook(delta);
 
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
@@ -183,7 +183,7 @@ namespace SourceUtils {
 
             this.map.update();
 
-            const move = new THREE.Vector3();
+            const move = new Vector3();
             const moveSpeed = 512 * dt;
 
             if (this.isKeyDown(Key.W)) move.z -= moveSpeed;
@@ -236,7 +236,7 @@ namespace SourceUtils {
                 drawCalls += this.skyRenderContext.getDrawCallCount();
             }
 
-            const cameraPos = new THREE.Vector3();
+            const cameraPos = new Vector3();
             this.camera.getPosition(cameraPos);
 
             this.debugPanel.find("#debug-render-time").text(`${this.lastAvgRenderTime.toPrecision(5)} ms`);
@@ -247,7 +247,7 @@ namespace SourceUtils {
             this.debugPanel.find("#debug-cluster-id").text(`${this.mainRenderContext.getClusterIndex()}`);
         }
 
-        private skyCameraPos = new THREE.Vector3();
+        private skyCameraPos = new Vector3();
 
         protected onRenderFrame(dt: number): void {
             const gl = this.getContext();
@@ -264,7 +264,7 @@ namespace SourceUtils {
                 this.map.setSkyMaterialEnabled(true);
 
                 this.camera.getPosition(this.skyCameraPos);
-                this.skyCameraPos.divideScalar(this.map.info.skyCamera.scale);
+                this.skyCameraPos.multiplyScalar(1 / this.map.info.skyCamera.scale);
                 this.skyCameraPos.add(this.map.info.skyCamera.origin as any);
 
                 this.skyCamera.copyRotation(this.camera);

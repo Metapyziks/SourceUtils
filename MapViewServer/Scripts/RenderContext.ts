@@ -3,11 +3,11 @@
         private map: Map;
         private camera: Camera;
 
-        private projectionMatrix = new THREE.Matrix4();
-        private inverseProjectionMatrix = new THREE.Matrix4();
-        private identityMatrix = new THREE.Matrix4().identity();
-        private viewMatrix = new THREE.Matrix4();
-        private inverseViewMatrix = new THREE.Matrix4();
+        private projectionMatrix = new Matrix4();
+        private inverseProjectionMatrix = new Matrix4();
+        private identityMatrix = new Matrix4().setIdentity();
+        private viewMatrix = new Matrix4();
+        private inverseViewMatrix = new Matrix4();
 
         private modelMatrixElems: Float32Array;
 
@@ -16,14 +16,14 @@
         private commandBuffer: CommandBuffer;
         private commandBufferInvalid = true;
 
-        private pvsOrigin = new THREE.Vector3();
+        private pvsOrigin = new Vector3();
 
         private opaqueFrameBuffer: FrameBuffer;
 
         pvsFollowsCamera = true;
         fogParams: Api.IFogParams;
 
-        origin = new THREE.Vector3();
+        origin = new Vector3();
         near: number;
         far: number;
 
@@ -90,7 +90,7 @@
             }
         }
 
-        setPvsOrigin(pos: THREE.Vector3 | Api.IVector3): void {
+        setPvsOrigin(pos: Vector3 | Api.IVector3): void {
             this.pvsFollowsCamera = false;
             this.pvsOrigin.set(pos.x, pos.y, pos.z);
         }
@@ -108,7 +108,7 @@
             }
 
             this.camera.getProjectionMatrix(this.projectionMatrix);
-            this.inverseProjectionMatrix.getInverse(this.projectionMatrix);
+            this.inverseProjectionMatrix.setInverse(this.projectionMatrix);
             this.camera.getMatrix(this.inverseViewMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
 

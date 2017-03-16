@@ -15,7 +15,7 @@ namespace SourceUtils
             const min = info.min;
             const max = info.max;
 
-            this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            this.bounds = new Box3(new Vector3(min.x, min.y, min.z), new Vector3(max.x, max.y, max.z));
         }
     }
 }

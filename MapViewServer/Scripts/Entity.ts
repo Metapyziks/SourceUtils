@@ -7,14 +7,14 @@ namespace SourceUtils {
 
         private sortIndex: number;
 
-        private position = new THREE.Vector3();
-        private rotation = new THREE.Quaternion(0, 0, 0, 1);
-        private scale = new THREE.Vector3(1, 1, 1);
+        private position = new Vector3();
+        private rotation = new Quaternion().setIdentity();
+        private scale = new Vector3(1, 1, 1);
 
-        private matrix = new THREE.Matrix4();
+        private matrix = new Matrix4();
         private matrixInvalid = true;
 
-        private inverseMatrix = new THREE.Matrix4();
+        private inverseMatrix = new Matrix4();
         private inverseMatrixInvalid = true;
 
         constructor() {
@@ -31,10 +31,12 @@ namespace SourceUtils {
             this.inverseMatrixInvalid = true;
         }
 
-        getMatrix(target?: THREE.Matrix4): void {
+        getMatrix(target?: Matrix4): void {
             if (this.matrixInvalid) {
                 this.matrixInvalid = false;
-                this.matrix.compose(this.position, this.rotation, this.scale);
+                this.matrix.setRotation(this.rotation);
+                this.matrix.scale(this.scale);
+                this.matrix.translate(this.position);
             }
 
             if (target != null) target.copy(this.matrix);
@@ -45,43 +47,43 @@ namespace SourceUtils {
             return this.matrix.elements;
         }
 
-        getInverseMatrix(target?: THREE.Matrix4): void {
+        getInverseMatrix(target?: Matrix4): void {
             if (this.inverseMatrixInvalid) {
                 this.inverseMatrixInvalid = false;
                 this.getMatrix();
-                this.inverseMatrix.getInverse(this.matrix);
+                this.inverseMatrix.setInverse(this.matrix);
             }
 
             if (target != null) target.copy(this.inverseMatrix);
         }
 
-        setPosition(value: THREE.Vector3 | Api.IVector3): void;
+        setPosition(value: Vector3 | Api.IVector3): void;
         setPosition(x: number, y: number, z: number): void;
-        setPosition(valueOrX: THREE.Vector3 | Api.IVector3 | number, y?: number, z?: number): void
+        setPosition(valueOrX: Vector3 | Api.IVector3 | number, y?: number, z?: number): void
         {
             if (y !== undefined) {
                 const x = valueOrX as number;
                 this.position.set(x, y, z);
             } else {
-                const value = valueOrX as (THREE.Vector3 | Api.IVector3);
+                const value = valueOrX as (Vector3 | Api.IVector3);
                 this.position.set(value.x, value.y, value.z);
             }
             this.invalidateMatrices();
         }
 
-        getPosition(target: THREE.Vector3 | Api.IVector3): void {
+        getPosition(target: Vector3 | Api.IVector3): void {
             target.x = this.position.x;
             target.y = this.position.y;
             target.z = this.position.z;
         }
 
-        getDistanceToBounds(bounds: THREE.Box3): number {
+        getDistanceToBounds(bounds: Box3): number {
             return bounds.distanceToPoint(this.position);
         }
 
-        translate(value: THREE.Vector3): void;
+        translate(value: Vector3): void;
         translate(x: number, y: number, z: number): void;
-        translate(valueOrX: THREE.Vector3 | number, y?: number, z?: number): void {
+        translate(valueOrX: Vector3 | number, y?: number, z?: number): void {
             if (typeof valueOrX === "number") {
                 this.position.x += valueOrX;
                 this.position.y += y;
@@ -92,16 +94,16 @@ namespace SourceUtils {
             this.invalidateMatrices();
         }
 
-        setRotation(value: THREE.Quaternion): void {
+        setRotation(value: Quaternion): void {
             this.rotation.copy(value);
             this.invalidateMatrices();
         }
 
-        private static tempEuler = new THREE.Euler(0, 0, 0, "ZYX");
+        private static tempEuler = new Euler(0, 0, 0, AxisOrder.Zyx);
 
-        setAngles(value: THREE.Vector3 | Api.IVector3): void;
+        setAngles(value: Vector3 | Api.IVector3): void;
         setAngles(pitch: number, yaw: number, roll: number): void;
-        setAngles(valueOrPitch: THREE.Vector3 | Api.IVector3 | number, yaw?: number, roll?: number): void {
+        setAngles(valueOrPitch: Vector3 | Api.IVector3 | number, yaw?: number, roll?: number): void {
             let pitch: number;
             if (typeof valueOrPitch === "number") {
                 pitch = valueOrPitch;
@@ -115,18 +117,18 @@ namespace SourceUtils {
             Entity.tempEuler.y = pitch * Math.PI / 180;
             Entity.tempEuler.z = yaw * Math.PI / 180;
 
-            this.rotation.setFromEuler(Entity.tempEuler, true);
+            this.rotation.setEuler(Entity.tempEuler);
         }
 
         copyRotation(other: Entity): void {
             this.setRotation(other.rotation);
         }
 
-        applyRotationTo(vector: THREE.Vector3): void {
+        applyRotationTo(vector: Vector3): void {
             vector.applyQuaternion(this.rotation);
         }
 
-        setScale(value: THREE.Vector3 | Api.IVector3 | number): void
+        setScale(value: Vector3 | Api.IVector3 | number): void
         {
             if (typeof value === "number") {
                 this.scale.set(value, value, value);

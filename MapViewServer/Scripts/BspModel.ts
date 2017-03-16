@@ -43,18 +43,18 @@ namespace SourceUtils {
             return this.leaves;
         }
 
-        getBounds(out: THREE.Box3): void {
+        getBounds(out: Box3): void {
             out.copy(this.root.bounds);
         }
 
-        findLeaf(pos: THREE.Vector3): VisLeaf {
+        findLeaf(pos: Vector3): VisLeaf {
             if (this.root == null) return null;
 
             let elem: IVisElem = this.root;
 
             while (!elem.isLeaf) {
                 const node = elem as VisNode;
-                const index = node.plane.normal.dot(pos) >= node.plane.constant ? 0 : 1;
+                const index = node.plane.normal.dot(pos) >= node.plane.distance ? 0 : 1;
                 elem = node.children[index];
             }
 

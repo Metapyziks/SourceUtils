@@ -104,7 +104,7 @@ namespace SourceUtils
     {
         internal class Reader
         {
-            private readonly string[] _lines;
+            private readonly List<string> _lines;
             private int _offset;
     
             public Reader(Stream stream)
@@ -112,7 +112,28 @@ namespace SourceUtils
                 var reader = new StreamReader(stream);
                 var value = reader.ReadToEnd();
     
-                _lines = value.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None).Select(TrimLine).ToArray();
+                _lines = value.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None)
+                    .Select(TrimLine)
+                    .ToList();
+
+                for ( var i = 0; i < _lines.Count; ++i )
+                {
+                    var line = _lines[i];
+                    var quoteCount = 0;
+                    for ( var j = 0; j < line.Length; ++j )
+                    {
+                        if ( line[j] == '"' )
+                        {
+                            ++quoteCount;
+                            if ( quoteCount == 5 )
+                            {
+                                _lines[i] = line.Substring( 0, j ).TrimEnd();
+                                _lines.Insert( i + 1, line.Substring( j ).TrimStart() );
+                                break;
+                            }
+                        }
+                    }
+                }
             }
     
             public void AssertToken(string token)
@@ -139,7 +160,7 @@ namespace SourceUtils
             {
                 var curOffset = _offset;
     
-                while (curOffset < _lines.Length)
+                while (curOffset < _lines.Count)
                 {
                     var line = _lines[curOffset++];
                     if (string.IsNullOrEmpty(line)) continue;
@@ -158,7 +179,7 @@ namespace SourceUtils
                 var curOffset = _offset;
     
                 match = null;
-                while (curOffset < _lines.Length)
+                while (curOffset < _lines.Count)
                 {
                     var line = _lines[curOffset++];
                     if (string.IsNullOrEmpty(line)) continue;

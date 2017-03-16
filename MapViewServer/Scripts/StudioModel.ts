@@ -22,10 +22,10 @@
             const itemSize = 8;
 
             if (staticParent != null) {
-                const transform = new THREE.Matrix4();
+                const transform = new Matrix4();
                 staticParent.getMatrix(transform);
 
-                const position = new THREE.Vector4();
+                const position = new Vector4();
 
                 for (let i = 0; i < meshData.elements.length; ++i) {
                     const offset = meshData.elements[i].vertexOffset;

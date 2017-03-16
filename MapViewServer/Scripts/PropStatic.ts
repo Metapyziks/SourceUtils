@@ -22,7 +22,7 @@
             this.drawListItem.albedoRgb = info.albedo;
         }
 
-        isWithinVisibleRange(bounds: THREE.Box3): boolean {
+        isWithinVisibleRange(bounds: Box3): boolean {
             if ((this.info.flags & Api.StaticPropFlags.Fades) === 0) return true;
 
             const minDist = this.getDistanceToBounds(bounds);

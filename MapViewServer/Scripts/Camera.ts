@@ -2,10 +2,10 @@
 {
     export class Camera extends Entity {
         private projectionInvalid = true;
-        private projectionMatrix = new THREE.Matrix4();
+        private projectionMatrix = new Matrix4();
         private drawList: DrawList;
 
-        getProjectionMatrix(target: THREE.Matrix4): void {
+        getProjectionMatrix(target: Matrix4): void {
             if (this.projectionInvalid) {
                 this.projectionInvalid = false;
                 this.onUpdateProjectionMatrix(this.projectionMatrix);
@@ -18,7 +18,7 @@
             this.projectionInvalid = true;
         }
 
-        protected onUpdateProjectionMatrix(matrix: THREE.Matrix4): void {
+        protected onUpdateProjectionMatrix(matrix: Matrix4): void {
             throw "Method 'onUpdateProjectionMatrix' not implemented.";
         }
     }
@@ -50,14 +50,9 @@
         setFar(value: number): void { this.far = value; this.invalidateProjectionMatrix(); }
         getFar(): number { return this.far; }
 
-        protected onUpdateProjectionMatrix(matrix: THREE.Matrix4): void {
-            const near = this.near,
-                top = near * Math.tan(THREE.Math.DEG2RAD * 0.5 * this.fov),
-                height = 2 * top,
-                width = this.aspect * height,
-                left = - 0.5 * width;
-
-            (matrix as any).makePerspective(left, left + width, top, top - height, near, this.far);
+        protected onUpdateProjectionMatrix(matrix: Matrix4): void {
+            const deg2Rad = Math.PI / 180;
+            matrix.setPerspective(deg2Rad * this.fov, this.aspect, this.near, this.far);
         }
     }
 }

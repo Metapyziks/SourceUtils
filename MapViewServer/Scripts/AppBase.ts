@@ -1,5 +1,5 @@
 ﻿/// <reference path="typings/jquery/jquery.d.ts" />
-/// <reference path="typings/threejs/three.d.ts" />
+/// <reference path="Math.ts"/>
 /// <reference path="Utils.ts"/>
 
 namespace SourceUtils {
@@ -123,9 +123,9 @@ namespace SourceUtils {
         private lastClickTime = 0;
 
         private isDragging: boolean;
-        private mouseScreenPos = new THREE.Vector2();
-        private mouseLookDelta = new THREE.Vector2();
-        private dragStartScreenPos = new THREE.Vector2();
+        private mouseScreenPos = new Vector2();
+        private mouseLookDelta = new Vector2();
+        private dragStartScreenPos = new Vector2();
         private heldKeys: boolean[] = new Array(128);
         private heldMouseButtons: boolean[] = new Array(8);
 
@@ -189,7 +189,7 @@ namespace SourceUtils {
                 this.onKeyUp(e.which as Key);
             });
             
-            const deltaAngles = new THREE.Vector3();
+            const deltaAngles = new Vector3();
             let lastRotationSampleTime = new Date().getTime() / 1000;
 
             const deviceRotate = (x: number, y: number, z: number, period: number, toRadians: number) => {
@@ -227,7 +227,7 @@ namespace SourceUtils {
             return this.previousTime * 0.001;
         }
 
-        protected onDeviceRotate(delta: THREE.Vector3): void {}
+        protected onDeviceRotate(delta: Vector3): void {}
 
         isPointerLocked(): boolean {
             return document.pointerLockElement === this.container[0];
@@ -271,22 +271,22 @@ namespace SourceUtils {
             return this.container.innerHeight();
         }
 
-        getMouseScreenPos(out?: THREE.Vector2): THREE.Vector2 {
-            if (out == null) out = new THREE.Vector2();
+        getMouseScreenPos(out?: Vector2): Vector2 {
+            if (out == null) out = new Vector2();
             out.copy(this.mouseScreenPos);
             return out;
         }
 
-        getMouseViewPos(out?: THREE.Vector2): THREE.Vector2 {
-            if (out == null) out = new THREE.Vector2();
+        getMouseViewPos(out?: Vector2): Vector2 {
+            if (out == null) out = new Vector2();
             this.getMouseScreenPos(out);
             out.x = out.x / this.getWidth() - 0.5;
             out.y = out.y / this.getHeight() - 0.5;
             return out;
         }
 
-        private getScreenPos(pageX: number, pageY: number, out?: THREE.Vector2): THREE.Vector2 {
-            if (out == null) out = new THREE.Vector2();
+        private getScreenPos(pageX: number, pageY: number, out?: Vector2): Vector2 {
+            if (out == null) out = new Vector2();
 
             out.x = pageX - this.container.offset().left;
             out.y = pageY - this.container.offset().top;
@@ -296,7 +296,7 @@ namespace SourceUtils {
 
         protected onMouseScroll(delta: number): void {}
 
-        protected onMouseDown(button: MouseButton, screenPos: THREE.Vector2): void {
+        protected onMouseDown(button: MouseButton, screenPos: Vector2): void {
             if (button === MouseButton.Left) {
                 this.dragStartScreenPos = screenPos;
 
@@ -311,16 +311,16 @@ namespace SourceUtils {
             }
         }
 
-        protected onDoubleClick(button: MouseButton, screenPos: THREE.Vector2): void {}
+        protected onDoubleClick(button: MouseButton, screenPos: Vector2): void {}
 
-        protected onMouseUp(button: MouseButton, screenPos: THREE.Vector2): void {
+        protected onMouseUp(button: MouseButton, screenPos: Vector2): void {
             if (button === MouseButton.Left && this.isDragging) {
                 this.isDragging = false;
                 this.onDragEnd();
             }
         }
 
-        protected onMouseMove(screenPos: THREE.Vector2): void {
+        protected onMouseMove(screenPos: Vector2): void {
             if (this.isMouseButtonDown(MouseButton.Left)) {
                 if (!this.isDragging) {
                     this.isDragging = true;
@@ -331,11 +331,11 @@ namespace SourceUtils {
             }
         }
 
-        protected onMouseLook(delta: THREE.Vector2): void {}
+        protected onMouseLook(delta: Vector2): void {}
 
-        protected onDragStart(screenPos: THREE.Vector2): void {}
+        protected onDragStart(screenPos: Vector2): void {}
 
-        protected onDragUpdate(screenPos: THREE.Vector2): void {}
+        protected onDragUpdate(screenPos: Vector2): void {}
 
         protected onDragEnd(): void {}
 

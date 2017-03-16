@@ -25,7 +25,6 @@ namespace MapViewServer
             return new div
             {
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" ),
-                new script( src => "https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js" ),
                 new script( src => "https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js" ),
                 new script( src => GetScriptUrl( "main.js" ) ),

@@ -233,7 +233,7 @@ namespace SourceUtils {
             return false;
         }
 
-        private rootBounds = new THREE.Box3();
+        private rootBounds = new Box3();
 
         appendToDrawList(drawList: DrawList, pvsRoot: VisLeaf, pvs: VisLeaf[]): void
         {

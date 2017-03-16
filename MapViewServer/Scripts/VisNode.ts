@@ -1,17 +1,17 @@
 ﻿namespace SourceUtils {
     export interface IVisElem {
         isLeaf: boolean;
-        bounds: THREE.Box3;
+        bounds: Box3;
 
         getAllLeaves(dstArray: VisLeaf[]): void;
     }
 
     export class VisNode implements IVisElem {
         isLeaf = false;
-        bounds: THREE.Box3;
+        bounds: Box3;
 
         children: IVisElem[];
-        plane: THREE.Plane;
+        plane: Plane;
 
         private static createVisElem(model: BspModel, info: Api.IBspElem): IVisElem {
             if ((info as any).children != undefined) {
@@ -26,12 +26,8 @@
             const min = info.min;
             const max = info.max;
 
-            this.plane = new THREE.Plane(new THREE.Vector3(normal.x, normal.y, normal.z), info.plane.dist);
-            this.bounds = new THREE.Box3(new THREE.Vector3(min
-                    .x,
-                    min.y,
-                    min.z),
-                new THREE.Vector3(max.x, max.y, max.z));
+            this.plane = new Plane(new Vector3(normal.x, normal.y, normal.z), info.plane.dist);
+            this.bounds = new Box3(new Vector3(min.x, min.y, min.z), new Vector3(max.x, max.y, max.z));
 
             this.children = [
                 VisNode.createVisElem(model, info.children[0]),

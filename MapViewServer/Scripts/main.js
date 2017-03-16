@@ -121,8 +121,458 @@ var SourceUtils;
     }());
     SourceUtils.Utils = Utils;
 })(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Vector2 = (function () {
+        function Vector2(x, y) {
+            this.x = x || 0;
+            this.y = y || 0;
+        }
+        Vector2.prototype.set = function (x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        };
+        Vector2.prototype.sub = function (vec) {
+            this.x -= vec.x;
+            this.y -= vec.y;
+            return this;
+        };
+        Vector2.prototype.multiplyScalar = function (val) {
+            this.x *= val;
+            this.y *= val;
+            return this;
+        };
+        Vector2.prototype.copy = function (vec) {
+            this.x = vec.x;
+            this.y = vec.y;
+            return this;
+        };
+        return Vector2;
+    }());
+    SourceUtils.Vector2 = Vector2;
+    var Vector3 = (function () {
+        function Vector3(x, y, z) {
+            this.x = x || 0;
+            this.y = y || 0;
+            this.z = z || 0;
+        }
+        Vector3.prototype.length = function () {
+            var x = this.x, y = this.y, z = this.z;
+            return Math.sqrt(x * x + y * y + z * z);
+        };
+        Vector3.prototype.lengthSq = function () {
+            var x = this.x, y = this.y, z = this.z;
+            return x * x + y * y + z * z;
+        };
+        Vector3.prototype.set = function (x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            return this;
+        };
+        Vector3.prototype.add = function (vec) {
+            this.x += vec.x;
+            this.y += vec.y;
+            this.z += vec.z;
+            return this;
+        };
+        Vector3.prototype.multiplyScalar = function (val) {
+            this.x *= val;
+            this.y *= val;
+            this.z *= val;
+            return this;
+        };
+        Vector3.prototype.dot = function (vec) {
+            return this.x * vec.x + this.y * vec.y + this.z * vec.z;
+        };
+        Vector3.prototype.copy = function (vec) {
+            this.x = vec.x;
+            this.y = vec.y;
+            this.z = vec.z;
+            return this;
+        };
+        Vector3.prototype.applyQuaternion = function (quat) {
+            // From https://github.com/mrdoob/three.js
+            var x = this.x, y = this.y, z = this.z;
+            var qx = quat.x, qy = quat.y, qz = quat.z, qw = quat.w;
+            // calculate quat * vector
+            var ix = qw * x + qy * z - qz * y;
+            var iy = qw * y + qz * x - qx * z;
+            var iz = qw * z + qx * y - qy * x;
+            var iw = -qx * x - qy * y - qz * z;
+            // calculate result * inverse quat
+            this.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+            this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+            this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+            return this;
+        };
+        Vector3.prototype.setNormal = function (vec) {
+            var len = 1 / vec.length();
+            this.x = vec.x * len;
+            this.y = vec.y * len;
+            this.z = vec.z * len;
+            return this;
+        };
+        return Vector3;
+    }());
+    SourceUtils.Vector3 = Vector3;
+    var Vector4 = (function () {
+        function Vector4(x, y, z, w) {
+            this.x = x || 0;
+            this.y = y || 0;
+            this.z = z || 0;
+            this.w = w || 0;
+        }
+        Vector4.prototype.applyMatrix4 = function (mat) {
+            var x = this.x, y = this.y, z = this.z, w = this.w;
+            var m = mat.elements;
+            this.x = m[0x0] * x + m[0x4] * y + m[0x8] * z + m[0xc] * w;
+            this.y = m[0x1] * x + m[0x5] * y + m[0x9] * z + m[0xd] * w;
+            this.z = m[0x2] * x + m[0x6] * y + m[0xa] * z + m[0xe] * w;
+            this.w = m[0x3] * x + m[0x7] * y + m[0xb] * z + m[0xf] * w;
+            return this;
+        };
+        return Vector4;
+    }());
+    SourceUtils.Vector4 = Vector4;
+    var Quaternion = (function () {
+        function Quaternion(x, y, z, w) {
+            this.x = x || 0;
+            this.y = y || 0;
+            this.z = z || 0;
+            this.w = w || 0;
+        }
+        Quaternion.prototype.copy = function (quat) {
+            this.x = quat.x;
+            this.y = quat.y;
+            this.z = quat.z;
+            this.w = quat.w;
+            return this;
+        };
+        Quaternion.prototype.setIdentity = function () {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.w = 1;
+            return this;
+        };
+        Quaternion.prototype.setAxisAngle = function (axis, angle) {
+            // From https://github.com/mrdoob/three.js
+            var halfAngle = angle * 0.5, s = Math.sin(halfAngle);
+            this.x = axis.x * s;
+            this.y = axis.y * s;
+            this.z = axis.z * s;
+            this.w = Math.cos(halfAngle);
+            return this;
+        };
+        Quaternion.prototype.multiply = function (quat) {
+            // From https://github.com/mrdoob/three.js
+            var qax = this.x, qay = this.y, qaz = this.z, qaw = this.w;
+            var qbx = quat.x, qby = quat.y, qbz = quat.z, qbw = quat.w;
+            this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+            this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+            this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+            this.w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+            return this;
+        };
+        Quaternion.prototype.setEuler = function (euler) {
+            // From https://github.com/mrdoob/three.js
+            var x = euler.x;
+            var y = euler.y;
+            var z = euler.z;
+            var order = euler.order;
+            var cos = Math.cos;
+            var sin = Math.sin;
+            var c1 = cos(x * 0.5);
+            var c2 = cos(y * 0.5);
+            var c3 = cos(z * 0.5);
+            var s1 = sin(x * 0.5);
+            var s2 = sin(y * 0.5);
+            var s3 = sin(z * 0.5);
+            this.x = s1 * c2 * c3 + c1 * s2 * s3 * ((order & 1) !== 0 ? 1 : -1);
+            this.y = c1 * s2 * c3 + s1 * c2 * s3 * ((order & 2) !== 0 ? 1 : -1);
+            this.z = c1 * c2 * s3 + s1 * s2 * c3 * ((order & 4) !== 0 ? 1 : -1);
+            this.w = c1 * c2 * c3 + s1 * s2 * s3 * ((order & 8) !== 0 ? 1 : -1);
+            return this;
+        };
+        return Quaternion;
+    }());
+    SourceUtils.Quaternion = Quaternion;
+    var AxisOrder;
+    (function (AxisOrder) {
+        AxisOrder[AxisOrder["Xyz"] = 5] = "Xyz";
+        AxisOrder[AxisOrder["Xzy"] = 12] = "Xzy";
+        AxisOrder[AxisOrder["Yxz"] = 9] = "Yxz";
+        AxisOrder[AxisOrder["Yzx"] = 3] = "Yzx";
+        AxisOrder[AxisOrder["Zxy"] = 6] = "Zxy";
+        AxisOrder[AxisOrder["Zyx"] = 10] = "Zyx"; // 0101
+    })(AxisOrder = SourceUtils.AxisOrder || (SourceUtils.AxisOrder = {}));
+    var Euler = (function () {
+        function Euler(x, y, z, order) {
+            this.x = x || 0;
+            this.y = y || 0;
+            this.z = z || 0;
+            this.order = order || AxisOrder.Xyz;
+        }
+        return Euler;
+    }());
+    SourceUtils.Euler = Euler;
+    var Plane = (function () {
+        function Plane(normal, distance) {
+            this.normal = new Vector3();
+            this.normal.setNormal(normal);
+            this.distance = distance;
+        }
+        return Plane;
+    }());
+    SourceUtils.Plane = Plane;
+    var Box3 = (function () {
+        function Box3(min, max) {
+            this.min = new Vector3();
+            this.max = new Vector3();
+            if (min !== undefined)
+                this.min.copy(min);
+            if (max !== undefined)
+                this.max.copy(max);
+        }
+        Box3.prototype.copy = function (box) {
+            this.min.copy(box.min);
+            this.max.copy(box.max);
+            return this;
+        };
+        Box3.prototype.distanceToPoint = function (vec) {
+            var minX = Math.max(0, this.min.x - vec.x, vec.x - this.max.x);
+            var minY = Math.max(0, this.min.y - vec.y, vec.y - this.max.y);
+            var minZ = Math.max(0, this.min.z - vec.z, vec.z - this.max.z);
+            return Math.sqrt(minX * minX + minY * minY + minZ * minZ);
+        };
+        return Box3;
+    }());
+    SourceUtils.Box3 = Box3;
+    var Matrix4 = (function () {
+        function Matrix4() {
+            this.elements = new Float32Array(4 * 4);
+        }
+        Matrix4.prototype.setIdentity = function () {
+            var m = this.elements;
+            m[0x0] = 1;
+            m[0x1] = 0;
+            m[0x2] = 0;
+            m[0x3] = 0;
+            m[0x4] = 0;
+            m[0x5] = 1;
+            m[0x6] = 0;
+            m[0x7] = 0;
+            m[0x8] = 0;
+            m[0x9] = 0;
+            m[0xa] = 1;
+            m[0xb] = 0;
+            m[0xc] = 0;
+            m[0xd] = 0;
+            m[0xe] = 0;
+            m[0xf] = 1;
+            return this;
+        };
+        Matrix4.prototype.copy = function (mat) {
+            var m = mat.elements;
+            var n = this.elements;
+            for (var i = 0; i < 16; ++i)
+                n[i] = m[i];
+            return this;
+        };
+        Matrix4.prototype.setRotation = function (rotation) {
+            var m = this.elements;
+            // From https://github.com/mrdoob/three.js
+            var x = rotation.x, y = rotation.y, z = rotation.z, w = rotation.w;
+            var x2 = x + x, y2 = y + y, z2 = z + z;
+            var xx = x * x2, xy = x * y2, xz = x * z2;
+            var yy = y * y2, yz = y * z2, zz = z * z2;
+            var wx = w * x2, wy = w * y2, wz = w * z2;
+            m[0] = 1 - (yy + zz);
+            m[4] = xy - wz;
+            m[8] = xz + wy;
+            m[1] = xy + wz;
+            m[5] = 1 - (xx + zz);
+            m[9] = yz - wx;
+            m[2] = xz - wy;
+            m[6] = yz + wx;
+            m[10] = 1 - (xx + yy);
+            m[3] = 0;
+            m[7] = 0;
+            m[11] = 0;
+            m[12] = 0;
+            m[13] = 0;
+            m[14] = 0;
+            m[15] = 1;
+            return this;
+        };
+        Matrix4.prototype.scale = function (vec) {
+            var m = this.elements;
+            var x = vec.x, y = vec.y, z = vec.z;
+            m[0x0] *= x;
+            m[0x1] *= x;
+            m[0x2] *= x;
+            m[0x3] *= x;
+            m[0x4] *= y;
+            m[0x5] *= y;
+            m[0x6] *= y;
+            m[0x7] *= y;
+            m[0x8] *= z;
+            m[0x9] *= z;
+            m[0xa] *= z;
+            m[0xb] *= z;
+            return this;
+        };
+        Matrix4.prototype.translate = function (vec) {
+            var m = this.elements;
+            m[0xc] += vec.x;
+            m[0xd] += vec.y;
+            m[0xe] += vec.z;
+            return this;
+        };
+        Matrix4.prototype.setPerspective = function (fov, aspect, near, far) {
+            var top = near * Math.tan(0.5 * fov), height = 2 * top, width = aspect * height, left = -0.5 * width, right = left + width, bottom = -top;
+            // From https://github.com/mrdoob/three.js
+            var m = this.elements;
+            var x = 2 * near / width;
+            var y = 2 * near / height;
+            var a = (right + left) / (right - left);
+            var b = (top + bottom) / (top - bottom);
+            var c = -(far + near) / (far - near);
+            var d = -2 * far * near / (far - near);
+            m[0x0] = x;
+            m[0x4] = 0;
+            m[0x8] = a;
+            m[0xc] = 0;
+            m[0x1] = 0;
+            m[0x5] = y;
+            m[0x9] = b;
+            m[0xd] = 0;
+            m[0x2] = 0;
+            m[0x6] = 0;
+            m[0xa] = c;
+            m[0xe] = d;
+            m[0x3] = 0;
+            m[0x7] = 0;
+            m[0xb] = -1;
+            m[0xf] = 0;
+            return this;
+        };
+        Matrix4.prototype.setInverse = function (from) {
+            var m = from.elements;
+            var inv = this.elements;
+            // From http://stackoverflow.com/a/1148405
+            inv[0] = m[5] * m[10] * m[15] -
+                m[5] * m[11] * m[14] -
+                m[9] * m[6] * m[15] +
+                m[9] * m[7] * m[14] +
+                m[13] * m[6] * m[11] -
+                m[13] * m[7] * m[10];
+            inv[4] = -m[4] * m[10] * m[15] +
+                m[4] * m[11] * m[14] +
+                m[8] * m[6] * m[15] -
+                m[8] * m[7] * m[14] -
+                m[12] * m[6] * m[11] +
+                m[12] * m[7] * m[10];
+            inv[8] = m[4] * m[9] * m[15] -
+                m[4] * m[11] * m[13] -
+                m[8] * m[5] * m[15] +
+                m[8] * m[7] * m[13] +
+                m[12] * m[5] * m[11] -
+                m[12] * m[7] * m[9];
+            inv[12] = -m[4] * m[9] * m[14] +
+                m[4] * m[10] * m[13] +
+                m[8] * m[5] * m[14] -
+                m[8] * m[6] * m[13] -
+                m[12] * m[5] * m[10] +
+                m[12] * m[6] * m[9];
+            inv[1] = -m[1] * m[10] * m[15] +
+                m[1] * m[11] * m[14] +
+                m[9] * m[2] * m[15] -
+                m[9] * m[3] * m[14] -
+                m[13] * m[2] * m[11] +
+                m[13] * m[3] * m[10];
+            inv[5] = m[0] * m[10] * m[15] -
+                m[0] * m[11] * m[14] -
+                m[8] * m[2] * m[15] +
+                m[8] * m[3] * m[14] +
+                m[12] * m[2] * m[11] -
+                m[12] * m[3] * m[10];
+            inv[9] = -m[0] * m[9] * m[15] +
+                m[0] * m[11] * m[13] +
+                m[8] * m[1] * m[15] -
+                m[8] * m[3] * m[13] -
+                m[12] * m[1] * m[11] +
+                m[12] * m[3] * m[9];
+            inv[13] = m[0] * m[9] * m[14] -
+                m[0] * m[10] * m[13] -
+                m[8] * m[1] * m[14] +
+                m[8] * m[2] * m[13] +
+                m[12] * m[1] * m[10] -
+                m[12] * m[2] * m[9];
+            inv[2] = m[1] * m[6] * m[15] -
+                m[1] * m[7] * m[14] -
+                m[5] * m[2] * m[15] +
+                m[5] * m[3] * m[14] +
+                m[13] * m[2] * m[7] -
+                m[13] * m[3] * m[6];
+            inv[6] = -m[0] * m[6] * m[15] +
+                m[0] * m[7] * m[14] +
+                m[4] * m[2] * m[15] -
+                m[4] * m[3] * m[14] -
+                m[12] * m[2] * m[7] +
+                m[12] * m[3] * m[6];
+            inv[10] = m[0] * m[5] * m[15] -
+                m[0] * m[7] * m[13] -
+                m[4] * m[1] * m[15] +
+                m[4] * m[3] * m[13] +
+                m[12] * m[1] * m[7] -
+                m[12] * m[3] * m[5];
+            inv[14] = -m[0] * m[5] * m[14] +
+                m[0] * m[6] * m[13] +
+                m[4] * m[1] * m[14] -
+                m[4] * m[2] * m[13] -
+                m[12] * m[1] * m[6] +
+                m[12] * m[2] * m[5];
+            inv[3] = -m[1] * m[6] * m[11] +
+                m[1] * m[7] * m[10] +
+                m[5] * m[2] * m[11] -
+                m[5] * m[3] * m[10] -
+                m[9] * m[2] * m[7] +
+                m[9] * m[3] * m[6];
+            inv[7] = m[0] * m[6] * m[11] -
+                m[0] * m[7] * m[10] -
+                m[4] * m[2] * m[11] +
+                m[4] * m[3] * m[10] +
+                m[8] * m[2] * m[7] -
+                m[8] * m[3] * m[6];
+            inv[11] = -m[0] * m[5] * m[11] +
+                m[0] * m[7] * m[9] +
+                m[4] * m[1] * m[11] -
+                m[4] * m[3] * m[9] -
+                m[8] * m[1] * m[7] +
+                m[8] * m[3] * m[5];
+            inv[15] = m[0] * m[5] * m[10] -
+                m[0] * m[6] * m[9] -
+                m[4] * m[1] * m[10] +
+                m[4] * m[2] * m[9] +
+                m[8] * m[1] * m[6] -
+                m[8] * m[2] * m[5];
+            var det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+            if (det === 0)
+                throw new Error("Matrix is not invertible.");
+            det = 1.0 / det;
+            for (var i = 0; i < 16; ++i)
+                inv[i] *= det;
+            return this;
+        };
+        return Matrix4;
+    }());
+    SourceUtils.Matrix4 = Matrix4;
+})(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/jquery/jquery.d.ts" />
-/// <reference path="typings/threejs/three.d.ts" />
+/// <reference path="Math.ts"/>
 /// <reference path="Utils.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
@@ -239,9 +689,9 @@ var SourceUtils;
             this.doubleClickPeriod = 0.3;
             this.previousTime = 0;
             this.lastClickTime = 0;
-            this.mouseScreenPos = new THREE.Vector2();
-            this.mouseLookDelta = new THREE.Vector2();
-            this.dragStartScreenPos = new THREE.Vector2();
+            this.mouseScreenPos = new SourceUtils.Vector2();
+            this.mouseLookDelta = new SourceUtils.Vector2();
+            this.dragStartScreenPos = new SourceUtils.Vector2();
             this.heldKeys = new Array(128);
             this.heldMouseButtons = new Array(8);
         }
@@ -299,7 +749,7 @@ var SourceUtils;
                 _this.heldKeys[e.which] = false;
                 _this.onKeyUp(e.which);
             });
-            var deltaAngles = new THREE.Vector3();
+            var deltaAngles = new SourceUtils.Vector3();
             var lastRotationSampleTime = new Date().getTime() / 1000;
             var deviceRotate = function (x, y, z, period, toRadians) {
                 x *= toRadians / period;
@@ -369,13 +819,13 @@ var SourceUtils;
         };
         AppBase.prototype.getMouseScreenPos = function (out) {
             if (out == null)
-                out = new THREE.Vector2();
+                out = new SourceUtils.Vector2();
             out.copy(this.mouseScreenPos);
             return out;
         };
         AppBase.prototype.getMouseViewPos = function (out) {
             if (out == null)
-                out = new THREE.Vector2();
+                out = new SourceUtils.Vector2();
             this.getMouseScreenPos(out);
             out.x = out.x / this.getWidth() - 0.5;
             out.y = out.y / this.getHeight() - 0.5;
@@ -383,7 +833,7 @@ var SourceUtils;
         };
         AppBase.prototype.getScreenPos = function (pageX, pageY, out) {
             if (out == null)
-                out = new THREE.Vector2();
+                out = new SourceUtils.Vector2();
             out.x = pageX - this.container.offset().left;
             out.y = pageY - this.container.offset().top;
             return out;
@@ -452,12 +902,12 @@ var SourceUtils;
 (function (SourceUtils) {
     var Entity = (function () {
         function Entity() {
-            this.position = new THREE.Vector3();
-            this.rotation = new THREE.Quaternion(0, 0, 0, 1);
-            this.scale = new THREE.Vector3(1, 1, 1);
-            this.matrix = new THREE.Matrix4();
+            this.position = new SourceUtils.Vector3();
+            this.rotation = new SourceUtils.Quaternion().setIdentity();
+            this.scale = new SourceUtils.Vector3(1, 1, 1);
+            this.matrix = new SourceUtils.Matrix4();
             this.matrixInvalid = true;
-            this.inverseMatrix = new THREE.Matrix4();
+            this.inverseMatrix = new SourceUtils.Matrix4();
             this.inverseMatrixInvalid = true;
             this.sortIndex = Entity.nextSortIndex++;
         }
@@ -473,7 +923,9 @@ var SourceUtils;
         Entity.prototype.getMatrix = function (target) {
             if (this.matrixInvalid) {
                 this.matrixInvalid = false;
-                this.matrix.compose(this.position, this.rotation, this.scale);
+                this.matrix.setRotation(this.rotation);
+                this.matrix.scale(this.scale);
+                this.matrix.translate(this.position);
             }
             if (target != null)
                 target.copy(this.matrix);
@@ -486,7 +938,7 @@ var SourceUtils;
             if (this.inverseMatrixInvalid) {
                 this.inverseMatrixInvalid = false;
                 this.getMatrix();
-                this.inverseMatrix.getInverse(this.matrix);
+                this.inverseMatrix.setInverse(this.matrix);
             }
             if (target != null)
                 target.copy(this.inverseMatrix);
@@ -538,7 +990,7 @@ var SourceUtils;
             Entity.tempEuler.x = roll * Math.PI / 180;
             Entity.tempEuler.y = pitch * Math.PI / 180;
             Entity.tempEuler.z = yaw * Math.PI / 180;
-            this.rotation.setFromEuler(Entity.tempEuler, true);
+            this.rotation.setEuler(Entity.tempEuler);
         };
         Entity.prototype.copyRotation = function (other) {
             this.setRotation(other.rotation);
@@ -558,7 +1010,7 @@ var SourceUtils;
         return Entity;
     }());
     Entity.nextSortIndex = 0;
-    Entity.tempEuler = new THREE.Euler(0, 0, 0, "ZYX");
+    Entity.tempEuler = new SourceUtils.Euler(0, 0, 0, SourceUtils.AxisOrder.Zyx);
     SourceUtils.Entity = Entity;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="Entity.ts"/>
@@ -600,7 +1052,7 @@ var SourceUtils;
             var elem = this.root;
             while (!elem.isLeaf) {
                 var node = elem;
-                var index = node.plane.normal.dot(pos) >= node.plane.constant ? 0 : 1;
+                var index = node.plane.normal.dot(pos) >= node.plane.distance ? 0 : 1;
                 elem = node.children[index];
             }
             return elem.isLeaf ? elem : null;
@@ -616,7 +1068,7 @@ var SourceUtils;
         function Camera() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.projectionInvalid = true;
-            _this.projectionMatrix = new THREE.Matrix4();
+            _this.projectionMatrix = new SourceUtils.Matrix4();
             return _this;
         }
         Camera.prototype.getProjectionMatrix = function (target) {
@@ -654,8 +1106,8 @@ var SourceUtils;
         PerspectiveCamera.prototype.setFar = function (value) { this.far = value; this.invalidateProjectionMatrix(); };
         PerspectiveCamera.prototype.getFar = function () { return this.far; };
         PerspectiveCamera.prototype.onUpdateProjectionMatrix = function (matrix) {
-            var near = this.near, top = near * Math.tan(THREE.Math.DEG2RAD * 0.5 * this.fov), height = 2 * top, width = this.aspect * height, left = -0.5 * width;
-            matrix.makePerspective(left, left + width, top, top - height, near, this.far);
+            var deg2Rad = Math.PI / 180;
+            matrix.setPerspective(deg2Rad * this.fov, this.aspect, this.near, this.far);
         };
         return PerspectiveCamera;
     }(Camera));
@@ -1364,8 +1816,8 @@ var SourceUtils;
         };
         return DrawListItem;
     }());
-    DrawListItem.rootCenter = new THREE.Vector3();
-    DrawListItem.thisCenter = new THREE.Vector3();
+    DrawListItem.rootCenter = new SourceUtils.Vector3();
+    DrawListItem.thisCenter = new SourceUtils.Vector3();
     SourceUtils.DrawListItem = DrawListItem;
     var BspDrawListItem = (function (_super) {
         __extends(BspDrawListItem, _super);
@@ -1475,7 +1927,7 @@ var SourceUtils;
             _this.clusters = info.clusters;
             var min = info.min;
             var max = info.max;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.bounds = new SourceUtils.Box3(new SourceUtils.Vector3(min.x, min.y, min.z), new SourceUtils.Vector3(max.x, max.y, max.z));
             return _this;
         }
         return Displacement;
@@ -1934,7 +2386,7 @@ var SourceUtils;
             _this.staticProps = [];
             _this.materials = [];
             _this.drawListInvalidationHandlers = [];
-            _this.rootBounds = new THREE.Box3();
+            _this.rootBounds = new SourceUtils.Box3();
             _this.app = app;
             _this.faceLoader = _this.addLoader(new SourceUtils.FaceLoader(_this));
             _this.modelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
@@ -2171,8 +2623,8 @@ var SourceUtils;
         __extends(MapViewer, _super);
         function MapViewer() {
             var _this = _super.call(this) || this;
-            _this.lookAngs = new THREE.Vector2();
-            _this.lookQuat = new THREE.Quaternion(0, 0, 0, 1);
+            _this.lookAngs = new SourceUtils.Vector2();
+            _this.lookQuat = new SourceUtils.Quaternion().setIdentity();
             _this.countedFrames = 0;
             _this.frameCountStart = 0;
             _this.totalRenderTime = 0;
@@ -2181,10 +2633,10 @@ var SourceUtils;
             _this.lastHashChangeTime = -1;
             _this.debugPanelInvalid = false;
             _this.spawned = false;
-            _this.unitZ = new THREE.Vector3(0, 0, 1);
-            _this.unitX = new THREE.Vector3(1, 0, 0);
-            _this.tempQuat = new THREE.Quaternion();
-            _this.skyCameraPos = new THREE.Vector3();
+            _this.unitZ = new SourceUtils.Vector3(0, 0, 1);
+            _this.unitX = new SourceUtils.Vector3(1, 0, 0);
+            _this.tempQuat = new SourceUtils.Quaternion();
+            _this.skyCameraPos = new SourceUtils.Vector3();
             _this.canLockPointer = true;
             _this.frameCountStart = performance.now();
             return _this;
@@ -2231,8 +2683,8 @@ var SourceUtils;
                 this.lookAngs.y = -Math.PI * 0.5;
             if (this.lookAngs.y > Math.PI * 0.5)
                 this.lookAngs.y = Math.PI * 0.5;
-            this.lookQuat.setFromAxisAngle(this.unitZ, this.lookAngs.x);
-            this.tempQuat.setFromAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
+            this.lookQuat.setAxisAngle(this.unitZ, this.lookAngs.x);
+            this.tempQuat.setAxisAngle(this.unitX, this.lookAngs.y + Math.PI * 0.5);
             this.lookQuat.multiply(this.tempQuat);
             this.camera.setRotation(this.lookQuat);
         };
@@ -2301,7 +2753,7 @@ var SourceUtils;
                 }
             }
             this.map.update();
-            var move = new THREE.Vector3();
+            var move = new SourceUtils.Vector3();
             var moveSpeed = 512 * dt;
             if (this.isKeyDown(SourceUtils.Key.W))
                 move.z -= moveSpeed;
@@ -2349,7 +2801,7 @@ var SourceUtils;
             if (this.skyRenderContext != null) {
                 drawCalls += this.skyRenderContext.getDrawCallCount();
             }
-            var cameraPos = new THREE.Vector3();
+            var cameraPos = new SourceUtils.Vector3();
             this.camera.getPosition(cameraPos);
             this.debugPanel.find("#debug-render-time").text(this.lastAvgRenderTime.toPrecision(5) + " ms");
             this.debugPanel.find("#debug-frame-time").text(this.lastAvgFrameTime.toPrecision(5) + " ms");
@@ -2368,7 +2820,7 @@ var SourceUtils;
             if (this.skyRenderContext != null && this.mainRenderContext.canSeeSky3D()) {
                 this.map.setSkyMaterialEnabled(true);
                 this.camera.getPosition(this.skyCameraPos);
-                this.skyCameraPos.divideScalar(this.map.info.skyCamera.scale);
+                this.skyCameraPos.multiplyScalar(1 / this.map.info.skyCamera.scale);
                 this.skyCameraPos.add(this.map.info.skyCamera.origin);
                 this.skyCamera.copyRotation(this.camera);
                 this.skyCamera.setPosition(this.skyCameraPos);
@@ -2567,15 +3019,15 @@ var SourceUtils;
     var RenderContext = (function () {
         function RenderContext(map, camera) {
             var _this = this;
-            this.projectionMatrix = new THREE.Matrix4();
-            this.inverseProjectionMatrix = new THREE.Matrix4();
-            this.identityMatrix = new THREE.Matrix4().identity();
-            this.viewMatrix = new THREE.Matrix4();
-            this.inverseViewMatrix = new THREE.Matrix4();
+            this.projectionMatrix = new SourceUtils.Matrix4();
+            this.inverseProjectionMatrix = new SourceUtils.Matrix4();
+            this.identityMatrix = new SourceUtils.Matrix4().setIdentity();
+            this.viewMatrix = new SourceUtils.Matrix4();
+            this.inverseViewMatrix = new SourceUtils.Matrix4();
             this.commandBufferInvalid = true;
-            this.pvsOrigin = new THREE.Vector3();
+            this.pvsOrigin = new SourceUtils.Vector3();
             this.pvsFollowsCamera = true;
-            this.origin = new THREE.Vector3();
+            this.origin = new SourceUtils.Vector3();
             this.map = map;
             this.camera = camera;
             this.drawList = new SourceUtils.DrawList(this);
@@ -2638,7 +3090,7 @@ var SourceUtils;
                 this.far = persp.getFar();
             }
             this.camera.getProjectionMatrix(this.projectionMatrix);
-            this.inverseProjectionMatrix.getInverse(this.projectionMatrix);
+            this.inverseProjectionMatrix.setInverse(this.projectionMatrix);
             this.camera.getMatrix(this.inverseViewMatrix);
             this.camera.getInverseMatrix(this.viewMatrix);
             this.updatePvs();
@@ -3499,9 +3951,9 @@ var SourceUtils;
             var meshData = new SourceUtils.MeshData(this.meshData);
             var itemSize = 8;
             if (staticParent != null) {
-                var transform = new THREE.Matrix4();
+                var transform = new SourceUtils.Matrix4();
                 staticParent.getMatrix(transform);
-                var position = new THREE.Vector4();
+                var position = new SourceUtils.Vector4();
                 for (var i = 0; i < meshData.elements.length; ++i) {
                     var offset = meshData.elements[i].vertexOffset;
                     var count = meshData.elements[i].vertexCount;
@@ -3732,7 +4184,7 @@ var SourceUtils;
             _this.cluster = info.cluster === undefined ? -1 : info.cluster;
             _this.canSeeSky2D = (info.flags & SourceUtils.Api.LeafFlags.Sky2D) !== 0;
             _this.canSeeSky3D = (info.flags & SourceUtils.Api.LeafFlags.Sky) !== 0;
-            _this.bounds = new THREE.Box3(new THREE.Vector3(min.x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            _this.bounds = new SourceUtils.Box3(new SourceUtils.Vector3(min.x, min.y, min.z), new SourceUtils.Vector3(max.x, max.y, max.z));
             return _this;
         }
         VisLeaf.prototype.getAllLeaves = function (dstArray) {
@@ -3750,9 +4202,8 @@ var SourceUtils;
             var normal = info.plane.normal;
             var min = info.min;
             var max = info.max;
-            this.plane = new THREE.Plane(new THREE.Vector3(normal.x, normal.y, normal.z), info.plane.dist);
-            this.bounds = new THREE.Box3(new THREE.Vector3(min
-                .x, min.y, min.z), new THREE.Vector3(max.x, max.y, max.z));
+            this.plane = new SourceUtils.Plane(new SourceUtils.Vector3(normal.x, normal.y, normal.z), info.plane.dist);
+            this.bounds = new SourceUtils.Box3(new SourceUtils.Vector3(min.x, min.y, min.z), new SourceUtils.Vector3(max.x, max.y, max.z));
             this.children = [
                 VisNode.createVisElem(model, info.children[0]),
                 VisNode.createVisElem(model, info.children[1])
