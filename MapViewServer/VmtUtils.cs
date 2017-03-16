@@ -124,7 +124,7 @@ namespace MapViewServer
             AddProperty( properties, name, MaterialPropertyType.TextureCube, new JArray( vtfUrls ) );
         }
 
-        private static void SerializeShaderProperties( HttpListenerRequest request, ValveBspFile bsp, ValveMaterialFile vmt, string shaderName, string vmtDir, JArray destArray )
+        private static void SerializeShaderProperties( HttpListenerRequest request, ValveBspFile bsp, ValveMaterialFile vmt, ref string shaderName, string vmtDir, JArray destArray )
         {
             if ( !vmt.ContainsShader( shaderName ) ) shaderName = vmt.Shaders.FirstOrDefault();
 
@@ -138,7 +138,7 @@ namespace MapViewServer
                         var includePath = props[name];
                         var includeDir = Path.GetDirectoryName( includePath );
                         var includeVmt = OpenVmt( bsp, includePath );
-                        SerializeShaderProperties( request, bsp, includeVmt, shaderName, includeDir, destArray );
+                        SerializeShaderProperties( request, bsp, includeVmt, ref shaderName, includeDir, destArray );
                         break;
                     }
                     case "$basetexture":
@@ -208,13 +208,14 @@ namespace MapViewServer
         public static JToken SerializeVmt( HttpListenerRequest request, ValveBspFile bsp, ValveMaterialFile vmt, string path )
         {
             // TODO: Proper patch shader support
-            var shader = vmt.Shaders.FirstOrDefault();
+            var firstShader = vmt.Shaders.FirstOrDefault();
+            var shader = firstShader;
             if ( shader == null ) return null;
 
             var propArray = new JArray();
             var vmtDir = Path.GetDirectoryName( path ).Replace( '\\', '/' );
 
-            SerializeShaderProperties( request, bsp, vmt, shader, vmtDir, propArray );
+            SerializeShaderProperties( request, bsp, vmt, ref shader, vmtDir, propArray );
 
             var variant = "Generic";
             if ( propArray.Any(x => (string) x["name"] == "translucent" && (bool) x["value"] ) )
@@ -253,7 +254,7 @@ namespace MapViewServer
                 {"debug", new JObject
                 {
                     {"shader", shader },
-                    {"properties", new JArray(vmt[shader].PropertyNames.Select( x => new JArray(x, vmt[shader][x] ))) }
+                    {"properties", new JArray(vmt[firstShader].PropertyNames.Select( x => new JArray(x, vmt[firstShader][x] ))) }
                 } }
 #endif
             };
