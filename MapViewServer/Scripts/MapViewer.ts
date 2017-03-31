@@ -43,7 +43,7 @@ namespace SourceUtils {
         }
 
         init(container: JQuery): void {
-            this.camera = new PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
+            this.camera = new PerspectiveCamera(75 * Math.PI / 180, container.innerWidth() / container.innerHeight(), 1, 8192);
 
             super.init(container);
 

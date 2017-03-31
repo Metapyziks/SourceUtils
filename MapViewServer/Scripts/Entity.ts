@@ -1,8 +1,7 @@
 ﻿/// <reference path="AppBase.ts"/>
 
 namespace SourceUtils {
-    export class Entity
-    {
+    export class Entity {
         private static nextSortIndex = 0;
 
         private sortIndex: number;

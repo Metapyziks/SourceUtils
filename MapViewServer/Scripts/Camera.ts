@@ -3,7 +3,6 @@
     export class Camera extends Entity {
         private projectionInvalid = true;
         private projectionMatrix = new Matrix4();
-        private drawList: DrawList;
 
         getProjectionMatrix(target: Matrix4): void {
             if (this.projectionInvalid) {
@@ -51,8 +50,7 @@
         getFar(): number { return this.far; }
 
         protected onUpdateProjectionMatrix(matrix: Matrix4): void {
-            const deg2Rad = Math.PI / 180;
-            matrix.setPerspective(deg2Rad * this.fov, this.aspect, this.near, this.far);
+            matrix.setPerspective(this.fov, this.aspect, this.near, this.far);
         }
     }
 }

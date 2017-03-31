@@ -1,5 +1,4 @@
-﻿namespace SourceUtils
-{
+﻿namespace SourceUtils {
     export class MaterialProperties {
         translucent = false;
         refract = false;

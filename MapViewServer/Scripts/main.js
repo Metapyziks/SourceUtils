@@ -88,39 +88,6 @@ var SourceUtils;
         })(VtfFlags = Api.VtfFlags || (Api.VtfFlags = {}));
     })(Api = SourceUtils.Api || (SourceUtils.Api = {}));
 })(SourceUtils || (SourceUtils = {}));
-/// <reference path="typings/lz-string/lz-string.d.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Utils = (function () {
-        function Utils() {
-        }
-        Utils.decompressFloat32Array = function (value) {
-            return new Float32Array(Utils.decompress(value));
-        };
-        Utils.decompressUint16Array = function (value) {
-            return new Uint16Array(Utils.decompress(value));
-        };
-        Utils.decompressUint32Array = function (value) {
-            return new Uint32Array(Utils.decompress(value));
-        };
-        Utils.decompress = function (value) {
-            if (value == null)
-                return null;
-            return typeof value === "string"
-                ? JSON.parse(LZString.decompressFromBase64(value))
-                : value;
-        };
-        Utils.decompressOrClone = function (value) {
-            if (value == null)
-                return null;
-            return typeof value === "string"
-                ? JSON.parse(LZString.decompressFromBase64(value))
-                : value.slice(0);
-        };
-        return Utils;
-    }());
-    SourceUtils.Utils = Utils;
-})(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
     var Vector2 = (function () {
@@ -570,6 +537,39 @@ var SourceUtils;
         return Matrix4;
     }());
     SourceUtils.Matrix4 = Matrix4;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="typings/lz-string/lz-string.d.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Utils = (function () {
+        function Utils() {
+        }
+        Utils.decompressFloat32Array = function (value) {
+            return new Float32Array(Utils.decompress(value));
+        };
+        Utils.decompressUint16Array = function (value) {
+            return new Uint16Array(Utils.decompress(value));
+        };
+        Utils.decompressUint32Array = function (value) {
+            return new Uint32Array(Utils.decompress(value));
+        };
+        Utils.decompress = function (value) {
+            if (value == null)
+                return null;
+            return typeof value === "string"
+                ? JSON.parse(LZString.decompressFromBase64(value))
+                : value;
+        };
+        Utils.decompressOrClone = function (value) {
+            if (value == null)
+                return null;
+            return typeof value === "string"
+                ? JSON.parse(LZString.decompressFromBase64(value))
+                : value.slice(0);
+        };
+        return Utils;
+    }());
+    SourceUtils.Utils = Utils;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="typings/jquery/jquery.d.ts" />
 /// <reference path="Math.ts"/>
@@ -1106,8 +1106,7 @@ var SourceUtils;
         PerspectiveCamera.prototype.setFar = function (value) { this.far = value; this.invalidateProjectionMatrix(); };
         PerspectiveCamera.prototype.getFar = function () { return this.far; };
         PerspectiveCamera.prototype.onUpdateProjectionMatrix = function (matrix) {
-            var deg2Rad = Math.PI / 180;
-            matrix.setPerspective(deg2Rad * this.fov, this.aspect, this.near, this.far);
+            matrix.setPerspective(this.fov, this.aspect, this.near, this.far);
         };
         return PerspectiveCamera;
     }(Camera));
@@ -2649,7 +2648,7 @@ var SourceUtils;
         };
         MapViewer.prototype.init = function (container) {
             var _this = this;
-            this.camera = new SourceUtils.PerspectiveCamera(75, container.innerWidth() / container.innerHeight(), 1, 8192);
+            this.camera = new SourceUtils.PerspectiveCamera(75 * Math.PI / 180, container.innerWidth() / container.innerHeight(), 1, 8192);
             _super.prototype.init.call(this, container);
             this.enableExtension("EXT_frag_depth");
             this.enableExtension("WEBGL_depth_texture");
@@ -4496,3 +4495,4 @@ var SourceUtils;
     }());
     SourceUtils.WorldMeshManager = WorldMeshManager;
 })(SourceUtils || (SourceUtils = {}));
+//# sourceMappingURL=main.js.map
