@@ -157,9 +157,9 @@ namespace SourceUtils
 
         private readonly List<Stream> _threadStreams = new List<Stream>();
 
-        public ValveBspFile( string filePath, string name )
+        public ValveBspFile( string filePath )
         {
-            Name = name;
+            Name = Path.GetFileNameWithoutExtension( filePath );
             _filePath = filePath;
 
             using ( var reader = new BinaryReader( File.OpenRead( filePath ) ) )

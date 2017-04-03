@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using CommandLine;
 using Ziks.WebServer;
 
@@ -11,58 +13,49 @@ namespace SourceUtils.WebExport
 
         [Option('m', "map", HelpText = "Specific map name to export (e.g. 'de_dust2').")]
         public string Map { get; set; }
-    }
 
-    [Verb("export", HelpText = "Export one or more maps for serving over HTTP.")]
-    class ExportOptions : BaseOptions
-    {
-        [Option('o', "outdir", HelpText = "Output directory.", Required = true)]
-        public string OutDir { get; set; }
+        [Option('v', "verbose", HelpText = "Write every action to standard output.")]
+        public bool Verbose { get; set; }
     }
 
     [Verb("host", HelpText = "Run a HTTP server that exports requested resources.")]
     class HostOptions : BaseOptions
     {
-        [Option('c', "cachedir", HelpText = "Directory to store exported files in.")]
-        public string CacheDir { get; set; }
-
         [Option('p', "port", HelpText = "Port to listen on.", Default = 8080)]
         public int Port { get; set; }
     }
 
     partial class Program
     {
-        static int Export( ExportOptions args )
+        private static BaseOptions _sBaseOptions;
+
+        public static string GetGameFilePath( string path )
         {
-            if ( !Directory.Exists( args.OutDir ) )
-            {
-                Directory.CreateDirectory( args.OutDir );
-            }
+            return Path.Combine( _sBaseOptions.GameDir, path );
+        }
 
-            CopyStaticFiles( args.OutDir );
+        private static readonly Dictionary<string, ValveBspFile> _sOpenMaps = new Dictionary<string, ValveBspFile>();
 
-            return 0;
+        public static ValveBspFile GetMap( string name )
+        {
+            ValveBspFile map;
+            if ( _sOpenMaps.TryGetValue( name, out map ) ) return map;
+
+            map = new ValveBspFile( GetGameFilePath( $"maps/{name}.bsp" ) );
+            _sOpenMaps.Add( name, map );
+
+            return map;
         }
 
         static int Host( HostOptions args )
         {
+            _sBaseOptions = args;
+
             var server = new Server( args.Port );
 
-            if ( args.CacheDir != null )
-            {
-                if ( !Directory.Exists( args.CacheDir ) )
-                {
-                    Directory.CreateDirectory( args.CacheDir );
-                }
+            AddStaticFileControllers( server );
 
-                CopyStaticFiles( args.CacheDir );
-                AddStaticFileControllers( server, args.CacheDir );
-            }
-            else
-            {
-                AddStaticFileControllers( server );
-            }
-
+            server.Controllers.Add( Assembly.GetExecutingAssembly() );
             server.Run();
 
             return 0;
