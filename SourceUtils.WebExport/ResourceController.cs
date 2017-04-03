@@ -75,16 +75,21 @@ namespace SourceUtils.WebExport
         [ResponseWriter]
         public void OnWriteObject( object obj )
         {
-            OnServiceJson( JObject.FromObject( obj ) );
+            OnServiceJson( obj == null ? null : JObject.FromObject( obj ) );
         }
+
+        protected bool Skip => Request.QueryString["skip"] == "1";
 
         protected override void OnServiceJson( JToken token )
         {
             Response.ContentType = MimeTypeMap.GetMimeType( ".json" );
 
-            using ( var writer = new StreamWriter( Response.OutputStream ) )
+            if ( token != null )
             {
-                writer.Write( token.ToString( Formatting.None ) );
+                using ( var writer = new StreamWriter( Response.OutputStream ) )
+                {
+                    writer.Write( token.ToString( Formatting.None ) );
+                }
             }
 
             Response.OutputStream.Close();

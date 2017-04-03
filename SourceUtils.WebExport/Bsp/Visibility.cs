@@ -25,12 +25,14 @@ namespace SourceUtils.WebExport.Bsp
         public IEnumerable<IEnumerable<int>> Values { get; set; }
     }
 
-    [Prefix("/{map}/visibility")]
+    [Prefix("/maps/{map}/visibility")]
     class VisibilityController : ResourceController
     {
         [Get("/{page}.json")]
         public Visibility Get( [Url] string map, [Url] int page )
         {
+            if ( Skip ) return null;
+
             var bsp = Program.GetMap(map);
             var first = page * Visibility.PerPage;
             var count = Math.Min( first + Visibility.PerPage, bsp.Visibility.NumClusters ) - first;

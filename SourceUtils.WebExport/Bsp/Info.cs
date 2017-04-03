@@ -28,12 +28,14 @@ namespace SourceUtils.WebExport.Bsp
 
         [JsonProperty("lightmapUrl")]
         public Url LightmapUrl { get; set; }
+        
+        public IEnumerable<Url> MaterialUrls { get; set; }
 
         [JsonProperty("visibilityUrls")]
-        public IEnumerable<VisibilityPageInfo> VisibilityUrls { get; set; }
+        public IEnumerable<VisibilityPageInfo> VisibilityPages { get; set; }
     }
 
-    [Prefix("/{map}/info.json")]
+    [Prefix("/maps/{map}.json")]
     class InfoController : ResourceController
     {
         [Get]
@@ -45,13 +47,25 @@ namespace SourceUtils.WebExport.Bsp
             {
                 Name = bsp.Name,
                 ClusterCount = bsp.Visibility.NumClusters,
-                LightmapUrl = $"/{bsp.Name}/lightmap.png",
-                VisibilityUrls = Enumerable.Range( 0, Visibility.GetPageCount( bsp.Visibility.NumClusters ) )
+                LightmapUrl = $"/maps/{bsp.Name}/lightmap.png",
+                VisibilityPages = Enumerable.Range( 0, Visibility.GetPageCount( bsp.Visibility.NumClusters ) )
                     .Select( x => new VisibilityPageInfo
                     {
                         First = x * Visibility.PerPage,
                         Count = Math.Min( (x + 1) * Visibility.PerPage, bsp.Visibility.NumClusters ) - x * Visibility.PerPage,
-                        Url = $"/{bsp.Name}/visibility/{x}.json"
+                        Url = $"/maps/{bsp.Name}/visibility/{x}.json"
+                    } ),
+                MaterialUrls = Enumerable.Range( 0, bsp.TextureStringTable.Length )
+                    .Select( i => bsp.GetTextureString( i ) )
+                    .Select( tex =>
+                    {
+                        var path = $"materials/{tex.ToLower()}.vmt".Replace( '\\', '/' );
+                        if ( bsp.PakFile.ContainsFile( path ) )
+                        {
+                            return (Url) $"/maps/{bsp.Name}/{path}.json";
+                        }
+
+                        return (Url) $"/{path}.json";
                     } )
             };
         }

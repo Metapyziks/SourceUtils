@@ -24,12 +24,12 @@ namespace SourceUtils.WebExport
         public static bool IsExporting { get; private set; }
 
         private static readonly HashSet<Url> _sExportUrls = new HashSet<Url>();
-        private static readonly Queue<Url> _sToExport = new Queue<Url>();
+        private static readonly Stack<Url> _sToExport = new Stack<Url>();
 
         public static void AddExportUrl( Url url )
         {
             if ( !_sExportUrls.Add( url ) ) return;
-            _sToExport.Enqueue( url );
+            _sToExport.Push( url );
         }
 
         private static readonly string[] _sBytesUnits =
@@ -50,7 +50,17 @@ namespace SourceUtils.WebExport
                         return $"{relative}{_sBytesUnits[i]}";
                     }
 
-                    return $"{relative:F2}{_sBytesUnits[i]}";
+                    if ( relative < 10 )
+                    {
+                        return $"{relative:F2}{_sBytesUnits[i]}";
+                    }
+
+                    if (relative < 100)
+                    {
+                        return $"{relative:F1}{_sBytesUnits[i]}";
+                    }
+
+                    return $"{Math.Round(relative)}{_sBytesUnits[i]}";
                 }
 
                 relative /= 1024;
@@ -61,7 +71,7 @@ namespace SourceUtils.WebExport
 
         static int Export(ExportOptions args)
         {
-            _sBaseOptions = args;
+            SetBaseOptions(args);
 
             var port = 8080;
             var server = new Server( port );
@@ -79,7 +89,7 @@ namespace SourceUtils.WebExport
 
             if ( args.Map != null )
             {
-                AddExportUrl( $"/{args.Map}/info.json" );
+                AddExportUrl( $"/maps/{args.Map}.json" );
             }
             else
             {
@@ -89,7 +99,7 @@ namespace SourceUtils.WebExport
                     if ( file.EndsWith( ".bsp" ) )
                     {
                         var map = Path.GetFileNameWithoutExtension( file );
-                        AddExportUrl( $"/{map}/info.json" );
+                        AddExportUrl( $"/maps/{map}.json" );
                     }
                 }
             }
@@ -104,18 +114,21 @@ namespace SourceUtils.WebExport
             {
                 while (_sToExport.Count > 0)
                 {
-                    var url = _sToExport.Dequeue();
+                    var url = _sToExport.Pop();
 
                     var path = Path.Combine(args.OutDir, url.Value.Substring(1));
-                    if ( !args.Overwrite && File.Exists( path ) )
+                    var skip = !args.Overwrite && File.Exists(path);
+
+                    if ( skip )
                     {
                         ++skipped;
-                        continue;
                     }
 
-                    if (args.Verbose)
+                    if ( args.Verbose )
                     {
-                        Console.Write($"Exporting '{url}' ... ");
+                        Console.ResetColor();
+                        if ( skip ) Console.WriteLine($"Skipped '{url}'");
+                        else Console.Write($"[{exported + skipped + failed + 1}/{_sExportUrls.Count}] Exporting '{url}' ... ");
                     }
 
                     var dir = Path.GetDirectoryName(path);
@@ -127,10 +140,14 @@ namespace SourceUtils.WebExport
                         Task.Run( () => server.Run() );
                     }
 
+                    var skipStr = skip ? "?skip=1" : "";
+
                     try
                     {
-                        using ( var input = client.OpenRead( $"http://localhost:{port}{url}" ) )
+                        using ( var input = client.OpenRead( $"http://localhost:{port}{url}{skipStr}" ) )
                         {
+                            if ( skip ) continue;
+
                             using ( var output = File.Create( path ) )
                             {
                                 input.CopyTo( output );
@@ -138,6 +155,7 @@ namespace SourceUtils.WebExport
 
                                 if ( args.Verbose )
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Green;
                                     Console.WriteLine( $"Wrote {FormatFileSize( output.Length )}" );
                                 }
                             }
@@ -149,28 +167,17 @@ namespace SourceUtils.WebExport
 
                         if ( args.Verbose )
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Failed");
-
-                            if ( e.Response != null )
-                            {
-                                using ( var reader = new StreamReader( e.Response.GetResponseStream() ) )
-                                {
-                                    Console.WriteLine( reader.ReadToEnd() );
-                                }
-                            }
                         }
-
-                        break;
                     }
                 }
             }
 
             if ( startedServer ) server.Stop();
 
-            if ( args.Verbose )
-            {
-                Console.WriteLine( $"Finished ({exported} exported, {skipped} skipped, {failed} failed)" );
-            }
+            Console.ResetColor();
+            Console.WriteLine( $"Finished ({exported} exported, {skipped} skipped, {failed} failed)" );
 
             Console.ReadKey();
 

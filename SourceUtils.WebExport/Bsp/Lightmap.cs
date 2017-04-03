@@ -7,12 +7,18 @@ using Ziks.WebServer;
 
 namespace SourceUtils.WebExport.Bsp
 {
-    [Prefix("/{map}/lightmap.png")]
+    [Prefix("/maps/{map}/lightmap.png")]
     class LightmapController : ResourceController
     {
         [Get]
         public void Get( [Url] string map )
         {
+            if ( Skip )
+            {
+                Response.Close();
+                return;
+            }
+
             Response.ContentType = MimeTypeMap.GetMimeType(".png");
 
             var bsp = Program.GetMap( map );

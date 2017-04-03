@@ -36,6 +36,8 @@ namespace SourceUtils.WebExport
 
         private static readonly Dictionary<string, ValveBspFile> _sOpenMaps = new Dictionary<string, ValveBspFile>();
 
+        public static IResourceProvider Resources { get; private set; }
+
         public static ValveBspFile GetMap( string name )
         {
             ValveBspFile map;
@@ -47,9 +49,15 @@ namespace SourceUtils.WebExport
             return map;
         }
 
-        static int Host( HostOptions args )
+        static void SetBaseOptions( BaseOptions args )
         {
             _sBaseOptions = args;
+            Resources = new ValvePackage(Path.Combine(args.GameDir, "pak01_dir.vpk"));
+        }
+
+        static int Host( HostOptions args )
+        {
+            SetBaseOptions( args );
 
             var server = new Server( args.Port );
 
