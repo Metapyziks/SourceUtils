@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using CommandLine;
+using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
 {
@@ -33,15 +30,41 @@ namespace SourceUtils.WebExport
         public int Port { get; set; }
     }
 
-    class Program
+    partial class Program
     {
         static int Export( ExportOptions args )
         {
+            if ( !Directory.Exists( args.OutDir ) )
+            {
+                Directory.CreateDirectory( args.OutDir );
+            }
+
+            CopyStaticFiles( args.OutDir );
+
             return 0;
         }
 
         static int Host( HostOptions args )
         {
+            var server = new Server( args.Port );
+
+            if ( args.CacheDir != null )
+            {
+                if ( !Directory.Exists( args.CacheDir ) )
+                {
+                    Directory.CreateDirectory( args.CacheDir );
+                }
+
+                CopyStaticFiles( args.CacheDir );
+                AddStaticFileControllers( server, args.CacheDir );
+            }
+            else
+            {
+                AddStaticFileControllers( server );
+            }
+
+            server.Run();
+
             return 0;
         }
 
