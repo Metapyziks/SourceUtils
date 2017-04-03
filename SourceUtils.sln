@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceUtils", "SourceUtils\SourceUtils.csproj", "{2C5FEFA1-39BA-458E-B95C-2D8414958820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapViewServer", "MapViewServer\MapViewServer.csproj", "{D122A25A-C177-4BC9-BE18-CBEA54D0FF94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceUtils.WebExport", "SourceUtils.WebExport\SourceUtils.WebExport.csproj", "{171622AD-547B-496C-A230-16FCA08A0112}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{2C5FEFA1-39BA-458E-B95C-2D8414958820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C5FEFA1-39BA-458E-B95C-2D8414958820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C5FEFA1-39BA-458E-B95C-2D8414958820}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D122A25A-C177-4BC9-BE18-CBEA54D0FF94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D122A25A-C177-4BC9-BE18-CBEA54D0FF94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D122A25A-C177-4BC9-BE18-CBEA54D0FF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D122A25A-C177-4BC9-BE18-CBEA54D0FF94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171622AD-547B-496C-A230-16FCA08A0112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171622AD-547B-496C-A230-16FCA08A0112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171622AD-547B-496C-A230-16FCA08A0112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171622AD-547B-496C-A230-16FCA08A0112}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

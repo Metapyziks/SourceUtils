@@ -1,6 +1,0 @@
-﻿#include "LightmappedBase.vert.txt"
-
-void main()
-{
-    LightmappedBase_main();
-}
