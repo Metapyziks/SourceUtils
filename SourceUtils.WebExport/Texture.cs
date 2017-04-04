@@ -80,18 +80,19 @@ namespace SourceUtils.WebExport
             }
 
             var isCube = vtf.FaceCount == 6;
+            var untextured = Program.BaseOptions.Untextured;
 
             var tex = new Texture
             {
                 Target = isCube ? TextureTarget.TextureCubeMap : TextureTarget.Texture2D,
-                Width = vtf.Header.Width,
-                Height = vtf.Header.Height,
+                Width = untextured ? 1 : vtf.Header.Width,
+                Height = untextured ? 1 : vtf.Header.Height,
                 Params =
                 {
-                    Filter = (vtf.Header.Flags & TextureFlags.POINTSAMPLE) != 0
+                    Filter = untextured || (vtf.Header.Flags & TextureFlags.POINTSAMPLE) != 0
                         ? TextureMinFilter.Nearest
                         : TextureMinFilter.Linear,
-                    MipMap = (vtf.Header.Flags & TextureFlags.NOMIP) == 0,
+                    MipMap = !untextured && (vtf.Header.Flags & TextureFlags.NOMIP) == 0,
                     WrapS = (vtf.Header.Flags & TextureFlags.CLAMPS) != 0
                         ? TextureWrapMode.ClampToEdge
                         : TextureWrapMode.Repeat,
@@ -111,7 +112,7 @@ namespace SourceUtils.WebExport
                 {
                     var elem = new TextureElement
                     {
-                        Level = mip
+                        Level = untextured ? 0 : mip
                     };
 
                     if ( isCube ) elem.Target = TextureTarget.TextureCubeMapPositiveX + face;
@@ -153,6 +154,8 @@ namespace SourceUtils.WebExport
 
                     tex.Elements.Add( elem );
                 }
+
+                if (untextured) break;
             }
 
             return tex;
@@ -163,6 +166,12 @@ namespace SourceUtils.WebExport
         [Get(MatchAllUrl = false, Extension = ".png")]
         public void GetImage( [Url] string map )
         {
+            if ( Skip )
+            {
+                Response.OutputStream.Close();
+                return;
+            }
+
             var absolute = Request.Url.AbsolutePath;
             var pathStart = absolute.IndexOf( "/materials" ) + 1;
             var pathEnd = absolute.IndexOf( ".vtf", pathStart ) + ".vtf".Length;

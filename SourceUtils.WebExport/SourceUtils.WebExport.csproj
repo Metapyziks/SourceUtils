@@ -91,8 +91,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bsp\Geometry.cs" />
     <Compile Include="Bsp\Info.cs" />
     <Compile Include="Bsp\Lightmap.cs" />
+    <Compile Include="Bsp\Model.cs" />
     <Compile Include="Bsp\Visibility.cs" />
     <Compile Include="Export.cs" />
     <Compile Include="LZString.cs" />

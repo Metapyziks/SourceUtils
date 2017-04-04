@@ -54,8 +54,12 @@ namespace SourceUtils.WebExport
         public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
         {
             var url = (Url) value;
-            writer.WriteValue( url.Value );
-            if ( Program.IsExporting ) Program.AddExportUrl( url );
+            if ( Program.IsExporting )
+            {
+                Program.AddExportUrl( url );
+                writer.WriteValue( $"{Program.ExportOptions.UrlPrefix}{url.Value}" );
+            }
+            else writer.WriteValue(url.Value);
         }
 
         public override object ReadJson( JsonReader reader, Type objectType, object existingValue,

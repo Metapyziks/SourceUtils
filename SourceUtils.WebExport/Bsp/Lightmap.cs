@@ -2,15 +2,44 @@
 using System.IO;
 using ImageMagick;
 using MimeTypes;
+using OpenTK.Graphics.ES20;
 using SourceUtils.ValveBsp;
 using Ziks.WebServer;
 
 namespace SourceUtils.WebExport.Bsp
 {
-    [Prefix("/maps/{map}/lightmap.png")]
+    [Prefix("/maps/{map}")]
     class LightmapController : ResourceController
     {
-        [Get]
+        [Get("/lightmap.json")]
+        public Texture GetInfo( [Url] string map )
+        {
+            var bsp = Program.GetMap(map);
+
+            return new Texture
+            {
+                Target = TextureTarget.Texture2D,
+                Width = bsp.LightmapLayout.TextureSize.X,
+                Height = bsp.LightmapLayout.TextureSize.Y,
+                Params =
+                {
+                    WrapS = TextureWrapMode.ClampToEdge,
+                    WrapT = TextureWrapMode.ClampToEdge,
+                    Filter = TextureMinFilter.Linear,
+                    MipMap = false
+                },
+                Elements =
+                {
+                    new TextureElement
+                    {
+                        Level = 0,
+                        Url = $"/maps/{map}/lightmap.png"
+                    }
+                }
+            };
+        }
+
+        [Get("/lightmap.png")]
         public void Get( [Url] string map )
         {
             if ( Skip )

@@ -16,6 +16,9 @@ namespace SourceUtils.WebExport
 
         [Option('v', "verbose", HelpText = "Write every action to standard output.")]
         public bool Verbose { get; set; }
+
+        [Option("untextured", HelpText = "Only export a single colour for each texture.")]
+        public bool Untextured { get; set; }
     }
 
     [Verb("host", HelpText = "Run a HTTP server that exports requested resources.")]
@@ -27,11 +30,11 @@ namespace SourceUtils.WebExport
 
     partial class Program
     {
-        private static BaseOptions _sBaseOptions;
+        public static BaseOptions BaseOptions { get; private set; }
 
         public static string GetGameFilePath( string path )
         {
-            return Path.Combine( _sBaseOptions.GameDir, path );
+            return Path.Combine(BaseOptions.GameDir, path );
         }
 
         private static readonly Dictionary<string, ValveBspFile> _sOpenMaps = new Dictionary<string, ValveBspFile>();
@@ -51,7 +54,7 @@ namespace SourceUtils.WebExport
 
         static void SetBaseOptions( BaseOptions args )
         {
-            _sBaseOptions = args;
+            BaseOptions = args;
             Resources = new ValvePackage(Path.Combine(args.GameDir, "pak01_dir.vpk"));
         }
 
