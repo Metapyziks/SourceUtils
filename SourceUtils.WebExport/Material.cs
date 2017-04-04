@@ -30,6 +30,14 @@ namespace SourceUtils.WebExport
 
     public struct MaterialColor
     {
+        public MaterialColor( byte r, byte g, byte b, byte a = 255 )
+        {
+            R = r / 255f;
+            G = g / 255f;
+            B = b / 255f;
+            A = a / 255f;
+        }
+
         public MaterialColor( Color32 color )
         {
             R = color.R / 255f;

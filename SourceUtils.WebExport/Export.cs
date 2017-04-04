@@ -24,12 +24,12 @@ namespace SourceUtils.WebExport
         public static bool IsExporting { get; private set; }
 
         private static readonly HashSet<Url> _sExportUrls = new HashSet<Url>();
-        private static readonly Stack<Url> _sToExport = new Stack<Url>();
+        private static readonly Queue<Url> _sToExport = new Queue<Url>();
 
         public static void AddExportUrl( Url url )
         {
             if ( !_sExportUrls.Add( url ) ) return;
-            _sToExport.Push( url );
+            _sToExport.Enqueue( url );
         }
 
         private static readonly string[] _sBytesUnits =
@@ -73,8 +73,9 @@ namespace SourceUtils.WebExport
         {
             SetBaseOptions(args);
 
-            var port = 8080;
-            var server = new Server( port );
+            const int port = 39281;
+            var server = new Server();
+            server.Prefixes.Add( $"http://localhost:{port}/" );
 
             server.Controllers.Add( Assembly.GetExecutingAssembly() );
 
@@ -114,7 +115,7 @@ namespace SourceUtils.WebExport
             {
                 while (_sToExport.Count > 0)
                 {
-                    var url = _sToExport.Pop();
+                    var url = _sToExport.Dequeue();
 
                     var path = Path.Combine(args.OutDir, url.Value.Substring(1));
                     var skip = !args.Overwrite && File.Exists(path);

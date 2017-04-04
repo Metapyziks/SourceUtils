@@ -72,10 +72,15 @@ namespace SourceUtils.WebExport
 
     class ResourceController : Controller
     {
+        private static readonly JsonSerializer _sSerializer = new JsonSerializer
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
         [ResponseWriter]
         public void OnWriteObject( object obj )
         {
-            OnServiceJson( obj == null ? null : JObject.FromObject( obj ) );
+            OnServiceJson( obj == null ? null : JObject.FromObject( obj, _sSerializer ) );
         }
 
         protected bool Skip => Request.QueryString["skip"] == "1";
