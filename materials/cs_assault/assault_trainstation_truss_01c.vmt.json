@@ -1,0 +1,1 @@
+{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://Metapyziks.github.io/SourceUtils/materials/cs_assault/assault_trainstation_truss_01c.vtf.json"},{"name":"alphaTest","type":1,"value":true}]}
