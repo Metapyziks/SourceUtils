@@ -75,7 +75,7 @@ namespace SourceUtils.WebExport.Bsp
         public PrimitiveType Mode { get; set; }
 
         [JsonProperty("material")]
-        public int Material { get; set; }
+        public int? Material { get; set; }
 
         [JsonProperty("indexOffset")]
         public int IndexOffset { get; set; }
@@ -160,6 +160,7 @@ namespace SourceUtils.WebExport.Bsp
         private readonly Dictionary<Vertex, int> _vertexIndices = new Dictionary<Vertex, int>();
         private float[] _vertex;
         private int _vertexSize;
+        private readonly List<int> _primitiveIndices = new List<int>();
 
         public void BeginPrimitive()
         {
@@ -178,7 +179,7 @@ namespace SourceUtils.WebExport.Bsp
                 _vertex = new float[_vertexSize];
             }
 
-            throw new NotImplementedException();
+            _primitiveIndices.Clear();
         }
 
         public void VertexAttribute( VertexAttribute attrib, float value )
@@ -210,16 +211,84 @@ namespace SourceUtils.WebExport.Bsp
             {
                 index = Vertices.Count;
                 Vertices.AddRange( _vertex );
-                _vertexIndices.Add( new Vertex( Vertices, index, _vertexSize ), vert.Hash );
+                _vertexIndices.Add( new Vertex( Vertices, index, _vertexSize ), index );
             }
 
-            // Add to primitive indices list
-            throw new NotImplementedException();
+            _primitiveIndices.Add( index / _vertexSize );
+        }
+
+        private IEnumerable<int> GetTriangleStripEnumerable( IEnumerable<int> indices )
+        {
+            var a = -1;
+            var b = -1;
+
+            var i = 0;
+            foreach ( var c in indices )
+            {
+                if ( a != -1 && b != -1 )
+                {
+                    yield return a;
+
+                    if ( (++i & 1) == 0 )
+                    {
+                        yield return b;
+                        yield return c;
+                    }
+                    else
+                    {
+                        yield return c;
+                        yield return b;
+                    }
+                }
+
+                a = b;
+                b = c;
+            }
+        }
+
+        private IEnumerable<int> GetTriangleFanEnumerable( IEnumerable<int> indices )
+        {
+            var a = -1;
+            var b = -1;
+
+            var i = 0;
+            foreach (var c in indices)
+            {
+                if (a == -1)
+                {
+                    a = c;
+                    continue;
+                }
+
+                if ( b != -1 )
+                {
+                    yield return a;
+                    yield return b;
+                    yield return c;
+                }
+
+                b = c;
+            }
         }
 
         public void CommitPrimitive( PrimitiveType mode, IEnumerable<int> indices = null )
         {
-            throw new NotImplementedException();
+            var enumerable = indices == null ? _primitiveIndices : indices.Select( x => _primitiveIndices[x] );
+
+            switch ( mode )
+            {
+                case PrimitiveType.Triangles:
+                    Indices.AddRange( enumerable );
+                    break;
+                case PrimitiveType.TriangleStrip:
+                    Indices.AddRange( GetTriangleStripEnumerable( enumerable ) );
+                    break;
+                case PrimitiveType.TriangleFan:
+                    Indices.AddRange( GetTriangleFanEnumerable( enumerable ) );
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 
@@ -237,13 +306,13 @@ namespace SourceUtils.WebExport.Bsp
         [JsonProperty("material")]
         public int Material { get; set; }
 
-        [JsonProperty("index")]
-        public int First { get; set; }
+        [JsonProperty("element")]
+        public int Element { get; set; }
     }
 
     public class GeometryPage
     {
-        public const int LeavesPerPage = 256;
+        public const int LeavesPerPage = 512;
 
         public static int GetPageCount( int leaves )
         {
@@ -285,7 +354,7 @@ namespace SourceUtils.WebExport.Bsp
                 LeafCount = count
             };
 
-            var matGroups = new Dictionary<int, MeshData>();
+            var matGroupIndices = new Dictionary<int, int>();
             var indices = new List<int>();
 
             const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.LIGHT;
@@ -294,6 +363,8 @@ namespace SourceUtils.WebExport.Bsp
             {
                 var leaf = bsp.Leaves[i];
                 var leafFaces = new List<LeafFace>();
+
+                page.Leaves.Add(leafFaces);
 
                 for ( var j = 0; j < leaf.NumLeafFaces; ++j )
                 {
@@ -305,8 +376,10 @@ namespace SourceUtils.WebExport.Bsp
 
                     var texData = bsp.TextureData[texInfo.TexData];
 
-                    MeshData meshData;
-                    if ( !matGroups.TryGetValue( texData.NameStringTableId, out meshData) )
+                    MaterialGroup matGroup;
+
+                    int matIndex;
+                    if ( !matGroupIndices.TryGetValue( texData.NameStringTableId, out matIndex ) )
                     {
                         var texName = bsp.GetTextureString( texData.NameStringTableId );
                         var path = $"materials/{texName.ToLower()}.vmt".Replace( '\\', '/' );
@@ -314,92 +387,135 @@ namespace SourceUtils.WebExport.Bsp
                             ? (Url) $"/maps/{bsp.Name}/{path}.json"
                             : (Url) $"/{path}.json";
 
-                        var matGroup = new MaterialGroup {MaterialUrl = url};
-                        matGroups.Add( texData.NameStringTableId, meshData = matGroup.MeshData);
+                        matGroup = new MaterialGroup {MaterialUrl = url};
+                        matGroupIndices.Add( texData.NameStringTableId, matIndex = page.Materials.Count );
+                        page.Materials.Add( matGroup );
 
-                        meshData.Attributes.Add( VertexAttribute.Position );
-                        meshData.Attributes.Add( VertexAttribute.Uv );
-                        meshData.Attributes.Add( VertexAttribute.Uv2 );
+                        matGroup.MeshData.Attributes.Add( VertexAttribute.Position );
+                        matGroup.MeshData.Attributes.Add( VertexAttribute.Uv );
+                        matGroup.MeshData.Attributes.Add( VertexAttribute.Uv2 );
 
                         // TODO: check if material is normal mapped / lightmapped / 2 way blend etc
+                    }
+                    else
+                    {
+                        matGroup = page.Materials[matIndex];
+                    }
+
+                    if ( Skip ) continue;
+
+                    var meshData = matGroup.MeshData;
+
+                    MeshElement elem;
+                    LeafFace leafFace;
+
+                    var leafFaceIndex = leafFaces.FindIndex( x => x.Material == matIndex );
+                    if ( leafFaceIndex != -1 )
+                    {
+                        leafFace = leafFaces[leafFaceIndex];
+                        elem = meshData.Elements[leafFace.Element];
+                    }
+                    else
+                    {
+                        elem = new MeshElement
+                        {
+                            Mode = PrimitiveType.Triangles,
+                            IndexOffset = meshData.Indices.Count
+                        };
+
+                        leafFace = new LeafFace
+                        {
+                            Material = matIndex,
+                            Element = meshData.Elements.Count
+                        };
+
+                        leafFaces.Add( leafFace );
+                        meshData.Elements.Add( elem );
                     }
 
                     if ( face.DispInfo != -1 )
                     {
                         // TODO
-                        continue;
                     }
-
-                    var texScale = new Vector2(1f / texData.Width, 1f / texData.Height);
-
-                    meshData.BeginPrimitive();
-
-                    for ( int k = face.FirstEdge, kEnd = face.FirstEdge + face.NumEdges; k < kEnd; ++k )
+                    else
                     {
-                        var vert = bsp.GetVertexFromSurfEdgeId( k );
-                        var uv = new Vector2(
-                            vert.Dot( texInfo.TextureUAxis.Normal ) + texInfo.TextureUAxis.Offset,
-                            vert.Dot( texInfo.TextureVAxis.Normal ) + texInfo.TextureVAxis.Offset );
+                        var texScale = new Vector2( 1f / texData.Width, 1f / texData.Height );
 
-                        var uv2 = new Vector2(
-                            vert.Dot( texInfo.LightmapUAxis.Normal ) + texInfo.LightmapUAxis.Offset,
-                            vert.Dot( texInfo.LightmapVAxis.Normal ) + texInfo.LightmapVAxis.Offset );
+                        meshData.BeginPrimitive();
 
-                        Vector2 lmMin, lmSize;
-                        bsp.LightmapLayout.GetUvs( faceIndex, out lmMin, out lmSize );
-
-                        uv2.X -= face.LightMapOffsetX - .5f;
-                        uv2.Y -= face.LightMapOffsetY - .5f;
-                        uv2.X /= face.LightMapSizeX + 1f;
-                        uv2.Y /= face.LightMapSizeY + 1f;
-
-                        uv2 *= lmSize;
-                        uv2 += lmMin;
-
-                        meshData.VertexAttribute( VertexAttribute.Position, vert );
-                        meshData.VertexAttribute( VertexAttribute.Uv, uv * texScale );
-                        meshData.VertexAttribute( VertexAttribute.Uv2, uv2 );
-
-                        meshData.CommitVertex();
-                    }
-
-                    var numPrimitives = face.NumPrimitives & 0x7fff;
-
-                    if ( numPrimitives == 0 )
-                    {
-                        meshData.CommitPrimitive(PrimitiveType.TriangleFan);
-                        continue;
-                    }
-
-                    for ( int k = face.FirstPrimitive, kEnd = face.FirstPrimitive + face.NumPrimitives; k < kEnd; ++k )
-                    {
-                        var primitive = bsp.Primitives[k];
-                        for ( int l = primitive.FirstIndex, lEnd = primitive.FirstIndex + primitive.IndexCount; l < lEnd; ++l )
+                        for ( int k = face.FirstEdge, kEnd = face.FirstEdge + face.NumEdges; k < kEnd; ++k )
                         {
-                            indices.Add( bsp.PrimitiveIndices[l] );
+                            var vert = bsp.GetVertexFromSurfEdgeId( k );
+                            var uv = new Vector2(
+                                vert.Dot( texInfo.TextureUAxis.Normal ) + texInfo.TextureUAxis.Offset,
+                                vert.Dot( texInfo.TextureVAxis.Normal ) + texInfo.TextureVAxis.Offset );
+
+                            var uv2 = new Vector2(
+                                vert.Dot( texInfo.LightmapUAxis.Normal ) + texInfo.LightmapUAxis.Offset,
+                                vert.Dot( texInfo.LightmapVAxis.Normal ) + texInfo.LightmapVAxis.Offset );
+
+                            Vector2 lmMin, lmSize;
+                            bsp.LightmapLayout.GetUvs( faceIndex, out lmMin, out lmSize );
+
+                            uv2.X -= face.LightMapOffsetX - .5f;
+                            uv2.Y -= face.LightMapOffsetY - .5f;
+                            uv2.X /= face.LightMapSizeX + 1f;
+                            uv2.Y /= face.LightMapSizeY + 1f;
+
+                            uv2 *= lmSize;
+                            uv2 += lmMin;
+
+                            meshData.VertexAttribute( VertexAttribute.Position, vert );
+                            meshData.VertexAttribute( VertexAttribute.Uv, uv * texScale );
+                            meshData.VertexAttribute( VertexAttribute.Uv2, uv2 );
+
+                            meshData.CommitVertex();
                         }
 
-                        PrimitiveType mode;
-                        switch ( primitive.Type )
-                        {
-                            case ValveBsp.PrimitiveType.TriangleStrip:
-                                mode = PrimitiveType.TriangleStrip;
-                                break;
-                            case ValveBsp.PrimitiveType.TriangleFan:
-                                mode = PrimitiveType.TriangleFan;
-                                break;
-                            case ValveBsp.PrimitiveType.TriangleList:
-                                mode = PrimitiveType.Triangles;
-                                break;
-                            default: throw new NotImplementedException();
-                        }
+                        var numPrimitives = face.NumPrimitives & 0x7fff;
 
-                        meshData.CommitPrimitive( mode, indices );
-                        indices.Clear();
+                        if ( numPrimitives == 0 )
+                        {
+                            meshData.CommitPrimitive( PrimitiveType.TriangleFan );
+                        }
+                        else
+                        {
+                            for ( int k = face.FirstPrimitive, kEnd = face.FirstPrimitive + face.NumPrimitives;
+                                k < kEnd;
+                                ++k )
+                            {
+                                var primitive = bsp.Primitives[k];
+                                for ( int l = primitive.FirstIndex, lEnd = primitive.FirstIndex + primitive.IndexCount;
+                                    l < lEnd;
+                                    ++l )
+                                {
+                                    indices.Add( bsp.PrimitiveIndices[l] );
+                                }
+
+                                PrimitiveType mode;
+                                switch ( primitive.Type )
+                                {
+                                    case ValveBsp.PrimitiveType.TriangleStrip:
+                                        mode = PrimitiveType.TriangleStrip;
+                                        break;
+                                    case ValveBsp.PrimitiveType.TriangleFan:
+                                        mode = PrimitiveType.TriangleFan;
+                                        break;
+                                    case ValveBsp.PrimitiveType.TriangleList:
+                                        mode = PrimitiveType.Triangles;
+                                        break;
+                                    default:
+                                        throw new NotImplementedException();
+                                }
+
+                                meshData.CommitPrimitive( mode, indices );
+                                indices.Clear();
+                            }
+                        }
                     }
+
+                    elem.IndexCount = meshData.Indices.Count - elem.IndexOffset;
                 }
-
-                page.Leaves.Add( leafFaces );
             }
 
             return page;

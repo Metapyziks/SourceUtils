@@ -163,7 +163,7 @@ namespace SourceUtils.WebExport
 
         private static readonly Regex _sFileNameRegex = new Regex( @"^((?<param>mip|face|frame)(?<value>[0-9]+)\.)*(?<format>png)$", RegexOptions.IgnoreCase | RegexOptions.Compiled );
 
-        [Get(MatchAllUrl = false, Extension = ".png")]
+        [Get(MatchAllUrl = false, Extension = ".vtf.png")]
         public void GetImage( [Url] string map )
         {
             if ( Skip )
