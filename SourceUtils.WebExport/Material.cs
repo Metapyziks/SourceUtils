@@ -138,7 +138,7 @@ namespace SourceUtils.WebExport
                 }
                 case "lightmappedgeneric":
                 {
-                    mat.Shader = "SourceUtils.Shaders.LightmappedGeneic";
+                    mat.Shader = "SourceUtils.Shaders.LightmappedGeneric";
                     break;
                 }
                 case "worldvertextransition":
@@ -194,7 +194,7 @@ namespace SourceUtils.WebExport
                         mat.Set( "translucent", props.GetBoolean( name ) );
                         break;
                     case "$refract":
-                        mat.Set( "refract", props.GetBoolean( name ) );
+                        //mat.Set( "refract", props.GetBoolean( name ) );
                         break;
                     case "$alpha":
                         mat.Set( "alpha", props.GetSingle( name ) );

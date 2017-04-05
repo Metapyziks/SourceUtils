@@ -144,6 +144,7 @@
     <TypeScriptCompile Include="Resources\src\Map.ts" />
     <TypeScriptCompile Include="Resources\src\MapViewer.ts" />
     <TypeScriptCompile Include="Resources\src\PagedLoader.ts" />
+    <TypeScriptCompile Include="Resources\src\Shaders\LightmappedGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
   </ItemGroup>
   <ItemGroup>

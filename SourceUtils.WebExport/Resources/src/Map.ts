@@ -23,10 +23,15 @@
         brushEntities: IBrushEntity[];
     }
 
-    export class Map {
+    export class Map implements WebGame.ICommandBufferParameterProvider {
+        static readonly lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
+        static readonly lightmapInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
+
         readonly viewer: MapViewer;
 
         worldspawn: Entities.Worldspawn;
+
+        private lightmap: WebGame.Texture;
 
         private info: IMap;
         private clusterVis: {[cluster: number]: number[]} = {};
@@ -52,12 +57,15 @@
             this.viewer.leafGeometryLoader.setPageLayout(info.leafPages);
             this.viewer.visLoader.setPageLayout(info.visPages);
 
+            this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
+
             for (let i = 0, iEnd = info.brushEntities.length; i < iEnd; ++i) {
                 const ent = info.brushEntities[i];
 
                 switch (ent.classname) {
                     case "worldspawn":
                         this.worldspawn = new Entities.Worldspawn(this, ent);
+                        this.lightmap.addUsage(this.worldspawn);
                         break;
                 }
             }
@@ -97,6 +105,23 @@
             this.worldspawn.populateDrawList(drawList, vis);
 
             pos.release();
+        }
+
+        private readonly lightmapInfoValues = new Float32Array(4);
+
+        populateCommandBufferParameters(buf: Facepunch.WebGame.CommandBuffer): void {
+            const lightmap = this.lightmap != null && this.lightmap.isLoaded()
+                ? this.lightmap
+                : WebGame.TextureUtils.getWhiteTexture(this.viewer.context);
+
+            buf.setParameter(Map.lightmapParam, lightmap);
+
+            this.lightmapInfoValues[0] = lightmap.getWidth(0);
+            this.lightmapInfoValues[1] = lightmap.getHeight(0);
+            this.lightmapInfoValues[2] = 1 / this.lightmapInfoValues[0];
+            this.lightmapInfoValues[3] = 1 / this.lightmapInfoValues[1];
+
+            buf.setParameter(Map.lightmapInfoParam, this.lightmapInfoValues);
         }
     }
 }

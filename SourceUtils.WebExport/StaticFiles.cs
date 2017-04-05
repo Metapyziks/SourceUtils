@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using JetBrains.Annotations;
 using MimeTypes;
 using Ziks.WebServer;
@@ -45,12 +46,23 @@ namespace SourceUtils.WebExport
             {
                 var path = Request.Url.AbsolutePath;
 
+#if DEBUG
+                var filePath = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ), "..",
+                    "..", "Resources", path.Substring( 1 ) );
+
+                if ( File.Exists( filePath ) )
+                {
+                    Response.ContentType = MimeTypeMap.GetMimeType( Path.GetExtension( path ) );
+                    return File.ReadAllText( filePath );
+                }
+#else
                 string value;
                 if ( StaticFiles.TryGetValue( path, out value ) )
                 {
                     Response.ContentType = MimeTypeMap.GetMimeType( Path.GetExtension( path ) );
                     return value;
                 }
+#endif
 
                 Response.StatusCode = 404;
                 return "File not found.";

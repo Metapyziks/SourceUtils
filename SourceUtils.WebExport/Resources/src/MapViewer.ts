@@ -106,5 +106,11 @@ namespace SourceUtils {
         populateDrawList(drawList: WebGame.DrawList, camera: WebGame.Camera): void {
             this.map.populateDrawList(drawList, camera);
         }
+
+        populateCommandBufferParameters(buf: WebGame.CommandBuffer): void {
+            super.populateCommandBufferParameters(buf);
+
+            this.map.populateCommandBufferParameters(buf);
+        }
     }
 }

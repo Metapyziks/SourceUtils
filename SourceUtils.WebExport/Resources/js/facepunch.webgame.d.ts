@@ -979,6 +979,23 @@ declare namespace Facepunch {
 declare namespace Facepunch {
     namespace WebGame {
         namespace Shaders {
+            class Error extends ShaderProgram {
+                static readonly vertSource: string;
+                static readonly fragSource: string;
+                readonly projectionMatrix: UniformMatrix4;
+                readonly viewMatrix: UniformMatrix4;
+                readonly modelMatrix: UniformMatrix4;
+                readonly errorTexture: UniformSampler;
+                constructor(context: WebGLRenderingContext);
+                bufferSetup(buf: CommandBuffer): void;
+                bufferModelMatrix(buf: CommandBuffer, value: Float32Array): void;
+            }
+        }
+    }
+}
+declare namespace Facepunch {
+    namespace WebGame {
+        namespace Shaders {
             class ModelBaseMaterialProps extends BaseMaterialProps {
                 baseTexture: Texture;
                 noFog: boolean;
