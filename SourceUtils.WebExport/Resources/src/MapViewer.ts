@@ -7,15 +7,25 @@ namespace SourceUtils {
         private mainCamera: WebGame.PerspectiveCamera;
         private mainRenderContext: WebGame.RenderContext;
 
+        readonly map = new Map(this);
+        readonly leafGeometryLoader = this.addLoader(new LeafGeometryLoader(this));
+        readonly bspModelLoader = this.addLoader(new BspModelLoader(this));
+        readonly visLoader = this.addLoader(new VisLoader());
+
         private time = 0;
 
+        loadMap(url: string): void {
+            this.map.load(url);
+        }
+
         protected onInitialize(): void {
-            super.onInitialize();
 
             this.canLockPointer = true;
 
             this.mainCamera = new WebGame.PerspectiveCamera(75, this.getWidth() / this.getHeight(), 1, 8192);
             this.mainRenderContext = new WebGame.RenderContext(this);
+
+            super.onInitialize();
 
             const gl = this.context;
 
@@ -94,7 +104,7 @@ namespace SourceUtils {
         }
 
         populateDrawList(drawList: WebGame.DrawList, camera: WebGame.Camera): void {
-
+            this.map.populateDrawList(drawList, camera);
         }
     }
 }

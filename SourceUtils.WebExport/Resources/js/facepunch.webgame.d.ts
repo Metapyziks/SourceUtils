@@ -1,6 +1,7 @@
 declare namespace Facepunch {
     interface ILoadable {
         loadNext(callback: (requeue: boolean) => void): void;
+        getLoadPriority(): number;
     }
     interface ILoader {
         update(requestQuota: number): number;
@@ -17,7 +18,6 @@ declare namespace Facepunch {
         getTotalCount(): number;
         protected enqueueItem(item: TLoadable): void;
         protected abstract onCreateItem(url: string): TLoadable;
-        protected onComparePriority(a: TLoadable, b: TLoadable): number;
         protected onFinishedLoadStep(item: TLoadable): void;
         private getNextToLoad();
         update(requestQuota: number): number;
@@ -665,6 +665,28 @@ declare namespace Facepunch {
 }
 declare namespace Facepunch {
     namespace WebGame {
+        interface IRenderResource {
+            getVisibleUsageCount(): number;
+            onDependencyLoaded(dependency: IRenderResource): void;
+        }
+        abstract class RenderResource<TResource extends RenderResource<TResource>> implements IRenderResource {
+            private readonly onLoadCallbacks;
+            private readonly usages;
+            private readonly dependents;
+            abstract isLoaded(): boolean;
+            getLoadPriority(): number;
+            addDependent(dependent: IRenderResource): void;
+            addUsage(drawable: IDrawListItem): void;
+            removeUsage(drawable: IDrawListItem): void;
+            onDependencyLoaded(dependency: IRenderResource): void;
+            getVisibleUsageCount(): number;
+            addOnLoadCallback(callback: (resource: TResource) => void): void;
+            protected dispatchOnLoadCallbacks(): void;
+        }
+    }
+}
+declare namespace Facepunch {
+    namespace WebGame {
         enum MaterialPropertyType {
             Boolean = 1,
             Number = 2,
@@ -679,7 +701,7 @@ declare namespace Facepunch {
             shader: string;
             properties: IMaterialProperty[];
         }
-        class Material {
+        class Material extends RenderResource<Material> {
             private static nextId;
             readonly id: number;
             properties: any;
@@ -687,6 +709,7 @@ declare namespace Facepunch {
             enabled: boolean;
             constructor();
             constructor(program: ShaderProgram);
+            isLoaded(): boolean;
         }
         class MaterialLoadable extends Material implements ILoadable {
             private readonly game;
@@ -799,19 +822,6 @@ declare namespace Facepunch {
             private composeFrameHandle;
             getComposeFrameMeshHandle(): MeshHandle;
             dispose(): void;
-        }
-    }
-}
-declare namespace Facepunch {
-    namespace WebGame {
-        abstract class RenderResource<TResource extends RenderResource<TResource>> {
-            private readonly onLoadCallbacks;
-            private readonly usages;
-            abstract isLoaded(): boolean;
-            addUsage(drawable: IDrawListItem): void;
-            removeUsage(drawable: IDrawListItem): void;
-            addOnLoadCallback(callback: (resource: TResource) => void): void;
-            protected dispatchOnLoadCallbacks(): void;
         }
     }
 }
@@ -1216,7 +1226,6 @@ declare namespace Facepunch {
         class TextureLoader extends Loader<TextureLoadable> {
             private readonly context;
             constructor(context: WebGLRenderingContext);
-            protected onComparePriority(a: TextureLoadable, b: TextureLoadable): number;
             protected onCreateItem(url: string): TextureLoadable;
         }
     }

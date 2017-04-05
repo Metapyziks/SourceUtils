@@ -13,7 +13,8 @@ namespace SourceUtils.WebExport
             new Dictionary<string, string>( StringComparer.InvariantCultureIgnoreCase )
             {
                 {"/js/facepunch.webgame.js", Properties.Resources.facepunch_webgame},
-                {"/js/sourceutils.js", Properties.Resources.sourceutils}
+                {"/js/sourceutils.js", Properties.Resources.sourceutils},
+                {"/index.html", Properties.Resources.index }
             };
 
         private static void CopyStaticFiles( string dir )
@@ -31,6 +32,14 @@ namespace SourceUtils.WebExport
 
         class StaticController : Controller
         {
+            protected override void OnServiceText( string text )
+            {
+                using ( var writer = new StreamWriter( Response.OutputStream ) )
+                {
+                    writer.Write( text );
+                }
+            }
+
             [Get( MatchAllUrl = false ), UsedImplicitly]
             public string GetFile()
             {
@@ -39,12 +48,12 @@ namespace SourceUtils.WebExport
                 string value;
                 if ( StaticFiles.TryGetValue( path, out value ) )
                 {
-                    Response.ContentLength64 = value.Length;
                     Response.ContentType = MimeTypeMap.GetMimeType( Path.GetExtension( path ) );
                     return value;
                 }
 
-                throw NotFoundException();
+                Response.StatusCode = 404;
+                return "File not found.";
             }
         }
 

@@ -60,7 +60,7 @@ namespace SourceUtils.WebExport.Bsp
         }
     }
 
-    public class Element
+    public class BspElement
     {
         [JsonProperty("min")]
         public Vector3 Min { get; set; }
@@ -69,15 +69,16 @@ namespace SourceUtils.WebExport.Bsp
         public Vector3 Max { get; set; }
     }
 
-    public class Node : Element
+    public class BspNode : BspElement
     {
         [JsonProperty("plane")]
         public Plane Plane { get; set; }
 
-        public Element[] Children { get; } = new Element[2];
+        [JsonProperty("children")]
+        public BspElement[] Children { get; } = new BspElement[2];
     }
 
-    public class Leaf : Element
+    public class BspLeaf : BspElement
     {
         [JsonProperty("index")]
         public int Index { get; set; }
@@ -85,14 +86,14 @@ namespace SourceUtils.WebExport.Bsp
         [JsonProperty("flags")]
         public LeafFlags Flags { get; set; }
 
-        [JsonProperty("faces")]
+        [JsonProperty("hasFaces")]
         public bool HasFaces { get; set; }
 
         [JsonProperty("cluster")]
         public int? Cluster { get; set; }
     }
 
-    public class Model
+    public class BspModel
     {
         [JsonProperty("index")]
         public int Index { get; set; }
@@ -107,21 +108,21 @@ namespace SourceUtils.WebExport.Bsp
         public Vector3 Origin { get; set; }
 
         [JsonProperty("headNode")]
-        public Node HeadNode { get; set; }
+        public BspNode HeadNode { get; set; }
     }
 
-    [Prefix( "/maps/{map}/brushmodels" )]
+    [Prefix( "/maps/{map}/geom" )]
     class ModelController : ResourceController
     {
-        private Element ConvertElement( ValveBspFile bsp, BspChild child )
+        private BspElement ConvertElement( ValveBspFile bsp, BspChild child )
         {
-            return child.IsLeaf ? (Element) ConvertLeaf( bsp, child.Index ) : ConvertNode( bsp, child.Index );
+            return child.IsLeaf ? (BspElement) ConvertLeaf( bsp, child.Index ) : ConvertNode( bsp, child.Index );
         }
 
-        private Node ConvertNode( ValveBspFile bsp, int index )
+        private BspNode ConvertNode( ValveBspFile bsp, int index )
         {
             var node = bsp.Nodes[index];
-            var response = new Node
+            var response = new BspNode
             {
                 Min = node.Min,
                 Max = node.Max,
@@ -134,10 +135,10 @@ namespace SourceUtils.WebExport.Bsp
             return response;
         }
 
-        private Leaf ConvertLeaf( ValveBspFile bsp, int index )
+        private BspLeaf ConvertLeaf( ValveBspFile bsp, int index )
         {
             var leaf = bsp.Leaves[index];
-            var response = new Leaf
+            var response = new BspLeaf
             {
                 Index = index,
                 Min = leaf.Min,
@@ -152,12 +153,12 @@ namespace SourceUtils.WebExport.Bsp
         }
 
         [Get("/model{index}.json")]
-        public Model Get( [Url] string map, [Url] int index )
+        public BspModel Get( [Url] string map, [Url] int index )
         {
             var bsp = Program.GetMap(map);
             var model = bsp.Models[index];
 
-            return new Model
+            return new BspModel
             {
                 Index = index,
                 Min = model.Min,

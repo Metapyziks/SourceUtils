@@ -8,6 +8,370 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var LeafFlags;
+    (function (LeafFlags) {
+        LeafFlags[LeafFlags["Sky"] = 1] = "Sky";
+        LeafFlags[LeafFlags["Radial"] = 2] = "Radial";
+        LeafFlags[LeafFlags["Sky2D"] = 4] = "Sky2D";
+    })(LeafFlags = SourceUtils.LeafFlags || (SourceUtils.LeafFlags = {}));
+    var Plane = (function () {
+        function Plane() {
+            this.norm = new Facepunch.Vector3();
+            this.dist = 0;
+        }
+        Plane.prototype.copy = function (plane) {
+            this.norm.copy(plane.norm);
+            this.dist = plane.dist;
+            return this;
+        };
+        return Plane;
+    }());
+    SourceUtils.Plane = Plane;
+    var BspNode = (function () {
+        function BspNode(loader, info) {
+            this.isLeaf = false;
+            this.plane = new Plane();
+            this.children = new Array(2);
+            this.loader = loader;
+            this.plane.copy(info.plane);
+            this.children[0] = this.loadChild(info.children[0]);
+            this.children[1] = this.loadChild(info.children[1]);
+        }
+        BspNode.prototype.loadChild = function (value) {
+            var node = value;
+            if (node.children !== undefined) {
+                return new BspNode(this.loader, node);
+            }
+            var leaf = value;
+            return new BspLeaf(this.loader, leaf);
+        };
+        BspNode.prototype.findLeaves = function (target) {
+            this.children[0].findLeaves(target);
+            this.children[1].findLeaves(target);
+        };
+        return BspNode;
+    }());
+    SourceUtils.BspNode = BspNode;
+    var BspLeaf = (function (_super) {
+        __extends(BspLeaf, _super);
+        function BspLeaf(loader, info) {
+            var _this = _super.call(this) || this;
+            _this.isLeaf = true;
+            _this.isStatic = true;
+            _this.loader = loader;
+            _this.index = info.index;
+            _this.flags = info.flags;
+            _this.cluster = info.cluster;
+            _this.hasFaces = info.hasFaces;
+            return _this;
+        }
+        BspLeaf.prototype.getMeshHandles = function () {
+            var _this = this;
+            if (!this.hasFaces)
+                return null;
+            if (!this.hasLoaded) {
+                this.hasLoaded = true;
+                this.loader.load(this.index, function (handles) { return _this.addMeshHandles(handles); });
+            }
+            return _super.prototype.getMeshHandles.call(this);
+        };
+        BspLeaf.prototype.findLeaves = function (target) {
+            if (this.hasFaces)
+                target.push(this);
+        };
+        return BspLeaf;
+    }(WebGame.DrawListItem));
+    SourceUtils.BspLeaf = BspLeaf;
+    var BspModel = (function (_super) {
+        __extends(BspModel, _super);
+        function BspModel(map, url) {
+            var _this = _super.call(this) || this;
+            _this.map = map;
+            _this.url = url;
+            return _this;
+        }
+        BspModel.prototype.loadNext = function (callback) {
+            var _this = this;
+            if (this.info == null) {
+                Facepunch.Http.getJson(this.url, function (info) {
+                    _this.onLoad(info);
+                    callback(false);
+                }, function (error) {
+                    console.warn(error);
+                    callback(false);
+                });
+                return;
+            }
+        };
+        BspModel.prototype.getLeafAt = function (pos) {
+            if (this.headNode == null)
+                return null;
+            var elem = this.headNode;
+            while (!elem.isLeaf) {
+                var node = elem;
+                var index = node.plane.norm.dot(pos) >= node.plane.dist ? 0 : 1;
+                elem = node.children[index];
+            }
+            return elem.isLeaf ? elem : null;
+        };
+        BspModel.prototype.getLeaves = function () {
+            return this.leaves;
+        };
+        BspModel.prototype.onLoad = function (info) {
+            this.info = info;
+            this.headNode = new BspNode(this.map.viewer.leafGeometryLoader, info.headNode);
+            this.leaves = [];
+            this.headNode.findLeaves(this.leaves);
+            this.dispatchOnLoadCallbacks();
+        };
+        BspModel.prototype.isLoaded = function () {
+            return this.info != null;
+        };
+        return BspModel;
+    }(WebGame.RenderResource));
+    SourceUtils.BspModel = BspModel;
+    var BspModelLoader = (function (_super) {
+        __extends(BspModelLoader, _super);
+        function BspModelLoader(viewer) {
+            var _this = _super.call(this) || this;
+            _this.viewer = viewer;
+            return _this;
+        }
+        BspModelLoader.prototype.onCreateItem = function (url) {
+            return new BspModel(this.viewer.map, url);
+        };
+        return BspModelLoader;
+    }(Facepunch.Loader));
+    SourceUtils.BspModelLoader = BspModelLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var ResourcePage = (function () {
+        function ResourcePage(info) {
+            this.toLoad = [];
+            this.first = info.first;
+            this.count = info.count;
+            this.url = info.url;
+            this.values = new Array(info.count);
+        }
+        ResourcePage.prototype.getLoadPriority = function () {
+            return this.toLoad.length;
+        };
+        ResourcePage.prototype.getValue = function (index) {
+            index -= this.first;
+            var value = this.values[index];
+            if (value === undefined) {
+                this.values[index] = value = this.onGetValue(index);
+            }
+            return value;
+        };
+        ResourcePage.prototype.load = function (index, callback) {
+            if (this.page != null) {
+                var value = this.getValue(index);
+                callback(value);
+                return value;
+            }
+            this.toLoad.push({ index: index, callback: callback });
+        };
+        ResourcePage.prototype.onLoadValues = function (page) {
+            this.page = page;
+            for (var i = 0, iEnd = this.toLoad.length; i < iEnd; ++i) {
+                var request = this.toLoad[i];
+                request.callback(this.getValue(request.index));
+            }
+            this.toLoad = null;
+        };
+        return ResourcePage;
+    }());
+    SourceUtils.ResourcePage = ResourcePage;
+    var PagedLoader = (function () {
+        function PagedLoader() {
+            this.toLoad = [];
+            this.active = 0;
+        }
+        PagedLoader.prototype.load = function (index, callback) {
+            if (this.pages == null) {
+                throw new Error("Page layout not loaded.");
+            }
+            for (var i = 0, iEnd = this.pages.length; i < iEnd; ++i) {
+                var page = this.pages[i];
+                if (index >= page.first && index < page.first + page.count) {
+                    return page.load(index, callback);
+                }
+            }
+            throw new Error("Unable to find page for index " + index + ".");
+        };
+        PagedLoader.prototype.setPageLayout = function (pages) {
+            if (this.pages != null) {
+                throw new Error("Changing page layout not implemented.");
+            }
+            this.pages = new Array(pages.length);
+            for (var i = 0, iEnd = pages.length; i < iEnd; ++i) {
+                this.pages[i] = this.createPage(pages[i]);
+                this.toLoad.push(this.pages[i]);
+            }
+        };
+        PagedLoader.prototype.getNextToLoad = function () {
+            var bestScore = 0;
+            var bestIndex = -1;
+            for (var i = 0; i < this.toLoad.length; ++i) {
+                var page = this.toLoad[i];
+                var score = page.getLoadPriority();
+                if (score > bestScore) {
+                    bestIndex = i;
+                    bestScore = score;
+                }
+            }
+            if (bestIndex === -1)
+                return null;
+            return this.toLoad.splice(bestIndex, 1)[0];
+        };
+        PagedLoader.prototype.update = function (requestQuota) {
+            var _this = this;
+            var _loop_1 = function () {
+                var next = this_1.getNextToLoad();
+                if (next == null)
+                    return "break";
+                ++this_1.active;
+                Facepunch.Http.getJson(next.url, function (page) {
+                    --_this.active;
+                    next.onLoadValues(page);
+                }, function (error) {
+                    --_this.active;
+                    console.warn(error);
+                });
+            };
+            var this_1 = this;
+            while (this.active < requestQuota) {
+                var state_1 = _loop_1();
+                if (state_1 === "break")
+                    break;
+            }
+            return this.active;
+        };
+        return PagedLoader;
+    }());
+    SourceUtils.PagedLoader = PagedLoader;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PagedLoader.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var LeafGeometryPage = (function (_super) {
+        __extends(LeafGeometryPage, _super);
+        function LeafGeometryPage(viewer, page) {
+            var _this = _super.call(this, page) || this;
+            _this.viewer = viewer;
+            return _this;
+        }
+        LeafGeometryPage.prototype.onLoadValues = function (page) {
+            this.matGroups = new Array(page.materials.length);
+            this.leafFaces = page.leaves;
+            var _loop_2 = function (i, iEnd) {
+                var matGroup = page.materials[i];
+                var mat = this_2.viewer.materialLoader.load(matGroup.materialUrl);
+                var data = WebGame.MeshManager.decompress(matGroup.meshData);
+                this_2.matGroups[i] = this_2.viewer.meshes.addMeshData(data, function (index) { return mat; });
+            };
+            var this_2 = this;
+            for (var i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
+                _loop_2(i, iEnd);
+            }
+            _super.prototype.onLoadValues.call(this, page);
+        };
+        LeafGeometryPage.prototype.onGetValue = function (index) {
+            var leafFaces = this.leafFaces[index];
+            var handles = new Array(leafFaces.length);
+            for (var i = 0, iEnd = leafFaces.length; i < iEnd; ++i) {
+                var leafFace = leafFaces[i];
+                handles[i] = this.matGroups[leafFace.material][leafFace.element];
+            }
+            return handles;
+        };
+        return LeafGeometryPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.LeafGeometryPage = LeafGeometryPage;
+    var LeafGeometryLoader = (function (_super) {
+        __extends(LeafGeometryLoader, _super);
+        function LeafGeometryLoader(viewer) {
+            var _this = _super.call(this) || this;
+            _this.viewer = viewer;
+            return _this;
+        }
+        LeafGeometryLoader.prototype.createPage = function (page) {
+            return new LeafGeometryPage(this.viewer, page);
+        };
+        return LeafGeometryLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.LeafGeometryLoader = LeafGeometryLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Map = (function () {
+        function Map(viewer) {
+            this.clusterVis = {};
+            this.viewer = viewer;
+        }
+        Map.prototype.unload = function () {
+            throw new Error("Map unloading not implemented.");
+        };
+        Map.prototype.load = function (url) {
+            var _this = this;
+            Facepunch.Http.getJson(url, function (info) {
+                _this.onLoad(info);
+            });
+        };
+        Map.prototype.onLoad = function (info) {
+            if (this.info != null)
+                this.unload();
+            this.info = info;
+            this.viewer.leafGeometryLoader.setPageLayout(info.leafPages);
+            this.viewer.visLoader.setPageLayout(info.visPages);
+            for (var i = 0, iEnd = info.brushEntities.length; i < iEnd; ++i) {
+                var ent = info.brushEntities[i];
+                switch (ent.classname) {
+                    case "worldspawn":
+                        this.worldspawn = new SourceUtils.Entities.Worldspawn(this, ent);
+                        break;
+                }
+            }
+            this.viewer.forceDrawListInvalidation(true);
+        };
+        Map.prototype.populateDrawList = function (drawList, camera) {
+            var _this = this;
+            if (this.worldspawn == null)
+                return;
+            var vis = null;
+            var pos = Facepunch.Vector3.pool.create();
+            if (this.worldspawn.model != null) {
+                var leaf = this.worldspawn.model.getLeafAt(camera.getPosition(pos));
+                if (leaf != null && leaf.cluster !== undefined) {
+                    var cluster_1 = leaf.cluster;
+                    vis = this.clusterVis[cluster_1];
+                    if (vis == null) {
+                        var immediate_1 = true;
+                        this.viewer.visLoader.load(cluster_1, function (loaded) {
+                            _this.clusterVis[cluster_1] = vis = loaded;
+                            if (!immediate_1)
+                                _this.viewer.forceDrawListInvalidation(true);
+                        });
+                        immediate_1 = false;
+                        if (vis == null) {
+                            this.clusterVis[cluster_1] = vis = [cluster_1];
+                        }
+                    }
+                }
+            }
+            this.worldspawn.populateDrawList(drawList, vis);
+            pos.release();
+        };
+        return Map;
+    }());
+    SourceUtils.Map = Map;
+})(SourceUtils || (SourceUtils = {}));
 /// <reference path="../js/facepunch.webgame.d.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
@@ -16,6 +380,10 @@ var SourceUtils;
         __extends(MapViewer, _super);
         function MapViewer() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.map = new SourceUtils.Map(_this);
+            _this.leafGeometryLoader = _this.addLoader(new SourceUtils.LeafGeometryLoader(_this));
+            _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
+            _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
             _this.time = 0;
             _this.lookAngs = new Facepunch.Vector2();
             _this.tempQuat = new Facepunch.Quaternion();
@@ -23,11 +391,14 @@ var SourceUtils;
             _this.move = new Facepunch.Vector3();
             return _this;
         }
+        MapViewer.prototype.loadMap = function (url) {
+            this.map.load(url);
+        };
         MapViewer.prototype.onInitialize = function () {
-            _super.prototype.onInitialize.call(this);
             this.canLockPointer = true;
             this.mainCamera = new WebGame.PerspectiveCamera(75, this.getWidth() / this.getHeight(), 1, 8192);
             this.mainRenderContext = new WebGame.RenderContext(this);
+            _super.prototype.onInitialize.call(this);
             var gl = this.context;
             gl.clearColor(0.675, 0.75, 0.5, 1.0);
         };
@@ -86,9 +457,115 @@ var SourceUtils;
             this.mainRenderContext.render(this.mainCamera);
         };
         MapViewer.prototype.populateDrawList = function (drawList, camera) {
+            this.map.populateDrawList(drawList, camera);
         };
         return MapViewer;
     }(WebGame.Game));
     SourceUtils.MapViewer = MapViewer;
 })(SourceUtils || (SourceUtils = {}));
-//# sourceMappingURL=sourceutils.js.map
+var SourceUtils;
+(function (SourceUtils) {
+    var VisPage = (function (_super) {
+        __extends(VisPage, _super);
+        function VisPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisPage.prototype.onGetValue = function (index) {
+            return this.page.values[index];
+        };
+        return VisPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.VisPage = VisPage;
+    var VisLoader = (function (_super) {
+        __extends(VisLoader, _super);
+        function VisLoader() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisLoader.prototype.createPage = function (page) {
+            return new VisPage(page);
+        };
+        return VisLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.VisLoader = VisLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var BrushEntity = (function (_super) {
+            __extends(BrushEntity, _super);
+            function BrushEntity(map, info) {
+                var _this = _super.call(this) || this;
+                _this.map = map;
+                _this.info = info;
+                _this.model = map.viewer.bspModelLoader.load(info.modelUrl);
+                _this.model.addUsage(_this);
+                return _this;
+            }
+            BrushEntity.prototype.isInCluster = function (cluster) {
+                var clusters = this.info.clusters;
+                if (clusters == null)
+                    return false;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (clusters[i] === cluster)
+                        return true;
+                }
+                return false;
+            };
+            BrushEntity.prototype.isInAnyCluster = function (clusters) {
+                if (clusters == null)
+                    return false;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (this.isInCluster(clusters[i]))
+                        return true;
+                }
+                return false;
+            };
+            BrushEntity.prototype.populateDrawList = function (drawList, clusters) {
+                if (!this.isInAnyCluster(clusters))
+                    return;
+                drawList.addItem(this);
+                this.onPopulateDrawList(drawList, clusters);
+            };
+            BrushEntity.prototype.onPopulateDrawList = function (drawList, pvsClusters) {
+                var leaves = this.model.getLeaves();
+                if (leaves != null)
+                    drawList.addItems(leaves);
+            };
+            return BrushEntity;
+        }(WebGame.DrawableEntity));
+        Entities.BrushEntity = BrushEntity;
+        var Worldspawn = (function (_super) {
+            __extends(Worldspawn, _super);
+            function Worldspawn(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusterLeaves = {};
+                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
+                return _this;
+            }
+            Worldspawn.prototype.onModelLoad = function () {
+                var leaves = this.model.getLeaves();
+                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                    var leaf = leaves[i];
+                    if (leaf.cluster === undefined)
+                        continue;
+                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
+                    if (clusterLeaves == null) {
+                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
+                    }
+                    clusterLeaves.push(leaf);
+                }
+                this.map.viewer.forceDrawListInvalidation(true);
+            };
+            Worldspawn.prototype.isInAnyCluster = function (clusters) {
+                return true;
+            };
+            Worldspawn.prototype.isInCluster = function (cluster) {
+                return true;
+            };
+            return Worldspawn;
+        }(BrushEntity));
+        Entities.Worldspawn = Worldspawn;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));

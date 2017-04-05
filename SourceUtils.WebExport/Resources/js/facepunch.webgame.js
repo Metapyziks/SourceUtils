@@ -36,20 +36,23 @@ var Facepunch;
         Loader.prototype.enqueueItem = function (item) {
             this.queue.push(item);
         };
-        Loader.prototype.onComparePriority = function (a, b) { return 0; };
         Loader.prototype.onFinishedLoadStep = function (item) { };
         Loader.prototype.getNextToLoad = function () {
             if (this.queue.length <= 0)
                 return null;
-            var bestIndex = 0;
+            var bestIndex = -1;
             var bestItem = this.queue[0];
-            for (var i = 1, iEnd = this.queue.length; i < iEnd; ++i) {
+            var bestPriority = 0;
+            for (var i = 0, iEnd = this.queue.length; i < iEnd; ++i) {
                 var item = this.queue[i];
-                if (this.onComparePriority(bestItem, item) < 0)
+                var priority = item.getLoadPriority();
+                if (priority <= bestPriority)
                     continue;
                 bestIndex = i;
                 bestItem = item;
             }
+            if (bestIndex === -1)
+                return null;
             return this.queue.splice(bestIndex, 1)[0];
         };
         Loader.prototype.update = function (requestQuota) {
@@ -2500,14 +2503,81 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
+        var RenderResource = (function () {
+            function RenderResource() {
+                this.onLoadCallbacks = [];
+                this.usages = [];
+                this.dependents = [];
+            }
+            RenderResource.prototype.getLoadPriority = function () {
+                return this.getVisibleUsageCount();
+            };
+            RenderResource.prototype.addDependent = function (dependent) {
+                this.dependents.push(dependent);
+                this.addOnLoadCallback(function (res) { return dependent.onDependencyLoaded(res); });
+            };
+            RenderResource.prototype.addUsage = function (drawable) {
+                this.usages.push(drawable);
+            };
+            RenderResource.prototype.removeUsage = function (drawable) {
+                var index = this.usages.indexOf(drawable);
+                if (index !== -1)
+                    this.usages.splice(index, 1);
+            };
+            RenderResource.prototype.onDependencyLoaded = function (dependency) {
+                if (this.isLoaded())
+                    this.dispatchOnLoadCallbacks();
+            };
+            RenderResource.prototype.getVisibleUsageCount = function () {
+                var count = 0;
+                for (var i = 0, iEnd = this.usages.length; i < iEnd; ++i) {
+                    count += this.usages[i].getIsVisible() ? 1 : 0;
+                }
+                for (var i = 0, iEnd = this.dependents.length; i < iEnd; ++i) {
+                    count += this.dependents[i].getVisibleUsageCount();
+                }
+                return count;
+            };
+            RenderResource.prototype.addOnLoadCallback = function (callback) {
+                if (this.isLoaded()) {
+                    callback(this);
+                }
+                else {
+                    this.onLoadCallbacks.push(callback);
+                }
+            };
+            RenderResource.prototype.dispatchOnLoadCallbacks = function () {
+                if (!this.isLoaded()) {
+                    throw new Error("Resource attempted to dispatch onLoad callbacks without being loaded.");
+                }
+                for (var i = 0, iEnd = this.usages.length; i < iEnd; ++i) {
+                    this.usages[i].invalidateDrawLists();
+                }
+                for (var i = 0, iEnd = this.onLoadCallbacks.length; i < iEnd; ++i) {
+                    this.onLoadCallbacks[i](this);
+                }
+                this.onLoadCallbacks.splice(0, this.onLoadCallbacks.length);
+            };
+            return RenderResource;
+        }());
+        WebGame.RenderResource = RenderResource;
+    })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
+})(Facepunch || (Facepunch = {}));
+/// <reference path="RenderResource.ts"/>
+var Facepunch;
+(function (Facepunch) {
+    var WebGame;
+    (function (WebGame) {
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["Boolean"] = 1] = "Boolean";
             MaterialPropertyType[MaterialPropertyType["Number"] = 2] = "Number";
             MaterialPropertyType[MaterialPropertyType["TextureUrl"] = 3] = "TextureUrl";
         })(WebGame.MaterialPropertyType || (WebGame.MaterialPropertyType = {}));
         var MaterialPropertyType = WebGame.MaterialPropertyType;
-        var Material = (function () {
+        var Material = (function (_super) {
+            __extends(Material, _super);
             function Material(program) {
+                _super.call(this);
                 this.id = Material.nextId++;
                 this.enabled = true;
                 this.program = program;
@@ -2518,9 +2588,12 @@ var Facepunch;
                     this.properties = {};
                 }
             }
+            Material.prototype.isLoaded = function () {
+                return this.program != null;
+            };
             Material.nextId = 0;
             return Material;
-        }());
+        }(WebGame.RenderResource));
         WebGame.Material = Material;
         var MaterialLoadable = (function (_super) {
             __extends(MaterialLoadable, _super);
@@ -2537,7 +2610,8 @@ var Facepunch;
                         break;
                     case MaterialPropertyType.TextureUrl:
                         var texUrl = Facepunch.Http.getAbsUrl(info.value, this.url);
-                        this.properties[info.name] = this.game.textureLoader.load(texUrl);
+                        var tex = this.properties[info.name] = this.game.textureLoader.load(texUrl);
+                        tex.addDependent(this);
                         break;
                 }
             };
@@ -2552,6 +2626,9 @@ var Facepunch;
                     _this.properties = _this.program.createMaterialProperties();
                     for (var i = 0; i < info.properties.length; ++i) {
                         _this.addPropertyFromInfo(info.properties[i]);
+                    }
+                    if (_this.program != null) {
+                        _this.dispatchOnLoadCallbacks();
                     }
                     callback(false);
                 }, function (error) {
@@ -2915,48 +2992,6 @@ var Facepunch;
         WebGame.MeshManager = MeshManager;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
-var Facepunch;
-(function (Facepunch) {
-    var WebGame;
-    (function (WebGame) {
-        var RenderResource = (function () {
-            function RenderResource() {
-                this.onLoadCallbacks = [];
-                this.usages = [];
-            }
-            RenderResource.prototype.addUsage = function (drawable) {
-                this.usages.push(drawable);
-            };
-            RenderResource.prototype.removeUsage = function (drawable) {
-                var index = this.usages.indexOf(drawable);
-                if (index !== -1)
-                    this.usages.splice(index, 1);
-            };
-            RenderResource.prototype.addOnLoadCallback = function (callback) {
-                if (this.isLoaded()) {
-                    callback(this);
-                }
-                else {
-                    this.onLoadCallbacks.push(callback);
-                }
-            };
-            RenderResource.prototype.dispatchOnLoadCallbacks = function () {
-                if (!this.isLoaded()) {
-                    throw new Error("Resource attempted to dispatch onLoad callbacks without being loaded.");
-                }
-                for (var i = 0, iEnd = this.usages.length; i < iEnd; ++i) {
-                    this.usages[i].invalidateDrawLists();
-                }
-                for (var i = 0, iEnd = this.onLoadCallbacks.length; i < iEnd; ++i) {
-                    this.onLoadCallbacks[i](this);
-                }
-                this.onLoadCallbacks.splice(0, this.onLoadCallbacks.length);
-            };
-            return RenderResource;
-        }());
-        WebGame.RenderResource = RenderResource;
-    })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
-})(Facepunch || (Facepunch = {}));
 /// <reference path="RenderResource.ts"/>
 var Facepunch;
 (function (Facepunch) {
@@ -3003,7 +3038,8 @@ var Facepunch;
                     var materials = [];
                     for (var i = 0, iEnd = info.materials.length; i < iEnd; ++i) {
                         var matUrl = Facepunch.Http.getAbsUrl(info.materials[i], _this.url);
-                        materials[i] = _this.materialLoader.load(matUrl);
+                        var mat = materials[i] = _this.materialLoader.load(matUrl);
+                        mat.addDependent(_this);
                     }
                     _this.materials = materials;
                     _this.meshData = WebGame.MeshManager.decompress(info.meshData);
@@ -4037,9 +4073,11 @@ var Facepunch;
                 return this.handle;
             };
             TextureLoadable.prototype.getLoadPriority = function () {
-                if (this.info == null || this.nextElement >= this.info.elements.length)
+                if (_super.prototype.getLoadPriority.call(this) === 0)
                     return 0;
-                return 16 - this.info.elements[this.nextElement].level;
+                if (this.info == null || this.nextElement >= this.info.elements.length)
+                    return 256;
+                return this.info.elements[this.nextElement].level + 1;
             };
             TextureLoadable.prototype.canLoadImmediately = function (index) {
                 return this.info.elements != null && index < this.info.elements.length && this.info.elements[index].url == null;
@@ -4188,9 +4226,6 @@ var Facepunch;
                 _super.call(this);
                 this.context = context;
             }
-            TextureLoader.prototype.onComparePriority = function (a, b) {
-                return a.getLoadPriority() - b.getLoadPriority();
-            };
             TextureLoader.prototype.onCreateItem = function (url) {
                 return new WebGame.TextureLoadable(this.context, url);
             };

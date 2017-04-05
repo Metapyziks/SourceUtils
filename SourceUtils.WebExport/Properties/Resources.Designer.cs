@@ -84,6 +84,24 @@ namespace SourceUtils.WebExport.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///    &lt;head&gt;
+        ///        &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///        &lt;title&gt;&lt;/title&gt;
+        ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+        ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js&quot;&gt;&lt;/script&gt;
+        ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js&quot;&gt;&lt;/script&gt;
+        ///        &lt;script src=&quot;js/facepunch.webgame.js&quot;&gt;&lt;/script [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string index {
+            get {
+                return ResourceManager.GetString("index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || (function () {
         ///    var extendStatics = Object.setPrototypeOf ||
         ///        ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
@@ -94,7 +112,7 @@ namespace SourceUtils.WebExport.Properties {
         ///        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
         ///    };
         ///})();
-        ////// &lt;refe [rest of string was truncated]&quot;;.
+        ///var Sourc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string sourceutils {
             get {

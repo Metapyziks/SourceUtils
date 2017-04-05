@@ -310,7 +310,7 @@ namespace SourceUtils.WebExport.Bsp
         public int Element { get; set; }
     }
 
-    public class GeometryPage
+    public class LeafGeometryPage
     {
         public const int LeavesPerPage = 512;
 
@@ -318,12 +318,6 @@ namespace SourceUtils.WebExport.Bsp
         {
             return (leaves + LeavesPerPage - 1) / LeavesPerPage;
         }
-
-        [JsonProperty( "firstLeaf" )]
-        public int FirstLeaf { get; set; }
-
-        [JsonProperty( "leafCount" )]
-        public int LeafCount { get; set; }
 
         [JsonProperty( "leaves" )]
         public List<List<LeafFace>> Leaves { get; } = new List<List<LeafFace>>();
@@ -335,12 +329,12 @@ namespace SourceUtils.WebExport.Bsp
     [Prefix("/maps/{map}/geom")]
     class GeometryController : ResourceController
     {
-        [Get("/page{index}.json")]
-        public GeometryPage GetPage( [Url] string map, [Url] int index )
+        [Get("/leafpage{index}.json")]
+        public LeafGeometryPage GetLeafPage( [Url] string map, [Url] int index )
         {
             var bsp = Program.GetMap( map );
-            var first = index * GeometryPage.LeavesPerPage;
-            var count = Math.Min( first + GeometryPage.LeavesPerPage, bsp.Leaves.Length ) - first;
+            var first = index * LeafGeometryPage.LeavesPerPage;
+            var count = Math.Min( first + LeafGeometryPage.LeavesPerPage, bsp.Leaves.Length ) - first;
 
             if ( count < 0 )
             {
@@ -348,12 +342,7 @@ namespace SourceUtils.WebExport.Bsp
                 count = 0;
             }
 
-            var page = new GeometryPage
-            {
-                FirstLeaf = first,
-                LeafCount = count
-            };
-
+            var page = new LeafGeometryPage();
             var matGroupIndices = new Dictionary<int, int>();
             var indices = new List<int>();
 
@@ -361,7 +350,7 @@ namespace SourceUtils.WebExport.Bsp
 
             for ( var i = 0; i < count; ++i )
             {
-                var leaf = bsp.Leaves[i];
+                var leaf = bsp.Leaves[first + i];
                 var leafFaces = new List<LeafFace>();
 
                 page.Leaves.Add(leafFaces);
@@ -420,6 +409,7 @@ namespace SourceUtils.WebExport.Bsp
                         elem = new MeshElement
                         {
                             Mode = PrimitiveType.Triangles,
+                            Material = 0,
                             IndexOffset = meshData.Indices.Count
                         };
 

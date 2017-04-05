@@ -21,7 +21,7 @@ namespace SourceUtils.WebExport.Bsp
         public Url Url { get; set; }
     }
 
-    public class BrushEnt
+    public class BrushEntity
     {
         [JsonProperty("classname")]
         public string ClassName { get; set; }
@@ -39,25 +39,22 @@ namespace SourceUtils.WebExport.Bsp
         public IEnumerable<int> Clusters { get; set; }
     }
 
-    public class Info
+    public class Map
     {
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("clusterCount")]
-        public int ClusterCount { get; set; }
-
         [JsonProperty("lightmapUrl")]
         public Url LightmapUrl { get; set; }
 
-        [JsonProperty("visibilityPages")]
-        public IEnumerable<PageInfo> VisibilityPages { get; set; }
+        [JsonProperty("visPages")]
+        public IEnumerable<PageInfo> VisPages { get; set; }
 
-        [JsonProperty("geometryPages")]
-        public IEnumerable<PageInfo> GeometryPages { get; set; }
+        [JsonProperty("leafPages")]
+        public IEnumerable<PageInfo> LeafPages { get; set; }
 
         [JsonProperty("brushEntities")]
-        public IEnumerable<BrushEnt> BrushEntities { get; set; }
+        public IEnumerable<BrushEntity> BrushEntities { get; set; }
     }
 
     [Prefix("/maps/{map}.json")]
@@ -84,7 +81,7 @@ namespace SourceUtils.WebExport.Bsp
         }
 
         [Get]
-        public Info Get( [Url] string map )
+        public Map Get( [Url] string map )
         {
             var bsp = Program.GetMap( map );
 
@@ -95,24 +92,23 @@ namespace SourceUtils.WebExport.Bsp
 
             var tree = new BspTree( bsp, 0 );
 
-            return new Info
+            return new Map
             {
                 Name = bsp.Name,
-                ClusterCount = bsp.Visibility.NumClusters,
                 LightmapUrl = $"/maps/{bsp.Name}/lightmap.json",
-                VisibilityPages = Enumerable.Range( 0, VisibilityPage.GetPageCount( bsp.Visibility.NumClusters ) )
+                VisPages = Enumerable.Range( 0, VisPage.GetPageCount( bsp.Visibility.NumClusters ) )
                     .Select( x => new PageInfo
                     {
-                        First = x * VisibilityPage.ClustersPerPage,
-                        Count = Math.Min( (x + 1) * VisibilityPage.ClustersPerPage, bsp.Visibility.NumClusters ) - x * VisibilityPage.ClustersPerPage,
-                        Url = $"/maps/{bsp.Name}/vis/page{x}.json"
+                        First = x * VisPage.ClustersPerPage,
+                        Count = Math.Min( (x + 1) * VisPage.ClustersPerPage, bsp.Visibility.NumClusters ) - x * VisPage.ClustersPerPage,
+                        Url = $"/maps/{bsp.Name}/geom/vispage{x}.json"
                     } ),
-                GeometryPages = Enumerable.Range( 0, GeometryPage.GetPageCount( bsp.Leaves.Length ) )
+                LeafPages = Enumerable.Range( 0, LeafGeometryPage.GetPageCount( bsp.Leaves.Length ) )
                 .Select( x => new PageInfo
                     {
-                        First = x * GeometryPage.LeavesPerPage,
-                        Count = Math.Min( (x + 1) * GeometryPage.LeavesPerPage, bsp.Leaves.Length ) - x * GeometryPage.LeavesPerPage,
-                        Url = $"/maps/{bsp.Name}/geom/page{x}.json"
+                        First = x * LeafGeometryPage.LeavesPerPage,
+                        Count = Math.Min( (x + 1) * LeafGeometryPage.LeavesPerPage, bsp.Leaves.Length ) - x * LeafGeometryPage.LeavesPerPage,
+                        Url = $"/maps/{bsp.Name}/geom/leafpage{x}.json"
                     } ),
                 BrushEntities = bsp.Entities.OfType<FuncBrush>()
                     .Where(x => x.RenderMode != 10 && x.Model != null && (x.TargetName == null || !areaPortalNames.Contains( x.TargetName )) )
@@ -124,12 +120,12 @@ namespace SourceUtils.WebExport.Bsp
                         var min = model.Min + x.Origin;
                         var max = model.Max + x.Origin;
 
-                        return new BrushEnt
+                        return new BrushEntity
                         {
                             ClassName = x.ClassName,
                             Origin = x.Origin,
                             Angles = x.Angles,
-                            ModelUrl = $"/maps/{bsp.Name}/brushmodels/model{modelIndex}.json",
+                            ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
                             Clusters = modelIndex == 0 ? null : GetIntersectingClusters( tree, min, max )
                         };
                     } )
