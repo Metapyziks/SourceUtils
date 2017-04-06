@@ -6,6 +6,7 @@ if exist "..\SourceUtils-pages\materials\" rd /q /s "..\SourceUtils-pages\materi
 if exist "..\SourceUtils-pages\models\" rd /q /s "..\SourceUtils-pages\models"
 
 "SourceUtils.WebExport\bin\Debug\SourceUtils.WebExport.exe" export ^
-	--maps "de_overpass;de_dust2" --outdir "..\SourceUtils-pages" ^
+	--maps "de_overpass;de_cbble;de_inferno;de_mirage;de_cache;de_nuke;de_train" ^
+	--outdir "..\SourceUtils-pages" ^
 	--gamedir "C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo" ^
 	--untextured --overwrite --verbose --url-prefix "https://metapyziks.github.io/SourceUtils"
