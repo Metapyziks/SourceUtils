@@ -3,7 +3,7 @@
 namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
 
-    export interface ILeafFace {
+    export interface IFace {
         material: number;
         element: number;
     }
@@ -14,7 +14,7 @@ namespace SourceUtils {
     }
 
     export interface ILeafGeometryPage {
-        leaves: ILeafFace[][];
+        leaves: IFace[][];
         materials: IMaterialGroup[];
     }
 
@@ -22,7 +22,7 @@ namespace SourceUtils {
         private readonly viewer: MapViewer;
 
         private matGroups: WebGame.MeshHandle[][];
-        private leafFaces: ILeafFace[][];
+        private leafFaces: IFace[][];
 
         constructor(viewer: MapViewer, page: IPageInfo) {
             super(page);

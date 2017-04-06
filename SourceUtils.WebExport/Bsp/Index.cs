@@ -23,22 +23,34 @@ namespace SourceUtils.WebExport.Bsp
         public Url Url { get; set; }
     }
 
-    public class BrushEntity
+    public class Entity
     {
         [JsonProperty("classname")]
         public string ClassName { get; set; }
 
         [JsonProperty("origin")]
-        public Vector3 Origin { get; set; }
+        public Vector3? Origin { get; set; }
 
         [JsonProperty("angles")]
-        public Vector3 Angles { get; set; }
+        public Vector3? Angles { get; set; }
+    }
 
-        [JsonProperty("modelUrl")]
-        public Url ModelUrl { get; set; }
-
+    public class PvsEntity : Entity
+    {
         [JsonProperty("clusters")]
         public IEnumerable<int> Clusters { get; set; }
+    }
+
+    public class BrushEntity : PvsEntity
+    {
+        [JsonProperty("modelUrl")]
+        public Url ModelUrl { get; set; }
+    }
+
+    public class Displacement : PvsEntity
+    {
+        [JsonProperty( "index" )]
+        public int Index { get; set; }
     }
 
     public class Map
@@ -55,8 +67,11 @@ namespace SourceUtils.WebExport.Bsp
         [JsonProperty("leafPages")]
         public IEnumerable<PageInfo> LeafPages { get; set; }
 
-        [JsonProperty("brushEntities")]
-        public IEnumerable<BrushEntity> BrushEntities { get; set; }
+        [JsonProperty("dispPages")]
+        public IEnumerable<PageInfo> DispPages { get; set; }
+
+        [JsonProperty("entities")]
+        public IEnumerable<Entity> Entities { get; set; }
     }
 
     [Prefix("/maps/{map}")]
@@ -113,6 +128,49 @@ namespace SourceUtils.WebExport.Bsp
                 sourceUtils => (Url) "/js/sourceutils.js" );
         }
 
+        private IEnumerable<PageInfo> GetPageLayout( ValveBspFile bsp, int count, int perPage, string filePrefix )
+        {
+            var pageCount = (count + perPage - 1) / perPage;
+
+            return Enumerable.Range( 0, pageCount )
+                .Select( x => new PageInfo
+                {
+                    First = x * perPage,
+                    Count = Math.Min( (x + 1) * perPage, count ) - x * perPage,
+                    Url = $"/maps/{bsp.Name}{filePrefix}{x}.json"
+                } );
+        }
+
+        private static void AddToBounds(ref SourceUtils.Vector3 min, ref SourceUtils.Vector3 max, SourceUtils.Vector3 pos)
+        {
+            if (pos.X < min.X) min.X = pos.X;
+            if (pos.Y < min.Y) min.Y = pos.Y;
+            if (pos.Z < min.Z) min.Z = pos.Z;
+
+            if (pos.X > max.X) max.X = pos.X;
+            if (pos.Y > max.Y) max.Y = pos.Y;
+            if (pos.Z > max.Z) max.Z = pos.Z;
+        }
+
+        private static void GetDisplacementBounds(ValveBspFile bsp, int index,
+            out SourceUtils.Vector3 min, out SourceUtils.Vector3 max, float bias = 0f)
+        {
+            min = new SourceUtils.Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+            max = new SourceUtils.Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+
+            var disp = bsp.DisplacementManager[index];
+            var biasVec = disp.Normal * bias;
+
+            for (var y = 0; y < disp.Size; ++y)
+            for (var x = 0; x < disp.Size; ++x)
+            {
+                var pos = disp.GetPosition(x, y);
+
+                AddToBounds(ref min, ref max, pos - biasVec);
+                AddToBounds(ref min, ref max, pos + biasVec);
+            }
+        }
+
         [Get("/index.json")]
         public Map GetIndexJson( [Url] string map )
         {
@@ -124,44 +182,56 @@ namespace SourceUtils.WebExport.Bsp
                     .Where( x => x != null ) );
 
             var tree = new BspTree( bsp, 0 );
+            var ents = new List<Entity>();
+
+            foreach ( var ent in bsp.Entities )
+            {
+                if ( ent is FuncBrush )
+                {
+                    var brush = ent as FuncBrush;
+
+                    if ( brush.RenderMode == 10 || brush.Model == null ) continue;
+                    if ( brush.TargetName != null && areaPortalNames.Contains( brush.TargetName ) ) continue;
+                    
+                    var modelIndex = int.Parse(brush.Model.Substring(1));
+                    var model = bsp.Models[modelIndex];
+
+                    var min = model.Min + brush.Origin;
+                    var max = model.Max + brush.Origin;
+
+                    ents.Add( new BrushEntity
+                    {
+                        ClassName = brush.ClassName,
+                        Origin = brush.Origin,
+                        Angles = brush.Angles,
+                        ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
+                        Clusters = modelIndex == 0 ? null : GetIntersectingClusters( tree, min, max )
+                    } );
+                    continue;
+                }
+            }
+
+            for ( var dispIndex = 0; dispIndex < bsp.DisplacementInfos.Length; ++dispIndex )
+            {
+                SourceUtils.Vector3 min, max;
+                GetDisplacementBounds(bsp, dispIndex, out min, out max, 1f);
+
+                ents.Add( new Displacement
+                {
+                    ClassName = "displacement",
+                    Index = dispIndex,
+                    Clusters = GetIntersectingClusters(tree, min, max)
+                } );
+            }
 
             return new Map
             {
                 Name = bsp.Name,
                 LightmapUrl = $"/maps/{bsp.Name}/lightmap.json",
-                VisPages = Enumerable.Range( 0, VisPage.GetPageCount( bsp.Visibility.NumClusters ) )
-                    .Select( x => new PageInfo
-                    {
-                        First = x * VisPage.ClustersPerPage,
-                        Count = Math.Min( (x + 1) * VisPage.ClustersPerPage, bsp.Visibility.NumClusters ) - x * VisPage.ClustersPerPage,
-                        Url = $"/maps/{bsp.Name}/geom/vispage{x}.json"
-                    } ),
-                LeafPages = Enumerable.Range( 0, LeafGeometryPage.GetPageCount( bsp.Leaves.Length ) )
-                .Select( x => new PageInfo
-                    {
-                        First = x * LeafGeometryPage.LeavesPerPage,
-                        Count = Math.Min( (x + 1) * LeafGeometryPage.LeavesPerPage, bsp.Leaves.Length ) - x * LeafGeometryPage.LeavesPerPage,
-                        Url = $"/maps/{bsp.Name}/geom/leafpage{x}.json"
-                    } ),
-                BrushEntities = bsp.Entities.OfType<FuncBrush>()
-                    .Where(x => x.RenderMode != 10 && x.Model != null && (x.TargetName == null || !areaPortalNames.Contains( x.TargetName )) )
-                    .Select( x =>
-                    {
-                        var modelIndex = int.Parse( x.Model.Substring( 1 ) );
-                        var model = bsp.Models[modelIndex];
-
-                        var min = model.Min + x.Origin;
-                        var max = model.Max + x.Origin;
-
-                        return new BrushEntity
-                        {
-                            ClassName = x.ClassName,
-                            Origin = x.Origin,
-                            Angles = x.Angles,
-                            ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
-                            Clusters = modelIndex == 0 ? null : GetIntersectingClusters( tree, min, max )
-                        };
-                    } )
+                VisPages = GetPageLayout( bsp, bsp.Visibility.NumClusters, VisPage.ClustersPerPage, "/geom/vispage" ),
+                LeafPages = GetPageLayout(bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage"),
+                DispPages = GetPageLayout(bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage"),
+                Entities = ents
             };
         }
     }

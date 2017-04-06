@@ -121,22 +121,6 @@ namespace SourceUtils.WebExport
 
             switch ( shader.ToLower() )
             {
-                case "patch":
-                {
-                    var includePath = props.GetString( "include" ).Replace( '\\', '/' );
-                    var res = bsp.PakFile.ContainsFile( includePath ) ? bsp.PakFile : Program.Resources;
-
-                    ValveMaterialFile include;
-                    using ( var stream = res.OpenFile( includePath ) )
-                    {
-                        include = new ValveMaterialFile( stream );
-                    }
-
-                    // TODO insert
-
-                    AddMaterialProperties( mat, include, includePath, bsp );
-                    break;
-                }
                 case "lightmappedgeneric":
                 {
                     mat.Shader = "SourceUtils.Shaders.LightmappedGeneric";
@@ -161,6 +145,11 @@ namespace SourceUtils.WebExport
                 case "water":
                 {
                     mat.Shader = "SourceUtils.Shaders.Water";
+                    break;
+                }
+                default:
+                {
+                    mat.Shader = shader;
                     break;
                 }
             }
@@ -195,7 +184,7 @@ namespace SourceUtils.WebExport
                         mat.Set( "translucent", props.GetBoolean( name ) );
                         break;
                     case "$refract":
-                        //mat.Set( "refract", props.GetBoolean( name ) );
+                        mat.Set( "refract", props.GetBoolean( name ) );
                         break;
                     case "$alpha":
                         mat.Set( "alpha", props.GetSingle( name ) );
@@ -236,13 +225,9 @@ namespace SourceUtils.WebExport
             path = HttpUtility.UrlDecode( path.Substring( 0, path.Length - ".json".Length ) );
 
             var bsp = map == null ? null : Program.GetMap( map );
-            var res = bsp == null ? Program.Resources : bsp.PakFile;
-
-            ValveMaterialFile vmt;
-            using ( var stream = res.OpenFile( path ) )
-            {
-                vmt = new ValveMaterialFile( stream );
-            }
+            var vmt = bsp == null
+                ? ValveMaterialFile.FromProvider( path, Program.Resources )
+                : ValveMaterialFile.FromProvider( path, bsp.PakFile, Program.Resources );
 
             var mat = new Material();
 

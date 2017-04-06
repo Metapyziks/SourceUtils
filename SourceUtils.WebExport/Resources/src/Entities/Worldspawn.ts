@@ -2,50 +2,6 @@
     import WebGame = Facepunch.WebGame;
 
     export namespace Entities {
-        export class BrushEntity extends WebGame.DrawableEntity {
-            readonly map: Map;
-            readonly info: IBrushEntity;
-
-            readonly model: BspModel;
-
-            constructor(map: Map, info: IBrushEntity) {
-                super();
-
-                this.map = map;
-                this.info = info;
-                this.model = map.viewer.bspModelLoader.load(info.modelUrl);
-                this.model.addUsage(this);
-            }
-
-            isInCluster(cluster: number): boolean {
-                const clusters = this.info.clusters;
-                if (clusters == null) return false;
-                for (let i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (clusters[i] === cluster) return true;
-                }
-                return false;
-            }
-
-            isInAnyCluster(clusters: number[]): boolean {
-                if (clusters == null) return false;
-                for (let i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (this.isInCluster(clusters[i])) return true;
-                }
-                return false;
-            }
-
-            populateDrawList(drawList: WebGame.DrawList, clusters: number[]): void {
-                if (!this.isInAnyCluster(clusters)) return;
-                drawList.addItem(this);
-                this.onPopulateDrawList(drawList, clusters);
-            }
-
-            protected onPopulateDrawList(drawList: WebGame.DrawList, clusters: number[]): void {
-                const leaves = this.model.getLeaves();
-                if (leaves != null) drawList.addItems(leaves);
-            }
-        }
-
         export class Worldspawn extends BrushEntity {
             private readonly clusterLeaves: {[cluster: number]: BspLeaf[]} = {};
 

@@ -282,6 +282,8 @@ namespace SourceUtils.ValveBsp
                 _positions = new Vector3[size * size];
                 _alphas = new float[size * size];
 
+                const float alphaMul = 1f / 255f;
+
                 for ( var y = 0; y < size; ++y )
                 for ( var x = 0; x < size; ++x )
                 {
@@ -301,7 +303,7 @@ namespace SourceUtils.ValveBsp
                     var origin = ty * (sx * cornerB + tx * cornerC) + sy * (sx * cornerA + tx * cornerD);
 
                     _positions[index] = origin + vert.Vector * vert.Distance;
-                    _alphas[index] = vert.Alpha;
+                    _alphas[index] = vert.Alpha * alphaMul;
                 }
             }
         }

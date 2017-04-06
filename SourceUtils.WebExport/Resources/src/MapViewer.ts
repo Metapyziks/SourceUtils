@@ -10,6 +10,7 @@ namespace SourceUtils {
 
         readonly map = new Map(this);
         readonly leafGeometryLoader = this.addLoader(new LeafGeometryLoader(this));
+        readonly dispGeometryLoader = this.addLoader(new DispGeometryLoader(this));
         readonly bspModelLoader = this.addLoader(new BspModelLoader(this));
         readonly visLoader = this.addLoader(new VisLoader());
 
@@ -27,10 +28,6 @@ namespace SourceUtils {
             this.mainRenderContext = new WebGame.RenderContext(this);
 
             super.onInitialize();
-
-            const gl = this.context;
-
-            gl.clearColor(0.675, 0.75, 0.5, 1.0);
         }
 
         protected onResize(): void {
@@ -105,7 +102,7 @@ namespace SourceUtils {
 
             const gl = this.context;
 
-            gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+            gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.cullFace(gl.FRONT);
 
             this.mainRenderContext.render(this.mainCamera);

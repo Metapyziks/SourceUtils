@@ -98,8 +98,6 @@
         constructor(loader: LeafGeometryLoader, info: IBspLeaf) {
             super();
 
-            this.isStatic = true;
-
             this.loader = loader;
             this.index = info.index;
             this.flags = info.flags;

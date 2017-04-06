@@ -13,7 +13,11 @@ namespace SourceUtils
         private static readonly Regex _sNestedRegex = new Regex(@"^\s*(""(?<name>[^""]+)""|(?<name>[$%a-zA-Z0-9_]+))\s*$", RegexOptions.Compiled);
         private static readonly Regex _sColorRegex = new Regex(@"^\s*\{\s*(?<red>[0-9]+)\s+(?<green>[0-9]+)\s+(?<blue>[0-9]+)\s*\}\s*$", RegexOptions.Compiled);
 
-        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly Dictionary<string, string> _properties
+            = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+
+        private readonly Dictionary<string, MaterialPropertyGroup> _nested =
+            new Dictionary<string, MaterialPropertyGroup>( StringComparer.InvariantCultureIgnoreCase );
 
         public IEnumerable<string> PropertyNames => _properties.Keys;
 
@@ -68,27 +72,51 @@ namespace SourceUtils
             return value != 0;
         }
 
-        internal MaterialPropertyGroup(ValveMaterialFile.Reader reader)
+        public MaterialPropertyGroup GetNested( string name )
         {
-            reader.AssertToken("{");
+            MaterialPropertyGroup nested;
+            return _nested.TryGetValue( name, out nested ) ? nested : null;
+        }
 
-            while (!reader.ReadToken("}"))
+        internal void MergeFrom( MaterialPropertyGroup other, bool replace )
+        {
+            if ( other == null ) return;
+
+            foreach ( var name in other.PropertyNames )
+            {
+                if ( _properties.ContainsKey( name ) )
+                {
+                    if ( replace ) _properties[name] = other[name];
+                }
+                else _properties.Add( name, other[name] );
+            }
+        }
+
+        internal MaterialPropertyGroup( ValveMaterialFile.Reader reader )
+        {
+            reader.AssertToken( "{" );
+
+            while ( !reader.ReadToken( "}" ) )
             {
                 Match match;
-                if (reader.ReadRegex(_sNestedRegex, out match))
+                if ( reader.ReadRegex( _sNestedRegex, out match ) )
                 {
-                    // TODO
-                    var nested = new MaterialPropertyGroup(reader);
-                    continue;
+                    var name = match.Groups["name"].Value;
+                    var value = new MaterialPropertyGroup( reader );
+
+                    if ( _nested.ContainsKey( name ) ) _nested[name] = value;
+                    else _nested.Add( name, value );
                 }
+                else
+                {
+                    reader.AssertRegex( _sPropertyRegex, out match, "shader property" );
 
-                reader.AssertRegex(_sPropertyRegex, out match, "shader property");
+                    var name = match.Groups["name"].Value;
+                    var value = match.Groups["value"].Value;
 
-                var name = match.Groups["name"];
-                var value = match.Groups["value"];
-
-                if ( _properties.ContainsKey( name.Value ) ) _properties[name.Value] = value.Value;
-                else _properties.Add( name.Value, value.Value );
+                    if ( _properties.ContainsKey( name ) ) _properties[name] = value;
+                    else _properties.Add( name, value );
+                }
             }
         }
     }
@@ -205,10 +233,35 @@ namespace SourceUtils
             return new ValveMaterialFile( stream );
         }
 
+        public static ValveMaterialFile FromProvider( string path, params IResourceProvider[] providers )
+        {
+            var provider = providers.FirstOrDefault( x => x.ContainsFile( path ) );
+            if ( provider == null ) return null;
+
+            ValveMaterialFile vmt;
+            using ( var stream = provider.OpenFile( path ) )
+            {
+                vmt = new ValveMaterialFile( stream );
+            }
+
+            var shader = vmt.Shaders.First();
+            var props = vmt[shader];
+
+            if ( !shader.Equals( "patch", StringComparison.InvariantCultureIgnoreCase ) ) return vmt;
+
+            var includePath = props.GetString( "include" ).Replace( '\\', '/' );
+            vmt = FromProvider( includePath, providers );
+
+            vmt[vmt.Shaders.First()].MergeFrom( props.GetNested( "insert" ), false );
+            vmt[vmt.Shaders.First()].MergeFrom( props.GetNested( "replace" ), true );
+
+            return vmt;
+        }
+
         private readonly Dictionary<string, MaterialPropertyGroup> _propertyGroups = new Dictionary<string, MaterialPropertyGroup>(StringComparer.InvariantCultureIgnoreCase);
         private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*""(?<shader>[a-zA-Z0-9/\\]+)""[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
 
-        public ValveMaterialFile(Stream stream)
+        private ValveMaterialFile(Stream stream)
         {
             var reader = new Reader( stream );
 

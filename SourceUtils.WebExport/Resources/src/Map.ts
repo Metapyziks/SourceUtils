@@ -9,20 +9,13 @@ namespace SourceUtils {
         url: string;
     }
 
-    export interface IBrushEntity {
-        classname: string;
-        origin: Facepunch.IVector3;
-        angles: Facepunch.IVector3;
-        modelUrl: string;
-        clusters?: number[];
-    }
-
     export interface IMap {
         name: string;
         lightmapUrl: string;
         visPages: IPageInfo[];
         leafPages: IPageInfo[];
-        brushEntities: IBrushEntity[];
+        dispPages: IPageInfo[];
+        entities: Entities.IEntity[];
     }
 
     export class Map implements WebGame.ICommandBufferParameterProvider {
@@ -31,7 +24,8 @@ namespace SourceUtils {
 
         readonly viewer: MapViewer;
 
-        worldspawn: Entities.Worldspawn;
+        private worldspawn: Entities.Worldspawn;
+        private pvsEntities: Entities.PvsEntity[];
 
         private lightmap: WebGame.Texture;
 
@@ -57,18 +51,31 @@ namespace SourceUtils {
 
             this.info = info;
             this.viewer.leafGeometryLoader.setPageLayout(info.leafPages);
+            this.viewer.dispGeometryLoader.setPageLayout(info.dispPages);
             this.viewer.visLoader.setPageLayout(info.visPages);
 
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
 
-            for (let i = 0, iEnd = info.brushEntities.length; i < iEnd; ++i) {
-                const ent = info.brushEntities[i];
+            this.pvsEntities = [];
+            for (let i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
+                const ent = info.entities[i];
+                let pvsInst: Entities.PvsEntity = null;
 
                 switch (ent.classname) {
                     case "worldspawn":
-                        this.worldspawn = new Entities.Worldspawn(this, ent);
+                        this.worldspawn = pvsInst = new Entities.Worldspawn(this, ent as Entities.IBrushEntity);
                         this.lightmap.addUsage(this.worldspawn);
                         break;
+                    case "displacement":
+                        pvsInst = new Entities.Displacement(this, ent as Entities.IDisplacement);
+                        break;
+                    case "func_brush":
+                        pvsInst = new Entities.BrushEntity(this, ent as Entities.IBrushEntity);
+                        break;
+                }
+
+                if (pvsInst != null) {
+                    this.pvsEntities.push(pvsInst);
                 }
             }
 
@@ -104,7 +111,9 @@ namespace SourceUtils {
                 }
             }
 
-            this.worldspawn.populateDrawList(drawList, vis);
+            for (let i = 0, iEnd = this.pvsEntities.length; i < iEnd; ++i) {
+                this.pvsEntities[i].populateDrawList(drawList, vis);
+            }
         }
 
         private readonly lightmapInfoValues = new Float32Array(4);

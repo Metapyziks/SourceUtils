@@ -1336,6 +1336,7 @@ declare namespace Facepunch {
             static readonly uv2: VertexAttribute;
             static readonly rgb: VertexAttribute;
             static readonly rgba: VertexAttribute;
+            static readonly alpha: VertexAttribute;
             static compare(a: VertexAttribute, b: VertexAttribute): number;
             readonly id: number;
             readonly size: number;

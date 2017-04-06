@@ -10,11 +10,6 @@ namespace SourceUtils.WebExport.Bsp
     {
         public const int ClustersPerPage = 256;
 
-        public static int GetPageCount( int clusters )
-        {
-            return (clusters + ClustersPerPage - 1) / ClustersPerPage;
-        }
-
         [JsonProperty("values")]
         public IEnumerable<IEnumerable<int>> Values { get; set; }
     }
