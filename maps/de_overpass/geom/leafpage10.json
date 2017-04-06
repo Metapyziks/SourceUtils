@@ -287,7 +287,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/tools/toolstrigger.vmt.json",
+      "material": 93,
       "meshData": {
         "attributes": [
           "position",
@@ -359,7 +359,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/tools/toolsblack.vmt.json",
+      "material": 46,
       "meshData": {
         "attributes": [
           "position",

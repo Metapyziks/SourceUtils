@@ -259,7 +259,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_sandhighway_01.vmt.json",
+      "material": 25,
       "meshData": {
         "attributes": [
           "position",
@@ -422,7 +422,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08a.vmt.json",
+      "material": 19,
       "meshData": {
         "attributes": [
           "position",
@@ -470,7 +470,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall02.vmt.json",
+      "material": 54,
       "meshData": {
         "attributes": [
           "position",
@@ -500,7 +500,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05c.vmt.json",
+      "material": 35,
       "meshData": {
         "attributes": [
           "position",
@@ -554,7 +554,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_07.vmt.json",
+      "material": 9,
       "meshData": {
         "attributes": [
           "position",
@@ -662,7 +662,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04a.vmt.json",
+      "material": 17,
       "meshData": {
         "attributes": [
           "position",
@@ -740,7 +740,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/blend_blacktopsand_01.vmt.json",
+      "material": 22,
       "meshData": {
         "attributes": [
           "position",

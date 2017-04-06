@@ -259,7 +259,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05c.vmt.json",
+      "material": 35,
       "meshData": {
         "attributes": [
           "position",
@@ -307,7 +307,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08b.vmt.json",
+      "material": 49,
       "meshData": {
         "attributes": [
           "position",
@@ -343,7 +343,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08.vmt.json",
+      "material": 41,
       "meshData": {
         "attributes": [
           "position",
@@ -367,7 +367,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/brick/brick_ext_04.vmt.json",
+      "material": 64,
       "meshData": {
         "attributes": [
           "position",
@@ -391,7 +391,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/blend_blacktopsand_01.vmt.json",
+      "material": 22,
       "meshData": {
         "attributes": [
           "position",
@@ -416,7 +416,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_sandhighway_01.vmt.json",
+      "material": 25,
       "meshData": {
         "attributes": [
           "position",
@@ -477,7 +477,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_04.vmt.json",
+      "material": 52,
       "meshData": {
         "attributes": [
           "position",
@@ -621,7 +621,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall13b.vmt.json",
+      "material": 68,
       "meshData": {
         "attributes": [
           "position",
@@ -675,7 +675,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05.vmt.json",
+      "material": 4,
       "meshData": {
         "attributes": [
           "position",
@@ -705,7 +705,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08a.vmt.json",
+      "material": 19,
       "meshData": {
         "attributes": [
           "position",
@@ -735,7 +735,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall02.vmt.json",
+      "material": 54,
       "meshData": {
         "attributes": [
           "position",
@@ -759,7 +759,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04a.vmt.json",
+      "material": 17,
       "meshData": {
         "attributes": [
           "position",
@@ -789,7 +789,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/cs_italy/hpe_stone_wall_02_top_-800_-832_240.vmt.json",
+      "material": 133,
       "meshData": {
         "attributes": [
           "position",
@@ -873,7 +873,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/cs_italy/hpe_stone_wall_02_top_-2048_1056_112.vmt.json",
+      "material": 154,
       "meshData": {
         "attributes": [
           "position",

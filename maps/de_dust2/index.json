@@ -142,6 +142,13 @@
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage9.json"
     }
   ],
+  "materialPages": [
+    {
+      "first": 0,
+      "count": 268,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/matpage0.json"
+    }
+  ],
   "entities": [
     {
       "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/model0.json",

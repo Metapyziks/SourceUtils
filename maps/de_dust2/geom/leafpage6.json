@@ -4493,7 +4493,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04a_bottom.vmt.json",
+      "material": 50,
       "meshData": {
         "attributes": [
           "position",
@@ -4529,7 +4529,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05c.vmt.json",
+      "material": 35,
       "meshData": {
         "attributes": [
           "position",
@@ -4661,7 +4661,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall07a_middle.vmt.json",
+      "material": 36,
       "meshData": {
         "attributes": [
           "position",
@@ -4901,7 +4901,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05.vmt.json",
+      "material": 4,
       "meshData": {
         "attributes": [
           "position",
@@ -5045,7 +5045,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall07a_bottom.vmt.json",
+      "material": 70,
       "meshData": {
         "attributes": [
           "position",
@@ -5129,7 +5129,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05a.vmt.json",
+      "material": 6,
       "meshData": {
         "attributes": [
           "position",
@@ -5177,7 +5177,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall07a.vmt.json",
+      "material": 71,
       "meshData": {
         "attributes": [
           "position",
@@ -5429,7 +5429,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/wood_ext_01.vmt.json",
+      "material": 108,
       "meshData": {
         "attributes": [
           "position",
@@ -5531,7 +5531,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall12.vmt.json",
+      "material": 80,
       "meshData": {
         "attributes": [
           "position",
@@ -5597,7 +5597,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08b.vmt.json",
+      "material": 49,
       "meshData": {
         "attributes": [
           "position",
@@ -5657,7 +5657,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/groundsand03.vmt.json",
+      "material": 24,
       "meshData": {
         "attributes": [
           "position",
@@ -5711,7 +5711,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/tools/toolsskybox.vmt.json",
+      "material": 13,
       "meshData": {
         "attributes": [
           "position",
@@ -6359,7 +6359,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04a.vmt.json",
+      "material": 17,
       "meshData": {
         "attributes": [
           "position",
@@ -6569,7 +6569,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall10.vmt.json",
+      "material": 14,
       "meshData": {
         "attributes": [
           "position",
@@ -6683,7 +6683,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_07.vmt.json",
+      "material": 9,
       "meshData": {
         "attributes": [
           "position",
@@ -6929,7 +6929,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metaldoor041a.vmt.json",
+      "material": 59,
       "meshData": {
         "attributes": [
           "position",
@@ -6983,7 +6983,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_cbble/woodbeam01.vmt.json",
+      "material": 107,
       "meshData": {
         "attributes": [
           "position",
@@ -7007,7 +7007,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/pwood1.vmt.json",
+      "material": 92,
       "meshData": {
         "attributes": [
           "position",
@@ -7151,7 +7151,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_04.vmt.json",
+      "material": 52,
       "meshData": {
         "attributes": [
           "position",
@@ -7211,7 +7211,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08.vmt.json",
+      "material": 41,
       "meshData": {
         "attributes": [
           "position",
@@ -7343,7 +7343,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall14.vmt.json",
+      "material": 67,
       "meshData": {
         "attributes": [
           "position",
@@ -7385,7 +7385,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/brick/brick_ext_04.vmt.json",
+      "material": 64,
       "meshData": {
         "attributes": [
           "position",
@@ -7433,7 +7433,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/cs_italy/hpe_stone_wall_02_top_-800_-832_240.vmt.json",
+      "material": 133,
       "meshData": {
         "attributes": [
           "position",
@@ -7493,7 +7493,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04.vmt.json",
+      "material": 51,
       "meshData": {
         "attributes": [
           "position",
@@ -7553,7 +7553,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/stonestep01.vmt.json",
+      "material": 58,
       "meshData": {
         "attributes": [
           "position",
@@ -7595,7 +7595,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretefloor001a.vmt.json",
+      "material": 55,
       "meshData": {
         "attributes": [
           "position",
@@ -7673,7 +7673,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall13.vmt.json",
+      "material": 16,
       "meshData": {
         "attributes": [
           "position",
@@ -7781,7 +7781,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/glass/glasswindow028d.vmt.json",
+      "material": 118,
       "meshData": {
         "attributes": [
           "position",
@@ -7805,7 +7805,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall14a.vmt.json",
+      "material": 103,
       "meshData": {
         "attributes": [
           "position",
@@ -7835,7 +7835,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/stonewall02b.vmt.json",
+      "material": 46,
       "meshData": {
         "attributes": [
           "position",
@@ -7955,7 +7955,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/cs_italy/hpe_stone_wall_02_top_-2048_1056_112.vmt.json",
+      "material": 154,
       "meshData": {
         "attributes": [
           "position",
@@ -7985,7 +7985,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/brickwall01.vmt.json",
+      "material": 109,
       "meshData": {
         "attributes": [
           "position",
@@ -8051,7 +8051,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/cs_italy/hpe_stone_wall_02_top_-1664_544_112.vmt.json",
+      "material": 155,
       "meshData": {
         "attributes": [
           "position",
@@ -8081,7 +8081,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow048a_-800_-832_240.vmt.json",
+      "material": 160,
       "meshData": {
         "attributes": [
           "position",
@@ -8141,7 +8141,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall13a_bottom.vmt.json",
+      "material": 56,
       "meshData": {
         "attributes": [
           "position",
@@ -8261,7 +8261,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04b.vmt.json",
+      "material": 48,
       "meshData": {
         "attributes": [
           "position",
@@ -8321,7 +8321,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall10b.vmt.json",
+      "material": 82,
       "meshData": {
         "attributes": [
           "position",
@@ -8351,7 +8351,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metaldoor001a.vmt.json",
+      "material": 83,
       "meshData": {
         "attributes": [
           "position",
@@ -8393,7 +8393,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/nature/blend_sandhighway_01_wvt_patch.vmt.json",
+      "material": 130,
       "meshData": {
         "attributes": [
           "position",
@@ -8429,7 +8429,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/milsteps001.vmt.json",
+      "material": 102,
       "meshData": {
         "attributes": [
           "position",
@@ -8459,7 +8459,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall13b.vmt.json",
+      "material": 68,
       "meshData": {
         "attributes": [
           "position",
@@ -8501,7 +8501,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall02.vmt.json",
+      "material": 20,
       "meshData": {
         "attributes": [
           "position",
@@ -8639,7 +8639,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residbwall04b.vmt.json",
+      "material": 61,
       "meshData": {
         "attributes": [
           "position",
@@ -8783,7 +8783,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall02.vmt.json",
+      "material": 54,
       "meshData": {
         "attributes": [
           "position",
@@ -8873,7 +8873,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/woodtrim_ext_01.vmt.json",
+      "material": 122,
       "meshData": {
         "attributes": [
           "position",
@@ -8903,7 +8903,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residbwall03b.vmt.json",
+      "material": 34,
       "meshData": {
         "attributes": [
           "position",
@@ -8963,7 +8963,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residbwall04.vmt.json",
+      "material": 66,
       "meshData": {
         "attributes": [
           "position",
@@ -9035,7 +9035,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_havana/door01.vmt.json",
+      "material": 117,
       "meshData": {
         "attributes": [
           "position",
@@ -9095,7 +9095,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metalbar001c.vmt.json",
+      "material": 124,
       "meshData": {
         "attributes": [
           "position",
@@ -9137,7 +9137,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow005a_64_-736_80.vmt.json",
+      "material": 196,
       "meshData": {
         "attributes": [
           "position",
@@ -9167,7 +9167,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/woodfloor008a.vmt.json",
+      "material": 119,
       "meshData": {
         "attributes": [
           "position",
@@ -9239,7 +9239,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/templewall03.vmt.json",
+      "material": 44,
       "meshData": {
         "attributes": [
           "position",
@@ -9353,7 +9353,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/plasterwall04a.vmt.json",
+      "material": 125,
       "meshData": {
         "attributes": [
           "position",
@@ -9395,7 +9395,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall02_bottom.vmt.json",
+      "material": 62,
       "meshData": {
         "attributes": [
           "position",
@@ -9479,7 +9479,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/glass/glasswindow044a.vmt.json",
+      "material": 97,
       "meshData": {
         "attributes": [
           "position",
@@ -9545,7 +9545,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/marketwall04.vmt.json",
+      "material": 120,
       "meshData": {
         "attributes": [
           "position",
@@ -9605,7 +9605,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_havana/door02.vmt.json",
+      "material": 114,
       "meshData": {
         "attributes": [
           "position",
@@ -9659,7 +9659,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall08a.vmt.json",
+      "material": 19,
       "meshData": {
         "attributes": [
           "position",
@@ -9743,7 +9743,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/marketwall06.vmt.json",
+      "material": 98,
       "meshData": {
         "attributes": [
           "position",
@@ -9773,7 +9773,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall07a_top.vmt.json",
+      "material": 15,
       "meshData": {
         "attributes": [
           "position",
@@ -9821,7 +9821,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_train/train_oldwindows_02.vmt.json",
+      "material": 77,
       "meshData": {
         "attributes": [
           "position",
@@ -9851,7 +9851,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall02_top.vmt.json",
+      "material": 72,
       "meshData": {
         "attributes": [
           "position",
@@ -10001,7 +10001,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/metal/citadel_tilefloor016a_-448_-512_80.vmt.json",
+      "material": 161,
       "meshData": {
         "attributes": [
           "position",
@@ -10073,7 +10073,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/metal/citadel_tilefloor016a_64_-736_80.vmt.json",
+      "material": 162,
       "meshData": {
         "attributes": [
           "position",
@@ -10151,7 +10151,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_havana/metalfence007a.vmt.json",
+      "material": 91,
       "meshData": {
         "attributes": [
           "position",
@@ -10247,7 +10247,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/wood_ext_02.vmt.json",
+      "material": 101,
       "meshData": {
         "attributes": [
           "position",
@@ -10295,7 +10295,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow048a_64_-736_80.vmt.json",
+      "material": 163,
       "meshData": {
         "attributes": [
           "position",
@@ -10331,7 +10331,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow048a_640_64_112.vmt.json",
+      "material": 172,
       "meshData": {
         "attributes": [
           "position",
@@ -10355,7 +10355,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall01a.vmt.json",
+      "material": 26,
       "meshData": {
         "attributes": [
           "position",
@@ -10391,7 +10391,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall11b.vmt.json",
+      "material": 78,
       "meshData": {
         "attributes": [
           "position",
@@ -10439,7 +10439,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/woodbeam001a.vmt.json",
+      "material": 88,
       "meshData": {
         "attributes": [
           "position",
@@ -10499,7 +10499,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow048a_-448_-512_80.vmt.json",
+      "material": 173,
       "meshData": {
         "attributes": [
           "position",
@@ -10529,7 +10529,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall03.vmt.json",
+      "material": 28,
       "meshData": {
         "attributes": [
           "position",
@@ -10571,7 +10571,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/plywood_ext_02.vmt.json",
+      "material": 75,
       "meshData": {
         "attributes": [
           "position",
@@ -10595,7 +10595,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/black.vmt.json",
+      "material": 47,
       "meshData": {
         "attributes": [
           "position",
@@ -10625,7 +10625,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/hpe_plaster_blue_wall.vmt.json",
+      "material": 33,
       "meshData": {
         "attributes": [
           "position",
@@ -10727,7 +10727,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sandtrim2a.vmt.json",
+      "material": 18,
       "meshData": {
         "attributes": [
           "position",
@@ -10847,7 +10847,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residbwall03a.vmt.json",
+      "material": 21,
       "meshData": {
         "attributes": [
           "position",
@@ -11009,7 +11009,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/de_dust/dust_palacewall01_-1984_1280_112.vmt.json",
+      "material": 138,
       "meshData": {
         "attributes": [
           "position",
@@ -11057,7 +11057,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/de_dust/dust_palacewall01_-1984_1376_112.vmt.json",
+      "material": 140,
       "meshData": {
         "attributes": [
           "position",
@@ -11099,7 +11099,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_piranesi/marblefloor06.vmt.json",
+      "material": 39,
       "meshData": {
         "attributes": [
           "position",
@@ -11147,7 +11147,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/dusandwlltrim3.vmt.json",
+      "material": 94,
       "meshData": {
         "attributes": [
           "position",
@@ -11195,7 +11195,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/de_dust/dust_palacewall01_-2048_1056_112.vmt.json",
+      "material": 137,
       "meshData": {
         "attributes": [
           "position",
@@ -11237,7 +11237,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/concrete/blend_blacktopsand_01_wvt_patch.vmt.json",
+      "material": 129,
       "meshData": {
         "attributes": [
           "position",
@@ -11309,7 +11309,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/stonestep04.vmt.json",
+      "material": 86,
       "meshData": {
         "attributes": [
           "position",
@@ -11345,7 +11345,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/dusttile03.vmt.json",
+      "material": 95,
       "meshData": {
         "attributes": [
           "position",
@@ -11381,7 +11381,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/de_dust/tilefloor02_-1824_1152_112.vmt.json",
+      "material": 149,
       "meshData": {
         "attributes": [
           "position",
@@ -11405,7 +11405,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall01.vmt.json",
+      "material": 40,
       "meshData": {
         "attributes": [
           "position",
@@ -11429,7 +11429,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall10a.vmt.json",
+      "material": 100,
       "meshData": {
         "attributes": [
           "position",
@@ -11471,7 +11471,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall03b.vmt.json",
+      "material": 42,
       "meshData": {
         "attributes": [
           "position",
@@ -11507,7 +11507,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/metal/urban_metalwall01a_small_-800_-832_240.vmt.json",
+      "material": 178,
       "meshData": {
         "attributes": [
           "position",
@@ -11531,7 +11531,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall02a.vmt.json",
+      "material": 121,
       "meshData": {
         "attributes": [
           "position",
@@ -11555,7 +11555,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/%7bmisc_ironwin.vmt.json",
+      "material": 89,
       "meshData": {
         "attributes": [
           "position",
@@ -11591,7 +11591,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metalrail011a.vmt.json",
+      "material": 110,
       "meshData": {
         "attributes": [
           "position",
@@ -11621,7 +11621,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/metal/urban_metalwall01a_small_-1664_544_112.vmt.json",
+      "material": 177,
       "meshData": {
         "attributes": [
           "position",
@@ -11657,7 +11657,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/stonestep02.vmt.json",
+      "material": 60,
       "meshData": {
         "attributes": [
           "position",
@@ -11681,7 +11681,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_train/train_metalceiling_01.vmt.json",
+      "material": 90,
       "meshData": {
         "attributes": [
           "position",
@@ -11711,7 +11711,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/metal/citadel_tilefloor016a_-1664_544_112.vmt.json",
+      "material": 169,
       "meshData": {
         "attributes": [
           "position",
@@ -11759,7 +11759,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/metal/citadel_tilefloor016a_-800_-832_240.vmt.json",
+      "material": 170,
       "meshData": {
         "attributes": [
           "position",
@@ -11807,7 +11807,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metalgrate013a.vmt.json",
+      "material": 123,
       "meshData": {
         "attributes": [
           "position",
@@ -11831,7 +11831,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow005a_-800_-832_240.vmt.json",
+      "material": 180,
       "meshData": {
         "attributes": [
           "position",
@@ -11861,7 +11861,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow005a_-1664_544_112.vmt.json",
+      "material": 179,
       "meshData": {
         "attributes": [
           "position",
@@ -11891,7 +11891,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_italy/plasterwall04b.vmt.json",
+      "material": 99,
       "meshData": {
         "attributes": [
           "position",
@@ -11927,7 +11927,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/materials/maps/de_dust2/glass/glasswindow048a_-1664_544_112.vmt.json",
+      "material": 171,
       "meshData": {
         "attributes": [
           "position",

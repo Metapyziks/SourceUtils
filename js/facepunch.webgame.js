@@ -1239,7 +1239,7 @@ var Facepunch;
             }
         };
         Http.isAbsUrl = function (url) {
-            return /^(http[s]:\/)?\//i.test(url);
+            return url != null && /^(http[s]:\/)?\//i.test(url);
         };
         Http.getAbsUrl = function (url, relativeTo) {
             if (Http.isAbsUrl(url))
@@ -2609,7 +2609,10 @@ var Facepunch;
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["Boolean"] = 1] = "Boolean";
             MaterialPropertyType[MaterialPropertyType["Number"] = 2] = "Number";
-            MaterialPropertyType[MaterialPropertyType["TextureUrl"] = 3] = "TextureUrl";
+            MaterialPropertyType[MaterialPropertyType["Color"] = 3] = "Color";
+            MaterialPropertyType[MaterialPropertyType["TextureUrl"] = 4] = "TextureUrl";
+            MaterialPropertyType[MaterialPropertyType["TextureIndex"] = 5] = "TextureIndex";
+            MaterialPropertyType[MaterialPropertyType["TextureInfo"] = 6] = "TextureInfo";
         })(MaterialPropertyType = WebGame.MaterialPropertyType || (WebGame.MaterialPropertyType = {}));
         var Material = (function (_super) {
             __extends(Material, _super);
@@ -2644,14 +2647,49 @@ var Facepunch;
             MaterialLoadable.prototype.addPropertyFromInfo = function (info) {
                 switch (info.type) {
                     case MaterialPropertyType.Boolean:
-                    case MaterialPropertyType.Number:
+                    case MaterialPropertyType.Number: {
                         this.properties[info.name] = info.value;
                         break;
-                    case MaterialPropertyType.TextureUrl:
+                    }
+                    case MaterialPropertyType.TextureUrl: {
                         var texUrl = Facepunch.Http.getAbsUrl(info.value, this.url);
                         var tex = this.properties[info.name] = this.game.textureLoader.load(texUrl);
                         tex.addDependent(this);
                         break;
+                    }
+                    case MaterialPropertyType.TextureIndex: {
+                        if (this.textureSource == null) {
+                            console.warn("No texture source provided for material.");
+                            break;
+                        }
+                        var tex = this.properties[info.name] = this.textureSource(info.value);
+                        tex.addDependent(this);
+                        break;
+                    }
+                    case MaterialPropertyType.TextureInfo: {
+                        var texInfo = info.value;
+                        var tex = this.properties[info.name] = texInfo.path != null
+                            ? this.game.textureLoader.load(texInfo.path)
+                            : this.game.textureLoader.load("__dummy_" + MaterialLoadable.nextDummyId++);
+                        tex.addDependent(this);
+                        tex.loadFromInfo(texInfo);
+                    }
+                }
+            };
+            MaterialLoadable.prototype.loadFromInfo = function (info, textureSource) {
+                this.program = this.game.shaders.get(info.shader);
+                this.textureSource = textureSource;
+                if (this.program != null) {
+                    this.properties = this.program.createMaterialProperties();
+                    for (var i = 0; i < info.properties.length; ++i) {
+                        this.addPropertyFromInfo(info.properties[i]);
+                    }
+                }
+                else {
+                    this.properties = {};
+                }
+                if (this.program != null) {
+                    this.dispatchOnLoadCallbacks();
                 }
             };
             MaterialLoadable.prototype.loadNext = function (callback) {
@@ -2661,19 +2699,7 @@ var Facepunch;
                     return;
                 }
                 Facepunch.Http.getJson(this.url, function (info) {
-                    _this.program = _this.game.shaders.get(info.shader);
-                    if (_this.program != null) {
-                        _this.properties = _this.program.createMaterialProperties();
-                        for (var i = 0; i < info.properties.length; ++i) {
-                            _this.addPropertyFromInfo(info.properties[i]);
-                        }
-                    }
-                    else {
-                        _this.properties = {};
-                    }
-                    if (_this.program != null) {
-                        _this.dispatchOnLoadCallbacks();
-                    }
+                    _this.loadFromInfo(info);
                     callback(false);
                 }, function (error) {
                     callback(false);
@@ -2681,6 +2707,7 @@ var Facepunch;
             };
             return MaterialLoadable;
         }(Material));
+        MaterialLoadable.nextDummyId = 0;
         WebGame.MaterialLoadable = MaterialLoadable;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -4127,7 +4154,7 @@ var Facepunch;
                 _this.context = context;
                 _this.url = url;
                 if (/\.(png|jpe?g)$/i.test(_this.url)) {
-                    _this.onLoadInfo({
+                    _this.loadFromInfo({
                         target: TextureTarget.Texture2D,
                         params: {
                             filter: TextureFilter.Linear,
@@ -4278,7 +4305,7 @@ var Facepunch;
                 this.dispatchOnLoadCallbacks();
                 return success;
             };
-            TextureLoadable.prototype.onLoadInfo = function (info) {
+            TextureLoadable.prototype.loadFromInfo = function (info) {
                 this.info = info;
                 this.target = Facepunch.WebGl.decodeConst(info.target);
                 this.getOrCreateHandle();
@@ -4290,7 +4317,7 @@ var Facepunch;
                 var _this = this;
                 if (this.info == null) {
                     Facepunch.Http.getJson(this.url, function (info) {
-                        _this.onLoadInfo(info);
+                        _this.loadFromInfo(info);
                         callback(info.elements != null && _this.nextElement < info.elements.length);
                     }, function (error) {
                         callback(false);

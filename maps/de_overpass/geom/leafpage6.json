@@ -3635,7 +3635,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretewall011c.vmt.json",
+      "material": 58,
       "meshData": {
         "attributes": [
           "position",
@@ -3809,7 +3809,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/nature/blend_grass_grass_02_wvt_patch.vmt.json",
+      "material": 141,
       "meshData": {
         "attributes": [
           "position",
@@ -3881,7 +3881,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretewall007a.vmt.json",
+      "material": 50,
       "meshData": {
         "attributes": [
           "position",
@@ -4061,7 +4061,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_prodigy/concrete02.vmt.json",
+      "material": 76,
       "meshData": {
         "attributes": [
           "position",
@@ -4235,7 +4235,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_14b.vmt.json",
+      "material": 39,
       "meshData": {
         "attributes": [
           "position",
@@ -4427,7 +4427,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/sewer_concretewall01a_cheap.vmt.json",
+      "material": 9,
       "meshData": {
         "attributes": [
           "position",
@@ -4733,7 +4733,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/stone/wall_house02_clean.vmt.json",
+      "material": 10,
       "meshData": {
         "attributes": [
           "position",
@@ -5063,7 +5063,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_14.vmt.json",
+      "material": 41,
       "meshData": {
         "attributes": [
           "position",
@@ -5219,7 +5219,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretewall_handling01b.vmt.json",
+      "material": 13,
       "meshData": {
         "attributes": [
           "position",
@@ -5267,7 +5267,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_ceiling_facility_01.vmt.json",
+      "material": 29,
       "meshData": {
         "attributes": [
           "position",
@@ -5297,7 +5297,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_floor_10.vmt.json",
+      "material": 28,
       "meshData": {
         "attributes": [
           "position",
@@ -5501,7 +5501,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1275_-2149_385.vmt.json",
+      "material": 199,
       "meshData": {
         "attributes": [
           "position",
@@ -5531,7 +5531,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_beam_01.vmt.json",
+      "material": 37,
       "meshData": {
         "attributes": [
           "position",
@@ -5741,7 +5741,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/cinderwall02_dirty.vmt.json",
+      "material": 33,
       "meshData": {
         "attributes": [
           "position",
@@ -5963,7 +5963,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretewall_handling01c.vmt.json",
+      "material": 48,
       "meshData": {
         "attributes": [
           "position",
@@ -5999,7 +5999,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/drainage_concretewall_01.vmt.json",
+      "material": 2,
       "meshData": {
         "attributes": [
           "position",
@@ -6101,7 +6101,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/wood_int_07.vmt.json",
+      "material": 64,
       "meshData": {
         "attributes": [
           "position",
@@ -6131,7 +6131,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_ceiling_01.vmt.json",
+      "material": 70,
       "meshData": {
         "attributes": [
           "position",
@@ -6179,7 +6179,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_assault/assault_trainstation_truss_01a.vmt.json",
+      "material": 68,
       "meshData": {
         "attributes": [
           "position",
@@ -6239,7 +6239,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_floor_04.vmt.json",
+      "material": 27,
       "meshData": {
         "attributes": [
           "position",
@@ -6269,7 +6269,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/train_tunnel01a.vmt.json",
+      "material": 18,
       "meshData": {
         "attributes": [
           "position",
@@ -6305,7 +6305,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-739_-1553_194.vmt.json",
+      "material": 290,
       "meshData": {
         "attributes": [
           "position",
@@ -6347,7 +6347,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-786_-909_193.vmt.json",
+      "material": 292,
       "meshData": {
         "attributes": [
           "position",
@@ -6383,7 +6383,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1888_-1284_289.vmt.json",
+      "material": 269,
       "meshData": {
         "attributes": [
           "position",
@@ -6449,7 +6449,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/portwall003.vmt.json",
+      "material": 35,
       "meshData": {
         "attributes": [
           "position",
@@ -6503,7 +6503,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof005a_-1415_-891_65.vmt.json",
+      "material": 157,
       "meshData": {
         "attributes": [
           "position",
@@ -6533,7 +6533,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof008a_-1415_-891_65.vmt.json",
+      "material": 250,
       "meshData": {
         "attributes": [
           "position",
@@ -6557,7 +6557,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/building_template/building_trainstation_template002j.vmt.json",
+      "material": 7,
       "meshData": {
         "attributes": [
           "position",
@@ -6629,7 +6629,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof008a_-1888_-1284_289.vmt.json",
+      "material": 253,
       "meshData": {
         "attributes": [
           "position",
@@ -6653,7 +6653,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof005a_-1756_-1018_145.vmt.json",
+      "material": 158,
       "meshData": {
         "attributes": [
           "position",
@@ -6707,7 +6707,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof005a_-930_-960_67.vmt.json",
+      "material": 161,
       "meshData": {
         "attributes": [
           "position",
@@ -6761,7 +6761,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof008a_-1783_-1345_145.vmt.json",
+      "material": 251,
       "meshData": {
         "attributes": [
           "position",
@@ -6785,7 +6785,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof008a_-1756_-1018_145.vmt.json",
+      "material": 252,
       "meshData": {
         "attributes": [
           "position",
@@ -6809,7 +6809,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/vertigo_plywood.vmt.json",
+      "material": 31,
       "meshData": {
         "attributes": [
           "position",
@@ -6839,7 +6839,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/subway_concretewall_01a_nodetail.vmt.json",
+      "material": 20,
       "meshData": {
         "attributes": [
           "position",
@@ -7061,7 +7061,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/blend_blacktop_02_wvt_patch.vmt.json",
+      "material": 142,
       "meshData": {
         "attributes": [
           "position",
@@ -7109,7 +7109,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/tunnel_concretewall_01b_cheap.vmt.json",
+      "material": 14,
       "meshData": {
         "attributes": [
           "position",
@@ -7199,7 +7199,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1634_-1975_145.vmt.json",
+      "material": 258,
       "meshData": {
         "attributes": [
           "position",
@@ -7247,7 +7247,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1828_-1689_145.vmt.json",
+      "material": 259,
       "meshData": {
         "attributes": [
           "position",
@@ -7295,7 +7295,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-1828_-1689_145.vmt.json",
+      "material": 267,
       "meshData": {
         "attributes": [
           "position",
@@ -7343,7 +7343,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-1634_-1975_145.vmt.json",
+      "material": 266,
       "meshData": {
         "attributes": [
           "position",
@@ -7397,7 +7397,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1644_-2068_385.vmt.json",
+      "material": 260,
       "meshData": {
         "attributes": [
           "position",
@@ -7439,7 +7439,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/plaster/milwall002.vmt.json",
+      "material": 32,
       "meshData": {
         "attributes": [
           "position",
@@ -7481,7 +7481,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1497_-2144_385.vmt.json",
+      "material": 261,
       "meshData": {
         "attributes": [
           "position",
@@ -7505,7 +7505,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_01.vmt.json",
+      "material": 36,
       "meshData": {
         "attributes": [
           "position",
@@ -7553,7 +7553,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_floor_02.vmt.json",
+      "material": 34,
       "meshData": {
         "attributes": [
           "position",
@@ -7577,7 +7577,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/tools/toolsblack.vmt.json",
+      "material": 46,
       "meshData": {
         "attributes": [
           "position",
@@ -7625,7 +7625,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/milwall006_-1415_-891_65.vmt.json",
+      "material": 346,
       "meshData": {
         "attributes": [
           "position",
@@ -7661,7 +7661,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/milwall006_-930_-960_67.vmt.json",
+      "material": 340,
       "meshData": {
         "attributes": [
           "position",
@@ -7697,7 +7697,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_train/train_cement_floor_01.vmt.json",
+      "material": 30,
       "meshData": {
         "attributes": [
           "position",
@@ -7859,7 +7859,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof005a_-1888_-1284_289.vmt.json",
+      "material": 160,
       "meshData": {
         "attributes": [
           "position",
@@ -7883,7 +7883,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/distressed_metal_panel_roof_-1756_-1018_145.vmt.json",
+      "material": 254,
       "meshData": {
         "attributes": [
           "position",
@@ -7913,7 +7913,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalroof005a_-1644_-2068_385.vmt.json",
+      "material": 159,
       "meshData": {
         "attributes": [
           "position",
@@ -7943,7 +7943,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_floor_trim_01.vmt.json",
+      "material": 45,
       "meshData": {
         "attributes": [
           "position",
@@ -7979,7 +7979,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/drainage_floor_02_-1644_-2068_385.vmt.json",
+      "material": 265,
       "meshData": {
         "attributes": [
           "position",
@@ -8003,7 +8003,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/distressed_metal_panel_roof_-1634_-1975_145.vmt.json",
+      "material": 264,
       "meshData": {
         "attributes": [
           "position",
@@ -8027,7 +8027,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-1644_-2068_385.vmt.json",
+      "material": 268,
       "meshData": {
         "attributes": [
           "position",
@@ -8051,7 +8051,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretewall056_clean.vmt.json",
+      "material": 47,
       "meshData": {
         "attributes": [
           "position",
@@ -8081,7 +8081,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-1888_-1284_289.vmt.json",
+      "material": 162,
       "meshData": {
         "attributes": [
           "position",
@@ -8165,7 +8165,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-1976_-966_177.vmt.json",
+      "material": 165,
       "meshData": {
         "attributes": [
           "position",
@@ -8213,7 +8213,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-2080_-882_302.vmt.json",
+      "material": 185,
       "meshData": {
         "attributes": [
           "position",
@@ -8237,7 +8237,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-1888_-1284_289.vmt.json",
+      "material": 183,
       "meshData": {
         "attributes": [
           "position",
@@ -8285,7 +8285,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-1976_-966_177.vmt.json",
+      "material": 272,
       "meshData": {
         "attributes": [
           "position",
@@ -8315,7 +8315,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metalvent003a.vmt.json",
+      "material": 99,
       "meshData": {
         "attributes": [
           "position",
@@ -8357,7 +8357,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-2080_-882_302.vmt.json",
+      "material": 163,
       "meshData": {
         "attributes": [
           "position",
@@ -8405,7 +8405,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/pouredconcretewall04a_-1756_-1018_145.vmt.json",
+      "material": 164,
       "meshData": {
         "attributes": [
           "position",
@@ -8429,7 +8429,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-1783_-1345_145.vmt.json",
+      "material": 255,
       "meshData": {
         "attributes": [
           "position",
@@ -8459,7 +8459,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metalstair001a.vmt.json",
+      "material": 103,
       "meshData": {
         "attributes": [
           "position",
@@ -8525,7 +8525,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_train/train_roofgreebles_03.vmt.json",
+      "material": 98,
       "meshData": {
         "attributes": [
           "position",
@@ -8549,7 +8549,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-1783_-1345_145.vmt.json",
+      "material": 263,
       "meshData": {
         "attributes": [
           "position",
@@ -8615,7 +8615,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_12.vmt.json",
+      "material": 19,
       "meshData": {
         "attributes": [
           "position",
@@ -8663,7 +8663,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/cinderwall04_cheap.vmt.json",
+      "material": 16,
       "meshData": {
         "attributes": [
           "position",
@@ -8687,7 +8687,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-2391_-1856_519.vmt.json",
+      "material": 262,
       "meshData": {
         "attributes": [
           "position",
@@ -8723,7 +8723,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-1634_-1975_145.vmt.json",
+      "material": 271,
       "meshData": {
         "attributes": [
           "position",
@@ -8753,7 +8753,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-1828_-1689_145.vmt.json",
+      "material": 270,
       "meshData": {
         "attributes": [
           "position",
@@ -8783,7 +8783,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalducts_-2391_-1856_519.vmt.json",
+      "material": 184,
       "meshData": {
         "attributes": [
           "position",
@@ -8813,7 +8813,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/wall02.vmt.json",
+      "material": 44,
       "meshData": {
         "attributes": [
           "position",
@@ -8843,7 +8843,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_metaltrims_01.vmt.json",
+      "material": 23,
       "meshData": {
         "attributes": [
           "position",
@@ -8867,7 +8867,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/liquids/overpasswater.vmt.json",
+      "material": 49,
       "meshData": {
         "attributes": [
           "position",
@@ -8903,7 +8903,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/drainage_floor_02_-1828_-1689_145.vmt.json",
+      "material": 171,
       "meshData": {
         "attributes": [
           "position",
@@ -8927,7 +8927,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/dev/dev_waterbeneath2.vmt.json",
+      "material": 454,
       "meshData": {
         "attributes": [
           "position",
@@ -8963,7 +8963,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/tools/toolsskybox.vmt.json",
+      "material": 6,
       "meshData": {
         "attributes": [
           "position",
@@ -8993,7 +8993,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/stone/infwllc_clean.vmt.json",
+      "material": 94,
       "meshData": {
         "attributes": [
           "position",
@@ -9053,7 +9053,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalvent002b_-2080_-882_302.vmt.json",
+      "material": 376,
       "meshData": {
         "attributes": [
           "position",
@@ -9083,7 +9083,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/metalvent002b_-2391_-1856_519.vmt.json",
+      "material": 397,
       "meshData": {
         "attributes": [
           "position",
@@ -9113,7 +9113,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/wood/woodtrim_ext_01.vmt.json",
+      "material": 120,
       "meshData": {
         "attributes": [
           "position",
@@ -9137,7 +9137,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/metalwall061f.vmt.json",
+      "material": 105,
       "meshData": {
         "attributes": [
           "position",
@@ -9191,7 +9191,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/buildings/building_roof_01.vmt.json",
+      "material": 61,
       "meshData": {
         "attributes": [
           "position",
@@ -9239,7 +9239,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/distressed_metal_panel_roof_-1888_-1284_289.vmt.json",
+      "material": 331,
       "meshData": {
         "attributes": [
           "position",
@@ -9269,7 +9269,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/ibeam_-2080_-882_302.vmt.json",
+      "material": 198,
       "meshData": {
         "attributes": [
           "position",
@@ -9293,7 +9293,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/distressed_metal_panel_roof_-2241_-546_433.vmt.json",
+      "material": 364,
       "meshData": {
         "attributes": [
           "position",
@@ -9317,7 +9317,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/metal/distressed_metal_panel_roof_-2080_-882_302.vmt.json",
+      "material": 307,
       "meshData": {
         "attributes": [
           "position",
@@ -9341,7 +9341,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/metal/drtrime.vmt.json",
+      "material": 26,
       "meshData": {
         "attributes": [
           "position",
@@ -9377,7 +9377,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/silo_concrete01.vmt.json",
+      "material": 12,
       "meshData": {
         "attributes": [
           "position",
@@ -9593,7 +9593,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/liquids/aztecwater.vmt.json",
+      "material": 84,
       "meshData": {
         "attributes": [
           "position",
@@ -9635,7 +9635,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/stone/waterfront_stone_01a_clean.vmt.json",
+      "material": 11,
       "meshData": {
         "attributes": [
           "position",
@@ -9665,7 +9665,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/plaster/infbaseb.vmt.json",
+      "material": 72,
       "meshData": {
         "attributes": [
           "position",

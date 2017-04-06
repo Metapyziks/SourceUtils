@@ -259,7 +259,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05a.vmt.json",
+      "material": 6,
       "meshData": {
         "attributes": [
           "position",
@@ -343,7 +343,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_sandhighway_01.vmt.json",
+      "material": 25,
       "meshData": {
         "attributes": [
           "position",
@@ -380,7 +380,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_04.vmt.json",
+      "material": 52,
       "meshData": {
         "attributes": [
           "position",
@@ -416,7 +416,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_ext_07.vmt.json",
+      "material": 9,
       "meshData": {
         "attributes": [
           "position",
@@ -476,7 +476,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall02_bottom.vmt.json",
+      "material": 62,
       "meshData": {
         "attributes": [
           "position",
@@ -578,7 +578,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall13b.vmt.json",
+      "material": 68,
       "meshData": {
         "attributes": [
           "position",
@@ -638,7 +638,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall05.vmt.json",
+      "material": 4,
       "meshData": {
         "attributes": [
           "position",
@@ -686,7 +686,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/metalwall001b_cheap.vmt.json",
+      "material": 73,
       "meshData": {
         "attributes": [
           "position",
@@ -716,7 +716,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/cs_assault/metalwall001a.vmt.json",
+      "material": 74,
       "meshData": {
         "attributes": [
           "position",
@@ -746,7 +746,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/residwall04a.vmt.json",
+      "material": 17,
       "meshData": {
         "attributes": [
           "position",
@@ -782,7 +782,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall07a.vmt.json",
+      "material": 71,
       "meshData": {
         "attributes": [
           "position",
@@ -806,7 +806,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall02_top.vmt.json",
+      "material": 72,
       "meshData": {
         "attributes": [
           "position",
@@ -842,7 +842,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/sitebwall02.vmt.json",
+      "material": 54,
       "meshData": {
         "attributes": [
           "position",
@@ -872,7 +872,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_dust/marketwall03.vmt.json",
+      "material": 28,
       "meshData": {
         "attributes": [
           "position",

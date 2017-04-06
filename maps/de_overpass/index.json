@@ -122,6 +122,13 @@
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/disppage1.json"
     }
   ],
+  "materialPages": [
+    {
+      "first": 0,
+      "count": 554,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/matpage0.json"
+    }
+  ],
   "entities": [
     {
       "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model0.json",

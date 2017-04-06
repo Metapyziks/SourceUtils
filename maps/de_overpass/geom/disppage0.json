@@ -259,7 +259,7 @@
   ],
   "materials": [
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/grasswithered00.vmt.json",
+      "material": 8,
       "meshData": {
         "attributes": [
           "position",
@@ -319,7 +319,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_grass_gravel_02.vmt.json",
+      "material": 38,
       "meshData": {
         "attributes": [
           "position",
@@ -368,7 +368,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/concrete_debree_clean01_blend_-384_-1064_49.vmt.json",
+      "material": 166,
       "meshData": {
         "attributes": [
           "position",
@@ -411,7 +411,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/concrete_debree_clean01_blend_-930_-960_67.vmt.json",
+      "material": 167,
       "meshData": {
         "attributes": [
           "position",
@@ -436,7 +436,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/concrete_debree_clean01_blend_-168_-320_312.vmt.json",
+      "material": 168,
       "meshData": {
         "attributes": [
           "position",
@@ -461,7 +461,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/concrete_debree_clean01_blend_-918_349_145.vmt.json",
+      "material": 169,
       "meshData": {
         "attributes": [
           "position",
@@ -498,7 +498,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/concrete/concrete_debree_clean01_blend_-469_-2_49.vmt.json",
+      "material": 170,
       "meshData": {
         "attributes": [
           "position",
@@ -547,7 +547,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_grass_grass_02.vmt.json",
+      "material": 40,
       "meshData": {
         "attributes": [
           "position",
@@ -602,7 +602,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/trash/hr_t/hr_trash_a_-1370_206_66.vmt.json",
+      "material": 186,
       "meshData": {
         "attributes": [
           "position",
@@ -633,7 +633,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_int_01.vmt.json",
+      "material": 15,
       "meshData": {
         "attributes": [
           "position",
@@ -669,7 +669,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/blend_milwall002_concretefloor012a.vmt.json",
+      "material": 66,
       "meshData": {
         "attributes": [
           "position",
@@ -724,7 +724,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/blend_blacktop_02.vmt.json",
+      "material": 67,
       "meshData": {
         "attributes": [
           "position",
@@ -767,7 +767,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/trash/hr_t/hr_trash_a_-1415_-891_65.vmt.json",
+      "material": 196,
       "meshData": {
         "attributes": [
           "position",
@@ -792,7 +792,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/maps/de_overpass/trash/hr_t/hr_trash_a_-1754_-169_176.vmt.json",
+      "material": 197,
       "meshData": {
         "attributes": [
           "position",
@@ -817,7 +817,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/concretewall011c.vmt.json",
+      "material": 58,
       "meshData": {
         "attributes": [
           "position",
@@ -847,7 +847,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/concrete/blend_concrete02_concfloor012a.vmt.json",
+      "material": 78,
       "meshData": {
         "attributes": [
           "position",
@@ -884,7 +884,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/de_prodigy/concrete02.vmt.json",
+      "material": 76,
       "meshData": {
         "attributes": [
           "position",
@@ -914,7 +914,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/oldleaves01.vmt.json",
+      "material": 81,
       "meshData": {
         "attributes": [
           "position",
@@ -950,7 +950,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_gravel_cobblestone_01.vmt.json",
+      "material": 82,
       "meshData": {
         "attributes": [
           "position",
@@ -987,7 +987,7 @@
       }
     },
     {
-      "materialUrl": "https://metapyziks.github.io/SourceUtils/materials/nature/trash01a.vmt.json",
+      "material": 83,
       "meshData": {
         "attributes": [
           "position",

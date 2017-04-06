@@ -204,7 +204,7 @@ var SourceUtils;
             }
             this.pages = new Array(pages.length);
             for (var i = 0, iEnd = pages.length; i < iEnd; ++i) {
-                this.pages[i] = this.createPage(pages[i]);
+                this.pages[i] = this.onCreatePage(pages[i]);
                 this.toLoad.push(this.pages[i]);
             }
         };
@@ -266,7 +266,7 @@ var SourceUtils;
             this.dispFaces = page.displacements;
             var _loop_2 = function (i, iEnd) {
                 var matGroup = page.materials[i];
-                var mat = this_2.viewer.materialLoader.load(matGroup.materialUrl);
+                var mat = this_2.viewer.mapMaterialLoader.loadMaterial(matGroup.material);
                 var data = WebGame.MeshManager.decompress(matGroup.meshData);
                 this_2.matGroups[i] = this_2.viewer.meshes.addMeshData(data, function (index) { return mat; });
             };
@@ -290,7 +290,7 @@ var SourceUtils;
             _this.viewer = viewer;
             return _this;
         }
-        DispGeometryLoader.prototype.createPage = function (page) {
+        DispGeometryLoader.prototype.onCreatePage = function (page) {
             return new DispGeometryPage(this.viewer, page);
         };
         return DispGeometryLoader;
@@ -476,7 +476,7 @@ var SourceUtils;
             this.leafFaces = page.leaves;
             var _loop_3 = function (i, iEnd) {
                 var matGroup = page.materials[i];
-                var mat = this_3.viewer.materialLoader.load(matGroup.materialUrl);
+                var mat = this_3.viewer.mapMaterialLoader.loadMaterial(matGroup.material);
                 var data = WebGame.MeshManager.decompress(matGroup.meshData);
                 this_3.matGroups[i] = this_3.viewer.meshes.addMeshData(data, function (index) { return mat; });
             };
@@ -505,7 +505,7 @@ var SourceUtils;
             _this.viewer = viewer;
             return _this;
         }
-        LeafGeometryLoader.prototype.createPage = function (page) {
+        LeafGeometryLoader.prototype.onCreatePage = function (page) {
             return new LeafGeometryPage(this.viewer, page);
         };
         return LeafGeometryLoader;
@@ -537,6 +537,7 @@ var SourceUtils;
             this.info = info;
             this.viewer.leafGeometryLoader.setPageLayout(info.leafPages);
             this.viewer.dispGeometryLoader.setPageLayout(info.dispPages);
+            this.viewer.mapMaterialLoader.setPageLayout(info.materialPages);
             this.viewer.visLoader.setPageLayout(info.visPages);
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
             this.pvsEntities = [];
@@ -608,6 +609,61 @@ var SourceUtils;
     Map.lightmapInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
     SourceUtils.Map = Map;
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="PagedLoader.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var MapMaterialPage = (function (_super) {
+        __extends(MapMaterialPage, _super);
+        function MapMaterialPage(viewer, page) {
+            var _this = _super.call(this, page) || this;
+            _this.viewer = viewer;
+            return _this;
+        }
+        MapMaterialPage.prototype.onLoadValues = function (page) {
+            this.materials = page.materials;
+            var textures = page.textures;
+            for (var i = 0, iEnd = this.materials.length; i < iEnd; ++i) {
+                var props = this.materials[i].properties;
+                for (var j = 0, jEnd = props.length; j < jEnd; ++j) {
+                    var prop = props[j];
+                    if (prop.type !== WebGame.MaterialPropertyType.TextureIndex)
+                        continue;
+                    prop.type = WebGame.MaterialPropertyType.TextureInfo;
+                    prop.value = textures[prop.value];
+                }
+            }
+            _super.prototype.onLoadValues.call(this, page);
+        };
+        MapMaterialPage.prototype.onGetValue = function (index) {
+            return this.materials[index];
+        };
+        return MapMaterialPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.MapMaterialPage = MapMaterialPage;
+    var MapMaterialLoader = (function (_super) {
+        __extends(MapMaterialLoader, _super);
+        function MapMaterialLoader(viewer) {
+            var _this = _super.call(this) || this;
+            _this.materials = {};
+            _this.viewer = viewer;
+            return _this;
+        }
+        MapMaterialLoader.prototype.loadMaterial = function (index) {
+            var material = this.materials[index];
+            if (material !== undefined)
+                return material;
+            this.materials[index] = material = new WebGame.MaterialLoadable(this.viewer);
+            this.load(index, function (info) { return material.loadFromInfo(info); });
+            return material;
+        };
+        MapMaterialLoader.prototype.onCreatePage = function (page) {
+            return new MapMaterialPage(this.viewer, page);
+        };
+        return MapMaterialLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.MapMaterialLoader = MapMaterialLoader;
+})(SourceUtils || (SourceUtils = {}));
 /// <reference path="../js/facepunch.webgame.d.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
@@ -619,6 +675,7 @@ var SourceUtils;
             _this.map = new SourceUtils.Map(_this);
             _this.leafGeometryLoader = _this.addLoader(new SourceUtils.LeafGeometryLoader(_this));
             _this.dispGeometryLoader = _this.addLoader(new SourceUtils.DispGeometryLoader(_this));
+            _this.mapMaterialLoader = _this.addLoader(new SourceUtils.MapMaterialLoader(_this));
             _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
             _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
             _this.time = 0;
@@ -970,7 +1027,7 @@ var SourceUtils;
         function VisLoader() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        VisLoader.prototype.createPage = function (page) {
+        VisLoader.prototype.onCreatePage = function (page) {
             return new VisPage(page);
         };
         return VisLoader;
