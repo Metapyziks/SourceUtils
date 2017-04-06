@@ -1,0 +1,6264 @@
+{
+  "name": "de_nuke",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/lightmap.json",
+  "visPages": [
+    {
+      "first": 0,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage0.json"
+    },
+    {
+      "first": 256,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage1.json"
+    },
+    {
+      "first": 512,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage2.json"
+    },
+    {
+      "first": 768,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage3.json"
+    },
+    {
+      "first": 1024,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage4.json"
+    },
+    {
+      "first": 1280,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage5.json"
+    },
+    {
+      "first": 1536,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage6.json"
+    },
+    {
+      "first": 1792,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage7.json"
+    },
+    {
+      "first": 2048,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage8.json"
+    },
+    {
+      "first": 2304,
+      "count": 98,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage9.json"
+    }
+  ],
+  "leafPages": [
+    {
+      "first": 0,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage0.json"
+    },
+    {
+      "first": 512,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage1.json"
+    },
+    {
+      "first": 1024,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage2.json"
+    },
+    {
+      "first": 1536,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage3.json"
+    },
+    {
+      "first": 2048,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage4.json"
+    },
+    {
+      "first": 2560,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage5.json"
+    },
+    {
+      "first": 3072,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage6.json"
+    },
+    {
+      "first": 3584,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage7.json"
+    },
+    {
+      "first": 4096,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage8.json"
+    },
+    {
+      "first": 4608,
+      "count": 512,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage9.json"
+    },
+    {
+      "first": 5120,
+      "count": 303,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage10.json"
+    }
+  ],
+  "dispPages": [
+    {
+      "first": 0,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage0.json"
+    },
+    {
+      "first": 256,
+      "count": 256,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage1.json"
+    },
+    {
+      "first": 512,
+      "count": 191,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage2.json"
+    }
+  ],
+  "materialPages": [
+    {
+      "first": 0,
+      "count": 175,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/materials/matpage0.json"
+    }
+  ],
+  "entities": [
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model0.json",
+      "classname": "worldspawn",
+      "origin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model3.json",
+      "clusters": [
+        858,859,860,861,862,863,864,867,868,1479,1480,1481,1482,1483,1484,1487,1488,1491,1493,1495,1496,1497,1498,1499,1500,1502,1504,1506
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 466.0,
+        "y": -1008.0,
+        "z": -774.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model4.json",
+      "clusters": [
+        830,831,835,845,846,859,865,867
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 640.0,
+        "y": -400.0,
+        "z": -706.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model5.json",
+      "clusters": [
+        297,300,301,302,307,308,310,311
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 640.0,
+        "y": 360.0,
+        "z": -562.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model6.json",
+      "clusters": [
+        269,302
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 450.0,
+        "y": 274.0,
+        "z": -407.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model7.json",
+      "clusters": [
+        269,302
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 413.5,
+        "y": 308.5,
+        "z": -412.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model8.json",
+      "clusters": [
+        78
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2794.0,
+        "y": -670.5,
+        "z": -298.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model13.json",
+      "clusters": [
+        958
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2247.0,
+        "y": -1692.5,
+        "z": -362.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model15.json",
+      "clusters": [
+        1074,1078,1079
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1824.0,
+        "y": -1608.5,
+        "z": -150.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model16.json",
+      "clusters": [
+        470
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1282.68,
+        "y": -512.0,
+        "z": -493.26
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model17.json",
+      "clusters": [
+        1147,1148,1149,1150,1153,1163
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1373.24,
+        "y": -1938.56,
+        "z": -511.38
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model18.json",
+      "clusters": [
+        1147,1148,1149,1150,1153,1163
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1373.24,
+        "y": -1862.56,
+        "z": -511.38
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model19.json",
+      "clusters": [
+        498,499,501,1183,1184
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1123.54,
+        "y": -974.0,
+        "z": -640.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model20.json",
+      "clusters": [
+        1515,1516
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 174.0,
+        "y": -1608.46,
+        "z": -636.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model21.json",
+      "clusters": [
+        1458,1460
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 558.0,
+        "y": -1304.68,
+        "z": -511.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model22.json",
+      "clusters": [
+        1160,1167,1170,1511,1512,1513,1514
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 766.0,
+        "y": -1605.39,
+        "z": -508.38
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model23.json",
+      "clusters": [
+        1157,1158,1159,1160,1161
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1131.0,
+        "y": -1523.0,
+        "z": -508.38
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model24.json",
+      "clusters": [
+        163
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1487.5,
+        "y": 260.0,
+        "z": -339.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model26.json",
+      "clusters": [
+        472,473
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1054.43,
+        "y": -500.0,
+        "z": -515.83
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model27.json",
+      "clusters": [
+        1512,1513
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 639.99,
+        "y": -1536.5,
+        "z": -563.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model28.json",
+      "clusters": [
+        468
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1496.01,
+        "y": -671.5,
+        "z": -544.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model29.json",
+      "clusters": [
+        468
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1688.01,
+        "y": -671.5,
+        "z": -544.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model30.json",
+      "clusters": [
+        411
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1024.5,
+        "y": -386.0,
+        "z": -173.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model31.json",
+      "clusters": [
+        1079,1083,1560
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1512.5,
+        "y": -1920.0,
+        "z": -155.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model32.json",
+      "clusters": [
+        732,1381
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 255.5,
+        "y": -896.5,
+        "z": -146.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model33.json",
+      "clusters": [
+        1817
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -271.5,
+        "y": -833.13,
+        "z": -216.77
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model34.json",
+      "clusters": [
+        2026
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -392.0,
+        "y": -1151.5,
+        "z": -221.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model35.json",
+      "clusters": [
+        1386,1393,2004,2008
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -8.0,
+        "y": -1151.5,
+        "z": -221.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model36.json",
+      "clusters": [
+        140,142
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1266.68,
+        "y": 562.68,
+        "z": 334.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model37.json",
+      "clusters": [
+        540,541
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 786.0,
+        "y": -425.19,
+        "z": 338.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model38.json",
+      "clusters": [
+        1759
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -57.51,
+        "y": 255.63,
+        "z": 334.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model39.json",
+      "clusters": [
+        521,522,523,524,525,526,528,531,532,533,534,535,536,537,538,539,555,557,559,598,608,615
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 152.93,
+        "y": -183.12,
+        "z": 260.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model40.json",
+      "clusters": [
+        97,99,115,332,334,335,348,349,917,923,924,959,960,1026,1028
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2012.67,
+        "y": -1040.59,
+        "z": 210.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model41.json",
+      "clusters": [
+        61,69,76,79,80
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2748.0,
+        "y": -944.0,
+        "z": 204.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model74.json",
+      "clusters": [
+        785,821,1461,1462,1916,1917,1918,1919,1920,2184,2185,2190
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -191.0,
+        "y": -900.0,
+        "z": -483.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model75.json",
+      "clusters": [
+        764,765,768
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 644.03,
+        "y": -166.0,
+        "z": -475.75
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model76.json",
+      "clusters": [
+        764,766,770,773
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 812.0,
+        "y": -308.0,
+        "z": -475.75
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model77.json",
+      "clusters": [
+        765,767,768,769,771,772,774,775
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 476.0,
+        "y": -308.0,
+        "z": -475.75
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model78.json",
+      "clusters": [
+        801,802,1446,1447
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 928.0,
+        "y": -938.0,
+        "z": -508.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model79.json",
+      "clusters": [
+        817,818,1453,1454
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 352.0,
+        "y": -904.0,
+        "z": -508.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model80.json",
+      "clusters": [
+        1484
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 392.0,
+        "y": -1160.0,
+        "z": -655.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model81.json",
+      "clusters": [
+        862
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 392.0,
+        "y": -648.0,
+        "z": -655.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model84.json",
+      "clusters": [
+        843,844,846,848,850,851,852,856,857,858,859,860,861,862,863,1477,1478,1479,1480,1481,1482,1483,1484,1485,1486,1487,1488,1489,1490,1491,1492
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 688.7,
+        "y": -875.0,
+        "z": -657.4
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model85.json",
+      "clusters": [
+        1457,1458,1463
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 832.0,
+        "y": -1335.5,
+        "z": -563.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model86.json",
+      "clusters": [
+        867,868,869,870,871,1493,1497,1499,1549,1550,1551,1922,1924,2188,2191
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 288.0,
+        "y": -1008.0,
+        "z": -811.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model89.json",
+      "clusters": [
+        1116
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1330.75,
+        "y": -1918.35,
+        "z": -298.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model90.json",
+      "clusters": [
+        1608,1609,1610,1611
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1255.68,
+        "y": -2368.68,
+        "z": -286.21
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model91.json",
+      "clusters": [
+        725
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 196.0,
+        "y": -662.0,
+        "z": -362.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model92.json",
+      "clusters": [
+        725
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 196.0,
+        "y": -662.0,
+        "z": -393.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model93.json",
+      "clusters": [
+        725,726
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 128.0,
+        "y": -662.0,
+        "z": -350.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model94.json",
+      "clusters": [
+        725,726
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 128.0,
+        "y": -661.58,
+        "z": -380.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model95.json",
+      "clusters": [
+        726
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 60.0,
+        "y": -662.0,
+        "z": -362.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model96.json",
+      "clusters": [
+        726
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 60.0,
+        "y": -662.0,
+        "z": -393.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model97.json",
+      "clusters": [
+        722,723,725,726
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 128.0,
+        "y": -655.0,
+        "z": -349.97
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model98.json",
+      "clusters": [
+        553,575
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1008.5,
+        "y": -660.53,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model99.json",
+      "clusters": [
+        553,575
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1008.5,
+        "y": -909.0,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model100.json",
+      "clusters": [
+        1207
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1008.5,
+        "y": -1157.0,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model101.json",
+      "clusters": [
+        1207
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1008.5,
+        "y": -1388.5,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model102.json",
+      "clusters": [
+        1207
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 882.5,
+        "y": -1520.5,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model103.json",
+      "clusters": [
+        1208
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 640.5,
+        "y": -1520.5,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model104.json",
+      "clusters": [
+        1208,1209
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 396.5,
+        "y": -1520.5,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model105.json",
+      "clusters": [
+        1209
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 271.5,
+        "y": -1388.82,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model106.json",
+      "clusters": [
+        1209
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 271.5,
+        "y": -1154.57,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model107.json",
+      "clusters": [
+        582
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 271.5,
+        "y": -906.57,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model108.json",
+      "clusters": [
+        580,582
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 271.5,
+        "y": -658.57,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model109.json",
+      "clusters": [
+        578,579,580
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 271.5,
+        "y": -410.57,
+        "z": -16.5
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model110.json",
+      "clusters": [
+        1386,2004
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -11.03,
+        "y": -1150.5,
+        "z": -236.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model113.json",
+      "clusters": [
+        541,561
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 488.0,
+        "y": -644.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model114.json",
+      "clusters": [
+        541,560
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 792.0,
+        "y": -644.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model115.json",
+      "clusters": [
+        1191,1194
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 488.0,
+        "y": -1156.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model116.json",
+      "clusters": [
+        1191,1193
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 792.0,
+        "y": -1156.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "index": 0,
+      "clusters": [
+        1004,1005,1010,1011,1021,1022,878,1023,1024,1025,1580,1581,1646,1647
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 1,
+      "clusters": [
+        1580,1581,1582,1583,1023,1612,1613,1628,1629,1631,1632,1643,1644,1645,1646,1647,1648,1649,1651,1652,1666,1667
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 2,
+      "clusters": [
+        1643,1644,1666,1683,1684,1719,1732,1741,1743,1744,1749
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 3,
+      "clusters": [
+        1612,1628,1631,1643,1644,1666,1683,1684,1741
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 4,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 5,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 6,
+      "clusters": [
+        1718,1719,1722,1723,1728,1729,1732,1734,1736,1743,1744,1745,1746,1747,1748
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 7,
+      "clusters": [
+        1713,1715,1728,1729,1730,1731,1746,2258,2259,2275,2297
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 8,
+      "clusters": [
+        1715,1730,2258,2259,2260,2261
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 9,
+      "clusters": [
+        2260,2261,2270,2271,2300
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 10,
+      "clusters": [
+        2270,2271,2272,2273,2300
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 11,
+      "clusters": [
+        2270,2271,2272,2273,2280,2281,2286,2288,2292,2293,2294,2295,2300,2301,2302
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 12,
+      "clusters": [
+        2293,2294,2295,2296,1023,2301,2302,2303,2315,2316,2317,2318,2324,2325,2326
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 13,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 14,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 15,
+      "clusters": [
+        1023,2388,2389,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 16,
+      "clusters": [
+        1023,2388,2389,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 17,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 18,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 19,
+      "clusters": [
+        1718,1719,1722,1723,1732,1734,1743,1744,1745,1747,1749,1751
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 20,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 21,
+      "clusters": [
+        1646,1647,1648,1649,1023,1651,1652,1666,1667
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 22,
+      "clusters": [
+        1666,1667,1023,1741,1742,1749,1750
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 23,
+      "clusters": [
+        1666,1667,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 24,
+      "clusters": [
+        878,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 25,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 26,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 27,
+      "clusters": [
+        1743,1744,1745,1746,1747,1748,1749,1750,1751,1752,1753,1754,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 28,
+      "clusters": [
+        1728,1729,1730,1731,1736,1737,1738,1739,1023,1740,1746,1748,1753,1754
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 29,
+      "clusters": [
+        1730,1731,1738,1739,1740,1746,1748,1753,1754,2259,2261,2275,2277,2282,2283,2284,2285,2297,2298,2299,2300,2301,2302,2303
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 30,
+      "clusters": [
+        2261,2271,2277,2280,2284,2286,2300,2301,2302
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 31,
+      "clusters": [
+        2300,2301,2302,2303,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 32,
+      "clusters": [
+        2273,2281,2288,2289,2293,2294,2295,2296,1023,2300,2301,2302,2303
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 33,
+      "clusters": [
+        2295,2296,1023,2302,2303,2317,2318,2325,2326
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 34,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 35,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 36,
+      "clusters": [
+        1023,2388,2392
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 37,
+      "clusters": [
+        2388,2389,1947,2392,2393
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 38,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 39,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 40,
+      "clusters": [
+        1744,1749,1750,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 41,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 42,
+      "clusters": [
+        878,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 43,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 44,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 45,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 46,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 47,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 48,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 49,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 50,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 51,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 52,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 53,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 54,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 55,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 56,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 57,
+      "clusters": [
+        1023,2392
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 58,
+      "clusters": [
+        2392,2393,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 59,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 60,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 61,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 62,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 63,
+      "clusters": [
+        878,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 64,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 65,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 66,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 67,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 68,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 69,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 70,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 71,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 72,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 73,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 74,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 75,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 76,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 77,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 78,
+      "clusters": [
+        1023,2392,2396
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 79,
+      "clusters": [
+        2392,2393,1947,2396,2397
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 80,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 81,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 82,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 83,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 84,
+      "clusters": [
+        878,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 85,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 86,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 87,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 88,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 89,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 90,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 91,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 92,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 93,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 94,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 95,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 96,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 97,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 98,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 99,
+      "clusters": [
+        1023,2396,2400
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 100,
+      "clusters": [
+        1023,2396,2397,1947,2400,2401
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 101,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 102,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 103,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 104,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 105,
+      "clusters": [
+        1743,1744,1745,1746,1747,1748,1749,1750,1751,1752,1753,1754,1023,2297,2298,2299,2300,2301,2302,2303,2324,2325,2326,2383,2384,2385
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 106,
+      "clusters": [
+        878,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 107,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 108,
+      "clusters": [
+        1023,2392,2393,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 109,
+      "clusters": [
+        1918,1919
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 110,
+      "clusters": [
+        1918,1919
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 111,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 112,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 113,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 114,
+      "clusters": [
+        1643,1644,1645,1023,1683,1684,1685,1719,1732,1733
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 115,
+      "clusters": [
+        1756,1767
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 116,
+      "clusters": [
+        1756,1758,1767,1769,1772
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 117,
+      "clusters": [
+        1758,1772
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 118,
+      "clusters": [
+        1758,1772,1943,1953,1954
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 119,
+      "clusters": [
+        1943,1944,1946,1954,1955,1957
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 120,
+      "clusters": [
+        1944,1946,1947,1955,1957
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 121,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 122,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 123,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 124,
+      "clusters": [
+        2388,2389,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 125,
+      "clusters": [
+        2045,2046,2133
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 126,
+      "clusters": [
+        458
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 127,
+      "clusters": [
+        458,1122,1127
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 128,
+      "clusters": [
+        458
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 129,
+      "clusters": [
+        1127
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 130,
+      "clusters": [
+        1883
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 131,
+      "clusters": [
+        1343,1353,1359,1371,1374
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 132,
+      "clusters": [
+        1343,1353,1359,1371,1374
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 133,
+      "clusters": [
+        1343,1353,1359,1371,1374
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 134,
+      "clusters": [
+        1954,1970,1979
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 135,
+      "clusters": [
+        1954
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 136,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 137,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 138,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 139,
+      "clusters": [
+        116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 140,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 141,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 142,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 143,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 144,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 145,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 146,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 147,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 148,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 149,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 150,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 151,
+      "clusters": [
+        116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 152,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 153,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 154,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 155,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 156,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 157,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 158,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 159,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 160,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 161,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 162,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 163,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 164,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 165,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 166,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 167,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 168,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 169,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 170,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 171,
+      "clusters": [
+        116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 172,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 173,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 174,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 175,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 176,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 177,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 178,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 179,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 180,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 181,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 182,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 183,
+      "clusters": [
+        58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 184,
+      "clusters": [
+        37,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 185,
+      "clusters": [
+        37,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 186,
+      "clusters": [
+        37,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 187,
+      "clusters": [
+        118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 188,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 189,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 190,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 191,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 192,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 193,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 194,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 195,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 196,
+      "clusters": [
+        37,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 197,
+      "clusters": [
+        37,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 198,
+      "clusters": [
+        37,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 199,
+      "clusters": [
+        118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 200,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 201,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 202,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 203,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 204,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 205,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 206,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 207,
+      "clusters": [
+        37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 208,
+      "clusters": [
+        155,321,324,327
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 209,
+      "clusters": [
+        155,321,324,327
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 210,
+      "clusters": [
+        155,321,324,327
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 211,
+      "clusters": [
+        327
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 212,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 213,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 214,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 215,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 216,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 217,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 218,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 219,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 220,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 221,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 222,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 223,
+      "clusters": [
+        58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 224,
+      "clusters": [
+        37,155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 225,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 226,
+      "clusters": [
+        37,155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 227,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 228,
+      "clusters": [
+        28,34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 229,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 230,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 231,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 232,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 233,
+      "clusters": [
+        28,34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 234,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 235,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 236,
+      "clusters": [
+        37,155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 237,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 238,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 239,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 240,
+      "clusters": [
+        28,34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 241,
+      "clusters": [
+        155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 242,
+      "clusters": [
+        37,118,155,321,324,327
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 243,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 244,
+      "clusters": [
+        28,34,58,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 245,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 246,
+      "clusters": [
+        28,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 247,
+      "clusters": [
+        155,321,324,327
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 248,
+      "clusters": [
+        34,35,37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 249,
+      "clusters": [
+        34,35,37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 250,
+      "clusters": [
+        34,35,37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 251,
+      "clusters": [
+        34,35,37,116,117,118
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 252,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 253,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 254,
+      "clusters": [
+        34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 255,
+      "clusters": [
+        34,116
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 256,
+      "clusters": [
+        882,888
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 257,
+      "clusters": [
+        875,877,882,888
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 258,
+      "clusters": [
+        882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 259,
+      "clusters": [
+        875,882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 260,
+      "clusters": [
+        882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 261,
+      "clusters": [
+        875,882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 262,
+      "clusters": [
+        15,881,882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 263,
+      "clusters": [
+        5,15,873,875,881,882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 264,
+      "clusters": [
+        15
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 265,
+      "clusters": [
+        5,15
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 266,
+      "clusters": [
+        11
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 267,
+      "clusters": [
+        3,11
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 268,
+      "clusters": [
+        11,15
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 269,
+      "clusters": [
+        3,5,11,15
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 270,
+      "clusters": [
+        7
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 271,
+      "clusters": [
+        1,7
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 272,
+      "clusters": [
+        7,11
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 273,
+      "clusters": [
+        1,3,7,11
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 274,
+      "clusters": [
+        882,888
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 275,
+      "clusters": [
+        882,888
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 276,
+      "clusters": [
+        890
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 277,
+      "clusters": [
+        886,890,892
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 278,
+      "clusters": [
+        886,890
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 279,
+      "clusters": [
+        886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 280,
+      "clusters": [
+        886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 281,
+      "clusters": [
+        890
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 282,
+      "clusters": [
+        911,913,987,988
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 283,
+      "clusters": [
+        970,1048
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 284,
+      "clusters": [
+        942,955
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 285,
+      "clusters": [
+        955,956,957,958,970
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 286,
+      "clusters": [
+        956,958
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 287,
+      "clusters": [
+        942,955,956
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 288,
+      "clusters": [
+        956
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 289,
+      "clusters": [
+        1058,1060
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 290,
+      "clusters": [
+        1595,1639
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 291,
+      "clusters": [
+        1595,1639
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 292,
+      "clusters": [
+        1639
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 293,
+      "clusters": [
+        956
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 294,
+      "clusters": [
+        956,996
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 295,
+      "clusters": [
+        57
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 296,
+      "clusters": [
+        57
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 297,
+      "clusters": [
+        57,78
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 298,
+      "clusters": [
+        78
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 299,
+      "clusters": [
+        78
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 300,
+      "clusters": [
+        1767,1769,1772
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 301,
+      "clusters": [
+        1767,1769,1772
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 302,
+      "clusters": [
+        1772,1953,1954
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 303,
+      "clusters": [
+        1772,1953,1954
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 304,
+      "clusters": [
+        1772
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 305,
+      "clusters": [
+        1772
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 306,
+      "clusters": [
+        1828,1832
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 307,
+      "clusters": [
+        1767,1828
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 308,
+      "clusters": [
+        1767
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 309,
+      "clusters": [
+        1767
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 310,
+      "clusters": [
+        2315,2316,2321,2380
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 311,
+      "clusters": [
+        2137,2150
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 312,
+      "clusters": [
+        2150,2157,2158,2159
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 313,
+      "clusters": [
+        2158,2159,2175,2182,2183,2265
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 314,
+      "clusters": [
+        2158,2175,2182,2183,2265
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 315,
+      "clusters": [
+        2265,2272,2292,2314
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 316,
+      "clusters": [
+        2265,2272
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 317,
+      "clusters": [
+        2314
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 318,
+      "clusters": [
+        2314
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 319,
+      "clusters": [
+        2314
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 320,
+      "clusters": [
+        2362,2363
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 321,
+      "clusters": [
+        2358,2362
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 322,
+      "clusters": [
+        2363,2364
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 323,
+      "clusters": [
+        2220
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 324,
+      "clusters": [
+        2220
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 325,
+      "clusters": [
+        2216,2220
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 326,
+      "clusters": [
+        2215,2216
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 327,
+      "clusters": [
+        2215
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 328,
+      "clusters": [
+        2220,2224,2230
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 329,
+      "clusters": [
+        2230
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 330,
+      "clusters": [
+        2230,2308,2314
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 331,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 332,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 333,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 334,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 335,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 336,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 337,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 338,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 339,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 340,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 341,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 342,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 343,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 344,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 345,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 346,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 347,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 348,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 349,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 350,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 351,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 352,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 353,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 354,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 355,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 356,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 357,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 358,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 359,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 360,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 361,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 362,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 363,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 364,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 365,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 366,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 367,
+      "clusters": [
+        17
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 368,
+      "clusters": [
+        13,17
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 369,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 370,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 371,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 372,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 373,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 374,
+      "clusters": [
+        2372,2373,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 375,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 376,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 377,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 378,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 379,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 380,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 381,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 382,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 383,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 384,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 385,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 386,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 387,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 388,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 389,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 390,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 391,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 392,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 393,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 394,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 395,
+      "clusters": [
+        1137,1138,1331,1332,1371,1374,1375,1524,1525,1526,1527,1528,1595,1674,1702
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 396,
+      "clusters": [
+        1137,1138,1331,1332,1524,1525,1595,1639,1674,1680
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 397,
+      "clusters": [
+        1138,1332,1375,1525,1528,1595,1639,1674,1680,1702,1703
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 398,
+      "clusters": [
+        1595,1639,1642,1674,1680,1681
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 399,
+      "clusters": [
+        1680,1681,1683,1703,1718,1719
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 400,
+      "clusters": [
+        1639,1642,1643,1680,1681,1683
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 401,
+      "clusters": [
+        1137,1138,1595,1639
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 402,
+      "clusters": [
+        1122,1127,1132,1326,1509
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 403,
+      "clusters": [
+        1122,1127,1132
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 404,
+      "clusters": [
+        458,485,487,488,489,1122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 405,
+      "clusters": [
+        458,480,485,1122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 406,
+      "clusters": [
+        1132,1137
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 407,
+      "clusters": [
+        1132,1137,1326,1331,1522,1523,1524
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 408,
+      "clusters": [
+        1326,1331,1371,1522,1523,1524,1526
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 409,
+      "clusters": [
+        1110,1111,1132
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 410,
+      "clusters": [
+        1127,1132
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 411,
+      "clusters": [
+        1132
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 412,
+      "clusters": [
+        1132,1326,1509
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 413,
+      "clusters": [
+        1132,1326,1509,1521,1522
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 414,
+      "clusters": [
+        1326,1363,1509
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 415,
+      "clusters": [
+        1326,1363,1509,1521,1522
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 416,
+      "clusters": [
+        1036,1059,1096,1097,1104,1105,1122,1127
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 417,
+      "clusters": [
+        458,480,1097,1122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 418,
+      "clusters": [
+        437,442,458,479,480,1096,1097
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 419,
+      "clusters": [
+        437,442,479,1036,1096
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 420,
+      "clusters": [
+        1036,1059,1096,1104
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 421,
+      "clusters": [
+        1059,1060
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 422,
+      "clusters": [
+        1047,1048,1057,1058,1059,1060,1065
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 423,
+      "clusters": [
+        944,957,958,969,970,1047,1048,1057,1058,1065
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 424,
+      "clusters": [
+        1059,1060,1104,1105,1110,1111,1127,1132
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 425,
+      "clusters": [
+        942,944,955,956,957,958,969,970
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 426,
+      "clusters": [
+        440,928,934,944,969,1035,1047,1057
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 427,
+      "clusters": [
+        440,441,442,1035,1036,1057,1059
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 428,
+      "clusters": [
+        440,441,1035,1036
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 429,
+      "clusters": [
+        417,418,429,430,433,434,440,441
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 430,
+      "clusters": [
+        110,114,417,418
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 431,
+      "clusters": [
+        108,109,110,415,416,417,423,425,429
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 432,
+      "clusters": [
+        415,416,417,423,424,425,426,429,430
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 433,
+      "clusters": [
+        74,75,78,93,94,95,96,108,109,110
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 434,
+      "clusters": [
+        53,54,57,74,75,78
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 435,
+      "clusters": [
+        43,53,54,57
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 436,
+      "clusters": [
+        43,57,895,900
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 437,
+      "clusters": [
+        435,436,437,460,461,478,479
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 438,
+      "clusters": [
+        435,460
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 439,
+      "clusters": [
+        435,436,437,443,458,460,461,478,479,480
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 440,
+      "clusters": [
+        435,443,460
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 441,
+      "clusters": [
+        890,892,878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 442,
+      "clusters": [
+        888,878,890
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 443,
+      "clusters": [
+        1978,1979,1980,1981,1982,1983,1987,1988,1989,1990
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 444,
+      "clusters": [
+        1987,1988,1989,1990,2351,2352,2353,2354,2355,2356,2362,2363,2364,2372
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 445,
+      "clusters": [
+        1939,1963,1965,1987,2234,2235,2336,2337,2343,2344,2351,2354,2358,2362
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 446,
+      "clusters": [
+        1937,1939,2201,2214,2216,2219,2220,2234,2235
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 447,
+      "clusters": [
+        1891,1893,1910,1912,1934,2047,2048,2049,2050,2051,2052,2054,2055,2058,2059,2060,2061,2138,2139,2200,2207,2208,2213,2214,2215,2216
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 448,
+      "clusters": [
+        1836,1885,1888,1889,1891,1896,1906,1907,1908,1910
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 449,
+      "clusters": [
+        2220,2224,2230
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 450,
+      "clusters": [
+        1877,1880,1881,1883,1885,1888,1889,1891,1899,1903,1905,1906,1907,1908,1909,1910
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 451,
+      "clusters": [
+        1857,1858,1863,1864,1865,1866,1867,1877,1880,1881,1883,1897,1898,1899,1900,1901,1902,1903,1904,1905,1909
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 452,
+      "clusters": [
+        1881,1883,1889,1891,1905,1908,1909,1910,2044,2045,2046,2047,2048,2049,2053,2054,2056,2057,2058,2059,2133,2137,2138
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 453,
+      "clusters": [
+        2137,2138,2150
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 454,
+      "clusters": [
+        2157,2158,2159
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 455,
+      "clusters": [
+        2150,2157
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 456,
+      "clusters": [
+        1369,1510,1529
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 457,
+      "clusters": [
+        1369,1370,1372,1373,1420,1424,1529,1532,1533,1534,1535
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 458,
+      "clusters": [
+        1373,1376,1377,1424,1425,1434,1534,1535,1536,1537,1539,1540
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 459,
+      "clusters": [
+        2175,2182,2183
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 460,
+      "clusters": [
+        2158,2159,2175
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 461,
+      "clusters": [
+        1371,1373,1374,1375,1376,1377,1526,1527,1528,1530,1531,1534,1536,1538,1539
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 462,
+      "clusters": [
+        2181,2183,2264,2265,2270,2271,2272,2273,2292,2293
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 463,
+      "clusters": [
+        1377,1434,1539,1540,1706,1707,1712,1713,1722,1728
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 464,
+      "clusters": [
+        1375,1377,1528,1538,1539,1702,1703,1706,1707
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 465,
+      "clusters": [
+        1434,1435,1540,1543,1712,1713,1714,1715,1728,1730,2165,2252,2258,2259
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 466,
+      "clusters": [
+        1424,1425,1428,1429,1434,1435,1535,1537,1540,1541,1542,1543,2161,2163,2165
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 467,
+      "clusters": [
+        1408,1441,1442,2140
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 468,
+      "clusters": [
+        2230,2292,2293,2294,2295,2296,1023,2308,2314,2315,2316,2317,2318
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 469,
+      "clusters": [
+        2142,2145,2149,2155
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 470,
+      "clusters": [
+        2140,2142,2145
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 471,
+      "clusters": [
+        2145,2146,2155,2156
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 472,
+      "clusters": [
+        2145,2146
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 473,
+      "clusters": [
+        2167,2170,2171,2174,2180,2181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 474,
+      "clusters": [
+        1428,1429,1435,1541,1542,1543,2161,2163,2165,2167,2170,2171
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 475,
+      "clusters": [
+        2146,2156,2167,2174
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 476,
+      "clusters": [
+        1421,1428,1541,2146,2161,2167
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 477,
+      "clusters": [
+        2171,2181,2253,2260,2264,2270
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 478,
+      "clusters": [
+        2165,2171,2252,2253,2258,2260
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 479,
+      "clusters": [
+        1703,1707,1718,1719,1722,1723
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 480,
+      "clusters": [
+        2135,2137,2149,2150
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 481,
+      "clusters": [
+        2155,2156,2157,2158
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 482,
+      "clusters": [
+        2149,2150,2155,2157
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 483,
+      "clusters": [
+        2156,2158,2174,2175
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 484,
+      "clusters": [
+        2174,2175,2180,2181,2182,2183
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 485,
+      "clusters": [
+        2181,2183,2264,2265,2270,2272
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 486,
+      "clusters": [
+        2171,2181,2253,2260,2264,2270
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 487,
+      "clusters": [
+        2230,2308,2314,2315,2316,2317,2318,2321,2322,2323,1023,2380,2381,2382
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 488,
+      "clusters": [
+        2321,2322,2323,1023,2380,2381,2382
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 489,
+      "clusters": [
+        1023,2388
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 490,
+      "clusters": [
+        911,913
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 491,
+      "clusters": [
+        895,900,905,911,912,913
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 492,
+      "clusters": [
+        886,911,913
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 493,
+      "clusters": [
+        886,905,911,913
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 494,
+      "clusters": [
+        886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 495,
+      "clusters": [
+        886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 496,
+      "clusters": [
+        882,886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 497,
+      "clusters": [
+        882,886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 498,
+      "clusters": [
+        882,886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 499,
+      "clusters": [
+        882,886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 500,
+      "clusters": [
+        19,28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 501,
+      "clusters": [
+        28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 502,
+      "clusters": [
+        28,39,41,43,48,53,58
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 503,
+      "clusters": [
+        39,41,43
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 504,
+      "clusters": [
+        39,43,895,905,912,913
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 505,
+      "clusters": [
+        9,13,19,28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 506,
+      "clusters": [
+        9,13
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 507,
+      "clusters": [
+        7,9,11,13
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 508,
+      "clusters": [
+        13,28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 509,
+      "clusters": [
+        13,17,28,39
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 510,
+      "clusters": [
+        17,39
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 511,
+      "clusters": [
+        17,39,885,886,895,905,911,912,913
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 512,
+      "clusters": [
+        17,885,886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 513,
+      "clusters": [
+        17
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 514,
+      "clusters": [
+        13,17
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 515,
+      "clusters": [
+        13
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 516,
+      "clusters": [
+        11,13,15,17
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 517,
+      "clusters": [
+        15,17
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 518,
+      "clusters": [
+        7,9,11,13
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 519,
+      "clusters": [
+        911,913,987,988
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 520,
+      "clusters": [
+        15,17,881,882,885,886
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 521,
+      "clusters": [
+        886,890,892,913,988
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 522,
+      "clusters": [
+        886,890,892
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 523,
+      "clusters": [
+        882,886,888,890
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 524,
+      "clusters": [
+        11,15
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 525,
+      "clusters": [
+        15
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 526,
+      "clusters": [
+        15,881,882
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 527,
+      "clusters": [
+        11
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 528,
+      "clusters": [
+        7,11
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 529,
+      "clusters": [
+        7
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 530,
+      "clusters": [
+        882,888
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 531,
+      "clusters": [
+        1954,1955,1957,1970,1971,1978,1979,1980,1990
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 532,
+      "clusters": [
+        1978,1979,1980,1990
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 533,
+      "clusters": [
+        1990,1991,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 534,
+      "clusters": [
+        1957,1947,1990,1991
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 535,
+      "clusters": [
+        1954,1955,1957
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 536,
+      "clusters": [
+        1957,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 537,
+      "clusters": [
+        2372,2373,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 538,
+      "clusters": [
+        19,22,28,34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 539,
+      "clusters": [
+        22,34
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 540,
+      "clusters": [
+        22,23,25,34,35,37
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 541,
+      "clusters": [
+        25,37,121,155,180
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 542,
+      "clusters": [
+        121,122,155,180
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 543,
+      "clusters": [
+        122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 544,
+      "clusters": [
+        1767,1828,1832,1836,1857,1858,1877,1885,1894,1895,1896,1897,1898,1899,1906
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 545,
+      "clusters": [
+        1767,1769,1772,1828,1836,1839,1885,1894,1896,1906,1911,1932
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 546,
+      "clusters": [
+        1764,1767
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 547,
+      "clusters": [
+        1772,1953,1954,1970,1978
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 548,
+      "clusters": [
+        19,28
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 549,
+      "clusters": [
+        1990,1991,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 550,
+      "clusters": [
+        1990,1991,1947,2372,2373
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 551,
+      "clusters": [
+        2372,2373,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 552,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 553,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 554,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 555,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 556,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 557,
+      "clusters": [
+        1023,2400,2401,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 558,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 559,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 560,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 561,
+      "clusters": [
+        875
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 562,
+      "clusters": [
+        875
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 563,
+      "clusters": [
+        1,3,5,873,875
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 564,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 565,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 566,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 567,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 568,
+      "clusters": [
+        2388,2389,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 569,
+      "clusters": [
+        2388,2389,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 570,
+      "clusters": [
+        890
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 571,
+      "clusters": [
+        9
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 572,
+      "clusters": [
+        9
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 573,
+      "clusters": [
+        7,9
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 574,
+      "clusters": [
+        7
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 575,
+      "clusters": [
+        1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 576,
+      "clusters": [
+        878,1023
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 577,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 578,
+      "clusters": [
+        878
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 579,
+      "clusters": [
+        9,19
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 580,
+      "clusters": [
+        19,22,23,25
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 581,
+      "clusters": [
+        25,121,122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 582,
+      "clusters": [
+        124,126,1756
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 583,
+      "clusters": [
+        1756,1758
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 584,
+      "clusters": [
+        1758,1943
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 585,
+      "clusters": [
+        1943,1944,1946,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 586,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 587,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 588,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 589,
+      "clusters": [
+        122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 590,
+      "clusters": [
+        122,124
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 591,
+      "clusters": [
+        7,9
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 592,
+      "clusters": [
+        9
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 593,
+      "clusters": [
+        9,19,22
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 594,
+      "clusters": [
+        122,124,126
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 595,
+      "clusters": [
+        22,23,25,121,122
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 596,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 597,
+      "clusters": [
+        1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 598,
+      "clusters": [
+        126,1756,1758
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 599,
+      "clusters": [
+        1946,1947
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 600,
+      "clusters": [
+        1758,1943,1944,1946
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 601,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 602,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 603,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 604,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 605,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 606,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 607,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 608,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 609,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 610,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 611,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 612,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 613,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 614,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 615,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 616,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 617,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 618,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 619,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 620,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 621,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 622,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 623,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 624,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 625,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 626,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 627,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 628,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 629,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 630,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 631,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 632,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 633,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 634,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 635,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 636,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 637,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 638,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 639,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 640,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 641,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 642,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 643,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 644,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 645,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 646,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 647,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 648,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 649,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 650,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 651,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 652,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 653,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 654,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 655,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 656,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 657,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 658,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 659,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 660,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 661,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 662,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 663,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 664,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 665,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 666,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 667,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 668,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 669,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 670,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 671,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 672,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 673,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 674,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 675,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 676,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 677,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 678,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 679,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 680,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 681,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 682,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 683,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 684,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 685,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 686,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 687,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 688,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 689,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 690,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 691,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 692,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 693,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 694,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 695,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 696,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 697,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 698,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 699,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 700,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 701,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 702,
+      "clusters": [
+        181
+      ],
+      "classname": "displacement"
+    }
+  ]
+}

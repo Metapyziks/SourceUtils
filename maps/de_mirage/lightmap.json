@@ -1,0 +1,17 @@
+{
+  "target": 3553,
+  "width": 2048,
+  "height": 1024,
+  "params": {
+    "wrapS": 33071,
+    "wrapT": 33071,
+    "filter": 9728,
+    "mipmap": false
+  },
+  "elements": [
+    {
+      "level": 0,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/lightmap.png"
+    }
+  ]
+}

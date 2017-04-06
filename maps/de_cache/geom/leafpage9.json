@@ -1,0 +1,3682 @@
+{
+  "leaves": [
+    [
+      {
+        "material": 0,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 0
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 1
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 2
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 3
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 2,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 2,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 2,
+        "element": 2
+      }
+    ],
+    [],
+    [
+      {
+        "material": 2,
+        "element": 3
+      }
+    ],
+    [],
+    [
+      {
+        "material": 2,
+        "element": 4
+      }
+    ],
+    [
+      {
+        "material": 3,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 2
+      }
+    ],
+    [],
+    [
+      {
+        "material": 5,
+        "element": 0
+      }
+    ],
+    [],
+    [
+      {
+        "material": 4,
+        "element": 3
+      },
+      {
+        "material": 6,
+        "element": 0
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 5,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 4
+      },
+      {
+        "material": 6,
+        "element": 1
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 5,
+        "element": 2
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 5
+      },
+      {
+        "material": 6,
+        "element": 2
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 3,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 6
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 7
+      }
+    ],
+    [],
+    [
+      {
+        "material": 5,
+        "element": 3
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 8
+      },
+      {
+        "material": 6,
+        "element": 3
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 5,
+        "element": 4
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 9
+      },
+      {
+        "material": 6,
+        "element": 4
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 5,
+        "element": 5
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 10
+      },
+      {
+        "material": 6,
+        "element": 5
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 4,
+        "element": 11
+      }
+    ],
+    [],
+    [
+      {
+        "material": 4,
+        "element": 12
+      },
+      {
+        "material": 7,
+        "element": 0
+      },
+      {
+        "material": 8,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 4,
+        "element": 13
+      }
+    ],
+    [
+      {
+        "material": 8,
+        "element": 1
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 9,
+        "element": 0
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 4,
+        "element": 14
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 10,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 10,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 10,
+        "element": 2
+      }
+    ],
+    [],
+    [
+      {
+        "material": 10,
+        "element": 3
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 10,
+        "element": 4
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 4
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 5
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 2
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 6
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 7
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 8
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 9
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 3
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 10
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 11
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 4
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 12
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 13
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 14
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 15
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 5
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 11,
+        "element": 0
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 11,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 11,
+        "element": 2
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 16
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 17
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 18
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 6
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 19
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 20
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 21
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 7
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 22
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 23
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 24
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 25
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 26
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 27
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 28
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 29
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 30
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 31
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 32
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 33
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 34
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 35
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 8
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 36
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 37
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 9
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 38
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 39
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 10
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 40
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 41
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 11
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 42
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 43
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 44
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 12
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 45
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 46
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 13
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 47
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 48
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 49
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 50
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 14
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 51
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 52
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 15
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 53
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 54
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 55
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 56
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 57
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 16
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 58
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 59
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 60
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 61
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 17
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 62
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 63
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 64
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 65
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 66
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 18
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 67
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 68
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 69
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 70
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 71
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 72
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 19
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 20
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 73
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 74
+      },
+      {
+        "material": 12,
+        "element": 0
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 75
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 76
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 77
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 78
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 79
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 80
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 81
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 21
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 82
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 83
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 84
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 85
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 86
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 22
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 87
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 88
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 89
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 23
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 90
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 91
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 24
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 92
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 93
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 94
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 95
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 25
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 96
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 26
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 97
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 98
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 27
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 99
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 100
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 101
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 102
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 28
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 103
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 104
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 29
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 105
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 106
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 107
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 30
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 108
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 109
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 110
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 31
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 111
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 112
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 113
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 32
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 114
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 115
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 116
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 33
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 117
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 118
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 119
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 34
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 120
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 121
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 122
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 35
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 123
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 124
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 125
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 36
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 126
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 127
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 128
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 129
+      }
+    ],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 37
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 130
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 131
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 132
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 133
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 38
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 134
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 135
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 136
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 39
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 137
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 138
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 40
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 139
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 140
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 141
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 142
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 143
+      }
+    ],
+    [
+      {
+        "material": 1,
+        "element": 41
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 144
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 42
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 145
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 146
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 43
+      }
+    ],
+    [
+      {
+        "material": 0,
+        "element": 147
+      }
+    ],
+    [],
+    [
+      {
+        "material": 13,
+        "element": 0
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 14,
+        "element": 0
+      }
+    ],
+    [],
+    [
+      {
+        "material": 14,
+        "element": 1
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 15,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 15,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 16,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 16,
+        "element": 1
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 15,
+        "element": 2
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 44
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 148
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 45
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 149
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 46
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 150
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "material": 1,
+        "element": 47
+      }
+    ],
+    [],
+    [
+      {
+        "material": 0,
+        "element": 151
+      }
+    ],
+    [],
+    [
+      {
+        "material": 17,
+        "element": 0
+      }
+    ],
+    [
+      {
+        "material": 17,
+        "element": 1
+      }
+    ],
+    [
+      {
+        "material": 17,
+        "element": 2
+      }
+    ],
+    [],
+    [
+      {
+        "material": 17,
+        "element": 3
+      }
+    ]
+  ],
+  "materials": [
+    {
+      "material": 155,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 36,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 48,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 54,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 60,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 66,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 72,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 90,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 96,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 102,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 108,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 114,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 120,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 138,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 144,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 150,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 156,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 162,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 168,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 186,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 192,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 204,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 210,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 222,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 228,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 240,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 258,
+            "indexCount": 24
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 282,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 300,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 312,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 318,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 330,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 342,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 354,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 360,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 366,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 372,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 378,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 384,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 390,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 396,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 402,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 408,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 414,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 420,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 426,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 438,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 456,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 468,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 474,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 480,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 486,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 498,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 516,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 528,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 534,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 540,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 546,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 552,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 570,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 576,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 582,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 588,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 594,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 600,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 606,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 618,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 630,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 636,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 648,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 654,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 666,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 672,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 684,
+            "indexCount": 24
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 708,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 726,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 738,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 756,
+            "indexCount": 24
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 780,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 798,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 804,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 810,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 828,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 846,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 852,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 858,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 864,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 870,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 876,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 882,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 888,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 894,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 906,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 924,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 936,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 942,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 948,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 954,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 966,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 984,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 996,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1002,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1008,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1014,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1026,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1044,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1056,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1062,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1068,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1074,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1086,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1104,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1116,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1122,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1128,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1134,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1146,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1164,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1176,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1182,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1188,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1194,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1200,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1218,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1224,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1230,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1248,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1266,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1272,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1278,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1296,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1314,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1320,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1326,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1332,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1338,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1344,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1350,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1356,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1362,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1374,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1392,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1398,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1404,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1410,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1416,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1422,
+            "indexCount": 3
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1425,
+            "indexCount": 3
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1428,
+            "indexCount": 3
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 1431,
+            "indexCount": 3
+          }
+        ],
+        "vertices": [
+          0.1599731,-31.48999,113.5,41,7.293919,0.7264453,0.5663279,0.1599731,-31.48999,109.5,40.90808,7.293919,0.7263843,0.5663279,-0.1730347,-31.48999,109.5,40.90808,7.297745,0.7263843,0.5663329,-0.1730347,-31.48999,113.5,41,7.297745,0.7264453,0.5663329,0.1599731,159.51,109.5,15.90043,-9.507867,0.722473,0.5654973,0.1599731,160.51,109.5,15.90043,-9.496378,0.722473,0.5655126,-0.1730347,160.51,109.5,15.90808,-9.496378,0.722478,0.5655126,-0.1730347,159.51,109.5,15.90808,-9.507867,0.722478,0.5654973,-0.1730347,159.51,109.5,-14.00001,-21.17423,0.5268359,0.8126983,-0.1730347,159.51,-74.5,-14.00001,-19.06026,0.5268359,0.8155059,0.1599731,159.51,-74.5,-13.99236,-19.06026,0.526841,0.8155059,0.1599731,159.51,109.5,-13.99236,-21.17423,0.526841,0.8126983,-0.1730347,-26.48999,109.5,15.90809,-21.17423,0.5271655,0.7990264,-0.1730347,-26.48999,-74.5,15.90809,-19.06026,0.5271655,0.801834,0.1599731,-26.48999,-74.5,15.90044,-19.06026,0.5271605,0.801834,0.1599731,-26.48999,109.5,15.90044,-21.17423,0.5271605,0.7990264,0.1599731,155.51,109.5,14.90043,-21.17423,0.5264964,0.8058624,0.1599731,155.51,-74.5,14.90043,-19.06026,0.5264964,0.80867,-0.1730347,155.51,-74.5,14.90808,-19.06026,0.5265015,0.80867,-0.1730347,155.51,109.5,14.90808,-21.17423,0.5265015,0.8058624,0.1599731,-26.48999,109.5,15.90043,-11.64481,0.5271605,0.7853155,0.1599731,155.51,109.5,15.90043,-9.553823,0.5271605,0.7880926,-0.1730347,155.51,109.5,15.90808,-9.553823,0.5271655,0.7880926,-0.1730347,-26.48999,109.5,15.90808,-11.64481,0.5271655,0.7853155,0.1599731,-31.48999,109.5,15.90043,-11.70226,0.7185667,0.5655126,0.1599731,-30.48999,109.5,15.90043,-11.69077,0.7185667,0.5655279,-0.1730347,-30.48999,109.5,15.90808,-11.69077,0.7185718,0.5655279,-0.1730347,-31.48999,109.5,15.90808,-11.70226,0.7185718,0.5655126,0.1599731,-30.48999,109.5,-13.99236,-21.17423,0.526841,0.8195342,0.1599731,-30.48999,-74.5,-13.99236,-19.06026,0.526841,0.8223419,-0.1730347,-30.48999,-74.5,-14.00001,-19.06026,0.5268359,0.8223419,-0.1730347,-30.48999,109.5,-14.00001,-21.17423,0.5268359,0.8195342,3,0.5,69,18.92188,7.358398,0.7534088,0.5660744,3,-0.5,69,18.92188,7.351887,0.7534088,0.5660591,3,-0.5,76,19,7.351887,0.7535156,0.5660591,3,0.5,76,19,7.358398,0.7535156,0.5660744,3,-0.5,76,12,9.351888,0.5388672,0.5932075,-133,-0.5,76,12,8.466471,0.5388672,0.5911323,-133,0.5,76,12.01116,8.466471,0.5388824,0.5911323,3,0.5,76,12.01116,9.351888,0.5388824,0.5932075,-133,0.5,76,19,-5.540041,0.7496094,0.5661171,-133,-0.5,76,19,-5.533531,0.7496094,0.5661324,-133,-0.5,69,18.92188,-5.533531,0.7495025,0.5661324,-133,0.5,69,18.92188,-5.540041,0.7495025,0.5661171,3,0.5,69,24.02442,-21.05176,0.5384527,0.6029,3,0.5,-69,24.02442,-19.46628,0.5384527,0.6050057,3,-0.5,-69,24,-19.46628,0.5384375,0.6050057,3,-0.5,69,24,-21.05176,0.5384375,0.6029,-1,-0.5,69,-24.09766,-21.05176,0.5386499,0.5970407,-1,-0.5,-69,-24.09766,-19.46628,0.5386499,0.5991464,-1,0.5,-69,-24.12207,-19.46628,0.5386347,0.5991464,-1,0.5,69,-24.12207,-21.05176,0.5386347,0.5970407,-129,-0.5,69,-24.09766,-17.27097,0.5386499,0.5874135,-1,-0.5,69,-24.09766,-18.74155,0.5386499,0.5854604,-1,0.5,69,-24.12207,-18.74155,0.5386347,0.5854604,-129,0.5,69,-24.12207,-17.27097,0.5386347,0.5874135,-129,0.5,69,-25.12207,-21.05176,0.5389862,0.6146188,-129,0.5,-69,-25.12207,-19.46628,0.5389862,0.6167245,-129,-0.5,-69,-25.09766,-19.46628,0.5390015,0.6167245,-129,-0.5,69,-25.09766,-21.05176,0.5390015,0.6146188,-133,-0.5,69,24,-21.05176,0.5384375,0.6087594,-133,-0.5,-69,24,-19.46628,0.5384375,0.6108651,-133,0.5,-69,24.02442,-19.46628,0.5384527,0.6108651,-133,0.5,69,24.02442,-21.05176,0.5384527,0.6087594,-12,0.5,69,18.92188,7.367513,0.7612213,0.5660957,-12,-0.5,69,18.92188,7.361002,0.7612213,0.5660805,-12,-0.5,76,19,7.361002,0.7613281,0.5660805,-12,0.5,76,19,7.367513,0.7613281,0.5660957,-12,-0.5,76,12.00167,10.361,0.5388695,0.6287758,-148,-0.5,76,12.00167,9.475585,0.5388695,0.6267006,-148,0.5,76,12.01283,9.475585,0.5388848,0.6267006,-12,0.5,76,12.01283,10.361,0.5388848,0.6287758,-148,0.5,76,19,-5.530929,0.7574219,0.5661384,-148,-0.5,76,19,-5.524418,0.7574219,0.5661537,-148,-0.5,69,18.92188,-5.524418,0.757315,0.5661537,-148,0.5,69,18.92188,-5.530929,0.757315,0.5661384,-12,0.5,69,24.02443,-21.05176,0.5384527,0.6380563,-12,0.5,-69,24.02443,-19.46628,0.5384527,0.640162,-12,-0.5,-69,24.00001,-19.46628,0.5384375,0.640162,-12,-0.5,69,24.00001,-21.05176,0.5384375,0.6380563,-16,-0.5,69,-24.09766,-21.05176,0.5386499,0.6321969,-16,-0.5,-69,-24.09766,-19.46628,0.5386499,0.6343026,-16,0.5,-69,-24.12207,-19.46628,0.5386347,0.6343026,-16,0.5,69,-24.12207,-21.05176,0.5386347,0.6321969,-144,-0.5,69,-24.09766,-19.05176,0.5386499,0.6221578,-16,-0.5,69,-24.09766,-20.52234,0.5386499,0.6202047,-16,0.5,69,-24.12207,-20.52234,0.5386347,0.6202047,-144,0.5,69,-24.12207,-19.05176,0.5386347,0.6221578,-144,0.5,69,-24.12207,-21.05176,0.5386347,0.649775,-144,0.5,-69,-24.12207,-19.46628,0.5386347,0.6518807,-144,-0.5,-69,-24.09766,-19.46628,0.5386499,0.6518807,-144,-0.5,69,-24.09766,-21.05176,0.5386499,0.649775,-148,-0.5,69,24.00001,-21.05176,0.5384375,0.6439157,-148,-0.5,-69,24.00001,-19.46628,0.5384375,0.6460214,-148,0.5,-69,24.02443,-19.46628,0.5384527,0.6460214,-148,0.5,69,24.02443,-21.05176,0.5384527,0.6439157,-0.2099915,1.48999,42,52,-2.537515,0.4404688,0.6050283,-0.2099915,1.48999,39,51.90985,-2.537515,0.440423,0.6050283,0.1999969,1.48999,39,51.90985,-2.542225,0.440423,0.6050221,0.1999969,1.48999,42,52,-2.542225,0.4404688,0.6050221,0.1999969,-158.51,42,7.012313,8.300723,0.5269985,0.8362197,-0.2099915,-158.51,42,6.999994,8.300723,0.5269922,0.8362197,-0.2099915,1.48999,42,6.999994,6.462488,0.5269922,0.8337783,0.1999969,1.48999,42,7.012313,6.462488,0.5269985,0.8337783,0.1999969,-158.51,42,52,3.305433,0.4404688,0.6010697,0.1999969,-158.51,39,51.90985,3.305433,0.440423,0.6010697,-0.2099915,-158.51,39,51.90985,3.300723,0.440423,0.6010634,-0.2099915,-158.51,42,52,3.300723,0.4404688,0.6010634,-0.2099915,1.48999,39,7.000006,19.49673,0.5384375,0.6635894,-0.2099915,1.48999,-93,7.000006,17.98018,0.5384375,0.6615753,0.1999969,1.48999,-93,7.013351,17.98018,0.5384437,0.6615753,0.1999969,1.48999,39,7.013351,19.49673,0.5384437,0.6635894,0.1999969,-1.51001,39,-8.111002,19.49673,0.5381901,0.65773,0.1999969,-1.51001,-93,-8.111002,17.98018,0.5381901,0.6557159,-0.2099915,-1.51001,-93,-8.097655,17.98018,0.5381964,0.6557159,-0.2099915,-1.51001,39,-8.097655,19.49673,0.5381964,0.65773,0.1999969,-155.51,39,-6.102479,8.266256,0.5271745,0.829338,0.1999969,-1.51001,39,-6.102479,6.496955,0.5271745,0.8269882,-0.2099915,-1.51001,39,-6.090159,6.496955,0.5271808,0.8269882,-0.2099915,-155.51,39,-6.090159,8.266256,0.5271808,0.829338,-0.2099915,-155.51,39,-8.097655,19.49673,0.5381964,0.6753082,-0.2099915,-155.51,-93,-8.097655,17.98018,0.5381964,0.673294,0.1999969,-155.51,-93,-8.111002,17.98018,0.5381901,0.673294,0.1999969,-155.51,39,-8.111002,19.49673,0.5381901,0.6753082,0.1999969,-158.51,39,8.01335,19.49673,0.5389125,0.6694488,0.1999969,-158.51,-93,8.01335,17.98018,0.5389125,0.6674346,-0.2099915,-158.51,-93,8.000004,17.98018,0.5389063,0.6674346,-0.2099915,-158.51,39,8.000004,19.49673,0.5389063,0.6694488,614.84,152.104,0.5,14.9997,16.39654,0.5388671,0.6985345,480.84,152.104,0.5,14.9997,14.85702,0.5388671,0.6964898,480.84,152.5,0.5,15.0116,14.85702,0.5388731,0.6964898,614.84,152.5,0.5,15.0116,16.39654,0.5388731,0.6985345,802.84,152.104,0.5,14.9997,18.55647,0.5388671,0.6926141,668.84,152.104,0.5,14.9997,17.01694,0.5388671,0.6905694,668.84,152.5,0.5,15.0116,17.01694,0.5388731,0.6905694,802.84,152.5,0.5,15.0116,18.55647,0.5388731,0.6926141,802.84,152.104,0.5,51.9997,5.556467,0.4404686,0.6167547,802.84,152.5,0.5,51.9997,5.561016,0.4404686,0.6167607,802.84,152.5,-2.5,51.90956,5.561016,0.4404228,0.6167607,802.84,152.104,-2.5,51.90956,5.556467,0.4404228,0.6167547,614.84,152.104,0.5,51.9997,6.396539,0.4404686,0.6090813,614.84,152.5,0.5,51.9997,6.401089,0.4404686,0.6090874,614.84,152.5,-2.5,51.90956,6.401089,0.4404228,0.6090874,614.84,152.104,-2.5,51.90956,6.396539,0.4404228,0.6090813,668.84,152.104,-2.5,51.90956,-4.983058,0.4404228,0.6125225,668.84,152.5,-2.5,51.90956,-4.987608,0.4404228,0.6125165,668.84,152.5,0.5,51.9997,-4.987608,0.4404686,0.6125165,668.84,152.104,0.5,51.9997,-4.983058,0.4404686,0.6125225,480.84,152.104,-2.5,51.90956,-5.142984,0.4306572,0.5214898,480.84,152.5,-2.5,51.90956,-5.147534,0.4306572,0.5214837,480.84,152.5,0.5,51.9997,-5.147534,0.430703,0.5214837,480.84,152.104,0.5,51.9997,-5.142984,0.430703,0.5214898,802.84,152.5,-2.5,-14.10235,18.55647,0.7770184,0.565661,801.84,152.5,-2.5,-14.10235,18.54498,0.7770184,0.5656457,801.84,152.104,-2.5,-14.09045,18.54498,0.7770244,0.5656457,802.84,152.104,-2.5,-14.09045,18.55647,0.7770244,0.565661,801.84,152.5,-2.5,15.0113,-20.87942,0.5388729,0.7203164,801.84,152.5,-124.5,15.0113,-19.47777,0.5388729,0.722178,801.84,152.104,-124.5,14.9994,-19.47777,0.5388669,0.722178,801.84,152.104,-2.5,14.9994,-20.87942,0.5388669,0.7203164,799.84,152.104,-2.5,-14.0607,-20.87942,0.5387582,0.714457,799.84,152.104,-124.5,-14.0607,-19.47777,0.5387582,0.7163186,799.84,152.5,-124.5,-14.0726,-19.47777,0.5387522,0.7163186,799.84,152.5,-2.5,-14.0726,-20.87942,0.5387522,0.714457,671.84,152.5,-2.5,-14.0726,-20.87942,0.5387522,0.7085977,671.84,152.5,-124.5,-14.0726,-19.47777,0.5387522,0.7104592,671.84,152.104,-124.5,-14.0607,-19.47777,0.5387582,0.7104592,671.84,152.104,-2.5,-14.0607,-20.87942,0.5387582,0.7085977,799.84,152.5,-2.5,-14.10235,18.522,0.5387371,0.6867089,671.84,152.5,-2.5,-14.10235,17.05141,0.5387371,0.6847558,671.84,152.104,-2.5,-14.09045,17.05141,0.5387431,0.6847558,799.84,152.104,-2.5,-14.09045,18.522,0.5387431,0.6867089,669.84,152.5,-2.5,-14.10235,17.02843,0.7731121,0.5655847,668.84,152.5,-2.5,-14.10235,17.01694,0.7731121,0.5655694,668.84,152.104,-2.5,-14.09045,17.01694,0.7731181,0.5655694,669.84,152.104,-2.5,-14.09045,17.02843,0.7731181,0.5655847,614.84,152.5,-2.5,-14.10235,16.39654,0.7692059,0.565722,613.84,152.5,-2.5,-14.10235,16.38505,0.7692059,0.5657067,613.84,152.104,-2.5,-14.09045,16.38505,0.7692119,0.5657067,614.84,152.104,-2.5,-14.09045,16.39654,0.7692119,0.565722,669.84,152.104,-2.5,13.9994,-20.87942,0.538359,0.7027383,669.84,152.104,-124.5,13.9994,-19.47777,0.538359,0.7045999,669.84,152.5,-124.5,14.0113,-19.47777,0.5383651,0.7045999,669.84,152.5,-2.5,14.0113,-20.87942,0.5383651,0.7027383,613.84,152.5,-2.5,14.0113,-20.87942,0.5383651,0.7378945,613.84,152.5,-124.5,14.0113,-19.47777,0.5383651,0.7397561,613.84,152.104,-124.5,13.9994,-19.47777,0.538359,0.7397561,613.84,152.104,-2.5,13.9994,-20.87942,0.538359,0.7378945,483.84,152.5,-2.5,-14.0726,-20.87942,0.5387522,0.7261758,483.84,152.5,-124.5,-14.0726,-19.47777,0.5387522,0.7280374,483.84,152.104,-124.5,-14.0607,-19.47777,0.5387582,0.7280374,483.84,152.104,-2.5,-14.0607,-20.87942,0.5387582,0.7261758,611.84,152.104,-2.5,-14.0607,-20.87942,0.5387582,0.7320352,611.84,152.104,-124.5,-14.0607,-19.47777,0.5387582,0.7338967,611.84,152.5,-124.5,-14.0726,-19.47777,0.5387522,0.7338967,611.84,152.5,-2.5,-14.0726,-20.87942,0.5387522,0.7320352,611.84,152.5,-2.5,-14.10235,16.36207,0.5387371,0.6809106,483.84,152.5,-2.5,-14.10235,14.89149,0.5387371,0.6789575,483.84,152.104,-2.5,-14.09045,14.89149,0.5387431,0.6789575,611.84,152.104,-2.5,-14.09045,16.36207,0.5387431,0.6809106,481.84,152.5,-2.5,-14.10235,14.86851,0.7652996,0.5656457,480.84,152.5,-2.5,-14.10235,14.85702,0.7652996,0.5656304,480.84,152.104,-2.5,-14.09045,14.85702,0.7653056,0.5656304,481.84,152.104,-2.5,-14.09045,14.86851,0.7653056,0.5656457,481.84,152.104,-2.5,13.9994,-20.87942,0.538359,0.7437539,481.84,152.104,-124.5,13.9994,-19.47777,0.538359,0.7456155,481.84,152.5,-124.5,14.0113,-19.47777,0.5383651,0.7456155,481.84,152.5,-2.5,14.0113,-20.87942,0.5383651,0.7437539,911.4001,1.5,124.5,51,22.34048,0.6909375,0.5218585,911.4001,1.5,-124.5,51,19.47972,0.6909375,0.518059,911.84,1.5,-124.5,51.01322,19.47972,0.6909442,0.518059,911.84,1.5,124.5,51.01322,22.34048,0.6909442,0.5218585,911.4001,-129.5,124.5,-51.09015,22.34048,0.6830401,0.5218585,911.4001,-129.5,-124.5,-51.09015,19.47972,0.6830401,0.518059,911.84,-129.5,-124.5,-51.10337,19.47972,0.6830335,0.518059,911.84,-129.5,124.5,-51.10337,22.34048,0.6830335,0.5218585,911.84,-1.5,124.5,-51.10337,22.34048,0.6869397,0.5218585,911.84,-1.5,-124.5,-51.10337,19.47972,0.6869397,0.518059,911.4001,-1.5,-124.5,-51.09015,19.47972,0.6869464,0.518059,911.4001,-1.5,124.5,-51.09015,22.34048,0.6869464,0.5218585,911.4001,-262.5,124.5,51.00001,22.34048,0.6792188,0.5218585,911.4001,-262.5,-124.5,51.00001,19.47972,0.6792188,0.518059,911.84,-262.5,-124.5,51.01323,19.47972,0.6792254,0.518059,911.84,-262.5,124.5,51.01323,22.34048,0.6792254,0.5218585,911.84,-132.5,124.5,51.01323,22.34048,0.6948504,0.5218585,911.84,-132.5,-124.5,51.01323,19.47972,0.6948504,0.518059,911.4001,-132.5,-124.5,51.00001,19.47972,0.6948438,0.518059,911.4001,-132.5,124.5,51.00001,22.34048,0.6948438,0.5218585,911.84,-265.5,124.5,-51.10337,22.34048,0.6986585,0.5218585,911.84,-265.5,-124.5,-51.10337,19.47972,0.6986585,0.518059,911.4001,-265.5,-124.5,-51.09015,19.47972,0.6986651,0.518059,911.4001,-265.5,124.5,-51.09015,22.34048,0.6986651,0.5218585,911.4001,-393.5,124.5,-51.09015,22.34048,0.7064776,0.5218585,911.4001,-393.5,-124.5,-51.09015,19.47972,0.7064776,0.518059,911.84,-393.5,-124.5,-51.10337,19.47972,0.706471,0.518059,911.84,-393.5,124.5,-51.10337,22.34048,0.706471,0.5218585,911.84,-396.5,124.5,51.01323,22.34048,0.7026629,0.5218585,911.84,-396.5,-124.5,51.01323,19.47972,0.7026629,0.518059,911.4001,-396.5,-124.5,51.00001,19.47972,0.7026563,0.518059,911.4001,-396.5,124.5,51.00001,22.34048,0.7026563,0.5218585,-0.1523438,1.5,124.5,-23.99047,22.34048,0.7143798,0.5218585,-0.1523438,1.5,-124.5,-23.99047,19.47972,0.7143798,0.518059,0.1599731,1.5,-124.5,-23.99985,19.47972,0.7143751,0.518059,0.1599731,1.5,124.5,-23.99985,22.34048,0.7143751,0.5218585,0.1599731,-1.5,124.5,23.90971,22.34048,0.7103838,0.5218585,0.1599731,-1.5,-124.5,23.90971,19.47972,0.7103838,0.518059,-0.1523438,-1.5,-124.5,23.90033,19.47972,0.7103791,0.518059,-0.1523438,-1.5,124.5,23.90033,22.34048,0.7103791,0.5218585,-0.1523438,1.5,124.5,23.90033,22.34048,0.7220978,0.5218585,-0.1523438,1.5,-124.5,23.90033,19.47972,0.7220978,0.518059,0.1599731,1.5,-124.5,23.90971,19.47972,0.7221026,0.518059,0.1599731,1.5,124.5,23.90971,22.34048,0.7221026,0.5218585,0.1599731,-1.5,124.5,-23.99985,22.34048,0.7182813,0.5218585,0.1599731,-1.5,-124.5,-23.99985,19.47972,0.7182813,0.518059,-0.1523438,-1.5,-124.5,-23.99047,19.47972,0.7182861,0.518059,-0.1523438,-1.5,124.5,-23.99047,22.34048,0.7182861,0.5218585,-0.1523438,1.5,124.5,-23.99047,22.34048,0.7300048,0.5218585,-0.1523438,1.5,-124.5,-23.99047,19.47972,0.7300048,0.518059,0.1599731,1.5,-124.5,-23.99985,19.47972,0.7300001,0.518059,0.1599731,1.5,124.5,-23.99985,22.34048,0.7300001,0.5218585,0.1599731,-1.5,124.5,23.90971,22.34048,0.7260088,0.5218585,0.1599731,-1.5,-124.5,23.90971,19.47972,0.7260088,0.518059,-0.1523438,-1.5,-124.5,23.90033,19.47972,0.7260041,0.518059,-0.1523438,-1.5,124.5,23.90033,22.34048,0.7260041,0.5218585,-0.1523438,1.5,124.5,23.90032,22.34048,0.7377228,0.5218585,-0.1523438,1.5,-124.5,23.90032,19.47972,0.7377228,0.518059,0.1599731,1.5,-124.5,23.90971,19.47972,0.7377276,0.518059,0.1599731,1.5,124.5,23.90971,22.34048,0.7377276,0.5218585,0.1599731,-1.5,124.5,-23.99985,22.34048,0.7339063,0.5218585,0.1599731,-1.5,-124.5,-23.99985,19.47972,0.7339063,0.518059,-0.1523438,-1.5,-124.5,-23.99047,19.47972,0.7339111,0.518059,-0.1523438,-1.5,124.5,-23.99047,22.34048,0.7339111,0.5218585,185.51,0.1919861,65.5,51.90985,-2.384473,0.440423,0.6247628,185.51,-0.1900024,65.5,51.90985,-2.388862,0.440423,0.624757,185.51,-0.1900024,68.5,52,-2.388862,0.4404688,0.624757,185.51,0.1919861,68.5,52,-2.384473,0.4404688,0.6247628,185.51,-0.1900024,68.5,5.011468,-12.39596,0.5386777,0.755021,49.51001,-0.1900024,68.5,5.011468,-10.83346,0.5386777,0.7570962,49.51001,0.1919861,68.5,4.99999,-10.83346,0.5386719,0.7570962,185.51,0.1919861,68.5,4.99999,-12.39596,0.5386719,0.755021,49.51001,0.1919861,68.5,52,1.155049,0.4404688,0.6206747,49.51001,-0.1900024,68.5,52,1.159438,0.4404688,0.6206805,49.51001,-0.1900024,65.5,51.90985,1.159438,0.440423,0.6206805,49.51001,0.1919861,65.5,51.90985,1.155049,0.440423,0.6206747,184.51,-0.1900024,65.5,-5.101628,-12.38447,0.7845187,0.5655831,185.51,-0.1900024,65.5,-5.101628,-12.39596,0.7845187,0.5655679,185.51,0.1919861,65.5,-5.09015,-12.39596,0.7845246,0.5655679,184.51,0.1919861,65.5,-5.09015,-12.38447,0.7845246,0.5655831,184.51,0.1919861,65.5,4.99999,-20.87942,0.5386719,0.7730508,184.51,0.1919861,-56.5,4.99999,-19.47777,0.5386719,0.7749124,184.51,-0.1900024,-56.5,5.011468,-19.47777,0.5386777,0.7749124,184.51,-0.1900024,65.5,5.011468,-20.87942,0.5386777,0.7730508,53.51001,0.1919861,65.5,-5.09015,-20.87942,0.5384308,0.761332,53.51001,0.1919861,-56.5,-5.09015,-19.47777,0.5384308,0.7631936,53.51001,-0.1900024,-56.5,-5.101628,-19.47777,0.538425,0.7631936,53.51001,-0.1900024,65.5,-5.101628,-20.87942,0.538425,0.761332,181.505,-0.1900024,65.5,-5.101628,-20.87942,0.538425,0.7671914,181.505,-0.1900024,-56.5,-5.101628,-19.47777,0.538425,0.769053,181.505,0.1919861,-56.5,-5.09015,-19.47777,0.5384308,0.769053,181.505,0.1919861,65.5,-5.09015,-20.87942,0.5384308,0.7671914,53.51001,-0.1900024,65.5,-5.101628,-10.87942,0.538425,0.7511758,181.505,-0.1900024,65.5,-5.101628,-12.34995,0.538425,0.7492227,181.505,0.1919861,65.5,-5.09015,-12.34995,0.5384308,0.7492227,53.51001,0.1919861,65.5,-5.09015,-10.87942,0.5384308,0.7511758,50.51001,-0.1900024,65.5,-5.101628,-10.84495,0.7806125,0.5656747,50.51001,0.1919861,65.5,-5.09015,-10.84495,0.7806183,0.5656747,49.51001,0.1919861,65.5,-5.09015,-10.83346,0.7806183,0.5656899,49.51001,-0.1900024,65.5,-5.101628,-10.83346,0.7806125,0.5656899,50.51001,-0.1900024,65.5,4.011468,-20.87942,0.5381699,0.7789102,50.51001,-0.1900024,-56.5,4.011468,-19.47777,0.5381699,0.7807717,50.51001,0.1919861,-56.5,3.99999,-19.47777,0.5381641,0.7807717,50.51001,0.1919861,65.5,3.99999,-20.87942,0.5381641,0.7789102,185.51,0.1919861,65.5,51.90985,2.155046,0.440423,0.632745,185.51,-0.1900024,65.5,51.90985,2.159435,0.440423,0.6327508,185.51,-0.1900024,68.5,52,2.159435,0.4404688,0.6327508,185.51,0.1919861,68.5,52,2.155046,0.4404688,0.632745,185.51,-0.1900024,68.5,5.011464,13.16654,0.5386777,0.7928774,49.51001,-0.1900024,68.5,5.011464,11.60404,0.5386777,0.7908022,49.51001,0.1919861,68.5,4.999986,11.60404,0.5386719,0.7908022,185.51,0.1919861,68.5,4.999986,13.16654,0.5386719,0.7928774,49.51001,0.1919861,68.5,52,-1.384475,0.4404688,0.6280441,49.51001,-0.1900024,68.5,52,-1.388864,0.4404688,0.6280382,49.51001,-0.1900024,65.5,51.90985,-1.388864,0.440423,0.6280382,49.51001,0.1919861,65.5,51.90985,-1.384475,0.440423,0.6280441,184.51,-0.1900024,65.5,-4.101632,13.15505,0.792839,0.5662997,185.51,-0.1900024,65.5,-4.101632,13.16654,0.792839,0.5663149,185.51,0.1919861,65.5,-4.090154,13.16654,0.7928448,0.5663149,184.51,0.1919861,65.5,-4.090154,13.15505,0.7928448,0.5662997,184.51,0.1919861,65.5,4.99999,-20.87942,0.5386719,0.808207,184.51,0.1919861,-56.5,4.99999,-19.47777,0.5386719,0.8100686,184.51,-0.1900024,-56.5,5.011468,-19.47777,0.5386777,0.8100686,184.51,-0.1900024,65.5,5.011468,-20.87942,0.5386777,0.808207,53.51001,0.1919861,65.5,-4.090154,-20.87942,0.5389386,0.7964883,53.51001,0.1919861,-56.5,-4.090154,-19.47777,0.5389386,0.7983499,53.51001,-0.1900024,-56.5,-4.101632,-19.47777,0.5389327,0.7983499,53.51001,-0.1900024,65.5,-4.101632,-20.87942,0.5389327,0.7964883,181.505,-0.1900024,65.5,-4.101632,-20.87942,0.5389327,0.8023477,181.505,-0.1900024,-56.5,-4.101632,-19.47777,0.5389327,0.8042092,181.505,0.1919861,-56.5,-4.090154,-19.47777,0.5389386,0.8042092,181.505,0.1919861,65.5,-4.090154,-20.87942,0.5389386,0.8023477,53.51001,-0.1900024,65.5,-4.101632,11.64999,0.5389327,0.7850039,181.505,-0.1900024,65.5,-4.101632,13.12052,0.5389327,0.786957,181.505,0.1919861,65.5,-4.090154,13.12052,0.5389386,0.786957,53.51001,0.1919861,65.5,-4.090154,11.64999,0.5389386,0.7850039,50.51001,-0.1900024,65.5,-4.101632,11.61552,0.7889327,0.5662081,50.51001,0.1919861,65.5,-4.090154,11.61552,0.7889386,0.5662081,49.51001,0.1919861,65.5,-4.090154,11.60404,0.7889386,0.5661929,49.51001,-0.1900024,65.5,-4.101632,11.60404,0.7889327,0.5661929,50.51001,-0.1900024,65.5,4.011468,-20.87942,0.5381699,0.8140664,50.51001,-0.1900024,-56.5,4.011468,-19.47777,0.5381699,0.815928,50.51001,0.1919861,-56.5,3.99999,-19.47777,0.5381641,0.815928,50.51001,0.1919861,65.5,3.99999,-20.87942,0.5381641,0.8140664,155.51,0.2200012,57.5,51.90986,4.878685,0.440423,0.6402686,155.51,-0.2340393,57.5,51.90986,4.883902,0.440423,0.6402755,155.51,-0.2340393,60.5,52,4.883902,0.4404688,0.6402755,155.51,0.2200012,60.5,52,4.878685,0.4404688,0.6402686,155.51,-0.2340393,60.5,-13.00001,-11.1161,0.5383203,0.8260567,49.51001,-0.2340393,60.5,-13.00001,-9.89827,0.5383203,0.8276742,49.51001,0.2200012,60.5,-12.98636,-9.89827,0.5383272,0.8276742,155.51,0.2200012,60.5,-12.98636,-11.1161,0.5383272,0.8260567,49.51001,0.2200012,60.5,52,-5.893053,0.4404688,0.6367046,49.51001,-0.2340393,60.5,52,-5.898269,0.4404688,0.6366976,49.51001,-0.2340393,57.5,51.90986,-5.898269,0.440423,0.6366976,49.51001,0.2200012,57.5,51.90986,-5.893053,0.440423,0.6367046,155.51,0.2200012,57.5,-12.98636,18.91837,0.5383272,0.8454385,155.51,0.2200012,-56.5,-12.98636,17.60863,0.5383272,0.843699,155.51,-0.2340393,-56.5,-13,17.60863,0.5383203,0.843699,155.51,-0.2340393,57.5,-13,18.91837,0.5383203,0.8454385,52.51001,0.2200012,57.5,13.89621,-18.93274,0.5383067,0.8313003,52.51001,0.2200012,-56.5,13.89621,-17.623,0.5383067,0.8330398,52.51001,-0.2340393,-56.5,13.90986,-17.623,0.5383136,0.8330398,52.51001,-0.2340393,57.5,13.90986,-18.93274,0.5383136,0.8313003,152.51,-0.2340393,57.5,13.90986,18.91837,0.5383136,0.8395791,152.51,-0.2340393,-56.5,13.90986,17.60863,0.5383136,0.8378396,152.51,0.2200012,-56.5,13.89621,17.60863,0.5383067,0.8378396,152.51,0.2200012,57.5,13.89621,18.91837,0.5383067,0.8395791,52.51001,-0.2340393,57.5,13.90986,-9.932736,0.5383136,0.821769,152.51,-0.2340393,57.5,13.90986,-11.08163,0.5383136,0.8202431,152.51,0.2200012,57.5,13.89621,-11.08163,0.5383067,0.8202431,52.51001,0.2200012,57.5,13.89621,-9.932736,0.5383067,0.821769,49.51001,-0.2340393,57.5,-14,-18.93274,0.538789,0.8488784,49.51001,-0.2340393,-56.5,-14,-17.623,0.538789,0.8506179,49.51001,0.2200012,-56.5,-13.98636,-17.623,0.538796,0.8506179,49.51001,0.2200012,57.5,-13.98636,-18.93274,0.538796,0.8488784,0.1899414,-64,-154.51,27.18706,2.853736,0.5382686,0.8568505,0.1899414,-64,-151.51,27.23394,2.853736,0.5383144,0.8568505,0.1899414,64,-151.51,27.23394,2.353736,0.5383144,0.8548974,0.1899414,64,-154.51,27.18706,2.353736,0.5382686,0.8548974,-0.1999512,64,-151.51,22.90062,6.798828,0.8006842,0.5656204,-0.1999512,64,-154.51,22.90062,6.787109,0.8006842,0.5655746,0.1899414,64,-154.51,22.90672,6.787109,0.8006902,0.5655746,0.1899414,64,-151.51,22.90672,6.798828,0.8006902,0.5656204,0.1899414,-64,-151.51,45.01173,8.898613,0.5384825,0.8682638,-0.1999512,-64,-151.51,45.00002,8.898613,0.5384766,0.8682638,-0.1999512,64,-151.51,45.00002,7.428024,0.5384766,0.8663107,0.1899414,64,-151.51,45.01173,7.428024,0.5384825,0.8663107,0.1899414,64,-154.51,-44.10186,7.428024,0.5381514,0.8604513,-0.1999512,64,-154.51,-44.09015,7.428024,0.5381573,0.8604513,-0.1999512,-64,-154.51,-44.09015,8.898613,0.5381573,0.8624044,0.1899414,-64,-154.51,-44.10186,8.898613,0.5381514,0.8624044,0.1899414,-64,-151.51,27.13068,5.728632,0.7960261,0.5663228,0.1899414,-64,-154.51,27.08381,5.728632,0.7959803,0.5663228,-0.1999512,-64,-154.51,27.08381,5.727109,0.7959803,0.5663168,-0.1999512,-64,-151.51,27.13068,5.727109,0.7960261,0.5663168,0.1899414,23.51001,-91,-11.48395,-6.271263,0.5385899,0.8807763,0.1899414,20.51001,-91,-11.53082,-6.271263,0.5385441,0.8807763,0.1899414,20.51001,91,-11.53082,-6.982201,0.5385441,0.8779992,0.1899414,23.51001,91,-11.48395,-6.982201,0.5385899,0.8779992,0.1899414,154.51,-91,9.407684,-6.271263,0.5384841,0.8749169,0.1899414,151.51,-91,9.454559,-6.271263,0.5385299,0.8749169,0.1899414,151.51,91,9.454559,-6.982201,0.5385299,0.8721398,0.1899414,154.51,91,9.407684,-6.982201,0.5384841,0.8721398,-0.1999512,20.51001,91,22.90062,-2.865234,0.8163092,0.5659561,-0.1999512,23.51001,91,22.90062,-2.853516,0.8163092,0.5660019,0.1899414,23.51001,91,22.90672,-2.853516,0.8163152,0.5660019,0.1899414,20.51001,91,22.90672,-2.865234,0.8163152,0.5659561,-0.1999512,151.51,91,22.90062,2.380859,0.812403,0.5659409,-0.1999512,154.51,91,22.90062,2.369141,0.812403,0.5658951,0.1899414,154.51,91,22.90672,2.369141,0.8124089,0.5658951,0.1899414,151.51,91,22.90672,2.380859,0.8124089,0.5659409,-0.1999512,154.51,-91,44.00001,17.98042,0.5272266,0.8471224,0.1899414,154.51,-91,44.01173,17.98042,0.5272325,0.8471224,0.1899414,154.51,91,44.01173,20.07141,0.5272325,0.8498995,-0.1999512,154.51,91,44.00001,20.07141,0.5272266,0.8498995,-0.1999512,23.51001,-91,-44.09015,-17.65378,0.5381573,0.8867098,0.1899414,23.51001,-91,-44.10186,-17.65378,0.5381514,0.8867098,0.1899414,23.51001,91,-44.10186,-19.74477,0.5381514,0.8839327,-0.1999512,23.51001,91,-44.09015,-19.74477,0.5381573,0.8839327,-0.1999512,151.51,91,-44.09015,20.07141,0.5264386,0.8430636,0.1899414,151.51,91,-44.10186,20.07141,0.5264326,0.8430636,0.1899414,151.51,-91,-44.10186,17.98042,0.5264326,0.8402865,-0.1999512,151.51,-91,-44.09015,17.98042,0.5264386,0.8402865,-0.1999512,20.51001,91,44.00002,-19.74477,0.5389453,0.8897921,0.1899414,20.51001,91,44.01174,-19.74477,0.5389513,0.8897921,0.1899414,20.51001,-91,44.01174,-17.65378,0.5389513,0.8925692,-0.1999512,20.51001,-91,44.00002,-17.65378,0.5389453,0.8925692,0.1899414,20.51001,-91,-11.51094,5.740091,0.8080948,0.5663676,0.1899414,23.51001,-91,-11.46407,5.740091,0.8081406,0.5663676,-0.1999512,23.51001,-91,-11.46407,5.738568,0.8081406,0.5663616,-0.1999512,20.51001,-91,-11.51094,5.738568,0.8080948,0.5663616,0.1899414,151.51,-91,9.47444,5.740091,0.8041742,0.5663676,0.1899414,154.51,-91,9.427565,5.740091,0.8041285,0.5663676,-0.1999512,154.51,-91,9.427565,5.738568,0.8041285,0.5663616,-0.1999512,151.51,-91,9.47444,5.738568,0.8041742,0.5663616,371,0.15979,81.51001,34.99998,20.04843,0.5265625,0.856705,371,0.15979,-100.49,34.99998,17.95744,0.5265625,0.8539279,371,-0.1600037,-100.49,35.00959,17.95744,0.5265674,0.8539279,371,-0.1600037,81.51001,35.00959,20.04843,0.5265674,0.856705,232,0.15979,81.51001,-35.09018,20.04843,0.8044464,0.5500643,232,0.15979,25.51001,-35.09018,19.40505,0.8044464,0.5492098,232,-0.1600037,25.51001,-35.09979,19.40505,0.8044415,0.5492098,232,-0.1600037,81.51001,-35.09979,20.04843,0.8044415,0.5500643,368,-0.1600037,81.51001,-35.09978,20.04843,0.8083478,0.5500643,368,-0.1600037,25.51001,-35.09978,19.40505,0.8083478,0.5492098,368,0.15979,25.51001,-35.09018,19.40505,0.8083526,0.5492098,368,0.15979,81.51001,-35.09018,20.04843,0.8083526,0.5500643,232,0.15979,20.51001,-35.09018,19.34761,0.8239776,0.5657351,232,0.15979,16.51001,-35.09018,19.30165,0.8239776,0.5656741,232,-0.1600037,16.51001,-35.09979,19.30165,0.8239728,0.5656741,232,-0.1600037,20.51001,-35.09979,19.34761,0.8239728,0.5657351,368,-0.1600037,20.51001,23.02188,8.12858,0.5384936,0.9155357,368,0.15979,20.51001,23.01564,8.12858,0.5384888,0.9155357,232,0.15979,20.51001,23.01564,7.243164,0.5384888,0.9134606,232,-0.1600037,20.51001,23.02188,7.243164,0.5384936,0.9134606,368,-0.1600037,20.51001,-35.09978,19.3476,0.827879,0.5657351,368,-0.1600037,16.51001,-35.09978,19.30165,0.827879,0.5656741,368,0.15979,16.51001,-35.09018,19.30165,0.8278839,0.5656741,368,0.15979,20.51001,-35.09018,19.3476,0.8278839,0.5657351,232,-0.1600037,16.51001,36.03964,-10.18182,0.5388092,0.9269069,232,0.15979,16.51001,36.03003,-10.18182,0.5388043,0.9269069,368,0.15979,16.51001,36.03003,-11.74432,0.5388043,0.9248317,368,-0.1600037,16.51001,36.03964,-11.74432,0.5388092,0.9248317,232,0.15979,12.51001,-35.09018,19.25569,0.5388214,0.9035037,232,0.15979,-100.49,-35.09018,17.95744,0.5388214,0.9017794,232,-0.1600037,-100.49,-35.09979,17.95744,0.5388165,0.9017794,232,-0.1600037,12.51001,-35.09979,19.25569,0.5388165,0.9035037,368,-0.1600037,12.51001,-35.09978,-11.74431,0.5388165,0.9189724,368,0.15979,12.51001,-35.09018,-11.74431,0.5388214,0.9189724,232,0.15979,12.51001,-35.09018,-10.18181,0.5388214,0.9210476,232,-0.1600037,12.51001,-35.09978,-10.18181,0.5388165,0.9210476,368,-0.1600037,12.51001,-35.09978,19.25569,0.5388165,0.909363,368,-0.1600037,-100.49,-35.09978,17.95744,0.5388165,0.9076388,368,0.15979,-100.49,-35.09018,17.95744,0.5388214,0.9076388,368,0.15979,12.51001,-35.09018,19.25569,0.5388214,0.909363,229,0.15979,81.51001,34.99998,20.04843,0.5265625,0.8635409,229,-0.1600037,81.51001,35.00959,20.04843,0.5265674,0.8635409,229,-0.1600037,-100.49,35.00959,17.95744,0.5265674,0.8607638,229,0.15979,-100.49,34.99998,17.95744,0.5265625,0.8607638,73,0.15979,-100.49,34.99999,17.95744,0.5265625,0.8675997,73,-0.1600037,-100.49,35.0096,17.95744,0.5265674,0.8675997,73,-0.1600037,81.51001,35.0096,20.04843,0.5265674,0.8703768,73,0.15979,81.51001,34.99999,20.04843,0.5265625,0.8703768,-70,0.15979,81.51001,-35.09018,20.04843,0.8122589,0.5500643,-70,0.15979,25.51001,-35.09018,19.40505,0.8122589,0.5492098,-70,-0.1600037,25.51001,-35.09979,19.40505,0.812254,0.5492098,-70,-0.1600037,81.51001,-35.09979,20.04843,0.812254,0.5500643,70,-0.1600037,81.51001,-35.09979,20.04843,0.8005353,0.5500643,70,-0.1600037,25.51001,-35.09979,19.40505,0.8005353,0.5492098,70,0.15979,25.51001,-35.09018,19.40505,0.8005401,0.5492098,70,0.15979,81.51001,-35.09018,20.04843,0.8005401,0.5500643,-70,-0.1600037,25.51001,-24.08828,5.277018,0.5387982,0.9488915,-70,0.15979,25.51001,-24.08203,5.277018,0.5388031,0.9488915,70,0.15979,25.51001,-24.08203,6.188476,0.5388031,0.9510277,70,-0.1600037,25.51001,-24.08828,6.188476,0.5387982,0.9510277,-70,0.15979,20.51001,-35.09018,19.34761,0.8317901,0.5657351,-70,0.15979,16.51001,-35.09018,19.30165,0.8317901,0.5656741,-70,-0.1600037,16.51001,-35.09979,19.30165,0.8317853,0.5656741,-70,-0.1600037,20.51001,-35.09979,19.34761,0.8317853,0.5657351,-70,-0.1600037,16.51001,36.03964,-6.712146,0.5388092,0.9393276,-70,0.15979,16.51001,36.03003,-6.712146,0.5388043,0.9393276,70,0.15979,16.51001,36.03003,-8.320602,0.5388043,0.9371914,70,-0.1600037,16.51001,36.03964,-8.320602,0.5388092,0.9371914,70,-0.1600037,20.51001,23.02188,6.188476,0.5384936,0.9451683,70,0.15979,20.51001,23.01564,6.188476,0.5384888,0.9451683,-70,0.15979,20.51001,23.01564,5.277018,0.5384888,0.9430321,-70,-0.1600037,20.51001,23.02188,5.277018,0.5384936,0.9430321,70,-0.1600037,20.51001,-35.09979,19.34761,0.8200665,0.5657351,70,-0.1600037,16.51001,-35.09979,19.30165,0.8200665,0.5656741,70,0.15979,16.51001,-35.09018,19.30165,0.8200714,0.5656741,70,0.15979,20.51001,-35.09018,19.34761,0.8200714,0.5657351,-70,0.15979,12.51001,-35.09018,19.25569,0.5388214,0.9328005,-70,0.15979,-100.49,-35.09018,17.95744,0.5388214,0.9310763,-70,-0.1600037,-100.49,-35.09979,17.95744,0.5388165,0.9310763,-70,-0.1600037,12.51001,-35.09979,19.25569,0.5388165,0.9328005,70,-0.1600037,12.51001,-35.09979,19.25569,0.5388165,0.8976443,70,-0.1600037,-100.49,-35.09979,17.95744,0.5388165,0.89592,70,0.15979,-100.49,-35.09018,17.95744,0.5388214,0.89592,70,0.15979,12.51001,-35.09018,19.25569,0.5388214,0.8976443,70,-0.1600037,12.51001,-35.09979,-8.320602,0.5388165,0.9547695,70,0.15979,12.51001,-35.09018,-8.320602,0.5388214,0.9547695,-70,0.15979,12.51001,-35.09018,-6.712146,0.5388214,0.9569057,-70,-0.1600037,12.51001,-35.09979,-6.712146,0.5388165,0.9569057,-73,-0.1600037,81.51001,35.00959,20.04843,0.5265674,0.8772128,-73,-0.1600037,-100.49,35.00959,17.95744,0.5265674,0.8744357,-73,0.15979,-100.49,34.99998,17.95744,0.5265625,0.8744357,-73,0.15979,81.51001,34.99998,20.04843,0.5265625,0.8772128,-0.1999512,1.48999,91,-7.987691,20.09438,0.5271937,0.8841097,-0.1999512,1.48999,-91,-7.987691,18.00339,0.5271937,0.8813326,0.2100067,1.48999,-91,-8.00001,18.00339,0.5271875,0.8813326,0.2100067,1.48999,91,-8.00001,20.09438,0.5271875,0.8841097,-0.1999512,-155.51,91,6.89753,20.09438,0.8199089,0.5501254,-0.1999512,-155.51,42,6.89753,19.53142,0.8199089,0.5493777,0.2100067,-155.51,42,6.909848,19.53142,0.8199152,0.5493777,0.2100067,-155.51,91,6.909848,20.09438,0.8199152,0.5501254,0.2100067,-1.51001,91,6.909848,20.09438,0.8160089,0.5501254,0.2100067,-1.51001,42,6.909848,19.53142,0.8160089,0.5493777,-0.1999512,-1.51001,42,6.89753,19.53142,0.8160027,0.5493777,-0.1999512,-1.51001,91,6.89753,20.09438,0.8160027,0.5501254,0.2100067,-155.51,42,6.909848,8.531424,0.5386652,0.9742214,-0.1999512,-155.51,42,6.89753,8.531424,0.5386589,0.9742214,-0.1999512,-1.51001,42,6.89753,6.762122,0.5386589,0.9718716,0.2100067,-1.51001,42,6.909848,6.762122,0.5386652,0.9718716,-0.1999512,-155.51,39,6.89753,19.49696,0.5386589,0.9682772,-0.1999512,-155.51,-91,6.89753,18.00339,0.5386589,0.9662936,0.2100067,-155.51,-91,6.909848,18.00339,0.5386652,0.9662936,0.2100067,-155.51,39,6.909848,19.49696,0.5386652,0.9682772,0.2100067,-1.51001,39,6.909848,-5.733745,0.5269464,0.8908224,-0.1999512,-1.51001,39,6.89753,-5.733745,0.5269402,0.8908224,-0.1999512,-155.51,39,6.89753,-7.503047,0.5269402,0.8884725,0.2100067,-155.51,39,6.909848,-7.503047,0.5269464,0.8884725,0.2100067,-1.51001,39,6.909848,19.49696,0.5386652,0.9624178,0.2100067,-1.51001,-91,6.909848,18.00339,0.5386652,0.9604342,-0.1999512,-1.51001,-91,6.89753,18.00339,0.5386589,0.9604342,-0.1999512,-1.51001,39,6.89753,19.49696,0.5386589,0.9624178,0.2100067,-158.51,91,-7.000012,20.09438,0.5267187,0.8977816,0.2100067,-158.51,-91,-7.000012,18.00339,0.5267187,0.8950045,-0.1999512,-158.51,-91,-6.987694,18.00339,0.526725,0.8950045,-0.1999512,-158.51,91,-6.987694,20.09438,0.526725,0.8977816,1.48999,-0.2170105,-91,15.89346,-18.81664,0.527337,0.9115326,1.48999,-0.2170105,91,15.89346,-20.90763,0.527337,0.9087555,1.48999,0.2099915,91,15.8783,-20.90763,0.5273305,0.9087555,1.48999,0.2099915,-91,15.8783,-18.81664,0.5273305,0.9115326,-1.51001,0.2099915,-91,-15.98484,-18.81664,0.5273112,0.9046966,-1.51001,0.2099915,91,-15.98484,-20.90763,0.5273112,0.9019195,-1.51001,-0.2170105,91,-16,-20.90763,0.5273047,0.9019195,-1.51001,-0.2170105,-91,-16,-18.81664,0.5273047,0.9046966,46,-0.2170105,1.51001,-16.00002,-5.206338,0.5390235,0.9842963,-46,-0.2170105,1.51001,-16.00002,-4.149354,0.5390235,0.9857001,-46,0.2099915,1.51001,-15.98485,-4.149354,0.53903,0.9857001,46,0.2099915,1.51001,-15.98485,-5.206338,0.53903,0.9842963,46,0.2099915,-1.48999,15.8783,-5.20634,0.5390493,0.9784369,-46,0.2099915,-1.48999,15.8783,-4.149355,0.5390493,0.9798407,-46,-0.2170105,-1.48999,15.89346,-4.149355,0.5390558,0.9798407,46,-0.2170105,-1.48999,15.89346,-5.20634,0.5390558,0.9784369,168.51,0.25,57.5,39.90809,-4.92137,0.846814,0.5657294,168.51,-0.2600098,57.5,39.90809,-4.927229,0.846814,0.5657216,168.51,-0.2600098,61.5,40,-4.927229,0.846875,0.5657216,168.51,0.25,61.5,40,-4.92137,0.846875,0.5657294,168.51,-0.2600098,61.5,-10.00015,-0.92716,0.5382811,0.9977921,50.51001,-0.2600098,61.5,-10.00015,-2.282858,0.5382811,0.9959915,50.51001,0.25,61.5,-9.988431,-2.282858,0.538289,0.9959915,168.51,0.25,61.5,-9.988431,-0.92716,0.538289,0.9977921,50.51001,0.25,61.5,40,4.711351,0.8429688,0.5658275,50.51001,-0.2600098,61.5,40,4.717211,0.8429688,0.5658354,50.51001,-0.2600098,57.5,39.90809,4.717211,0.8429077,0.5658354,50.51001,0.25,57.5,39.90809,4.711351,0.8429077,0.5658275,167.51,-0.2600098,57.5,10.90822,-0.9386489,0.839275,0.5661362,168.51,-0.2600098,57.5,10.90822,-0.92716,0.839275,0.5661514,168.51,0.25,57.5,10.8965,-0.92716,0.8392672,0.5661514,167.51,0.25,57.5,10.8965,-0.9386489,0.8392672,0.5661362,167.51,0.25,57.5,-21.97539,30.67472,0.5507499,0.5410095,167.51,0.25,-73.5,-21.97539,28.34872,0.5507499,0.5390106,167.51,-0.2600098,-73.5,-22.00029,28.34872,0.5507421,0.5390106,167.51,-0.2600098,57.5,-22.00029,30.67472,0.5507421,0.5410095,53.51001,0.25,57.5,21.87774,30.67472,0.541993,0.5410095,53.51001,0.25,-73.5,21.87774,28.34872,0.541993,0.5390106,53.51001,-0.2600098,-73.5,21.90264,28.34872,0.5420008,0.5390106,53.51001,-0.2600098,57.5,21.90264,30.67472,0.5420008,0.5410095,165.51,-0.2600098,57.5,21.90264,30.67472,0.5459071,0.5410095,165.51,-0.2600098,-73.5,21.90264,28.34872,0.5459071,0.5390106,165.51,0.25,-73.5,21.87774,28.34872,0.5458993,0.5390106,165.51,0.25,57.5,21.87774,30.67472,0.5458993,0.5410095,53.51001,-0.2600098,57.5,10.90822,-2.248391,0.5384938,0.9901779,165.51,-0.2600098,57.5,10.90822,-0.9616269,0.5384938,0.9918869,165.51,0.25,57.5,10.8965,-0.9616269,0.5384859,0.9918869,53.51001,0.25,57.5,10.8965,-2.248391,0.5384859,0.9901779,51.50999,-0.2600098,57.5,10.90822,-2.271369,0.8353688,0.5663193,51.50999,0.25,57.5,10.8965,-2.271369,0.8353609,0.5663193,50.51001,0.25,57.5,10.8965,-2.282858,0.8353609,0.566304,50.51001,-0.2600098,57.5,10.90822,-2.282858,0.8353688,0.566304,51.50999,-0.2600098,57.5,-22.00029,30.67472,0.5546483,0.5410095,51.50999,-0.2600098,-73.5,-22.00029,28.34872,0.5546483,0.5390106,51.50999,0.25,-73.5,-21.97539,28.34872,0.5546561,0.5390106,51.50999,0.25,57.5,-21.97539,30.67472,0.5546561,0.5410095,171.51,0.15979,57.5,51.90986,4.095798,0.440423,0.6480179,171.51,-0.1499939,57.5,51.90986,4.099357,0.440423,0.6480226,171.51,-0.1499939,60.5,52,4.099357,0.4404688,0.6480226,171.51,0.15979,60.5,52,4.095798,0.4404688,0.6480179,171.51,-0.1499939,60.5,14.00925,-0.9041817,0.5618016,0.5407717,47.50999,-0.1499939,60.5,14.00925,-2.305837,0.5618016,0.5388796,47.50999,0.15979,60.5,13.99994,-2.305837,0.5617968,0.5388796,171.51,0.15979,60.5,13.99994,-0.9041817,0.5617968,0.5407717,47.50999,0.15979,60.5,52,-4.305817,0.4404688,0.6436954,47.50999,-0.1499939,60.5,52,-4.309376,0.4404688,0.6436906,47.50999,-0.1499939,57.5,51.90986,-4.309376,0.440423,0.6436906,47.50999,0.15979,57.5,51.90986,-4.305817,0.440423,0.6436954,169.51,-0.1499939,57.5,-13.09941,-0.926789,0.8546761,0.5661318,171.51,-0.1499939,57.5,-13.09941,-0.9041817,0.8546761,0.5661623,171.51,0.15979,57.5,-13.0901,-0.9041817,0.8546808,0.5661623,169.51,0.15979,57.5,-13.0901,-0.926789,0.8546808,0.5661318,169.51,0.15979,57.5,14.99994,19.75184,0.5738281,0.5408813,169.51,0.15979,-73.5,14.99994,18.24678,0.5738281,0.5388824,169.51,-0.1499939,-73.5,15.01094,18.24678,0.5738328,0.5388824,169.51,-0.1499939,57.5,15.01094,19.75184,0.5738328,0.5408813,53.51001,0.15979,57.5,-15.10647,19.75184,0.5657746,0.5408813,53.51001,0.15979,-73.5,-15.10647,18.24678,0.5657746,0.5388824,53.51001,-0.1499939,-73.5,-15.11747,18.24678,0.5657699,0.5388824,53.51001,-0.1499939,57.5,-15.11747,19.75184,0.5657699,0.5408813,165.51,-0.1499939,57.5,-15.11747,19.75184,0.5696761,0.5408813,165.51,-0.1499939,-73.5,-15.11747,18.24678,0.5696761,0.5388824,165.51,0.15979,-73.5,-15.10647,18.24678,0.5696808,0.5388824,165.51,0.15979,57.5,-15.10647,19.75184,0.5696808,0.5408813,53.51001,-0.1499939,57.5,-13.09941,-2.238015,0.5578011,0.5389711,165.51,-0.1499939,57.5,-13.09941,-0.9720037,0.5578011,0.5406801,165.51,0.15979,57.5,-13.0901,-0.9720037,0.5578058,0.5406801,53.51001,0.15979,57.5,-13.0901,-2.238015,0.5578058,0.5389711,49.51001,-0.1499939,57.5,-13.09941,-2.283229,0.8507698,0.5662538,49.51001,0.15979,57.5,-13.0901,-2.283229,0.8507745,0.5662538,47.50999,0.15979,57.5,-13.0901,-2.305837,0.8507745,0.5662233,47.50999,-0.1499939,57.5,-13.09941,-2.305837,0.8507698,0.5662233,49.51001,-0.1499939,57.5,15.01094,19.75184,0.5777391,0.5408813,49.51001,-0.1499939,-73.5,15.01094,18.24678,0.5777391,0.5388824,49.51001,0.15979,-73.5,14.99994,18.24678,0.5777344,0.5388824,49.51001,0.15979,57.5,14.99994,19.75184,0.5777344,0.5408813,150.51,0.2099915,44.5,41.90234,2.867629,0.8709155,0.5656996,150.51,-0.1900024,44.5,41.90234,2.871026,0.8709155,0.5657058,150.51,-0.1900024,48.5,42,2.871026,0.8709766,0.5657058,150.51,0.2099915,48.5,42,2.867629,0.8709766,0.5656996,150.51,-0.1900024,48.5,11.00956,2.867697,0.585006,0.5403091,48.50999,-0.1900024,48.5,11.00956,2.001529,0.585006,0.5387527,48.50999,0.2099915,48.5,10.9998,2.001529,0.5849999,0.5387527,150.51,0.2099915,48.5,10.9998,2.867697,0.5849999,0.5403091,48.50999,0.2099915,48.5,42,-2.998405,0.8670703,0.5659013,48.50999,-0.1900024,48.5,42,-3.001801,0.8670703,0.5658952,48.50999,-0.1900024,44.5,41.90234,-3.001801,0.8670093,0.5658952,48.50999,0.2099915,44.5,41.90234,-2.998405,0.8670093,0.5659013,148.51,-0.1900024,44.5,-10.10724,2.850713,0.8628236,0.5656692,150.51,-0.1900024,44.5,-10.10724,2.867697,0.8628236,0.5656998,150.51,0.2099915,44.5,-10.09747,2.867697,0.8628297,0.5656998,148.51,0.2099915,44.5,-10.09747,2.850713,0.8628297,0.5656692,148.51,0.2099915,44.5,20.99961,-30.99077,0.5973827,0.538797,148.51,0.2099915,-73.5,20.99961,-28.8956,0.5973827,0.5405976,148.51,-0.1900024,-73.5,21.01914,-28.8956,0.5973888,0.5405976,148.51,-0.1900024,44.5,21.01914,-30.99077,0.5973888,0.538797,53.51001,0.2099915,44.5,-21.09727,-30.99077,0.5891103,0.538797,53.51001,0.2099915,-73.5,-21.09727,-28.8956,0.5891103,0.5405976,53.51001,-0.1900024,-73.5,-21.1168,-28.8956,0.5891041,0.5405976,53.51001,-0.1900024,44.5,-21.1168,-30.99077,0.5891041,0.538797,145.51,-0.1900024,44.5,-21.1168,-30.99077,0.5930104,0.538797,145.51,-0.1900024,-73.5,-21.1168,-28.8956,0.5930104,0.5405976,145.51,0.2099915,-73.5,-21.09727,-28.8956,0.5930165,0.5405976,145.51,0.2099915,44.5,-21.09727,-30.99077,0.5930165,0.538797,53.51001,-0.1900024,44.5,-10.10724,2.043988,0.5815736,0.538829,145.51,-0.1900024,44.5,-10.10724,2.825238,0.5815736,0.5402328,145.51,0.2099915,44.5,-10.09747,2.825238,0.5815797,0.5402328,53.51001,0.2099915,44.5,-10.09747,2.043988,0.5815797,0.538829,50.51001,-0.1900024,44.5,-10.10724,2.018512,0.8589174,0.566127,50.51001,0.2099915,44.5,-10.09747,2.018512,0.8589234,0.566127,48.50999,0.2099915,44.5,-10.09747,2.001529,0.8589234,0.5660965,48.50999,-0.1900024,44.5,-10.10724,2.001529,0.8589174,0.5660965,50.51001,-0.1900024,44.5,21.01914,-30.99077,0.6012951,0.538797,50.51001,-0.1900024,-73.5,21.01914,-28.8956,0.6012951,0.5405976,50.51001,0.2099915,-73.5,20.99961,-28.8956,0.6012889,0.5405976,50.51001,0.2099915,44.5,20.99961,-30.99077,0.6012889,0.538797,-0.1523438,157.51,60.5,48,2.498636,0.8826953,0.5664036,-0.1523438,157.51,56.5,47.88839,2.498636,0.8826343,0.5664036,0.1730042,157.51,56.5,47.88839,2.496095,0.8826343,0.5663986,0.1730042,157.51,60.5,48,2.496095,0.8826953,0.5663986,0.1730042,-34.48999,60.5,11.99999,-8.003906,0.5270703,0.916008,-0.1523438,-34.48999,60.5,12.00907,-8.003906,0.5270753,0.916008,-0.1523438,157.51,60.5,12.00907,-6.503906,0.5270753,0.9189377,0.1730042,157.51,60.5,11.99999,-6.503906,0.5270703,0.9189377,0.1730042,-34.48999,60.5,48,-4.003906,0.8787891,0.5663986,0.1730042,-34.48999,56.5,47.88839,-4.003906,0.878728,0.5663986,-0.1523438,-34.48999,56.5,47.88839,-4.006448,0.878728,0.5663937,-0.1523438,-34.48999,60.5,48,-4.006448,0.8787891,0.5663937,0.1730042,155.51,56.5,-11.11162,-6.519531,0.8747827,0.5663681,0.1730042,157.51,56.5,-11.11162,-6.503906,0.8747827,0.5663986,-0.1523438,157.51,56.5,-11.1207,-6.503906,0.8747777,0.5663986,-0.1523438,155.51,56.5,-11.1207,-6.519531,0.8747777,0.5663681,-0.1523438,155.51,56.5,9.007481,-20.56531,0.6163331,0.5381164,-0.1523438,155.51,-74.5,9.007481,-19.06026,0.6163331,0.5401153,0.1730042,155.51,-74.5,9.000005,-19.06026,0.6163281,0.5401153,0.1730042,155.51,56.5,9.000005,-20.56531,0.6163281,0.5381164,-0.1523438,-28.48999,56.5,-10.09939,-20.56531,0.6085278,0.5381164,-0.1523438,-28.48999,-74.5,-10.09939,-19.06026,0.6085278,0.5401153,0.1730042,-28.48999,-74.5,-10.09191,-19.06026,0.6085327,0.5401153,0.1730042,-28.48999,56.5,-10.09191,-20.56531,0.6085327,0.5381164,0.1730042,151.51,56.5,-10.09191,-20.56531,0.612439,0.5381164,0.1730042,151.51,-74.5,-10.09191,-19.06026,0.612439,0.5401153,-0.1523438,151.51,-74.5,-10.09939,-19.06026,0.612434,0.5401153,-0.1523438,151.51,56.5,-10.09939,-20.56531,0.612434,0.5381164,0.1730042,-28.48999,56.5,-11.11162,-7.957031,0.6052514,0.5381699,0.1730042,151.51,56.5,-11.11162,-6.550781,0.6052514,0.5409164,-0.1523438,151.51,56.5,-11.1207,-6.550781,0.6052465,0.5409164,-0.1523438,-28.48999,56.5,-11.1207,-7.957031,0.6052465,0.5381699,0.1730042,-34.48999,56.5,-11.11162,-8.003906,0.8240014,0.5497971,0.1730042,-32.48999,56.5,-11.11162,-7.988281,0.8240014,0.5498276,-0.1523438,-32.48999,56.5,-11.1207,-7.988281,0.8239965,0.5498276,-0.1523438,-34.48999,56.5,-11.1207,-8.003906,0.8239965,0.5497971,0.1730042,-32.48999,56.5,10,-20.56531,0.6208984,0.5381164,0.1730042,-32.48999,-74.5,10,-19.06026,0.6208984,0.5401153,-0.1523438,-32.48999,-74.5,10.00748,-19.06026,0.6209034,0.5401153,-0.1523438,-32.48999,56.5,10.00748,-20.56531,0.6209034,0.5381164,-0.2099915,239.5,33.5,53.00001,-11.61368,0.8980078,0.5656303,-0.2099915,239.5,30.5,52.90987,-11.61368,0.897962,0.5656303,0.2100067,239.5,30.5,52.90987,-11.60886,0.897962,0.5656367,0.2100067,239.5,33.5,53.00001,-11.60886,0.8980078,0.5656367,0.2100067,35.5,33.5,33.00031,2.689055,0.5265236,0.9323538,-0.2099915,35.5,33.5,33.01292,2.689055,0.52653,0.9323538,-0.2099915,239.5,33.5,33.01292,0.3912611,0.52653,0.929241,0.2100067,239.5,33.5,33.00031,0.3912611,0.5265236,0.929241,0.2100067,35.5,33.5,53.00001,11.68917,0.8941016,0.5663059,0.2100067,35.5,30.5,52.90987,11.68917,0.8940558,0.5663059,-0.2099915,35.5,30.5,52.90987,11.694,0.8940558,0.5663123,-0.2099915,35.5,33.5,53.00001,11.694,0.8941016,0.5663123,0.2100067,237.5,30.5,-32.09045,0.4137883,0.8899541,0.5659903,0.2100067,239.5,30.5,-32.09045,0.3912611,0.8899541,0.5659598,-0.2099915,239.5,30.5,-32.10307,0.3912611,0.8899477,0.5659598,-0.2099915,237.5,30.5,-32.10307,0.4137883,0.8899477,0.5659903,-0.2099915,237.5,30.5,32.01714,-20.28774,0.6324697,0.5384851,-0.2099915,237.5,-116.5,32.01714,-18.59886,0.6324697,0.5407281,0.2100067,237.5,-116.5,32.00452,-18.59886,0.6324632,0.5407281,0.2100067,237.5,30.5,32.00452,-20.28774,0.6324632,0.5384851,-0.2099915,40.5,30.5,-32.09886,-20.28774,0.6243248,0.5384851,-0.2099915,40.5,-116.5,-32.09886,-18.59886,0.6243248,0.5407281,0.2100067,40.5,-116.5,-32.08624,-18.59886,0.6243312,0.5407281,0.2100067,40.5,30.5,-32.08624,-20.28774,0.6243312,0.5384851,0.2100067,234.5,30.5,-32.08624,-20.28774,0.6282374,0.5384851,0.2100067,234.5,-116.5,-32.08624,-18.59886,0.6282374,0.5407281,-0.2099915,234.5,-116.5,-32.09886,-18.59886,0.628231,0.5407281,-0.2099915,234.5,30.5,-32.09886,-20.28774,0.628231,0.5384851,0.2100067,40.5,30.5,-32.09045,2.632737,0.5266728,0.9254416,0.2100067,234.5,30.5,-32.09045,0.4475794,0.5266728,0.9224814,-0.2099915,234.5,30.5,-32.10307,0.4475794,0.5266664,0.9224814,-0.2099915,40.5,30.5,-32.10307,2.632737,0.5266664,0.9254416,0.2100067,35.5,30.5,-32.09045,2.689055,0.8860478,0.5661429,0.2100067,37.5,30.5,-32.09045,2.666528,0.8860478,0.5661123,-0.2099915,37.5,30.5,-32.10307,2.666528,0.8860414,0.5661123,-0.2099915,35.5,30.5,-32.10307,2.689055,0.8860414,0.5661429,0.2100067,37.5,30.5,32.00452,-20.28774,0.6363695,0.5384851,0.2100067,37.5,-116.5,32.00452,-18.59886,0.6363695,0.5407281,-0.2099915,37.5,-116.5,32.01714,-18.59886,0.6363759,0.5407281,-0.2099915,37.5,30.5,32.01714,-20.28774,0.6363759,0.5384851,-0.1400146,237.5,33.5,53.00001,-12.5544,0.9058203,0.566334,-0.1400146,237.5,30.5,52.90987,-12.5544,0.9057745,0.566334,0.1599731,237.5,30.5,52.90987,-12.55095,0.9057745,0.5663386,0.1599731,237.5,33.5,53.00001,-12.55095,0.9058203,0.5663386,0.1599731,37.5,33.5,32.99971,-1.253271,0.5265233,0.9456011,-0.1400146,37.5,33.5,33.00872,-1.253271,0.5265279,0.9456011,-0.1400146,237.5,33.5,33.00872,-3.551065,0.5265279,0.9425493,0.1599731,237.5,33.5,32.99971,-3.551065,0.5265233,0.9425493,0.1599731,37.5,33.5,53.00001,11.74661,0.9019141,0.5663822,0.1599731,37.5,30.5,52.90987,11.74661,0.9018683,0.5663822,-0.1400146,37.5,30.5,52.90987,11.75006,0.9018683,0.5663868,-0.1400146,37.5,33.5,53.00001,11.75006,0.9019141,0.5663868,-0.1400146,237.5,30.5,32.00872,-20.28774,0.6480904,0.5384851,-0.1400146,237.5,-116.5,32.00872,-18.59886,0.6480904,0.5407281,0.1599731,237.5,-116.5,31.9997,-18.59886,0.6480858,0.5407281,0.1599731,237.5,30.5,31.9997,-20.28774,0.6480858,0.5384851,-0.1400146,40.5,30.5,-32.09886,-20.28774,0.6399498,0.5384851,-0.1400146,40.5,-116.5,-32.09886,-18.59886,0.6399498,0.5407281,0.1599731,40.5,-116.5,-32.08984,-18.59886,0.6399544,0.5407281,0.1599731,40.5,30.5,-32.08984,-20.28774,0.6399544,0.5384851,0.1599731,234.5,30.5,-32.08985,-20.28774,0.6438606,0.5384851,0.1599731,234.5,-116.5,-32.08985,-18.59886,0.6438606,0.5407281,-0.1400146,234.5,-116.5,-32.09886,-18.59886,0.643856,0.5407281,-0.1400146,234.5,30.5,-32.09886,-20.28774,0.643856,0.5384851,0.1599731,40.5,30.5,-32.08984,-1.287739,0.5266731,0.9387194,0.1599731,234.5,30.5,-32.08984,-3.5166,0.5266731,0.9357592,-0.1400146,234.5,30.5,-32.09886,-3.5166,0.5266685,0.9357592,-0.1400146,40.5,30.5,-32.09886,-1.287739,0.5266685,0.9387194,0.1599731,37.5,30.5,31.9997,-20.28774,0.651992,0.5384851,0.1599731,37.5,-116.5,31.9997,-18.59886,0.651992,0.5407281,-0.1400146,37.5,-116.5,32.00872,-18.59886,0.6519966,0.5407281,-0.1400146,37.5,30.5,32.00872,-20.28774,0.6519966,0.5384851,-0.1400146,97.5,113,-11.99249,12.04167,0.5271528,0.9530274,-0.1400146,97.5,-91,-11.99249,10.71355,0.5271528,0.9499146,0.1599731,97.5,-91,-12.0003,10.71355,0.5271482,0.9499146,0.1599731,97.5,113,-12.0003,12.04167,0.5271482,0.9530274,-0.1400146,-97.5,113,12.91433,-12.61979,0.8317857,0.5495239,-0.1400146,-97.5,46,12.91433,-12.18359,0.8317857,0.5505463,0.1599731,-97.5,46,12.92214,-12.18359,0.8317903,0.5505463,0.1599731,-97.5,113,12.92214,-12.61979,0.8317903,0.5495239,0.1599731,94.5,113,13.9221,12.04167,0.8274934,0.5506836,0.1599731,94.5,46,13.9221,11.60547,0.8274934,0.5496613,-0.1400146,94.5,46,13.91429,11.60547,0.8274888,0.5496613,-0.1400146,94.5,113,13.91429,12.04167,0.8274888,0.5506836,0.1599731,-97.5,46,-12.0003,-11.16406,0.5271482,0.9660217,-0.1400146,-97.5,46,-11.99249,-11.16406,0.5271528,0.9660217,-0.1400146,94.5,46,-11.99249,-12.41406,0.5271528,0.963092,0.1599731,94.5,46,-12.0003,-12.41406,0.5271482,0.963092,-0.1400146,-97.5,43,12.91433,-12.16406,0.6599107,0.5388733,-0.1400146,-97.5,-91,12.91433,-11.29167,0.6599107,0.540918,0.1599731,-97.5,-91,12.92214,-11.29167,0.6599153,0.540918,0.1599731,-97.5,43,12.92214,-12.16406,0.6599153,0.5388733,0.1599731,94.5,43,13.92209,-12.41406,0.5267122,0.9562561,-0.1400146,94.5,43,13.91428,-12.41406,0.5267076,0.9562561,-0.1400146,-97.5,43,13.91428,-11.16406,0.5267076,0.9591858,0.1599731,-97.5,43,13.92209,-11.16406,0.5267122,0.9591858,0.1599731,94.5,43,13.9221,11.58594,0.6556184,0.5408264,0.1599731,94.5,-91,13.9221,10.71355,0.6556184,0.5387818,-0.1400146,94.5,-91,13.91429,10.71355,0.6556138,0.5387818,-0.1400146,94.5,43,13.91429,11.58594,0.6556138,0.5408264,0.1599731,-100.5,113,-13.00026,-12.61979,0.5265623,0.9704224,0.1599731,-100.5,-91,-13.00026,-11.29167,0.5265623,0.9735352,-0.1400146,-100.5,-91,-12.99245,-11.29167,0.5265669,0.9735352,-0.1400146,-100.5,113,-12.99245,-12.61979,0.5265669,0.9704224,100.5,0.2200012,113,-21.0011,12.19792,0.5267572,0.9797608,100.5,0.2200012,-91,-21.0011,10.86979,0.5267572,0.976648,100.5,-0.2170105,-91,-20.98972,10.86979,0.5267639,0.976648,100.5,-0.2170105,113,-20.98972,12.19792,0.5267639,0.9797608,1.5,0.2200012,113,20.92037,12.19792,0.6636252,0.5403076,1.5,0.2200012,16,20.92037,11.56641,0.6636252,0.5388275,1.5,-0.2170105,16,20.90899,11.56641,0.6636186,0.5388275,1.5,-0.2170105,113,20.90899,12.19792,0.6636186,0.5403076,97.5,-0.2170105,113,20.90899,12.19792,0.6675248,0.5403076,97.5,-0.2170105,16,20.90899,11.56641,0.6675248,0.5388275,97.5,0.2200012,16,20.92037,11.56641,0.6675315,0.5388275,97.5,0.2200012,113,20.92037,12.19792,0.6675315,0.5403076,1.5,-0.2170105,16,-20.98973,-3.828127,0.8470764,0.5505981,1.5,0.2200012,16,-21.00111,-3.828127,0.8470697,0.5505981,97.5,0.2200012,16,-21.00111,-4.453127,0.8470697,0.5491333,97.5,-0.2170105,16,-20.98973,-4.453127,0.8470764,0.5491333,1.5,0.2200012,13,20.92037,11.54688,0.8355002,0.5505005,1.5,0.2200012,-91,20.92037,10.86979,0.8355002,0.5489136,1.5,-0.2170105,-91,20.90899,10.86979,0.8354936,0.5489136,1.5,-0.2170105,13,20.90899,11.54688,0.8354936,0.5505005,97.5,-0.2170105,13,20.90899,-4.453127,0.8433061,0.5491333,97.5,0.2200012,13,20.92037,-4.453127,0.8433127,0.5491333,1.5,0.2200012,13,20.92037,-3.828127,0.8433127,0.5505981,1.5,-0.2170105,13,20.90899,-3.828127,0.8433061,0.5505981,97.5,-0.2170105,13,20.90899,11.54688,0.8393998,0.5505005,97.5,-0.2170105,-91,20.90899,10.86979,0.8393998,0.5489136,97.5,0.2200012,-91,20.92037,10.86979,0.8394065,0.5489136,97.5,0.2200012,13,20.92037,11.54688,0.8394065,0.5505005,-1.5,-0.2170105,113,-20.98972,-11.47917,0.5267639,0.9838379,-1.5,-0.2170105,-91,-20.98972,-10.15105,0.5267639,0.9869507,-1.5,0.2200012,-91,-21.0011,-10.15105,0.5267572,0.9869507,-1.5,0.2200012,113,-21.0011,-11.47917,0.5267572,0.9838379,112.5,-0.1600037,4.5,12.00937,-8.137951,0.5305126,0.5292308,-120.5,-0.1600037,4.5,12.00937,-10.81488,0.5305126,0.5256755,-120.5,0.15979,4.5,11.99976,-10.81488,0.5305077,0.5256755,112.5,0.15979,4.5,11.99976,-8.137951,0.5305077,0.5292308,112.5,0.15979,1.5,-11.08993,-8.137951,0.5265949,0.9940746,-120.5,0.15979,1.5,-11.08993,-10.81488,0.5265949,0.9905193,-120.5,-0.1600037,1.5,-11.09954,-10.81488,0.52659,0.9905193,112.5,-0.1600037,1.5,-11.09954,-8.137951,0.52659,0.9940746,-2.5,-0.1600037,-116.5,11.00938,-18.04696,0.7458251,0.5219298,-2.5,-0.1600037,116.5,11.00938,-20.72388,0.7458251,0.5183745,-2.5,0.15979,116.5,10.99977,-20.72388,0.7458202,0.5183745,-2.5,0.15979,-116.5,10.99977,-18.04696,0.7458202,0.5219298,-5.5,0.15979,-116.5,-11.08993,-18.04696,0.7414387,0.5219298,-5.5,0.15979,116.5,-11.08993,-20.72388,0.7414387,0.5183745,-5.5,-0.1600037,116.5,-11.09954,-20.72388,0.7414338,0.5183745,-5.5,-0.1600037,-116.5,-11.09954,-18.04696,0.7414338,0.5219298,-2.5,-0.1600037,-116.5,-11.09951,-18.04696,0.7531526,0.5219298,-2.5,-0.1600037,116.5,-11.09951,-20.72389,0.7531526,0.5183745,-2.5,0.15979,116.5,-11.08991,-20.72389,0.7531575,0.5183745,-2.5,0.15979,-116.5,-11.08991,-18.04696,0.7531575,0.5219298,-5.5,0.15979,-116.5,10.99977,-18.04696,0.7497265,0.5219298,-5.5,0.15979,116.5,10.99977,-20.72388,0.7497265,0.5183745,-5.5,-0.1600037,116.5,11.00938,-20.72388,0.7497313,0.5183745,-5.5,-0.1600037,-116.5,11.00938,-18.04696,0.7497313,0.5219298,100.5,0.4899902,66,24.03004,-20.42147,0.6752887,0.5383074,100.5,0.4899902,-93,24.03004,-18.59473,0.6752887,0.5407336,100.5,-0.5100098,-93,24,-18.59473,0.6752734,0.5407336,100.5,-0.5100098,66,24,-20.42147,0.6752734,0.5383074,1.5,0.4899902,66,-24.1202,20.69342,0.8510327,0.5499444,1.5,0.4899902,16,-24.1202,20.11897,0.8510327,0.5491815,1.5,-0.5100098,16,-24.09015,20.11897,0.851048,0.5491815,1.5,-0.5100098,66,-24.09015,20.69342,0.851048,0.5499444,97.5,-0.5100098,66,-24.09015,-20.42147,0.8588605,0.5490496,97.5,-0.5100098,16,-24.09015,-19.84702,0.8588605,0.5498126,97.5,0.4899902,16,-24.1202,-19.84702,0.8588452,0.5498126,97.5,0.4899902,66,-24.1202,-20.42147,0.8588452,0.5490496,1.5,0.4899902,13,-24.1202,20.08451,0.6713452,0.5403466,1.5,0.4899902,-93,-24.1202,18.86668,0.6713452,0.5387292,1.5,-0.5100098,-93,-24.09015,18.86668,0.6713605,0.5387292,1.5,-0.5100098,13,-24.09015,20.08451,0.6713605,0.5403466,97.5,-0.5100098,13,-24.09015,8.187448,0.679173,0.5401708,97.5,0.4899902,13,-24.1202,8.187448,0.6791577,0.5401708,1.5,0.4899902,13,-24.1202,7.084507,0.6791577,0.538706,1.5,-0.5100098,13,-24.09015,7.084507,0.679173,0.538706,97.5,-0.5100098,13,-24.09015,-19.81256,0.8549542,0.5488818,97.5,-0.5100098,-93,-24.09015,-18.59473,0.8549542,0.5504992,97.5,0.4899902,-93,-24.1202,-18.59473,0.854939,0.5504992,97.5,0.4899902,13,-24.1202,-19.81256,0.854939,0.5488818,-1.5,-0.5100098,66,24,20.69342,0.5346484,0.52846,-1.5,-0.5100098,-93,24,18.86668,0.5346484,0.5260339,-1.5,0.4899902,-93,24.03004,18.86668,0.5346637,0.5260339,-1.5,0.4899902,66,24.03004,20.69342,0.5346637,0.52846,1.080078,-0.5,-92.5,-33.07815,-9.994466,0.5424845,0.5283333,1.080078,-0.5,92.5,-33.07815,-11.19889,0.5424845,0.5255104,1.080078,1.5,92.5,-33.15474,-11.19889,0.5424539,0.5255104,1.080078,1.5,-92.5,-33.15474,-9.994466,0.5424539,0.5283333,-1,1.5,-92.5,-33.15474,-9.994466,0.5385477,0.5283333,-1,1.5,92.5,-33.15474,-11.19889,0.5385477,0.5255104,-1,-0.5,92.5,-33.07815,-11.19889,0.5385782,0.5255104,-1,-0.5,-92.5,-33.07815,-9.994466,0.5385782,0.5283333,1,-0.5,-92.5,-33.07815,-9.994466,0.550297,0.5283333,1,-0.5,92.5,-33.07815,-11.19889,0.550297,0.5255104,1,1.5,92.5,-33.15474,-11.19889,0.5502664,0.5255104,1,1.5,-92.5,-33.15474,-9.994466,0.5502664,0.5283333,-1.040039,1.5,-92.5,-33.15474,-9.994466,0.5463602,0.5283333,-1.040039,1.5,92.5,-33.15474,-11.19889,0.5463602,0.5255104,-1.040039,-0.5,92.5,-33.07815,-11.19889,0.5463907,0.5255104,-1.040039,-0.5,-92.5,-33.07815,-9.994466,0.5463907,0.5283333,264.51,13.48997,65.5,-17.98433,-17.11863,0.9098126,0.5661315,264.51,15.48999,65.5,-18.01438,-17.13488,0.9097974,0.56611,262.51,15.48999,65.5,-18.04443,-17.11863,0.9097821,0.5661315,264.51,-13.48996,65.5,33.00002,14.99168,0.9132422,0.5658092,262.5099,-15.49001,65.5,32.91502,14.99168,0.913199,0.5658092,264.51,-15.49001,65.5,32.95752,15.00793,0.9132206,0.5658308,-264.51,-13.48996,65.5,-20,5.881379,0.9175781,0.5664049,-264.51,-15.49001,65.5,-20.0425,5.86513,0.9175565,0.5663834,-262.5099,-15.49001,65.5,-20.08499,5.881379,0.9175349,0.5664049,-262.51,15.48999,65.5,-27.08501,-3.008331,0.9217927,0.5663171,-264.51,15.48999,65.5,-27.04252,-2.992083,0.9218143,0.5663387,-264.51,13.49001,65.5,-27.00002,-3.008331,0.9218359,0.5663171
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19,20,21,22,20,22,23,24,25,26,24,26,27,28,29,30,28,30,31,32,33,34,32,34,35,36,37,38,36,38,39,40,41,42,40,42,43,44,45,46,44,46,47,48,49,50,48,50,51,52,53,54,52,54,55,56,57,58,56,58,59,60,61,62,60,62,63,64,65,66,64,66,67,68,69,70,68,70,71,72,73,74,72,74,75,76,77,78,76,78,79,80,81,82,80,82,83,84,85,86,84,86,87,88,89,90,88,90,91,92,93,94,92,94,95,96,97,98,96,98,99,100,101,102,100,102,103,104,105,106,104,106,107,108,109,110,108,110,111,112,113,114,112,114,115,116,117,118,116,118,119,120,121,122,120,122,123,124,125,126,124,126,127,128,129,130,128,130,131,132,133,134,132,134,135,136,137,138,136,138,139,140,141,142,140,142,143,144,145,146,144,146,147,148,149,150,148,150,151,152,153,154,152,154,155,156,157,158,156,158,159,160,161,162,160,162,163,164,165,166,164,166,167,168,169,170,168,170,171,172,173,174,172,174,175,176,177,178,176,178,179,180,181,182,180,182,183,184,185,186,184,186,187,188,189,190,188,190,191,192,193,194,192,194,195,196,197,198,196,198,199,200,201,202,200,202,203,204,205,206,204,206,207,208,209,210,208,210,211,212,213,214,212,214,215,216,217,218,216,218,219,220,221,222,220,222,223,224,225,226,224,226,227,228,229,230,228,230,231,232,233,234,232,234,235,236,237,238,236,238,239,240,241,242,240,242,243,244,245,246,244,246,247,248,249,250,248,250,251,252,253,254,252,254,255,256,257,258,256,258,259,260,261,262,260,262,263,264,265,266,264,266,267,268,269,270,268,270,271,272,273,274,272,274,275,276,277,278,276,278,279,280,281,282,280,282,283,284,285,286,284,286,287,288,289,290,288,290,291,292,293,294,292,294,295,296,297,298,296,298,299,300,301,302,300,302,303,304,305,306,304,306,307,308,309,310,308,310,311,312,313,314,312,314,315,316,317,318,316,318,319,320,321,322,320,322,323,324,325,326,324,326,327,328,329,330,328,330,331,332,333,334,332,334,335,336,337,338,336,338,339,340,341,342,340,342,343,344,345,346,344,346,347,348,349,350,348,350,351,352,353,354,352,354,355,356,357,358,356,358,359,360,361,362,360,362,363,364,365,366,364,366,367,368,369,370,368,370,371,372,373,374,372,374,375,376,377,378,376,378,379,380,381,382,380,382,383,384,385,386,384,386,387,388,389,390,388,390,391,392,393,394,392,394,395,396,397,398,396,398,399,400,401,402,400,402,403,404,405,406,404,406,407,408,409,410,408,410,411,412,413,414,412,414,415,416,417,418,416,418,419,420,421,422,420,422,423,424,425,426,424,426,427,428,429,430,428,430,431,432,433,434,432,434,435,436,437,438,436,438,439,440,441,442,440,442,443,444,445,446,444,446,447,448,449,450,448,450,451,452,453,454,452,454,455,456,457,458,456,458,459,460,461,462,460,462,463,464,465,466,464,466,467,468,469,470,468,470,471,472,473,474,472,474,475,476,477,478,476,478,479,480,481,482,480,482,483,484,485,486,484,486,487,488,489,490,488,490,491,492,493,494,492,494,495,496,497,498,496,498,499,500,501,502,500,502,503,504,505,506,504,506,507,508,509,510,508,510,511,512,513,514,512,514,515,516,517,518,516,518,519,520,521,522,520,522,523,524,525,526,524,526,527,528,529,530,528,530,531,532,533,534,532,534,535,536,537,538,536,538,539,540,541,542,540,542,543,544,545,546,544,546,547,548,549,550,548,550,551,552,553,554,552,554,555,556,557,558,556,558,559,560,561,562,560,562,563,564,565,566,564,566,567,568,569,570,568,570,571,572,573,574,572,574,575,576,577,578,576,578,579,580,581,582,580,582,583,584,585,586,584,586,587,588,589,590,588,590,591,592,593,594,592,594,595,596,597,598,596,598,599,600,601,602,600,602,603,604,605,606,604,606,607,608,609,610,608,610,611,612,613,614,612,614,615,616,617,618,616,618,619,620,621,622,620,622,623,624,625,626,624,626,627,628,629,630,628,630,631,632,633,634,632,634,635,636,637,638,636,638,639,640,641,642,640,642,643,644,645,646,644,646,647,648,649,650,648,650,651,652,653,654,652,654,655,656,657,658,656,658,659,660,661,662,660,662,663,664,665,666,664,666,667,668,669,670,668,670,671,672,673,674,672,674,675,676,677,678,676,678,679,680,681,682,680,682,683,684,685,686,684,686,687,688,689,690,688,690,691,692,693,694,692,694,695,696,697,698,696,698,699,700,701,702,700,702,703,704,705,706,704,706,707,708,709,710,708,710,711,712,713,714,712,714,715,716,717,718,716,718,719,720,721,722,720,722,723,724,725,726,724,726,727,728,729,730,728,730,731,732,733,734,732,734,735,736,737,738,736,738,739,740,741,742,740,742,743,744,745,746,744,746,747,748,749,750,748,750,751,752,753,754,752,754,755,756,757,758,756,758,759,760,761,762,760,762,763,764,765,766,764,766,767,768,769,770,768,770,771,772,773,774,772,774,775,776,777,778,776,778,779,780,781,782,780,782,783,784,785,786,784,786,787,788,789,790,788,790,791,792,793,794,792,794,795,796,797,798,796,798,799,800,801,802,800,802,803,804,805,806,804,806,807,808,809,810,808,810,811,812,813,814,812,814,815,816,817,818,816,818,819,820,821,822,820,822,823,824,825,826,824,826,827,828,829,830,828,830,831,832,833,834,832,834,835,836,837,838,836,838,839,840,841,842,840,842,843,844,845,846,844,846,847,848,849,850,848,850,851,852,853,854,852,854,855,856,857,858,856,858,859,860,861,862,860,862,863,864,865,866,864,866,867,868,869,870,868,870,871,872,873,874,872,874,875,876,877,878,876,878,879,880,881,882,880,882,883,884,885,886,884,886,887,888,889,890,888,890,891,892,893,894,892,894,895,896,897,898,896,898,899,900,901,902,900,902,903,904,905,906,904,906,907,908,909,910,908,910,911,912,913,914,912,914,915,916,917,918,916,918,919,920,921,922,920,922,923,924,925,926,924,926,927,928,929,930,928,930,931,932,933,934,932,934,935,936,937,938,936,938,939,940,941,942,940,942,943,944,945,946,944,946,947,948,949,950,951,952,953,954,955,956,957,958,959
+        ]
+      }
+    },
+    {
+      "material": 104,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 30,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 42,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 54,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 66,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 78,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 90,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 102,
+            "indexCount": 90
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 192,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 198,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 204,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 210,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 228,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 240,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 258,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 270,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 282,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 294,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 300,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 312,
+            "indexCount": 96
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 408,
+            "indexCount": 30
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 438,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 444,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 450,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 468,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 480,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 498,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 510,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 528,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 540,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 558,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 570,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 588,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 600,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 612,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 624,
+            "indexCount": 30
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 654,
+            "indexCount": 30
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 684,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 690,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 696,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 702,
+            "indexCount": 30
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 732,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 738,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 744,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 750,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 756,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 762,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -0.1730347,160.51,113.5,41,-9.496378,0.6909375,0.4798239,-0.1730347,-31.48999,113.5,41,-11.70226,0.6909375,0.4681052,-0.1730347,-31.48999,109.5,40.90808,-11.70226,0.6906934,0.4681052,-0.1730347,-30.48999,109.5,40.90808,-11.69077,0.6906934,0.4681662,-0.1730347,-26.48999,109.5,40.90808,-11.64481,0.6906934,0.4684104,-0.1730347,155.51,109.5,40.90808,-9.553823,0.6906934,0.4795188,-0.1730347,159.51,109.5,40.90808,-9.507867,0.6906934,0.4797629,-0.1730347,160.51,109.5,40.90808,-9.496378,0.6906934,0.4798239,-0.1730347,-30.48999,-74.5,23,-19.06026,0.6948828,0.4797971,-0.1730347,-26.48999,-74.5,22.90809,-19.06026,0.6946387,0.4797971,-0.1730347,-26.48999,109.5,22.90809,-21.17423,0.6946387,0.4685666,-0.1730347,-30.48999,109.5,23,-21.17423,0.6948828,0.4685666,-0.1730347,155.51,-74.5,-18.09192,-19.06026,0.689248,0.3850705,-0.1730347,159.51,-74.5,-18.00001,-19.06026,0.6894922,0.3850705,-0.1730347,159.51,109.5,-18.00001,-21.17423,0.6894922,0.37384,-0.1730347,155.51,109.5,-18.09192,-21.17423,0.689248,0.37384,3,-0.5,76,19,9.351888,0.5042969,0.3982208,3,-0.5,69,18.92188,9.351888,0.5038697,0.3982208,-1,-0.5,69,18.92188,9.325846,0.5038697,0.3979767,-129,-0.5,69,18.92188,8.492513,0.5038697,0.3901642,-133,-0.5,69,18.92188,8.466471,0.5038697,0.3899201,-133,-0.5,76,19,8.466471,0.5042969,0.3899201,-129,-0.5,-69,-35.09766,-19.46628,0.4913574,0.8614292,-133,-0.5,-69,-35,-19.46628,0.4916016,0.8614292,-133,-0.5,69,-35,-21.05176,0.4916016,0.8530063,-129,-0.5,69,-35.09766,-21.05176,0.4913574,0.8530063,3,-0.5,-69,38,-19.46628,0.4914844,0.8487338,-1,-0.5,-69,37.90235,-19.46628,0.4912402,0.8487338,-1,-0.5,69,37.90235,-21.05176,0.4912402,0.840311,3,-0.5,69,38,-21.05176,0.4914844,0.840311,-12,-0.5,76,19,10.361,0.3919922,0.9125641,-12,-0.5,69,18.92188,10.361,0.3915649,0.9125641,-16,-0.5,69,18.92188,10.33496,0.3915649,0.91232,-144,-0.5,69,18.92188,9.501627,0.3915649,0.9045075,-148,-0.5,69,18.92188,9.475585,0.3915649,0.9042633,-148,-0.5,76,19,9.475585,0.3919922,0.9042633,-144,-0.5,-69,-38.09766,-19.46628,0.4916699,0.8868198,-148,-0.5,-69,-38,-19.46628,0.4919141,0.8868198,-148,-0.5,69,-38,-21.05176,0.4919141,0.8783969,-144,-0.5,69,-38.09766,-21.05176,0.4916699,0.8783969,-12,-0.5,-69,42.00001,-19.46628,0.4917188,0.8741245,-16,-0.5,-69,41.90236,-19.46628,0.4914746,0.8741245,-16,-0.5,69,41.90236,-21.05176,0.4914746,0.8657016,-12,-0.5,69,42.00001,-21.05176,0.4917188,0.8657016,-0.2099915,1.48999,42,52,6.462488,0.3917578,0.4581601,-0.2099915,-158.51,42,52,8.300723,0.3917578,0.4679257,-0.2099915,-158.51,39,51.90985,8.300723,0.3915747,0.4679257,-0.2099915,-155.51,39,51.90985,8.266256,0.3915747,0.4677426,-0.2099915,-1.51001,39,51.90985,6.496955,0.3915747,0.4583432,-0.2099915,1.48999,39,51.90985,6.462488,0.3915747,0.4581601,-0.2099915,-158.51,-93,23.00001,17.98018,0.3917578,0.9168088,-0.2099915,-155.51,-93,22.90235,17.98018,0.3915747,0.9168088,-0.2099915,-155.51,39,22.90235,19.49673,0.3915747,0.9248654,-0.2099915,-158.51,39,23.00001,19.49673,0.3917578,0.9248654,-0.2099915,-1.51001,-93,-18.09766,17.98018,0.4914575,0.8914182,-0.2099915,1.48999,-93,-18,17.98018,0.4916406,0.8914182,-0.2099915,1.48999,39,-18,19.49673,0.4916406,0.8994748,-0.2099915,-1.51001,39,-18.09766,19.49673,0.4914575,0.8994748,0.1599731,-1.5,124.5,8.909861,22.34048,0.4682935,0.5425119,0.1599731,1.5,124.5,9.000006,22.34048,0.4684766,0.5425119,0.1599731,1.5,-124.5,9.000006,19.47972,0.4684766,0.5273141,0.1599731,-1.5,-124.5,8.909861,19.47972,0.4682935,0.5273141,911.4001,-396.5,-124.5,2.000002,19.47972,0.3722266,0.9413766,911.4001,-393.5,-124.5,1.909858,19.47972,0.3720435,0.9413766,911.4001,-393.5,124.5,1.909858,22.34048,0.3720435,0.9565744,911.4001,-396.5,124.5,2.000002,22.34048,0.3722266,0.9565744,911.4001,-265.5,-124.5,0.9098563,19.47972,0.3719653,0.9218454,911.4001,-262.5,-124.5,1,19.47972,0.3721484,0.9218454,911.4001,-262.5,124.5,1,22.34048,0.3721484,0.9370431,911.4001,-265.5,124.5,0.9098563,22.34048,0.3719653,0.9370431,911.4001,-132.5,-124.5,-5.000001,19.47972,0.4683594,0.5077829,911.4001,-129.5,-124.5,-5.090145,19.47972,0.4681763,0.5077829,911.4001,-129.5,124.5,-5.090145,22.34048,0.4681763,0.5229806,911.4001,-132.5,124.5,-5.000001,22.34048,0.4683594,0.5229806,911.4001,-1.5,-124.5,8.909853,19.47972,0.4682935,0.4882517,911.4001,1.5,-124.5,8.999998,19.47972,0.4684766,0.4882517,911.4001,1.5,124.5,8.999998,22.34048,0.4684766,0.5034494,911.4001,-1.5,124.5,8.909853,22.34048,0.4682935,0.5034494,481.84,152.104,-2.5,-39.00061,-20.87942,0.4998816,0.7435703,483.84,152.104,-2.5,-39.0607,-20.87942,0.4997595,0.7435703,483.84,152.104,-124.5,-39.0607,-19.47777,0.4997595,0.7510166,481.84,152.104,-124.5,-39.00061,-19.47777,0.4998816,0.7510166,611.84,152.104,-2.5,41.9393,-20.87942,0.4992517,0.7318515,613.84,152.104,-2.5,41.9994,-20.87942,0.4993738,0.7318515,613.84,152.104,-124.5,41.9994,-19.47777,0.4993738,0.7392978,611.84,152.104,-124.5,41.9393,-19.47777,0.4992517,0.7392978,799.84,152.104,-2.5,47.9393,-20.87942,0.4997205,0.7201328,801.84,152.104,-2.5,47.9994,-20.87942,0.4998425,0.7201328,801.84,152.104,-124.5,47.9994,-19.47777,0.4998425,0.7275791,799.84,152.104,-124.5,47.9393,-19.47777,0.4997205,0.7275791,669.84,152.104,-2.5,-44.0006,-20.87942,0.499491,0.708414,671.84,152.104,-2.5,-44.0607,-20.87942,0.4993689,0.708414,671.84,152.104,-124.5,-44.0607,-19.47777,0.4993689,0.7158603,669.84,152.104,-124.5,-44.0006,-19.47777,0.499491,0.7158603,480.84,152.104,0.5,51.9997,14.85702,0.3917572,0.9295139,614.84,152.104,0.5,51.9997,16.39654,0.3917572,0.9376926,614.84,152.104,-2.5,51.90956,16.39654,0.3915741,0.9376926,613.84,152.104,-2.5,51.90956,16.38505,0.3915741,0.9376315,611.84,152.104,-2.5,51.90956,16.36207,0.3915741,0.9375095,483.84,152.104,-2.5,51.90956,14.89149,0.3915741,0.929697,481.84,152.104,-2.5,51.90956,14.86851,0.3915741,0.9295749,480.84,152.104,-2.5,51.90956,14.85702,0.3915741,0.9295139,668.84,152.104,0.5,51.9997,17.01694,0.5089447,0.3902072,802.84,152.104,0.5,51.9997,18.55647,0.5089447,0.3983859,802.84,152.104,-2.5,51.90956,18.55647,0.5087616,0.3983859,801.84,152.104,-2.5,51.90956,18.54498,0.5087616,0.3983249,799.84,152.104,-2.5,51.90956,18.522,0.5087616,0.3982028,671.84,152.104,-2.5,51.90956,17.05141,0.5087616,0.3903903,669.84,152.104,-2.5,51.90956,17.02843,0.5087616,0.3902683,668.84,152.104,-2.5,51.90956,17.01694,0.5087616,0.3902072,0.1599731,-1.5,-124.5,-5,19.47972,0.4683594,0.5468454,0.1599731,-1.5,124.5,-5,22.34048,0.4683594,0.5620431,0.1599731,1.5,124.5,-5.090144,22.34048,0.4681763,0.5620431,0.1599731,1.5,-124.5,-5.090144,19.47972,0.4681763,0.5468454,0.1599731,-1.5,-124.5,1.909856,19.47972,0.3720435,0.9609079,0.1599731,-1.5,124.5,1.909856,22.34048,0.3720435,0.9761056,0.1599731,1.5,124.5,2,22.34048,0.3722266,0.9761056,0.1599731,1.5,-124.5,2,19.47972,0.3722266,0.9609079,0.1599731,-1.5,-124.5,2.000002,19.47972,0.3722266,0.9804391,0.1599731,-1.5,124.5,2.000002,22.34048,0.3722266,0.9956369,0.1599731,1.5,124.5,1.909858,22.34048,0.3720435,0.9956369,0.1599731,1.5,-124.5,1.909858,19.47972,0.3720435,0.9804391,49.51001,0.1919861,68.5,52,-10.83346,0.3917578,0.9502597,49.51001,0.1919861,65.5,51.90985,-10.83346,0.3915747,0.9502597,50.51001,0.1919861,65.5,51.90985,-10.84495,0.3915747,0.9501987,53.51001,0.1919861,65.5,51.90985,-10.87942,0.3915747,0.9500156,181.505,0.1919861,65.5,51.90985,-12.34995,0.3915747,0.9422034,184.51,0.1919861,65.5,51.90985,-12.38447,0.3915747,0.94202,185.51,0.1919861,65.5,51.90985,-12.39596,0.3915747,0.941959,185.51,0.1919861,68.5,52,-12.39596,0.3917578,0.941959,53.51001,0.1919861,65.5,-27.09016,-20.87942,0.4996606,0.7670078,50.51001,0.1919861,65.5,-27.00001,-20.87942,0.4998437,0.7670078,50.51001,0.1919861,-56.5,-27.00001,-19.47777,0.4998437,0.7744541,53.51001,0.1919861,-56.5,-27.09016,-19.47777,0.4996606,0.7744541,184.51,0.1919861,65.5,31,-20.87942,0.4994922,0.755289,181.505,0.1919861,65.5,30.9097,-20.87942,0.4993088,0.755289,181.505,0.1919861,-56.5,30.9097,-19.47777,0.4993088,0.7627353,184.51,0.1919861,-56.5,31,-19.47777,0.4994922,0.7627353,49.51001,0.1919861,68.5,52,11.60404,0.5138281,0.3897714,49.51001,0.1919861,65.5,51.90985,11.60404,0.513645,0.3897714,50.51001,0.1919861,65.5,51.90985,11.61552,0.513645,0.3898325,53.51001,0.1919861,65.5,51.90985,11.64999,0.513645,0.3900156,181.505,0.1919861,65.5,51.90985,13.12052,0.513645,0.3978278,184.51,0.1919861,65.5,51.90985,13.15505,0.513645,0.3980112,185.51,0.1919861,65.5,51.90985,13.16654,0.513645,0.3980722,185.51,0.1919861,68.5,52,13.16654,0.5138281,0.3980722,53.51001,0.1919861,65.5,-32.09016,-20.87942,0.49927,0.7904453,50.51001,0.1919861,65.5,-32.00001,-20.87942,0.4994531,0.7904453,50.51001,0.1919861,-56.5,-32.00001,-19.47777,0.4994531,0.7978916,53.51001,0.1919861,-56.5,-32.09016,-19.47777,0.49927,0.7978916,184.51,0.1919861,65.5,37,-20.87942,0.4999609,0.7787265,181.505,0.1919861,65.5,36.90971,-20.87942,0.4997775,0.7787265,181.505,0.1919861,-56.5,36.90971,-19.47777,0.4997775,0.7861728,184.51,0.1919861,-56.5,37,-19.47777,0.4999609,0.7861728,155.51,-0.2340393,60.5,52,-11.1161,0.8507422,0.3901645,155.51,-0.2340393,57.5,51.90986,-11.1161,0.8505591,0.3901645,152.51,-0.2340393,57.5,51.90986,-11.08163,0.8505591,0.3903476,52.51001,-0.2340393,57.5,51.90986,-9.932736,0.8505591,0.3964511,49.51001,-0.2340393,57.5,51.90986,-9.89827,0.8505591,0.3966342,49.51001,-0.2340393,60.5,52,-9.89827,0.8507422,0.3966342,52.51001,-0.2340393,-56.5,-27.09015,-17.623,0.8668481,0.5040341,49.51001,-0.2340393,-56.5,-27,-17.623,0.8670312,0.5040341,49.51001,-0.2340393,57.5,-27,-18.93274,0.8670312,0.4970761,52.51001,-0.2340393,57.5,-27.09015,-18.93274,0.8668481,0.4970761,155.51,-0.2340393,-56.5,30,17.60863,0.8626953,0.4978427,152.51,-0.2340393,-56.5,29.90986,17.60863,0.8625122,0.4978427,152.51,-0.2340393,57.5,29.90986,18.91837,0.8625122,0.5048007,155.51,-0.2340393,57.5,30,18.91837,0.8626953,0.5048007,-0.1999512,64,-154.51,51.90987,7.428024,0.5185279,0.3900473,-0.1999512,64,-151.51,52.00002,7.428024,0.518711,0.3900473,-0.1999512,-64,-151.51,52.00002,8.898613,0.518711,0.3978598,-0.1999512,-64,-154.51,51.90987,8.898613,0.5185279,0.3978598,-0.1999512,20.51001,-91,22.00001,-17.65378,0.4841407,0.496058,-0.1999512,23.51001,-91,21.90987,-17.65378,0.4839576,0.496058,-0.1999512,23.51001,91,21.90987,-19.74477,0.4839576,0.4849496,-0.1999512,20.51001,91,22.00001,-19.74477,0.4841407,0.4849496,-0.1999512,151.51,-91,-18.09014,17.98042,0.698606,0.4685678,-0.1999512,154.51,-91,-18,17.98042,0.6987891,0.4685678,-0.1999512,154.51,91,-18,20.07141,0.6987891,0.4796762,-0.1999512,151.51,91,-18.09014,20.07141,0.698606,0.4796762,-73,0.15979,81.51001,-20.00003,20.04843,0.7142578,0.4795542,-73,0.15979,-100.49,-20.00003,17.95744,0.7142578,0.4684458,-70,0.15979,-100.49,-20.09017,17.95744,0.7140747,0.4684458,-70,0.15979,12.51001,-20.09017,19.25569,0.7140747,0.4753428,-70,0.15979,16.51001,-20.09017,19.30165,0.7140747,0.4755869,-70,0.15979,20.51001,-20.09017,19.34761,0.7140747,0.475831,-70,0.15979,25.51001,-20.09017,19.40505,0.7140747,0.4761362,-70,0.15979,81.51001,-20.09017,20.04843,0.7140747,0.4795542,70,0.15979,12.51001,50.90984,-8.320601,0.3914965,0.9548203,70,0.15979,16.51001,51.03003,-8.320601,0.3917407,0.9548203,-70,0.15979,16.51001,51.03003,-6.712145,0.3917407,0.9633652,-70,0.15979,12.51001,50.90984,-6.712145,0.3914965,0.9633652,70,0.15979,20.51001,-32.98438,6.188476,0.4916504,0.9252045,70,0.15979,25.51001,-33.08203,6.188476,0.4913452,0.9252045,-70,0.15979,25.51001,-33.08203,5.277018,0.4913452,0.9166595,-70,0.15979,20.51001,-32.98438,5.277018,0.4916504,0.9166595,73,0.15979,81.51001,23.99998,20.04843,0.7108594,0.4795542,70,0.15979,81.51001,23.90984,20.04843,0.7106763,0.4795542,70,0.15979,25.51001,23.90984,19.40505,0.7106763,0.4761362,70,0.15979,20.51001,23.90984,19.34761,0.7106763,0.475831,70,0.15979,16.51001,23.90984,19.30165,0.7106763,0.4755869,70,0.15979,12.51001,23.90984,19.25569,0.7106763,0.4753428,70,0.15979,-100.49,23.90984,17.95744,0.7106763,0.4684458,73,0.15979,-100.49,23.99998,17.95744,0.7108594,0.4684458,229,0.15979,81.51001,-28.00003,20.04843,0.7067968,0.4795542,229,0.15979,-100.49,-28.00003,17.95744,0.7067968,0.4684458,232,0.15979,-100.49,-28.09018,17.95744,0.7066137,0.4684458,232,0.15979,12.51001,-28.09018,19.25569,0.7066137,0.4753428,232,0.15979,16.51001,-28.09018,19.30165,0.7066137,0.4755869,232,0.15979,20.51001,-28.09018,19.3476,0.7066137,0.475831,232,0.15979,25.51001,-28.09018,19.40505,0.7066137,0.4761362,232,0.15979,81.51001,-28.09018,20.04843,0.7066137,0.4795542,368,0.15979,12.51001,50.90984,-11.74431,0.5233325,0.3897568,368,0.15979,16.51001,51.03003,-11.74431,0.5235766,0.3897568,232,0.15979,16.51001,51.03003,-10.18181,0.5235766,0.3980576,232,0.15979,12.51001,50.90984,-10.18181,0.5233325,0.3980576,368,0.15979,20.51001,-32.98438,8.12858,0.4916504,0.9121429,368,0.15979,25.51001,-33.08203,8.12858,0.4913452,0.9121429,232,0.15979,25.51001,-33.08203,7.243164,0.4913452,0.9038422,232,0.15979,20.51001,-32.98438,7.243164,0.4916504,0.9038422,371,0.15979,-100.49,32.99998,17.95744,0.7027734,0.4684458,371,0.15979,81.51001,32.99998,20.04843,0.7027734,0.4795542,368,0.15979,81.51001,32.90983,20.04843,0.7025903,0.4795542,368,0.15979,25.51001,32.90983,19.40505,0.7025903,0.4761362,368,0.15979,20.51001,32.90983,19.3476,0.7025903,0.475831,368,0.15979,16.51001,32.90983,19.30165,0.7025903,0.4755869,368,0.15979,12.51001,32.90983,19.25569,0.7025903,0.4753428,368,0.15979,-100.49,32.90983,17.95744,0.7025903,0.4684458,0.2100067,-158.51,-91,20.99999,18.00339,0.7223437,0.4686899,0.2100067,-158.51,91,20.99999,20.09438,0.7223437,0.4797983,0.2100067,-155.51,91,20.90985,20.09438,0.7221606,0.4797983,0.2100067,-155.51,42,20.90985,19.53142,0.7221606,0.4768076,0.2100067,-155.51,39,20.90985,19.49696,0.7221606,0.4766245,0.2100067,-155.51,-91,20.90985,18.00339,0.7221606,0.4686899,0.2100067,-155.51,39,51.90985,8.398092,0.3915747,0.9762555,0.2100067,-155.51,42,52,8.398092,0.3917578,0.9762555,0.2100067,-1.51001,42,52,6.628791,0.3917578,0.9668561,0.2100067,-1.51001,39,51.90985,6.628791,0.3915747,0.9668561,0.2100067,1.48999,91,-17.00001,20.09438,0.7183984,0.4797983,0.2100067,1.48999,-91,-17.00001,18.00339,0.7183984,0.4686899,0.2100067,-1.51001,-91,-17.09016,18.00339,0.7182153,0.4686899,0.2100067,-1.51001,39,-17.09016,19.49696,0.7182153,0.4766245,0.2100067,-1.51001,42,-17.09016,19.53142,0.7182153,0.4768076,0.2100067,-1.51001,91,-17.09016,20.09438,0.7182153,0.4797983,1.48999,-0.2170105,91,-10.10654,-20.90763,0.483606,0.4992798,1.48999,-0.2170105,-91,-10.10654,-18.81664,0.483606,0.5103882,-1.51001,-0.2170105,-91,-10.00001,-18.81664,0.4837891,0.5103882,-1.51001,-0.2170105,91,-10.00001,-20.90763,0.4837891,0.4992798,46,-0.2170105,1.51001,61,-5.20634,0.6360937,0.5084741,46,-0.2170105,-1.48999,60.89347,-5.20634,0.6359106,0.5084741,-46,-0.2170105,-1.48999,60.89347,-4.149355,0.6359106,0.5140893,-46,-0.2170105,1.51001,61,-4.149355,0.6360937,0.5140893,168.51,-0.2600098,61.5,40,-0.92716,0.8708984,0.5048401,168.51,-0.2600098,57.5,39.90809,-0.92716,0.8706543,0.5048401,167.51,-0.2600098,57.5,39.90809,-0.9386489,0.8706543,0.504779,165.51,-0.2600098,57.5,39.90809,-0.9616269,0.8706543,0.504657,53.51001,-0.2600098,57.5,39.90809,-2.248391,0.8706543,0.497821,51.50999,-0.2600098,57.5,39.90809,-2.271369,0.8706543,0.497699,50.51001,-0.2600098,57.5,39.90809,-2.282858,0.8706543,0.4976379,50.51001,-0.2600098,61.5,40,-2.282858,0.8708984,0.4976379,53.51001,-0.2600098,-73.5,6.902343,28.34872,0.4998389,0.8142456,51.50999,-0.2600098,-73.5,7,28.34872,0.4999609,0.8142456,51.50999,-0.2600098,57.5,7,30.67472,0.4999609,0.8222412,53.51001,-0.2600098,57.5,6.902343,30.67472,0.4998389,0.8222412,167.51,-0.2600098,-73.5,-3,28.34872,0.4991797,0.8025268,165.51,-0.2600098,-73.5,-3.097656,28.34872,0.4990576,0.8025268,165.51,-0.2600098,57.5,-3.097656,30.67472,0.4990576,0.8105224,167.51,-0.2600098,57.5,-3,30.67472,0.4991797,0.8105224,47.50999,0.15979,60.5,54,-2.31468,0.5,0.8254492,47.50999,0.15979,57.5,53.90625,-2.31468,0.4998169,0.8254492,49.51001,0.15979,57.5,53.90625,-2.291969,0.4998169,0.8255713,53.51001,0.15979,57.5,53.90625,-2.246548,0.4998169,0.8258154,165.51,0.15979,57.5,53.90625,-0.9747456,0.4998169,0.8326514,169.51,0.15979,57.5,53.90625,-0.9293242,0.4998169,0.8328955,171.51,0.15979,57.5,53.90625,-0.9066133,0.4998169,0.8330176,171.51,0.15979,60.5,54,-0.9066133,0.5,0.8330176,53.51001,0.15979,57.5,4.893455,19.75184,0.4994954,0.8568848,49.51001,0.15979,57.5,4.999989,19.75184,0.4997396,0.8568848,49.51001,0.15979,-73.5,4.999989,18.24678,0.4997396,0.8488892,53.51001,0.15979,-73.5,4.893455,18.24678,0.4994954,0.8488892,169.51,0.15979,57.5,-1.999997,19.75184,0.4993229,0.845166,165.51,0.15979,57.5,-2.106531,19.75184,0.4990788,0.845166,165.51,0.15979,-73.5,-2.106531,18.24678,0.4990788,0.8371704,169.51,0.15979,-73.5,-1.999997,18.24678,0.4993229,0.8371704,48.50999,0.2099915,48.5,43,2.001529,0.8746485,0.4977844,48.50999,0.2099915,44.5,42.89919,2.001529,0.8744043,0.4977844,50.51001,0.2099915,44.5,42.89919,2.018512,0.8744043,0.4979065,53.51001,0.2099915,44.5,42.89919,2.043988,0.8744043,0.4980896,145.51,0.2099915,44.5,42.89919,2.825238,0.8744043,0.5037048,148.51,0.2099915,44.5,42.89919,2.850713,0.8744043,0.503888,150.51,0.2099915,44.5,42.89919,2.867697,0.8744043,0.50401,150.51,0.2099915,48.5,43,2.867697,0.8746485,0.50401,53.51001,0.2099915,44.5,-10.09766,-30.99077,0.4996216,0.8729614,50.51001,0.2099915,44.5,-10,-30.99077,0.4998047,0.8729614,50.51001,0.2099915,-73.5,-10,-28.8956,0.4998047,0.8801636,53.51001,0.2099915,-73.5,-10.09766,-28.8956,0.4996216,0.8801636,148.51,0.2099915,44.5,13,-30.99077,0.4999609,0.8612427,145.51,0.2099915,44.5,12.90235,-30.99077,0.4997778,0.8612427,145.51,0.2099915,-73.5,12.90235,-28.8956,0.4997778,0.8684448,148.51,0.2099915,-73.5,13,-28.8956,0.4999609,0.8684448,0.1730042,-34.48999,60.5,48,-8.003906,0.7260938,0.4687195,0.1730042,157.51,60.5,48,-6.503906,0.7260938,0.4804382,0.1730042,157.51,56.5,47.88839,-6.503906,0.7258496,0.4804382,0.1730042,155.51,56.5,47.88839,-6.519531,0.7258496,0.4803162,0.1730042,151.51,56.5,47.88839,-6.550781,0.7258496,0.480072,0.1730042,-28.48999,56.5,47.88839,-7.957031,0.7258496,0.4690857,0.1730042,-32.48999,56.5,47.88839,-7.988281,0.7258496,0.4688416,0.1730042,-34.48999,56.5,47.88839,-8.003906,0.7258496,0.4687195,0.1730042,-32.48999,56.5,23.00001,-20.56531,0.4995703,0.8839108,0.1730042,-28.48999,56.5,22.90809,-20.56531,0.4993262,0.8839108,0.1730042,-28.48999,-74.5,22.90809,-19.06026,0.4993262,0.8919064,0.1730042,-32.48999,-74.5,23.00001,-19.06026,0.4995703,0.8919064,0.1730042,151.51,56.5,-18.09191,-20.56531,0.5281152,0.3897702,0.1730042,155.51,56.5,-18,-20.56531,0.5283594,0.3897702,0.1730042,155.51,-74.5,-18,-19.06026,0.5283594,0.3977658,0.1730042,151.51,-74.5,-18.09191,-19.06026,0.5281152,0.3977658,0.2100067,35.5,33.5,53.00001,2.689055,0.7297266,0.4803916,0.2100067,239.5,33.5,53.00001,0.3912611,0.7297266,0.4679404,0.2100067,239.5,30.5,52.90987,0.3912611,0.7295434,0.4679404,0.2100067,237.5,30.5,52.90987,0.4137883,0.7295434,0.4680625,0.2100067,234.5,30.5,52.90987,0.4475794,0.7295434,0.4682456,0.2100067,40.5,30.5,52.90987,2.632737,0.7295434,0.4800864,0.2100067,37.5,30.5,52.90987,2.666528,0.7295434,0.4802696,0.2100067,35.5,30.5,52.90987,2.689055,0.7295434,0.4803916,0.2100067,37.5,30.5,7.004213,-20.28774,0.4917664,0.9547214,0.2100067,40.5,30.5,6.914069,-20.28774,0.4915833,0.9547214,0.2100067,40.5,-116.5,6.914069,-18.59886,0.4915833,0.9636936,0.2100067,37.5,-116.5,7.004213,-18.59886,0.4917664,0.9636936,0.2100067,234.5,30.5,-2.085936,-20.28774,0.4918567,0.9420261,0.2100067,237.5,30.5,-1.995791,-20.28774,0.4920398,0.9420261,0.2100067,237.5,-116.5,-1.995791,-18.59886,0.4920398,0.9509982,0.2100067,234.5,-116.5,-2.085936,-18.59886,0.4918567,0.9509982,0.1599731,37.5,33.5,53.00001,-1.253271,0.4797266,0.9786935,0.1599731,237.5,33.5,53.00001,-3.551065,0.4797266,0.9664865,0.1599731,237.5,30.5,52.90987,-3.551065,0.4795435,0.9664865,0.1599731,234.5,30.5,52.90987,-3.516598,0.4795435,0.9666696,0.1599731,40.5,30.5,52.90987,-1.287738,0.4795435,0.9785104,0.1599731,37.5,30.5,52.90987,-1.253271,0.4795435,0.9786935,0.1599731,37.5,30.5,-1.999998,-20.28774,0.4920312,0.980112,0.1599731,40.5,30.5,-2.090142,-20.28774,0.4918481,0.980112,0.1599731,40.5,-116.5,-2.090142,-18.59886,0.4918481,0.9890842,0.1599731,37.5,-116.5,-1.999998,-18.59886,0.4920312,0.9890842,0.1599731,234.5,30.5,8.909856,-20.28774,0.491731,0.9674167,0.1599731,237.5,30.5,9,-20.28774,0.4919141,0.9674167,0.1599731,237.5,-116.5,9,-18.59886,0.4919141,0.9763889,0.1599731,234.5,-116.5,8.909856,-18.59886,0.491731,0.9763889,0.1599731,-100.5,-91,-41,-11.29167,0.4839844,0.4810547,0.1599731,-100.5,113,-41,-12.61979,0.4839844,0.4686035,0.1599731,-97.5,113,-41.07813,-12.61979,0.4838012,0.4686035,0.1599731,-97.5,46,-41.07813,-12.18359,0.4838012,0.4726929,0.1599731,-97.5,43,-41.07813,-12.16406,0.4838012,0.472876,0.1599731,-97.5,-91,-41.07813,-11.29167,0.4838012,0.4810547,0.1599731,-97.5,43,46.92184,-11.16406,0.7339965,0.4802979,0.1599731,-97.5,46,46.99997,-11.16406,0.7341796,0.4802979,0.1599731,94.5,46,46.99997,-12.41406,0.7341796,0.4685791,0.1599731,94.5,43,46.92184,-12.41406,0.7339965,0.4685791,0.1599731,97.5,113,45.99997,12.04167,0.4798827,0.9957032,0.1599731,97.5,-91,45.99997,10.71355,0.4798827,0.983252,0.1599731,94.5,-91,45.92185,10.71355,0.4796996,0.983252,0.1599731,94.5,43,45.92185,11.58594,0.4796996,0.9914307,0.1599731,94.5,46,45.92185,11.60547,0.4796996,0.9916138,0.1599731,94.5,113,45.92185,12.04167,0.4796996,0.9957032,-1.5,0.2200012,113,-20,-14,0.7421875,0.4677734,-1.5,0.2200012,-91,-20,-12.40625,0.7421875,0.4802246,1.5,0.2200012,-91,-20.09375,-12.40625,0.7420044,0.4802246,1.5,0.2200012,13,-20.09375,-13.21875,0.7420044,0.473877,1.5,0.2200012,16,-20.09375,-13.24219,0.7420044,0.4736938,1.5,0.2200012,113,-20.09375,-14,0.7420044,0.4677734,97.5,0.2200012,13,46.92057,-4.453127,0.6402435,0.5080566,97.5,0.2200012,16,46.9987,-4.453127,0.6404266,0.5080566,1.5,0.2200012,16,46.9987,-3.828127,0.6404266,0.513916,1.5,0.2200012,13,46.92057,-3.828127,0.6402435,0.513916,100.5,0.2200012,-91,23,12.40625,0.7382813,0.4680176,100.5,0.2200012,113,23,14,0.7382813,0.4804688,97.5,0.2200012,113,22.90625,14,0.7380981,0.4804688,97.5,0.2200012,16,22.90625,13.24219,0.7380981,0.4745483,97.5,0.2200012,13,22.90625,13.21875,0.7380981,0.4743652,97.5,0.2200012,-91,22.90625,12.40625,0.7380981,0.4680176,-120.5,0.15979,4.5,54,-10.81488,0.4758984,0.8370772,-120.5,0.15979,1.5,53.90985,-10.81488,0.4757153,0.8370772,112.5,0.15979,1.5,53.90985,-8.137951,0.4757153,0.8512984,112.5,0.15979,4.5,54,-8.137951,0.4758984,0.8512984,-5.5,0.15979,116.5,-23.09014,-20.72388,0.3818091,0.6545528,-5.5,0.15979,-116.5,-23.09014,-18.04696,0.3818091,0.668774,-2.5,0.15979,-116.5,-23,-18.04696,0.3819922,0.668774,-2.5,0.15979,116.5,-23,-20.72388,0.3819922,0.6545528,-5.5,0.15979,116.5,30.00001,-20.72388,0.4759766,0.8547481,-5.5,0.15979,-116.5,30.00001,-18.04696,0.4759766,0.8689693,-2.5,0.15979,-116.5,29.90986,-18.04696,0.4757935,0.8689693,-2.5,0.15979,116.5,29.90986,-20.72388,0.4757935,0.8547481,-1.5,-0.5100098,-93,-20,18.86668,0.4876953,0.5396823,-1.5,-0.5100098,66,-20,20.69342,0.4876953,0.5493869,1.5,-0.5100098,66,-20.09015,20.69342,0.4875122,0.5493869,1.5,-0.5100098,16,-20.09015,20.11897,0.4875122,0.5463352,1.5,-0.5100098,13,-20.09015,20.08451,0.4875122,0.5461521,1.5,-0.5100098,-93,-20.09015,18.86668,0.4875122,0.5396823,1.5,-0.5100098,13,59.90139,4.731445,0.6439874,0.5086441,1.5,-0.5100098,16,60.00128,4.731445,0.6441705,0.5086441,97.5,-0.5100098,16,60.00128,5.481445,0.6441705,0.5145035,97.5,-0.5100098,13,59.90139,5.481445,0.6439874,0.5145035,100.5,-0.5100098,66,22,-20.42147,0.4880469,0.5262765,100.5,-0.5100098,-93,22,-18.59473,0.4880469,0.5359811,97.5,-0.5100098,-93,21.90985,-18.59473,0.4878638,0.5359811,97.5,-0.5100098,13,21.90985,-19.81256,0.4878638,0.5295114,97.5,-0.5100098,16,21.90985,-19.84702,0.4878638,0.5293283,97.5,-0.5100098,66,21.90985,-20.42147,0.4878638,0.5262765,1.080078,-0.5,92.5,-82.07816,-11.19889,0.7451645,0.4682526,1.080078,-0.5,-92.5,-82.07816,-9.994466,0.7451645,0.4795441,-1,-0.5,-92.5,-81.99849,-9.994466,0.7452915,0.4795441,-1,-0.5,92.5,-81.99849,-11.19889,0.7452915,0.4682526,1,-0.5,92.5,85,-11.19889,0.7497265,0.4682526,1,-0.5,-92.5,85,-9.994466,0.7497265,0.4795441,-1.040039,-0.5,-92.5,84.92187,-9.994466,0.7496021,0.4795441,-1.040039,-0.5,92.5,84.92187,-11.19889,0.7496021,0.4682526,264.51,13.48997,65.5,-14,20.88138,0.5584766,0.5259714,262.51,15.48999,65.5,-14.06009,20.88138,0.5583545,0.5259714,262.51,15.48999,105.5,-14.06009,21.34093,0.5583545,0.5284128,264.51,13.48997,105.5,-14,21.34093,0.5584766,0.5284128,262.5099,-15.49001,65.5,32.91502,-20.00833,0.5619758,0.5284714,264.51,-13.48996,65.5,33.00002,-20.00833,0.5621485,0.5284714,264.51,-13.48996,105.5,33.00002,-20.46789,0.5621485,0.5260299,262.5099,-15.49001,105.5,32.91502,-20.46789,0.5619758,0.5260299,-264.51,-13.48996,65.5,-20,20.88138,0.5658203,0.5259714,-262.5099,-15.49001,65.5,-20.085,20.88138,0.5656477,0.5259714,-262.5099,-15.49001,105.5,-20.085,21.34093,0.5656477,0.5284128,-264.51,-13.48996,105.5,-20,21.34093,0.5658203,0.5284128,-262.51,15.48999,65.5,-27.08501,-20.00833,0.5699836,0.5284714,-264.51,13.49001,65.5,-27.00002,-20.00833,0.5701562,0.5284714,-264.51,13.49001,105.5,-27.00002,-20.46789,0.5701562,0.5260299,-262.51,15.48999,105.5,-27.08501,-20.46789,0.5699836,0.5260299
+        ],
+        "indices": [
+          0,1,2,0,2,3,0,3,4,0,4,5,0,5,6,0,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19,16,19,20,16,20,21,22,23,24,22,24,25,26,27,28,26,28,29,30,31,32,30,32,33,30,33,34,30,34,35,36,37,38,36,38,39,40,41,42,40,42,43,44,45,46,44,46,47,44,47,48,44,48,49,50,51,52,50,52,53,54,55,56,54,56,57,58,59,60,58,60,61,62,63,64,62,64,65,66,67,68,66,68,69,70,71,72,70,72,73,74,75,76,74,76,77,78,79,80,78,80,81,82,83,84,82,84,85,86,87,88,86,88,89,90,91,92,90,92,93,94,95,96,94,96,97,94,97,98,94,98,99,94,99,100,94,100,101,102,103,104,102,104,105,102,105,106,102,106,107,102,107,108,102,108,109,110,111,112,110,112,113,114,115,116,114,116,117,118,119,120,118,120,121,122,123,124,122,124,125,122,125,126,122,126,127,122,127,128,122,128,129,130,131,132,130,132,133,134,135,136,134,136,137,138,139,140,138,140,141,138,141,142,138,142,143,138,143,144,138,144,145,146,147,148,146,148,149,150,151,152,150,152,153,154,155,156,154,156,157,154,157,158,154,158,159,160,161,162,160,162,163,164,165,166,164,166,167,168,169,170,168,170,171,172,173,174,172,174,175,176,177,178,176,178,179,180,181,182,180,182,183,180,183,184,180,184,185,180,185,186,180,186,187,188,189,190,188,190,191,192,193,194,192,194,195,196,197,198,196,198,199,196,199,200,196,200,201,196,201,202,196,202,203,204,205,206,204,206,207,204,207,208,204,208,209,204,209,210,204,210,211,212,213,214,212,214,215,216,217,218,216,218,219,220,221,222,220,222,223,220,223,224,220,224,225,220,225,226,220,226,227,228,229,230,228,230,231,228,231,232,228,232,233,234,235,236,234,236,237,238,239,240,238,240,241,238,241,242,238,242,243,244,245,246,244,246,247,248,249,250,248,250,251,252,253,254,252,254,255,252,255,256,252,256,257,252,257,258,252,258,259,260,261,262,260,262,263,264,265,266,264,266,267,268,269,270,268,270,271,268,271,272,268,272,273,268,273,274,268,274,275,276,277,278,276,278,279,280,281,282,280,282,283,284,285,286,284,286,287,284,287,288,284,288,289,284,289,290,284,290,291,292,293,294,292,294,295,296,297,298,296,298,299,300,301,302,300,302,303,300,303,304,300,304,305,300,305,306,300,306,307,308,309,310,308,310,311,312,313,314,312,314,315,316,317,318,316,318,319,316,319,320,316,320,321,316,321,322,316,322,323,324,325,326,324,326,327,328,329,330,328,330,331,332,333,334,332,334,335,332,335,336,332,336,337,338,339,340,338,340,341,342,343,344,342,344,345,346,347,348,346,348,349,346,349,350,346,350,351,352,353,354,352,354,355,356,357,358,356,358,359,356,359,360,356,360,361,362,363,364,362,364,365,362,365,366,362,366,367,368,369,370,368,370,371,372,373,374,372,374,375,372,375,376,372,376,377,378,379,380,378,380,381,382,383,384,382,384,385,386,387,388,386,388,389,390,391,392,390,392,393,390,393,394,390,394,395,396,397,398,396,398,399,400,401,402,400,402,403,400,403,404,400,404,405,406,407,408,406,408,409,410,411,412,410,412,413,414,415,416,414,416,417,418,419,420,418,420,421,422,423,424,422,424,425,426,427,428,426,428,429
+        ]
+      }
+    },
+    {
+      "material": 190,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 24,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          4.536011,-2,-0.5,55.90625,-8.421205,0.7380981,0.5660453,4.536011,-2,0.5,55.9375,-8.421205,0.7381592,0.5660453,4.536011,2,0.5,55.9375,-8.452455,0.7381592,0.5658011,4.536011,2,-0.5,55.90625,-8.452455,0.7380981,0.5658011,-5.195984,2,0.5,55.9375,-2.528484,0.7655029,0.5495821,-5.195984,2,-0.5,55.90625,-2.528484,0.7654419,0.5495821,4.536011,2,-0.5,55.90625,-2.452453,0.7654419,0.5501761,4.536011,2,0.5,55.9375,-2.452453,0.7655029,0.5501761,4.536011,-2,0.5,-10.58325,8,0.7420249,0.5654297,-5.195984,-2,0.5,-10.88737,8,0.7414309,0.5654297,-5.195984,2,0.5,-10.88737,8.03125,0.7414309,0.5656738,4.536011,2,0.5,-10.58325,8.03125,0.7420249,0.5656738,4.536011,2,-0.5,34.90625,-2.452453,0.7693481,0.5501761,-5.195984,2,-0.5,34.90625,-2.528484,0.7693481,0.5495821,-5.195984,-2,-0.5,34.78125,-2.528484,0.769104,0.5495821,4.536011,-2,-0.5,34.78125,-2.452453,0.769104,0.5501761,-5.195984,2,-0.5,55.90625,8.471518,0.7341919,0.5661837,-5.195984,2,0.5,55.9375,8.471518,0.7342529,0.5661837,-5.195984,-2,0.5,55.9375,8.440268,0.7342529,0.5659396,-5.195984,-2,-0.5,55.90625,8.440268,0.7341919,0.5659396
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19
+        ]
+      }
+    },
+    {
+      "material": 31,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 18
+          }
+        ],
+        "vertices": [
+          0,8,57.50008,-14.08998,-74.00011,0.7733496,0.5497656,0,8,53.49993,-14.10259,-73.86703,0.7733373,0.5498254,34,8,46.50013,-14.64498,-73.86703,0.7728077,0.5498254,34,8,50.50024,-14.63237,-74.00011,0.7728199,0.5497656,430,8,-33.49987,-20.95791,-72.86705,0.9912521,0.228009,430,8,-29.49976,-20.94553,-73.00023,0.9912641,0.2279491,34,8,50.50024,-14.63306,-73.00023,0.9974287,0.2279491,34,8,46.50013,-14.64543,-72.86704,0.9974166,0.228009,430,8,-33.49987,-19.95743,-74.86704,0.4404713,0.5855089,472,8,-43.50803,-20.63206,-74.86678,0.4398125,0.5855091,472,8,-39.49987,-20.61755,-74.99921,0.4398266,0.5854496,430,8,-29.49976,-19.94296,-74.99922,0.4404854,0.5854496,-472,8,-39.50042,-18.58764,-54.9992,0.4408324,0.5934574,-472,8,-43.50043,-18.57316,-54.86703,0.4408465,0.5935168,-430,8,-33.5005,-19.24776,-54.86702,0.4401878,0.5935168,-430,8,-29.50126,-19.26223,-54.99916,0.4401736,0.5934574,-430,8,-29.50126,-18.26001,-56.00018,0.2497461,0.2482812,-430,8,-33.5005,-18.24763,-55.86702,0.2497582,0.248341,-34,8,46.49993,-24.56011,-55.86702,0.2435936,0.248341,-34,8,50.49994,-24.57248,-56.0002,0.2435816,0.2482812,0,8,53.49993,-25.1026,-55.86692,0.4403295,0.5891613,0,8,57.50008,-25.1152,-56,0.4403172,0.5891016,-34,8,50.49994,-24.57281,-56,0.4408469,0.5891016,-34,8,46.49993,-24.56021,-55.86692,0.4408592,0.5891613
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19,20,21,22,20,22,23
+        ]
+      }
+    },
+    {
+      "material": 85,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 15
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 15,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 33,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 39,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 45,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 51,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 57,
+            "indexCount": 18
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 75,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 81,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 87,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 93,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 99,
+            "indexCount": 15
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 114,
+            "indexCount": 21
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 135,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 141,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          472,-8,-43.50803,22.5387,17.10795,0.7805153,0.5496691,472,4,-43.50804,22.5387,17.53764,0.7805153,0.5504015,472,4,-45.5,22.52076,17.53764,0.7804032,0.5504015,472,1,-45.49999,22.52076,17.43021,0.7804032,0.5502184,472,-8,-45.49998,22.52076,17.10795,0.7804032,0.5496691,472,-8,-57.50006,22.54389,17.60938,0.7766415,0.5495087,472,-8,-45.49998,22.65195,17.60938,0.7773169,0.5495087,472,1,-45.49999,22.65195,17.92188,0.7773169,0.550058,472,1,-57.50006,22.54389,17.92188,0.7766415,0.550058,472,1,-45.49999,13.52076,17.89256,0.03079381,0.4855768,472,4,-45.5,13.52076,17.99998,0.03079381,0.4857599,430,4,-37.0466,13.10238,17.99998,0.02817893,0.4857599,34,4,42.65679,9.157644,17.99998,0.003524337,0.4857599,0,4,49.49952,8.818955,17.99998,0.001407534,0.4857599,0,1,49.49952,8.818955,17.89256,0.001407534,0.4855768,472,1,-57.50006,13.54388,83.99997,0.03093833,0.4427734,472,1,-45.49999,13.52076,84.45951,0.03079381,0.4434914,0,1,49.49952,8.818955,84.4595,0.001407534,0.4434914,0,1,37.49994,8.842078,83.99998,0.001552045,0.4427734,472,1,-57.50006,13.5439,17.92188,0.03093843,0.4484955,0,1,37.49994,8.842092,17.92188,0.00155212,0.4484955,0,-8,37.49994,8.842092,17.60938,0.00155212,0.4479462,472,-8,-57.50006,13.5439,17.60938,0.03093843,0.4479462,430,4,-33.50804,13.09556,84.59502,0.3064566,0.3714375,430,4,-37.0466,13.10238,84.45951,0.3064992,0.3712258,472,4,-45.5,13.52076,84.45951,0.3091141,0.3712258,472,4,-43.50804,13.51692,84.53579,0.3090901,0.371345,430,4,-37.0466,13.10238,84.45951,0.06040549,0.9268899,430,4,-33.50804,13.09556,84.59502,0.06036288,0.9271016,34,4,46.50013,9.150238,84.60669,0.03570461,0.9271199,34,4,42.65679,9.157644,84.45951,0.0357509,0.9268899,0,4,49.49952,8.818955,84.4595,0.5941809,0.3399758,34,4,42.65679,9.157644,84.45951,0.5962978,0.3399758,34,4,46.50013,9.150238,84.60669,0.5962515,0.3402058,0,4,53.49993,8.811248,84.61269,0.5941328,0.3402151,0,1,49.49952,15.81895,17.89256,0.03050905,0.4894831,0,4,49.49952,15.81895,17.99998,0.03050905,0.4896662,-34,4,42.65679,15.48026,17.99998,0.02839225,0.4896662,-430,4,-37.0466,11.53553,17.99998,0.003737658,0.4896662,-472,4,-45.5,11.11714,17.99998,0.00112278,0.4896662,-472,1,-45.49999,11.11714,17.89256,0.00112278,0.4894831,0,1,37.49994,-16.15792,63.99998,0.001552053,0.452539,0,1,49.49952,-16.18104,64.4595,0.001407541,0.453257,-472,1,-45.49999,-11.47924,64.45951,0.03079382,0.4532571,-472,1,-57.50006,-11.45612,63.99998,0.03093833,0.452539,0,1,37.49994,-16.15791,17.92188,0.001552127,0.4582611,-472,1,-57.50006,-11.4561,17.92188,0.03093844,0.4582611,-472,-8,-57.50006,-11.4561,17.60938,0.03093844,0.4577118,0,-8,37.49994,-16.15791,17.60938,0.001552127,0.4577118,-34,4,46.49993,-15.84976,64.60669,0.6021109,0.3402058,-34,4,42.65679,-15.84235,64.45952,0.6021572,0.3399758,0,4,49.49952,-16.18104,64.4595,0.6000404,0.3399758,0,4,53.49993,-16.18875,64.61269,0.5999922,0.3402151,-34,4,42.65679,-15.84235,64.45952,0.03575091,0.9307961,-34,4,46.49993,-15.84976,64.60669,0.03570463,0.9310261,-430,4,-33.50047,-11.90445,64.59531,0.06036279,0.9310083,-430,4,-37.0466,-11.89762,64.45952,0.0604055,0.9307961,-430,4,-37.0466,-11.89762,64.45952,0.3064992,0.3751321,-430,4,-33.50047,-11.90445,64.59531,0.3064565,0.3753442,-472,4,-43.50043,-11.48309,64.53609,0.30909,0.3752517,-472,4,-45.5,-11.47924,64.45951,0.3091141,0.3751321,-472,4,-43.50043,13.53876,17.53764,0.7848126,0.5504015,-472,-8,-43.50043,13.53876,17.10795,0.7848126,0.5496691,-472,-8,-45.5,13.52076,17.10795,0.7847,0.5496691,-472,1,-45.49999,13.52076,17.43021,0.7847,0.5502184,-472,4,-45.5,13.52076,17.53764,0.7847,0.5504015,-472,1,-57.50006,13.54389,17.92188,0.4303524,0.5119721,-472,1,-45.49999,13.65195,17.92188,0.4310278,0.5119721,-472,-8,-45.5,13.65195,17.60938,0.4310278,0.5114228,-472,-8,-57.50006,13.54389,17.60938,0.4303524,0.5114228,-114,-2.5,13,11.79785,-27.52083,0.2815033,0.3261231,-114,-2.5,-48,11.40072,-27.52083,0.2777801,0.3261231,-109,-2.5,-48,11.40072,-27.39062,0.2777801,0.3264282,-109,-2.5,8,11.7653,-27.39062,0.2811981,0.3264282,-109,-2.5,13,11.79785,-27.39062,0.2815033,0.3264282,119,-2.5,-48,11.40072,20.46354,0.3637176,0.2813599,119,-2.5,16,11.81738,20.46354,0.3676239,0.2813599,114,-2.5,16,11.81738,20.59375,0.3676239,0.281665,114,-2.5,13,11.79785,20.59375,0.3674408,0.281665,114,-2.5,8,11.7653,20.59375,0.3671356,0.281665,114,-2.5,-48,11.40072,20.59375,0.3637176,0.281665,119,-2.5,16,11.81738,11.47917,0.3754364,0.2817871,119,-2.5,-48,11.40072,11.47917,0.3715301,0.2817871,119,-3.5,-48,11.40072,11.45313,0.3715301,0.2817261,119,-3.5,16,11.81738,11.45313,0.3754364,0.2817261,-114,-2.5,-48,11.40072,11.47917,0.3793426,0.2817871,-114,-2.5,13,11.79785,11.47917,0.3830658,0.2817871,-114,-3.5,13,11.79785,11.45313,0.3830658,0.2817261,-114,-3.5,-48,11.40072,11.45313,0.3793426,0.2817261
+        ],
+        "indices": [
+          0,1,2,0,2,3,0,3,4,5,6,7,5,7,8,9,10,11,9,11,12,9,12,13,9,13,14,15,16,17,15,17,18,19,20,21,19,21,22,23,24,25,23,25,26,27,28,29,27,29,30,31,32,33,31,33,34,35,36,37,35,37,38,35,38,39,35,39,40,41,42,43,41,43,44,45,46,47,45,47,48,49,50,51,49,51,52,53,54,55,53,55,56,57,58,59,57,59,60,61,62,63,61,63,64,61,64,65,66,67,68,66,68,69,70,71,72,70,72,73,70,73,74,75,76,77,75,77,78,75,78,79,75,79,80,81,82,83,81,83,84,85,86,87,85,87,88
+        ]
+      }
+    },
+    {
+      "material": 93,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 24,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 30,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          430,-8,-29.49976,-0.9648438,-2.778996,0.4308014,0.4927196,430,8,-29.49976,-1.027344,-2.778996,0.4305573,0.4927196,472,8,-39.49987,-1.027344,-2.855654,0.4305573,0.4920608,472,-8,-39.49987,-0.9648438,-2.855654,0.4308014,0.4920608,430,-8,-29.49976,-0.9648438,-2.778592,0.4063873,0.6655746,34,-8,50.50024,-0.9648438,-2.061262,0.4063873,0.6717392,34,8,50.50024,-1.027344,-2.061262,0.4061432,0.6717392,430,8,-29.49976,-1.027344,-2.778592,0.4061432,0.6655746,34,-8,50.50024,-0.9648438,-2.061514,0.4308014,0.5018151,0,-8,57.50008,-0.9648438,-1.999879,0.4308014,0.5023448,0,8,57.50008,-1.027344,-1.999879,0.4305573,0.5023448,34,8,50.50024,-1.027344,-2.061514,0.4305573,0.5018151,0,-8,57.50008,2.910156,2.000001,0.7457428,0.5660157,-34,-8,50.49994,2.910156,1.938366,0.7457428,0.565486,-34,8,50.49994,2.972656,1.938366,0.7459869,0.565486,0,8,57.50008,2.972656,2.000001,0.7459869,0.5660157,-34,-8,50.49994,2.910156,1.938364,0.859024,0.5039625,-430,-8,-29.50114,2.910156,1.221034,0.859024,0.4977979,-430,8,-29.50126,2.972656,1.221034,0.8592682,0.4977979,-34,8,50.49994,2.972656,1.938364,0.8592682,0.5039625,-430,-8,-29.50114,2.910156,2.221081,0.7887115,0.5503374,-472,-8,-39.50042,2.910156,2.144423,0.7887115,0.5496786,-472,8,-39.50042,2.972656,2.144423,0.7889557,0.5496786,-430,8,-29.50126,2.972656,2.221081,0.7889557,0.5503374
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19,20,21,22,20,22,23
+        ]
+      }
+    },
+    {
+      "material": 100,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 24,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 30,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          430,8,-33.49987,4.525391,-9.881892,0.4307137,0.497301,430,4,-33.50804,4.494141,-9.881907,0.4306526,0.497301,472,4,-43.50804,4.494141,-10.2192,0.4306526,0.4966422,472,8,-43.50803,4.525391,-10.2192,0.4307137,0.4966422,34,8,46.50013,4.525391,-7.725651,0.4062996,0.6811999,34,4,46.50013,4.494141,-7.725651,0.4062386,0.6811999,430,4,-33.50804,4.494141,-10.88191,0.4062386,0.6750354,430,8,-33.49987,4.525391,-10.88189,0.4062996,0.6750354,0,4,53.49993,4.494141,-7.454456,0.4306526,0.5069249,34,4,46.50013,4.494141,-7.725651,0.4306526,0.5063952,34,8,46.50013,4.525391,-7.725651,0.4307137,0.5063952,0,8,53.49993,4.525391,-7.454456,0.4307137,0.5069249,0,8,53.49993,4.525391,-12.45446,0.4404793,0.5967686,-34,8,46.49993,4.525391,-12.18326,0.4404793,0.5972983,-34,4,46.49993,4.494141,-12.18326,0.4404182,0.5972983,0,4,53.49993,4.494141,-12.45446,0.4404182,0.5967686,-430,8,-33.5005,4.525391,-9.027012,0.4062996,0.6913535,-430,4,-33.50047,4.494141,-9.027012,0.4062386,0.6913535,-34,4,46.49993,4.494141,-12.18326,0.4062386,0.6851889,-34,8,46.49993,4.525391,-12.18326,0.4062996,0.6851889,-472,8,-43.50043,4.525391,-8.689928,0.4307137,0.5172071,-472,4,-43.50043,4.494141,-8.689928,0.4306526,0.5172071,-430,4,-33.50047,4.494141,-9.027225,0.4306526,0.5165484,-430,8,-33.5005,4.525391,-9.027225,0.4307137,0.5165484
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19,20,21,22,20,22,23
+        ]
+      }
+    },
+    {
+      "material": 456,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          114,-2.5,-48,-2.382214,-14.52445,0.1509977,0.6705699,114,-2.5,8,-2.382214,-14.96906,0.1509977,0.6671519,-109,-2.5,8,-3.184616,-14.96906,0.1373868,0.6671519,-109,-2.5,-48,-3.184616,-14.52445,0.1373868,0.6705699
+        ],
+        "indices": [
+          0,1,2,0,2,3
+        ]
+      }
+    },
+    {
+      "material": 92,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 12
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -114,-2.5,48,4.000219,-10.00288,0.1513312,0.6859033,-114,-2.5,13,4.000219,-9.822985,0.1513312,0.6880395,-109,-2.5,13,3.978274,-9.822985,0.151026,0.6880395,114,-2.5,13,2.999517,-9.822985,0.1374152,0.6880395,114,-2.5,16,2.999517,-9.838405,0.1374152,0.6878564,114,-2.5,48,2.999517,-10.00288,0.1374152,0.6859033,114,-2.5,48,1.999978,-10.00288,0.7921093,0.5494055,114,-2.5,16,1.999978,-9.838405,0.7921093,0.5498938,114,-3.5,16,1.995589,-9.838405,0.7920941,0.5498938,114,-3.5,48,1.995589,-10.00288,0.7920941,0.5494055
+        ],
+        "indices": [
+          0,1,2,0,2,3,0,3,4,0,4,5,6,7,8,6,8,9
+        ]
+      }
+    },
+    {
+      "material": 457,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -114,-3.5,48,-0.9949092,-10.00288,0.5388989,0.579458,-114,-3.5,13,-0.9949092,-9.822985,0.5388989,0.5815942,-114,-2.5,13,-0.9992982,-9.822985,0.5388379,0.5815942,-114,-2.5,48,-0.9992982,-10.00288,0.5388379,0.579458
+        ],
+        "indices": [
+          0,1,2,0,2,3
+        ]
+      }
+    },
+    {
+      "material": 46,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 24,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -83.1955,-28.26758,-0.4997287,5.988282,-8.384893,0.7966919,0.5496501,-83.19544,-28.26771,-2.5,5.980469,-8.384894,0.7965698,0.5496501,-85.49541,-22.7177,-2.5,5.980469,-8.361426,0.7965698,0.5500168,-85.49622,-22.71807,-0.4997578,5.988282,-8.361426,0.7966919,0.5500168,-1.503906,10.72852,2.499964,9.022956,0.9902291,0.4066087,0.7000427,-83.1955,-28.26758,-0.4997287,9.011662,0.6366141,0.4064322,0.6945174,-85.49622,-22.71807,-0.4997578,8.988278,0.638589,0.4060668,0.6945482,-1.950462,17.03989,2.566444,9.000257,1.000009,0.406254,0.7001954,-1.949974,17.04012,-2.5,5.980469,1.000014,0.4059448,0.7099612,-1.950462,17.03989,2.566444,6.000259,1.000012,0.4062541,0.7099611,-85.49622,-22.71807,-0.4997578,5.988282,0.638592,0.4060669,0.7043139,-85.49541,-22.7177,-2.5,5.980469,0.6385955,0.4059448,0.704314,-1.503906,10.72852,2.499964,8.02467,2.998526,0.4066355,0.7148207,-1.950462,17.03989,2.566444,8,3.000023,0.40625,0.7148441,83.19991,28.28003,2.5,7.999999,3.335527,0.40625,0.7200863,85.49999,22.72991,2.5,8.022669,3.341597,0.4066042,0.7201812,83.19991,28.28003,-2.5,5.980469,3.335516,0.5084839,0.4066096,83.19991,28.28003,2.5,6,3.335516,0.5087891,0.4066096,-1.950462,17.03989,2.566444,6.000259,3.000012,0.5087931,0.4013674,-1.949974,17.04012,-2.5,5.980469,3.000014,0.5084839,0.4013674
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19
+        ]
+      }
+    },
+    {
+      "material": 242,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          28,-31.5,16,-8.000002,9.99999,0.6064453,0.2702026,-28,-31.5,16,-7.000002,9.99999,0.6098633,0.2702026,-28,31.5,16,-7.000002,7.999992,0.6098633,0.2663574,28,31.5,16,-8.000002,7.999992,0.6064453,0.2663574,28,-31.5,16,-8.000002,-51.9999,0.3564453,0.276123,28,-31.5,-17,-8.000002,-50.9999,0.3564453,0.2781372,-28,-31.5,-17,-7.000002,-50.9999,0.3598633,0.2781372,-28,-31.5,16,-7.000002,-51.9999,0.3598633,0.276123,-28,31.5,-17,-3.999996,-50.9999,0.3518066,0.2781372,-28,31.5,16,-3.999996,-51.9999,0.3518066,0.276123,-28,-31.5,16,-4.999995,-51.9999,0.3479614,0.276123,-28,-31.5,-17,-4.999995,-50.9999,0.3479614,0.2781372
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11
+        ]
+      }
+    },
+    {
+      "material": 42,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          232,-0.1600037,25.51001,-24.09004,7.243164,0.4921014,0.9292328,232,0.15979,25.51001,-24.08379,7.243164,0.492121,0.9292328,368,0.15979,25.51001,-24.08379,8.12858,0.492121,0.9375336,368,-0.1600037,25.51001,-24.09004,8.12858,0.4921014,0.9375336
+        ],
+        "indices": [
+          0,1,2,0,2,3
+        ]
+      }
+    },
+    {
+      "material": 45,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -150,0.5,48,1.999567,-15,0.289543,0.1005859,-150,0.5,-48,1.999567,-14.25,0.289543,0.1064453,146,0.5,-48,4,-14.25,0.3076094,0.1064453,146,0.5,48,4,-15,0.3076094,0.1005859
+        ],
+        "indices": [
+          0,1,2,0,2,3
+        ]
+      }
+    },
+    {
+      "material": 5,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -66.5,0.5,56,-0.9296875,-7.409712,0.2110596,0.6568252,-66.5,0.5,-99.99976,-0.9296875,-6.855736,0.2110596,0.6663467,66.5,0.5,-99.99976,-0.4101563,-6.855736,0.2191772,0.6663467,66.5,0.5,56,-0.4101563,-7.409712,0.2191772,0.6568252,-66.5,-0.5,-101.9997,-0.9296875,-4.847793,0.7471924,0.165702,66.5,-0.5,-101.9997,-0.4101563,-4.847793,0.7553101,0.165702,66.5,0.5,-99.99976,-0.4101563,-4.855733,0.7553101,0.1655655,-66.5,0.5,-99.99976,-0.9296875,-4.855733,0.7471924,0.1655655
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7
+        ]
+      }
+    },
+    {
+      "material": 29,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          98.7,33,-8.549909,-54.43892,4.638347,0.8669732,0.5490983,98.7,31,-9.849932,-54.37821,4.64838,0.8670028,0.5491179,98.7,-33,15.06008,-54.36952,5.146084,0.8670071,0.55009,98.7,-33,16.15,-54.40121,5.148979,0.8669916,0.5500957,-94.5007,33,-8.549909,-2.070313,1.076557,0.5546532,0.5255402,-94.5007,31,-9.849932,-2.132813,1.076557,0.5546227,0.5255402,98.7,31,-9.849932,-2.132813,2.585938,0.5546227,0.5284882,98.7,33,-8.549909,-2.070313,2.585938,0.5546532,0.5284882,-94.5007,31,-9.849932,-54.37821,5.21214,0.8630966,0.5492424,-94.5007,33,-8.549909,-54.43892,5.202107,0.8630669,0.5492229,-94.5007,-33,16.15,-54.40121,5.712739,0.8630853,0.5502202,-94.5007,-33,15.06008,-54.36952,5.709844,0.8631008,0.5502145
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11
+        ]
+      }
+    },
+    {
+      "material": 173,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          98.7,31,-9.849932,1.557423,6.975833,0.4824812,0.1448477,-94.5007,31,-9.849932,-0.001853824,6.975833,0.4706891,0.1448477,-94.5007,-33,15.06008,-0.001853824,7.608462,0.4706891,0.1490389,98.7,-33,15.06008,1.557423,7.608462,0.4824812,0.1490389,98.7,-33,16.15,1.559376,0.5899359,0.5136904,0.2998052,-94.5007,-33,16.15,9.930134E-05,0.5899359,0.5107424,0.2998052,-94.5007,33,-8.549909,9.930134E-05,-0.01811245,0.5107424,0.2987981,98.7,33,-8.549909,1.559376,-0.01811245,0.5136904,0.2987981
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7
+        ]
+      }
+    },
+    {
+      "material": 154,
+      "meshData": {
+        "attributes": [
+          "position",
+          "uv",
+          "uv2"
+        ],
+        "elements": [
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 0,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 6,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 12,
+            "indexCount": 6
+          },
+          {
+            "mode": 4,
+            "material": 0,
+            "indexOffset": 18,
+            "indexCount": 6
+          }
+        ],
+        "vertices": [
+          -47,1477,1686,92.5,-104.8125,-0.0004882813,-0.0004882813,-47,1477,1721,92.5,-107,-0.0004882813,-0.0004882813,-47,2032,1721,127.1875,-107,-0.0004882813,-0.0004882813,-47,2032,1686,127.1875,-104.8125,-0.0004882813,-0.0004882813,-396,2032,1721,-23.875,-107,-0.0004882813,-0.0004882813,-396,2032,1686,-23.875,-104.8125,-0.0004882813,-0.0004882813,-47,2032,1686,-2.0625,-104.8125,-0.0004882813,-0.0004882813,-47,2032,1721,-2.0625,-107,-0.0004882813,-0.0004882813,-47,1477,1721,-2.0625,-92.5,-0.0004882813,-0.0004882813,-396,1477,1721,-23.875,-92.5,-0.0004882813,-0.0004882813,-396,2032,1721,-23.875,-127.1875,-0.0004882813,-0.0004882813,-47,2032,1721,-2.0625,-127.1875,-0.0004882813,-0.0004882813,-47,2032,1686,2.9375,-127.1875,-0.0004882813,-0.0004882813,-396,2032,1686,24.75,-127.1875,-0.0004882813,-0.0004882813,-396,1477,1686,24.75,-92.5,-0.0004882813,-0.0004882813,-47,1477,1686,2.9375,-92.5,-0.0004882813,-0.0004882813
+        ],
+        "indices": [
+          0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15
+        ]
+      }
+    }
+  ]
+}

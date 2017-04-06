@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title>Map Viewer - de_mirage</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/facepunch.webgame.js?v=18a1-1395c"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/sourceutils.js?v=18a1-1395c"></script>
+        <style>
+            #map-view {
+                position: relative;
+                height: 720px;
+            }
+
+            #map-view canvas {
+                width: 100%;
+                height: 100%;
+            }
+
+            #map-view:-webkit-full-screen {
+                width: 100%;
+                height: 100%;
+            }
+
+            #debug-panel {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                width: 256px;
+                background-color: rgba(0, 0, 0, 0.25);
+                color: white;
+                font-family: sans-serif;
+                padding: 8px;
+            }
+
+            #debug-panel .debug-label {
+                color: #cccccc;
+            }
+        </style>
+    </head>
+    <body>
+    <h2>Source Map Viewer Demo - de_mirage</h2>
+    <div id="map-view">
+        <script>
+            var viewer;
+            window.onload = function() {
+                viewer = new SourceUtils.MapViewer($("#map-view")[0]);
+                viewer.loadMap("https://metapyziks.github.io/SourceUtils/maps/de_mirage/index.json");
+                viewer.animate();
+            }
+        </script>
+        <div id="debug-panel"></div>
+    </div>
+    </body>
+</html>
