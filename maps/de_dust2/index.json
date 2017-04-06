@@ -93,53 +93,18 @@
   "dispPages": [
     {
       "first": 0,
-      "count": 64,
+      "count": 256,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage0.json"
     },
     {
-      "first": 64,
-      "count": 64,
+      "first": 256,
+      "count": 256,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage1.json"
     },
     {
-      "first": 128,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage2.json"
-    },
-    {
-      "first": 192,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage3.json"
-    },
-    {
-      "first": 256,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage4.json"
-    },
-    {
-      "first": 320,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage5.json"
-    },
-    {
-      "first": 384,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage6.json"
-    },
-    {
-      "first": 448,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage7.json"
-    },
-    {
       "first": 512,
-      "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage8.json"
-    },
-    {
-      "first": 576,
-      "count": 43,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage9.json"
+      "count": 107,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_dust2/geom/disppage2.json"
     }
   ],
   "materialPages": [
