@@ -92,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bsp\Geometry.cs" />
-    <Compile Include="Bsp\Info.cs" />
+    <Compile Include="Bsp\Index.cs" />
     <Compile Include="Bsp\Lightmap.cs" />
     <Compile Include="Bsp\BrushModel.cs" />
     <Compile Include="Bsp\Visibility.cs" />
@@ -148,7 +148,7 @@
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\index.html" />
+    <Content Include="Resources\index.template.html" />
     <Content Include="Resources\js\facepunch.webgame.js" />
     <Content Include="Resources\js\sourceutils.js" />
   </ItemGroup>

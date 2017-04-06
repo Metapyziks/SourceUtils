@@ -20,6 +20,9 @@ namespace SourceUtils.WebExport
 
         [Option( 'p', "url-prefix", HelpText = "Prefix to prepend to each exported URL." )]
         public string UrlPrefix { get; set; } = "";
+
+        [Option('m', "maps", HelpText = "Specific semi-colon separated map names to export (e.g. 'de_dust2;de_mirage').", Required = true)]
+        public string Maps { get; set; }
     }
 
     partial class Program
@@ -88,6 +91,8 @@ namespace SourceUtils.WebExport
             var server = new Server();
             server.Prefixes.Add( $"http://localhost:{port}/" );
 
+            AddStaticFileControllers( server );
+
             server.Controllers.Add( Assembly.GetExecutingAssembly() );
 
             if (!Directory.Exists(args.OutDir))
@@ -95,25 +100,13 @@ namespace SourceUtils.WebExport
                 Directory.CreateDirectory(args.OutDir);
             }
 
-            CopyStaticFiles(args.OutDir);
-
             IsExporting = true;
 
-            if ( args.Map != null )
+            var maps = args.Maps.Split( new [] { ';' }, StringSplitOptions.RemoveEmptyEntries );
+
+            foreach ( var map in maps )
             {
-                AddExportUrl( $"/maps/{args.Map}.json" );
-            }
-            else
-            {
-                var mapsDir = Path.Combine( args.GameDir, "maps" );
-                foreach ( var file in Directory.GetFiles( mapsDir ) )
-                {
-                    if ( file.EndsWith( ".bsp" ) )
-                    {
-                        var map = Path.GetFileNameWithoutExtension( file );
-                        AddExportUrl( $"/maps/{map}.json" );
-                    }
-                }
+                AddExportUrl( $"/maps/{map}/index.html" );
             }
 
             var startedServer = false;
@@ -190,8 +183,6 @@ namespace SourceUtils.WebExport
 
             Console.ResetColor();
             Console.WriteLine( $"Finished ({exported} exported, {skipped} skipped, {failed} failed)" );
-
-            Console.ReadKey();
 
             return 0;
         }

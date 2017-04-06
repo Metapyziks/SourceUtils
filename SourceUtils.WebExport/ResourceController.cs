@@ -81,6 +81,18 @@ namespace SourceUtils.WebExport
             NullValueHandling = NullValueHandling.Ignore
         };
 
+        protected override void OnServiceText( string text )
+        {
+            var ext = Path.GetExtension( Request.Url.AbsolutePath );
+
+            Response.ContentType = MimeTypeMap.GetMimeType( ext );
+
+            using ( var writer = new StreamWriter( Response.OutputStream ) )
+            {
+                writer.Write( text );
+            }
+        }
+
         [ResponseWriter]
         public void OnWriteObject( object obj )
         {
@@ -100,8 +112,6 @@ namespace SourceUtils.WebExport
                     writer.Write( token.ToString( Formatting.None ) );
                 }
             }
-
-            Response.OutputStream.Close();
         }
     }
 }

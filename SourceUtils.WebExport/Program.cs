@@ -11,9 +11,6 @@ namespace SourceUtils.WebExport
         [Option('g', "gamedir", HelpText = "Game directory to export from.", Required = true)]
         public string GameDir { get; set; }
 
-        [Option('m', "map", HelpText = "Specific map name to export (e.g. 'de_dust2').")]
-        public string Map { get; set; }
-
         [Option('v', "verbose", HelpText = "Write every action to standard output.")]
         public bool Verbose { get; set; }
 

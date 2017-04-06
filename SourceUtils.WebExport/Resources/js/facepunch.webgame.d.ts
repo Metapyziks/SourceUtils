@@ -416,6 +416,7 @@ declare namespace Facepunch {
             private opaque;
             private translucent;
             private lastHandle;
+            private lastProgram;
             private hasRefraction;
             constructor(context: RenderContext);
             isInvalid(): boolean;
@@ -792,6 +793,7 @@ declare namespace Facepunch {
         }
         class MeshHandle {
             static readonly undefinedHandle: MeshHandle;
+            program: ShaderProgram;
             readonly transform: Matrix4;
             readonly material: Material;
             readonly group: MeshGroup;

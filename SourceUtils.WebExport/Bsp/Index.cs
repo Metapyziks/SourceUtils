@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SourceUtils.ValveBsp;
 using SourceUtils.ValveBsp.Entities;
+using SourceUtils.WebExport.Properties;
 using Ziks.WebServer;
 
 namespace SourceUtils.WebExport.Bsp
@@ -57,8 +59,8 @@ namespace SourceUtils.WebExport.Bsp
         public IEnumerable<BrushEntity> BrushEntities { get; set; }
     }
 
-    [Prefix("/maps/{map}.json")]
-    class InfoController : ResourceController
+    [Prefix("/maps/{map}")]
+    class IndexController : ResourceController
     {
         [ThreadStatic]
         private static List<BspTree.Leaf> _sLeafBuffer;
@@ -80,8 +82,39 @@ namespace SourceUtils.WebExport.Bsp
             return clusters;
         }
 
-        [Get]
-        public Map Get( [Url] string map )
+        private static string ReplaceTokens( string str, params Expression<Func<object, object>>[] replacements )
+        {
+            foreach ( var replacement in replacements )
+            {
+                var name = replacement.Parameters[0].Name;
+                var value = JsonConvert.SerializeObject( replacement.Compile()( name ) );
+
+                if ( value.StartsWith( "\"" ) && value.EndsWith( "\"" ) )
+                {
+                    value = value.Substring( 1, value.Length - 2 );
+                }
+
+                var token = $"${{{name}}}";
+
+                str = str.Replace( token, value );
+            }
+
+            return str;
+        }
+
+        [Get("/index.html")]
+        public string GetIndexPage( [Url] string map )
+        {
+            Response.ContentType = MimeTypes.MimeTypeMap.GetMimeType( ".html" );
+            return ReplaceTokens( Resources.index_template,
+                mapName => map,
+                mapIndexJson => (Url) $"/maps/{map}/index.json",
+                facepunchWebGame => (Url) "/js/facepunch.webgame.js",
+                sourceUtils => (Url) "/js/sourceutils.js" );
+        }
+
+        [Get("/index.json")]
+        public Map GetIndexJson( [Url] string map )
         {
             var bsp = Program.GetMap( map );
 

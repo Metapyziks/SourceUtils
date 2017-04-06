@@ -3,12 +3,12 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8" />
-        <title></title>
+        <title>Map Viewer - ${mapName}</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js"></script>
-        <script src="js/facepunch.webgame.js"></script>
-        <script src="js/sourceutils.js"></script>
+        <script src="${facepunchWebGame}"></script>
+        <script src="${sourceUtils}"></script>
         <style>
             #map-view {
                 position: relative;
@@ -42,13 +42,13 @@
         </style>
     </head>
     <body>
-    <h2>Source Map Viewer Demo</h2>
+    <h2>Source Map Viewer Demo - ${mapName}</h2>
     <div id="map-view">
         <script>
             var viewer;
             window.onload = function() {
                 viewer = new SourceUtils.MapViewer($("#map-view")[0]);
-                viewer.loadMap("maps/de_overpass.json");
+                viewer.loadMap("${mapIndexJson}");
                 viewer.animate();
             }
         </script>

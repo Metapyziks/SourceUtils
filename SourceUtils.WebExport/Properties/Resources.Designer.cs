@@ -93,26 +93,29 @@ namespace SourceUtils.WebExport.Properties {
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js&quot;&gt;&lt;/script&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js&quot;&gt;&lt;/script&gt;
-        ///        &lt;script src=&quot;js/facepunch.webgame.js&quot;&gt;&lt;/script [rest of string was truncated]&quot;;.
+        ///        &lt;script src=&quot;${facepunchWebGame}&quot;&gt;&lt;/script&gt;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string index {
+        internal static string index_template {
             get {
-                return ResourceManager.GetString("index", resourceCulture);
+                return ResourceManager.GetString("index_template", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || (function () {
-        ///    var extendStatics = Object.setPrototypeOf ||
-        ///        ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
-        ///        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        ///    return function (d, b) {
-        ///        extendStatics(d, b);
-        ///        function __() { this.constructor = d; }
-        ///        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        ///    };
-        ///})();
-        ///var Sourc [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+        ///    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        ///    function __() { this.constructor = d; }
+        ///    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        ///};
+        ///var SourceUtils;
+        ///(function (SourceUtils) {
+        ///    var WebGame = Facepunch.WebGame;
+        ///    var LeafFlags;
+        ///    (function (LeafFlags) {
+        ///        LeafFlags[LeafFlags[&quot;Sky&quot;] = 1] = &quot;Sky&quot;;
+        ///        LeafFlags[LeafFlags[&quot;Radial&quot;] = 2] = &quot;Radial&quot;;
+        ///        Lea [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string sourceutils {
             get {

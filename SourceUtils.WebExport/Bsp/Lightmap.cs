@@ -25,7 +25,7 @@ namespace SourceUtils.WebExport.Bsp
                 {
                     WrapS = TextureWrapMode.ClampToEdge,
                     WrapT = TextureWrapMode.ClampToEdge,
-                    Filter = TextureMinFilter.Linear,
+                    Filter = TextureMinFilter.Nearest,
                     MipMap = false
                 },
                 Elements =
