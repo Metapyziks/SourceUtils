@@ -58,6 +58,32 @@ namespace SourceUtils {
             this.updateCameraAngles();
         }
 
+        private toggleFullscreen(): void {
+            const container = this.container;
+            const cont = container as any;
+            const doc = document as any;
+
+            if (document.fullscreenElement === container || document.webkitFullscreenElement === container || doc.mozFullScreenElement === container) {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
+            } else if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            } else if (cont.mozRequestFullScreen) {
+                cont.mozRequestFullScreen();
+            }
+        }
+
+        protected onKeyDown(key: WebGame.Key): void {
+            super.onKeyDown(key);
+
+            if (key === WebGame.Key.F) {
+                this.toggleFullscreen();
+            }
+        }
+
         private readonly move = new Facepunch.Vector3();
 
         protected onUpdateFrame(dt: number): void {
