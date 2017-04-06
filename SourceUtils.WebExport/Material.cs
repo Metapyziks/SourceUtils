@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Web;
 using Newtonsoft.Json;
 using Ziks.WebServer;
 
@@ -232,7 +233,7 @@ namespace SourceUtils.WebExport
         {
             var path = Request.Url.AbsolutePath.Substring( Request.Url.AbsolutePath.IndexOf( "/materials" ) + 1 );
 
-            path = path.Substring( 0, path.Length - ".json".Length );
+            path = HttpUtility.UrlDecode( path.Substring( 0, path.Length - ".json".Length ) );
 
             var bsp = map == null ? null : Program.GetMap( map );
             var res = bsp == null ? Program.Resources : bsp.PakFile;

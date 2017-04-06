@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Web;
 using ImageMagick;
 using Newtonsoft.Json;
 using Ziks.WebServer;
@@ -68,7 +69,7 @@ namespace SourceUtils.WebExport
             var absolute = Request.Url.AbsolutePath;
             var path = absolute.Substring(absolute.IndexOf( "/materials" ) + 1 );
 
-            path = path.Substring( 0, path.Length - ".json".Length );
+            path = HttpUtility.UrlDecode( path.Substring( 0, path.Length - ".json".Length ) );
 
             var bsp = map == null ? null : Program.GetMap( map );
             var res = bsp == null ? Program.Resources : bsp.PakFile;
@@ -175,7 +176,7 @@ namespace SourceUtils.WebExport
             var absolute = Request.Url.AbsolutePath;
             var pathStart = absolute.IndexOf( "/materials" ) + 1;
             var pathEnd = absolute.IndexOf( ".vtf", pathStart ) + ".vtf".Length;
-            var path = absolute.Substring(pathStart, pathEnd - pathStart);
+            var path = HttpUtility.UrlDecode( absolute.Substring( pathStart, pathEnd - pathStart ) );
 
             var fileName = Path.GetFileName( absolute );
             var match = _sFileNameRegex.Match( fileName );

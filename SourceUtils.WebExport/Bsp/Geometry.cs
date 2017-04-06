@@ -329,6 +329,13 @@ namespace SourceUtils.WebExport.Bsp
     [Prefix("/maps/{map}/geom")]
     class GeometryController : ResourceController
     {
+        private static Vector2 GetUv( SourceUtils.Vector3 pos, TexAxis uAxis, TexAxis vAxis )
+        {
+            return new Vector2(
+                pos.Dot( uAxis.Normal ) + uAxis.Offset,
+                pos.Dot( vAxis.Normal ) + vAxis.Offset );
+        }
+
         [Get("/leafpage{index}.json")]
         public LeafGeometryPage GetLeafPage( [Url] string map, [Url] int index )
         {
@@ -423,29 +430,58 @@ namespace SourceUtils.WebExport.Bsp
                         meshData.Elements.Add( elem );
                     }
 
+                    var texScale = new Vector2(1f / texData.Width, 1f / texData.Height);
+
+                    Vector2 lmMin, lmSize;
+                    bsp.LightmapLayout.GetUvs(faceIndex, out lmMin, out lmSize);
+
                     if ( face.DispInfo != -1 )
                     {
-                        // TODO
+                        var disp = bsp.DisplacementManager[face.DispInfo];
+
+                        SourceUtils.Vector3 c0, c1, c2, c3;
+                        disp.GetCorners(out c0, out c1, out c2, out c3);
+
+                        var uv00 = GetUv(c0, texInfo.TextureUAxis, texInfo.TextureVAxis) * texScale;
+                        var uv10 = GetUv(c3, texInfo.TextureUAxis, texInfo.TextureVAxis) * texScale;
+                        var uv01 = GetUv(c1, texInfo.TextureUAxis, texInfo.TextureVAxis) * texScale;
+                        var uv11 = GetUv(c2, texInfo.TextureUAxis, texInfo.TextureVAxis) * texScale;
+
+                        var subDivMul = 1f / disp.Subdivisions;
+
+                        for ( var y = 0; y < disp.Subdivisions; ++y )
+                        {
+                            meshData.BeginPrimitive();
+                            var v0 = (y + 0) * subDivMul;
+                            var v1 = (y + 1) * subDivMul;
+
+                            for ( var x = 0; x < disp.Size; ++x )
+                            {
+                                var u = x * subDivMul;
+
+                                meshData.VertexAttribute( VertexAttribute.Position, disp.GetPosition( x, y + 0 ) );
+                                meshData.VertexAttribute( VertexAttribute.Uv, (uv00 * (1f - u) + uv10 * u) * (1f - v0) + (uv01 * (1f - u) + uv11 * u) * v0 );
+                                meshData.VertexAttribute( VertexAttribute.Uv2, new Vector2( u, v0 ) * lmSize + lmMin );
+                                meshData.CommitVertex();
+
+                                meshData.VertexAttribute( VertexAttribute.Position, disp.GetPosition( x, y + 1 ) );
+                                meshData.VertexAttribute( VertexAttribute.Uv, (uv00 * (1f - u) + uv10 * u) * (1f - v1) + (uv01 * (1f - u) + uv11 * u) * v1 );
+                                meshData.VertexAttribute( VertexAttribute.Uv2, new Vector2( u, v1 ) * lmSize + lmMin );
+                                meshData.CommitVertex();
+                            }
+
+                            meshData.CommitPrimitive( PrimitiveType.TriangleStrip );
+                        }
                     }
                     else
                     {
-                        var texScale = new Vector2( 1f / texData.Width, 1f / texData.Height );
-
                         meshData.BeginPrimitive();
 
                         for ( int k = face.FirstEdge, kEnd = face.FirstEdge + face.NumEdges; k < kEnd; ++k )
                         {
                             var vert = bsp.GetVertexFromSurfEdgeId( k );
-                            var uv = new Vector2(
-                                vert.Dot( texInfo.TextureUAxis.Normal ) + texInfo.TextureUAxis.Offset,
-                                vert.Dot( texInfo.TextureVAxis.Normal ) + texInfo.TextureVAxis.Offset );
-
-                            var uv2 = new Vector2(
-                                vert.Dot( texInfo.LightmapUAxis.Normal ) + texInfo.LightmapUAxis.Offset,
-                                vert.Dot( texInfo.LightmapVAxis.Normal ) + texInfo.LightmapVAxis.Offset );
-
-                            Vector2 lmMin, lmSize;
-                            bsp.LightmapLayout.GetUvs( faceIndex, out lmMin, out lmSize );
+                            var uv = GetUv( vert, texInfo.TextureUAxis, texInfo.TextureVAxis );
+                            var uv2 = GetUv( vert, texInfo.LightmapUAxis, texInfo.LightmapVAxis );
 
                             uv2.X -= face.LightMapOffsetX - .5f;
                             uv2.Y -= face.LightMapOffsetY - .5f;

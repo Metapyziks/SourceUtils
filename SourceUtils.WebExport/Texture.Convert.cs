@@ -93,8 +93,8 @@ namespace SourceUtils.WebExport
                     throw new NotImplementedException();
             }
 
-            header.dwWidth = (uint) Math.Max( 4, vtf.Header.Width >> mip );
-            header.dwHeight = (uint) Math.Max( 4, vtf.Header.Height >> mip );
+            header.dwWidth = (uint) Math.Max( 1, vtf.Header.Width >> mip );
+            header.dwHeight = (uint) Math.Max( 1, vtf.Header.Height >> mip );
 
             header.dwSize = (uint)Marshal.SizeOf(typeof(DdsHeader));
             header.dwFlags = DdsHeaderFlags.CAPS | DdsHeaderFlags.HEIGHT | DdsHeaderFlags.WIDTH | DdsHeaderFlags.PIXELFORMAT;
@@ -132,7 +132,7 @@ namespace SourceUtils.WebExport
 
             var offset = 0;
             var width = Math.Max( 1, vtf.Header.Width >> mip );
-            var height = Math.Max(1, vtf.Header.Height >> mip);
+            var height = Math.Max( 1, vtf.Header.Height >> mip );
 
             var readSettings = new MagickReadSettings
             {

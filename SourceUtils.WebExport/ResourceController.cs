@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Web;
 using MimeTypes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -51,11 +52,9 @@ namespace SourceUtils.WebExport
 
     public class UrlConverter : JsonConverter
     {
-        private static readonly DateTime _sExportTime = DateTime.UtcNow;
-
-        private static string GetExportVersionHash()
+        private static string GetTimeHash()
         {
-            return GetFileVersionHash(_sExportTime);
+            return GetFileVersionHash( DateTime.UtcNow );
         }
 
         private static string GetFileVersionHash(DateTime timestamp)
@@ -80,14 +79,15 @@ namespace SourceUtils.WebExport
         public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
         {
             var url = (Url) value;
+            var encoded = HttpUtility.UrlEncode( url.Value ).Replace( "%2f", "/" );
+            var suffix = ShouldAppendVersionSuffix(url) ? $"?v={GetTimeHash()}" : "";
+
             if ( Program.IsExporting )
             {
                 Program.AddExportUrl( url );
-
-                var suffix = ShouldAppendVersionSuffix( url ) ? $"?v={GetExportVersionHash()}" : "";
-                writer.WriteValue( $"{Program.ExportOptions.UrlPrefix}{url.Value}{suffix}" );
+                writer.WriteValue( $"{Program.ExportOptions.UrlPrefix}{encoded}{suffix}" );
             }
-            else writer.WriteValue(url.Value);
+            else writer.WriteValue( $"{encoded}{suffix}" );
         }
 
         public override object ReadJson( JsonReader reader, Type objectType, object existingValue,
