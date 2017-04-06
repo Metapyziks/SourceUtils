@@ -51,13 +51,41 @@ namespace SourceUtils.WebExport
 
     public class UrlConverter : JsonConverter
     {
+        private static readonly DateTime _sExportTime = DateTime.UtcNow;
+
+        private static string GetExportVersionHash()
+        {
+            return GetFileVersionHash(_sExportTime);
+        }
+
+        private static string GetFileVersionHash(DateTime timestamp)
+        {
+            var major = (int)(timestamp - new DateTime(2000, 1, 1)).TotalDays;
+            var minor = (int)(timestamp - new DateTime(timestamp.Year, timestamp.Month, timestamp.Day)).TotalSeconds;
+            return $"{major:x}-{minor:x}";
+        }
+
+        private static bool ShouldAppendVersionSuffix( Url url )
+        {
+            switch ( Path.GetExtension( url ).ToLower() )
+            {
+                case ".js":
+                case ".css":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
         {
             var url = (Url) value;
             if ( Program.IsExporting )
             {
                 Program.AddExportUrl( url );
-                writer.WriteValue( $"{Program.ExportOptions.UrlPrefix}{url.Value}" );
+
+                var suffix = ShouldAppendVersionSuffix( url ) ? $"?v={GetExportVersionHash()}" : "";
+                writer.WriteValue( $"{Program.ExportOptions.UrlPrefix}{url.Value}{suffix}" );
             }
             else writer.WriteValue(url.Value);
         }
