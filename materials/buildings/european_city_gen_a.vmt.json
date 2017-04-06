@@ -1,1 +1,15 @@
-{"shader":"SourceUtils.Shaders.UnlitGeneric","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/buildings/european_city_gen_a.vtf.json"},{"name":"alphaTest","type":1,"value":true}]}
+{
+  "shader": "SourceUtils.Shaders.UnlitGeneric",
+  "properties": [
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/buildings/european_city_gen_a.vtf.json"
+    },
+    {
+      "name": "alphaTest",
+      "type": 1,
+      "value": true
+    }
+  ]
+}

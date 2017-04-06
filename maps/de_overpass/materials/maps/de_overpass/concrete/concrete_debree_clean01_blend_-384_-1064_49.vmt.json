@@ -1,1 +1,20 @@
-{"shader":"SourceUtils.Shaders.Lightmapped2WayBlend","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_debree_clean01.vtf.json"},{"name":"basetexture2","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_debree_clean01_wet.vtf.json"},{"name":"blendModulateTexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_debree_clean01_blend.vtf.json"}]}
+{
+  "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+  "properties": [
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_debree_clean01.vtf.json"
+    },
+    {
+      "name": "basetexture2",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_debree_clean01_wet.vtf.json"
+    },
+    {
+      "name": "blendModulateTexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/concrete/concrete_debree_clean01_blend.vtf.json"
+    }
+  ]
+}

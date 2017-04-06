@@ -1,1 +1,10 @@
-{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/stone/waterfront_stone_01a_clean.vtf.json"}]}
+{
+  "shader": "SourceUtils.Shaders.LightmappedGeneric",
+  "properties": [
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/stone/waterfront_stone_01a_clean.vtf.json"
+    }
+  ]
+}

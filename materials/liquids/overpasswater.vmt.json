@@ -1,1 +1,55 @@
-{"shader":"SourceUtils.Shaders.Water","properties":[{"name":"normalMap","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/dev/water_normal.vtf.json"},{"name":"simpleOverlay","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/sewage/sewagescumintersection_drainage01.vtf.json"},{"name":"reflectTint","type":4,"value":{"r":0.6666667,"g":0.6666667,"b":0.6666667,"a":1.0}},{"name":"refract","type":1,"value":true},{"name":"refractAmount","type":2,"value":0.8},{"name":"fogColor","type":4,"value":{"r":0.3529412,"g":0.3529412,"b":0.274509817,"a":1.0}},{"name":"fogStart","type":2,"value":-10.0},{"name":"fogEnd","type":2,"value":15.0}]}
+{
+  "shader": "SourceUtils.Shaders.Water",
+  "properties": [
+    {
+      "name": "normalMap",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/dev/water_normal.vtf.json"
+    },
+    {
+      "name": "simpleOverlay",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/sewage/sewagescumintersection_drainage01.vtf.json"
+    },
+    {
+      "name": "reflectTint",
+      "type": 4,
+      "value": {
+        "r": 0.6666667,
+        "g": 0.6666667,
+        "b": 0.6666667,
+        "a": 1.0
+      }
+    },
+    {
+      "name": "refract",
+      "type": 1,
+      "value": true
+    },
+    {
+      "name": "refractAmount",
+      "type": 2,
+      "value": 0.8
+    },
+    {
+      "name": "fogColor",
+      "type": 4,
+      "value": {
+        "r": 0.3529412,
+        "g": 0.3529412,
+        "b": 0.274509817,
+        "a": 1.0
+      }
+    },
+    {
+      "name": "fogStart",
+      "type": 2,
+      "value": -10.0
+    },
+    {
+      "name": "fogEnd",
+      "type": 2,
+      "value": 15.0
+    }
+  ]
+}

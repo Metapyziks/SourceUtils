@@ -1,1 +1,22 @@
-{"target":3553,"width":1,"height":1,"params":{"wrapS":10497,"wrapT":10497,"filter":9728,"mipmap":false},"elements":[{"level":0,"color":{"r":0.7411765,"g":0.7294118,"b":0.694117665,"a":1.0}}]}
+{
+  "target": 3553,
+  "width": 1,
+  "height": 1,
+  "params": {
+    "wrapS": 10497,
+    "wrapT": 10497,
+    "filter": 9728,
+    "mipmap": false
+  },
+  "elements": [
+    {
+      "level": 0,
+      "color": {
+        "r": 0.7411765,
+        "g": 0.7294118,
+        "b": 0.694117665,
+        "a": 1.0
+      }
+    }
+  ]
+}

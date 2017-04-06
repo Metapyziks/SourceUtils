@@ -1,1 +1,10 @@
-{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/metal/restroom_door_over_color.vtf.json"}]}
+{
+  "shader": "SourceUtils.Shaders.LightmappedGeneric",
+  "properties": [
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/metal/restroom_door_over_color.vtf.json"
+    }
+  ]
+}

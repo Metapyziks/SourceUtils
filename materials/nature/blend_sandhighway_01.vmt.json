@@ -1,1 +1,20 @@
-{"shader":"SourceUtils.Shaders.Lightmapped2WayBlend","properties":[{"name":"basetexture2","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/nature/dirt_ext_02b.vtf.json"},{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/concrete/highway_01a.vtf.json"},{"name":"blendModulateTexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/nature/blend_texture_01.vtf.json"}]}
+{
+  "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+  "properties": [
+    {
+      "name": "basetexture2",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/nature/dirt_ext_02b.vtf.json"
+    },
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/concrete/highway_01a.vtf.json"
+    },
+    {
+      "name": "blendModulateTexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/nature/blend_texture_01.vtf.json"
+    }
+  ]
+}

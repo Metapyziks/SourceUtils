@@ -1,1 +1,20 @@
-{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/models/props_windows/window_uban_apt_glass.vtf.json"},{"name":"translucent","type":1,"value":true},{"name":"cullFace","type":1,"value":false}]}
+{
+  "shader": "SourceUtils.Shaders.LightmappedGeneric",
+  "properties": [
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/models/props_windows/window_uban_apt_glass.vtf.json"
+    },
+    {
+      "name": "translucent",
+      "type": 1,
+      "value": true
+    },
+    {
+      "name": "cullFace",
+      "type": 1,
+      "value": false
+    }
+  ]
+}

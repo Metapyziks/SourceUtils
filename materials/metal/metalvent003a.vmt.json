@@ -1,1 +1,10 @@
-{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/metal/metalvent003a.vtf.json"}]}
+{
+  "shader": "SourceUtils.Shaders.LightmappedGeneric",
+  "properties": [
+    {
+      "name": "basetexture",
+      "type": 3,
+      "value": "https://metapyziks.github.io/SourceUtils/materials/metal/metalvent003a.vtf.json"
+    }
+  ]
+}
