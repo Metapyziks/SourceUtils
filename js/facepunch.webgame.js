@@ -4205,7 +4205,7 @@ var Facepunch;
             TextureLoadable.prototype.getLoadPriority = function () {
                 if (_super.prototype.getLoadPriority.call(this) === 0)
                     return 0;
-                if (this.info == null)
+                if (this.info == null || this.nextElement >= this.info.elements.length)
                     return 256;
                 var elems = this.info.elements;
                 return (elems[this.nextElement].level + 1) / (elems[0].level + 1);
