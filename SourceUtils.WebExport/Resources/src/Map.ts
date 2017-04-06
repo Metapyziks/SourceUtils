@@ -1,4 +1,6 @@
-﻿namespace SourceUtils {
+﻿/// <reference path="../js/facepunch.webgame.d.ts"/>
+
+namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
 
     export interface IPageInfo {
@@ -73,38 +75,36 @@
             this.viewer.forceDrawListInvalidation(true);
         }
 
-        populateDrawList(drawList: WebGame.DrawList, camera: WebGame.Camera): void {
+        getLeafAt(pos: Facepunch.IVector3): BspLeaf {
+            if (this.worldspawn == null || this.worldspawn.model == null) return null;
+            return this.worldspawn.model.getLeafAt(pos);
+        }
+
+        populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void {
             if (this.worldspawn == null) return;
 
             let vis: number[] = null;
 
-            const pos = Facepunch.Vector3.pool.create();
+            if (this.worldspawn.model != null && pvsRoot != null && pvsRoot.cluster !== undefined) {
+                const cluster = pvsRoot.cluster;
 
-            if (this.worldspawn.model != null) {
-                const leaf = this.worldspawn.model.getLeafAt(camera.getPosition(pos));
-                if (leaf != null && leaf.cluster !== undefined) {
-                    const cluster = leaf.cluster;
+                vis = this.clusterVis[cluster];
+                if (vis === undefined) {
+                    let immediate = true;
+                    this.viewer.visLoader.load(cluster,
+                        loaded => {
+                            this.clusterVis[cluster] = vis = loaded;
+                            if (!immediate) this.viewer.forceDrawListInvalidation(true);
+                        });
+                    immediate = false;
 
-                    vis = this.clusterVis[cluster];
-                    if (vis == null) {
-                        let immediate = true;
-                        this.viewer.visLoader.load(cluster,
-                            loaded => {
-                                this.clusterVis[cluster] = vis = loaded;
-                                if (!immediate) this.viewer.forceDrawListInvalidation(true);
-                            });
-                        immediate = false;
-
-                        if (vis == null) {
-                            this.clusterVis[cluster] = vis = [cluster];
-                        }
+                    if (vis === undefined) {
+                        this.clusterVis[cluster] = vis = null;
                     }
                 }
             }
 
             this.worldspawn.populateDrawList(drawList, vis);
-
-            pos.release();
         }
 
         private readonly lightmapInfoValues = new Float32Array(4);

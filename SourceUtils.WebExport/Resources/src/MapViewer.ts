@@ -5,6 +5,7 @@ namespace SourceUtils {
 
     export class MapViewer extends WebGame.Game {
         private mainCamera: WebGame.PerspectiveCamera;
+        private mainCameraLeaf: BspLeaf;
         private mainRenderContext: WebGame.RenderContext;
 
         readonly map = new Map(this);
@@ -90,6 +91,13 @@ namespace SourceUtils {
 
                 this.mainCamera.setPosition(Math.sin(-ang) * -radius, Math.cos(-ang) * -radius, height);
             }
+
+            const leaf = this.map.getLeafAt(this.mainCamera.getPosition(this.move));
+
+            if (leaf !== this.mainCameraLeaf) {
+                this.mainCameraLeaf = leaf;
+                this.mainRenderContext.invalidate();
+            }
         }
 
         protected onRenderFrame(dt: number): void {
@@ -104,7 +112,7 @@ namespace SourceUtils {
         }
 
         populateDrawList(drawList: WebGame.DrawList, camera: WebGame.Camera): void {
-            this.map.populateDrawList(drawList, camera);
+            this.map.populateDrawList(drawList, this.mainCameraLeaf);
         }
 
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void {

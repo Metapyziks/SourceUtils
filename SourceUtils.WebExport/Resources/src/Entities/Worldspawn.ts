@@ -40,7 +40,7 @@
                 this.onPopulateDrawList(drawList, clusters);
             }
 
-            protected onPopulateDrawList(drawList: WebGame.DrawList, pvsClusters: number[]): void {
+            protected onPopulateDrawList(drawList: WebGame.DrawList, clusters: number[]): void {
                 const leaves = this.model.getLeaves();
                 if (leaves != null) drawList.addItems(leaves);
             }
@@ -81,16 +81,18 @@
                 return true;
             }
 
-            /*
             protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList, clusters: number[]): void {
-                if (clusters == null) return;
+                if (clusters == null) {
+                    super.onPopulateDrawList(drawList, clusters);
+                    return;
+                }
+
                 for (let i = 0, iEnd = clusters.length; i < iEnd; ++i) {
                     const cluster = clusters[i];
                     const clusterLeaves = this.clusterLeaves[cluster];
                     if (clusterLeaves != null) drawList.addItems(clusterLeaves);
                 }
             }
-            */
         }
     }
 }
