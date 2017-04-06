@@ -9,7 +9,7 @@ namespace SourceUtils {
     }
 
     export interface IMaterialGroup {
-        materialUrl: string;
+        material: number;
         meshData: WebGame.ICompressedMeshData;
     }
 
@@ -36,7 +36,7 @@ namespace SourceUtils {
 
             for (let i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
                 const matGroup = page.materials[i];
-                const mat = this.viewer.materialLoader.load(matGroup.materialUrl);
+                const mat = this.viewer.mapMaterialLoader.loadMaterial(matGroup.material);
                 const data = WebGame.MeshManager.decompress(matGroup.meshData);
                 this.matGroups[i] = this.viewer.meshes.addMeshData(data, index => mat);
             }
@@ -66,7 +66,7 @@ namespace SourceUtils {
             this.viewer = viewer;
         }
 
-        protected createPage(page: IPageInfo): LeafGeometryPage {
+        protected onCreatePage(page: IPageInfo): LeafGeometryPage {
             return new LeafGeometryPage(this.viewer, page);
         }
     }

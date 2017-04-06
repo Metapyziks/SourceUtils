@@ -691,12 +691,15 @@ declare namespace Facepunch {
         enum MaterialPropertyType {
             Boolean = 1,
             Number = 2,
-            TextureUrl = 3,
+            Color = 3,
+            TextureUrl = 4,
+            TextureIndex = 5,
+            TextureInfo = 6,
         }
         interface IMaterialProperty {
             type: MaterialPropertyType;
             name: string;
-            value: boolean | number | string;
+            value: boolean | number | string | ITextureInfo;
         }
         interface IMaterialInfo {
             shader: string;
@@ -713,10 +716,13 @@ declare namespace Facepunch {
             isLoaded(): boolean;
         }
         class MaterialLoadable extends Material implements ILoadable {
+            private static nextDummyId;
             private readonly game;
             private readonly url;
-            constructor(game: Game, url: string);
+            private textureSource;
+            constructor(game: Game, url?: string);
             private addPropertyFromInfo(info);
+            loadFromInfo(info: IMaterialInfo, textureSource?: (index: number) => Texture): void;
             loadNext(callback: (requeue: boolean) => void): void;
         }
     }
@@ -1203,6 +1209,7 @@ declare namespace Facepunch {
             color?: IColor;
         }
         interface ITextureInfo {
+            path?: string;
             target: TextureTarget | string;
             width?: number;
             height?: number;
@@ -1211,7 +1218,7 @@ declare namespace Facepunch {
         }
         class TextureLoadable extends Texture implements ILoadable {
             private readonly context;
-            private readonly url;
+            readonly url: string;
             private info;
             private nextElement;
             private canRender;
@@ -1235,7 +1242,7 @@ declare namespace Facepunch {
             private loadColorElement(target, level, color);
             private loadImageElement(target, level, image);
             private loadElement(element, value?);
-            private onLoadInfo(info);
+            loadFromInfo(info: ITextureInfo): void;
             loadNext(callback: (requeue: boolean) => void): void;
         }
     }

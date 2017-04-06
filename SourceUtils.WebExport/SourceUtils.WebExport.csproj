@@ -96,6 +96,7 @@
     <Compile Include="Bsp\Index.cs" />
     <Compile Include="Bsp\Lightmap.cs" />
     <Compile Include="Bsp\BrushModel.cs" />
+    <Compile Include="Bsp\Materials.cs" />
     <Compile Include="Bsp\Visibility.cs" />
     <Compile Include="Export.cs" />
     <Compile Include="LZString.cs" />
@@ -147,6 +148,7 @@
     <TypeScriptCompile Include="Resources\src\Entities\Worldspawn.ts" />
     <TypeScriptCompile Include="Resources\src\LeafGeometryLoader.ts" />
     <TypeScriptCompile Include="Resources\src\Map.ts" />
+    <TypeScriptCompile Include="Resources\src\MapMaterialLoader.ts" />
     <TypeScriptCompile Include="Resources\src\MapViewer.ts" />
     <TypeScriptCompile Include="Resources\src\PagedLoader.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\BaseShaderProgram.ts" />

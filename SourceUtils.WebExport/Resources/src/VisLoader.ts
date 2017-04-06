@@ -10,7 +10,7 @@
     }
 
     export class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
-        protected createPage(page: IPageInfo): VisPage {
+        protected onCreatePage(page: IPageInfo): VisPage {
             return new VisPage(page);
         }
     }

@@ -11,6 +11,7 @@ namespace SourceUtils {
         readonly map = new Map(this);
         readonly leafGeometryLoader = this.addLoader(new LeafGeometryLoader(this));
         readonly dispGeometryLoader = this.addLoader(new DispGeometryLoader(this));
+        readonly mapMaterialLoader = this.addLoader(new MapMaterialLoader(this));
         readonly bspModelLoader = this.addLoader(new BspModelLoader(this));
         readonly visLoader = this.addLoader(new VisLoader());
 

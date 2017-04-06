@@ -26,7 +26,7 @@ namespace SourceUtils {
 
             for (let i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
                 const matGroup = page.materials[i];
-                const mat = this.viewer.materialLoader.load(matGroup.materialUrl);
+                const mat = this.viewer.mapMaterialLoader.loadMaterial(matGroup.material);
                 const data = WebGame.MeshManager.decompress(matGroup.meshData);
                 this.matGroups[i] = this.viewer.meshes.addMeshData(data, index => mat);
             }
@@ -49,7 +49,7 @@ namespace SourceUtils {
             this.viewer = viewer;
         }
 
-        protected createPage(page: IPageInfo): DispGeometryPage {
+        protected onCreatePage(page: IPageInfo): DispGeometryPage {
             return new DispGeometryPage(this.viewer, page);
         }
     }

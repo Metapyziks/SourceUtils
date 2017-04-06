@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using MimeTypes;
@@ -22,10 +23,12 @@ namespace SourceUtils.WebExport
         }
 
         public readonly string Value;
+        public readonly bool Export;
 
-        public Url( string value )
+        public Url( string value, bool export = true )
         {
             Value = value;
+            Export = export;
         }
 
         public bool Equals( Url other )
@@ -82,7 +85,7 @@ namespace SourceUtils.WebExport
             var encoded = HttpUtility.UrlEncode( url.Value ).Replace( "%2f", "/" );
             var suffix = ShouldAppendVersionSuffix(url) ? $"?v={GetTimeHash()}" : "";
 
-            if ( Program.IsExporting )
+            if ( url.Export && Program.IsExporting )
             {
                 Program.AddExportUrl( url );
                 writer.WriteValue( $"{Program.ExportOptions.UrlPrefix}{encoded}{suffix}" );
@@ -102,12 +105,65 @@ namespace SourceUtils.WebExport
         }
     }
 
+    public class NiceArrayConverter : JsonConverter
+    {
+        public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
+        {
+            if ( value == null )
+            {
+                writer.WriteNull();
+                return;
+            }
+
+            var floatArr = value as List<float>;
+            var intArr = value as List<int>;
+
+            writer.WriteStartArray();
+
+            if ( floatArr != null )
+            {
+                writer.WriteRaw( string.Join( ",", floatArr ) );
+            }
+            else if ( intArr != null )
+            {
+                writer.WriteRaw( string.Join( ",", intArr ) );
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            writer.WriteEndArray();
+        }
+
+        public override object ReadJson( JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer )
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert( Type objectType )
+        {
+            return typeof(List<float>).IsAssignableFrom( objectType ) ||
+                   typeof(List<int>).IsAssignableFrom( objectType );
+        }
+    }
+
     class ResourceController : Controller
     {
         private static readonly JsonSerializer _sSerializer = new JsonSerializer
         {
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
+#if DEBUG
+            Formatting = Formatting.Indented,
+#else
+            Formatting = Formatting.None,
+#endif
         };
+
+        static ResourceController()
+        {
+            _sSerializer.Converters.Add( new NiceArrayConverter() );
+        }
 
         protected override void OnServiceText( string text )
         {
@@ -137,7 +193,11 @@ namespace SourceUtils.WebExport
             {
                 using ( var writer = new StreamWriter( Response.OutputStream ) )
                 {
+#if DEBUG
+                    writer.Write( token.ToString( Formatting.Indented ) );
+#else
                     writer.Write( token.ToString( Formatting.None ) );
+#endif
                 }
             }
         }

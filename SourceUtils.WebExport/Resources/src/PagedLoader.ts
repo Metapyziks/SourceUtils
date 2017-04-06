@@ -67,7 +67,7 @@
 
         private active = 0;
 
-        protected abstract createPage(page: IPageInfo): TPage;
+        protected abstract onCreatePage(page: IPageInfo): TPage;
 
         load(index: number, callback: (payload: TValue) => void): TValue {
             if (this.pages == null) {
@@ -92,7 +92,7 @@
             this.pages = new Array<TPage>(pages.length);
 
             for (let i = 0, iEnd = pages.length; i < iEnd; ++i) {
-                this.pages[i] = this.createPage(pages[i]);
+                this.pages[i] = this.onCreatePage(pages[i]);
                 this.toLoad.push(this.pages[i]);
             }
         }

@@ -4,7 +4,7 @@ using ImageMagick;
 
 namespace SourceUtils.WebExport
 {
-    partial class TextureController
+    partial class Texture
     {
         [Flags]
         private enum DdsHeaderFlags : uint
@@ -117,7 +117,7 @@ namespace SourceUtils.WebExport
             return (int) header.dwSize + sizeof(uint);
         }
 
-        private static MagickImage DecodeImage(ValveTextureFile vtf, int mip, int frame, int face, int zslice)
+        public static MagickImage DecodeImage(ValveTextureFile vtf, int mip, int frame, int face, int zslice)
         {
             var dataLength = vtf.GetHiResPixelDataLength(mip);
             var totalLength = dataLength + 128;

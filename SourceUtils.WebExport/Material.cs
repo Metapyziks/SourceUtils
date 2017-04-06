@@ -13,8 +13,9 @@ namespace SourceUtils.WebExport
     {
         Boolean = 1,
         Number = 2,
-        TextureUrl = 3,
-        Color = 4
+        Color = 3,
+        TextureUrl = 4,
+        TextureIndex = 5
     }
 
     public class MaterialProperty
@@ -59,6 +60,137 @@ namespace SourceUtils.WebExport
 
     public class Material
     {
+        private static Url GetTextureUrl(string path, string vmtPath, ValveBspFile bsp)
+        {
+            path = path.ToLower().Replace('\\', '/');
+            if (!path.EndsWith(".vtf")) path = $"{path}.vtf";
+
+            path = !path.Contains('/') ? $"{Path.GetDirectoryName(vmtPath)}/{path}" : $"materials/{path}";
+
+            if (bsp != null && bsp.PakFile.ContainsFile(path))
+            {
+                return $"/maps/{bsp.Name}/{path}.json";
+            }
+
+            return $"/{path}.json";
+        }
+
+        private static void AddMaterialProperties(Material mat, ValveMaterialFile vmt, string vmtPath, ValveBspFile bsp)
+        {
+            var shader = vmt.Shaders.First();
+            var props = vmt[shader];
+
+            switch (shader.ToLower())
+            {
+                case "lightmappedgeneric":
+                    {
+                        mat.Shader = "SourceUtils.Shaders.LightmappedGeneric";
+                        break;
+                    }
+                case "worldvertextransition":
+                    {
+                        mat.Shader = "SourceUtils.Shaders.Lightmapped2WayBlend";
+                        break;
+                    }
+                case "vertexlitgeneric":
+                    {
+                        mat.Shader = "SourceUtils.Shaders.VertexLitGeneric";
+                        break;
+                    }
+                case "unlittwotexture":
+                case "unlitgeneric":
+                    {
+                        mat.Shader = "SourceUtils.Shaders.UnlitGeneric";
+                        break;
+                    }
+                case "water":
+                    {
+                        mat.Shader = "SourceUtils.Shaders.Water";
+                        break;
+                    }
+                default:
+                    {
+                        mat.Shader = shader;
+                        break;
+                    }
+            }
+
+            foreach (var name in props.PropertyNames)
+            {
+                switch (name.ToLower())
+                {
+                    case "$basetexture":
+                        mat.SetTextureUrl("basetexture", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
+                    case "$texture2":
+                    case "$basetexture2":
+                        mat.SetTextureUrl("basetexture2", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
+                    case "$blendmodulatetexture":
+                        mat.SetTextureUrl("blendModulateTexture", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
+                    case "$normalmap":
+                        mat.SetTextureUrl("normalMap", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
+                    case "$simpleoverlay":
+                        mat.SetTextureUrl("simpleOverlay", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
+                    case "$nofog":
+                        mat.SetBoolean("fog", !props.GetBoolean(name));
+                        break;
+                    case "$alphatest":
+                        mat.SetBoolean("alphaTest", props.GetBoolean(name));
+                        break;
+                    case "$translucent":
+                        mat.SetBoolean("translucent", props.GetBoolean(name));
+                        break;
+                    case "$refract":
+                        mat.SetBoolean("refract", props.GetBoolean(name));
+                        break;
+                    case "$alpha":
+                        mat.SetNumber("alpha", props.GetSingle(name));
+                        break;
+                    case "$nocull":
+                        mat.SetBoolean("cullFace", !props.GetBoolean(name));
+                        break;
+                    case "$notint":
+                        mat.SetBoolean("tint", !props.GetBoolean(name));
+                        break;
+                    case "$blendtintbybasealpha":
+                        mat.SetBoolean("baseAlphaTint", props.GetBoolean(name));
+                        break;
+                    case "$fogstart":
+                        mat.SetNumber("fogStart", props.GetSingle(name));
+                        break;
+                    case "$fogend":
+                        mat.SetNumber("fogEnd", props.GetSingle(name));
+                        break;
+                    case "$fogcolor":
+                        mat.SetColor("fogColor", new MaterialColor(props.GetColor(name)));
+                        break;
+                    case "$reflecttint":
+                        mat.SetColor("reflectTint", new MaterialColor(props.GetColor(name)));
+                        break;
+                    case "$refractamount":
+                        mat.SetNumber("refractAmount", props.GetSingle(name));
+                        break;
+                }
+            }
+        }
+
+        public static Material Get(ValveBspFile bsp, string path)
+        {
+            var vmt = bsp == null
+                ? ValveMaterialFile.FromProvider(path, Program.Resources)
+                : ValveMaterialFile.FromProvider(path, bsp.PakFile, Program.Resources);
+
+            var mat = new Material();
+
+            AddMaterialProperties(mat, vmt, path, bsp);
+
+            return mat;
+        }
+
         [JsonProperty("shader")]
         public string Shader { get; set; }
 
@@ -70,26 +202,30 @@ namespace SourceUtils.WebExport
             var prop = Properties.FirstOrDefault(x => x.Name == name);
             if ( prop == null ) Properties.Add( prop = new MaterialProperty {Name = name} );
             prop.Type = type;
-
             return prop;
         }
 
-        public void Set( string name, bool value )
+        public void SetBoolean( string name, bool value )
         {
             GetOrAddProperty( name, MaterialPropertyType.Boolean ).Value = value;
         }
 
-        public void Set( string name, float value )
+        public void SetNumber( string name, float value )
         {
             GetOrAddProperty( name, MaterialPropertyType.Number ).Value = value;
         }
 
-        public void Set( string name, Url textureUrl )
+        public void SetTextureUrl( string name, Url textureUrl )
         {
             GetOrAddProperty( name, MaterialPropertyType.TextureUrl ).Value = textureUrl;
         }
 
-        public void Set( string name, MaterialColor value )
+        public void SetTextureIndex(string name, int value)
+        {
+            GetOrAddProperty(name, MaterialPropertyType.TextureIndex).Value = value;
+        }
+
+        public void SetColor( string name, MaterialColor value )
         {
             GetOrAddProperty( name, MaterialPropertyType.Color ).Value = value;
         }
@@ -99,124 +235,6 @@ namespace SourceUtils.WebExport
     [Prefix("/maps/{map}/materials", Extension = ".vmt.json")]
     class MaterialController : ResourceController
     {
-        private Url GetTextureUrl( string path, string vmtPath, ValveBspFile bsp )
-        {
-            path = path.ToLower().Replace( '\\', '/' );
-            if ( !path.EndsWith( ".vtf" ) ) path = $"{path}.vtf";
-
-            path = !path.Contains( '/' ) ? $"{Path.GetDirectoryName( vmtPath )}/{path}" : $"materials/{path}";
-
-            if ( bsp != null && bsp.PakFile.ContainsFile( path ) )
-            {
-                return $"/maps/{bsp.Name}/{path}.json";
-            }
-
-            return $"/{path}.json";
-        }
-
-        private void AddMaterialProperties( Material mat, ValveMaterialFile vmt, string vmtPath, ValveBspFile bsp )
-        {
-            var shader = vmt.Shaders.First();
-            var props = vmt[shader];
-
-            switch ( shader.ToLower() )
-            {
-                case "lightmappedgeneric":
-                {
-                    mat.Shader = "SourceUtils.Shaders.LightmappedGeneric";
-                    break;
-                }
-                case "worldvertextransition":
-                {
-                    mat.Shader = "SourceUtils.Shaders.Lightmapped2WayBlend";
-                    break;
-                }
-                case "vertexlitgeneric":
-                {
-                    mat.Shader = "SourceUtils.Shaders.VertexLitGeneric";
-                    break;
-                }
-                case "unlittwotexture":
-                case "unlitgeneric":
-                {
-                    mat.Shader = "SourceUtils.Shaders.UnlitGeneric";
-                    break;
-                }
-                case "water":
-                {
-                    mat.Shader = "SourceUtils.Shaders.Water";
-                    break;
-                }
-                default:
-                {
-                    mat.Shader = shader;
-                    break;
-                }
-            }
-
-            foreach ( var name in props.PropertyNames )
-            {
-                switch ( name.ToLower() )
-                {
-                    case "$basetexture":
-                        mat.Set( "basetexture", GetTextureUrl( props[name], vmtPath, bsp ) );
-                        break;
-                    case "$texture2":
-                    case "$basetexture2":
-                        mat.Set( "basetexture2", GetTextureUrl( props[name], vmtPath, bsp ) );
-                        break;
-                    case "$blendmodulatetexture":
-                        mat.Set( "blendModulateTexture", GetTextureUrl( props[name], vmtPath, bsp ) );
-                        break;
-                    case "$normalmap":
-                        mat.Set( "normalMap", GetTextureUrl( props[name], vmtPath, bsp ) );
-                        break;
-                    case "$simpleoverlay":
-                        mat.Set( "simpleOverlay", GetTextureUrl( props[name], vmtPath, bsp ) );
-                        break;
-                    case "$nofog":
-                        mat.Set( "fog", !props.GetBoolean( name ) );
-                        break;
-                    case "$alphatest":
-                        mat.Set( "alphaTest", props.GetBoolean( name ) );
-                        break;
-                    case "$translucent":
-                        mat.Set( "translucent", props.GetBoolean( name ) );
-                        break;
-                    case "$refract":
-                        mat.Set( "refract", props.GetBoolean( name ) );
-                        break;
-                    case "$alpha":
-                        mat.Set( "alpha", props.GetSingle( name ) );
-                        break;
-                    case "$nocull":
-                        mat.Set( "cullFace", !props.GetBoolean( name ) );
-                        break;
-                    case "$notint":
-                        mat.Set( "tint", !props.GetBoolean( name ) );
-                        break;
-                    case "$blendtintbybasealpha":
-                        mat.Set( "baseAlphaTint", props.GetBoolean( name ) );
-                        break;
-                    case "$fogstart":
-                        mat.Set( "fogStart", props.GetSingle( name ) );
-                        break;
-                    case "$fogend":
-                        mat.Set( "fogEnd", props.GetSingle( name ) );
-                        break;
-                    case "$fogcolor":
-                        mat.Set( "fogColor", new MaterialColor( props.GetColor( name ) ) );
-                        break;
-                    case "$reflecttint":
-                        mat.Set( "reflectTint", new MaterialColor( props.GetColor( name ) ) );
-                        break;
-                    case "$refractamount":
-                        mat.Set( "refractAmount", props.GetSingle( name ) );
-                        break;
-                }
-            }
-        }
-
         [Get(MatchAllUrl = false)]
         public Material Get( [Url] string map )
         {
@@ -225,15 +243,8 @@ namespace SourceUtils.WebExport
             path = HttpUtility.UrlDecode( path.Substring( 0, path.Length - ".json".Length ) );
 
             var bsp = map == null ? null : Program.GetMap( map );
-            var vmt = bsp == null
-                ? ValveMaterialFile.FromProvider( path, Program.Resources )
-                : ValveMaterialFile.FromProvider( path, bsp.PakFile, Program.Resources );
 
-            var mat = new Material();
-
-            AddMaterialProperties( mat, vmt, path, bsp );
-
-            return mat;
+            return Material.Get( bsp, path );
         }
     }
 }

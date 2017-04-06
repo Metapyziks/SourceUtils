@@ -297,8 +297,8 @@ namespace SourceUtils.WebExport.Bsp
 
     public class MaterialGroup
     {
-        [JsonProperty("materialUrl")]
-        public Url MaterialUrl { get; set; }
+        [JsonProperty("material")]
+        public int Material { get; set; }
 
         [JsonProperty("meshData")]
         public MeshData MeshData { get; } = new MeshData();
@@ -404,7 +404,7 @@ namespace SourceUtils.WebExport.Bsp
                     vmt = ValveMaterialFile.FromProvider(path, Program.Resources);
                 }
 
-                matGroup = new MaterialGroup { MaterialUrl = url };
+                matGroup = new MaterialGroup { Material = texData.NameStringTableId };
                 page.MaterialIndices.Add(texData.NameStringTableId, matIndex = page.Materials.Count);
                 page.Materials.Add(matGroup);
 
@@ -572,7 +572,6 @@ namespace SourceUtils.WebExport.Bsp
         [Get( "/disppage{index}.json" )]
         public DispGeometryPage GetDispPage( [Url] string map, [Url] int index )
         {
-
             var bsp = Program.GetMap( map );
             var first = index * DispGeometryPage.DisplacementsPerPage;
             var count = Math.Min( first + DispGeometryPage.DisplacementsPerPage, bsp.DisplacementInfos.Length ) - first;

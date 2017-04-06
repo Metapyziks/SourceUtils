@@ -70,6 +70,9 @@ namespace SourceUtils.WebExport.Bsp
         [JsonProperty("dispPages")]
         public IEnumerable<PageInfo> DispPages { get; set; }
 
+        [JsonProperty("materialPages")]
+        public IEnumerable<PageInfo> MaterialPages { get; set; }
+
         [JsonProperty("entities")]
         public IEnumerable<Entity> Entities { get; set; }
     }
@@ -229,8 +232,9 @@ namespace SourceUtils.WebExport.Bsp
                 Name = bsp.Name,
                 LightmapUrl = $"/maps/{bsp.Name}/lightmap.json",
                 VisPages = GetPageLayout( bsp, bsp.Visibility.NumClusters, VisPage.ClustersPerPage, "/geom/vispage" ),
-                LeafPages = GetPageLayout(bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage"),
-                DispPages = GetPageLayout(bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage"),
+                LeafPages = GetPageLayout( bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage" ),
+                DispPages = GetPageLayout( bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage" ),
+                MaterialPages = GetPageLayout( bsp, bsp.TextureStringTable.Length, MaterialPage.MaterialsPerPage, "/materials/matpage" ),
                 Entities = ents
             };
         }

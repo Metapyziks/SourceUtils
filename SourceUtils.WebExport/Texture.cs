@@ -41,43 +41,17 @@ namespace SourceUtils.WebExport
         public MaterialColor? Color { get; set; }
     }
 
-    public class Texture
+    public partial class Texture
     {
-        [JsonProperty("target")]
-        public TextureTarget Target { get; set; }
-
-        [JsonProperty("width")]
-        public int Width { get; set; }
-
-        [JsonProperty("height")]
-        public int Height { get; set; }
-
-        [JsonProperty("params")]
-        public TextureParameters Params { get; } = new TextureParameters();
-
-        [JsonProperty("elements")]
-        public List<TextureElement> Elements { get; } = new List<TextureElement>();
-    }
-
-    [Prefix("/materials")]
-    [Prefix("/maps/{map}/materials")]
-    partial class TextureController : ResourceController
-    {
-        [Get( MatchAllUrl = false, Extension = ".vtf.json" )]
-        public Texture GetInfo( [Url] string map )
+        public static Texture Get( ValveBspFile bsp, string path )
         {
-            var absolute = Request.Url.AbsolutePath;
-            var path = absolute.Substring(absolute.IndexOf( "/materials" ) + 1 );
-
-            path = HttpUtility.UrlDecode( path.Substring( 0, path.Length - ".json".Length ) );
-
-            var bsp = map == null ? null : Program.GetMap( map );
-            var res = bsp == null ? Program.Resources : bsp.PakFile;
+            var inBsp = bsp != null && bsp.PakFile.ContainsFile( path );
+            var res = inBsp ? bsp.PakFile : Program.Resources;
 
             ValveTextureFile vtf;
-            using ( var stream = res.OpenFile( path ) )
+            using (var stream = res.OpenFile(path))
             {
-                vtf = new ValveTextureFile( stream );
+                vtf = new ValveTextureFile(stream);
             }
 
             var isCube = vtf.FaceCount == 6;
@@ -85,6 +59,7 @@ namespace SourceUtils.WebExport
 
             var tex = new Texture
             {
+                Path = path.ToLower(),
                 Target = isCube ? TextureTarget.TextureCubeMap : TextureTarget.Texture2D,
                 Width = untextured ? 1 : vtf.Header.Width,
                 Height = untextured ? 1 : vtf.Header.Height,
@@ -105,34 +80,34 @@ namespace SourceUtils.WebExport
 
             byte[] pixelBuf = null;
 
-            for ( var mip = vtf.MipmapCount - 1; mip >= 0; --mip )
+            for (var mip = vtf.MipmapCount - 1; mip >= 0; --mip)
             {
-                var isSinglePixel = Math.Max( tex.Width >> mip, 1 ) * Math.Max( tex.Height >> mip, 1 ) == 1;
+                var isSinglePixel = Math.Max(tex.Width >> mip, 1) * Math.Max(tex.Height >> mip, 1) == 1;
 
-                for ( var face = 0; face < vtf.FaceCount; ++face )
+                for (var face = 0; face < vtf.FaceCount; ++face)
                 {
                     var elem = new TextureElement
                     {
                         Level = untextured ? 0 : mip
                     };
 
-                    if ( isCube ) elem.Target = TextureTarget.TextureCubeMapPositiveX + face;
-                    if ( isSinglePixel )
+                    if (isCube) elem.Target = TextureTarget.TextureCubeMapPositiveX + face;
+                    if (isSinglePixel)
                     {
-                        if ( pixelBuf == null ) pixelBuf = new byte[vtf.GetHiResPixelDataLength( mip )];
+                        if (pixelBuf == null) pixelBuf = new byte[vtf.GetHiResPixelDataLength(mip)];
 
-                        vtf.GetHiResPixelData( mip, 0, face, 0, pixelBuf );
+                        vtf.GetHiResPixelData(mip, 0, face, 0, pixelBuf);
 
-                        using ( var img = DecodeImage( vtf, mip, 0, face, 0 ) )
+                        using (var img = DecodeImage(vtf, mip, 0, face, 0))
                         {
                             var pixel = img.GetPixels()[0, 0];
-                            switch ( pixel.Channels )
+                            switch (pixel.Channels)
                             {
                                 case 3:
-                                    elem.Color = new MaterialColor( pixel[0], pixel[1], pixel[2] );
+                                    elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2]);
                                     break;
                                 case 4:
-                                    elem.Color = new MaterialColor( pixel[0], pixel[1], pixel[2], pixel[3] );
+                                    elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2], pixel[3]);
                                     break;
                                 default:
                                     throw new NotImplementedException();
@@ -143,23 +118,62 @@ namespace SourceUtils.WebExport
                     {
                         var fileName = $"{path}/mip{mip}";
 
-                        if ( vtf.FaceCount > 1 )
+                        if (vtf.FaceCount > 1)
                         {
                             fileName = $"{fileName}.face{face}";
                         }
 
                         fileName = $"{fileName}.png";
 
-                        elem.Url = bsp != null ? $"/maps/{bsp.Name}/{fileName}" : $"/{fileName}";
+                        elem.Url = inBsp ? $"/maps/{bsp.Name}/{fileName}" : $"/{fileName}";
                     }
 
-                    tex.Elements.Add( elem );
+                    tex.Elements.Add(elem);
                 }
 
                 if (untextured) break;
             }
 
             return tex;
+        }
+
+        /// <remarks>
+        /// Not a SourceUtils.WebExport.Url so that it doesn't trigger an export.
+        /// </remarks>
+        [JsonProperty("path")]
+        public string Path { get; set; }
+
+        [JsonProperty("target")]
+        public TextureTarget Target { get; set; }
+
+        [JsonProperty("width")]
+        public int Width { get; set; }
+
+        [JsonProperty("height")]
+        public int Height { get; set; }
+
+        [JsonProperty("params")]
+        public TextureParameters Params { get; } = new TextureParameters();
+
+        [JsonProperty("elements")]
+        public List<TextureElement> Elements { get; } = new List<TextureElement>();
+    }
+
+    [Prefix("/materials")]
+    [Prefix("/maps/{map}/materials")]
+    class TextureController : ResourceController
+    {
+        public static string GetTexturePath(string url)
+        {
+            var path = url.Substring(url.IndexOf("/materials") + 1);
+            return HttpUtility.UrlDecode(path.Substring(0, path.Length - ".json".Length));
+        }
+
+        [Get( MatchAllUrl = false, Extension = ".vtf.json" )]
+        public Texture GetInfo( [Url] string map )
+        {
+            var bsp = map == null ? null : Program.GetMap( map );
+            return Texture.Get( bsp, GetTexturePath( Request.Url.AbsolutePath ) );
         }
 
         private static readonly Regex _sFileNameRegex = new Regex( @"^((?<param>mip|face|frame)(?<value>[0-9]+)\.)*(?<format>png)$", RegexOptions.IgnoreCase | RegexOptions.Compiled );
@@ -219,7 +233,7 @@ namespace SourceUtils.WebExport
             var buffer = new byte[vtf.GetHiResPixelDataLength( mip )];
             vtf.GetHiResPixelData( mip, frame, face, 0, buffer );
 
-            using ( var image = DecodeImage( vtf, mip, frame, face, 0 ) )
+            using ( var image = Texture.DecodeImage( vtf, mip, frame, face, 0 ) )
             {
                 image.Write( Response.OutputStream, MagickFormat.Png );
             }
