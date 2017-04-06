@@ -152,6 +152,8 @@ namespace SourceUtils.WebExport.Bsp
             return response;
         }
 
+        protected override bool ForceNoFormatting => true;
+
         [Get("/model{index}.json")]
         public BspModel Get( [Url] string map, [Url] int index )
         {

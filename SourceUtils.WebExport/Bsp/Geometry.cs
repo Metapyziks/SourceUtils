@@ -332,7 +332,7 @@ namespace SourceUtils.WebExport.Bsp
 
     public class DispGeometryPage : GeometryPage
     {
-        public const int DisplacementsPerPage = 64;
+        public const int DisplacementsPerPage = 256;
 
         [JsonProperty( "displacements" )]
         public List<Face> Displacements { get; } = new List<Face>();

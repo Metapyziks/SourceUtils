@@ -183,6 +183,8 @@ namespace SourceUtils.WebExport
             OnServiceJson( obj == null ? null : JObject.FromObject( obj, _sSerializer ) );
         }
 
+        protected virtual bool ForceNoFormatting => false;
+
         protected bool Skip => Request.QueryString["skip"] == "1";
 
         protected override void OnServiceJson( JToken token )
@@ -194,7 +196,7 @@ namespace SourceUtils.WebExport
                 using ( var writer = new StreamWriter( Response.OutputStream ) )
                 {
 #if DEBUG
-                    writer.Write( token.ToString( Formatting.Indented ) );
+                    writer.Write( token.ToString( ForceNoFormatting ? Formatting.None : Formatting.Indented ) );
 #else
                     writer.Write( token.ToString( Formatting.None ) );
 #endif
