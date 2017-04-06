@@ -1,1 +1,1 @@
-{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://Metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_beam_01.vtf.json"}]}
+{"shader":"SourceUtils.Shaders.LightmappedGeneric","properties":[{"name":"basetexture","type":3,"value":"https://metapyziks.github.io/SourceUtils/materials/de_nuke/nuke_beam_01.vtf.json"}]}
