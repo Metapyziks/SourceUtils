@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
@@ -141,87 +146,6 @@ var SourceUtils;
         return BspModelLoader;
     }(Facepunch.Loader));
     SourceUtils.BspModelLoader = BspModelLoader;
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var BrushEntity = (function (_super) {
-            __extends(BrushEntity, _super);
-            function BrushEntity(map, info) {
-                var _this = _super.call(this) || this;
-                _this.map = map;
-                _this.info = info;
-                _this.model = map.viewer.bspModelLoader.load(info.modelUrl);
-                _this.model.addUsage(_this);
-                return _this;
-            }
-            BrushEntity.prototype.isInCluster = function (cluster) {
-                var clusters = this.info.clusters;
-                if (clusters == null)
-                    return false;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (clusters[i] === cluster)
-                        return true;
-                }
-                return false;
-            };
-            BrushEntity.prototype.isInAnyCluster = function (clusters) {
-                if (clusters == null)
-                    return false;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (this.isInCluster(clusters[i]))
-                        return true;
-                }
-                return false;
-            };
-            BrushEntity.prototype.populateDrawList = function (drawList, clusters) {
-                if (!this.isInAnyCluster(clusters))
-                    return;
-                drawList.addItem(this);
-                this.onPopulateDrawList(drawList, clusters);
-            };
-            BrushEntity.prototype.onPopulateDrawList = function (drawList, pvsClusters) {
-                var leaves = this.model.getLeaves();
-                if (leaves != null)
-                    drawList.addItems(leaves);
-            };
-            return BrushEntity;
-        }(WebGame.DrawableEntity));
-        Entities.BrushEntity = BrushEntity;
-        var Worldspawn = (function (_super) {
-            __extends(Worldspawn, _super);
-            function Worldspawn(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusterLeaves = {};
-                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
-                return _this;
-            }
-            Worldspawn.prototype.onModelLoad = function () {
-                var leaves = this.model.getLeaves();
-                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                    var leaf = leaves[i];
-                    if (leaf.cluster === undefined)
-                        continue;
-                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
-                    if (clusterLeaves == null) {
-                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
-                    }
-                    clusterLeaves.push(leaf);
-                }
-                this.map.viewer.forceDrawListInvalidation(true);
-            };
-            Worldspawn.prototype.isInAnyCluster = function (clusters) {
-                return true;
-            };
-            Worldspawn.prototype.isInCluster = function (cluster) {
-                return true;
-            };
-            return Worldspawn;
-        }(BrushEntity));
-        Entities.Worldspawn = Worldspawn;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -384,6 +308,7 @@ var SourceUtils;
     }(SourceUtils.PagedLoader));
     SourceUtils.LeafGeometryLoader = LeafGeometryLoader;
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="../js/facepunch.webgame.d.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
@@ -420,33 +345,33 @@ var SourceUtils;
             }
             this.viewer.forceDrawListInvalidation(true);
         };
-        Map.prototype.populateDrawList = function (drawList, camera) {
+        Map.prototype.getLeafAt = function (pos) {
+            if (this.worldspawn == null || this.worldspawn.model == null)
+                return null;
+            return this.worldspawn.model.getLeafAt(pos);
+        };
+        Map.prototype.populateDrawList = function (drawList, pvsRoot) {
             var _this = this;
             if (this.worldspawn == null)
                 return;
             var vis = null;
-            var pos = Facepunch.Vector3.pool.create();
-            if (this.worldspawn.model != null) {
-                var leaf = this.worldspawn.model.getLeafAt(camera.getPosition(pos));
-                if (leaf != null && leaf.cluster !== undefined) {
-                    var cluster_1 = leaf.cluster;
-                    vis = this.clusterVis[cluster_1];
-                    if (vis == null) {
-                        var immediate_1 = true;
-                        this.viewer.visLoader.load(cluster_1, function (loaded) {
-                            _this.clusterVis[cluster_1] = vis = loaded;
-                            if (!immediate_1)
-                                _this.viewer.forceDrawListInvalidation(true);
-                        });
-                        immediate_1 = false;
-                        if (vis == null) {
-                            this.clusterVis[cluster_1] = vis = [cluster_1];
-                        }
+            if (this.worldspawn.model != null && pvsRoot != null && pvsRoot.cluster !== undefined) {
+                var cluster_1 = pvsRoot.cluster;
+                vis = this.clusterVis[cluster_1];
+                if (vis === undefined) {
+                    var immediate_1 = true;
+                    this.viewer.visLoader.load(cluster_1, function (loaded) {
+                        _this.clusterVis[cluster_1] = vis = loaded;
+                        if (!immediate_1)
+                            _this.viewer.forceDrawListInvalidation(true);
+                    });
+                    immediate_1 = false;
+                    if (vis === undefined) {
+                        this.clusterVis[cluster_1] = vis = null;
                     }
                 }
             }
             this.worldspawn.populateDrawList(drawList, vis);
-            pos.release();
         };
         Map.prototype.populateCommandBufferParameters = function (buf) {
             var lightmap = this.lightmap != null && this.lightmap.isLoaded()
@@ -541,6 +466,11 @@ var SourceUtils;
                 this.updateCameraAngles();
                 this.mainCamera.setPosition(Math.sin(-ang) * -radius, Math.cos(-ang) * -radius, height);
             }
+            var leaf = this.map.getLeafAt(this.mainCamera.getPosition(this.move));
+            if (leaf !== this.mainCameraLeaf) {
+                this.mainCameraLeaf = leaf;
+                this.mainRenderContext.invalidate();
+            }
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             _super.prototype.onRenderFrame.call(this, dt);
@@ -550,7 +480,7 @@ var SourceUtils;
             this.mainRenderContext.render(this.mainCamera);
         };
         MapViewer.prototype.populateDrawList = function (drawList, camera) {
-            this.map.populateDrawList(drawList, camera);
+            this.map.populateDrawList(drawList, this.mainCameraLeaf);
         };
         MapViewer.prototype.populateCommandBufferParameters = function (buf) {
             _super.prototype.populateCommandBufferParameters.call(this, buf);
@@ -559,6 +489,124 @@ var SourceUtils;
         return MapViewer;
     }(WebGame.Game));
     SourceUtils.MapViewer = MapViewer;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var VisPage = (function (_super) {
+        __extends(VisPage, _super);
+        function VisPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisPage.prototype.onGetValue = function (index) {
+            return this.page.values[index];
+        };
+        return VisPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.VisPage = VisPage;
+    var VisLoader = (function (_super) {
+        __extends(VisLoader, _super);
+        function VisLoader() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisLoader.prototype.createPage = function (page) {
+            return new VisPage(page);
+        };
+        return VisLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.VisLoader = VisLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var BrushEntity = (function (_super) {
+            __extends(BrushEntity, _super);
+            function BrushEntity(map, info) {
+                var _this = _super.call(this) || this;
+                _this.map = map;
+                _this.info = info;
+                _this.model = map.viewer.bspModelLoader.load(info.modelUrl);
+                _this.model.addUsage(_this);
+                return _this;
+            }
+            BrushEntity.prototype.isInCluster = function (cluster) {
+                var clusters = this.info.clusters;
+                if (clusters == null)
+                    return false;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (clusters[i] === cluster)
+                        return true;
+                }
+                return false;
+            };
+            BrushEntity.prototype.isInAnyCluster = function (clusters) {
+                if (clusters == null)
+                    return false;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (this.isInCluster(clusters[i]))
+                        return true;
+                }
+                return false;
+            };
+            BrushEntity.prototype.populateDrawList = function (drawList, clusters) {
+                if (!this.isInAnyCluster(clusters))
+                    return;
+                drawList.addItem(this);
+                this.onPopulateDrawList(drawList, clusters);
+            };
+            BrushEntity.prototype.onPopulateDrawList = function (drawList, clusters) {
+                var leaves = this.model.getLeaves();
+                if (leaves != null)
+                    drawList.addItems(leaves);
+            };
+            return BrushEntity;
+        }(WebGame.DrawableEntity));
+        Entities.BrushEntity = BrushEntity;
+        var Worldspawn = (function (_super) {
+            __extends(Worldspawn, _super);
+            function Worldspawn(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusterLeaves = {};
+                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
+                return _this;
+            }
+            Worldspawn.prototype.onModelLoad = function () {
+                var leaves = this.model.getLeaves();
+                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                    var leaf = leaves[i];
+                    if (leaf.cluster === undefined)
+                        continue;
+                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
+                    if (clusterLeaves == null) {
+                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
+                    }
+                    clusterLeaves.push(leaf);
+                }
+                this.map.viewer.forceDrawListInvalidation(true);
+            };
+            Worldspawn.prototype.isInAnyCluster = function (clusters) {
+                return true;
+            };
+            Worldspawn.prototype.isInCluster = function (cluster) {
+                return true;
+            };
+            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
+                if (clusters == null) {
+                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
+                    return;
+                }
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    var cluster = clusters[i];
+                    var clusterLeaves = this.clusterLeaves[cluster];
+                    if (clusterLeaves != null)
+                        drawList.addItems(clusterLeaves);
+                }
+            };
+            return Worldspawn;
+        }(BrushEntity));
+        Entities.Worldspawn = Worldspawn;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -649,29 +697,4 @@ var SourceUtils;
         LightmappedGeneric.fragSource = "\n                precision mediump float;\n\n                varying float vDepth;\n                varying vec2 vTextureCoord;\n                varying vec2 vLightmapCoord;\n\n                uniform sampler2D uBaseTexture;\n\n                uniform sampler2D uLightmap;\n                uniform vec4 uLightmapParams;\n\n                vec3 DecompressLightmapSample(vec4 sample)\n                {\n                    float exp = sample.a * 255.0 - 128.0;\n                    return sample.rgb * pow(2.0, exp);\n                }\n\n                vec3 ApplyLightmap(vec3 inColor)\n                {\n                    const float gamma = 0.5;\n\n                    vec2 size = uLightmapParams.xy;\n                    vec2 invSize = uLightmapParams.zw;\n                    vec2 scaledCoord = vLightmapCoord * size;\n                    vec2 minCoord = floor(scaledCoord);\n                    vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                    vec2 delta = scaledCoord - minCoord;\n\n                    minCoord *= invSize;\n                    maxCoord *= invSize;\n\n                    vec3 sampleA = DecompressLightmapSample(texture2D(uLightmap, vec2(minCoord.x, minCoord.y)));\n                    vec3 sampleB = DecompressLightmapSample(texture2D(uLightmap, vec2(maxCoord.x, minCoord.y)));\n                    vec3 sampleC = DecompressLightmapSample(texture2D(uLightmap, vec2(minCoord.x, maxCoord.y)));\n                    vec3 sampleD = DecompressLightmapSample(texture2D(uLightmap, vec2(maxCoord.x, maxCoord.y)));\n\n                    vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                    return inColor * pow(sample, vec3(gamma, gamma, gamma));\n                }\n\n                void main()\n                {\n                    vec4 baseSample = texture2D(uBaseTexture, vTextureCoord);\n                    vec3 lightmapped = ApplyLightmap(baseSample.rgb);\n\n                    gl_FragColor = vec4(lightmapped, 1);\n                }";
         Shaders.LightmappedGeneric = LightmappedGeneric;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var VisPage = (function (_super) {
-        __extends(VisPage, _super);
-        function VisPage() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VisPage.prototype.onGetValue = function (index) {
-            return this.page.values[index];
-        };
-        return VisPage;
-    }(SourceUtils.ResourcePage));
-    SourceUtils.VisPage = VisPage;
-    var VisLoader = (function (_super) {
-        __extends(VisLoader, _super);
-        function VisLoader() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VisLoader.prototype.createPage = function (page) {
-            return new VisPage(page);
-        };
-        return VisLoader;
-    }(SourceUtils.PagedLoader));
-    SourceUtils.VisLoader = VisLoader;
 })(SourceUtils || (SourceUtils = {}));
