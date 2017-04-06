@@ -115,8 +115,8 @@ namespace SourceUtils.WebExport
                 return;
             }
 
-            var floatArr = value as List<float>;
-            var intArr = value as List<int>;
+            var floatArr = value as IEnumerable<float>;
+            var intArr = value as IEnumerable<int>;
 
             writer.WriteStartArray();
 
@@ -143,8 +143,8 @@ namespace SourceUtils.WebExport
 
         public override bool CanConvert( Type objectType )
         {
-            return typeof(List<float>).IsAssignableFrom( objectType ) ||
-                   typeof(List<int>).IsAssignableFrom( objectType );
+            return typeof(IEnumerable<float>).IsAssignableFrom( objectType ) ||
+                   typeof(IEnumerable<int>).IsAssignableFrom( objectType );
         }
     }
 
