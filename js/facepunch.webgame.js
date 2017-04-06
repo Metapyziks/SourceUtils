@@ -50,6 +50,7 @@ var Facepunch;
                     continue;
                 bestIndex = i;
                 bestItem = item;
+                bestPriority = priority;
             }
             if (bestIndex === -1)
                 return null;
@@ -2660,7 +2661,6 @@ var Facepunch;
                     }
                     callback(false);
                 }, function (error) {
-                    console.error("Failed to load material " + _this.url + ": " + error);
                     callback(false);
                 });
             };
@@ -3074,7 +3074,6 @@ var Facepunch;
                     _this.dispatchOnLoadCallbacks();
                     callback(false);
                 }, function (error) {
-                    console.error("Failed to load material " + _this.url + ": " + error);
                     callback(false);
                 });
             };
@@ -4149,9 +4148,10 @@ var Facepunch;
             TextureLoadable.prototype.getLoadPriority = function () {
                 if (_super.prototype.getLoadPriority.call(this) === 0)
                     return 0;
-                if (this.info == null || this.nextElement >= this.info.elements.length)
+                if (this.info == null)
                     return 256;
-                return this.info.elements[this.nextElement].level + 1;
+                var elems = this.info.elements;
+                return (elems[this.nextElement].level + 1) / (elems[0].level + 1);
             };
             TextureLoadable.prototype.canLoadImmediately = function (index) {
                 return this.info.elements != null && index < this.info.elements.length && this.info.elements[index].url == null;
@@ -4179,8 +4179,8 @@ var Facepunch;
                 return this.handle;
             };
             TextureLoadable.prototype.loadColorElement = function (target, level, color) {
-                var width = this.info.width >> level;
-                var height = this.info.height >> level;
+                var width = Math.max(1, this.info.width >> level);
+                var height = Math.max(1, this.info.height >> level);
                 var pixelCount = width * height;
                 var valuesSize = pixelCount * 4;
                 var values = TextureLoadable.pixelBuffer;
@@ -4263,7 +4263,6 @@ var Facepunch;
                         _this.onLoadInfo(info);
                         callback(info.elements != null && _this.nextElement < info.elements.length);
                     }, function (error) {
-                        console.error("Failed to load texture " + _this.url + ": " + error);
                         callback(false);
                     });
                     return;
