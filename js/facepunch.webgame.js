@@ -4545,6 +4545,7 @@ var Facepunch;
             VertexAttribute.uv2 = new VertexAttribute(2, AttributeType.Float, false);
             VertexAttribute.rgb = new VertexAttribute(3, AttributeType.Float, false);
             VertexAttribute.rgba = new VertexAttribute(4, AttributeType.Float, false);
+            VertexAttribute.alpha = new VertexAttribute(1, AttributeType.Float, false);
             return VertexAttribute;
         }());
         WebGame.VertexAttribute = VertexAttribute;
