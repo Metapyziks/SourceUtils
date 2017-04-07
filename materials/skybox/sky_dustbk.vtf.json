@@ -1,23 +1,59 @@
 {
   "path": "materials/skybox/sky_dustbk.vtf",
   "target": 3553,
-  "width": 1,
-  "height": 1,
+  "width": 512,
+  "height": 512,
   "params": {
     "wrapS": 33071,
     "wrapT": 33071,
-    "filter": 9728,
+    "filter": 9729,
     "mipmap": false
   },
   "elements": [
     {
-      "level": 0,
+      "level": 9,
       "color": {
         "r": 0.627451,
         "g": 0.6901961,
         "b": 0.7254902,
         "a": 1.0
       }
+    },
+    {
+      "level": 8,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip8.png"
+    },
+    {
+      "level": 7,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip7.png"
+    },
+    {
+      "level": 6,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip6.png"
+    },
+    {
+      "level": 5,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip5.png"
+    },
+    {
+      "level": 4,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip4.png"
+    },
+    {
+      "level": 3,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip3.png"
+    },
+    {
+      "level": 2,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip2.png"
+    },
+    {
+      "level": 1,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip1.png"
+    },
+    {
+      "level": 0,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf/mip0.png"
     }
   ]
 }

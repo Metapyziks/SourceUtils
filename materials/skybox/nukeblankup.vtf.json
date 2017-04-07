@@ -1,23 +1,43 @@
 {
   "path": "materials/skybox/nukeblankup.vtf",
   "target": 3553,
-  "width": 1,
-  "height": 1,
+  "width": 32,
+  "height": 32,
   "params": {
     "wrapS": 10497,
     "wrapT": 10497,
-    "filter": 9728,
-    "mipmap": false
+    "filter": 9729,
+    "mipmap": true
   },
   "elements": [
     {
-      "level": 0,
+      "level": 5,
       "color": {
         "r": 0.3529412,
         "g": 0.5254902,
         "b": 0.7294118,
         "a": 1.0
       }
+    },
+    {
+      "level": 4,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf/mip4.png"
+    },
+    {
+      "level": 3,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf/mip3.png"
+    },
+    {
+      "level": 2,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf/mip2.png"
+    },
+    {
+      "level": 1,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf/mip1.png"
+    },
+    {
+      "level": 0,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf/mip0.png"
     }
   ]
 }

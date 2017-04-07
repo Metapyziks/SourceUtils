@@ -1,8 +1,8 @@
 {
   "path": "materials/skybox/sky_cs15_daylight01_hdrrt.vtf",
   "target": 3553,
-  "width": 1,
-  "height": 1,
+  "width": 512,
+  "height": 256,
   "params": {
     "wrapS": 33071,
     "wrapT": 33071,
@@ -11,13 +11,49 @@
   },
   "elements": [
     {
-      "level": 0,
+      "level": 9,
       "color": {
         "r": 0.9137255,
         "g": 0.992156863,
         "b": 0.996078432,
         "a": 0.203921571
       }
+    },
+    {
+      "level": 8,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip8.png"
+    },
+    {
+      "level": 7,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip7.png"
+    },
+    {
+      "level": 6,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip6.png"
+    },
+    {
+      "level": 5,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip5.png"
+    },
+    {
+      "level": 4,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip4.png"
+    },
+    {
+      "level": 3,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip3.png"
+    },
+    {
+      "level": 2,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip2.png"
+    },
+    {
+      "level": 1,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip1.png"
+    },
+    {
+      "level": 0,
+      "url": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf/mip0.png"
     }
   ]
 }

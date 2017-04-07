@@ -73,6 +73,11 @@
             "name": "hdrCompressed",
             "type": 1,
             "value": true
+          },
+          {
+            "name": "aspect",
+            "type": 2,
+            "value": 2.0
           }
         ]
       },
