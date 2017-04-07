@@ -1,0 +1,23 @@
+{
+  "path": "materials/skybox/sky_dustup.vtf",
+  "target": 3553,
+  "width": 1,
+  "height": 1,
+  "params": {
+    "wrapS": 33071,
+    "wrapT": 33071,
+    "filter": 9728,
+    "mipmap": false
+  },
+  "elements": [
+    {
+      "level": 0,
+      "color": {
+        "r": 0.627451,
+        "g": 0.8235294,
+        "b": 0.968627453,
+        "a": 1.0
+      }
+    }
+  ]
+}

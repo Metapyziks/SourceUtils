@@ -1,0 +1,23 @@
+{
+  "path": "materials/skybox/sky_cs15_daylight01_hdrdn.vtf",
+  "target": 3553,
+  "width": 1,
+  "height": 1,
+  "params": {
+    "wrapS": 33071,
+    "wrapT": 33071,
+    "filter": 9728,
+    "mipmap": false
+  },
+  "elements": [
+    {
+      "level": 0,
+      "color": {
+        "r": 0.956862748,
+        "g": 0.996078432,
+        "b": 0.980392158,
+        "a": 0.149019614
+      }
+    }
+  ]
+}

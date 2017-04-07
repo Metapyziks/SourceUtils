@@ -31,6 +31,51 @@
   ],
   "entities": [
     {
+      "skyMaterial": {
+        "shader": "SourceUtils.Shaders.Sky",
+        "properties": [
+          {
+            "name": "cullFace",
+            "type": 1,
+            "value": false
+          },
+          {
+            "name": "facePosX",
+            "type": 4,
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json"
+          },
+          {
+            "name": "faceNegX",
+            "type": 4,
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json"
+          },
+          {
+            "name": "facePosY",
+            "type": 4,
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json"
+          },
+          {
+            "name": "faceNegY",
+            "type": 4,
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json"
+          },
+          {
+            "name": "facePosZ",
+            "type": 4,
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json"
+          },
+          {
+            "name": "faceNegZ",
+            "type": 4,
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json"
+          },
+          {
+            "name": "hdrCompressed",
+            "type": 1,
+            "value": true
+          }
+        ]
+      },
       "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json",
       "classname": "worldspawn"
     },

@@ -4,6 +4,7 @@
     left: 32px;
     right: 32px;
     bottom: 32px;
+    background-color: black;
 }
 
 #map-view canvas {
