@@ -89,12 +89,11 @@ namespace SourceUtils.WebExport.Properties {
         ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///    &lt;head&gt;
         ///        &lt;meta charset=&quot;utf-8&quot; /&gt;
-        ///        &lt;title&gt;&lt;/title&gt;
+        ///        &lt;title&gt;Map Viewer - ${mapName}&lt;/title&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js&quot;&gt;&lt;/script&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js&quot;&gt;&lt;/script&gt;
-        ///        &lt;script src=&quot;${facepunchWebGame}&quot;&gt;&lt;/script&gt;
-        ///  [rest of string was truncated]&quot;;.
+        ///        &lt;script src=&quot;${facepunc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index_template {
             get {
@@ -103,23 +102,62 @@ namespace SourceUtils.WebExport.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
-        ///    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        ///    function __() { this.constructor = d; }
-        ///    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        ///};
-        ///var SourceUtils;
-        ///(function (SourceUtils) {
-        ///    var WebGame = Facepunch.WebGame;
-        ///    var LeafFlags;
-        ///    (function (LeafFlags) {
-        ///        LeafFlags[LeafFlags[&quot;Sky&quot;] = 1] = &quot;Sky&quot;;
-        ///        LeafFlags[LeafFlags[&quot;Radial&quot;] = 2] = &quot;Radial&quot;;
-        ///        Lea [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || (function () {
+        ///    var extendStatics = Object.setPrototypeOf ||
+        ///        ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
+        ///        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        ///    return function (d, b) {
+        ///        extendStatics(d, b);
+        ///        function __() { this.constructor = d; }
+        ///        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        ///    };
+        ///})();
+        ///var Sourc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string sourceutils {
             get {
                 return ResourceManager.GetString("sourceutils", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #map-view {
+        ///    position: absolute;
+        ///    top: 72px;
+        ///    left: 32px;
+        ///    right: 32px;
+        ///    bottom: 32px;
+        ///}
+        ///
+        ///#map-view canvas {
+        ///    width: 100%;
+        ///    height: 100%;
+        ///}
+        ///
+        ///#map-view:-webkit-full-screen {
+        ///    top: 0;
+        ///    left: 0;
+        ///    bottom: 0;
+        ///    right: 0;
+        ///}
+        ///
+        ///#debug-panel {
+        ///    position: absolute;
+        ///    top: 8px;
+        ///    right: 8px;
+        ///    width: 256px;
+        ///    background-color: rgba(0, 0, 0, 0.25);
+        ///    color: white;
+        ///    font-family: sans-serif;
+        ///    padding: 8px;
+        ///}
+        ///
+        ///#debug-panel .debug-label {
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string styles {
+            get {
+                return ResourceManager.GetString("styles", resourceCulture);
             }
         }
     }

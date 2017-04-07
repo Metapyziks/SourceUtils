@@ -1,12 +1,11 @@
 ﻿/// <reference path="../js/facepunch.webgame.d.ts"/>
+/// <reference path="../js/jquery.d.ts"/>
 
 namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
 
     export class MapViewer extends WebGame.Game {
-        private mainCamera: WebGame.PerspectiveCamera;
-        private mainCameraLeaf: BspLeaf;
-        private mainRenderContext: WebGame.RenderContext;
+        mainCamera: Entities.Camera;
 
         readonly map = new Map(this);
         readonly leafGeometryLoader = this.addLoader(new LeafGeometryLoader(this));
@@ -16,17 +15,20 @@ namespace SourceUtils {
         readonly visLoader = this.addLoader(new VisLoader());
 
         private time = 0;
+        private frameCount = 0;
+        private lastProfileTime: number;
+        private lastDrawCalls: number;
 
         loadMap(url: string): void {
             this.map.load(url);
         }
 
         protected onInitialize(): void {
-
             this.canLockPointer = true;
 
-            this.mainCamera = new WebGame.PerspectiveCamera(75, this.getWidth() / this.getHeight(), 1, 8192);
-            this.mainRenderContext = new WebGame.RenderContext(this);
+            this.mainCamera = new Entities.Camera(this, 75);
+
+            this.lastProfileTime = performance.now();
 
             super.onInitialize();
         }
@@ -115,13 +117,6 @@ namespace SourceUtils {
 
                 this.mainCamera.setPosition(Math.sin(-ang) * -radius, Math.cos(-ang) * -radius, height);
             }
-
-            const leaf = this.map.getLeafAt(this.mainCamera.getPosition(this.move));
-
-            if (leaf !== this.mainCameraLeaf) {
-                this.mainCameraLeaf = leaf;
-                this.mainRenderContext.invalidate();
-            }
         }
 
         protected onRenderFrame(dt: number): void {
@@ -132,11 +127,38 @@ namespace SourceUtils {
             gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.cullFace(gl.FRONT);
 
-            this.mainRenderContext.render(this.mainCamera);
+            this.mainCamera.render();
+
+            const drawCalls = this.mainCamera.getDrawCalls();
+            if (drawCalls !== this.lastDrawCalls) {
+                this.lastDrawCalls = drawCalls;
+                $("#debug-drawcalls").text(drawCalls);
+            }
+
+            ++this.frameCount;
+            const time = performance.now();
+
+            if (time - this.lastProfileTime >= 500) {
+
+                const timeDiff = (time - this.lastProfileTime) / 1000;
+                const frameTime = (timeDiff * 1000 / this.frameCount).toPrecision(4);
+                const frameRate = (this.frameCount / timeDiff).toPrecision(4);
+
+                $("#debug-frametime").text(frameTime);
+                $("#debug-framerate").text(frameRate);
+
+                this.lastProfileTime = time;
+                this.frameCount = 0;
+            }
         }
 
         populateDrawList(drawList: WebGame.DrawList, camera: WebGame.Camera): void {
-            this.map.populateDrawList(drawList, this.mainCameraLeaf);
+            let leaf: BspLeaf = null;
+            if ((camera as Entities.Camera).getLeaf !== undefined) {
+                leaf = (camera as Entities.Camera).getLeaf();
+            }
+
+            this.map.populateDrawList(drawList, leaf);
         }
 
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void {

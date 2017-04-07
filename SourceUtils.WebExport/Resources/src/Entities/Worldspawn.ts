@@ -2,10 +2,14 @@
     import WebGame = Facepunch.WebGame;
 
     export namespace Entities {
+        export interface IWorldspawn extends IBrushEntity {
+            skyMaterial: WebGame.IMaterialInfo;
+        }
+
         export class Worldspawn extends BrushEntity {
             private readonly clusterLeaves: {[cluster: number]: BspLeaf[]} = {};
 
-            constructor(map: Map, info: IBrushEntity) {
+            constructor(map: Map, info: IWorldspawn) {
                 super(map, info);
 
                 this.model.addOnLoadCallback(model => this.onModelLoad());

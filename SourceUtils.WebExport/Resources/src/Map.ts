@@ -25,13 +25,15 @@ namespace SourceUtils {
 
         readonly viewer: MapViewer;
 
+        skyCamera: Entities.SkyCamera;
+
         private worldspawn: Entities.Worldspawn;
         private pvsEntities: Entities.PvsEntity[];
 
         private lightmap: WebGame.Texture;
 
         private info: IMap;
-        private clusterVis: {[cluster: number]: number[]} = {};
+        private clusterVis: { [cluster: number]: number[] } = {};
 
         constructor(viewer: MapViewer) {
             this.viewer = viewer;
@@ -65,7 +67,7 @@ namespace SourceUtils {
 
                 switch (ent.classname) {
                     case "worldspawn":
-                        this.worldspawn = pvsInst = new Entities.Worldspawn(this, ent as Entities.IBrushEntity);
+                        this.worldspawn = pvsInst = new Entities.Worldspawn(this, ent as Entities.IWorldspawn);
                         this.lightmap.addUsage(this.worldspawn);
                         break;
                     case "displacement":
@@ -73,6 +75,9 @@ namespace SourceUtils {
                         break;
                     case "func_brush":
                         pvsInst = new Entities.BrushEntity(this, ent as Entities.IBrushEntity);
+                        break;
+                    case "sky_camera":
+                        this.skyCamera = new Entities.SkyCamera(this.viewer, ent as Entities.ISkyCamera);
                         break;
                 }
 

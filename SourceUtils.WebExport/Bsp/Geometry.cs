@@ -324,7 +324,7 @@ namespace SourceUtils.WebExport.Bsp
 
     public class LeafGeometryPage : GeometryPage
     {
-        public const int LeavesPerPage = 512;
+        public const int LeavesPerPage = 8192;
 
         [JsonProperty( "leaves" )]
         public List<List<Face>> Leaves { get; } = new List<List<Face>>();
@@ -332,7 +332,7 @@ namespace SourceUtils.WebExport.Bsp
 
     public class DispGeometryPage : GeometryPage
     {
-        public const int DisplacementsPerPage = 256;
+        public const int DisplacementsPerPage = 8192;
 
         [JsonProperty( "displacements" )]
         public List<Face> Displacements { get; } = new List<Face>();
@@ -374,7 +374,7 @@ namespace SourceUtils.WebExport.Bsp
 
         private void WriteFace( ValveBspFile bsp, int faceIndex, GeometryPage page, List<Face> outFaces )
         {
-            const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.LIGHT;
+            const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.LIGHT | SurfFlags.SKY | SurfFlags.SKY2D;
 
             var faceInfo = bsp.Faces[faceIndex];
             var texInfo = bsp.TextureInfos[faceInfo.TexInfo];

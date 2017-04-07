@@ -16,6 +16,9 @@ namespace SourceUtils.WebExport
 
         [Option("untextured", HelpText = "Only export a single colour for each texture.")]
         public bool Untextured { get; set; }
+
+        [Option('s', "resdir", HelpText = "Directory containing static files to serve (css / html etc).")]
+        public string ResourcesDir { get; set; }
     }
 
     [Verb("host", HelpText = "Run a HTTP server that exports requested resources.")]
@@ -53,6 +56,16 @@ namespace SourceUtils.WebExport
         {
             BaseOptions = args;
             Resources = new ValvePackage(Path.Combine(args.GameDir, "pak01_dir.vpk"));
+
+            if ( string.IsNullOrEmpty( args.ResourcesDir ) )
+            {
+                args.ResourcesDir = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ), "..", "..", "Resources" );
+            }
+
+            if ( !Directory.Exists( args.ResourcesDir ) )
+            {
+                args.ResourcesDir = null;
+            }
         }
 
         static int Host( HostOptions args )

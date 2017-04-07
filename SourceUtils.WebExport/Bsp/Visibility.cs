@@ -8,7 +8,7 @@ namespace SourceUtils.WebExport.Bsp
 {
     public class VisPage
     {
-        public const int ClustersPerPage = 256;
+        public const int ClustersPerPage = 8192;
 
         [JsonProperty("values")]
         public IEnumerable<IEnumerable<int>> Values { get; set; }

@@ -48,6 +48,8 @@ namespace SourceUtils.WebExport
             var inBsp = bsp != null && bsp.PakFile.ContainsFile( path );
             var res = inBsp ? bsp.PakFile : Program.Resources;
 
+            if ( !res.ContainsFile( path ) ) return null;
+
             ValveTextureFile vtf;
             using (var stream = res.OpenFile(path))
             {

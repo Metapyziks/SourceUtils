@@ -1,10 +1,11 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
+using OpenTK.Graphics.ES20;
 using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
@@ -15,7 +16,8 @@ namespace SourceUtils.WebExport
         Number = 2,
         Color = 3,
         TextureUrl = 4,
-        TextureIndex = 5
+        TextureIndex = 5,
+        TextureInfo = 6
     }
 
     public class MaterialProperty
@@ -120,6 +122,7 @@ namespace SourceUtils.WebExport
                 switch (name.ToLower())
                 {
                     case "$basetexture":
+                    case "$hdrcompressedtexture":
                         mat.SetTextureUrl("basetexture", GetTextureUrl(props[name], vmtPath, bsp));
                         break;
                     case "$texture2":
@@ -184,11 +187,39 @@ namespace SourceUtils.WebExport
                 ? ValveMaterialFile.FromProvider(path, Program.Resources)
                 : ValveMaterialFile.FromProvider(path, bsp.PakFile, Program.Resources);
 
+            if ( vmt == null ) return null;
+
             var mat = new Material();
 
             AddMaterialProperties(mat, vmt, path, bsp);
 
             return mat;
+        }
+
+        public static Material CreateSkyMaterial( ValveBspFile bsp, string skyName )
+        {
+            var postfixes = new[]
+            {
+                "ft", "bk", "dn", "up", "rt", "lf"
+            };
+
+            var skyMaterial = new Material { Shader = "SourceUtils.Shaders.Sky" };
+
+            skyMaterial.SetBoolean( "cullFace", false );
+
+            var size = 1;
+
+            for ( var face = 0; face < 6; ++face )
+            {
+                var matPath = $"materials/skybox/{skyName}{postfixes[face]}.vmt";
+                var mat = Get( bsp, matPath );
+
+                var texUrl = (Url) mat.Properties.First( x => x.Name == "basetexture" ).Value;
+
+                skyMaterial.SetTextureUrl($"face{postfixes[face]}", texUrl);
+            }
+
+            return skyMaterial;
         }
 
         [JsonProperty("shader")]
@@ -218,6 +249,11 @@ namespace SourceUtils.WebExport
         public void SetTextureUrl( string name, Url textureUrl )
         {
             GetOrAddProperty( name, MaterialPropertyType.TextureUrl ).Value = textureUrl;
+        }
+
+        public void SetTextureInfo(string name, Texture value)
+        {
+            GetOrAddProperty(name, MaterialPropertyType.TextureInfo).Value = value;
         }
 
         public void SetTextureIndex(string name, int value)

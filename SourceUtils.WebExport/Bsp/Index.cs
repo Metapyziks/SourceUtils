@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
@@ -45,6 +46,18 @@ namespace SourceUtils.WebExport.Bsp
     {
         [JsonProperty("modelUrl")]
         public Url ModelUrl { get; set; }
+    }
+
+    public class Worldspawn : BrushEntity
+    {
+        [JsonProperty("skyMaterial")]
+        public Material SkyMaterial { get; set; }
+    }
+
+    public class SkyCamera : Entity
+    {
+        [JsonProperty("scale")]
+        public int Scale { get; set; }
     }
 
     public class Displacement : PvsEntity
@@ -124,11 +137,24 @@ namespace SourceUtils.WebExport.Bsp
         public string GetIndexPage( [Url] string map )
         {
             Response.ContentType = MimeTypes.MimeTypeMap.GetMimeType( ".html" );
-            return ReplaceTokens( Resources.index_template,
+
+            var template = Resources.index_template;
+
+            if ( Program.BaseOptions.ResourcesDir != null )
+            {
+                var templatePath = Path.Combine( Program.BaseOptions.ResourcesDir, "index.template.html" );
+                if ( File.Exists( templatePath ) )
+                {
+                    template = File.ReadAllText( templatePath );
+                }
+            }
+
+            return ReplaceTokens( template,
                 mapName => map,
                 mapIndexJson => (Url) $"/maps/{map}/index.json",
                 facepunchWebGame => (Url) "/js/facepunch.webgame.js",
-                sourceUtils => (Url) "/js/sourceutils.js" );
+                sourceUtils => (Url) "/js/sourceutils.js",
+                styles => (Url) "/styles.css" );
         }
 
         private IEnumerable<PageInfo> GetPageLayout( ValveBspFile bsp, int count, int perPage, string filePrefix )
@@ -197,19 +223,47 @@ namespace SourceUtils.WebExport.Bsp
                     if ( brush.TargetName != null && areaPortalNames.Contains( brush.TargetName ) ) continue;
                     
                     var modelIndex = int.Parse(brush.Model.Substring(1));
-                    var model = bsp.Models[modelIndex];
 
-                    var min = model.Min + brush.Origin;
-                    var max = model.Max + brush.Origin;
-
-                    ents.Add( new BrushEntity
+                    if ( ent is ValveBsp.Entities.Worldspawn )
                     {
-                        ClassName = brush.ClassName,
-                        Origin = brush.Origin,
-                        Angles = brush.Angles,
-                        ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
-                        Clusters = modelIndex == 0 ? null : GetIntersectingClusters( tree, min, max )
+                        var skyName = ((ValveBsp.Entities.Worldspawn) ent).SkyName;
+
+                        ents.Add(new Worldspawn
+                        {
+                            ClassName = brush.ClassName,
+                            ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
+                            SkyMaterial = Material.CreateSkyMaterial( bsp, skyName )
+                        });
+                    }
+                    else
+                    {
+                        var model = bsp.Models[modelIndex];
+
+                        var min = model.Min + brush.Origin;
+                        var max = model.Max + brush.Origin;
+
+                        ents.Add(new BrushEntity
+                        {
+                            ClassName = brush.ClassName,
+                            Origin = brush.Origin,
+                            Angles = brush.Angles,
+                            ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
+                            Clusters = GetIntersectingClusters(tree, min, max)
+                        });
+                    }
+
+                    continue;
+                }
+
+                if ( ent is ValveBsp.Entities.SkyCamera )
+                {
+                    ents.Add( new SkyCamera
+                    {
+                        ClassName = ent.ClassName,
+                        Origin = ent.Origin,
+                        Scale = (ent as ValveBsp.Entities.SkyCamera).Scale
                     } );
+
                     continue;
                 }
             }

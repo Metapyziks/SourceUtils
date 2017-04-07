@@ -366,12 +366,12 @@ namespace SourceUtils
         }
 
         [EntityClass("worldspawn")]
-        public class WorldSpawn : FuncBrush
+        public class Worldspawn : FuncBrush
         {
             [EntityField("skyname")]
             public string SkyName { get; private set; }
 
-            public WorldSpawn() : base(0) { }
+            public Worldspawn() : base(0) { }
         }
         
         [EntityClass("func_brush")]

@@ -24,7 +24,9 @@ namespace SourceUtils {
 
             const textures = page.textures;
             for (let i = 0, iEnd = this.materials.length; i < iEnd; ++i) {
-                const props = this.materials[i].properties;
+                const mat = this.materials[i];
+                if (mat == null) continue;
+                const props = mat.properties;
                 for (let j = 0, jEnd = props.length; j < jEnd; ++j) {
                     const prop = props[j];
                     if (prop.type !== WebGame.MaterialPropertyType.TextureIndex) continue;

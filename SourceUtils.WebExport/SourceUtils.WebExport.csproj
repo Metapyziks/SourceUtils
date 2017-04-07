@@ -143,6 +143,7 @@
     <TypeScriptCompile Include="Resources\src\BspModel.ts" />
     <TypeScriptCompile Include="Resources\src\DispGeometryLoader.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\BrushEntity.ts" />
+    <TypeScriptCompile Include="Resources\src\Entities\Camera.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Displacement.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\PvsEntity.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Worldspawn.ts" />
@@ -156,12 +157,15 @@
     <TypeScriptCompile Include="Resources\src\Shaders\LightmappedBase.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\LightmappedGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\ModelBase.ts" />
+    <TypeScriptCompile Include="Resources\src\Shaders\Sky.ts" />
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
+    <TypeScriptCompile Include="Resources\js\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\index.template.html" />
     <Content Include="Resources\js\facepunch.webgame.js" />
     <Content Include="Resources\js\sourceutils.js" />
+    <Content Include="Resources\styles.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">

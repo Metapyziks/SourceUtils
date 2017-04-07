@@ -14,7 +14,8 @@ namespace SourceUtils.WebExport
             new Dictionary<string, string>( StringComparer.InvariantCultureIgnoreCase )
             {
                 {"/js/facepunch.webgame.js", Properties.Resources.facepunch_webgame},
-                {"/js/sourceutils.js", Properties.Resources.sourceutils}
+                {"/js/sourceutils.js", Properties.Resources.sourceutils},
+                {"/styles.css", Properties.Resources.styles}
             };
 
         class StaticController : Controller
@@ -32,23 +33,23 @@ namespace SourceUtils.WebExport
             {
                 var path = Request.Url.AbsolutePath;
 
-#if DEBUG
-                var filePath = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ), "..",
-                    "..", "Resources", path.Substring( 1 ) );
-
-                if ( File.Exists( filePath ) )
+                if ( BaseOptions.ResourcesDir != null )
                 {
-                    Response.ContentType = MimeTypeMap.GetMimeType( Path.GetExtension( path ) );
-                    return File.ReadAllText( filePath );
+                    var filePath = Path.Combine(BaseOptions.ResourcesDir, path.Substring(1));
+
+                    if (File.Exists(filePath))
+                    {
+                        Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(path));
+                        return File.ReadAllText(filePath);
+                    }
                 }
-#else
+
                 string value;
                 if ( StaticFiles.TryGetValue( path, out value ) )
                 {
                     Response.ContentType = MimeTypeMap.GetMimeType( Path.GetExtension( path ) );
                     return value;
                 }
-#endif
 
                 Response.StatusCode = 404;
                 return "File not found.";

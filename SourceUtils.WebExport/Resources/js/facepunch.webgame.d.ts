@@ -213,7 +213,10 @@ declare namespace Facepunch {
             private inverseMatrix;
             private inverseMatrixInvalid;
             compareTo(other: Entity): number;
-            private invalidateMatrices();
+            invalidateMatrices(): void;
+            protected onChangePosition(): void;
+            protected onChangeRotation(): void;
+            protected onChangeScale(): void;
             getMatrix(target?: Matrix4): Matrix4;
             getInverseMatrix(target?: Matrix4): Matrix4;
             setPosition(value: IVector3): void;
@@ -250,7 +253,6 @@ declare namespace Facepunch {
             texture?: Texture;
             transpose?: boolean;
             values?: Float32Array;
-            context?: RenderContext;
             cap?: number;
             enabled?: boolean;
             buffer?: WebGLBuffer;
@@ -296,11 +298,13 @@ declare namespace Facepunch {
             private capStates;
             private parameters;
             private lastCommand;
+            private drawCalls;
             readonly immediate: boolean;
             constructor(context: WebGLRenderingContext, immediate?: boolean);
             private getCommandName(action);
             logCommands(): void;
             clearCommands(): void;
+            getDrawCalls(): number;
             setParameter(param: CommandBufferParameter, value: Float32Array | Texture): void;
             getArrayParameter(param: CommandBufferParameter): Float32Array;
             getTextureParameter(param: CommandBufferParameter): Texture;
@@ -359,10 +363,27 @@ declare namespace Facepunch {
             static readonly inverseProjectionMatrixParam: CommandBufferParameter;
             static readonly viewMatrixParam: CommandBufferParameter;
             static readonly inverseViewMatrixParam: CommandBufferParameter;
+            static readonly opaqueColorParam: CommandBufferParameter;
+            static readonly opaqueDepthParam: CommandBufferParameter;
+            private readonly drawList;
+            private readonly commandBuffer;
+            private opaqueFrameBuffer;
+            private geometryInvalid;
+            readonly game: Game;
+            readonly fog: Fog;
             private projectionInvalid;
             private projectionMatrix;
             private inverseProjectionInvalid;
             private inverseProjectionMatrix;
+            constructor(game: Game);
+            getOpaqueColorTexture(): RenderTexture;
+            getOpaqueDepthTexture(): RenderTexture;
+            invalidateGeometry(): void;
+            render(): void;
+            private setupFrameBuffers();
+            bufferOpaqueTargetBegin(buf: CommandBuffer): void;
+            bufferRenderTargetEnd(buf: CommandBuffer): void;
+            getDrawCalls(): number;
             abstract getNear(): number;
             abstract getFar(): number;
             getProjectionMatrix(target?: Matrix4): Matrix4;
@@ -378,7 +399,7 @@ declare namespace Facepunch {
             private aspect;
             private near;
             private far;
-            constructor(fov: number, aspect: number, near: number, far: number);
+            constructor(game: Game, fov: number, aspect: number, near: number, far: number);
             setFov(value: number): void;
             getFov(): number;
             setAspect(value: number): void;
@@ -409,8 +430,6 @@ declare namespace Facepunch {
     namespace WebGame {
         class DrawList {
             private static readonly identityMatrix;
-            readonly context: RenderContext;
-            readonly game: Game;
             private items;
             private invalid;
             private opaque;
@@ -418,18 +437,16 @@ declare namespace Facepunch {
             private lastHandle;
             private lastProgram;
             private hasRefraction;
-            constructor(context: RenderContext);
             isInvalid(): boolean;
             clear(): void;
-            getDrawCalls(): number;
             addItem(item: IDrawListItem): void;
             addItems<TItem extends IDrawListItem>(items: TItem[]): void;
             private isBuildingList;
             invalidate(): void;
             private bufferHandle(buf, handle);
             private static compareHandles(a, b);
-            private buildHandleList();
-            appendToBuffer(buf: CommandBuffer, context: RenderContext): void;
+            private buildHandleList(shaders);
+            appendToBuffer(buf: CommandBuffer, camera: Camera): void;
         }
     }
 }
@@ -464,14 +481,12 @@ declare namespace Facepunch {
         class Fog implements ICommandBufferParameterProvider {
             static readonly fogColorParam: CommandBufferParameter;
             static readonly fogInfoParam: CommandBufferParameter;
-            private readonly renderContext;
             start: number;
             end: number;
             maxDensity: number;
             readonly color: Vector3;
             private readonly colorValues;
             private readonly paramsValues;
-            constructor(context: RenderContext);
             populateCommandBufferParameters(buf: CommandBuffer): void;
         }
     }
@@ -867,30 +882,6 @@ declare namespace Facepunch {
             private readonly game;
             constructor(game: Game);
             protected onCreateItem(url: string): ModelLoadable;
-        }
-    }
-}
-declare namespace Facepunch {
-    namespace WebGame {
-        class RenderContext implements ICommandBufferParameterProvider {
-            static readonly opaqueColorParam: CommandBufferParameter;
-            static readonly opaqueDepthParam: CommandBufferParameter;
-            readonly game: Game;
-            readonly fog: Fog;
-            private drawList;
-            private commandBuffer;
-            private geometryInvalid;
-            private opaqueFrameBuffer;
-            constructor(game: Game);
-            getOpaqueColorTexture(): RenderTexture;
-            getOpaqueDepthTexture(): RenderTexture;
-            invalidate(): void;
-            render(camera: Camera): void;
-            populateCommandBufferParameters(buf: CommandBuffer): void;
-            private setupFrameBuffers();
-            bufferOpaqueTargetBegin(buf: CommandBuffer): void;
-            bufferRenderTargetEnd(buf: CommandBuffer): void;
-            getDrawCallCount(): number;
         }
     }
 }

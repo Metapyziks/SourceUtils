@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SourceUtils.ValveBsp.Entities;
 using Ziks.WebServer;
 
 namespace SourceUtils.WebExport.Bsp
 {
     public class MaterialPage
     {
-        public const int MaterialsPerPage = 2048;
+        public const int MaterialsPerPage = 8192;
         
         [JsonProperty("textures")]
         public List<Texture> Textures { get; } = new List<Texture>();
@@ -41,7 +42,10 @@ namespace SourceUtils.WebExport.Bsp
                 var texString = bsp.GetTextureString( first + i );
                 var path = $"materials/{texString.ToLower()}.vmt".Replace('\\', '/');
 
-                var mat = Material.Get( bsp, path );
+                var mat = Material.Get(bsp, path);
+                page.Materials.Add(mat);
+
+                if ( mat == null ) continue;
 
                 foreach ( var prop in mat.Properties )
                 {
@@ -65,8 +69,6 @@ namespace SourceUtils.WebExport.Bsp
                     texDict.Add( texUrl, texIndex );
                     page.Textures.Add( tex );
                 }
-
-                page.Materials.Add( mat );
             }
 
             return page;
