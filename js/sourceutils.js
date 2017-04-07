@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
@@ -297,169 +302,6 @@ var SourceUtils;
     }(SourceUtils.PagedLoader));
     SourceUtils.DispGeometryLoader = DispGeometryLoader;
 })(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var Entity = (function (_super) {
-            __extends(Entity, _super);
-            function Entity(map, info) {
-                var _this = _super.call(this, true) || this;
-                _this.map = map;
-                if (info.origin !== undefined) {
-                    _this.setPosition(info.origin);
-                }
-                if (info.angles !== undefined) {
-                    var mul = Math.PI / 180;
-                    _this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
-                }
-                return _this;
-            }
-            return Entity;
-        }(WebGame.DrawableEntity));
-        Entities.Entity = Entity;
-        var PvsEntity = (function (_super) {
-            __extends(PvsEntity, _super);
-            function PvsEntity(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusters = info.clusters;
-                return _this;
-            }
-            PvsEntity.prototype.isInCluster = function (cluster) {
-                var clusters = this.clusters;
-                if (clusters == null)
-                    return false;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (clusters[i] === cluster)
-                        return true;
-                }
-                return false;
-            };
-            PvsEntity.prototype.isInAnyCluster = function (clusters) {
-                if (clusters == null)
-                    return true;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (this.isInCluster(clusters[i]))
-                        return true;
-                }
-                return false;
-            };
-            PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
-                if (!this.isInAnyCluster(clusters))
-                    return;
-                drawList.addItem(this);
-                this.onPopulateDrawList(drawList, clusters);
-            };
-            PvsEntity.prototype.onPopulateDrawList = function (drawList, clusters) { };
-            return PvsEntity;
-        }(Entity));
-        Entities.PvsEntity = PvsEntity;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var BrushEntity = (function (_super) {
-            __extends(BrushEntity, _super);
-            function BrushEntity(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.model = map.viewer.bspModelLoader.load(info.modelUrl);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    var leaves = model.getLeaves();
-                    for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                        leaves[i].entity = _this;
-                    }
-                });
-                return _this;
-            }
-            BrushEntity.prototype.onPopulateDrawList = function (drawList, clusters) {
-                var leaves = this.model.getLeaves();
-                if (leaves != null)
-                    drawList.addItems(leaves);
-            };
-            return BrushEntity;
-        }(Entities.PvsEntity));
-        Entities.BrushEntity = BrushEntity;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var Displacement = (function (_super) {
-            __extends(Displacement, _super);
-            function Displacement(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.isLoaded = false;
-                _this.index = info.index;
-                return _this;
-            }
-            Displacement.prototype.onAddToDrawList = function (list) {
-                var _this = this;
-                if (!this.isLoaded) {
-                    this.isLoaded = true;
-                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) { return _this.drawable.addMeshHandles([handle]); });
-                }
-                _super.prototype.onAddToDrawList.call(this, list);
-            };
-            return Displacement;
-        }(Entities.PvsEntity));
-        Entities.Displacement = Displacement;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var Worldspawn = (function (_super) {
-            __extends(Worldspawn, _super);
-            function Worldspawn(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusterLeaves = {};
-                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
-                return _this;
-            }
-            Worldspawn.prototype.onModelLoad = function () {
-                var leaves = this.model.getLeaves();
-                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                    var leaf = leaves[i];
-                    if (leaf.cluster === undefined)
-                        continue;
-                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
-                    if (clusterLeaves == null) {
-                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
-                    }
-                    clusterLeaves.push(leaf);
-                }
-                this.map.viewer.forceDrawListInvalidation(true);
-            };
-            Worldspawn.prototype.isInAnyCluster = function (clusters) {
-                return true;
-            };
-            Worldspawn.prototype.isInCluster = function (cluster) {
-                return true;
-            };
-            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
-                if (clusters == null) {
-                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
-                    return;
-                }
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    var cluster = clusters[i];
-                    var clusterLeaves = this.clusterLeaves[cluster];
-                    if (clusterLeaves != null)
-                        drawList.addItems(clusterLeaves);
-                }
-            };
-            return Worldspawn;
-        }(Entities.BrushEntity));
-        Entities.Worldspawn = Worldspawn;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
 /// <reference path="PagedLoader.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
@@ -624,7 +466,10 @@ var SourceUtils;
             this.materials = page.materials;
             var textures = page.textures;
             for (var i = 0, iEnd = this.materials.length; i < iEnd; ++i) {
-                var props = this.materials[i].properties;
+                var mat = this.materials[i];
+                if (mat == null)
+                    continue;
+                var props = mat.properties;
                 for (var j = 0, jEnd = props.length; j < jEnd; ++j) {
                     var prop = props[j];
                     if (prop.type !== WebGame.MaterialPropertyType.TextureIndex)
@@ -791,6 +636,194 @@ var SourceUtils;
         return MapViewer;
     }(WebGame.Game));
     SourceUtils.MapViewer = MapViewer;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var VisPage = (function (_super) {
+        __extends(VisPage, _super);
+        function VisPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisPage.prototype.onGetValue = function (index) {
+            return this.page.values[index];
+        };
+        return VisPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.VisPage = VisPage;
+    var VisLoader = (function (_super) {
+        __extends(VisLoader, _super);
+        function VisLoader() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisLoader.prototype.onCreatePage = function (page) {
+            return new VisPage(page);
+        };
+        return VisLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.VisLoader = VisLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var Entity = (function (_super) {
+            __extends(Entity, _super);
+            function Entity(map, info) {
+                var _this = _super.call(this, true) || this;
+                _this.map = map;
+                if (info.origin !== undefined) {
+                    _this.setPosition(info.origin);
+                }
+                if (info.angles !== undefined) {
+                    var mul = Math.PI / 180;
+                    _this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
+                }
+                return _this;
+            }
+            return Entity;
+        }(WebGame.DrawableEntity));
+        Entities.Entity = Entity;
+        var PvsEntity = (function (_super) {
+            __extends(PvsEntity, _super);
+            function PvsEntity(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusters = info.clusters;
+                return _this;
+            }
+            PvsEntity.prototype.isInCluster = function (cluster) {
+                var clusters = this.clusters;
+                if (clusters == null)
+                    return false;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (clusters[i] === cluster)
+                        return true;
+                }
+                return false;
+            };
+            PvsEntity.prototype.isInAnyCluster = function (clusters) {
+                if (clusters == null)
+                    return true;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (this.isInCluster(clusters[i]))
+                        return true;
+                }
+                return false;
+            };
+            PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
+                if (!this.isInAnyCluster(clusters))
+                    return;
+                drawList.addItem(this);
+                this.onPopulateDrawList(drawList, clusters);
+            };
+            PvsEntity.prototype.onPopulateDrawList = function (drawList, clusters) { };
+            return PvsEntity;
+        }(Entity));
+        Entities.PvsEntity = PvsEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var BrushEntity = (function (_super) {
+            __extends(BrushEntity, _super);
+            function BrushEntity(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.model = map.viewer.bspModelLoader.load(info.modelUrl);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    var leaves = model.getLeaves();
+                    for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                        leaves[i].entity = _this;
+                    }
+                });
+                return _this;
+            }
+            BrushEntity.prototype.onPopulateDrawList = function (drawList, clusters) {
+                var leaves = this.model.getLeaves();
+                if (leaves != null)
+                    drawList.addItems(leaves);
+            };
+            return BrushEntity;
+        }(Entities.PvsEntity));
+        Entities.BrushEntity = BrushEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var Displacement = (function (_super) {
+            __extends(Displacement, _super);
+            function Displacement(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.isLoaded = false;
+                _this.index = info.index;
+                return _this;
+            }
+            Displacement.prototype.onAddToDrawList = function (list) {
+                var _this = this;
+                if (!this.isLoaded) {
+                    this.isLoaded = true;
+                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) { return _this.drawable.addMeshHandles([handle]); });
+                }
+                _super.prototype.onAddToDrawList.call(this, list);
+            };
+            return Displacement;
+        }(Entities.PvsEntity));
+        Entities.Displacement = Displacement;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var Worldspawn = (function (_super) {
+            __extends(Worldspawn, _super);
+            function Worldspawn(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusterLeaves = {};
+                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
+                return _this;
+            }
+            Worldspawn.prototype.onModelLoad = function () {
+                var leaves = this.model.getLeaves();
+                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                    var leaf = leaves[i];
+                    if (leaf.cluster === undefined)
+                        continue;
+                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
+                    if (clusterLeaves == null) {
+                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
+                    }
+                    clusterLeaves.push(leaf);
+                }
+                this.map.viewer.forceDrawListInvalidation(true);
+            };
+            Worldspawn.prototype.isInAnyCluster = function (clusters) {
+                return true;
+            };
+            Worldspawn.prototype.isInCluster = function (cluster) {
+                return true;
+            };
+            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
+                if (clusters == null) {
+                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
+                    return;
+                }
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    var cluster = clusters[i];
+                    var clusterLeaves = this.clusterLeaves[cluster];
+                    if (clusterLeaves != null)
+                        drawList.addItems(clusterLeaves);
+                }
+            };
+            return Worldspawn;
+        }(Entities.BrushEntity));
+        Entities.Worldspawn = Worldspawn;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1008,29 +1041,4 @@ var SourceUtils;
         }(Shaders.LightmappedBase));
         Shaders.LightmappedGeneric = LightmappedGeneric;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var VisPage = (function (_super) {
-        __extends(VisPage, _super);
-        function VisPage() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VisPage.prototype.onGetValue = function (index) {
-            return this.page.values[index];
-        };
-        return VisPage;
-    }(SourceUtils.ResourcePage));
-    SourceUtils.VisPage = VisPage;
-    var VisLoader = (function (_super) {
-        __extends(VisLoader, _super);
-        function VisLoader() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VisLoader.prototype.onCreatePage = function (page) {
-            return new VisPage(page);
-        };
-        return VisLoader;
-    }(SourceUtils.PagedLoader));
-    SourceUtils.VisLoader = VisLoader;
 })(SourceUtils || (SourceUtils = {}));
