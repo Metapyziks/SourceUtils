@@ -510,6 +510,7 @@ var SourceUtils;
     SourceUtils.MapMaterialLoader = MapMaterialLoader;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="../js/facepunch.webgame.d.ts"/>
+/// <reference path="../js/jquery.d.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
@@ -524,6 +525,7 @@ var SourceUtils;
             _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
             _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
             _this.time = 0;
+            _this.frameCount = 0;
             _this.lookAngs = new Facepunch.Vector2();
             _this.tempQuat = new Facepunch.Quaternion();
             _this.lookQuat = new Facepunch.Quaternion();
@@ -537,6 +539,7 @@ var SourceUtils;
             this.canLockPointer = true;
             this.mainCamera = new WebGame.PerspectiveCamera(75, this.getWidth() / this.getHeight(), 1, 8192);
             this.mainRenderContext = new WebGame.RenderContext(this);
+            this.lastProfileTime = performance.now();
             _super.prototype.onInitialize.call(this);
         };
         MapViewer.prototype.onResize = function () {
@@ -618,6 +621,11 @@ var SourceUtils;
                 this.mainCameraLeaf = leaf;
                 this.mainRenderContext.invalidate();
             }
+            var drawCalls = this.mainRenderContext.getDrawCalls();
+            if (this.lastDrawCalls !== drawCalls) {
+                this.lastDrawCalls = drawCalls;
+                $("#debug-drawcalls").text(drawCalls.toString());
+            }
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             _super.prototype.onRenderFrame.call(this, dt);
@@ -625,6 +633,17 @@ var SourceUtils;
             gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.cullFace(gl.FRONT);
             this.mainRenderContext.render(this.mainCamera);
+            ++this.frameCount;
+            var time = performance.now();
+            if (time - this.lastProfileTime >= 500) {
+                var timeDiff = (time - this.lastProfileTime) / 1000;
+                var frameTime = (timeDiff * 1000 / this.frameCount).toPrecision(4);
+                var frameRate = (this.frameCount / timeDiff).toPrecision(4);
+                $("#debug-frametime").text(frameTime);
+                $("#debug-framerate").text(frameRate);
+                this.lastProfileTime = time;
+                this.frameCount = 0;
+            }
         };
         MapViewer.prototype.populateDrawList = function (drawList, camera) {
             this.map.populateDrawList(drawList, this.mainCameraLeaf);

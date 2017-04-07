@@ -7,44 +7,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js"></script>
-        <script src="https://metapyziks.github.io/SourceUtils/js/facepunch.webgame.js?v=18a2-8896"></script>
-        <script src="https://metapyziks.github.io/SourceUtils/js/sourceutils.js?v=18a2-8896"></script>
-        <style>
-            #map-view {
-                position: absolute;
-                top: 96px;
-                left: 32px;
-                right: 32px;
-                bottom: 32px;
-            }
-
-            #map-view canvas {
-                width: 100%;
-                height: 100%;
-            }
-
-            #map-view:-webkit-full-screen {
-                top: 0;
-                left: 0;
-                bottom: 0;
-                right: 0;
-            }
-
-            #debug-panel {
-                position: absolute;
-                top: 8px;
-                right: 8px;
-                width: 256px;
-                background-color: rgba(0, 0, 0, 0.25);
-                color: white;
-                font-family: sans-serif;
-                padding: 8px;
-            }
-
-            #debug-panel .debug-label {
-                color: #cccccc;
-            }
-        </style>
+        <script src="https://metapyziks.github.io/SourceUtils/js/facepunch.webgame.js?v=18a2-9666"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/sourceutils.js?v=18a2-9666"></script>
+        <link type="text/css" rel="stylesheet" href="https://metapyziks.github.io/SourceUtils/styles.css?v=18a2-9666" />
     </head>
     <body>
     <h2>Source Map Viewer Demo - de_mirage</h2>
@@ -57,7 +22,11 @@
                 viewer.animate();
             }
         </script>
-        <div id="debug-panel"></div>
+        <div id="debug-panel">
+            <span class="debug-label">Frame time:</span>&nbsp;<span id="debug-frametime"></span>&nbsp;ms<br/>
+            <span class="debug-label">Frame rate:</span>&nbsp;<span id="debug-framerate"></span>&nbsp;fps<br />
+            <span class="debug-label">Draw calls:</span>&nbsp;<span id="debug-drawcalls"></span><br />
+        </div>
     </div>
     </body>
 </html>
