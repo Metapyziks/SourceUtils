@@ -7,12 +7,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js"></script>
-        <script src="https://metapyziks.github.io/SourceUtils/js/facepunch.webgame.js?v=18a1-13f3b"></script>
-        <script src="https://metapyziks.github.io/SourceUtils/js/sourceutils.js?v=18a1-13f3b"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/facepunch.webgame.js?v=18a2-862f"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/sourceutils.js?v=18a2-862f"></script>
         <style>
             #map-view {
-                position: relative;
-                height: 720px;
+                position: absolute;
+                top: 96px;
+                left: 32px;
+                right: 32px;
+                bottom: 32px;
             }
 
             #map-view canvas {
@@ -21,8 +24,10 @@
             }
 
             #map-view:-webkit-full-screen {
-                width: 100%;
-                height: 100%;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
             }
 
             #debug-panel {

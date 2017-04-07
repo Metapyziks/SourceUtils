@@ -4,152 +4,22 @@
   "visPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 3052,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage2.json"
-    },
-    {
-      "first": 768,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage3.json"
-    },
-    {
-      "first": 1024,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage4.json"
-    },
-    {
-      "first": 1280,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage5.json"
-    },
-    {
-      "first": 1536,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage6.json"
-    },
-    {
-      "first": 1792,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage7.json"
-    },
-    {
-      "first": 2048,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage8.json"
-    },
-    {
-      "first": 2304,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage9.json"
-    },
-    {
-      "first": 2560,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage10.json"
-    },
-    {
-      "first": 2816,
-      "count": 236,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/vispage11.json"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 512,
+      "count": 7488,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage0.json"
-    },
-    {
-      "first": 512,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage1.json"
-    },
-    {
-      "first": 1024,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage2.json"
-    },
-    {
-      "first": 1536,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage3.json"
-    },
-    {
-      "first": 2048,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage4.json"
-    },
-    {
-      "first": 2560,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage5.json"
-    },
-    {
-      "first": 3072,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage6.json"
-    },
-    {
-      "first": 3584,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage7.json"
-    },
-    {
-      "first": 4096,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage8.json"
-    },
-    {
-      "first": 4608,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage9.json"
-    },
-    {
-      "first": 5120,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage10.json"
-    },
-    {
-      "first": 5632,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage11.json"
-    },
-    {
-      "first": 6144,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage12.json"
-    },
-    {
-      "first": 6656,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage13.json"
-    },
-    {
-      "first": 7168,
-      "count": 320,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/leafpage14.json"
     }
   ],
   "dispPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 261,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/disppage0.json"
-    },
-    {
-      "first": 256,
-      "count": 5,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_train/geom/disppage1.json"
     }
   ],
   "materialPages": [

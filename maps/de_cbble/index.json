@@ -4,77 +4,22 @@
   "visPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 768,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage2.json"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 512,
+      "count": 3261,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json"
-    },
-    {
-      "first": 512,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage1.json"
-    },
-    {
-      "first": 1024,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage2.json"
-    },
-    {
-      "first": 1536,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage3.json"
-    },
-    {
-      "first": 2048,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage4.json"
-    },
-    {
-      "first": 2560,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage5.json"
-    },
-    {
-      "first": 3072,
-      "count": 189,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage6.json"
     }
   ],
   "dispPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 800,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage2.json"
-    },
-    {
-      "first": 768,
-      "count": 32,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage3.json"
     }
   ],
   "materialPages": [

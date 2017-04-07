@@ -4,110 +4,15 @@
   "visPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 2505,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage2.json"
-    },
-    {
-      "first": 768,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage3.json"
-    },
-    {
-      "first": 1024,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage4.json"
-    },
-    {
-      "first": 1280,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage5.json"
-    },
-    {
-      "first": 1536,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage6.json"
-    },
-    {
-      "first": 1792,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage7.json"
-    },
-    {
-      "first": 2048,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage8.json"
-    },
-    {
-      "first": 2304,
-      "count": 201,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage9.json"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 512,
+      "count": 5274,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage0.json"
-    },
-    {
-      "first": 512,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage1.json"
-    },
-    {
-      "first": 1024,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage2.json"
-    },
-    {
-      "first": 1536,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage3.json"
-    },
-    {
-      "first": 2048,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage4.json"
-    },
-    {
-      "first": 2560,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage5.json"
-    },
-    {
-      "first": 3072,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage6.json"
-    },
-    {
-      "first": 3584,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage7.json"
-    },
-    {
-      "first": 4096,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage8.json"
-    },
-    {
-      "first": 4608,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage9.json"
-    },
-    {
-      "first": 5120,
-      "count": 154,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage10.json"
     }
   ],
   "dispPages": [

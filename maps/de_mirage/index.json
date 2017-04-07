@@ -4,117 +4,22 @@
   "visPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 2115,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage2.json"
-    },
-    {
-      "first": 768,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage3.json"
-    },
-    {
-      "first": 1024,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage4.json"
-    },
-    {
-      "first": 1280,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage5.json"
-    },
-    {
-      "first": 1536,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage6.json"
-    },
-    {
-      "first": 1792,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage7.json"
-    },
-    {
-      "first": 2048,
-      "count": 67,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage8.json"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 512,
+      "count": 5178,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage0.json"
-    },
-    {
-      "first": 512,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage1.json"
-    },
-    {
-      "first": 1024,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage2.json"
-    },
-    {
-      "first": 1536,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage3.json"
-    },
-    {
-      "first": 2048,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage4.json"
-    },
-    {
-      "first": 2560,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage5.json"
-    },
-    {
-      "first": 3072,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage6.json"
-    },
-    {
-      "first": 3584,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage7.json"
-    },
-    {
-      "first": 4096,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage8.json"
-    },
-    {
-      "first": 4608,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage9.json"
-    },
-    {
-      "first": 5120,
-      "count": 58,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage10.json"
     }
   ],
   "dispPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 492,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/disppage0.json"
-    },
-    {
-      "first": 256,
-      "count": 236,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/disppage1.json"
     }
   ],
   "materialPages": [

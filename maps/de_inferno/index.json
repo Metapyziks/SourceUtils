@@ -4,152 +4,22 @@
   "visPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 2572,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage2.json"
-    },
-    {
-      "first": 768,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage3.json"
-    },
-    {
-      "first": 1024,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage4.json"
-    },
-    {
-      "first": 1280,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage5.json"
-    },
-    {
-      "first": 1536,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage6.json"
-    },
-    {
-      "first": 1792,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage7.json"
-    },
-    {
-      "first": 2048,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage8.json"
-    },
-    {
-      "first": 2304,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage9.json"
-    },
-    {
-      "first": 2560,
-      "count": 12,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage10.json"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 512,
+      "count": 4921,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json"
-    },
-    {
-      "first": 512,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage1.json"
-    },
-    {
-      "first": 1024,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage2.json"
-    },
-    {
-      "first": 1536,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage3.json"
-    },
-    {
-      "first": 2048,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage4.json"
-    },
-    {
-      "first": 2560,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage5.json"
-    },
-    {
-      "first": 3072,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage6.json"
-    },
-    {
-      "first": 3584,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage7.json"
-    },
-    {
-      "first": 4096,
-      "count": 512,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage8.json"
-    },
-    {
-      "first": 4608,
-      "count": 313,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage9.json"
     }
   ],
   "dispPages": [
     {
       "first": 0,
-      "count": 256,
+      "count": 2034,
       "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json"
-    },
-    {
-      "first": 256,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage1.json"
-    },
-    {
-      "first": 512,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage2.json"
-    },
-    {
-      "first": 768,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage3.json"
-    },
-    {
-      "first": 1024,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage4.json"
-    },
-    {
-      "first": 1280,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage5.json"
-    },
-    {
-      "first": 1536,
-      "count": 256,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage6.json"
-    },
-    {
-      "first": 1792,
-      "count": 242,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage7.json"
     }
   ],
   "materialPages": [
