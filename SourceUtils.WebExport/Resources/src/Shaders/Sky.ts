@@ -3,34 +3,34 @@
 
     export namespace Shaders {
         export class SkyMaterial extends BaseMaterial {
-            faceft: WebGame.Texture = null;
-            facebk: WebGame.Texture = null;
-            facedn: WebGame.Texture = null;
-            faceup: WebGame.Texture = null;
-            facert: WebGame.Texture = null;
-            facelf: WebGame.Texture = null;
+            facePosX: WebGame.Texture = null;
+            faceNegX: WebGame.Texture = null;
+            facePosY: WebGame.Texture = null;
+            faceNegY: WebGame.Texture = null;
+            facePosZ: WebGame.Texture = null;
+            faceNegZ: WebGame.Texture = null;
         }
 
         export class Sky extends BaseShaderProgram<SkyMaterial> {
-
-
             readonly uProjection = this.addUniform("uProjection", WebGame.UniformMatrix4);
             readonly uView = this.addUniform("uView", WebGame.UniformMatrix4);
 
-            readonly uFaceFront = this.addUniform("uFaceFront", WebGame.UniformSampler);
-            readonly uFaceBack = this.addUniform("uFaceBack", WebGame.UniformSampler);
-            readonly uFaceDown = this.addUniform("uFaceDown", WebGame.UniformSampler);
-            readonly uFaceUp = this.addUniform("uFaceUp", WebGame.UniformSampler);
-            readonly uFaceRight = this.addUniform("uFaceRight", WebGame.UniformSampler);
-            readonly uFaceLeft = this.addUniform("uFaceLeft", WebGame.UniformSampler);
+            readonly uFacePosX = this.addUniform("uFacePosX", WebGame.UniformSampler);
+            readonly uFaceNegX = this.addUniform("uFaceNegX", WebGame.UniformSampler);
+            readonly uFacePosY = this.addUniform("uFacePosY", WebGame.UniformSampler);
+            readonly uFaceNegY = this.addUniform("uFaceNegY", WebGame.UniformSampler);
+            readonly uFacePosZ = this.addUniform("uFacePosZ", WebGame.UniformSampler);
+            readonly uFaceNegZ = this.addUniform("uFaceNegZ", WebGame.UniformSampler);
 
             constructor(context: WebGLRenderingContext) {
                 super(context, SkyMaterial);
 
+                this.sortOrder = -1000;
+
                 const gl = context;
 
                 this.includeShaderSource(gl.VERTEX_SHADER, `
-                    attribute vec3 aPosition;
+                    attribute vec2 aTextureCoord;
                     attribute float aFace;
 
                     varying float vFace;
@@ -39,34 +39,27 @@
                     uniform mat4 uProjection;
                     uniform mat4 uView;
 
-                    vec2 GetFaceUv()
+                    vec3 GetPosition()
                     {
-                        switch (int(round(aFace))) {
-                            case 0: // Front
-                                return aPosition.xz;
-                            case 1: // Back
-                                return aPosition.xz * vec2(-1.0, 1.0);
-                            case 2: // Down
-                                return aPosition.xy;
-                            case 3: // Up
-                                return aPosition.xy * vec2(-1.0, 1.0);
-                            case 4: // Right
-                                return aPosition.yz;
-                            case 5: // Left
-                                return aPosition.yz * vec2(-1.0, 1.0);
-                            default:
-                                return vec2(0.0, 0.0);
-                        }
+                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);
+                        int face = int(aFace + 0.5);
+                        if (face == 0) return vec3( pos.x, 0.5, -pos.y);
+                        if (face == 1) return vec3(-pos.x, -0.5, -pos.y);
+                        if (face == 2) return vec3( pos.x, pos.y, -0.5);
+                        if (face == 3) return vec3(-pos.x,-pos.y,  0.5);
+                        if (face == 4) return vec3(-0.5,  pos.x, -pos.y);
+                        if (face == 5) return vec3( 0.5, -pos.x, -pos.y);
+                        return vec3(0.0, 0.0, 0.0);
                     }
 
                     void main()
                     {
-                        vec4 viewPos = uView * vec4(aPosition, 0.0);
+                        vec4 viewPos = uView * vec4(GetPosition() * 128.0, 0.0);
 
-                        gl_Position = uProjection * viewPos;
+                        gl_Position = uProjection * vec4(viewPos.xyz, 1.0);
 
-                        vFace = round(aFace);
-                        vTextureCoord = GetFaceUv();
+                        vFace = aFace;
+                        vTextureCoord = aTextureCoord;
                     }`);
 
                 this.includeShaderSource(gl.FRAGMENT_SHADER, `
@@ -75,47 +68,41 @@
                     varying float vFace;
                     varying vec2 vTextureCoord;
 
-                    uniform sampler2D uFaceFront;
-                    uniform sampler2D uFaceBack;
-                    uniform sampler2D uFaceDown;
-                    uniform sampler2D uFaceUp;
-                    uniform sampler2D uFaceRight;
-                    uniform sampler2D uFaceLeft;
+                    uniform sampler2D uFacePosX;
+                    uniform sampler2D uFaceNegX;
+                    uniform sampler2D uFacePosY;
+                    uniform sampler2D uFaceNegY;
+                    uniform sampler2D uFacePosZ;
+                    uniform sampler2D uFaceNegZ;
 
                     vec4 GetFaceSample()
                     {
-                        switch (int(vFace)) {
-                            case 0: // Front
-                                return texture2D(uFaceFront, vTextureCoord);
-                            case 1: // Back
-                                return aPosition.xz * vec2(-1.0, 1.0);
-                            case 2: // Down
-                                return aPosition.xy;
-                            case 3: // Up
-                                return aPosition.xy * vec2(-1.0, 1.0);
-                            case 4: // Right
-                                return aPosition.yz;
-                            case 5: // Left
-                                return aPosition.yz * vec2(-1.0, 1.0);
-                            default:
-                                return vec4(0.0, 0.0, 0.0, 0.0);
-                        }
+                        int face = int(vFace + 0.5);
+                        if (face == 0) return texture2D(uFacePosX, vTextureCoord);
+                        if (face == 1) return texture2D(uFaceNegX, vTextureCoord);
+                        if (face == 2) return texture2D(uFacePosY, vTextureCoord);
+                        if (face == 3) return texture2D(uFaceNegY, vTextureCoord);
+                        if (face == 4) return texture2D(uFacePosZ, vTextureCoord);
+                        if (face == 5) return texture2D(uFaceNegZ, vTextureCoord);
+                        return vec4(0.0, 0.0, 0.0, 1.0);
                     }
 
                     void main()
                     {
-                        gl_FragColor = GetFaceSample();
+                        gl_FragColor = vec4(GetFaceSample().rgb, 1.0);
                     }`);
 
-                this.addAttribute("aPosition", WebGame.VertexAttribute.position);
+                this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
                 this.addAttribute("aFace", WebGame.VertexAttribute.alpha);
 
-                this.uFaceFront.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                this.uFaceBack.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                this.uFaceDown.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                this.uFaceUp.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                this.uFaceRight.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                this.uFaceLeft.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uFacePosX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uFaceNegX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uFacePosY.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uFaceNegY.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uFacePosZ.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uFaceNegZ.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+
+                this.compile();
             }
 
             bufferSetup(buf: Facepunch.WebGame.CommandBuffer): void {
@@ -124,20 +111,18 @@
                 this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
                 this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
 
-                const gl = this.context;
-
                 buf.depthMask(false);
             }
 
             bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: SkyMaterial): void {
                 super.bufferMaterialProps(buf, props);
 
-                this.uFaceFront.set(props.faceft);
-                this.uFaceBack.set(props.facebk);
-                this.uFaceDown.set(props.facedn);
-                this.uFaceUp.set(props.faceup);
-                this.uFaceRight.set(props.facert);
-                this.uFaceLeft.set(props.facelf);
+                this.uFacePosX.bufferValue(buf, props.facePosX);
+                this.uFaceNegX.bufferValue(buf, props.faceNegX);
+                this.uFacePosY.bufferValue(buf, props.facePosY);
+                this.uFaceNegY.bufferValue(buf, props.faceNegY);
+                this.uFacePosZ.bufferValue(buf, props.facePosZ);
+                this.uFaceNegZ.bufferValue(buf, props.faceNegZ);
             }
         }
     }

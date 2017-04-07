@@ -200,14 +200,17 @@ namespace SourceUtils.WebExport
         {
             var postfixes = new[]
             {
-                "ft", "bk", "dn", "up", "rt", "lf"
+                "rt", "lf", "ft", "bk", "dn", "up"
+            };
+
+            var names = new []
+            {
+                "PosX", "NegX", "PosY", "NegY", "PosZ", "NegZ"
             };
 
             var skyMaterial = new Material { Shader = "SourceUtils.Shaders.Sky" };
 
             skyMaterial.SetBoolean( "cullFace", false );
-
-            var size = 1;
 
             for ( var face = 0; face < 6; ++face )
             {
@@ -216,7 +219,7 @@ namespace SourceUtils.WebExport
 
                 var texUrl = (Url) mat.Properties.First( x => x.Name == "basetexture" ).Value;
 
-                skyMaterial.SetTextureUrl($"face{postfixes[face]}", texUrl);
+                skyMaterial.SetTextureUrl($"face{names[face]}", texUrl);
             }
 
             return skyMaterial;

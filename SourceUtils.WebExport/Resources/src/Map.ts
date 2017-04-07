@@ -31,6 +31,7 @@ namespace SourceUtils {
         private pvsEntities: Entities.PvsEntity[];
 
         private lightmap: WebGame.Texture;
+        private skyCube: SkyCube;
 
         private info: IMap;
         private clusterVis: { [cluster: number]: number[] } = {};
@@ -67,8 +68,16 @@ namespace SourceUtils {
 
                 switch (ent.classname) {
                     case "worldspawn":
-                        this.worldspawn = pvsInst = new Entities.Worldspawn(this, ent as Entities.IWorldspawn);
+                        const worldspawn = ent as Entities.IWorldspawn;
+                        this.worldspawn = pvsInst = new Entities.Worldspawn(this, worldspawn);
                         this.lightmap.addUsage(this.worldspawn);
+
+                        if (worldspawn.skyMaterial != null) {
+                            const skyMat = new WebGame.MaterialLoadable(this.viewer);
+                            skyMat.loadFromInfo(worldspawn.skyMaterial);
+                            this.skyCube = new SkyCube(this.viewer, skyMat);
+                        }
+
                         break;
                     case "displacement":
                         pvsInst = new Entities.Displacement(this, ent as Entities.IDisplacement);
@@ -96,6 +105,10 @@ namespace SourceUtils {
 
         populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void {
             if (this.worldspawn == null) return;
+
+            if (this.skyCube != null) {
+                drawList.addItem(this.skyCube);
+            }
 
             let vis: number[] = null;
 
