@@ -57,7 +57,7 @@ namespace SourceUtils.WebExport
             }
 
             var isCube = vtf.FaceCount == 6;
-            var untextured = Program.BaseOptions.Untextured;
+            var untextured = Program.BaseOptions.Untextured && !path.StartsWith( "materials/skybox/" );
 
             var tex = new Texture
             {

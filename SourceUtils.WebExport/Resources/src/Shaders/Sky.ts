@@ -9,6 +9,8 @@
             faceNegY: WebGame.Texture = null;
             facePosZ: WebGame.Texture = null;
             faceNegZ: WebGame.Texture = null;
+            hdrCompressed = false;
+            aspect = 1;
         }
 
         export class Sky extends BaseShaderProgram<SkyMaterial> {
@@ -21,6 +23,9 @@
             readonly uFaceNegY = this.addUniform("uFaceNegY", WebGame.UniformSampler);
             readonly uFacePosZ = this.addUniform("uFacePosZ", WebGame.UniformSampler);
             readonly uFaceNegZ = this.addUniform("uFaceNegZ", WebGame.UniformSampler);
+
+            readonly uAspect = this.addUniform("uAspect", WebGame.Uniform1F);
+            readonly uHdrCompressed = this.addUniform("uHdrCompressed", WebGame.Uniform1I);
 
             constructor(context: WebGLRenderingContext) {
                 super(context, SkyMaterial);
@@ -39,16 +44,18 @@
                     uniform mat4 uProjection;
                     uniform mat4 uView;
 
+                    uniform float uAspect;
+
                     vec3 GetPosition()
                     {
                         vec2 pos = aTextureCoord - vec2(0.5, 0.5);
                         int face = int(aFace + 0.5);
-                        if (face == 0) return vec3( pos.x, 0.5, -pos.y);
-                        if (face == 1) return vec3(-pos.x, -0.5, -pos.y);
-                        if (face == 2) return vec3( pos.x, pos.y, -0.5);
-                        if (face == 3) return vec3(-pos.x,-pos.y,  0.5);
-                        if (face == 4) return vec3(-0.5,  pos.x, -pos.y);
-                        if (face == 5) return vec3( 0.5, -pos.x, -pos.y);
+                        if (face == 0) return vec3( 0.5, -pos.x, -pos.y);
+                        if (face == 1) return vec3(-0.5, pos.x, -pos.y);
+                        if (face == 2) return vec3( pos.x, 0.5, -pos.y);
+                        if (face == 3) return vec3(-pos.x, -0.5, -pos.y);
+                        if (face == 4) return vec3( pos.y,-pos.x, 0.5);
+                        if (face == 5) return vec3( pos.y, pos.x, -0.5);
                         return vec3(0.0, 0.0, 0.0);
                     }
 
@@ -59,7 +66,7 @@
                         gl_Position = uProjection * vec4(viewPos.xyz, 1.0);
 
                         vFace = aFace;
-                        vTextureCoord = aTextureCoord;
+                        vTextureCoord = aTextureCoord * vec2(1.0, mix(1.0, uAspect, float(aFace < 3.5)));
                     }`);
 
                 this.includeShaderSource(gl.FRAGMENT_SHADER, `
@@ -75,6 +82,8 @@
                     uniform sampler2D uFacePosZ;
                     uniform sampler2D uFaceNegZ;
 
+                    uniform int uHdrCompressed;
+
                     vec4 GetFaceSample()
                     {
                         int face = int(vFace + 0.5);
@@ -87,9 +96,20 @@
                         return vec4(0.0, 0.0, 0.0, 1.0);
                     }
 
+                    vec3 DecompressHdr(vec4 sample)
+                    {
+                        return sample.rgb * sample.a * 2.0;
+                    }
+
                     void main()
                     {
-                        gl_FragColor = vec4(GetFaceSample().rgb, 1.0);
+                        vec4 sample = GetFaceSample();
+
+                        if (uHdrCompressed != 0) {
+                            gl_FragColor = vec4(DecompressHdr(sample), 1.0);
+                        } else {
+                            gl_FragColor = vec4(sample.rgb, 1.0);
+                        }
                     }`);
 
                 this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
@@ -123,6 +143,9 @@
                 this.uFaceNegY.bufferValue(buf, props.faceNegY);
                 this.uFacePosZ.bufferValue(buf, props.facePosZ);
                 this.uFaceNegZ.bufferValue(buf, props.faceNegZ);
+
+                this.uAspect.bufferValue(buf, props.aspect);
+                this.uHdrCompressed.bufferValue(buf, props.hdrCompressed ? 1 : 0);
             }
         }
     }

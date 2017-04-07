@@ -106,7 +106,7 @@ namespace SourceUtils {
         populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void {
             if (this.worldspawn == null) return;
 
-            if (this.skyCube != null) {
+            if (pvsRoot != null && this.skyCube != null && (this.skyCamera == null || pvsRoot === this.skyCamera.getLeaf())) {
                 drawList.addItem(this.skyCube);
             }
 

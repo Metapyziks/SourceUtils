@@ -71,11 +71,10 @@ namespace SourceUtils.WebExport
         {
             switch ( Path.GetExtension( url ).ToLower() )
             {
-                case ".js":
-                case ".css":
-                    return true;
-                default:
+                case ".png":
                     return false;
+                default:
+                    return true;
             }
         }
 

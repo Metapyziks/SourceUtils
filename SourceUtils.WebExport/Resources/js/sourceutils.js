@@ -663,7 +663,7 @@ var SourceUtils;
             var _this = this;
             if (this.worldspawn == null)
                 return;
-            if (this.skyCube != null) {
+            if (pvsRoot != null && this.skyCube != null && (this.skyCamera == null || pvsRoot === this.skyCamera.getLeaf())) {
                 drawList.addItem(this.skyCube);
             }
             var vis = null;
@@ -894,8 +894,10 @@ var SourceUtils;
         };
         MapViewer.prototype.populateDrawList = function (drawList, camera) {
             var leaf = null;
+            var sky2D = false;
             if (camera.getLeaf !== undefined) {
-                leaf = camera.getLeaf();
+                var mapCamera = camera;
+                leaf = mapCamera.getLeaf();
             }
             this.map.populateDrawList(drawList, leaf);
         };
@@ -1139,6 +1141,8 @@ var SourceUtils;
                 _this.faceNegY = null;
                 _this.facePosZ = null;
                 _this.faceNegZ = null;
+                _this.hdrCompressed = false;
+                _this.aspect = 1;
                 return _this;
             }
             return SkyMaterial;
@@ -1156,10 +1160,12 @@ var SourceUtils;
                 _this.uFaceNegY = _this.addUniform("uFaceNegY", WebGame.UniformSampler);
                 _this.uFacePosZ = _this.addUniform("uFacePosZ", WebGame.UniformSampler);
                 _this.uFaceNegZ = _this.addUniform("uFaceNegZ", WebGame.UniformSampler);
+                _this.uAspect = _this.addUniform("uAspect", WebGame.Uniform1F);
+                _this.uHdrCompressed = _this.addUniform("uHdrCompressed", WebGame.Uniform1I);
                 _this.sortOrder = -1000;
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aTextureCoord;\n                    attribute float aFace;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n\n                    vec3 GetPosition()\n                    {\n                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);\n                        int face = int(aFace + 0.5);\n                        if (face == 0) return vec3( pos.x, 0.5, -pos.y);\n                        if (face == 1) return vec3(-pos.x, -0.5, -pos.y);\n                        if (face == 2) return vec3( pos.x, pos.y, -0.5);\n                        if (face == 3) return vec3(-pos.x,-pos.y,  0.5);\n                        if (face == 4) return vec3(-0.5,  pos.x, -pos.y);\n                        if (face == 5) return vec3( 0.5, -pos.x, -pos.y);\n                        return vec3(0.0, 0.0, 0.0);\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = uView * vec4(GetPosition() * 128.0, 0.0);\n\n                        gl_Position = uProjection * vec4(viewPos.xyz, 1.0);\n\n                        vFace = aFace;\n                        vTextureCoord = aTextureCoord;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uFacePosX;\n                    uniform sampler2D uFaceNegX;\n                    uniform sampler2D uFacePosY;\n                    uniform sampler2D uFaceNegY;\n                    uniform sampler2D uFacePosZ;\n                    uniform sampler2D uFaceNegZ;\n\n                    vec4 GetFaceSample()\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return texture2D(uFacePosX, vTextureCoord);\n                        if (face == 1) return texture2D(uFaceNegX, vTextureCoord);\n                        if (face == 2) return texture2D(uFacePosY, vTextureCoord);\n                        if (face == 3) return texture2D(uFaceNegY, vTextureCoord);\n                        if (face == 4) return texture2D(uFacePosZ, vTextureCoord);\n                        if (face == 5) return texture2D(uFaceNegZ, vTextureCoord);\n                        return vec4(0.0, 0.0, 0.0, 1.0);\n                    }\n\n                    void main()\n                    {\n                        gl_FragColor = vec4(GetFaceSample().rgb, 1.0);\n                    }");
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aTextureCoord;\n                    attribute float aFace;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n\n                    uniform float uAspect;\n\n                    vec3 GetPosition()\n                    {\n                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);\n                        int face = int(aFace + 0.5);\n                        if (face == 0) return vec3( 0.5, -pos.x, -pos.y);\n                        if (face == 1) return vec3(-0.5, pos.x, -pos.y);\n                        if (face == 2) return vec3( pos.x, 0.5, -pos.y);\n                        if (face == 3) return vec3(-pos.x, -0.5, -pos.y);\n                        if (face == 4) return vec3( pos.y,-pos.x, 0.5);\n                        if (face == 5) return vec3( pos.y, pos.x, -0.5);\n                        return vec3(0.0, 0.0, 0.0);\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = uView * vec4(GetPosition() * 128.0, 0.0);\n\n                        gl_Position = uProjection * vec4(viewPos.xyz, 1.0);\n\n                        vFace = aFace;\n                        vTextureCoord = aTextureCoord * vec2(1.0, mix(1.0, uAspect, float(aFace < 3.5)));\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uFacePosX;\n                    uniform sampler2D uFaceNegX;\n                    uniform sampler2D uFacePosY;\n                    uniform sampler2D uFaceNegY;\n                    uniform sampler2D uFacePosZ;\n                    uniform sampler2D uFaceNegZ;\n\n                    uniform int uHdrCompressed;\n\n                    vec4 GetFaceSample()\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return texture2D(uFacePosX, vTextureCoord);\n                        if (face == 1) return texture2D(uFaceNegX, vTextureCoord);\n                        if (face == 2) return texture2D(uFacePosY, vTextureCoord);\n                        if (face == 3) return texture2D(uFaceNegY, vTextureCoord);\n                        if (face == 4) return texture2D(uFacePosZ, vTextureCoord);\n                        if (face == 5) return texture2D(uFaceNegZ, vTextureCoord);\n                        return vec4(0.0, 0.0, 0.0, 1.0);\n                    }\n\n                    vec3 DecompressHdr(vec4 sample)\n                    {\n                        return sample.rgb * sample.a * 2.0;\n                    }\n\n                    void main()\n                    {\n                        vec4 sample = GetFaceSample();\n\n                        if (uHdrCompressed != 0) {\n                            gl_FragColor = vec4(DecompressHdr(sample), 1.0);\n                        } else {\n                            gl_FragColor = vec4(sample.rgb, 1.0);\n                        }\n                    }");
                 _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
                 _this.addAttribute("aFace", WebGame.VertexAttribute.alpha);
                 _this.uFacePosX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
@@ -1185,6 +1191,8 @@ var SourceUtils;
                 this.uFaceNegY.bufferValue(buf, props.faceNegY);
                 this.uFacePosZ.bufferValue(buf, props.facePosZ);
                 this.uFaceNegZ.bufferValue(buf, props.faceNegZ);
+                this.uAspect.bufferValue(buf, props.aspect);
+                this.uHdrCompressed.bufferValue(buf, props.hdrCompressed ? 1 : 0);
             };
             return Sky;
         }(Shaders.BaseShaderProgram));

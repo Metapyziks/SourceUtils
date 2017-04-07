@@ -122,8 +122,10 @@ namespace SourceUtils.WebExport
                 switch (name.ToLower())
                 {
                     case "$basetexture":
-                    case "$hdrcompressedtexture":
                         mat.SetTextureUrl("basetexture", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
+                    case "$hdrcompressedtexture":
+                        mat.SetTextureUrl("hdrcompressedtexture", GetTextureUrl(props[name], vmtPath, bsp));
                         break;
                     case "$texture2":
                     case "$basetexture2":
@@ -200,7 +202,7 @@ namespace SourceUtils.WebExport
         {
             var postfixes = new[]
             {
-                "rt", "lf", "ft", "bk", "dn", "up"
+                "rt", "lf", "bk", "ft", "up", "dn"
             };
 
             var names = new []
@@ -212,14 +214,36 @@ namespace SourceUtils.WebExport
 
             skyMaterial.SetBoolean( "cullFace", false );
 
+            var hdrCompressed = false;
+            var aspect = 1f;
+
             for ( var face = 0; face < 6; ++face )
             {
                 var matPath = $"materials/skybox/{skyName}{postfixes[face]}.vmt";
                 var mat = Get( bsp, matPath );
 
-                var texUrl = (Url) mat.Properties.First( x => x.Name == "basetexture" ).Value;
+                var texProp = mat.Properties.FirstOrDefault( x => x.Name == "hdrcompressedtexture")
+                    ?? mat.Properties.First(x => x.Name == "basetexture");
 
-                skyMaterial.SetTextureUrl($"face{names[face]}", texUrl);
+                if ( face == 0 )
+                {
+                    hdrCompressed = texProp.Name == "hdrcompressedtexture";
+
+                    var tex = Texture.Get( bsp, TextureController.GetTexturePath( (Url) texProp.Value ) );
+                    aspect = (float) tex.Width / tex.Height;
+                }
+
+                skyMaterial.SetTextureUrl($"face{names[face]}", (Url)texProp.Value);
+            }
+
+            if ( hdrCompressed )
+            {
+                skyMaterial.SetBoolean( "hdrCompressed", true );
+            }
+
+            if ( aspect != 1f )
+            {
+                skyMaterial.SetNumber( "aspect", aspect );
             }
 
             return skyMaterial;
