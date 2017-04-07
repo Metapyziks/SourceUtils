@@ -32,17 +32,7 @@
   "entities": [
     {
       "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cache/geom/model0.json",
-      "classname": "worldspawn",
-      "origin": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
+      "classname": "worldspawn"
     },
     {
       "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cache/geom/model1.json",
@@ -2388,6 +2378,15 @@
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
+      }
+    },
+    {
+      "scale": 16,
+      "classname": "sky_camera",
+      "origin": {
+        "x": 9364.0,
+        "y": -61.0,
+        "z": 2136.0
       }
     },
     {

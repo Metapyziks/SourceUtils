@@ -1327,6 +1327,15 @@ var Facepunch;
                 this.matrixInvalid = true;
                 this.inverseMatrixInvalid = true;
             };
+            Entity.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+            };
+            Entity.prototype.onChangeRotation = function () {
+                this.invalidateMatrices();
+            };
+            Entity.prototype.onChangeScale = function () {
+                this.invalidateMatrices();
+            };
             Entity.prototype.getMatrix = function (target) {
                 if (this.matrixInvalid) {
                     this.matrixInvalid = false;
@@ -1359,7 +1368,7 @@ var Facepunch;
                     var value = valueOrX;
                     this.position.set(value.x, value.y, value.z);
                 }
-                this.invalidateMatrices();
+                this.onChangePosition();
             };
             Entity.prototype.getPosition = function (target) {
                 target.x = this.position.x;
@@ -1385,7 +1394,7 @@ var Facepunch;
                 else {
                     this.position.add(valueOrX);
                 }
-                this.invalidateMatrices();
+                this.onChangePosition();
             };
             Entity.prototype.easeTo = function (goal, delta) {
                 this.position.x += (goal.x - this.position.x) * delta;
@@ -1394,7 +1403,7 @@ var Facepunch;
             };
             Entity.prototype.setRotation = function (value) {
                 this.rotation.copy(value);
-                this.invalidateMatrices();
+                this.onChangeRotation();
             };
             Entity.prototype.setAngles = function (valueOrPitch, yaw, roll) {
                 var pitch;
@@ -1424,7 +1433,7 @@ var Facepunch;
                 else {
                     this.scale.set(value.x, value.y, value.z);
                 }
-                this.invalidateMatrices();
+                this.onChangeScale();
             };
             Entity.nextId = 0;
             Entity.tempEuler = new Facepunch.Euler(0, 0, 0, Facepunch.AxisOrder.Zyx);
@@ -1758,15 +1767,70 @@ var Facepunch;
     (function (WebGame) {
         var Camera = (function (_super) {
             __extends(Camera, _super);
-            function Camera() {
-                _super.apply(this, arguments);
+            function Camera(game) {
+                var _this = this;
+                _super.call(this);
+                this.drawList = new WebGame.DrawList();
+                this.geometryInvalid = true;
+                this.fog = new WebGame.Fog();
                 this.projectionInvalid = true;
                 this.projectionMatrix = new Facepunch.Matrix4();
                 this.inverseProjectionInvalid = true;
                 this.inverseProjectionMatrix = new Facepunch.Matrix4();
                 this.cameraPosParams = new Float32Array(3);
                 this.clipParams = new Float32Array(4);
+                this.game = game;
+                this.commandBuffer = new WebGame.CommandBuffer(game.context);
+                game.addDrawListInvalidationHandler(function (geom) {
+                    if (geom)
+                        _this.invalidateGeometry();
+                    _this.drawList.invalidate();
+                });
             }
+            Camera.prototype.getOpaqueColorTexture = function () {
+                return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getColorTexture();
+            };
+            Camera.prototype.getOpaqueDepthTexture = function () {
+                return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getDepthTexture();
+            };
+            Camera.prototype.invalidateGeometry = function () {
+                this.geometryInvalid = true;
+            };
+            Camera.prototype.render = function () {
+                if (this.geometryInvalid) {
+                    this.drawList.clear();
+                    this.game.populateDrawList(this.drawList, this);
+                }
+                if (this.geometryInvalid || this.drawList.isInvalid()) {
+                    this.commandBuffer.clearCommands();
+                    this.drawList.appendToBuffer(this.commandBuffer, this);
+                }
+                this.geometryInvalid = false;
+                this.populateCommandBufferParameters(this.commandBuffer);
+                this.commandBuffer.run();
+            };
+            Camera.prototype.setupFrameBuffers = function () {
+                if (this.opaqueFrameBuffer !== undefined)
+                    return;
+                var gl = this.game.context;
+                var width = this.game.getWidth();
+                var height = this.game.getHeight();
+                this.opaqueFrameBuffer = new WebGame.FrameBuffer(gl, width, height);
+                this.opaqueFrameBuffer.addDepthAttachment();
+            };
+            Camera.prototype.bufferOpaqueTargetBegin = function (buf) {
+                this.setupFrameBuffers();
+                var gl = WebGLRenderingContext;
+                buf.bindFramebuffer(this.opaqueFrameBuffer, true);
+                buf.depthMask(true);
+                buf.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+            };
+            Camera.prototype.bufferRenderTargetEnd = function (buf) {
+                buf.bindFramebuffer(null);
+            };
+            Camera.prototype.getDrawCalls = function () {
+                return this.commandBuffer.getDrawCalls();
+            };
             Camera.prototype.getProjectionMatrix = function (target) {
                 if (this.projectionInvalid) {
                     this.projectionInvalid = false;
@@ -1804,6 +1868,10 @@ var Facepunch;
                 buf.setParameter(Camera.inverseProjectionMatrixParam, this.getInverseProjectionMatrix().elements);
                 buf.setParameter(Camera.viewMatrixParam, this.getInverseMatrix().elements);
                 buf.setParameter(Camera.inverseViewMatrixParam, this.getMatrix().elements);
+                buf.setParameter(Camera.opaqueColorParam, this.getOpaqueColorTexture());
+                buf.setParameter(Camera.opaqueDepthParam, this.getOpaqueDepthTexture());
+                this.game.populateCommandBufferParameters(buf);
+                this.fog.populateCommandBufferParameters(buf);
             };
             Camera.cameraPosParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
             Camera.clipInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
@@ -1811,25 +1879,47 @@ var Facepunch;
             Camera.inverseProjectionMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
             Camera.viewMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
             Camera.inverseViewMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
+            Camera.opaqueColorParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
+            Camera.opaqueDepthParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
             return Camera;
         }(WebGame.Entity));
         WebGame.Camera = Camera;
         var PerspectiveCamera = (function (_super) {
             __extends(PerspectiveCamera, _super);
-            function PerspectiveCamera(fov, aspect, near, far) {
-                _super.call(this);
+            function PerspectiveCamera(game, fov, aspect, near, far) {
+                _super.call(this, game);
                 this.fov = fov;
                 this.aspect = aspect;
                 this.near = near;
                 this.far = far;
             }
-            PerspectiveCamera.prototype.setFov = function (value) { this.fov = value; this.invalidateProjectionMatrix(); };
+            PerspectiveCamera.prototype.setFov = function (value) {
+                if (value === this.fov)
+                    return;
+                this.fov = value;
+                this.invalidateProjectionMatrix();
+            };
             PerspectiveCamera.prototype.getFov = function () { return this.fov; };
-            PerspectiveCamera.prototype.setAspect = function (value) { this.aspect = value; this.invalidateProjectionMatrix(); };
+            PerspectiveCamera.prototype.setAspect = function (value) {
+                if (value === this.aspect)
+                    return;
+                this.aspect = value;
+                this.invalidateProjectionMatrix();
+            };
             PerspectiveCamera.prototype.getAspect = function () { return this.aspect; };
-            PerspectiveCamera.prototype.setNear = function (value) { this.near = value; this.invalidateProjectionMatrix(); };
+            PerspectiveCamera.prototype.setNear = function (value) {
+                if (value === this.near)
+                    return;
+                this.near = value;
+                this.invalidateProjectionMatrix();
+            };
             PerspectiveCamera.prototype.getNear = function () { return this.near; };
-            PerspectiveCamera.prototype.setFar = function (value) { this.far = value; this.invalidateProjectionMatrix(); };
+            PerspectiveCamera.prototype.setFar = function (value) {
+                if (value === this.far)
+                    return;
+                this.far = value;
+                this.invalidateProjectionMatrix();
+            };
             PerspectiveCamera.prototype.getFar = function () { return this.far; };
             PerspectiveCamera.prototype.onUpdateProjectionMatrix = function (matrix) {
                 var deg2Rad = Math.PI / 180;
@@ -1882,13 +1972,11 @@ var Facepunch;
     var WebGame;
     (function (WebGame) {
         var DrawList = (function () {
-            function DrawList(context) {
+            function DrawList() {
                 this.items = [];
                 this.opaque = [];
                 this.translucent = [];
                 this.isBuildingList = false;
-                this.context = context;
-                this.game = context.game;
             }
             DrawList.prototype.isInvalid = function () {
                 return this.invalid;
@@ -1969,11 +2057,11 @@ var Facepunch;
             DrawList.compareHandles = function (a, b) {
                 return a.compareTo(b);
             };
-            DrawList.prototype.buildHandleList = function () {
+            DrawList.prototype.buildHandleList = function (shaders) {
                 this.opaque = [];
                 this.translucent = [];
                 this.hasRefraction = false;
-                var errorProgram = this.game.shaders.get(WebGame.Shaders.Error);
+                var errorProgram = shaders.get(WebGame.Shaders.Error);
                 this.isBuildingList = true;
                 for (var i = 0, iEnd = this.items.length; i < iEnd; ++i) {
                     var handles = this.items[i].getMeshHandles();
@@ -2005,20 +2093,20 @@ var Facepunch;
                 this.translucent.sort(DrawList.compareHandles);
                 this.invalid = false;
             };
-            DrawList.prototype.appendToBuffer = function (buf, context) {
+            DrawList.prototype.appendToBuffer = function (buf, camera) {
                 this.lastHandle = WebGame.MeshHandle.undefinedHandle;
                 this.lastProgram = undefined;
                 if (this.invalid)
-                    this.buildHandleList();
-                this.game.shaders.resetUniformCache();
+                    this.buildHandleList(camera.game.shaders);
+                camera.game.shaders.resetUniformCache();
                 if (this.hasRefraction)
-                    context.bufferOpaqueTargetBegin(buf);
+                    camera.bufferOpaqueTargetBegin(buf);
                 for (var i = 0, iEnd = this.opaque.length; i < iEnd; ++i) {
                     this.bufferHandle(buf, this.opaque[i]);
                 }
                 if (this.hasRefraction) {
-                    context.bufferRenderTargetEnd(buf);
-                    this.bufferHandle(buf, this.game.meshes.getComposeFrameMeshHandle());
+                    camera.bufferRenderTargetEnd(buf);
+                    this.bufferHandle(buf, camera.game.meshes.getComposeFrameMeshHandle());
                 }
                 for (var i = 0, iEnd = this.translucent.length; i < iEnd; ++i) {
                     this.bufferHandle(buf, this.translucent[i]);
@@ -2112,14 +2200,13 @@ var Facepunch;
     var WebGame;
     (function (WebGame) {
         var Fog = (function () {
-            function Fog(context) {
+            function Fog() {
                 this.start = 0;
                 this.end = 8192;
                 this.maxDensity = 0;
                 this.color = new Facepunch.Vector3();
                 this.colorValues = new Float32Array(3);
                 this.paramsValues = new Float32Array(4);
-                this.renderContext = context;
             }
             Fog.prototype.populateCommandBufferParameters = function (buf) {
                 this.colorValues[0] = this.color.x;
@@ -3144,78 +3231,6 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
-        var RenderContext = (function () {
-            function RenderContext(game) {
-                var _this = this;
-                this.geometryInvalid = true;
-                this.game = game;
-                this.fog = new WebGame.Fog(this);
-                this.drawList = new WebGame.DrawList(this);
-                this.commandBuffer = new WebGame.CommandBuffer(game.context);
-                this.game.addDrawListInvalidationHandler(function (geom) { return _this.invalidate(); });
-            }
-            RenderContext.prototype.getOpaqueColorTexture = function () {
-                return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getColorTexture();
-            };
-            RenderContext.prototype.getOpaqueDepthTexture = function () {
-                return this.opaqueFrameBuffer == null ? null : this.opaqueFrameBuffer.getDepthTexture();
-            };
-            RenderContext.prototype.invalidate = function () {
-                this.geometryInvalid = true;
-            };
-            RenderContext.prototype.render = function (camera) {
-                if (this.geometryInvalid) {
-                    this.drawList.clear();
-                    this.game.populateDrawList(this.drawList, camera);
-                }
-                if (this.geometryInvalid || this.drawList.isInvalid()) {
-                    this.commandBuffer.clearCommands();
-                    this.drawList.appendToBuffer(this.commandBuffer, this);
-                }
-                this.geometryInvalid = false;
-                camera.populateCommandBufferParameters(this.commandBuffer);
-                this.populateCommandBufferParameters(this.commandBuffer);
-                this.commandBuffer.run();
-            };
-            RenderContext.prototype.populateCommandBufferParameters = function (buf) {
-                this.game.populateCommandBufferParameters(buf);
-                this.fog.populateCommandBufferParameters(buf);
-                buf.setParameter(RenderContext.opaqueColorParam, this.getOpaqueColorTexture());
-                buf.setParameter(RenderContext.opaqueDepthParam, this.getOpaqueDepthTexture());
-            };
-            RenderContext.prototype.setupFrameBuffers = function () {
-                if (this.opaqueFrameBuffer !== undefined)
-                    return;
-                var gl = this.game.context;
-                var width = this.game.getWidth();
-                var height = this.game.getHeight();
-                this.opaqueFrameBuffer = new WebGame.FrameBuffer(gl, width, height);
-                this.opaqueFrameBuffer.addDepthAttachment();
-            };
-            RenderContext.prototype.bufferOpaqueTargetBegin = function (buf) {
-                this.setupFrameBuffers();
-                var gl = WebGLRenderingContext;
-                buf.bindFramebuffer(this.opaqueFrameBuffer, true);
-                buf.depthMask(true);
-                buf.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
-            };
-            RenderContext.prototype.bufferRenderTargetEnd = function (buf) {
-                buf.bindFramebuffer(null);
-            };
-            RenderContext.prototype.getDrawCalls = function () {
-                return this.commandBuffer.getDrawCalls();
-            };
-            RenderContext.opaqueColorParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
-            RenderContext.opaqueDepthParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
-            return RenderContext;
-        }());
-        WebGame.RenderContext = RenderContext;
-    })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
-})(Facepunch || (Facepunch = {}));
-var Facepunch;
-(function (Facepunch) {
-    var WebGame;
-    (function (WebGame) {
         var ShaderManager = (function () {
             function ShaderManager(context) {
                 this.namedPrograms = {};
@@ -3532,8 +3547,8 @@ var Facepunch;
                 }
                 ComposeFrame.prototype.bufferSetup = function (buf) {
                     _super.prototype.bufferSetup.call(this, buf);
-                    this.frameColor.bufferParameter(buf, WebGame.RenderContext.opaqueColorParam);
-                    this.frameDepth.bufferParameter(buf, WebGame.RenderContext.opaqueDepthParam);
+                    this.frameColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
+                    this.frameDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
                 };
                 ComposeFrame.vertSource = "\n                    attribute vec2 aScreenPos;\n\n                    varying vec2 vScreenPos;\n\n                    void main()\n                    {\n                        vScreenPos = aScreenPos * 0.5 + vec2(0.5, 0.5);\n                        gl_Position = vec4(aScreenPos, 0, 1);\n                    }";
                 ComposeFrame.fragSource = "\n                    #extension GL_EXT_frag_depth : enable\n\n                    precision mediump float;\n\n                    varying vec2 vScreenPos;\n\n                    uniform sampler2D uFrameColor;\n                    uniform sampler2D uFrameDepth;\n\n                    void main()\n                    {\n                        gl_FragColor = texture2D(uFrameColor, vScreenPos);\n                        gl_FragDepthEXT = texture2D(uFrameDepth, vScreenPos).r;\n                    }";

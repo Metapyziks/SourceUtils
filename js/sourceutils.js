@@ -397,6 +397,9 @@ var SourceUtils;
                     case "func_brush":
                         pvsInst = new SourceUtils.Entities.BrushEntity(this, ent);
                         break;
+                    case "sky_camera":
+                        this.skyCamera = new SourceUtils.Entities.SkyCamera(this.viewer, ent);
+                        break;
                 }
                 if (pvsInst != null) {
                     this.pvsEntities.push(pvsInst);
@@ -537,8 +540,7 @@ var SourceUtils;
         };
         MapViewer.prototype.onInitialize = function () {
             this.canLockPointer = true;
-            this.mainCamera = new WebGame.PerspectiveCamera(75, this.getWidth() / this.getHeight(), 1, 8192);
-            this.mainRenderContext = new WebGame.RenderContext(this);
+            this.mainCamera = new SourceUtils.Entities.Camera(this, 75);
             this.lastProfileTime = performance.now();
             _super.prototype.onInitialize.call(this);
         };
@@ -616,23 +618,18 @@ var SourceUtils;
                 this.updateCameraAngles();
                 this.mainCamera.setPosition(Math.sin(-ang) * -radius, Math.cos(-ang) * -radius, height);
             }
-            var leaf = this.map.getLeafAt(this.mainCamera.getPosition(this.move));
-            if (leaf !== this.mainCameraLeaf) {
-                this.mainCameraLeaf = leaf;
-                this.mainRenderContext.invalidate();
-            }
-            var drawCalls = this.mainRenderContext.getDrawCalls();
-            if (this.lastDrawCalls !== drawCalls) {
-                this.lastDrawCalls = drawCalls;
-                $("#debug-drawcalls").text(drawCalls.toString());
-            }
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
             _super.prototype.onRenderFrame.call(this, dt);
             var gl = this.context;
             gl.clear(gl.DEPTH_BUFFER_BIT);
             gl.cullFace(gl.FRONT);
-            this.mainRenderContext.render(this.mainCamera);
+            this.mainCamera.render();
+            var drawCalls = this.mainCamera.getDrawCalls();
+            if (drawCalls !== this.lastDrawCalls) {
+                this.lastDrawCalls = drawCalls;
+                $("#debug-drawcalls").text(drawCalls);
+            }
             ++this.frameCount;
             var time = performance.now();
             if (time - this.lastProfileTime >= 500) {
@@ -646,7 +643,11 @@ var SourceUtils;
             }
         };
         MapViewer.prototype.populateDrawList = function (drawList, camera) {
-            this.map.populateDrawList(drawList, this.mainCameraLeaf);
+            var leaf = null;
+            if (camera.getLeaf !== undefined) {
+                leaf = camera.getLeaf();
+            }
+            this.map.populateDrawList(drawList, leaf);
         };
         MapViewer.prototype.populateCommandBufferParameters = function (buf) {
             _super.prototype.populateCommandBufferParameters.call(this, buf);
@@ -768,6 +769,89 @@ var SourceUtils;
             return BrushEntity;
         }(Entities.PvsEntity));
         Entities.BrushEntity = BrushEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var Camera = (function (_super) {
+            __extends(Camera, _super);
+            function Camera(viewer, fov) {
+                var _this = _super.call(this, viewer, fov, viewer.getWidth() / viewer.getHeight(), 1, 8192) || this;
+                _this.leafInvalid = true;
+                _this.render3DSky = true;
+                _this.viewer = viewer;
+                return _this;
+            }
+            Camera.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+                this.leafInvalid = true;
+            };
+            Camera.prototype.onGetLeaf = function () {
+                var temp = Facepunch.Vector3.pool.create();
+                var leaf = this.viewer.map.getLeafAt(this.getPosition(temp));
+                temp.release();
+                return leaf;
+            };
+            Camera.prototype.getLeaf = function () {
+                if (this.leafInvalid) {
+                    this.leafInvalid = false;
+                    var leaf = this.onGetLeaf();
+                    if (this.leaf !== leaf) {
+                        this.leaf = leaf;
+                        this.invalidateGeometry();
+                    }
+                }
+                return this.leaf;
+            };
+            Camera.prototype.render = function () {
+                var leaf = this.getLeaf();
+                if (this.render3DSky && leaf != null && (leaf.flags & SourceUtils.LeafFlags.Sky) !== 0) {
+                    var skyCamera = this.viewer.map.skyCamera;
+                    if (skyCamera != null) {
+                        skyCamera.renderRelativeTo(this);
+                    }
+                }
+                _super.prototype.render.call(this);
+            };
+            return Camera;
+        }(WebGame.PerspectiveCamera));
+        Entities.Camera = Camera;
+        var SkyCamera = (function (_super) {
+            __extends(SkyCamera, _super);
+            function SkyCamera(viewer, info) {
+                var _this = _super.call(this, viewer, 60) || this;
+                _this.render3DSky = false;
+                _this.origin = new Facepunch.Vector3().copy(info.origin);
+                _this.skyScale = 1 / info.scale;
+                return _this;
+            }
+            SkyCamera.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+            };
+            SkyCamera.prototype.onGetLeaf = function () {
+                return this.viewer.map.getLeafAt(this.origin);
+            };
+            SkyCamera.prototype.renderRelativeTo = function (camera) {
+                var temp = Facepunch.Vector3.pool.create();
+                camera.getPosition(temp);
+                temp.multiplyScalar(this.skyScale);
+                temp.add(this.origin);
+                this.setPosition(temp);
+                temp.release();
+                this.setFov(camera.getFov());
+                this.setAspect(camera.getAspect());
+                this.copyRotation(camera);
+                _super.prototype.render.call(this);
+                var gl = this.viewer.context;
+                gl.depthMask(true);
+                gl.clear(gl.DEPTH_BUFFER_BIT);
+            };
+            return SkyCamera;
+        }(Camera));
+        Entities.SkyCamera = SkyCamera;
     })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
