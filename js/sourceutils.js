@@ -623,6 +623,8 @@ var SourceUtils;
             this.viewer.mapMaterialLoader.setPageLayout(info.materialPages);
             this.viewer.visLoader.setPageLayout(info.visPages);
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
+            this.tSpawns = [];
+            this.ctSpawns = [];
             this.pvsEntities = [];
             for (var i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
                 var ent = info.entities[i];
@@ -638,6 +640,12 @@ var SourceUtils;
                             this.skyCube = new SourceUtils.SkyCube(this.viewer, skyMat);
                         }
                         break;
+                    case "info_player_terrorist":
+                        this.tSpawns.push(ent);
+                        break;
+                    case "info_player_counterterrorist":
+                        this.ctSpawns.push(ent);
+                        break;
                     case "displacement":
                         pvsInst = new SourceUtils.Entities.Displacement(this, ent);
                         break;
@@ -652,11 +660,15 @@ var SourceUtils;
                     this.pvsEntities.push(pvsInst);
                 }
             }
+            var spawn = this.tSpawns[0];
+            this.viewer.mainCamera.setPosition(spawn.origin);
+            this.viewer.mainCamera.translate(0, 0, 64);
+            this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
             this.viewer.forceDrawListInvalidation(true);
         };
         Map.prototype.getLeafAt = function (pos) {
             if (this.worldspawn == null || this.worldspawn.model == null)
-                return null;
+                return undefined;
             return this.worldspawn.model.getLeafAt(pos);
         };
         Map.prototype.populateDrawList = function (drawList, pvsRoot) {
@@ -798,6 +810,11 @@ var SourceUtils;
             _super.prototype.onResize.call(this);
             this.mainCamera.setAspect(this.getWidth() / this.getHeight());
         };
+        MapViewer.prototype.setCameraAngles = function (yaw, pitch) {
+            this.lookAngs.x = yaw;
+            this.lookAngs.y = pitch;
+            this.updateCameraAngles();
+        };
         MapViewer.prototype.updateCameraAngles = function () {
             if (this.lookAngs.y < -Math.PI * 0.5)
                 this.lookAngs.y = -Math.PI * 0.5;
@@ -843,30 +860,21 @@ var SourceUtils;
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
-            if (this.isPointerLocked()) {
-                this.move.set(0, 0, 0);
-                var moveSpeed = 512 * dt;
-                if (this.isKeyDown(WebGame.Key.W))
-                    this.move.z -= moveSpeed;
-                if (this.isKeyDown(WebGame.Key.S))
-                    this.move.z += moveSpeed;
-                if (this.isKeyDown(WebGame.Key.A))
-                    this.move.x -= moveSpeed;
-                if (this.isKeyDown(WebGame.Key.D))
-                    this.move.x += moveSpeed;
-                if (this.move.lengthSq() > 0) {
-                    this.mainCamera.applyRotationTo(this.move);
-                    this.mainCamera.translate(this.move);
-                }
-            }
-            else {
-                this.time += dt;
-                var ang = this.time * Math.PI / 15;
-                var height = Math.sin(this.time * Math.PI / 4) * 96 + 256;
-                var radius = 512;
-                this.lookAngs.set(ang, Math.atan2(128 - height, radius));
-                this.updateCameraAngles();
-                this.mainCamera.setPosition(Math.sin(-ang) * -radius, Math.cos(-ang) * -radius, height);
+            if (!this.isPointerLocked())
+                return;
+            this.move.set(0, 0, 0);
+            var moveSpeed = 512 * dt;
+            if (this.isKeyDown(WebGame.Key.W))
+                this.move.z -= moveSpeed;
+            if (this.isKeyDown(WebGame.Key.S))
+                this.move.z += moveSpeed;
+            if (this.isKeyDown(WebGame.Key.A))
+                this.move.x -= moveSpeed;
+            if (this.isKeyDown(WebGame.Key.D))
+                this.move.x += moveSpeed;
+            if (this.move.lengthSq() > 0) {
+                this.mainCamera.applyRotationTo(this.move);
+                this.mainCamera.translate(this.move);
             }
         };
         MapViewer.prototype.onRenderFrame = function (dt) {

@@ -1,32 +1,32 @@
 {
   "name": "de_inferno",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18a2-12f57",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18a4-12e11",
   "visPages": [
     {
       "first": 0,
       "count": 2572,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18a4-12e11"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 4921,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18a4-12e11"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 2034,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18a4-12e11"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 233,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18a4-12e11"
     }
   ],
   "entities": [
@@ -42,40 +42,40 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model0.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model0.json?v=18a4-12e11",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model40.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model40.json?v=18a4-12e11",
       "clusters": [
         2324
       ],
@@ -92,7 +92,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model53.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model53.json?v=18a4-12e11",
       "clusters": [
         1584,1585,1586,1662,1663,1664,1666
       ],
@@ -109,7 +109,33 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model54.json?v=18a2-12f57",
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1592.0,
+        "y": 688.0,
+        "z": -40.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 284.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2367.0,
+        "y": 2073.0,
+        "z": 155.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model54.json?v=18a4-12e11",
       "clusters": [
         678,693,820,821
       ],
@@ -126,7 +152,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model55.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model55.json?v=18a4-12e11",
       "clusters": [
         690,694,712,714,715,716,829,830,832,833
       ],
@@ -143,7 +169,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model59.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model59.json?v=18a4-12e11",
       "clusters": [
         483,485,522,523
       ],
@@ -160,7 +186,72 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model60.json?v=18a2-12f57",
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1547.0,
+        "y": 728.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -68.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1507.0,
+        "y": 674.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -138.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1612.0,
+        "y": 763.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -46.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1673.0,
+        "y": 728.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 3.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1708.0,
+        "y": 674.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 32.5,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model60.json?v=18a4-12e11",
       "clusters": [
         2455,2472
       ],
@@ -183,6 +274,331 @@
         "x": -6144.0,
         "y": 7168.0,
         "z": -352.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2458.45,
+        "y": 2298.79,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -125.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2410.89,
+        "y": 2353.89,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -97.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2454.21,
+        "y": 2212.36,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 171.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2374.47,
+        "y": 2171.85,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 108.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2296.68,
+        "y": 2199.54,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 81.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2459.88,
+        "y": 1904.25,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -134.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2420.99,
+        "y": 1965.77,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -106.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2442.91,
+        "y": 1819.4,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 162.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2358.06,
+        "y": 1791.12,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 100.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2285.23,
+        "y": 1830.01,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 72.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1586.52,
+        "y": 440.79,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -23.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1520.06,
+        "y": 430.891,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -93.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1657.23,
+        "y": 419.577,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -1.50001,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1675.62,
+        "y": 351.695,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 48.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1662.18,
+        "y": 288.762,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 77.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2469.79,
+        "y": 2094.25,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -136.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2433.62,
+        "y": 2157.41,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -108.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2449.14,
+        "y": 2010.22,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2363.13,
+        "y": 1985.66,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 97.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2292.06,
+        "y": 2027.69,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 70.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1531.0,
+        "y": 544.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -68.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1491.0,
+        "y": 490.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -138.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1596.0,
+        "y": 579.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -46.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1657.0,
+        "y": 544.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 3.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1692.0,
+        "y": 490.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 32.5,
+        "z": 0.0
       }
     },
     {

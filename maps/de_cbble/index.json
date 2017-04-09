@@ -1,32 +1,32 @@
 {
   "name": "de_cbble",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18a2-12f57",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18a4-12e11",
   "visPages": [
     {
       "first": 0,
       "count": 768,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18a4-12e11"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 3261,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18a4-12e11"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 800,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18a4-12e11"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 234,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18a4-12e11"
     }
   ],
   "entities": [
@@ -42,32 +42,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18a4-12e11"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18a4-12e11"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18a4-12e11"
           },
           {
             "name": "hdrCompressed",
@@ -81,11 +81,11 @@
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18a4-12e11",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18a4-12e11",
       "clusters": [
         445
       ],
@@ -102,7 +102,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18a4-12e11",
       "clusters": [
         717,720,721
       ],
@@ -119,7 +119,124 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18a2-12f57",
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -774.0,
+        "y": 2216.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 173.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -746.0,
+        "y": 2324.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -722.0,
+        "y": 2424.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 201.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -626.0,
+        "y": 2200.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 289.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -498.0,
+        "y": 2184.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 291.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -466.0,
+        "y": 2300.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 203.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -610.0,
+        "y": 2316.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 206.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -598.0,
+        "y": 2408.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 229.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -470.0,
+        "y": 2380.0,
+        "z": -176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 190.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18a4-12e11",
       "clusters": [
         277
       ],
@@ -136,7 +253,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18a4-12e11",
       "clusters": [
         506,482
       ],
@@ -153,7 +270,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18a4-12e11",
       "clusters": [
         482
       ],
@@ -170,7 +287,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18a4-12e11",
       "clusters": [
         140,450
       ],
@@ -187,7 +304,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18a4-12e11",
       "clusters": [
         146
       ],
@@ -204,7 +321,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18a4-12e11",
       "clusters": [
         2
       ],
@@ -221,7 +338,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18a4-12e11",
       "clusters": [
         651
       ],
@@ -238,7 +355,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18a4-12e11",
       "clusters": [
         76
       ],
@@ -255,7 +372,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18a4-12e11",
       "clusters": [
         76
       ],
@@ -277,6 +394,461 @@
       "origin": {
         "x": 7168.0,
         "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 374.854,
+        "y": 2272.3,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -151.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 325.729,
+        "y": 2226.44,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 138.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 402.271,
+        "y": 2340.84,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -130.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 360.59,
+        "y": 2397.49,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -80.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 302.975,
+        "y": 2426.15,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -51.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2208.0,
+        "y": -1648.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 181.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2192.0,
+        "y": -1577.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 209.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2280.0,
+        "y": -1696.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 117.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2360.0,
+        "y": -1656.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 55.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2384.0,
+        "y": -1577.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 27.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2710.75,
+        "y": -1659.88,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 136.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2649.23,
+        "y": -1620.99,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 164.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2795.6,
+        "y": -1642.91,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 72.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2823.88,
+        "y": -1558.06,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2784.99,
+        "y": -1485.23,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -17.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2212.0,
+        "y": -1808.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 181.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2196.0,
+        "y": -1737.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 209.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2284.0,
+        "y": -1856.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 117.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2364.0,
+        "y": -1816.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 55.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2388.0,
+        "y": -1737.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 27.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 384.79,
+        "y": 2582.52,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -113.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 374.891,
+        "y": 2516.06,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 177.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 363.577,
+        "y": 2653.23,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -91.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 295.695,
+        "y": 2671.62,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -42.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 232.762,
+        "y": 2658.18,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -12.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 52.992,
+        "y": 2715.94,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -83.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 77.6528,
+        "y": 2653.43,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -153.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -0.73447,
+        "y": 2766.57,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -61.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -68.7146,
+        "y": 2748.55,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -12.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -116.498,
+        "y": 2705.45,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 17.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 352.0,
+        "y": 2007.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -158.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 298.0,
+        "y": 1967.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 132.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 387.0,
+        "y": 2072.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -136.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 352.0,
+        "y": 2133.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -87.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 298.0,
+        "y": 2168.0,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -57.5,
         "z": 0.0
       }
     },

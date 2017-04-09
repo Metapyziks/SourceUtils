@@ -1,32 +1,32 @@
 {
   "name": "de_overpass",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/lightmap.json?v=18a2-12f57",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/lightmap.json?v=18a4-12e11",
   "visPages": [
     {
       "first": 0,
       "count": 2505,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage0.json?v=18a4-12e11"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5274,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage0.json?v=18a4-12e11"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 119,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/disppage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/disppage0.json?v=18a4-12e11"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 554,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/matpage0.json?v=18a2-12f57"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/matpage0.json?v=18a4-12e11"
     }
   ],
   "entities": [
@@ -42,32 +42,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrlf.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrlf.vtf.json?v=18a4-12e11"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrbk.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrbk.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrft.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrft.vtf.json?v=18a4-12e11"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrup.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrup.vtf.json?v=18a4-12e11"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrdn.vtf.json?v=18a2-12f57"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrdn.vtf.json?v=18a4-12e11"
           },
           {
             "name": "hdrCompressed",
@@ -81,11 +81,11 @@
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model0.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model0.json?v=18a4-12e11",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model1.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model1.json?v=18a4-12e11",
       "clusters": [
         2368
       ],
@@ -102,7 +102,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model5.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model5.json?v=18a4-12e11",
       "clusters": [
         433,434,444,682,683,687,688
       ],
@@ -119,7 +119,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model6.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model6.json?v=18a4-12e11",
       "clusters": [
         2380
       ],
@@ -136,7 +136,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model7.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model7.json?v=18a4-12e11",
       "clusters": [
         680,681,682,683
       ],
@@ -153,7 +153,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model20.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model20.json?v=18a4-12e11",
       "clusters": [
         1701
       ],
@@ -170,7 +170,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model23.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model23.json?v=18a4-12e11",
       "clusters": [
         1115
       ],
@@ -187,7 +187,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model26.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model26.json?v=18a4-12e11",
       "clusters": [
         922
       ],
@@ -204,7 +204,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model44.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model44.json?v=18a4-12e11",
       "clusters": [
         155,561,573
       ],
@@ -221,7 +221,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model45.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model45.json?v=18a4-12e11",
       "clusters": [
         922,1202
       ],
@@ -238,7 +238,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model46.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model46.json?v=18a4-12e11",
       "clusters": [
         1234
       ],
@@ -255,7 +255,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model47.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model47.json?v=18a4-12e11",
       "clusters": [
         490,1233,1234,1235
       ],
@@ -272,7 +272,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model48.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model48.json?v=18a4-12e11",
       "clusters": [
         921
       ],
@@ -289,7 +289,20 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model49.json?v=18a2-12f57",
+      "classname": "info_player_start",
+      "origin": {
+        "x": -880.699,
+        "y": 482.0,
+        "z": 174.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model49.json?v=18a4-12e11",
       "clusters": [
         85,96,119,133,134,189,191,209,213,388,389,390,391,392,437,438,439,440,441,442,443,444,445,446,614,615,616,617,618,619,634,635,636,638,674,675,676,677,678,679,686,687,688,689,690,752,753,754,756,770,772,773,780,785,793,794,795,796,799,821,823,824,854,855,856,857,1133,1134,1140,1142,1145,1146,1332,1333,1334,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1348,1350,1352,1365,1366,1371,1372,1381,1382,1383,1402,1405,1406,1409,1410,1413,1414,1417,1418,1421,1422,1424,1426,1428,1430,1432,1434,1436,1441,1443,1445,1448,1449,1450,1451,1527,1528,1547,1549,1550,1551,1552,2362,2366,2367
       ],
@@ -306,7 +319,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model50.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model50.json?v=18a4-12e11",
       "clusters": [
         85,96,119,133,134,189,191,209,213,381,387,388,389,390,391,392,437,438,439,440,441,442,443,444,445,446,614,615,616,617,618,619,634,635,636,638,674,675,676,677,678,679,686,687,688,689,690,752,753,754,756,770,772,773,780,785,793,794,795,796,799,821,823,824,854,855,856,857,1133,1134,1140,1142,1145,1146,1332,1333,1334,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1348,1350,1352,1365,1366,1371,1372,1381,1382,1383,1402,1405,1406,1409,1410,1413,1414,1417,1418,1421,1422,1424,1426,1428,1430,1432,1434,1436,1441,1443,1445,1448,1449,1450,1451,1527,1528,1547,1549,1550,1551,1552,2362,2366,2367
       ],
@@ -323,7 +336,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model55.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model55.json?v=18a4-12e11",
       "clusters": [
         925,926,935,1005,1006,1007,1015,1016,1017,1018,1019,1036,1043,1047
       ],
@@ -349,7 +362,475 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model68.json?v=18a2-12f57",
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2192.0,
+        "y": 744.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2120.0,
+        "y": 790.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2404.0,
+        "y": 652.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 216.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2323.0,
+        "y": 947.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 303.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2236.0,
+        "y": 925.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 145.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2091.0,
+        "y": 867.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2258.0,
+        "y": 761.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2371.0,
+        "y": 726.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 206.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2396.0,
+        "y": 812.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2326.0,
+        "y": 786.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2180.0,
+        "y": 809.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2292.0,
+        "y": 692.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 206.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2332.0,
+        "y": 620.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 206.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1387.0,
+        "y": -3342.0,
+        "z": 312.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1605.0,
+        "y": -3182.0,
+        "z": 319.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1531.0,
+        "y": -3252.0,
+        "z": 320.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1533.0,
+        "y": -3183.0,
+        "z": 316.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1331.0,
+        "y": -3190.0,
+        "z": 303.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1463.0,
+        "y": -3066.0,
+        "z": 305.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1271.0,
+        "y": -3262.0,
+        "z": 304.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1571.0,
+        "y": -3127.0,
+        "z": 311.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1453.0,
+        "y": -3335.0,
+        "z": 319.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1499.0,
+        "y": -3126.0,
+        "z": 309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1539.0,
+        "y": -3066.0,
+        "z": 308.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1327.0,
+        "y": -3262.0,
+        "z": 312.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1395.0,
+        "y": -3190.0,
+        "z": 309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1391.0,
+        "y": -3262.0,
+        "z": 307.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1459.0,
+        "y": -3262.0,
+        "z": 312.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1363.0,
+        "y": -3122.0,
+        "z": 301.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1385.0,
+        "y": -3401.0,
+        "z": 320.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1311.0,
+        "y": -3334.0,
+        "z": 308.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1463.0,
+        "y": -3190.0,
+        "z": 308.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2160.0,
+        "y": 894.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 160.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2256.0,
+        "y": 837.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 117.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2335.0,
+        "y": 869.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 123.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1425.0,
+        "y": -3126.0,
+        "z": 309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model68.json?v=18a4-12e11",
       "clusters": [
         685,689
       ],
@@ -366,7 +847,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model69.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model69.json?v=18a4-12e11",
       "clusters": [
         259,389,685,689
       ],
@@ -383,7 +864,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model70.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model70.json?v=18a4-12e11",
       "clusters": [
         685,689
       ],
@@ -400,7 +881,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model71.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model71.json?v=18a4-12e11",
       "clusters": [
         1782,1784,1791
       ],
@@ -417,7 +898,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model73.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model73.json?v=18a4-12e11",
       "clusters": [
         2390,2391,2392
       ],
@@ -434,7 +915,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model75.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model75.json?v=18a4-12e11",
       "clusters": [
         1782,1784,1791
       ],
@@ -451,7 +932,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model77.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model77.json?v=18a4-12e11",
       "clusters": [
         1782,1784,1791,1953
       ],
@@ -468,7 +949,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model79.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model79.json?v=18a4-12e11",
       "clusters": [
         1782,1784,1791,1953
       ],
@@ -485,7 +966,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model81.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model81.json?v=18a4-12e11",
       "clusters": [
         1782,1784,1791,1955
       ],
@@ -502,7 +983,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model83.json?v=18a2-12f57",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model83.json?v=18a4-12e11",
       "clusters": [
         429,433,680,682
       ],
