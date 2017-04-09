@@ -43,6 +43,12 @@ namespace SourceUtils {
         private readonly tempQuat = new Facepunch.Quaternion();
         private readonly lookQuat = new Facepunch.Quaternion();
 
+        setCameraAngles(yaw: number, pitch: number): void {
+            this.lookAngs.x = yaw;
+            this.lookAngs.y = pitch;
+            this.updateCameraAngles();
+        }
+
         private updateCameraAngles(): void {
             if (this.lookAngs.y < -Math.PI * 0.5) this.lookAngs.y = -Math.PI * 0.5;
             if (this.lookAngs.y > Math.PI * 0.5) this.lookAngs.y = Math.PI * 0.5;
@@ -92,30 +98,19 @@ namespace SourceUtils {
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
-            if (this.isPointerLocked()) {
-                this.move.set(0, 0, 0);
-                const moveSpeed = 512 * dt;
+            if (!this.isPointerLocked()) return;
 
-                if (this.isKeyDown(WebGame.Key.W)) this.move.z -= moveSpeed;
-                if (this.isKeyDown(WebGame.Key.S)) this.move.z += moveSpeed;
-                if (this.isKeyDown(WebGame.Key.A)) this.move.x -= moveSpeed;
-                if (this.isKeyDown(WebGame.Key.D)) this.move.x += moveSpeed;
+            this.move.set(0, 0, 0);
+            const moveSpeed = 512 * dt;
 
-                if (this.move.lengthSq() > 0) {
-                    this.mainCamera.applyRotationTo(this.move);
-                    this.mainCamera.translate(this.move);
-                }
-            } else {
-                this.time += dt;
+            if (this.isKeyDown(WebGame.Key.W)) this.move.z -= moveSpeed;
+            if (this.isKeyDown(WebGame.Key.S)) this.move.z += moveSpeed;
+            if (this.isKeyDown(WebGame.Key.A)) this.move.x -= moveSpeed;
+            if (this.isKeyDown(WebGame.Key.D)) this.move.x += moveSpeed;
 
-                const ang = this.time * Math.PI / 15;
-                const height = Math.sin(this.time * Math.PI / 4) * 96 + 256;
-                const radius = 512;
-
-                this.lookAngs.set(ang, Math.atan2(128 - height, radius));
-                this.updateCameraAngles();
-
-                this.mainCamera.setPosition(Math.sin(-ang) * -radius, Math.cos(-ang) * -radius, height);
+            if (this.move.lengthSq() > 0) {
+                this.mainCamera.applyRotationTo(this.move);
+                this.mainCamera.translate(this.move);
             }
         }
 

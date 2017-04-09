@@ -266,6 +266,16 @@ namespace SourceUtils.WebExport.Bsp
 
                     continue;
                 }
+
+                if ( ent is InfoPlayerStart )
+                {
+                    ents.Add( new Entity
+                    {
+                        ClassName = ent.ClassName,
+                        Angles = ent.Angles,
+                        Origin = ent.Origin
+                    } );
+                }
             }
 
             for ( var dispIndex = 0; dispIndex < bsp.DisplacementInfos.Length; ++dispIndex )
