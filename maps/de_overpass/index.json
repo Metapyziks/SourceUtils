@@ -1,32 +1,32 @@
 {
   "name": "de_overpass",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/lightmap.json?v=18a5-c768",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/lightmap.json?v=18a5-da97",
   "visPages": [
     {
       "first": 0,
       "count": 2505,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage0.json?v=18a5-c768"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/vispage0.json?v=18a5-da97"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5274,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage0.json?v=18a5-c768"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/leafpage0.json?v=18a5-da97"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 119,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/disppage0.json?v=18a5-c768"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/disppage0.json?v=18a5-da97"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 554,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/matpage0.json?v=18a5-c768"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/materials/matpage0.json?v=18a5-da97"
     }
   ],
   "entities": [
@@ -42,32 +42,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf.json?v=18a5-c768"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrrt.vtf.json?v=18a5-da97"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrlf.vtf.json?v=18a5-c768"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrlf.vtf.json?v=18a5-da97"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrbk.vtf.json?v=18a5-c768"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrbk.vtf.json?v=18a5-da97"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrft.vtf.json?v=18a5-c768"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrft.vtf.json?v=18a5-da97"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrup.vtf.json?v=18a5-c768"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrup.vtf.json?v=18a5-da97"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrdn.vtf.json?v=18a5-c768"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight01_hdrdn.vtf.json?v=18a5-da97"
           },
           {
             "name": "hdrCompressed",
@@ -81,11 +81,11 @@
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model0.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model0.json?v=18a5-da97",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model1.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model1.json?v=18a5-da97",
       "clusters": [
         2368
       ],
@@ -102,7 +102,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model5.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model5.json?v=18a5-da97",
       "clusters": [
         433,434,444,682,683,687,688
       ],
@@ -119,7 +119,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model6.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model6.json?v=18a5-da97",
       "clusters": [
         2380
       ],
@@ -136,7 +136,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model7.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model7.json?v=18a5-da97",
       "clusters": [
         680,681,682,683
       ],
@@ -153,7 +153,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model20.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model20.json?v=18a5-da97",
       "clusters": [
         1701
       ],
@@ -170,7 +170,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model23.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model23.json?v=18a5-da97",
       "clusters": [
         1115
       ],
@@ -187,7 +187,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model26.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model26.json?v=18a5-da97",
       "clusters": [
         922
       ],
@@ -204,7 +204,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model44.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model44.json?v=18a5-da97",
       "clusters": [
         155,561,573
       ],
@@ -221,7 +221,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model45.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model45.json?v=18a5-da97",
       "clusters": [
         922,1202
       ],
@@ -238,7 +238,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model46.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model46.json?v=18a5-da97",
       "clusters": [
         1234
       ],
@@ -255,7 +255,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model47.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model47.json?v=18a5-da97",
       "clusters": [
         490,1233,1234,1235
       ],
@@ -272,7 +272,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model48.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model48.json?v=18a5-da97",
       "clusters": [
         921
       ],
@@ -302,7 +302,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model49.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model49.json?v=18a5-da97",
       "clusters": [
         85,96,119,133,134,189,191,209,213,388,389,390,391,392,437,438,439,440,441,442,443,444,445,446,614,615,616,617,618,619,634,635,636,638,674,675,676,677,678,679,686,687,688,689,690,752,753,754,756,770,772,773,780,785,793,794,795,796,799,821,823,824,854,855,856,857,1133,1134,1140,1142,1145,1146,1332,1333,1334,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1348,1350,1352,1365,1366,1371,1372,1381,1382,1383,1402,1405,1406,1409,1410,1413,1414,1417,1418,1421,1422,1424,1426,1428,1430,1432,1434,1436,1441,1443,1445,1448,1449,1450,1451,1527,1528,1547,1549,1550,1551,1552,2362,2366,2367
       ],
@@ -319,7 +319,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model50.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model50.json?v=18a5-da97",
       "clusters": [
         85,96,119,133,134,189,191,209,213,381,387,388,389,390,391,392,437,438,439,440,441,442,443,444,445,446,614,615,616,617,618,619,634,635,636,638,674,675,676,677,678,679,686,687,688,689,690,752,753,754,756,770,772,773,780,785,793,794,795,796,799,821,823,824,854,855,856,857,1133,1134,1140,1142,1145,1146,1332,1333,1334,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1348,1350,1352,1365,1366,1371,1372,1381,1382,1383,1402,1405,1406,1409,1410,1413,1414,1417,1418,1421,1422,1424,1426,1428,1430,1432,1434,1436,1441,1443,1445,1448,1449,1450,1451,1527,1528,1547,1549,1550,1551,1552,2362,2366,2367
       ],
@@ -336,7 +336,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model55.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model55.json?v=18a5-da97",
       "clusters": [
         925,926,935,1005,1006,1007,1015,1016,1017,1018,1019,1036,1043,1047
       ],
@@ -830,7 +830,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model68.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model68.json?v=18a5-da97",
       "clusters": [
         685,689
       ],
@@ -847,7 +847,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model69.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model69.json?v=18a5-da97",
       "clusters": [
         259,389,685,689
       ],
@@ -864,7 +864,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model70.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model70.json?v=18a5-da97",
       "clusters": [
         685,689
       ],
@@ -881,7 +881,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model71.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model71.json?v=18a5-da97",
       "clusters": [
         1782,1784,1791
       ],
@@ -898,7 +898,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model73.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model73.json?v=18a5-da97",
       "clusters": [
         2390,2391,2392
       ],
@@ -915,7 +915,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model75.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model75.json?v=18a5-da97",
       "clusters": [
         1782,1784,1791
       ],
@@ -932,7 +932,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model77.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model77.json?v=18a5-da97",
       "clusters": [
         1782,1784,1791,1953
       ],
@@ -949,7 +949,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model79.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model79.json?v=18a5-da97",
       "clusters": [
         1782,1784,1791,1953
       ],
@@ -966,7 +966,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model81.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model81.json?v=18a5-da97",
       "clusters": [
         1782,1784,1791,1955
       ],
@@ -983,7 +983,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model83.json?v=18a5-c768",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_overpass/geom/model83.json?v=18a5-da97",
       "clusters": [
         429,433,680,682
       ],
