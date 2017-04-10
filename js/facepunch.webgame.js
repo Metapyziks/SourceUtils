@@ -1637,8 +1637,19 @@ var Facepunch;
                         break;
                     case UniformType.Texture:
                         var tex = value;
+                        var uniform = args.uniform;
                         gl.activeTexture(gl.TEXTURE0 + args.unit);
                         gl.bindTexture(tex.getTarget(), tex.getHandle());
+                        if (!uniform.hasSizeUniform())
+                            break;
+                        if (tex != null) {
+                            var width = tex.getWidth(0);
+                            var height = tex.getHeight(0);
+                            gl.uniform4f(uniform.getSizeUniform().getLocation(), width, height, 1 / width, 1 / height);
+                        }
+                        else {
+                            gl.uniform4f(uniform.getSizeUniform().getLocation(), 1, 1, 1, 1);
+                        }
                         break;
                 }
             };
@@ -1681,6 +1692,16 @@ var Facepunch;
             };
             CommandBuffer.prototype.onSetUniform4F = function (gl, args) {
                 gl.uniform4f(args.uniform.getLocation(), args.x, args.y, args.z, args.w);
+            };
+            CommandBuffer.prototype.setUniformTextureSize = function (uniform, tex) {
+                if (uniform == null || uniform.getLocation() == null)
+                    return;
+                this.push(this.onSetUniformTextureSize, { uniform: uniform, texture: tex });
+            };
+            CommandBuffer.prototype.onSetUniformTextureSize = function (gl, args) {
+                var width = args.texture.getWidth(0);
+                var height = args.texture.getHeight(0);
+                gl.uniform4f(args.uniform.getLocation(), width, height, 1 / width, 1 / height);
             };
             CommandBuffer.prototype.setUniformMatrix4 = function (uniform, transpose, values) {
                 if (uniform == null || uniform.getLocation() == null)
@@ -4177,11 +4198,15 @@ var Facepunch;
                 return false;
             };
             TextureLoadable.prototype.getWidth = function (level) {
+                if (level === 0)
+                    return this.level0Width;
                 if (this.info == null)
                     return undefined;
                 return this.info.width >> level;
             };
             TextureLoadable.prototype.getHeight = function (level) {
+                if (level === 0)
+                    return this.level0Height;
                 if (this.info == null)
                     return undefined;
                 return this.info.height >> level;
@@ -4258,6 +4283,8 @@ var Facepunch;
                 if (level > 0) {
                     gl.texImage2D(target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
                 }
+                this.level0Width = width;
+                this.level0Height = height;
                 return true;
             };
             TextureLoadable.prototype.loadImageElement = function (target, level, image) {
@@ -4270,6 +4297,8 @@ var Facepunch;
                     this.info.width = image.width;
                     this.info.height = image.height;
                 }
+                this.level0Width = image.width;
+                this.level0Height = image.height;
                 return true;
             };
             TextureLoadable.prototype.loadElement = function (element, value) {
@@ -4519,6 +4548,14 @@ var Facepunch;
                 this.isSampler = true;
                 this.texUnit = program.reserveNextTextureUnit();
             }
+            UniformSampler.prototype.getSizeUniform = function () {
+                if (this.sizeUniform != null)
+                    return this.sizeUniform;
+                return this.sizeUniform = this.program.addUniform(this + "_Size", Uniform4F);
+            };
+            UniformSampler.prototype.hasSizeUniform = function () {
+                return this.sizeUniform != null;
+            };
             UniformSampler.prototype.getTexUnit = function () {
                 return this.texUnit;
             };
@@ -4538,6 +4575,14 @@ var Facepunch;
                     this.value = this.texUnit;
                     buf.setUniform1I(this, this.texUnit);
                 }
+                if (this.sizeUniform == null)
+                    return;
+                if (tex != null) {
+                    buf.setUniformTextureSize(this.sizeUniform, tex);
+                }
+                else {
+                    this.sizeUniform.bufferValue(buf, 1, 1, 1, 1);
+                }
             };
             UniformSampler.prototype.set = function (tex) {
                 if (tex == null || !tex.isLoaded()) {
@@ -4546,6 +4591,9 @@ var Facepunch;
                 this.context.activeTexture(this.context.TEXTURE0 + this.texUnit);
                 this.context.bindTexture(tex.getTarget(), tex.getHandle());
                 this.context.uniform1i(this.getLocation(), this.texUnit);
+                var width = tex.getWidth(0);
+                var height = tex.getHeight(0);
+                this.sizeUniform.set(width, height, 1 / width, 1 / height);
             };
             return UniformSampler;
         }(Uniform));

@@ -1,32 +1,32 @@
 {
   "name": "de_mirage",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/lightmap.json?v=18a4-12e12",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/lightmap.json?v=18a5-c769",
   "visPages": [
     {
       "first": 0,
       "count": 2115,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage0.json?v=18a4-12e12"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage0.json?v=18a5-c769"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5178,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage0.json?v=18a4-12e12"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage0.json?v=18a5-c769"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 492,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/disppage0.json?v=18a4-12e12"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/disppage0.json?v=18a5-c769"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 241,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/materials/matpage0.json?v=18a4-12e12"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/materials/matpage0.json?v=18a5-c769"
     }
   ],
   "entities": [
@@ -42,40 +42,40 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustrt.vtf.json?v=18a4-12e12"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustrt.vtf.json?v=18a5-c769"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustlf.vtf.json?v=18a4-12e12"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustlf.vtf.json?v=18a5-c769"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf.json?v=18a4-12e12"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf.json?v=18a5-c769"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustft.vtf.json?v=18a4-12e12"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustft.vtf.json?v=18a5-c769"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustup.vtf.json?v=18a4-12e12"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustup.vtf.json?v=18a5-c769"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustdn.vtf.json?v=18a4-12e12"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustdn.vtf.json?v=18a5-c769"
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model0.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model0.json?v=18a5-c769",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model1.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model1.json?v=18a5-c769",
       "clusters": [
         1572
       ],
@@ -92,7 +92,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model2.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model2.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -109,7 +109,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model3.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model3.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -126,7 +126,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model4.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model4.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -143,7 +143,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model5.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model5.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -160,7 +160,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model6.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model6.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -177,7 +177,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model7.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model7.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -194,7 +194,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model8.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model8.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -211,7 +211,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model9.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model9.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -228,7 +228,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model10.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model10.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -245,7 +245,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model11.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model11.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -262,7 +262,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model12.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model12.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -279,7 +279,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model13.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model13.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -296,7 +296,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model14.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model14.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -313,7 +313,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model15.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model15.json?v=18a5-c769",
       "clusters": [
         1880,1881
       ],
@@ -330,7 +330,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model16.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model16.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -347,7 +347,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model17.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model17.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -364,7 +364,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model18.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model18.json?v=18a5-c769",
       "clusters": [
         1883,1898
       ],
@@ -381,7 +381,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model19.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model19.json?v=18a5-c769",
       "clusters": [
         1883
       ],
@@ -398,7 +398,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model20.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model20.json?v=18a5-c769",
       "clusters": [
         1883
       ],
@@ -415,7 +415,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model21.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model21.json?v=18a5-c769",
       "clusters": [
         1898
       ],
@@ -432,7 +432,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model22.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model22.json?v=18a5-c769",
       "clusters": [
         1896,1898,1903,1905
       ],
@@ -449,7 +449,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model23.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model23.json?v=18a5-c769",
       "clusters": [
         1592,1882
       ],
@@ -466,7 +466,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model24.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model24.json?v=18a5-c769",
       "clusters": [
         1882
       ],
@@ -483,7 +483,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model25.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model25.json?v=18a5-c769",
       "clusters": [
         1882
       ],
@@ -500,7 +500,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model26.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model26.json?v=18a5-c769",
       "clusters": [
         1592
       ],
@@ -517,7 +517,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model27.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model27.json?v=18a5-c769",
       "clusters": [
         1882
       ],
@@ -534,7 +534,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model28.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model28.json?v=18a5-c769",
       "clusters": [
         1882
       ],
@@ -551,7 +551,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model29.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model29.json?v=18a5-c769",
       "clusters": [
         1592
       ],
@@ -568,7 +568,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model30.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model30.json?v=18a5-c769",
       "clusters": [
         1880
       ],
@@ -585,7 +585,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model31.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model31.json?v=18a5-c769",
       "clusters": [
         1572
       ],
@@ -602,7 +602,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model32.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model32.json?v=18a5-c769",
       "clusters": [
         594
       ],
@@ -619,7 +619,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model34.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model34.json?v=18a5-c769",
       "clusters": [
         1563
       ],
@@ -636,7 +636,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model35.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model35.json?v=18a5-c769",
       "clusters": [
         737
       ],
@@ -653,7 +653,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model36.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model36.json?v=18a5-c769",
       "clusters": [
         1149
       ],
@@ -670,7 +670,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model37.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model37.json?v=18a5-c769",
       "clusters": [
         771,775
       ],
@@ -687,7 +687,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model38.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model38.json?v=18a5-c769",
       "clusters": [
         1592,1882
       ],
@@ -704,7 +704,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model41.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model41.json?v=18a5-c769",
       "clusters": [
         1388
       ],
@@ -721,7 +721,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model42.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model42.json?v=18a5-c769",
       "clusters": [
         1592,1882
       ],
@@ -738,7 +738,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model43.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model43.json?v=18a5-c769",
       "clusters": [
         846
       ],
@@ -755,7 +755,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model44.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model44.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -772,7 +772,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model45.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model45.json?v=18a5-c769",
       "clusters": [
         1061
       ],
@@ -789,7 +789,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model46.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model46.json?v=18a5-c769",
       "clusters": [
         1582,1880
       ],
@@ -806,7 +806,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model47.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model47.json?v=18a5-c769",
       "clusters": [
         730
       ],
@@ -823,7 +823,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model48.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model48.json?v=18a5-c769",
       "clusters": [
         846
       ],
@@ -840,7 +840,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model49.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model49.json?v=18a5-c769",
       "clusters": [
         1881
       ],
@@ -866,7 +866,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model58.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model58.json?v=18a5-c769",
       "clusters": [
         1570
       ],
@@ -883,7 +883,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model59.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model59.json?v=18a5-c769",
       "clusters": [
         946,947,948,949,950,951
       ],
@@ -900,7 +900,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model61.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model61.json?v=18a5-c769",
       "clusters": [
         996
       ],
@@ -917,7 +917,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model63.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model63.json?v=18a5-c769",
       "clusters": [
         916,918
       ],
@@ -934,7 +934,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model64.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model64.json?v=18a5-c769",
       "clusters": [
         610
       ],
@@ -951,7 +951,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model68.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model68.json?v=18a5-c769",
       "clusters": [
         109,114
       ],
@@ -968,7 +968,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model71.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model71.json?v=18a5-c769",
       "clusters": [
         349
       ],
@@ -985,7 +985,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model72.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model72.json?v=18a5-c769",
       "clusters": [
         507
       ],
@@ -1002,7 +1002,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model73.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model73.json?v=18a5-c769",
       "clusters": [
         467,468,475,476
       ],
@@ -1461,7 +1461,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model78.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model78.json?v=18a5-c769",
       "clusters": [
         1880,1881
       ],
@@ -1478,7 +1478,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model79.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model79.json?v=18a5-c769",
       "clusters": [
         1883,1898
       ],
@@ -1495,7 +1495,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model80.json?v=18a4-12e12",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/model80.json?v=18a5-c769",
       "clusters": [
         730
       ],
