@@ -398,6 +398,17 @@ var SourceUtils;
                             this.skyCube = new SourceUtils.SkyCube(this.viewer, skyMat);
                         }
                         break;
+                    case "env_fog_controller":
+                        var fogController = ent;
+                        var fog = this.viewer.mainCamera.fog;
+                        if (!fogController.fogEnabled)
+                            break;
+                        fog.color.set(fogController.fogColor.r, fogController.fogColor.g, fogController.fogColor.b);
+                        fog.start = fogController.fogStart;
+                        fog.end = fogController.fogEnd;
+                        fog.maxDensity = fogController.fogMaxDensity;
+                        this.viewer.mainCamera.setFar(fogController.farZ);
+                        break;
                     case "info_player_terrorist":
                         this.tSpawns.push(ent);
                         break;
@@ -1028,6 +1039,7 @@ var SourceUtils;
                 _this.alphaTest = false;
                 _this.translucent = false;
                 _this.alpha = 1;
+                _this.fogEnabled = true;
                 return _this;
             }
             return ModelBaseMaterial;
@@ -1044,9 +1056,12 @@ var SourceUtils;
                 _this.uAlphaTest = _this.addUniform("uAlphaTest", WebGame.Uniform1F);
                 _this.uTranslucent = _this.addUniform("uTranslucent", WebGame.Uniform1F);
                 _this.uAlpha = _this.addUniform("uAlpha", WebGame.Uniform1F);
+                _this.uFogParams = _this.addUniform("uFogParams", WebGame.Uniform4F);
+                _this.uFogColor = _this.addUniform("uFogColor", WebGame.Uniform3F);
+                _this.uFogEnabled = _this.addUniform("uFogEnabled", WebGame.Uniform1I);
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n                    uniform mat4 uModel;\n\n                    void ModelBase_main()\n                    {\n                        vec4 viewPos = uView * uModel * vec4(aPosition, 1.0);\n\n                        gl_Position = uProjection * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uBaseTexture;\n\n                    uniform float uAlphaTest;   // [0, 1]\n                    uniform float uTranslucent; // [0, 1]\n                    uniform float uAlpha;       // [0..1]\n\n                    vec4 ModelBase_main()\n                    {\n                        vec4 sample = texture2D(uBaseTexture, vTextureCoord);\n                        if (sample.a <= uAlphaTest - 0.5) discard;\n\n                        float alpha = mix(1.0, uAlpha * sample.a, uTranslucent);\n\n                        return vec4(sample.rgb, alpha);\n                    }");
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n                    uniform mat4 " + _this.uModel + ";\n\n                    void ModelBase_main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform sampler2D " + _this.uBaseTexture + ";\n\n                    uniform float " + _this.uAlphaTest + ";   // [0, 1]\n                    uniform float " + _this.uTranslucent + "; // [0, 1]\n                    uniform float " + _this.uAlpha + ";       // [0..1]\n\n                    uniform vec4 " + _this.uFogParams + ";\n                    uniform vec3 " + _this.uFogColor + ";\n                    uniform int " + _this.uFogEnabled + ";\n\n                    vec3 ApplyFog(vec3 inColor)\n                    {\n                        if (" + _this.uFogEnabled + " == 0) return inColor;\n\n                        float fogDensity = " + _this.uFogParams + ".x + " + _this.uFogParams + ".y * vDepth;\n                        fogDensity = min(max(fogDensity, " + _this.uFogParams + ".z), " + _this.uFogParams + ".w);\n                        return mix(inColor, " + _this.uFogColor + ", fogDensity);\n                    }\n\n                    vec4 ModelBase_main()\n                    {\n                        vec4 sample = texture2D(" + _this.uBaseTexture + ", vTextureCoord);\n                        if (sample.a <= " + _this.uAlphaTest + " - 0.5) discard;\n\n                        float alpha = mix(1.0, " + _this.uAlpha + " * sample.a, " + _this.uTranslucent + ");\n\n                        return vec4(sample.rgb, alpha);\n                    }");
                 _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
                 _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
                 _this.uBaseTexture.setDefault(WebGame.TextureUtils.getErrorTexture(context));
@@ -1056,6 +1071,8 @@ var SourceUtils;
                 _super.prototype.bufferSetup.call(this, buf);
                 this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
                 this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
+                this.uFogParams.bufferParameter(buf, WebGame.Fog.fogInfoParam);
+                this.uFogColor.bufferParameter(buf, WebGame.Fog.fogColorParam);
             };
             ModelBase.prototype.bufferModelMatrix = function (buf, value) {
                 _super.prototype.bufferModelMatrix.call(this, buf, value);
@@ -1067,6 +1084,7 @@ var SourceUtils;
                 this.uAlphaTest.bufferValue(buf, props.alphaTest ? 1 : 0);
                 this.uTranslucent.bufferValue(buf, props.translucent ? 1 : 0);
                 this.uAlpha.bufferValue(buf, props.alpha);
+                this.uFogEnabled.bufferValue(buf, props.fogEnabled ? 1 : 0);
                 var gl = this.context;
                 buf.enable(gl.DEPTH_TEST);
                 if (props.translucent) {
@@ -1145,7 +1163,7 @@ var SourceUtils;
                 _this.uBlendModulate = _this.addUniform("uBlendModulate", WebGame.Uniform1I);
                 var gl = context;
                 _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute float aAlpha;\n\n                    varying float vAlpha;\n\n                    void main()\n                    {\n                        LightmappedBase_main();\n\n                        vAlpha = aAlpha;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vAlpha;\n\n                    uniform sampler2D uBaseTexture2;\n                    uniform sampler2D uBlendModulateTexture;\n\n                    uniform int uBlendModulate; // [0, 1]\n\n                    void main()\n                    {\n                        vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;\n                        vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;\n\n                        float blend;\n                        if (uBlendModulate != 0) {\n                            float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);\n                            float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);\n\n                            blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));\n                        } else {\n                            blend = vAlpha;\n                        }\n\n                        vec3 blendedSample = mix(sample0, sample1, blend);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(lightmapped, 1.0);\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vAlpha;\n\n                    uniform sampler2D uBaseTexture2;\n                    uniform sampler2D uBlendModulateTexture;\n\n                    uniform int uBlendModulate; // [0, 1]\n\n                    void main()\n                    {\n                        vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;\n                        vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;\n\n                        float blend;\n                        if (uBlendModulate != 0) {\n                            float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);\n                            float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);\n\n                            blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));\n                        } else {\n                            blend = vAlpha;\n                        }\n\n                        vec3 blendedSample = mix(sample0, sample1, blend);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
                 _this.addAttribute("aAlpha", WebGame.VertexAttribute.alpha);
                 _this.uBaseTexture2.setDefault(WebGame.TextureUtils.getErrorTexture(gl));
                 _this.uBlendModulateTexture.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
@@ -1182,7 +1200,7 @@ var SourceUtils;
                 var _this = _super.call(this, context, LightmappedGenericMaterial) || this;
                 var gl = context;
                 _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 modelBase = ModelBase_main();\n                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);\n\n                        gl_FragColor = vec4(lightmapped, modelBase.a);\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 modelBase = ModelBase_main();\n                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), modelBase.a);\n                    }");
                 _this.compile();
                 return _this;
             }
@@ -1281,7 +1299,7 @@ var SourceUtils;
                 var _this = _super.call(this, context, UnlitGenericMaterial) || this;
                 var gl = context;
                 _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        ModelBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        gl_FragColor = ModelBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
                 _this.compile();
                 return _this;
             }

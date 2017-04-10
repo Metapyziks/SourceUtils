@@ -7,6 +7,7 @@
             alphaTest = false;
             translucent = false;
             alpha = 1;
+            fogEnabled = true;
         }
 
         export abstract class ModelBase<TMaterial extends ModelBaseMaterial> extends BaseShaderProgram<TMaterial> {
@@ -20,6 +21,10 @@
             readonly uTranslucent = this.addUniform("uTranslucent", WebGame.Uniform1F);
             readonly uAlpha = this.addUniform("uAlpha", WebGame.Uniform1F);
 
+            readonly uFogParams = this.addUniform("uFogParams", WebGame.Uniform4F);
+            readonly uFogColor = this.addUniform("uFogColor", WebGame.Uniform3F);
+            readonly uFogEnabled = this.addUniform("uFogEnabled", WebGame.Uniform1I);
+
             constructor(context: WebGLRenderingContext, ctor: { new(): TMaterial }) {
                 super(context, ctor);
 
@@ -30,37 +35,53 @@
                     attribute vec2 aTextureCoord;
 
                     varying vec2 vTextureCoord;
+                    varying float vDepth;
 
-                    uniform mat4 uProjection;
-                    uniform mat4 uView;
-                    uniform mat4 uModel;
+                    uniform mat4 ${this.uProjection};
+                    uniform mat4 ${this.uView};
+                    uniform mat4 ${this.uModel};
 
                     void ModelBase_main()
                     {
-                        vec4 viewPos = uView * uModel * vec4(aPosition, 1.0);
+                        vec4 viewPos = ${this.uView} * ${this.uModel} * vec4(aPosition, 1.0);
 
-                        gl_Position = uProjection * viewPos;
+                        gl_Position = ${this.uProjection} * viewPos;
 
                         vTextureCoord = aTextureCoord;
+                        vDepth = -viewPos.z;
                     }`);
 
                 this.includeShaderSource(gl.FRAGMENT_SHADER, `
                     precision mediump float;
 
                     varying vec2 vTextureCoord;
+                    varying float vDepth;
 
-                    uniform sampler2D uBaseTexture;
+                    uniform sampler2D ${this.uBaseTexture};
 
-                    uniform float uAlphaTest;   // [0, 1]
-                    uniform float uTranslucent; // [0, 1]
-                    uniform float uAlpha;       // [0..1]
+                    uniform float ${this.uAlphaTest};   // [0, 1]
+                    uniform float ${this.uTranslucent}; // [0, 1]
+                    uniform float ${this.uAlpha};       // [0..1]
+
+                    uniform vec4 ${this.uFogParams};
+                    uniform vec3 ${this.uFogColor};
+                    uniform int ${this.uFogEnabled};
+
+                    vec3 ApplyFog(vec3 inColor)
+                    {
+                        if (${this.uFogEnabled} == 0) return inColor;
+
+                        float fogDensity = ${this.uFogParams}.x + ${this.uFogParams}.y * vDepth;
+                        fogDensity = min(max(fogDensity, ${this.uFogParams}.z), ${this.uFogParams}.w);
+                        return mix(inColor, ${this.uFogColor}, fogDensity);
+                    }
 
                     vec4 ModelBase_main()
                     {
-                        vec4 sample = texture2D(uBaseTexture, vTextureCoord);
-                        if (sample.a <= uAlphaTest - 0.5) discard;
+                        vec4 sample = texture2D(${this.uBaseTexture}, vTextureCoord);
+                        if (sample.a <= ${this.uAlphaTest} - 0.5) discard;
 
-                        float alpha = mix(1.0, uAlpha * sample.a, uTranslucent);
+                        float alpha = mix(1.0, ${this.uAlpha} * sample.a, ${this.uTranslucent});
 
                         return vec4(sample.rgb, alpha);
                     }`);
@@ -76,6 +97,9 @@
 
                 this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
                 this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
+
+                this.uFogParams.bufferParameter(buf, WebGame.Fog.fogInfoParam);
+                this.uFogColor.bufferParameter(buf, WebGame.Fog.fogColorParam);
             }
 
             bufferModelMatrix(buf: Facepunch.WebGame.CommandBuffer, value: Float32Array): void {
@@ -92,6 +116,8 @@
                 this.uAlphaTest.bufferValue(buf, props.alphaTest ? 1 : 0);
                 this.uTranslucent.bufferValue(buf, props.translucent ? 1 : 0);
                 this.uAlpha.bufferValue(buf, props.alpha);
+
+                this.uFogEnabled.bufferValue(buf, props.fogEnabled ? 1 : 0);
 
                 const gl = this.context;
 

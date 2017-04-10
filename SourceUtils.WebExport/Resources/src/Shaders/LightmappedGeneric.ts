@@ -26,7 +26,7 @@ namespace SourceUtils {
                         vec4 modelBase = ModelBase_main();
                         vec3 lightmapped = ApplyLightmap(modelBase.rgb);
 
-                        gl_FragColor = vec4(lightmapped, modelBase.a);
+                        gl_FragColor = vec4(ApplyFog(lightmapped), modelBase.a);
                     }`);
 
                 this.compile();

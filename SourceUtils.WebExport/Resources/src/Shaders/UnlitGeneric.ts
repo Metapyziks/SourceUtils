@@ -25,7 +25,8 @@ namespace SourceUtils {
 
                     void main()
                     {
-                        gl_FragColor = ModelBase_main();
+                        vec4 mainSample = ModelBase_main();
+                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);
                     }`);
 
                 this.compile();

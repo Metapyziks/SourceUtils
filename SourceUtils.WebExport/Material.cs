@@ -141,7 +141,7 @@ namespace SourceUtils.WebExport
                         mat.SetTextureUrl("simpleOverlay", GetTextureUrl(props[name], vmtPath, bsp));
                         break;
                     case "$nofog":
-                        mat.SetBoolean("fog", !props.GetBoolean(name));
+                        mat.SetBoolean("fogEnabled", !props.GetBoolean(name));
                         break;
                     case "$alphatest":
                         mat.SetBoolean("alphaTest", props.GetBoolean(name));

@@ -66,6 +66,27 @@ namespace SourceUtils.WebExport.Bsp
         public int Index { get; set; }
     }
 
+    public class EnvFogController : Entity
+    {
+        [JsonProperty("fogEnabled")]
+        public bool FogEnabled { get; set; }
+
+        [JsonProperty("fogStart")]
+        public float FogStart { get; set; }
+
+        [JsonProperty("fogEnd")]
+        public float FogEnd { get; set; }
+
+        [JsonProperty("fogMaxDensity")]
+        public float FogMaxDensity { get; set; }
+
+        [JsonProperty("farZ")]
+        public float FarZ { get; set; }
+
+        [JsonProperty("fogColor")]
+        public MaterialColor FogColor { get; set; }
+    }
+
     public class Map
     {
         [JsonProperty("name")]
@@ -275,6 +296,26 @@ namespace SourceUtils.WebExport.Bsp
                         Angles = ent.Angles,
                         Origin = ent.Origin
                     } );
+
+                    continue;
+                }
+
+                if ( ent is ValveBsp.Entities.EnvFogController )
+                {
+                    var fog = (ValveBsp.Entities.EnvFogController) ent;
+
+                    ents.Add( new EnvFogController
+                    {
+                        ClassName = ent.ClassName,
+                        FogEnabled = fog.FogEnable,
+                        FogStart = fog.FogStart,
+                        FogEnd = fog.FogEnd,
+                        FogMaxDensity = fog.FogMaxDensity,
+                        FarZ = fog.FarZ,
+                        FogColor = new MaterialColor( fog.FogColor )
+                    } );
+
+                    continue;
                 }
             }
 

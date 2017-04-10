@@ -8,6 +8,21 @@
             angles?: Facepunch.IVector3;
         }
 
+        export interface IColor {
+            r: number;
+            g: number;
+            b: number;
+        }
+
+        export interface IEnvFogController extends IEntity {
+            fogEnabled: boolean;
+            fogStart: number;
+            fogEnd: number;
+            fogMaxDensity: number;
+            farZ: number;
+            fogColor: IColor;
+        }
+
         export class Entity extends WebGame.DrawableEntity {
             readonly map: Map;
 

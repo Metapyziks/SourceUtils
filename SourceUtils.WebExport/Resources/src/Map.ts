@@ -84,6 +84,17 @@ namespace SourceUtils {
                         }
 
                         break;
+                    case "env_fog_controller":
+                        const fogController = ent as Entities.IEnvFogController;
+                        const fog = this.viewer.mainCamera.fog;
+                        if (!fogController.fogEnabled) break;
+                        fog.color.set(fogController.fogColor.r, fogController.fogColor.g, fogController.fogColor.b);
+                        fog.start = fogController.fogStart;
+                        fog.end = fogController.fogEnd;
+                        fog.maxDensity = fogController.fogMaxDensity;
+
+                        this.viewer.mainCamera.setFar(fogController.farZ);
+                        break;
                     case "info_player_terrorist":
                         this.tSpawns.push(ent);
                         break;

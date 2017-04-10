@@ -61,7 +61,7 @@ namespace SourceUtils {
                         vec3 blendedSample = mix(sample0, sample1, blend);
                         vec3 lightmapped = ApplyLightmap(blendedSample);
 
-                        gl_FragColor = vec4(lightmapped, 1.0);
+                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);
                     }`);
 
                 this.addAttribute("aAlpha", WebGame.VertexAttribute.alpha);
