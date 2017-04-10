@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using CommandLine;
+using ImageMagick;
 using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
@@ -75,6 +76,33 @@ namespace SourceUtils.WebExport
             }
 
             throw new Exception();
+        }
+
+        static bool AreImagesEqual( MagickImage oldImage, MagickImage newImage )
+        {
+            if (oldImage.Width != newImage.Width || oldImage.Height != newImage.Height || oldImage.ChannelCount != newImage.ChannelCount)
+            {
+                return false;
+            }
+
+            var oldPixels = oldImage.GetPixels();
+            var newPixels = newImage.GetPixels();
+
+            for (var y = 0; y < oldImage.Height; ++y)
+            {
+                for (var x = 0; x < oldImage.Width; ++x)
+                {
+                    var oldPixel = oldPixels[x, y];
+                    var newPixel = newPixels[x, y];
+
+                    for (var c = 0; c < oldImage.ChannelCount; ++c)
+                    {
+                        if ( oldPixel[c] != newPixel[c] ) return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         static int Export(ExportOptions args)
@@ -152,6 +180,36 @@ namespace SourceUtils.WebExport
                         using ( var input = client.OpenRead( $"http://localhost:{port}{url}{skipStr}" ) )
                         {
                             if ( skip ) continue;
+
+                            if ( Path.GetExtension( path ) == ".png" && File.Exists( path ) )
+                            {
+                                using ( var newImage = new MagickImage( input, new MagickReadSettings { Format = MagickFormat.Png } ) )
+                                {
+                                    using ( var oldImage = new MagickImage( path, new MagickReadSettings {Format = MagickFormat.Png} ) )
+                                    {
+                                        if ( AreImagesEqual( oldImage, newImage ) )
+                                        {
+                                            if (args.Verbose)
+                                            {
+                                                Console.ResetColor();
+                                                Console.WriteLine($"Skipped '{url}'");
+                                            }
+                                            continue;
+                                        }
+                                    }
+
+                                    ++exported;
+                                    newImage.Write( path );
+
+                                    if (args.Verbose)
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine($"Wrote {FormatFileSize(new FileInfo( path ).Length)}");
+                                    }
+                                }
+
+                                continue;
+                            }
 
                             using ( var output = File.Create( path ) )
                             {

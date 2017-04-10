@@ -335,6 +335,8 @@ declare namespace Facepunch {
             private onSetUniform3F(gl, args);
             setUniform4F(uniform: Uniform, x: number, y: number, z: number, w: number): void;
             private onSetUniform4F(gl, args);
+            setUniformTextureSize(uniform: Uniform4F, tex: Texture): void;
+            private onSetUniformTextureSize(gl, args);
             setUniformMatrix4(uniform: Uniform, transpose: boolean, values: Float32Array): void;
             private onSetUniformMatrix4(gl, args);
             bindTexture(unit: number, value: Texture): void;
@@ -934,8 +936,8 @@ declare namespace Facepunch {
             getProgram(): WebGLProgram;
             bufferAttribPointer(buf: CommandBuffer, attrib: VertexAttribute, stride: number, offset: number): void;
             isCompiled(): boolean;
-            protected addAttribute(name: string, attrib: VertexAttribute): void;
-            protected addUniform<TUniform extends Uniform>(name: string, ctor: IUniformCtor<TUniform>): TUniform;
+            addAttribute(name: string, attrib: VertexAttribute): void;
+            addUniform<TUniform extends Uniform>(name: string, ctor: IUniformCtor<TUniform>): TUniform;
             private static formatSource(source);
             protected includeShaderSource(type: number, source: string): void;
             private compileShader(type, source);
@@ -1217,6 +1219,8 @@ declare namespace Facepunch {
             private target;
             private filter;
             private mipmap;
+            private level0Width;
+            private level0Height;
             constructor(context: WebGLRenderingContext, url: string);
             hasMipLevel(level: number): boolean;
             getWidth(level: number): number;
@@ -1254,7 +1258,7 @@ declare namespace Facepunch {
         }
         abstract class Uniform {
             protected readonly context: WebGLRenderingContext;
-            private program;
+            protected readonly program: ShaderProgram;
             private name;
             private location;
             private parameter;
@@ -1305,7 +1309,10 @@ declare namespace Facepunch {
             private value;
             private default;
             private texUnit;
+            private sizeUniform;
             constructor(program: ShaderProgram, name: string);
+            getSizeUniform(): Uniform4F;
+            hasSizeUniform(): boolean;
             getTexUnit(): number;
             setDefault(tex: Texture): void;
             reset(): void;

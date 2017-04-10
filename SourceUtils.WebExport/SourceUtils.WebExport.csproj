@@ -158,6 +158,7 @@
     <TypeScriptCompile Include="Resources\src\Shaders\LightmappedGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\ModelBase.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\Sky.ts" />
+    <TypeScriptCompile Include="Resources\src\Shaders\UnlitGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\SkyCube.ts" />
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
     <TypeScriptCompile Include="Resources\js\jquery.d.ts" />

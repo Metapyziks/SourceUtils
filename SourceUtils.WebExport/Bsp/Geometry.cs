@@ -391,16 +391,13 @@ namespace SourceUtils.WebExport.Bsp
                 var texName = bsp.GetTextureString(texData.NameStringTableId);
                 var path = $"materials/{texName.ToLower()}.vmt".Replace('\\', '/');
 
-                Url url;
                 ValveMaterialFile vmt;
                 if ( bsp.PakFile.ContainsFile( path ) )
                 {
-                    url = $"/maps/{bsp.Name}/{path}.json";
                     vmt = ValveMaterialFile.FromProvider( path, bsp.PakFile, Program.Resources );
                 }
                 else
                 {
-                    url = $"/{path}.json";
                     vmt = ValveMaterialFile.FromProvider(path, Program.Resources);
                 }
 
@@ -504,10 +501,10 @@ namespace SourceUtils.WebExport.Bsp
                     var uv = GetUv( vert, texInfo.TextureUAxis, texInfo.TextureVAxis );
                     var uv2 = GetUv( vert, texInfo.LightmapUAxis, texInfo.LightmapVAxis );
 
-                    uv2.X -= faceInfo.LightMapOffsetX - .5f;
-                    uv2.Y -= faceInfo.LightMapOffsetY - .5f;
-                    uv2.X /= faceInfo.LightMapSizeX + 1f;
-                    uv2.Y /= faceInfo.LightMapSizeY + 1f;
+                    uv2.X -= faceInfo.LightMapOffsetX;
+                    uv2.Y -= faceInfo.LightMapOffsetY;
+                    uv2.X /= Math.Max(faceInfo.LightMapSizeX, 1);
+                    uv2.Y /= Math.Max(faceInfo.LightMapSizeY, 1);
 
                     uv2 *= lmSize;
                     uv2 += lmMin;
@@ -532,7 +529,7 @@ namespace SourceUtils.WebExport.Bsp
 
                     var indices = _sIndexBuffer;
 
-                    for ( int k = faceInfo.FirstPrimitive, kEnd = faceInfo.FirstPrimitive + faceInfo.NumPrimitives;
+                    for ( int k = faceInfo.FirstPrimitive, kEnd = faceInfo.FirstPrimitive + numPrimitives;
                         k < kEnd;
                         ++k )
                     {

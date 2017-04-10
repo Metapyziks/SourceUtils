@@ -74,8 +74,8 @@ namespace SourceUtils.WebExport.Bsp
 
                     LumpReader<LightmapSample>.ReadLumpFromStream(sampleStream, sampleCount, sampleBuffer);
 
-                    for (var y = -1; y < rect.Height + 1; ++y)
-                        for (var x = -1; x < rect.Width + 1; ++x)
+                    for (var y = 0; y < rect.Height; ++y)
+                        for (var x = 0; x < rect.Width; ++x)
                         {
                             var s = Math.Max(0, Math.Min(x, rect.Width - 1));
                             var t = Math.Max(0, Math.Min(y, rect.Height - 1));

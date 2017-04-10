@@ -21,7 +21,6 @@ namespace SourceUtils {
 
     export class Map implements WebGame.ICommandBufferParameterProvider {
         static readonly lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
-        static readonly lightmapInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
 
         readonly viewer: MapViewer;
 
@@ -153,21 +152,12 @@ namespace SourceUtils {
             }
         }
 
-        private readonly lightmapInfoValues = new Float32Array(4);
-
         populateCommandBufferParameters(buf: Facepunch.WebGame.CommandBuffer): void {
             const lightmap = this.lightmap != null && this.lightmap.isLoaded()
                 ? this.lightmap
                 : WebGame.TextureUtils.getWhiteTexture(this.viewer.context);
 
             buf.setParameter(Map.lightmapParam, lightmap);
-
-            this.lightmapInfoValues[0] = lightmap.getWidth(0);
-            this.lightmapInfoValues[1] = lightmap.getHeight(0);
-            this.lightmapInfoValues[2] = 1 / this.lightmapInfoValues[0];
-            this.lightmapInfoValues[3] = 1 / this.lightmapInfoValues[1];
-
-            buf.setParameter(Map.lightmapInfoParam, this.lightmapInfoValues);
         }
     }
 }
