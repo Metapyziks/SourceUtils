@@ -1,32 +1,32 @@
 {
   "name": "de_cbble",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18a5-da98",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18a6-dd78",
   "visPages": [
     {
       "first": 0,
       "count": 768,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18a5-da98"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18a6-dd78"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 3261,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18a5-da98"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18a6-dd78"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 800,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18a5-da98"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18a6-dd78"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 234,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18a5-da98"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18a6-dd78"
     }
   ],
   "entities": [
@@ -42,32 +42,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18a5-da98"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18a6-dd78"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18a5-da98"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18a6-dd78"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18a5-da98"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18a6-dd78"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18a5-da98"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18a6-dd78"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18a5-da98"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18a6-dd78"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18a5-da98"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18a6-dd78"
           },
           {
             "name": "hdrCompressed",
@@ -81,11 +81,11 @@
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18a6-dd78",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18a6-dd78",
       "clusters": [
         445
       ],
@@ -94,6 +94,66 @@
         "x": 707.0,
         "y": -416.0,
         "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -528.0,
+        "y": 668.0,
+        "z": 28.0
+      },
+      "angles": {
+        "x": 59.0,
+        "y": 0.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -3004.0,
+        "y": 360.0,
+        "z": 236.929
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 119.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1240.0,
+        "y": 377.336,
+        "z": 20.5538
+      },
+      "angles": {
+        "x": 59.2715,
+        "y": 262.467,
+        "z": 98.0257
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1480.0,
+        "y": 377.336,
+        "z": 20.5538
+      },
+      "angles": {
+        "x": 59.2715,
+        "y": 277.533,
+        "z": 81.9743
+      }
+    },
+    {
+      "classname": "info_map_parameters",
+      "origin": {
+        "x": -1375.39,
+        "y": 512.0,
+        "z": 224.0
       },
       "angles": {
         "x": 0.0,
@@ -102,7 +162,170 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18a5-da98",
+      "classname": "env_wind",
+      "origin": {
+        "x": -1303.39,
+        "y": 512.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sun",
+      "origin": {
+        "x": -1351.39,
+        "y": 512.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 285.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "shadow_control",
+      "origin": {
+        "x": -1303.39,
+        "y": 512.0,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 45.0,
+        "y": 285.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_environment",
+      "origin": {
+        "x": -1327.39,
+        "y": 512.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 285.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_tonemap_controller",
+      "origin": {
+        "x": -1351.39,
+        "y": 512.0,
+        "z": 192.0
+      }
+    },
+    {
+      "classname": "logic_auto",
+      "origin": {
+        "x": -1327.39,
+        "y": 512.0,
+        "z": 192.0
+      }
+    },
+    {
+      "fogEnabled": true,
+      "fogStart": 0.0,
+      "fogEnd": 9500.0,
+      "fogMaxDensity": 0.6,
+      "farZ": 6000.0,
+      "fogColor": {
+        "r": 0.7529412,
+        "g": 0.8117647,
+        "b": 0.7921569,
+        "a": 1.0
+      },
+      "classname": "env_fog_controller",
+      "origin": {
+        "x": -1375.39,
+        "y": 512.0,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 356.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1360.0,
+        "y": 377.336,
+        "z": 20.5538
+      },
+      "angles": {
+        "x": 59.0,
+        "y": 270.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2020.0,
+        "y": -952.0,
+        "z": 186.0
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 8.5,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -2151.0,
+        "y": -819.0,
+        "z": 48.1028
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -2331.0,
+        "y": -771.0,
+        "z": 48.1028
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 236.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1120.0,
+        "y": 2460.0,
+        "z": 328.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1120.0,
+        "y": 2464.0,
+        "z": 18.8846
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18a6-dd78",
       "clusters": [
         717,720,721
       ],
@@ -111,6 +334,77 @@
         "x": -2308.0,
         "y": -1288.0,
         "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1063.0,
+        "y": -579.0,
+        "z": 67.0
+      },
+      "angles": {
+        "x": -15.0,
+        "y": 236.5,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -400.0,
+        "y": -1076.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 141.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_bomb_target"
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 431.0,
+        "y": -909.0,
+        "z": -72.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 55.0,
+        "y": -1096.0,
+        "z": -72.0
       },
       "angles": {
         "x": 0.0,
@@ -236,7 +530,13 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18a5-da98",
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18a6-dd78",
       "clusters": [
         277
       ],
@@ -245,6 +545,97 @@
         "x": -1380.0,
         "y": 674.27,
         "z": 256.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1943.82,
+        "y": 644.004,
+        "z": -136.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2081.43,
+        "y": 666.153,
+        "z": -149.487
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2700.0,
+        "y": 2480.0,
+        "z": 86.3495
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 345.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2680.0,
+        "y": 2560.0,
+        "z": 86.3495
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 345.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2948.0,
+        "y": -1168.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2334.0,
+        "y": -402.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2284.0,
+        "y": -2126.0,
+        "z": 602.0
       },
       "angles": {
         "x": 0.0,
@@ -253,7 +644,142 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18a5-da98",
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2482.0,
+        "y": -1730.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2593.0,
+        "y": -753.533,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2656.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2459.0,
+        "y": -1730.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2282.0,
+        "y": -2126.0,
+        "z": 602.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2570.2,
+        "y": -750.531,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2640.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2389.0,
+        "y": -1742.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2280.0,
+        "y": -2126.0,
+        "z": 602.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2499.23,
+        "y": -753.292,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2560.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2367.0,
+        "y": -1742.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2278.0,
+        "y": -2126.0,
+        "z": 602.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2477.42,
+        "y": -750.42,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2544.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18a6-dd78",
       "clusters": [
         506,482
       ],
@@ -262,15 +788,10 @@
         "x": -987.0,
         "y": -601.65,
         "z": 128.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18a6-dd78",
       "clusters": [
         482
       ],
@@ -279,15 +800,10 @@
         "x": -848.0,
         "y": -600.0,
         "z": 216.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18a6-dd78",
       "clusters": [
         140,450
       ],
@@ -296,15 +812,10 @@
         "x": -941.5,
         "y": -12.0,
         "z": 256.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18a6-dd78",
       "clusters": [
         146
       ],
@@ -313,15 +824,10 @@
         "x": -1133.5,
         "y": 2708.01,
         "z": 272.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18a6-dd78",
       "clusters": [
         2
       ],
@@ -330,15 +836,10 @@
         "x": -1137.5,
         "y": 2972.01,
         "z": 448.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18a5-da98",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18a6-dd78",
       "clusters": [
         651
       ],
@@ -347,6 +848,254 @@
         "x": -1892.01,
         "y": -1362.39,
         "z": 124.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -760.615,
+        "y": 321.629,
+        "z": 287.799
+      },
+      "angles": {
+        "x": -0.721176,
+        "y": 219.154,
+        "z": 4.58626
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -753.443,
+        "y": 315.296,
+        "z": 286.1
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -770.202,
+        "y": 315.054,
+        "z": 288.199
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -766.443,
+        "y": 334.544,
+        "z": 286.1
+      }
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": 448.0,
+        "z": -84.0
+      },
+      "angles": {
+        "x": -40.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": 64.0,
+        "z": -84.0
+      },
+      "angles": {
+        "x": -40.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -1260.14,
+        "y": 2375.28,
+        "z": -115.972
       },
       "angles": {
         "x": 0.0,
@@ -355,7 +1104,188 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18a5-da98",
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 193.0,
+        "y": 2503.0,
+        "z": -226.464
+      },
+      "angles": {
+        "x": -88.5,
+        "y": 180.0,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -1869.0,
+        "y": -1336.0,
+        "z": 35.2764
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 284.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -864.0,
+        "y": 739.5,
+        "z": 47.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -864.0,
+        "y": 751.0,
+        "z": 57.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -496.0,
+        "y": 823.0,
+        "z": 47.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -504.0,
+        "y": 780.0,
+        "z": 57.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -527.5,
+        "y": 796.0,
+        "z": 51.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -464.5,
+        "y": 796.0,
+        "z": 51.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1008.0,
+        "y": 300.0,
+        "z": 4.0
+      },
+      "angles": {
+        "x": 70.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1008.0,
+        "y": 228.0,
+        "z": 4.0
+      },
+      "angles": {
+        "x": 70.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1020.5,
+        "y": 232.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1012.5,
+        "y": 236.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1008.5,
+        "y": 264.0,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1012.5,
+        "y": 291.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1020.5,
+        "y": 295.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_door_rotating",
+      "origin": {
+        "x": -174.11,
+        "y": 717.23,
+        "z": 52.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -194.107,
+        "y": 683.55,
+        "z": 0.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18a6-dd78",
       "clusters": [
         76
       ],
@@ -364,6 +1294,30 @@
         "x": -206.61,
         "y": 717.26,
         "z": 54.25
+      }
+    },
+    {
+      "classname": "trigger_multiple",
+      "origin": {
+        "x": -194.11,
+        "y": 678.23,
+        "z": 59.75
+      }
+    },
+    {
+      "classname": "logic_relay",
+      "origin": {
+        "x": -182.107,
+        "y": 690.23,
+        "z": 57.0498
+      }
+    },
+    {
+      "classname": "func_door_rotating",
+      "origin": {
+        "x": -250.11,
+        "y": 720.23,
+        "z": 52.25
       },
       "angles": {
         "x": 0.0,
@@ -372,7 +1326,20 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18a5-da98",
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -270.107,
+        "y": 686.55,
+        "z": 0.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18a6-dd78",
       "clusters": [
         76
       ],
@@ -381,6 +1348,218 @@
         "x": -282.61,
         "y": 720.26,
         "z": 54.25
+      }
+    },
+    {
+      "classname": "trigger_multiple",
+      "origin": {
+        "x": -270.11,
+        "y": 681.23,
+        "z": 59.75
+      }
+    },
+    {
+      "classname": "logic_relay",
+      "origin": {
+        "x": -258.107,
+        "y": 693.23,
+        "z": 57.0498
+      }
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 114.0,
+        "y": 2360.0,
+        "z": 44.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -3001.12,
+        "y": -125.732,
+        "z": -23.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2532.0,
+        "y": -1249.0,
+        "z": 73.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -351.0,
+        "y": 957.0,
+        "z": 24.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -395.0,
+        "y": -175.0,
+        "z": -24.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -384.0,
+        "y": -552.0,
+        "z": -24.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1472.0,
+        "y": 784.0,
+        "z": 96.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -817.0,
+        "y": 2763.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2926.0,
+        "y": 438.0,
+        "z": 16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2318.0,
+        "y": 460.0,
+        "z": -215.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2324.0,
+        "y": 557.0,
+        "z": -223.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -3084.49,
+        "y": -107.79,
+        "z": -23.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2161.29,
+        "y": 34.0,
+        "z": -231.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2760.0,
+        "y": 716.0,
+        "z": 16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -461.0,
+        "y": 954.0,
+        "z": 32.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -594.0,
+        "y": -115.0,
+        "z": -16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -464.0,
+        "y": -540.0,
+        "z": -16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1472.0,
+        "y": 928.0,
+        "z": 72.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -750.0,
+        "y": 2765.0,
+        "z": 72.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2758.0,
+        "y": 787.0,
+        "z": 8.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2869.0,
+        "y": 437.0,
+        "z": 8.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2167.29,
+        "y": -42.0,
+        "z": -229.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 338.0,
+        "y": -724.0,
+        "z": -72.0
       },
       "angles": {
         "x": 0.0,
@@ -389,11 +1568,874 @@
       }
     },
     {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -38.0,
+        "y": -911.0,
+        "z": -72.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1232.31,
+        "y": 569.0,
+        "z": 31.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1224.31,
+        "y": 612.0,
+        "z": 41.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1200.81,
+        "y": 596.0,
+        "z": 35.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1263.81,
+        "y": 596.0,
+        "z": 35.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -528.0,
+        "y": 1048.5,
+        "z": 47.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -528.0,
+        "y": 1060.0,
+        "z": 57.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -485.5,
+        "y": 472.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -485.5,
+        "y": 264.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -485.5,
+        "y": 48.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1632.0,
+        "y": -944.0,
+        "z": 499.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1440.0,
+        "y": -848.0,
+        "z": 499.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1088.0,
+        "y": -816.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1056.0,
+        "y": -1008.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1216.0,
+        "y": -1168.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1472.0,
+        "y": -1136.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1024.0,
+        "y": -944.0,
+        "z": 307.067
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": -576.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": 1088.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -576.0,
+        "y": -192.0,
+        "z": 576.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1472.0,
+        "y": 1104.0,
+        "z": 320.0
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 270.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2842.55,
+        "y": 477.744,
+        "z": 376.068
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 0.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2842.55,
+        "y": 381.744,
+        "z": 376.068
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 0.0,
+        "z": 90.0
+      }
+    },
+    {
       "scale": 16,
+      "fogEnabled": true,
+      "fogStart": 0.0,
+      "fogEnd": 8000.0,
+      "fogMaxDensity": 0.6,
+      "farZ": 0.0,
+      "fogColor": {
+        "r": 0.7529412,
+        "g": 0.8117647,
+        "b": 0.7921569,
+        "a": 1.0
+      },
       "classname": "sky_camera",
       "origin": {
         "x": 7168.0,
         "y": 0.0,
+        "z": 0.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 544.0,
+        "y": -224.0,
+        "z": 288.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -942.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -814.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -686.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -558.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "func_buyzone"
+    },
+    {
+      "classname": "func_buyzone"
+    },
+    {
+      "classname": "func_bomb_target"
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 729.151,
+        "y": -38.8492,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 721.373,
+        "y": -46.6274,
+        "z": 149.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 715.716,
+        "y": -52.2843,
+        "z": 149.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -128.0,
+        "y": -235.0,
+        "z": 109.579
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -128.0,
+        "y": -224.0,
+        "z": 115.134
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -128.0,
+        "y": -216.0,
+        "z": 115.134
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2040.0,
+        "y": 160.0,
+        "z": -50.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2051.0,
+        "y": 160.0,
+        "z": -44.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2059.0,
+        "y": 160.0,
+        "z": -44.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1653.0,
+        "y": 560.0,
+        "z": 112.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1664.0,
+        "y": 560.0,
+        "z": 117.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1672.0,
+        "y": 560.0,
+        "z": 117.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1963.0,
+        "y": 544.0,
+        "z": -16.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1952.0,
+        "y": 544.0,
+        "z": -10.445
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1944.0,
+        "y": 544.0,
+        "z": -10.445
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1480.0,
+        "y": 661.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1480.0,
+        "y": 672.0,
+        "z": 181.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1480.0,
+        "y": 680.0,
+        "z": 181.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 731.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 720.0,
+        "z": 165.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 712.0,
+        "z": 165.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1053.08,
+        "y": -589.624,
+        "z": 104.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1055.74,
+        "y": -578.951,
+        "z": 109.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1057.68,
+        "y": -571.188,
+        "z": 109.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -863.0,
+        "y": -176.0,
+        "z": 232.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -852.0,
+        "y": -176.0,
+        "z": 237.555
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -844.0,
+        "y": -176.0,
+        "z": 237.555
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -941.388,
+        "y": -421.236,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -74.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -938.448,
+        "y": -431.836,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -74.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -936.31,
+        "y": -439.545,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -74.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -717.08,
+        "y": -794.624,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -719.742,
+        "y": -783.951,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -721.677,
+        "y": -776.188,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -643.624,
+        "y": -610.92,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -632.951,
+        "y": -608.258,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -625.188,
+        "y": -606.323,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
         "z": 0.0
       }
     },
@@ -460,6 +2502,886 @@
         "x": 0.0,
         "y": -51.0,
         "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 453.08,
+        "y": -1435.62,
+        "z": 28.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 455.742,
+        "y": -1424.95,
+        "z": 33.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 457.677,
+        "y": -1417.19,
+        "z": 33.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1754.92,
+        "y": -1420.38,
+        "z": 204.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1752.26,
+        "y": -1431.05,
+        "z": 209.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1750.32,
+        "y": -1438.81,
+        "z": 209.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1762.38,
+        "y": -1205.08,
+        "z": 92.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1773.05,
+        "y": -1207.74,
+        "z": 97.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1780.81,
+        "y": -1209.68,
+        "z": 97.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1072.0,
+        "y": 2165.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1072.0,
+        "y": 2176.0,
+        "z": -18.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1072.0,
+        "y": 2184.0,
+        "z": -18.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 7145.21,
+        "y": -13.669,
+        "z": 513.028
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1238.0,
+        "y": -789.0,
+        "z": 115.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1238.0,
+        "y": -800.0,
+        "z": 120.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1238.0,
+        "y": -808.0,
+        "z": 120.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1658.62,
+        "y": -1311.92,
+        "z": 175.104
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1647.95,
+        "y": -1309.26,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1640.19,
+        "y": -1307.32,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1712.62,
+        "y": -1094.92,
+        "z": 175.104
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1701.95,
+        "y": -1092.26,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1694.19,
+        "y": -1090.32,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2656.0,
+        "y": 115.0,
+        "z": -88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2656.0,
+        "y": 104.0,
+        "z": -82.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2656.0,
+        "y": 96.0,
+        "z": -82.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2891.0,
+        "y": -48.0,
+        "z": 36.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2880.0,
+        "y": -48.0,
+        "z": 41.555
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2872.0,
+        "y": -48.0,
+        "z": 41.555
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1908.38,
+        "y": -1301.08,
+        "z": 108.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1919.05,
+        "y": -1303.74,
+        "z": 113.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1926.81,
+        "y": -1305.68,
+        "z": 113.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2693.0,
+        "y": 528.0,
+        "z": 104.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2704.0,
+        "y": 528.0,
+        "z": 109.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2712.0,
+        "y": 528.0,
+        "z": 109.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -805.08,
+        "y": -527.624,
+        "z": 228.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -807.742,
+        "y": -516.951,
+        "z": 233.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -809.677,
+        "y": -509.188,
+        "z": 233.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 107.0,
+        "z": 240.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 96.0,
+        "z": 245.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 88.0,
+        "z": 245.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 327.0,
+        "z": 110.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 316.0,
+        "z": 115.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 308.0,
+        "z": 115.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 409.0,
+        "z": 120.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 420.0,
+        "z": 125.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 428.0,
+        "z": 125.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -976.0,
+        "y": 731.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -976.0,
+        "y": 720.0,
+        "z": 165.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -976.0,
+        "y": 712.0,
+        "z": 165.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1480.0,
+        "y": 603.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1480.0,
+        "y": 592.0,
+        "z": 181.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1480.0,
+        "y": 584.0,
+        "z": 181.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -437.0,
+        "y": 896.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -448.0,
+        "y": 896.0,
+        "z": 133.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -456.0,
+        "y": 896.0,
+        "z": 133.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2256.0,
+        "y": 458.0,
+        "z": -100.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2256.0,
+        "y": 447.0,
+        "z": -94.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2256.0,
+        "y": 439.0,
+        "z": -94.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2256.0,
+        "y": 53.0,
+        "z": -100.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2256.0,
+        "y": 64.0,
+        "z": -94.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2256.0,
+        "y": 72.0,
+        "z": -94.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -944.0,
+        "y": 2709.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -944.0,
+        "y": 2720.0,
+        "z": 229.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -944.0,
+        "y": 2728.0,
+        "z": 229.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1222.63,
+        "y": 2925.21,
+        "z": 368.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -63.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1217.72,
+        "y": 2915.36,
+        "z": 373.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -63.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1214.15,
+        "y": 2908.2,
+        "z": 373.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -63.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1307.0,
+        "y": 2672.0,
+        "z": 428.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1296.0,
+        "y": 2672.0,
+        "z": 433.555
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1288.0,
+        "y": 2672.0,
+        "z": 433.555
       }
     },
     {
@@ -851,6 +3773,9 @@
         "y": -57.5,
         "z": 0.0
       }
+    },
+    {
+      "classname": "water_lod_control"
     },
     {
       "index": 0,

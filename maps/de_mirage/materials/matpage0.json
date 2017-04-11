@@ -4688,7 +4688,7 @@
           "value": true
         },
         {
-          "name": "fog",
+          "name": "fogEnabled",
           "type": 1,
           "value": false
         }
@@ -4708,7 +4708,7 @@
           "value": true
         },
         {
-          "name": "fog",
+          "name": "fogEnabled",
           "type": 1,
           "value": false
         }
