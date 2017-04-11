@@ -2,7 +2,7 @@
     import WebGame = Facepunch.WebGame;
 
     export namespace Entities {
-        export interface ISkyCamera extends IEntity {
+        export interface ISkyCamera extends IEnvFogController {
             scale: number;
         }
 
@@ -71,6 +71,15 @@
 
                 this.origin = new Facepunch.Vector3().copy(info.origin);
                 this.skyScale = 1 / info.scale;
+
+                if (info.fogEnabled) {
+                    this.fog.start = info.fogStart;
+                    this.fog.end = info.fogEnd;
+                    this.fog.maxDensity = info.fogMaxDensity;
+                    this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
+
+                    if (info.farZ !== 0) this.setFar(info.farZ);
+                }
             }
 
             protected onChangePosition(): void {

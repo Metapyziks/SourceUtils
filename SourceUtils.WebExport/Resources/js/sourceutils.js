@@ -407,7 +407,8 @@ var SourceUtils;
                         fog.start = fogController.fogStart;
                         fog.end = fogController.fogEnd;
                         fog.maxDensity = fogController.fogMaxDensity;
-                        this.viewer.mainCamera.setFar(fogController.farZ);
+                        if (fogController.farZ !== 0)
+                            this.viewer.mainCamera.setFar(fogController.farZ);
                         break;
                     case "info_player_terrorist":
                         this.tSpawns.push(ent);
@@ -885,6 +886,14 @@ var SourceUtils;
                 _this.render3DSky = false;
                 _this.origin = new Facepunch.Vector3().copy(info.origin);
                 _this.skyScale = 1 / info.scale;
+                if (info.fogEnabled) {
+                    _this.fog.start = info.fogStart;
+                    _this.fog.end = info.fogEnd;
+                    _this.fog.maxDensity = info.fogMaxDensity;
+                    _this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
+                    if (info.farZ !== 0)
+                        _this.setFar(info.farZ);
+                }
                 return _this;
             }
             SkyCamera.prototype.onChangePosition = function () {

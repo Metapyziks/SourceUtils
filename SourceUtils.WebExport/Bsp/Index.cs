@@ -24,116 +24,9 @@ namespace SourceUtils.WebExport.Bsp
         public Url Url { get; set; }
     }
 
-    public class Entity
-    {
-        [JsonProperty("classname")]
-        public string ClassName { get; set; }
-
-        [JsonProperty("origin")]
-        public Vector3? Origin { get; set; }
-
-        [JsonProperty("angles")]
-        public Vector3? Angles { get; set; }
-    }
-
-    public class PvsEntity : Entity
-    {
-        [JsonProperty("clusters")]
-        public IEnumerable<int> Clusters { get; set; }
-    }
-
-    public class BrushEntity : PvsEntity
-    {
-        [JsonProperty("modelUrl")]
-        public Url ModelUrl { get; set; }
-    }
-
-    public class Worldspawn : BrushEntity
-    {
-        [JsonProperty("skyMaterial")]
-        public Material SkyMaterial { get; set; }
-    }
-
-    public class SkyCamera : Entity
-    {
-        [JsonProperty("scale")]
-        public int Scale { get; set; }
-    }
-
-    public class Displacement : PvsEntity
-    {
-        [JsonProperty( "index" )]
-        public int Index { get; set; }
-    }
-
-    public class EnvFogController : Entity
-    {
-        [JsonProperty("fogEnabled")]
-        public bool FogEnabled { get; set; }
-
-        [JsonProperty("fogStart")]
-        public float FogStart { get; set; }
-
-        [JsonProperty("fogEnd")]
-        public float FogEnd { get; set; }
-
-        [JsonProperty("fogMaxDensity")]
-        public float FogMaxDensity { get; set; }
-
-        [JsonProperty("farZ")]
-        public float FarZ { get; set; }
-
-        [JsonProperty("fogColor")]
-        public MaterialColor FogColor { get; set; }
-    }
-
-    public class Map
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("lightmapUrl")]
-        public Url LightmapUrl { get; set; }
-
-        [JsonProperty("visPages")]
-        public IEnumerable<PageInfo> VisPages { get; set; }
-
-        [JsonProperty("leafPages")]
-        public IEnumerable<PageInfo> LeafPages { get; set; }
-
-        [JsonProperty("dispPages")]
-        public IEnumerable<PageInfo> DispPages { get; set; }
-
-        [JsonProperty("materialPages")]
-        public IEnumerable<PageInfo> MaterialPages { get; set; }
-
-        [JsonProperty("entities")]
-        public IEnumerable<Entity> Entities { get; set; }
-    }
-
     [Prefix("/maps/{map}")]
-    class IndexController : ResourceController
+    partial class IndexController : ResourceController
     {
-        [ThreadStatic]
-        private static List<BspTree.Leaf> _sLeafBuffer;
-
-        private static List<int> GetIntersectingClusters(BspTree tree, SourceUtils.Vector3 min, SourceUtils.Vector3 max)
-        {
-            if (_sLeafBuffer == null) _sLeafBuffer = new List<BspTree.Leaf>();
-            else _sLeafBuffer.Clear();
-
-            tree.GetIntersectingLeaves(min, max, _sLeafBuffer);
-
-            var clusters = new List<int>();
-
-            foreach (var cluster in _sLeafBuffer.Select(x => x.Info.Cluster).Distinct())
-            {
-                clusters.Add(cluster);
-            }
-
-            return clusters;
-        }
-
         private static string ReplaceTokens( string str, params Expression<Func<object, object>>[] replacements )
         {
             foreach ( var replacement in replacements )
@@ -191,34 +84,28 @@ namespace SourceUtils.WebExport.Bsp
                 } );
         }
 
-        private static void AddToBounds(ref SourceUtils.Vector3 min, ref SourceUtils.Vector3 max, SourceUtils.Vector3 pos)
+        public class Map
         {
-            if (pos.X < min.X) min.X = pos.X;
-            if (pos.Y < min.Y) min.Y = pos.Y;
-            if (pos.Z < min.Z) min.Z = pos.Z;
+            [JsonProperty("name")]
+            public string Name { get; set; }
 
-            if (pos.X > max.X) max.X = pos.X;
-            if (pos.Y > max.Y) max.Y = pos.Y;
-            if (pos.Z > max.Z) max.Z = pos.Z;
-        }
+            [JsonProperty("lightmapUrl")]
+            public Url LightmapUrl { get; set; }
 
-        private static void GetDisplacementBounds(ValveBspFile bsp, int index,
-            out SourceUtils.Vector3 min, out SourceUtils.Vector3 max, float bias = 0f)
-        {
-            min = new SourceUtils.Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-            max = new SourceUtils.Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+            [JsonProperty("visPages")]
+            public IEnumerable<PageInfo> VisPages { get; set; }
 
-            var disp = bsp.DisplacementManager[index];
-            var biasVec = disp.Normal * bias;
+            [JsonProperty("leafPages")]
+            public IEnumerable<PageInfo> LeafPages { get; set; }
 
-            for (var y = 0; y < disp.Size; ++y)
-            for (var x = 0; x < disp.Size; ++x)
-            {
-                var pos = disp.GetPosition(x, y);
+            [JsonProperty("dispPages")]
+            public IEnumerable<PageInfo> DispPages { get; set; }
 
-                AddToBounds(ref min, ref max, pos - biasVec);
-                AddToBounds(ref min, ref max, pos + biasVec);
-            }
+            [JsonProperty("materialPages")]
+            public IEnumerable<PageInfo> MaterialPages { get; set; }
+
+            [JsonProperty("entities")]
+            public IEnumerable<Entity> Entities { get; set; }
         }
 
         [Get("/index.json")]
@@ -226,97 +113,13 @@ namespace SourceUtils.WebExport.Bsp
         {
             var bsp = Program.GetMap( map );
 
-            var areaPortalNames =
-                new HashSet<string>( bsp.Entities.OfType<FuncAreaPortal>()
-                    .Select( x => x.Target )
-                    .Where( x => x != null ) );
-
-            var tree = new BspTree( bsp, 0 );
             var ents = new List<Entity>();
+            var mapParams = new MapParams( bsp );
 
             foreach ( var ent in bsp.Entities )
             {
-                if ( ent is FuncBrush )
-                {
-                    var brush = ent as FuncBrush;
-
-                    if ( brush.RenderMode == 10 || brush.Model == null ) continue;
-                    if ( brush.TargetName != null && areaPortalNames.Contains( brush.TargetName ) ) continue;
-                    
-                    var modelIndex = int.Parse(brush.Model.Substring(1));
-
-                    if ( ent is ValveBsp.Entities.Worldspawn )
-                    {
-                        var skyName = ((ValveBsp.Entities.Worldspawn) ent).SkyName;
-
-                        ents.Add(new Worldspawn
-                        {
-                            ClassName = brush.ClassName,
-                            ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
-                            SkyMaterial = Material.CreateSkyMaterial( bsp, skyName )
-                        });
-                    }
-                    else
-                    {
-                        var model = bsp.Models[modelIndex];
-
-                        var min = model.Min + brush.Origin;
-                        var max = model.Max + brush.Origin;
-
-                        ents.Add(new BrushEntity
-                        {
-                            ClassName = brush.ClassName,
-                            Origin = brush.Origin,
-                            Angles = brush.Angles,
-                            ModelUrl = $"/maps/{bsp.Name}/geom/model{modelIndex}.json",
-                            Clusters = GetIntersectingClusters(tree, min, max)
-                        });
-                    }
-
-                    continue;
-                }
-
-                if ( ent is ValveBsp.Entities.SkyCamera )
-                {
-                    ents.Add( new SkyCamera
-                    {
-                        ClassName = ent.ClassName,
-                        Origin = ent.Origin,
-                        Scale = (ent as ValveBsp.Entities.SkyCamera).Scale
-                    } );
-
-                    continue;
-                }
-
-                if ( ent is InfoPlayerStart )
-                {
-                    ents.Add( new Entity
-                    {
-                        ClassName = ent.ClassName,
-                        Angles = ent.Angles,
-                        Origin = ent.Origin
-                    } );
-
-                    continue;
-                }
-
-                if ( ent is ValveBsp.Entities.EnvFogController )
-                {
-                    var fog = (ValveBsp.Entities.EnvFogController) ent;
-
-                    ents.Add( new EnvFogController
-                    {
-                        ClassName = ent.ClassName,
-                        FogEnabled = fog.FogEnable,
-                        FogStart = fog.FogStart,
-                        FogEnd = fog.FogEnd,
-                        FogMaxDensity = fog.FogMaxDensity,
-                        FarZ = fog.FarZ,
-                        FogColor = new MaterialColor( fog.FogColor )
-                    } );
-
-                    continue;
-                }
+                var inst = InitEntity( ent, mapParams );
+                if ( inst != null ) ents.Add( inst );
             }
 
             for ( var dispIndex = 0; dispIndex < bsp.DisplacementInfos.Length; ++dispIndex )
@@ -328,7 +131,7 @@ namespace SourceUtils.WebExport.Bsp
                 {
                     ClassName = "displacement",
                     Index = dispIndex,
-                    Clusters = GetIntersectingClusters(tree, min, max)
+                    Clusters = GetIntersectingClusters(mapParams.Tree, min, max)
                 } );
             }
 

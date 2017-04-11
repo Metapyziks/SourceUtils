@@ -168,6 +168,11 @@ namespace SourceUtils
                 return prop._entity.GetRawPropertyValue( prop._name );
             }
 
+            public static implicit operator bool( EntityProperty prop )
+            {
+                return Entity.Converters.ToBoolean( prop._entity.GetRawPropertyValue( prop._name ) );
+            }
+
             public static implicit operator int( EntityProperty prop )
             {
                 return Entity.Converters.ToInt32( prop._entity.GetRawPropertyValue( prop._name ) );
@@ -181,6 +186,11 @@ namespace SourceUtils
             public static implicit operator Vector3( EntityProperty prop )
             {
                 return Entity.Converters.ToVector3( prop._entity.GetRawPropertyValue( prop._name ) );
+            }
+
+            public static implicit operator Color32( EntityProperty prop )
+            {
+                return Entity.Converters.ToColor32( prop._entity.GetRawPropertyValue( prop._name ) );
             }
 
             private readonly Entity _entity;
@@ -246,17 +256,17 @@ namespace SourceUtils
                 
                 public static int ToInt32( string param )
                 {
-                    return int.Parse( param );
+                    return param == null ? 0 : int.Parse( param );
                 }
 
                 public static bool ToBoolean( string param )
                 {
-                    return ToInt32( param ) != 0;
+                    return param != null && ToInt32( param ) != 0;
                 }
 
                 public static float ToSingle( string param )
                 {
-                    return float.Parse( param );
+                    return param == null ? 0f : float.Parse( param );
                 }
 
                 public static Vector3 ToVector3( string param )

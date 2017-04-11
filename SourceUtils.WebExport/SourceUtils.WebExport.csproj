@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bsp\Entities.cs" />
     <Compile Include="Bsp\Geometry.cs" />
     <Compile Include="Bsp\Index.cs" />
     <Compile Include="Bsp\Lightmap.cs" />

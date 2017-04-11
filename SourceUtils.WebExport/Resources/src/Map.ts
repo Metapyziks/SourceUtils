@@ -93,7 +93,7 @@ namespace SourceUtils {
                         fog.end = fogController.fogEnd;
                         fog.maxDensity = fogController.fogMaxDensity;
 
-                        this.viewer.mainCamera.setFar(fogController.farZ);
+                        if (fogController.farZ !== 0) this.viewer.mainCamera.setFar(fogController.farZ);
                         break;
                     case "info_player_terrorist":
                         this.tSpawns.push(ent);
