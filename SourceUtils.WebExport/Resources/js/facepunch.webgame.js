@@ -1529,6 +1529,7 @@ var Facepunch;
                 this.commands = [];
                 this.lastCommand = null;
                 this.drawCalls = 0;
+                this.depthMaskState = undefined;
             };
             CommandBuffer.prototype.getDrawCalls = function () {
                 return this.drawCalls;
@@ -1583,6 +1584,9 @@ var Facepunch;
                 gl.disable(args.cap);
             };
             CommandBuffer.prototype.depthMask = function (flag) {
+                if (this.depthMaskState === flag)
+                    return;
+                this.depthMaskState = flag;
                 this.push(this.onDepthMask, { enabled: flag });
             };
             CommandBuffer.prototype.onDepthMask = function (gl, args) {
@@ -2287,7 +2291,7 @@ var Facepunch;
                 var gl = this.context;
                 if (existing == null) {
                     this.ownsDepthTexture = true;
-                    this.depthTexture = new WebGame.RenderTexture(gl, WebGame.TextureTarget.Texture2D, WebGame.TextureFormat.DepthComponent, WebGame.TextureDataType.Uint32, this.frameTexture.getWidth(0), this.frameTexture.getWidth(0));
+                    this.depthTexture = new WebGame.RenderTexture(gl, WebGame.TextureTarget.Texture2D, WebGame.TextureFormat.DepthComponent, WebGame.TextureDataType.Uint32, this.frameTexture.getWidth(0), this.frameTexture.getHeight(0));
                 }
                 else {
                     this.ownsDepthTexture = false;
@@ -2757,6 +2761,15 @@ var Facepunch;
                         this.properties[info.name] = info.value;
                         break;
                     }
+                    case MaterialPropertyType.Color: {
+                        var vec = this.properties[info.name];
+                        if (vec === undefined) {
+                            vec = this.properties[info.name] = new Facepunch.Vector4();
+                        }
+                        var color = info.value;
+                        vec.set(color.r, color.g, color.b, color.a);
+                        break;
+                    }
                     case MaterialPropertyType.TextureUrl: {
                         var texUrl = Facepunch.Http.getAbsUrl(info.value, this.url);
                         var tex = this.properties[info.name] = this.game.textureLoader.load(texUrl);
@@ -3155,6 +3168,7 @@ var Facepunch;
                     ]
                 };
                 this.composeFrameHandle = this.addMeshData(meshData)[0];
+                this.composeFrameHandle.program = this.composeFrameHandle.material.program;
                 return this.composeFrameHandle;
             };
             MeshManager.prototype.dispose = function () {
@@ -3570,6 +3584,9 @@ var Facepunch;
                     _super.prototype.bufferSetup.call(this, buf);
                     this.frameColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
                     this.frameDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
+                    var gl = this.context;
+                    buf.disable(gl.CULL_FACE);
+                    buf.depthMask(true);
                 };
                 ComposeFrame.vertSource = "\n                    attribute vec2 aScreenPos;\n\n                    varying vec2 vScreenPos;\n\n                    void main()\n                    {\n                        vScreenPos = aScreenPos * 0.5 + vec2(0.5, 0.5);\n                        gl_Position = vec4(aScreenPos, 0, 1);\n                    }";
                 ComposeFrame.fragSource = "\n                    #extension GL_EXT_frag_depth : enable\n\n                    precision mediump float;\n\n                    varying vec2 vScreenPos;\n\n                    uniform sampler2D uFrameColor;\n                    uniform sampler2D uFrameDepth;\n\n                    void main()\n                    {\n                        gl_FragColor = texture2D(uFrameColor, vScreenPos);\n                        gl_FragDepthEXT = texture2D(uFrameDepth, vScreenPos).r;\n                    }";

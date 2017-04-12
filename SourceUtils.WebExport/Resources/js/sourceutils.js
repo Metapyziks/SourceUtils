@@ -1317,3 +1317,57 @@ var SourceUtils;
         Shaders.UnlitGeneric = UnlitGeneric;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var WaterMaterial = (function (_super) {
+            __extends(WaterMaterial, _super);
+            function WaterMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.fogStart = 8192;
+                _this.fogEnd = 16384;
+                _this.fogColor = new Facepunch.Vector3(1, 1, 1);
+                return _this;
+            }
+            return WaterMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.WaterMaterial = WaterMaterial;
+        var Water = (function (_super) {
+            __extends(Water, _super);
+            function Water(context) {
+                var _this = _super.call(this, context, WaterMaterial) || this;
+                _this.uInverseProjection = _this.addUniform("uInverseProjection", WebGame.UniformMatrix4);
+                _this.uInverseView = _this.addUniform("uInverseView", WebGame.UniformMatrix4);
+                _this.uScreenParams = _this.addUniform("uScreenParams", WebGame.Uniform4F);
+                _this.uOpaqueColor = _this.addUniform("uOpaqueColor", WebGame.UniformSampler);
+                _this.uOpaqueDepth = _this.addUniform("uOpaqueDepth", WebGame.UniformSampler);
+                _this.uWaterFogParams = _this.addUniform("uWaterFogParams", WebGame.Uniform4F);
+                _this.uWaterFogColor = _this.addUniform("uWaterFogColor", WebGame.Uniform3F);
+                _this.sortOrder = -10;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform vec4 " + _this.uScreenParams + ";\n                    uniform highp mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uInverseProjection + ";\n                    uniform mat4 " + _this.uInverseView + ";\n\n                    uniform sampler2D " + _this.uOpaqueColor + ";\n                    uniform sampler2D " + _this.uOpaqueDepth + ";\n\n                    uniform vec4 " + _this.uWaterFogParams + ";\n                    uniform vec3 " + _this.uWaterFogColor + ";\n\n                    vec4 CalcEyeFromWindow(in vec3 fragCoord)\n                    {\n                        vec3 ndcPos;\n                        ndcPos.xy = (2.0 * fragCoord.xy) * (uScreenParams.zw) - vec2(1.0, 1.0);\n                        ndcPos.z = (2.0 * fragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near);\n\n                        vec4 clipPos;\n                        clipPos.w = " + _this.uProjection + "[3][2] / (ndcPos.z - (" + _this.uProjection + "[2][2] / " + _this.uProjection + "[2][3]));\n                        clipPos.xyz = ndcPos * clipPos.w;\n\n                        return " + _this.uInverseProjection + " * clipPos;\n                    }\n\n                    vec3 GetWorldPos(float fragZ)\n                    {\n                        return (" + _this.uInverseView + " * CalcEyeFromWindow(vec3(gl_FragCoord.xy, fragZ))).xyz;\n                    }\n\n                    void main()\n                    {\n                        vec2 screenPos = gl_FragCoord.xy * " + _this.uScreenParams + ".zw;\n\n                        vec3 surfacePos = GetWorldPos(gl_FragCoord.z);\n                        float opaqueDepthSample = texture2D(" + _this.uOpaqueDepth + ", screenPos).r;\n                        vec3 opaquePos = GetWorldPos(opaqueDepthSample);\n                        vec3 opaqueColor = texture2D(" + _this.uOpaqueColor + ", screenPos).rgb;\n\n                        float opaqueDepth = surfacePos.z - opaquePos.z;\n                        float relativeDepth = mix((opaqueDepth - " + _this.uWaterFogParams + ".x) * " + _this.uWaterFogParams + ".y, 1.0, float(opaqueDepthSample >= 0.99999));\n                        float fogDensity = max(" + _this.uWaterFogParams + ".z, min(" + _this.uWaterFogParams + ".w, relativeDepth));\n\n                        vec3 fogColor = ApplyFog(ApplyLightmap(" + _this.uWaterFogColor + "));\n                        vec3 waterFogged = mix(opaqueColor, fogColor, fogDensity);\n                        gl_FragColor = vec4(waterFogged, 1.0);\n                    }");
+                _this.compile();
+                return _this;
+            }
+            Water.prototype.bufferSetup = function (buf) {
+                _super.prototype.bufferSetup.call(this, buf);
+                this.uScreenParams.bufferParameter(buf, WebGame.Game.screenInfoParam);
+                this.uInverseProjection.bufferParameter(buf, WebGame.Camera.inverseProjectionMatrixParam);
+                this.uInverseView.bufferParameter(buf, WebGame.Camera.inverseViewMatrixParam);
+                this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
+                this.uOpaqueDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
+            };
+            Water.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
+                this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
+            };
+            return Water;
+        }(Shaders.LightmappedBase));
+        Shaders.Water = Water;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));

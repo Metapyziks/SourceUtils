@@ -296,6 +296,7 @@ declare namespace Facepunch {
             private boundTextures;
             private boundBuffers;
             private capStates;
+            private depthMaskState;
             private parameters;
             private lastCommand;
             private drawCalls;
@@ -716,7 +717,7 @@ declare namespace Facepunch {
         interface IMaterialProperty {
             type: MaterialPropertyType;
             name: string;
-            value: boolean | number | string | ITextureInfo;
+            value: boolean | number | string | ITextureInfo | IColor;
         }
         interface IMaterialInfo {
             shader: string;
