@@ -142,7 +142,7 @@ namespace SourceUtils.WebExport.Bsp
                 VisPages = GetPageLayout( bsp, bsp.Visibility.NumClusters, VisPage.ClustersPerPage, "/geom/vispage" ),
                 LeafPages = GetPageLayout( bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage" ),
                 DispPages = GetPageLayout( bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage" ),
-                MaterialPages = GetPageLayout( bsp, bsp.TextureStringTable.Length, MaterialPage.MaterialsPerPage, "/materials/matpage" ),
+                MaterialPages = GetPageLayout( bsp, MaterialDictionary.GetMaterialCount( bsp ), MaterialPage.MaterialsPerPage, "/materials/matpage" ),
                 Entities = ents
             };
         }

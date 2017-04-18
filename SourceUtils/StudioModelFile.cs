@@ -10,6 +10,17 @@ namespace SourceUtils
 {
     public class StudioModelFile
     {
+        public static StudioModelFile FromProvider(string path, params IResourceProvider[] providers)
+        {
+            var provider = providers.FirstOrDefault(x => x.ContainsFile(path));
+            if (provider == null) return null;
+
+            using (var stream = provider.OpenFile(path))
+            {
+                return new StudioModelFile(stream);
+            }
+        }
+
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public unsafe struct Header
         {
@@ -305,6 +316,8 @@ namespace SourceUtils
         {
             return GetMeshes( model.MeshIndex, model.NumMeshes );
         }
+
+        public int MaterialCount => _materials.Length;
 
         public string GetMaterialName(int index, params IResourceProvider[] providers)
         {

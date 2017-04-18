@@ -10,6 +10,98 @@ using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
 {
+    internal class MaterialDictionary
+    {
+        private static readonly Dictionary<ValveBspFile, MaterialDictionary> _sDicts =
+            new Dictionary<ValveBspFile, MaterialDictionary>();
+
+        private static MaterialDictionary GetDictionary( ValveBspFile bsp )
+        {
+            MaterialDictionary dict;
+            if ( _sDicts.TryGetValue( bsp, out dict ) ) return dict;
+
+            dict = new MaterialDictionary( bsp );
+            _sDicts.Add( bsp, dict );
+
+            return dict;
+        }
+
+        public static int GetMaterialCount( ValveBspFile bsp )
+        {
+            return GetDictionary( bsp ).MaterialCount;
+        }
+
+        public static int GetMaterialIndex( ValveBspFile bsp, string vmtPath )
+        {
+            return GetDictionary( bsp ).GetMaterialIndex( vmtPath );
+        }
+
+        public static string GetMaterialPath( ValveBspFile bsp, int index )
+        {
+            return GetDictionary( bsp ).GetMaterialPath( index );
+        }
+
+        private readonly List<string> _materials = new List<string>();
+
+        private readonly Dictionary<string, int> _indices =
+            new Dictionary<string, int>( StringComparer.InvariantCultureIgnoreCase );
+
+        public int MaterialCount => _materials.Count;
+
+        public MaterialDictionary( ValveBspFile bsp )
+        {
+            for ( var i = 0; i < bsp.TextureStringTable.Length; ++i )
+            {
+                Add( bsp.GetTextureString( i ) );
+            }
+
+            for ( var i = 0; i < bsp.StaticProps.ModelCount; ++i )
+            {
+                var modelName = bsp.StaticProps.GetModelName( i );
+                var mdl = StudioModelFile.FromProvider( modelName, bsp.PakFile, Program.Resources );
+
+                for ( var j = 0; j < mdl.MaterialCount; ++j )
+                {
+                    Add( mdl.GetMaterialName( j, bsp.PakFile, Program.Resources ) );
+                }
+            }
+        }
+
+        private static string NormalizeMaterialPath( string path )
+        {
+            path = path.ToLower().Replace( '\\', '/' );
+
+            if ( !path.StartsWith( "materials/" ) ) path = $"materials/{path}";
+            if ( !path.EndsWith( ".vmt" ) ) path = $"{path}.vmt";
+
+            return path;
+        }
+
+        private void Add( string path )
+        {
+            path = NormalizeMaterialPath( path );
+
+            if ( _indices.ContainsKey( path ) ) return;
+
+            _indices.Add( path, _materials.Count );
+            _materials.Add( path );
+        }
+
+        public string GetMaterialPath( int index )
+        {
+            return _materials[index];
+        }
+
+        public int GetMaterialIndex( string path )
+        {
+            path = NormalizeMaterialPath( path );
+
+            int index;
+            if ( _indices.TryGetValue( path, out index ) ) return index;
+            return -1;
+        }
+    }
+
     public enum MaterialPropertyType
     {
         Boolean = 1,

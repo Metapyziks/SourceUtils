@@ -25,11 +25,11 @@ namespace SourceUtils.WebExport.Bsp
         {
             var bsp = Program.GetMap(map);
             var first = index * MaterialPage.MaterialsPerPage;
-            var count = Math.Min(first + MaterialPage.MaterialsPerPage, bsp.TextureStringTable.Length) - first;
+            var count = Math.Min(first + MaterialPage.MaterialsPerPage, MaterialDictionary.GetMaterialCount( bsp )) - first;
 
             if (count < 0)
             {
-                first = bsp.TextureStringTable.Length;
+                first = MaterialDictionary.GetMaterialCount(bsp);
                 count = 0;
             }
 
@@ -39,9 +39,7 @@ namespace SourceUtils.WebExport.Bsp
 
             for ( var i = 0; i < count; ++i )
             {
-                var texString = bsp.GetTextureString( first + i );
-                var path = $"materials/{texString.ToLower()}.vmt".Replace('\\', '/');
-
+                var path = MaterialDictionary.GetMaterialPath( bsp, first + i );
                 var mat = Material.Get(bsp, path);
                 page.Materials.Add(mat);
 
