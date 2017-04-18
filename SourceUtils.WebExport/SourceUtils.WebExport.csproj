@@ -86,8 +86,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Ziks.WebServer, Version=0.1.6302.41505, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ziks.WebServer.0.1.6302.41505-alpha\lib\net452\Ziks.WebServer.dll</HintPath>
+    <Reference Include="Ziks.WebServer, Version=0.1.6317.26952, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ziks.WebServer.0.1.6317.26952-alpha\lib\net452\Ziks.WebServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
