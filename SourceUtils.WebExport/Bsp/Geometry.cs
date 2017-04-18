@@ -384,25 +384,17 @@ namespace SourceUtils.WebExport.Bsp
             var texData = bsp.TextureData[texInfo.TexData];
 
             MaterialGroup matGroup;
+            
+            var matPath = bsp.GetTextureString(texData.NameStringTableId);
+            var matDictIndex = MaterialDictionary.GetMaterialIndex( bsp, matPath );
 
             int matIndex;
-            if (!page.MaterialIndices.TryGetValue(texData.NameStringTableId, out matIndex))
+            if (!page.MaterialIndices.TryGetValue(matDictIndex, out matIndex))
             {
-                var texName = bsp.GetTextureString(texData.NameStringTableId);
-                var path = $"materials/{texName.ToLower()}.vmt".Replace('\\', '/');
+                var vmt = ValveMaterialFile.FromProvider( MaterialDictionary.GetMaterialPath( bsp, matDictIndex ), bsp.PakFile, Program.Resources );
 
-                ValveMaterialFile vmt;
-                if ( bsp.PakFile.ContainsFile( path ) )
-                {
-                    vmt = ValveMaterialFile.FromProvider( path, bsp.PakFile, Program.Resources );
-                }
-                else
-                {
-                    vmt = ValveMaterialFile.FromProvider(path, Program.Resources);
-                }
-
-                matGroup = new MaterialGroup { Material = texData.NameStringTableId };
-                page.MaterialIndices.Add(texData.NameStringTableId, matIndex = page.Materials.Count);
+                matGroup = new MaterialGroup { Material = matDictIndex };
+                page.MaterialIndices.Add(matDictIndex, matIndex = page.Materials.Count);
                 page.Materials.Add(matGroup);
 
                 FindMaterialAttributes( vmt, matGroup.MeshData.Attributes );
