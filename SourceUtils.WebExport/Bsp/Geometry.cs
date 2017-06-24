@@ -386,12 +386,12 @@ namespace SourceUtils.WebExport.Bsp
             MaterialGroup matGroup;
             
             var matPath = bsp.GetTextureString(texData.NameStringTableId);
-            var matDictIndex = MaterialDictionary.GetMaterialIndex( bsp, matPath );
+            var matDictIndex = MaterialDictionary.GetResourceIndex( bsp, matPath );
 
             int matIndex;
             if (!page.MaterialIndices.TryGetValue(matDictIndex, out matIndex))
             {
-                var vmt = ValveMaterialFile.FromProvider( MaterialDictionary.GetMaterialPath( bsp, matDictIndex ), bsp.PakFile, Program.Resources );
+                var vmt = ValveMaterialFile.FromProvider( MaterialDictionary.GetResourcePath( bsp, matDictIndex ), bsp.PakFile, Program.Resources );
 
                 matGroup = new MaterialGroup { Material = matDictIndex };
                 page.MaterialIndices.Add(matDictIndex, matIndex = page.Materials.Count);

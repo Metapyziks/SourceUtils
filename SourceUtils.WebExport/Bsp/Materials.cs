@@ -25,11 +25,11 @@ namespace SourceUtils.WebExport.Bsp
         {
             var bsp = Program.GetMap(map);
             var first = index * MaterialPage.MaterialsPerPage;
-            var count = Math.Min(first + MaterialPage.MaterialsPerPage, MaterialDictionary.GetMaterialCount( bsp )) - first;
+            var count = Math.Min(first + MaterialPage.MaterialsPerPage, MaterialDictionary.GetResourceCount( bsp )) - first;
 
             if (count < 0)
             {
-                first = MaterialDictionary.GetMaterialCount(bsp);
+                first = MaterialDictionary.GetResourceCount( bsp);
                 count = 0;
             }
 
@@ -39,7 +39,7 @@ namespace SourceUtils.WebExport.Bsp
 
             for ( var i = 0; i < count; ++i )
             {
-                var path = MaterialDictionary.GetMaterialPath( bsp, first + i );
+                var path = MaterialDictionary.GetResourcePath( bsp, first + i );
                 var mat = Material.Get(bsp, path);
                 page.Materials.Add(mat);
 

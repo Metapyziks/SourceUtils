@@ -110,6 +110,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ResourceController.cs" />
+    <Compile Include="ResourceDictionary.cs" />
     <Compile Include="StaticFiles.cs" />
     <Compile Include="StudioModel.cs" />
     <Compile Include="Texture.cs" />
