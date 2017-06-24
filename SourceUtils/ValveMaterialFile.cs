@@ -9,7 +9,7 @@ namespace SourceUtils
 {
     public class MaterialPropertyGroup
     {
-        private static readonly Regex _sPropertyRegex = new Regex(@"^([^""{}]*""(?<name>[^""]+)""|\s*(?<name>[$%a-zA-Z0-9_]+))\s*(""(?<value>[^""]+)""[^""{}]*|(?<value>\S+)\s*)$", RegexOptions.Compiled);
+        private static readonly Regex _sPropertyRegex = new Regex(@"^([^""{}]*""((?<context>[^\?]+)\?)?(?<name>[\$%]?[^""]+)""|\s*(?<name>[\$%]?[a-zA-Z0-9_]+))\s*(""(?<value>[^""]+)""[^""{}]*|(?<value>\S+(\s+\S+)*)\s*)$", RegexOptions.Compiled);
         private static readonly Regex _sNestedRegex = new Regex(@"^\s*(""(?<name>[^""]+)""|(?<name>[$%a-zA-Z0-9_]+))\s*$", RegexOptions.Compiled);
         private static readonly Regex _sColorRegex = new Regex(@"^\s*\{\s*(?<red>[0-9]+)\s+(?<green>[0-9]+)\s+(?<blue>[0-9]+)\s*\}\s*$", RegexOptions.Compiled);
 
