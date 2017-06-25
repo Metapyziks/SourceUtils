@@ -1,32 +1,44 @@
 {
   "name": "de_cbble",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18a4-12e11",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f1-f97e",
   "visPages": [
     {
       "first": 0,
-      "count": 768,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18a4-12e11"
+      "count": 771,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f1-f97e"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 3261,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18a4-12e11"
+      "count": 3341,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f1-f97e"
     }
   ],
   "dispPages": [
     {
       "first": 0,
-      "count": 800,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18a4-12e11"
+      "count": 802,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f1-f97e"
     }
   ],
   "materialPages": [
     {
       "first": 0,
-      "count": 234,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18a4-12e11"
+      "count": 370,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f1-f97e"
+    }
+  ],
+  "studioModelPages": [
+    {
+      "first": 0,
+      "count": 130,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f1-f97e"
+    },
+    {
+      "first": 130,
+      "count": 31,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f1-f97e"
     }
   ],
   "entities": [
@@ -42,32 +54,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f1-f97e"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f1-f97e"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f1-f97e"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f1-f97e"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f1-f97e"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f1-f97e"
           },
           {
             "name": "hdrCompressed",
@@ -81,11 +93,401 @@
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18f1-f97e",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18a4-12e11",
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2710.75,
+        "y": -1659.88,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 136.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2649.23,
+        "y": -1620.99,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 164.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2795.6,
+        "y": -1642.91,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 72.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2823.88,
+        "y": -1558.06,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2784.99,
+        "y": -1485.23,
+        "z": 66.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 342.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2212.0,
+        "y": -1808.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 181.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2196.0,
+        "y": -1737.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 209.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2284.0,
+        "y": -1856.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 117.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2364.0,
+        "y": -1816.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 55.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2388.0,
+        "y": -1737.0,
+        "z": 2.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 27.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2208.0,
+        "y": -1648.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 181.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2192.0,
+        "y": -1577.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 209.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2280.0,
+        "y": -1696.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 117.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2360.0,
+        "y": -1656.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 55.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": -2384.0,
+        "y": -1577.0,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 27.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 374.854,
+        "y": 2272.3,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 208.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 325.729,
+        "y": 2226.44,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 138.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 402.271,
+        "y": 2340.84,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 230.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 360.59,
+        "y": 2397.49,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 279.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 302.975,
+        "y": 2426.15,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 309.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 384.79,
+        "y": 2582.52,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 247.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 374.891,
+        "y": 2516.06,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 177.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 363.577,
+        "y": 2653.23,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 268.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 295.695,
+        "y": 2671.62,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 318.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 232.762,
+        "y": 2658.18,
+        "z": 82.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 347.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 52.992,
+        "y": 2715.94,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 277.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 77.6528,
+        "y": 2653.43,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 207.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -0.73447,
+        "y": 2766.57,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 298.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -68.7146,
+        "y": 2748.55,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 348.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -116.498,
+        "y": 2705.45,
+        "z": 49.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 17.5,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18f1-f97e",
       "clusters": [
         445
       ],
@@ -94,6 +496,66 @@
         "x": 707.0,
         "y": -416.0,
         "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -528.0,
+        "y": 668.0,
+        "z": 28.0
+      },
+      "angles": {
+        "x": 59.0,
+        "y": 0.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -3004.0,
+        "y": 360.0,
+        "z": 236.929
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 119.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1240.0,
+        "y": 377.336,
+        "z": 20.5538
+      },
+      "angles": {
+        "x": 59.2715,
+        "y": 262.467,
+        "z": 98.0257
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1480.0,
+        "y": 377.336,
+        "z": 20.5538
+      },
+      "angles": {
+        "x": 59.2715,
+        "y": 277.533,
+        "z": 81.9743
+      }
+    },
+    {
+      "classname": "info_map_parameters",
+      "origin": {
+        "x": -1375.39,
+        "y": 512.0,
+        "z": 224.0
       },
       "angles": {
         "x": 0.0,
@@ -102,15 +564,249 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18a4-12e11",
+      "classname": "env_wind",
+      "origin": {
+        "x": -1303.39,
+        "y": 512.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sun",
+      "origin": {
+        "x": -1351.39,
+        "y": 512.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 285.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "shadow_control",
+      "origin": {
+        "x": -1303.39,
+        "y": 512.0,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 45.0,
+        "y": 285.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_environment",
+      "origin": {
+        "x": -1327.39,
+        "y": 512.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 285.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_tonemap_controller",
+      "origin": {
+        "x": -1351.39,
+        "y": 512.0,
+        "z": 192.0
+      }
+    },
+    {
+      "classname": "logic_auto",
+      "origin": {
+        "x": -1327.39,
+        "y": 512.0,
+        "z": 192.0
+      }
+    },
+    {
+      "fogEnabled": true,
+      "fogStart": 0.0,
+      "fogEnd": 9500.0,
+      "fogMaxDensity": 0.6,
+      "farZ": 6000.0,
+      "fogColor": {
+        "r": 0.7529412,
+        "g": 0.8117647,
+        "b": 0.7921569,
+        "a": 1.0
+      },
+      "classname": "env_fog_controller",
+      "origin": {
+        "x": -1375.39,
+        "y": 512.0,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 356.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1360.0,
+        "y": 377.336,
+        "z": 20.5538
+      },
+      "angles": {
+        "x": 59.0,
+        "y": 270.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2020.0,
+        "y": -952.0,
+        "z": 186.0
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 8.5,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -2151.0,
+        "y": -819.0,
+        "z": 48.1028
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -2331.0,
+        "y": -771.0,
+        "z": 48.1028
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 236.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1120.0,
+        "y": 2460.0,
+        "z": 328.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1120.0,
+        "y": 2464.0,
+        "z": 18.8846
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18f1-f97e",
       "clusters": [
-        717,720,721
+        720,723,724
       ],
       "classname": "func_brush",
       "origin": {
         "x": -2308.0,
         "y": -1288.0,
         "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1063.0,
+        "y": -579.0,
+        "z": 67.0
+      },
+      "angles": {
+        "x": -15.0,
+        "y": 236.5,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -400.0,
+        "y": -1076.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 141.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_bomb_target"
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 431.0,
+        "y": -909.0,
+        "z": -72.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 55.0,
+        "y": -1096.0,
+        "z": -72.0
       },
       "angles": {
         "x": 0.0,
@@ -236,7 +932,13 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18a4-12e11",
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18f1-f97e",
       "clusters": [
         277
       ],
@@ -245,6 +947,97 @@
         "x": -1380.0,
         "y": 674.27,
         "z": 256.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1943.82,
+        "y": 644.004,
+        "z": -136.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2081.43,
+        "y": 666.153,
+        "z": -149.487
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2700.0,
+        "y": 2480.0,
+        "z": 86.3495
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 345.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2680.0,
+        "y": 2560.0,
+        "z": 86.3495
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 345.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2948.0,
+        "y": -1168.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2334.0,
+        "y": -402.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2284.0,
+        "y": -2126.0,
+        "z": 602.0
       },
       "angles": {
         "x": 0.0,
@@ -253,7 +1046,142 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18a4-12e11",
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2482.0,
+        "y": -1730.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2593.0,
+        "y": -753.533,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2656.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2459.0,
+        "y": -1730.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2282.0,
+        "y": -2126.0,
+        "z": 602.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2570.2,
+        "y": -750.531,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2640.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2389.0,
+        "y": -1742.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2280.0,
+        "y": -2126.0,
+        "z": 602.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2499.23,
+        "y": -753.292,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2560.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2367.0,
+        "y": -1742.0,
+        "z": 414.358
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2278.0,
+        "y": -2126.0,
+        "z": 602.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2477.42,
+        "y": -750.42,
+        "z": 438.358
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2544.0,
+        "y": 64.0,
+        "z": 510.358
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18f1-f97e",
       "clusters": [
         506,482
       ],
@@ -262,15 +1190,10 @@
         "x": -987.0,
         "y": -601.65,
         "z": 128.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18f1-f97e",
       "clusters": [
         482
       ],
@@ -279,15 +1202,10 @@
         "x": -848.0,
         "y": -600.0,
         "z": 216.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18f1-f97e",
       "clusters": [
         140,450
       ],
@@ -296,15 +1214,10 @@
         "x": -941.5,
         "y": -12.0,
         "z": 256.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18f1-f97e",
       "clusters": [
         146
       ],
@@ -313,15 +1226,10 @@
         "x": -1133.5,
         "y": 2708.01,
         "z": 272.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18f1-f97e",
       "clusters": [
         2
       ],
@@ -330,23 +1238,253 @@
         "x": -1137.5,
         "y": 2972.01,
         "z": 448.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18f1-f97e",
       "clusters": [
-        651
+        654
       ],
       "classname": "func_brush",
       "origin": {
         "x": -1892.01,
         "y": -1362.39,
         "z": 124.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -760.615,
+        "y": 321.629,
+        "z": 287.799
+      },
+      "angles": {
+        "x": -0.721176,
+        "y": 219.154,
+        "z": 4.58626
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -753.443,
+        "y": 315.296,
+        "z": 286.1
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -770.202,
+        "y": 315.054,
+        "z": 288.199
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -766.443,
+        "y": 334.544,
+        "z": 286.1
+      }
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": 64.0,
+        "z": -84.0
+      },
+      "angles": {
+        "x": -40.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_occluder"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -1260.14,
+        "y": 2375.28,
+        "z": -115.972
       },
       "angles": {
         "x": 0.0,
@@ -355,7 +1493,188 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18a4-12e11",
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 193.0,
+        "y": 2503.0,
+        "z": -226.464
+      },
+      "angles": {
+        "x": -88.5,
+        "y": 180.0,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -1869.0,
+        "y": -1336.0,
+        "z": 35.2764
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 284.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -864.0,
+        "y": 739.5,
+        "z": 47.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -864.0,
+        "y": 751.0,
+        "z": 57.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -496.0,
+        "y": 823.0,
+        "z": 47.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -504.0,
+        "y": 780.0,
+        "z": 57.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -527.5,
+        "y": 796.0,
+        "z": 51.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -464.5,
+        "y": 796.0,
+        "z": 51.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1008.0,
+        "y": 300.0,
+        "z": 4.0
+      },
+      "angles": {
+        "x": 70.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1008.0,
+        "y": 228.0,
+        "z": 4.0
+      },
+      "angles": {
+        "x": 70.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1020.5,
+        "y": 232.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1012.5,
+        "y": 236.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1008.5,
+        "y": 264.0,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1012.5,
+        "y": 291.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1020.5,
+        "y": 295.5,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_door_rotating",
+      "origin": {
+        "x": -174.11,
+        "y": 717.23,
+        "z": 52.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -194.107,
+        "y": 683.55,
+        "z": 0.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18f1-f97e",
       "clusters": [
         76
       ],
@@ -364,6 +1683,30 @@
         "x": -206.61,
         "y": 717.26,
         "z": 54.25
+      }
+    },
+    {
+      "classname": "trigger_multiple",
+      "origin": {
+        "x": -194.11,
+        "y": 678.23,
+        "z": 59.75
+      }
+    },
+    {
+      "classname": "logic_relay",
+      "origin": {
+        "x": -182.107,
+        "y": 690.23,
+        "z": 57.0498
+      }
+    },
+    {
+      "classname": "func_door_rotating",
+      "origin": {
+        "x": -250.11,
+        "y": 720.23,
+        "z": 52.25
       },
       "angles": {
         "x": 0.0,
@@ -372,7 +1715,20 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18a4-12e11",
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -270.107,
+        "y": 686.55,
+        "z": 0.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18f1-f97e",
       "clusters": [
         76
       ],
@@ -381,6 +1737,218 @@
         "x": -282.61,
         "y": 720.26,
         "z": 54.25
+      }
+    },
+    {
+      "classname": "trigger_multiple",
+      "origin": {
+        "x": -270.11,
+        "y": 681.23,
+        "z": 59.75
+      }
+    },
+    {
+      "classname": "logic_relay",
+      "origin": {
+        "x": -258.107,
+        "y": 693.23,
+        "z": 57.0498
+      }
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 114.0,
+        "y": 2360.0,
+        "z": 44.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -3001.12,
+        "y": -125.732,
+        "z": -23.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2532.0,
+        "y": -1249.0,
+        "z": 73.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -351.0,
+        "y": 957.0,
+        "z": 24.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -395.0,
+        "y": -175.0,
+        "z": -24.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -384.0,
+        "y": -552.0,
+        "z": -24.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1472.0,
+        "y": 784.0,
+        "z": 96.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -817.0,
+        "y": 2763.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2926.0,
+        "y": 438.0,
+        "z": 16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2318.0,
+        "y": 460.0,
+        "z": -215.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2324.0,
+        "y": 557.0,
+        "z": -223.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -3084.49,
+        "y": -107.79,
+        "z": -23.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2161.29,
+        "y": 34.0,
+        "z": -231.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2760.0,
+        "y": 716.0,
+        "z": 16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -461.0,
+        "y": 954.0,
+        "z": 32.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -594.0,
+        "y": -115.0,
+        "z": -16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -464.0,
+        "y": -540.0,
+        "z": -16.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -1472.0,
+        "y": 928.0,
+        "z": 72.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -750.0,
+        "y": 2765.0,
+        "z": 72.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2758.0,
+        "y": 787.0,
+        "z": 8.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2869.0,
+        "y": 437.0,
+        "z": 8.0
+      }
+    },
+    {
+      "classname": "env_soundscape_proxy",
+      "origin": {
+        "x": -2167.29,
+        "y": -42.0,
+        "z": -229.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 338.0,
+        "y": -724.0,
+        "z": -72.0
       },
       "angles": {
         "x": 0.0,
@@ -389,508 +1957,2007 @@
       }
     },
     {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -38.0,
+        "y": -911.0,
+        "z": -72.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1232.31,
+        "y": 569.0,
+        "z": 31.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1224.31,
+        "y": 612.0,
+        "z": 41.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1200.81,
+        "y": 596.0,
+        "z": 35.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -1263.81,
+        "y": 596.0,
+        "z": 35.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -528.0,
+        "y": 1048.5,
+        "z": 47.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -528.0,
+        "y": 1060.0,
+        "z": 57.5
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -485.5,
+        "y": 472.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -485.5,
+        "y": 264.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -485.5,
+        "y": 48.0,
+        "z": 80.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1632.0,
+        "y": -944.0,
+        "z": 499.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1440.0,
+        "y": -848.0,
+        "z": 499.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1088.0,
+        "y": -816.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1056.0,
+        "y": -1008.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1216.0,
+        "y": -1168.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1472.0,
+        "y": -1136.0,
+        "z": 467.067
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1024.0,
+        "y": -944.0,
+        "z": 307.067
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": -576.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2256.0,
+        "y": 1088.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -576.0,
+        "y": -192.0,
+        "z": 576.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1472.0,
+        "y": 1104.0,
+        "z": 320.0
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 270.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2842.55,
+        "y": 477.744,
+        "z": 376.068
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 0.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -2842.55,
+        "y": 381.744,
+        "z": 376.068
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 0.0,
+        "z": 90.0
+      }
+    },
+    {
       "scale": 16,
+      "fogEnabled": true,
+      "fogStart": 0.0,
+      "fogEnd": 8000.0,
+      "fogMaxDensity": 0.6,
+      "farZ": 0.0,
+      "fogColor": {
+        "r": 0.7529412,
+        "g": 0.8117647,
+        "b": 0.7921569,
+        "a": 1.0
+      },
       "classname": "sky_camera",
       "origin": {
         "x": 7168.0,
         "y": 0.0,
         "z": 0.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 544.0,
+        "y": -224.0,
+        "z": 288.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -942.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -814.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -686.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -558.846,
+        "y": 568.0,
+        "z": 452.784
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 300.0,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "func_buyzone"
+    },
+    {
+      "classname": "func_buyzone"
+    },
+    {
+      "classname": "func_bomb_target"
+    },
+    {
+      "classname": "func_buyzone",
+      "origin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model45.json?v=18f1-f97e",
+      "clusters": [
+        110,112
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -624.0,
+        "y": 760.0,
+        "z": 108.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": 374.854,
-        "y": 2272.3,
-        "z": 82.0
+        "x": -784.0,
+        "y": 288.0,
+        "z": 12.0
       },
       "angles": {
         "x": 0.0,
-        "y": -151.5,
+        "y": 270.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": 325.729,
-        "y": 2226.44,
-        "z": 82.0
+        "x": -784.0,
+        "y": 224.0,
+        "z": 12.0
       },
       "angles": {
         "x": 0.0,
-        "y": 138.5,
+        "y": 270.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": 402.271,
-        "y": 2340.84,
-        "z": 82.0
+        "x": -688.0,
+        "y": 224.0,
+        "z": 12.0
       },
       "angles": {
         "x": 0.0,
-        "y": -130.0,
+        "y": 270.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": 360.59,
-        "y": 2397.49,
-        "z": 82.0
+        "x": -688.0,
+        "y": 288.0,
+        "z": 12.0
       },
       "angles": {
         "x": 0.0,
-        "y": -80.5,
+        "y": 270.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model46.json?v=18f1-f97e",
+      "clusters": [
+        257
+      ],
+      "classname": "func_brush",
       "origin": {
-        "x": 302.975,
-        "y": 2426.15,
-        "z": 82.0
+        "x": -1040.0,
+        "y": 472.0,
+        "z": 84.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model47.json?v=18f1-f97e",
+      "clusters": [
+        107,555,556,560,561,562,563,564,565,566,567,568,569,570,584,585,586,587
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -1720.0,
+        "y": -912.0,
+        "z": 192.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model48.json?v=18f1-f97e",
+      "clusters": [
+        694,695,696,697,699,700
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -1736.0,
+        "y": -1122.0,
+        "z": 64.0
+      }
+    },
+    {
+      "classname": "func_buyzone",
+      "origin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "logic_script",
+      "origin": {
+        "x": 624.0,
+        "y": -848.334,
+        "z": 48.0
+      }
+    },
+    {
+      "classname": "logic_auto",
+      "origin": {
+        "x": 592.0,
+        "y": -848.334,
+        "z": 48.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 656.0,
+        "y": -912.0,
+        "z": -80.0
       },
       "angles": {
         "x": 0.0,
-        "y": -51.0,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_counterterrorist",
       "origin": {
-        "x": -2208.0,
-        "y": -1648.0,
-        "z": 25.0
+        "x": 560.0,
+        "y": -912.0,
+        "z": -80.0
       },
       "angles": {
         "x": 0.0,
-        "y": 181.0,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_counterterrorist",
       "origin": {
-        "x": -2192.0,
-        "y": -1577.0,
-        "z": 25.0
+        "x": 560.0,
+        "y": -816.0,
+        "z": -80.0
       },
       "angles": {
         "x": 0.0,
-        "y": 209.0,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_counterterrorist",
       "origin": {
-        "x": -2280.0,
-        "y": -1696.0,
-        "z": 25.0
+        "x": 656.0,
+        "y": -816.0,
+        "z": -80.0
       },
       "angles": {
         "x": 0.0,
-        "y": 117.5,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model50.json?v=18f1-f97e",
+      "clusters": [
+        110,112
+      ],
+      "classname": "func_brush",
       "origin": {
-        "x": -2360.0,
-        "y": -1656.0,
-        "z": 25.0
+        "x": -624.0,
+        "y": 754.0,
+        "z": 72.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model51.json?v=18f1-f97e",
+      "clusters": [
+        257
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -1026.0,
+        "y": 472.0,
+        "z": 56.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model52.json?v=18f1-f97e",
+      "clusters": [
+        695,696,697,699,700
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -1738.0,
+        "y": -1124.0,
+        "z": 56.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model53.json?v=18f1-f97e",
+      "clusters": [
+        556,564,566,568,570,586,587
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -1714.0,
+        "y": -912.0,
+        "z": 56.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2983.62,
+        "y": -37.0804,
+        "z": 58.0
       },
       "angles": {
         "x": 0.0,
-        "y": 55.0,
+        "y": -14.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2384.0,
-        "y": -1577.0,
-        "z": 25.0
+        "x": -2972.95,
+        "y": -39.7415,
+        "z": 63.555
       },
       "angles": {
         "x": 0.0,
-        "y": 27.5,
+        "y": -14.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2710.75,
-        "y": -1659.88,
-        "z": 66.0
+        "x": -2965.19,
+        "y": -41.6769,
+        "z": 63.555
       },
       "angles": {
         "x": 0.0,
-        "y": 136.0,
+        "y": -14.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": -2649.23,
-        "y": -1620.99,
-        "z": 66.0
+        "x": 729.151,
+        "y": -38.8492,
+        "z": 144.0
       },
       "angles": {
         "x": 0.0,
-        "y": 164.0,
+        "y": -135.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2795.6,
-        "y": -1642.91,
-        "z": 66.0
+        "x": 721.373,
+        "y": -46.6274,
+        "z": 149.555
       },
       "angles": {
         "x": 0.0,
-        "y": 72.5,
+        "y": -135.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2823.88,
-        "y": -1558.06,
-        "z": 66.0
+        "x": 715.716,
+        "y": -52.2843,
+        "z": 149.555
       },
       "angles": {
         "x": 0.0,
-        "y": 10.0,
+        "y": -135.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": -2784.99,
-        "y": -1485.23,
-        "z": 66.0
+        "x": -128.0,
+        "y": -235.0,
+        "z": 109.579
       },
       "angles": {
         "x": 0.0,
-        "y": -17.5,
+        "y": 90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2212.0,
-        "y": -1808.0,
-        "z": 2.0
+        "x": -128.0,
+        "y": -224.0,
+        "z": 115.134
       },
       "angles": {
         "x": 0.0,
-        "y": 181.0,
+        "y": 90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2196.0,
-        "y": -1737.0,
-        "z": 2.0
+        "x": -128.0,
+        "y": -216.0,
+        "z": 115.134
       },
       "angles": {
         "x": 0.0,
-        "y": 209.0,
+        "y": 90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": -2284.0,
-        "y": -1856.0,
-        "z": 2.0
+        "x": -2040.0,
+        "y": 160.0,
+        "z": -50.0
       },
       "angles": {
         "x": 0.0,
-        "y": 117.5,
+        "y": -180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2364.0,
-        "y": -1816.0,
-        "z": 2.0
+        "x": -2051.0,
+        "y": 160.0,
+        "z": -44.445
       },
       "angles": {
         "x": 0.0,
-        "y": 55.0,
+        "y": -180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "light",
       "origin": {
-        "x": -2388.0,
-        "y": -1737.0,
-        "z": 2.0
+        "x": -2059.0,
+        "y": 160.0,
+        "z": -44.445
       },
       "angles": {
         "x": 0.0,
-        "y": 27.5,
+        "y": -180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": 384.79,
-        "y": 2582.52,
-        "z": 82.0
+        "x": -1653.0,
+        "y": 560.0,
+        "z": 112.0
       },
       "angles": {
         "x": 0.0,
-        "y": -113.0,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 374.891,
-        "y": 2516.06,
-        "z": 82.0
+        "x": -1664.0,
+        "y": 560.0,
+        "z": 117.555
       },
       "angles": {
         "x": 0.0,
-        "y": 177.0,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 363.577,
-        "y": 2653.23,
-        "z": 82.0
+        "x": -1672.0,
+        "y": 560.0,
+        "z": 117.555
       },
       "angles": {
         "x": 0.0,
-        "y": -91.5,
+        "y": 180.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": 295.695,
-        "y": 2671.62,
-        "z": 82.0
+        "x": -1963.0,
+        "y": 544.0,
+        "z": -16.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1952.0,
+        "y": 544.0,
+        "z": -10.445
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1944.0,
+        "y": 544.0,
+        "z": -10.445
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1480.0,
+        "y": 661.0,
+        "z": 176.0
       },
       "angles": {
         "x": 0.0,
-        "y": -42.0,
+        "y": 90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 232.762,
-        "y": 2658.18,
-        "z": 82.0
+        "x": -1480.0,
+        "y": 672.0,
+        "z": 181.555
       },
       "angles": {
         "x": 0.0,
-        "y": -12.5,
+        "y": 90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 52.992,
-        "y": 2715.94,
-        "z": 49.0
+        "x": -1480.0,
+        "y": 680.0,
+        "z": 181.555
       },
       "angles": {
         "x": 0.0,
-        "y": -83.0,
+        "y": 90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": 77.6528,
-        "y": 2653.43,
-        "z": 49.0
+        "x": -752.0,
+        "y": 731.0,
+        "z": 160.0
       },
       "angles": {
         "x": 0.0,
-        "y": -153.0,
+        "y": -90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": -0.73447,
-        "y": 2766.57,
-        "z": 49.0
+        "x": -752.0,
+        "y": 720.0,
+        "z": 165.555
       },
       "angles": {
         "x": 0.0,
-        "y": -61.5,
+        "y": -90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": -68.7146,
-        "y": 2748.55,
-        "z": 49.0
+        "x": -752.0,
+        "y": 712.0,
+        "z": 165.555
       },
       "angles": {
         "x": 0.0,
-        "y": -12.0,
+        "y": -90.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": -116.498,
-        "y": 2705.45,
-        "z": 49.0
+        "x": -1053.08,
+        "y": -589.624,
+        "z": 104.0
       },
       "angles": {
         "x": 0.0,
-        "y": 17.5,
+        "y": 104.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 352.0,
-        "y": 2007.0,
-        "z": 82.0
+        "x": -1055.74,
+        "y": -578.951,
+        "z": 109.555
       },
       "angles": {
         "x": 0.0,
-        "y": -158.0,
+        "y": 104.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 298.0,
-        "y": 1967.0,
-        "z": 82.0
+        "x": -1057.68,
+        "y": -571.188,
+        "z": 109.555
       },
       "angles": {
         "x": 0.0,
-        "y": 132.0,
+        "y": 104.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": 387.0,
-        "y": 2072.0,
-        "z": 82.0
+        "x": -863.0,
+        "y": -176.0,
+        "z": 232.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -852.0,
+        "y": -176.0,
+        "z": 237.555
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -844.0,
+        "y": -176.0,
+        "z": 237.555
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -941.388,
+        "y": -421.236,
+        "z": 88.0
       },
       "angles": {
         "x": 0.0,
-        "y": -136.5,
+        "y": -74.5,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 352.0,
-        "y": 2133.0,
-        "z": 82.0
+        "x": -938.448,
+        "y": -431.836,
+        "z": 93.555
       },
       "angles": {
         "x": 0.0,
-        "y": -87.0,
+        "y": -74.5,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "light",
       "origin": {
-        "x": 298.0,
-        "y": 2168.0,
-        "z": 82.0
+        "x": -936.31,
+        "y": -439.545,
+        "z": 93.555
       },
       "angles": {
         "x": 0.0,
-        "y": -57.5,
+        "y": -74.5,
         "z": 0.0
       }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -717.08,
+        "y": -794.624,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -719.742,
+        "y": -783.951,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -721.677,
+        "y": -776.188,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -643.624,
+        "y": -610.92,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -632.951,
+        "y": -608.258,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -625.188,
+        "y": -606.323,
+        "z": 93.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 453.08,
+        "y": -1435.62,
+        "z": 28.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 455.742,
+        "y": -1424.95,
+        "z": 33.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 457.677,
+        "y": -1417.19,
+        "z": 33.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1754.92,
+        "y": -1420.38,
+        "z": 204.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1752.26,
+        "y": -1431.05,
+        "z": 209.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1750.32,
+        "y": -1438.81,
+        "z": 209.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -76.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1762.38,
+        "y": -1205.08,
+        "z": 92.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1773.05,
+        "y": -1207.74,
+        "z": 97.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1780.81,
+        "y": -1209.68,
+        "z": 97.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1072.0,
+        "y": 2165.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1072.0,
+        "y": 2176.0,
+        "z": -18.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1072.0,
+        "y": 2184.0,
+        "z": -18.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 7145.21,
+        "y": -13.669,
+        "z": 513.028
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1238.0,
+        "y": -789.0,
+        "z": 115.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1238.0,
+        "y": -800.0,
+        "z": 120.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1238.0,
+        "y": -808.0,
+        "z": 120.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1658.62,
+        "y": -1311.92,
+        "z": 175.104
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1647.95,
+        "y": -1309.26,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1640.19,
+        "y": -1307.32,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1712.62,
+        "y": -1094.92,
+        "z": 175.104
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1701.95,
+        "y": -1092.26,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1694.19,
+        "y": -1090.32,
+        "z": 180.659
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2656.0,
+        "y": 115.0,
+        "z": -88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2656.0,
+        "y": 104.0,
+        "z": -82.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2656.0,
+        "y": 96.0,
+        "z": -82.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1908.38,
+        "y": -1301.08,
+        "z": 108.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1919.05,
+        "y": -1303.74,
+        "z": 113.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1926.81,
+        "y": -1305.68,
+        "z": 113.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -166.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2693.0,
+        "y": 528.0,
+        "z": 104.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2704.0,
+        "y": 528.0,
+        "z": 109.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2712.0,
+        "y": 528.0,
+        "z": 109.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -805.08,
+        "y": -527.624,
+        "z": 228.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -807.742,
+        "y": -516.951,
+        "z": 233.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -809.677,
+        "y": -509.188,
+        "z": 233.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 104.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 107.0,
+        "z": 240.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 96.0,
+        "z": 245.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 88.0,
+        "z": 245.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 327.0,
+        "z": 110.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 316.0,
+        "z": 115.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 308.0,
+        "z": 115.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -752.0,
+        "y": 405.0,
+        "z": 120.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 416.0,
+        "z": 125.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -752.0,
+        "y": 424.0,
+        "z": 125.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -976.0,
+        "y": 731.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -976.0,
+        "y": 720.0,
+        "z": 165.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -976.0,
+        "y": 712.0,
+        "z": 165.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1480.0,
+        "y": 603.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1480.0,
+        "y": 592.0,
+        "z": 181.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1480.0,
+        "y": 584.0,
+        "z": 181.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -439.0,
+        "y": 896.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -450.0,
+        "y": 896.0,
+        "z": 133.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -458.0,
+        "y": 896.0,
+        "z": 133.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -2256.0,
+        "y": 53.0,
+        "z": -100.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2256.0,
+        "y": 64.0,
+        "z": -94.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -2256.0,
+        "y": 72.0,
+        "z": -94.445
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -944.0,
+        "y": 2709.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -944.0,
+        "y": 2720.0,
+        "z": 229.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -944.0,
+        "y": 2728.0,
+        "z": 229.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1222.63,
+        "y": 2925.21,
+        "z": 368.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -63.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1217.72,
+        "y": 2915.36,
+        "z": 373.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -63.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1214.15,
+        "y": 2908.2,
+        "z": 373.555
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -63.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1307.0,
+        "y": 2672.0,
+        "z": 428.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1296.0,
+        "y": 2672.0,
+        "z": 433.555
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1288.0,
+        "y": 2672.0,
+        "z": 433.555
+      }
+    },
+    {
+      "classname": "water_lod_control"
     },
     {
       "index": 0,
       "clusters": [
-        647,737,738
+        151,152,156,177
       ],
       "classname": "displacement"
     },
     {
       "index": 1,
       "clusters": [
-        730,647,731,732,737,738
+        51,66,67
       ],
       "classname": "displacement"
     },
     {
       "index": 2,
       "clusters": [
-        647,731,732,737,738
+        650,740,741
       ],
       "classname": "displacement"
     },
     {
       "index": 3,
       "clusters": [
-        445,449
+        733,650,734,735,740,741
       ],
       "classname": "displacement"
     },
     {
       "index": 4,
       "clusters": [
-        280
+        650,734,735,740,741
       ],
       "classname": "displacement"
     },
     {
       "index": 5,
       "clusters": [
-        280
+        445,449
       ],
       "classname": "displacement"
     },
@@ -1065,154 +4132,154 @@
     {
       "index": 30,
       "clusters": [
-        525,465
+        280
       ],
       "classname": "displacement"
     },
     {
       "index": 31,
       "clusters": [
-        268,288,292
+        280
       ],
       "classname": "displacement"
     },
     {
       "index": 32,
       "clusters": [
-        292
+        525,465
       ],
       "classname": "displacement"
     },
     {
       "index": 33,
       "clusters": [
-        296
+        268,288,292
       ],
       "classname": "displacement"
     },
     {
       "index": 34,
       "clusters": [
-        296
+        292
       ],
       "classname": "displacement"
     },
     {
       "index": 35,
       "clusters": [
-        465
+        296
       ],
       "classname": "displacement"
     },
     {
       "index": 36,
       "clusters": [
-        465,523,525,529
+        296
       ],
       "classname": "displacement"
     },
     {
       "index": 37,
       "clusters": [
-        462,463,449,107,481,483
+        465
       ],
       "classname": "displacement"
     },
     {
       "index": 38,
       "clusters": [
-        107,462
+        465,523,525,529
       ],
       "classname": "displacement"
     },
     {
       "index": 39,
       "clusters": [
-        462,463,449,107,476,477,481
+        462,463,449,107,481,483
       ],
       "classname": "displacement"
     },
     {
       "index": 40,
       "clusters": [
-        107,462,474,476
+        107,462
       ],
       "classname": "displacement"
     },
     {
       "index": 41,
       "clusters": [
-        107,481,483
+        462,463,449,107,476,477,481
       ],
       "classname": "displacement"
     },
     {
       "index": 42,
       "clusters": [
-        107,476
+        107,462,474,476
       ],
       "classname": "displacement"
     },
     {
       "index": 43,
       "clusters": [
-        445,465,449
+        107,481,483
       ],
       "classname": "displacement"
     },
     {
       "index": 44,
       "clusters": [
-        717,647
+        107,476
       ],
       "classname": "displacement"
     },
     {
       "index": 45,
       "clusters": [
-        717,647
+        445,465,449
       ],
       "classname": "displacement"
     },
     {
       "index": 46,
       "clusters": [
-        717,647
+        720,650
       ],
       "classname": "displacement"
     },
     {
       "index": 47,
       "clusters": [
-        717
+        720,650
       ],
       "classname": "displacement"
     },
     {
       "index": 48,
       "clusters": [
-        647
+        720,650
       ],
       "classname": "displacement"
     },
     {
       "index": 49,
       "clusters": [
-        717,647
+        720
       ],
       "classname": "displacement"
     },
     {
       "index": 50,
       "clusters": [
-        107
+        650
       ],
       "classname": "displacement"
     },
     {
       "index": 51,
       "clusters": [
-        107
+        720,650
       ],
       "classname": "displacement"
     },
@@ -1247,28 +4314,28 @@
     {
       "index": 56,
       "clusters": [
-        2
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 57,
       "clusters": [
-        2
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 58,
       "clusters": [
-        141,220,223
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 59,
       "clusters": [
-        141,220,223
+        2
       ],
       "classname": "displacement"
     },
@@ -1282,14 +4349,14 @@
     {
       "index": 61,
       "clusters": [
-        220,221,222,223,224,225
+        141,220,223
       ],
       "classname": "displacement"
     },
     {
       "index": 62,
       "clusters": [
-        220,221,223
+        141,220,223
       ],
       "classname": "displacement"
     },
@@ -1303,14 +4370,14 @@
     {
       "index": 64,
       "clusters": [
-        246
+        220,221,223
       ],
       "classname": "displacement"
     },
     {
       "index": 65,
       "clusters": [
-        246
+        220,221,222,223,224,225
       ],
       "classname": "displacement"
     },
@@ -1933,14 +5000,14 @@
     {
       "index": 154,
       "clusters": [
-        493,508
+        246
       ],
       "classname": "displacement"
     },
     {
       "index": 155,
       "clusters": [
-        493,508
+        246
       ],
       "classname": "displacement"
     },
@@ -1961,518 +5028,518 @@
     {
       "index": 158,
       "clusters": [
-        126,127,128,131,138,139,140,450
+        493,508
       ],
       "classname": "displacement"
     },
     {
       "index": 159,
       "clusters": [
-        124,125,126,127,128,257,259
+        493,508
       ],
       "classname": "displacement"
     },
     {
       "index": 160,
       "clusters": [
-        81,82,76,87,88,89,96,104
+        126,127,128,131,138,139,140,450
       ],
       "classname": "displacement"
     },
     {
       "index": 161,
       "clusters": [
-        76,81
+        124,125,126,127,128,257,259
       ],
       "classname": "displacement"
     },
     {
       "index": 162,
       "clusters": [
-        574,605,639
+        81,82,76,87,88,89,96,104
       ],
       "classname": "displacement"
     },
     {
       "index": 163,
       "clusters": [
-        574,605,639
+        76,81
       ],
       "classname": "displacement"
     },
     {
       "index": 164,
       "clusters": [
-        574,605,639
+        574,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 165,
       "clusters": [
-        605,639
+        574,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 166,
       "clusters": [
-        639
+        574,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 167,
       "clusters": [
-        605,639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 168,
       "clusters": [
-        574,605,639
+        642
       ],
       "classname": "displacement"
     },
     {
       "index": 169,
       "clusters": [
-        639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 170,
       "clusters": [
-        605,639
+        574,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 171,
       "clusters": [
-        605,639
+        642
       ],
       "classname": "displacement"
     },
     {
       "index": 172,
       "clusters": [
-        639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 173,
       "clusters": [
-        605,639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 174,
       "clusters": [
-        605,639
+        642
       ],
       "classname": "displacement"
     },
     {
       "index": 175,
       "clusters": [
-        639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 176,
       "clusters": [
-        605,639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 177,
       "clusters": [
-        601,605,633,639
+        642
       ],
       "classname": "displacement"
     },
     {
       "index": 178,
       "clusters": [
-        633,639
+        605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 179,
       "clusters": [
-        601,633
+        601,605,636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 180,
       "clusters": [
-        601,605,633,639
+        636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 181,
       "clusters": [
-        633,639
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 182,
       "clusters": [
-        601,605,633
+        601,605,636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 183,
       "clusters": [
-        601,605,633,639
+        636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 184,
       "clusters": [
-        639
+        601,605,636
       ],
       "classname": "displacement"
     },
     {
       "index": 185,
       "clusters": [
-        601,605,633,639
+        601,605,636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 186,
       "clusters": [
-        601,605,639
+        642
       ],
       "classname": "displacement"
     },
     {
       "index": 187,
       "clusters": [
-        639
+        601,605,636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 188,
       "clusters": [
-        601,605,639
+        601,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 189,
       "clusters": [
-        601,633
+        642
       ],
       "classname": "displacement"
     },
     {
       "index": 190,
       "clusters": [
-        633
+        601,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 191,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 192,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 193,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 194,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 195,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 196,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 197,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 198,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 199,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 200,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 201,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 202,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 203,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 204,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 205,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 206,
       "clusters": [
-        601
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 207,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 208,
       "clusters": [
-        601,633
+        601
       ],
       "classname": "displacement"
     },
     {
       "index": 209,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 210,
       "clusters": [
-        601
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 211,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 212,
       "clusters": [
-        601,633
+        601
       ],
       "classname": "displacement"
     },
     {
       "index": 213,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 214,
       "clusters": [
-        601
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 215,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 216,
       "clusters": [
-        633
+        601
       ],
       "classname": "displacement"
     },
     {
       "index": 217,
       "clusters": [
-        633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 218,
       "clusters": [
-        601,633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 219,
       "clusters": [
-        633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 220,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 221,
       "clusters": [
-        633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 222,
       "clusters": [
-        601,633
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 223,
       "clusters": [
-        633
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 224,
       "clusters": [
-        559,572,574,604,605
+        601,636
       ],
       "classname": "displacement"
     },
     {
       "index": 225,
       "clusters": [
-        574,605,639
+        636
       ],
       "classname": "displacement"
     },
     {
       "index": 226,
       "clusters": [
-        574,605,639
+        559,572,574,604,605
       ],
       "classname": "displacement"
     },
     {
       "index": 227,
       "clusters": [
-        615,620,633
+        574,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 228,
       "clusters": [
-        615,620,633
+        574,605,642
       ],
       "classname": "displacement"
     },
     {
       "index": 229,
       "clusters": [
-        615,620,633
+        615,620,636
       ],
       "classname": "displacement"
     },
     {
       "index": 230,
       "clusters": [
-        615
+        615,620,636
       ],
       "classname": "displacement"
     },
     {
       "index": 231,
       "clusters": [
-        615
+        615,620,636
       ],
       "classname": "displacement"
     },
@@ -2486,14 +5553,14 @@
     {
       "index": 233,
       "clusters": [
-        86
+        615
       ],
       "classname": "displacement"
     },
     {
       "index": 234,
       "clusters": [
-        86
+        615
       ],
       "classname": "displacement"
     },
@@ -2801,14 +5868,14 @@
     {
       "index": 278,
       "clusters": [
-        53,85,86
+        86
       ],
       "classname": "displacement"
     },
     {
       "index": 279,
       "clusters": [
-        53,86
+        86
       ],
       "classname": "displacement"
     },
@@ -2822,35 +5889,35 @@
     {
       "index": 281,
       "clusters": [
-        85,86
+        53,86
       ],
       "classname": "displacement"
     },
     {
       "index": 282,
       "clusters": [
-        53,86
+        53,85,86
       ],
       "classname": "displacement"
     },
     {
       "index": 283,
       "clusters": [
-        53,85,86
+        85,86
       ],
       "classname": "displacement"
     },
     {
       "index": 284,
       "clusters": [
-        85,86
+        53,86
       ],
       "classname": "displacement"
     },
     {
       "index": 285,
       "clusters": [
-        86
+        53,85,86
       ],
       "classname": "displacement"
     },
@@ -2864,14 +5931,14 @@
     {
       "index": 287,
       "clusters": [
-        85,86
+        86
       ],
       "classname": "displacement"
     },
     {
       "index": 288,
       "clusters": [
-        86
+        85,86
       ],
       "classname": "displacement"
     },
@@ -2885,14 +5952,14 @@
     {
       "index": 290,
       "clusters": [
-        51,53,85,86
+        86
       ],
       "classname": "displacement"
     },
     {
       "index": 291,
       "clusters": [
-        51,53
+        85,86
       ],
       "classname": "displacement"
     },
@@ -2906,14 +5973,14 @@
     {
       "index": 293,
       "clusters": [
-        53,85,86
+        51,53
       ],
       "classname": "displacement"
     },
     {
       "index": 294,
       "clusters": [
-        53
+        51,53,85,86
       ],
       "classname": "displacement"
     },
@@ -2927,35 +5994,35 @@
     {
       "index": 296,
       "clusters": [
-        465,449,511
+        53
       ],
       "classname": "displacement"
     },
     {
       "index": 297,
       "clusters": [
-        465,511
+        53,85,86
       ],
       "classname": "displacement"
     },
     {
       "index": 298,
       "clusters": [
-        372,412,413,626,627,628
+        465,449,511
       ],
       "classname": "displacement"
     },
     {
       "index": 299,
       "clusters": [
-        1
+        465,511
       ],
       "classname": "displacement"
     },
     {
       "index": 300,
       "clusters": [
-        1
+        390,373,391,412,413,626,627,629,630,631
       ],
       "classname": "displacement"
     },
@@ -3088,14 +6155,14 @@
     {
       "index": 319,
       "clusters": [
-        141
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 320,
       "clusters": [
-        141,227,228
+        1
       ],
       "classname": "displacement"
     },
@@ -3109,7 +6176,7 @@
     {
       "index": 322,
       "clusters": [
-        141,227
+        141,227,228
       ],
       "classname": "displacement"
     },
@@ -3123,35 +6190,35 @@
     {
       "index": 324,
       "clusters": [
-        141,227,228
+        141,227
       ],
       "classname": "displacement"
     },
     {
       "index": 325,
       "clusters": [
-        141,227
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 326,
       "clusters": [
-        141,227
+        141,227,228
       ],
       "classname": "displacement"
     },
     {
       "index": 327,
       "clusters": [
-        141
+        141,227
       ],
       "classname": "displacement"
     },
     {
       "index": 328,
       "clusters": [
-        141
+        141,227
       ],
       "classname": "displacement"
     },
@@ -3172,84 +6239,84 @@
     {
       "index": 331,
       "clusters": [
-        141,161,162,169,172,173,178,179,184,186
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 332,
       "clusters": [
-        169,172,173,178,179,141,184,186
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 333,
       "clusters": [
-        141,161,169,172,178,184
+        141,161,162,169,172,173,178,179,184,186
       ],
       "classname": "displacement"
     },
     {
       "index": 334,
       "clusters": [
-        169,172,178
+        169,172,173,178,179,141,184,186
       ],
       "classname": "displacement"
     },
     {
       "index": 335,
       "clusters": [
-        141,184,186
+        141,161,169,172,178,184
       ],
       "classname": "displacement"
     },
     {
       "index": 336,
       "clusters": [
-        141,184,186
+        169,172,178
       ],
       "classname": "displacement"
     },
     {
       "index": 337,
       "clusters": [
-        141
+        141,184,186
       ],
       "classname": "displacement"
     },
     {
       "index": 338,
       "clusters": [
-        141
+        141,184,186
       ],
       "classname": "displacement"
     },
     {
       "index": 339,
       "clusters": [
-        141,169
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 340,
       "clusters": [
-        169,141
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 341,
       "clusters": [
-        141
+        141,169
       ],
       "classname": "displacement"
     },
     {
       "index": 342,
       "clusters": [
-        141
+        169,141
       ],
       "classname": "displacement"
     },
@@ -3312,14 +6379,14 @@
     {
       "index": 351,
       "clusters": [
-        107
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 352,
       "clusters": [
-        107
+        141
       ],
       "classname": "displacement"
     },
@@ -3382,14 +6449,14 @@
     {
       "index": 361,
       "clusters": [
-        1
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 362,
       "clusters": [
-        1
+        107
       ],
       "classname": "displacement"
     },
@@ -3452,14 +6519,14 @@
     {
       "index": 371,
       "clusters": [
-        107
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 372,
       "clusters": [
-        107
+        1
       ],
       "classname": "displacement"
     },
@@ -3487,49 +6554,49 @@
     {
       "index": 376,
       "clusters": [
-        179,186,218,227
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 377,
       "clusters": [
-        218,227
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 378,
       "clusters": [
-        218,227
+        179,186,218,227
       ],
       "classname": "displacement"
     },
     {
       "index": 379,
       "clusters": [
-        107,141
+        218,227
       ],
       "classname": "displacement"
     },
     {
       "index": 380,
       "clusters": [
-        107,141
+        218,227
       ],
       "classname": "displacement"
     },
     {
       "index": 381,
       "clusters": [
-        141
+        107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 382,
       "clusters": [
-        141
+        107,141
       ],
       "classname": "displacement"
     },
@@ -3564,42 +6631,42 @@
     {
       "index": 387,
       "clusters": [
-        2,141
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 388,
       "clusters": [
-        2,141
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 389,
       "clusters": [
-        2
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 390,
       "clusters": [
-        2
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 391,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 392,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
@@ -3620,21 +6687,21 @@
     {
       "index": 395,
       "clusters": [
-        2,55,142
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 396,
       "clusters": [
-        2,55
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 397,
       "clusters": [
-        2,55
+        2,55,142
       ],
       "classname": "displacement"
     },
@@ -3648,42 +6715,42 @@
     {
       "index": 399,
       "clusters": [
-        2,142,141
+        2,55
       ],
       "classname": "displacement"
     },
     {
       "index": 400,
       "clusters": [
-        2,141
+        2,55
       ],
       "classname": "displacement"
     },
     {
       "index": 401,
       "clusters": [
-        2,55,142,141
+        2,142,141
       ],
       "classname": "displacement"
     },
     {
       "index": 402,
       "clusters": [
-        2,55,141
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 403,
       "clusters": [
-        2
+        2,55,142,141
       ],
       "classname": "displacement"
     },
     {
       "index": 404,
       "clusters": [
-        2
+        2,55,141
       ],
       "classname": "displacement"
     },
@@ -3704,21 +6771,21 @@
     {
       "index": 407,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 408,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 409,
       "clusters": [
-        141,2
+        2,141
       ],
       "classname": "displacement"
     },
@@ -3732,7 +6799,7 @@
     {
       "index": 411,
       "clusters": [
-        2,141
+        141,2
       ],
       "classname": "displacement"
     },
@@ -3753,56 +6820,56 @@
     {
       "index": 414,
       "clusters": [
-        141
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 415,
       "clusters": [
-        141
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 416,
       "clusters": [
-        2,141
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 417,
       "clusters": [
-        2,141
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 418,
       "clusters": [
-        121,129,132,137,107,250,252,253,254,273
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 419,
       "clusters": [
-        121,129,132,137,107,250,252,253,254,273,141
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 420,
       "clusters": [
-        107
+        121,129,132,137,107,250,252,253,254,273
       ],
       "classname": "displacement"
     },
     {
       "index": 421,
       "clusters": [
-        107
+        121,129,132,137,107,250,252,253,254,273,141
       ],
       "classname": "displacement"
     },
@@ -3844,42 +6911,42 @@
     {
       "index": 427,
       "clusters": [
-        107,141
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 428,
       "clusters": [
-        107,141
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 429,
       "clusters": [
-        141
+        107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 430,
       "clusters": [
-        141
+        107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 431,
       "clusters": [
-        107,141
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 432,
       "clusters": [
-        107,141
+        141
       ],
       "classname": "displacement"
     },
@@ -3914,70 +6981,70 @@
     {
       "index": 437,
       "clusters": [
-        577,591,606
+        107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 438,
       "clusters": [
-        449
+        107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 439,
       "clusters": [
-        1
+        577,591,606
       ],
       "classname": "displacement"
     },
     {
       "index": 440,
       "clusters": [
-        1
+        449
       ],
       "classname": "displacement"
     },
     {
       "index": 441,
       "clusters": [
-        1,424
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 442,
       "clusters": [
-        1,424,430,435,436
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 443,
       "clusters": [
-        1,436
+        1,424
       ],
       "classname": "displacement"
     },
     {
       "index": 444,
       "clusters": [
-        1,436
+        1,424,430,435,436
       ],
       "classname": "displacement"
     },
     {
       "index": 445,
       "clusters": [
-        1
+        1,436
       ],
       "classname": "displacement"
     },
     {
       "index": 446,
       "clusters": [
-        1
+        1,436
       ],
       "classname": "displacement"
     },
@@ -4005,182 +7072,182 @@
     {
       "index": 450,
       "clusters": [
-        1,18,22,23
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 451,
       "clusters": [
-        22,25
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 452,
       "clusters": [
-        22,25
+        1,18,22,23
       ],
       "classname": "displacement"
     },
     {
       "index": 453,
       "clusters": [
-        1,22
+        22,25
       ],
       "classname": "displacement"
     },
     {
       "index": 454,
       "clusters": [
-        1,22,25,28
+        22,25
       ],
       "classname": "displacement"
     },
     {
       "index": 455,
       "clusters": [
-        1,22,25,28,29,68
+        1,22
       ],
       "classname": "displacement"
     },
     {
       "index": 456,
       "clusters": [
-        76,87,88,89,104
+        1,22,25,28
       ],
       "classname": "displacement"
     },
     {
       "index": 457,
       "clusters": [
-        76,104
+        1,22,25,28,29,68
       ],
       "classname": "displacement"
     },
     {
       "index": 458,
       "clusters": [
-        81,82,76,87
+        76,87,88,89,104
       ],
       "classname": "displacement"
     },
     {
       "index": 459,
       "clusters": [
-        76,78,80,81,82
+        76,104
       ],
       "classname": "displacement"
     },
     {
       "index": 460,
       "clusters": [
-        76,89,104
+        81,82,76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 461,
       "clusters": [
-        76,81
+        76,78,80,81,82
       ],
       "classname": "displacement"
     },
     {
       "index": 462,
       "clusters": [
-        20,31,52,69,81,82,83,84
+        76,89,104
       ],
       "classname": "displacement"
     },
     {
       "index": 463,
       "clusters": [
-        69,81,82,83,84,76,87
+        76,81
       ],
       "classname": "displacement"
     },
     {
       "index": 464,
       "clusters": [
-        490,510,539,546,583,659
+        20,31,52,69,81,82,83,84
       ],
       "classname": "displacement"
     },
     {
       "index": 465,
       "clusters": [
-        490,539,540,546,548,583,659,663
+        69,81,82,83,84,76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 466,
       "clusters": [
-        659,663,664,669,670,678
+        490,510,539,546,583,662
       ],
       "classname": "displacement"
     },
     {
       "index": 467,
       "clusters": [
-        587,669,670,678
+        490,539,540,546,548,583,662,666
       ],
       "classname": "displacement"
     },
     {
       "index": 468,
       "clusters": [
-        586,587,669,670
+        662,666,667,672,673,681
       ],
       "classname": "displacement"
     },
     {
       "index": 469,
       "clusters": [
-        515,465,523,529
+        587,672,673,681
       ],
       "classname": "displacement"
     },
     {
       "index": 470,
       "clusters": [
-        515,523,529
+        586,587,672,673
       ],
       "classname": "displacement"
     },
     {
       "index": 471,
       "clusters": [
-        445,465,515,523
+        515,465,523,529
       ],
       "classname": "displacement"
     },
     {
       "index": 472,
       "clusters": [
-        445,465,449,511
+        515,523,529
       ],
       "classname": "displacement"
     },
     {
       "index": 473,
       "clusters": [
-        445,515
+        445,465,515,523
       ],
       "classname": "displacement"
     },
     {
       "index": 474,
       "clusters": [
-        445
+        445,465,449,511
       ],
       "classname": "displacement"
     },
     {
       "index": 475,
       "clusters": [
-        445
+        445,515
       ],
       "classname": "displacement"
     },
@@ -4201,203 +7268,203 @@
     {
       "index": 478,
       "clusters": [
-        717,647,720,721
+        445
       ],
       "classname": "displacement"
     },
     {
       "index": 479,
       "clusters": [
-        720,722
+        445
       ],
       "classname": "displacement"
     },
     {
       "index": 480,
       "clusters": [
-        638,643,717
+        720,650,723,724
       ],
       "classname": "displacement"
     },
     {
       "index": 481,
       "clusters": [
-        717
+        723,725
       ],
       "classname": "displacement"
     },
     {
       "index": 482,
       "clusters": [
-        717
+        641,646,720
       ],
       "classname": "displacement"
     },
     {
       "index": 483,
       "clusters": [
-        634,635,636,638
+        720
       ],
       "classname": "displacement"
     },
     {
       "index": 484,
       "clusters": [
-        557,559,574,604,605,638,639,644,717,721,726
+        720
       ],
       "classname": "displacement"
     },
     {
       "index": 485,
       "clusters": [
-        199
+        637,638,639,641
       ],
       "classname": "displacement"
     },
     {
       "index": 486,
       "clusters": [
-        199,229
+        557,559,574,604,605,641,642,647,720,724,729
       ],
       "classname": "displacement"
     },
     {
       "index": 487,
       "clusters": [
-        186,190,199,227,229,238
+        199
       ],
       "classname": "displacement"
     },
     {
       "index": 488,
       "clusters": [
-        186,190,199,227,229,238
+        199,229
       ],
       "classname": "displacement"
     },
     {
       "index": 489,
       "clusters": [
-        227,238
+        186,190,199,227,229,238
       ],
       "classname": "displacement"
     },
     {
       "index": 490,
       "clusters": [
-        220,222,224,225,227,238,245
+        186,190,199,227,229,238
       ],
       "classname": "displacement"
     },
     {
       "index": 491,
       "clusters": [
-        224,225,227,245,246
+        227,238
       ],
       "classname": "displacement"
     },
     {
       "index": 492,
       "clusters": [
-        224,225,263,312,317
+        220,222,224,225,227,238,245
       ],
       "classname": "displacement"
     },
     {
       "index": 493,
       "clusters": [
-        224,225,263,311,312
+        224,225,227,245,246
       ],
       "classname": "displacement"
     },
     {
       "index": 494,
       "clusters": [
-        51,53,86,90,92
+        224,225,263,312,317
       ],
       "classname": "displacement"
     },
     {
       "index": 495,
       "clusters": [
-        86,90,92
+        224,225,263,311,312
       ],
       "classname": "displacement"
     },
     {
       "index": 496,
       "clusters": [
-        373,376
+        51,53,86,90,92
       ],
       "classname": "displacement"
     },
     {
       "index": 497,
       "clusters": [
-        315,316,318,319,320,321,322,323,328,329,330,332,373,376
+        86,90,92
       ],
       "classname": "displacement"
     },
     {
       "index": 498,
       "clusters": [
-        373,376
+        375,378
       ],
       "classname": "displacement"
     },
     {
       "index": 499,
       "clusters": [
-        225,226,246,312,317,318,328,329,332,373
+        315,316,318,319,320,321,322,323,328,329,330,332,375,378
       ],
       "classname": "displacement"
     },
     {
       "index": 500,
       "clusters": [
-        246,373,374
+        375,378
       ],
       "classname": "displacement"
     },
     {
       "index": 501,
       "clusters": [
-        373,374
+        225,226,246,312,317,318,328,329,332,375
       ],
       "classname": "displacement"
     },
     {
       "index": 502,
       "clusters": [
-        373
+        246,375,376
       ],
       "classname": "displacement"
     },
     {
       "index": 503,
       "clusters": [
-        246,374,384,386,388
+        375,376
       ],
       "classname": "displacement"
     },
     {
       "index": 504,
       "clusters": [
-        1
+        375
       ],
       "classname": "displacement"
     },
     {
       "index": 505,
       "clusters": [
-        1
+        246,376,386,387
       ],
       "classname": "displacement"
     },
     {
       "index": 506,
       "clusters": [
-        1,107
+        1
       ],
       "classname": "displacement"
     },
@@ -4411,448 +7478,448 @@
     {
       "index": 508,
       "clusters": [
-        107,729
+        1,107
       ],
       "classname": "displacement"
     },
     {
       "index": 509,
       "clusters": [
-        107,729,732,743,141
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 510,
       "clusters": [
-        740,741,743,744,141
+        107,732
       ],
       "classname": "displacement"
     },
     {
       "index": 511,
       "clusters": [
-        743,141
+        107,732,735,746,141
       ],
       "classname": "displacement"
     },
     {
       "index": 512,
       "clusters": [
-        723,724,725,727,728,741,744,762,766,767,141
+        743,744,746,747,141
       ],
       "classname": "displacement"
     },
     {
       "index": 513,
       "clusters": [
-        389,391,394,141,400,401,402,418,422,423,625,727,728,761,762,764,765,766,767
+        746,141
       ],
       "classname": "displacement"
     },
     {
       "index": 514,
       "clusters": [
-        211,212,216,236,237,243,244,246,247,386,388,389,394,141
+        726,727,728,730,731,744,747,765,769,770,141
       ],
       "classname": "displacement"
     },
     {
       "index": 515,
       "clusters": [
-        141,211,212,216
+        388,393,141,400,401,402,418,422,423,625,730,731,764,765,767,768,769,770
       ],
       "classname": "displacement"
     },
     {
       "index": 516,
       "clusters": [
-        141,192,193,194,195,196,197,198,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216
+        211,212,216,236,237,243,244,246,247,387,388,141
       ],
       "classname": "displacement"
     },
     {
       "index": 517,
       "clusters": [
-        2,48,51,55,141,142,167,168,169,171,174,175,180,181,192,195,213,214,215,216
+        141,211,212,216
       ],
       "classname": "displacement"
     },
     {
       "index": 518,
       "clusters": [
-        1,2,18,19,21,22,23,30,46,47,48,49,50,51,54
+        141,192,193,194,195,196,197,198,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216
       ],
       "classname": "displacement"
     },
     {
       "index": 519,
       "clusters": [
-        19,27,30,51
+        2,48,51,55,141,142,167,168,169,171,174,175,180,181,192,195,213,214,215,216
       ],
       "classname": "displacement"
     },
     {
       "index": 520,
       "clusters": [
-        25,26,27,30
+        1,2,18,19,21,22,23,30,46,47,48,49,50,51,54
       ],
       "classname": "displacement"
     },
     {
       "index": 521,
       "clusters": [
-        25
+        19,27,30,51
       ],
       "classname": "displacement"
     },
     {
       "index": 522,
       "clusters": [
-        25,29
+        25,26,27,30
       ],
       "classname": "displacement"
     },
     {
       "index": 523,
       "clusters": [
-        1,29,68
+        25
       ],
       "classname": "displacement"
     },
     {
       "index": 524,
       "clusters": [
-        1,25,29,68
+        25,29
       ],
       "classname": "displacement"
     },
     {
       "index": 525,
       "clusters": [
-        1
+        1,29,68
       ],
       "classname": "displacement"
     },
     {
       "index": 526,
       "clusters": [
-        1,424,426
+        1,25,29,68
       ],
       "classname": "displacement"
     },
     {
       "index": 527,
       "clusters": [
-        424,426,430,435,436,439
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 528,
       "clusters": [
-        436,1
+        1,424,426
       ],
       "classname": "displacement"
     },
     {
       "index": 529,
       "clusters": [
-        436,443,1
+        424,426,430,435,436,439
       ],
       "classname": "displacement"
     },
     {
       "index": 530,
       "clusters": [
-        443,1,519
+        436,1
       ],
       "classname": "displacement"
     },
     {
       "index": 531,
       "clusters": [
-        519,1
+        436,443,1
       ],
       "classname": "displacement"
     },
     {
       "index": 532,
       "clusters": [
-        519,532,535,1,107
+        443,1,519
       ],
       "classname": "displacement"
     },
     {
       "index": 533,
       "clusters": [
-        729,732
+        519,1
       ],
       "classname": "displacement"
     },
     {
       "index": 534,
       "clusters": [
-        731,732,743
+        519,532,535,1,107
       ],
       "classname": "displacement"
     },
     {
       "index": 535,
       "clusters": [
-        731,732,737,738,743
+        732,735
       ],
       "classname": "displacement"
     },
     {
       "index": 536,
       "clusters": [
-        519,531,532,534,535,1,107
+        734,735,746
       ],
       "classname": "displacement"
     },
     {
       "index": 537,
       "clusters": [
-        519
+        734,735,740,741,746
       ],
       "classname": "displacement"
     },
     {
       "index": 538,
       "clusters": [
-        442,443,519
+        519,531,532,534,535,1,107
       ],
       "classname": "displacement"
     },
     {
       "index": 539,
       "clusters": [
-        534,535,107
+        519
       ],
       "classname": "displacement"
     },
     {
       "index": 540,
       "clusters": [
-        534,535,107
+        442,443,519
       ],
       "classname": "displacement"
     },
     {
       "index": 541,
       "clusters": [
-        534,107
+        534,535,107
       ],
       "classname": "displacement"
     },
     {
       "index": 542,
       "clusters": [
-        534,536,107
+        534,535,107
       ],
       "classname": "displacement"
     },
     {
       "index": 543,
       "clusters": [
-        107
+        534,107
       ],
       "classname": "displacement"
     },
     {
       "index": 544,
       "clusters": [
-        107
+        534,536,107
       ],
       "classname": "displacement"
     },
     {
       "index": 545,
       "clusters": [
-        713,647,716,729,730,731,732
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 546,
       "clusters": [
-        657,683,684,686,687,107,716
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 547,
       "clusters": [
-        686,687,107,716
+        716,650,719,732,733,734,735
       ],
       "classname": "displacement"
     },
     {
       "index": 548,
       "clusters": [
-        716,729,732
+        660,686,687,689,690,107,719
       ],
       "classname": "displacement"
     },
     {
       "index": 549,
       "clusters": [
-        716,729
+        689,690,107,719
       ],
       "classname": "displacement"
     },
     {
       "index": 550,
       "clusters": [
-        534,535,536,107,549,550,551,685,686,687,716
+        719,732,735
       ],
       "classname": "displacement"
     },
     {
       "index": 551,
       "clusters": [
-        534,535,107,550,551,716,729
+        719,732
       ],
       "classname": "displacement"
     },
     {
       "index": 552,
       "clusters": [
-        729
+        534,535,536,107,549,550,551,688,689,690,719
       ],
       "classname": "displacement"
     },
     {
       "index": 553,
       "clusters": [
-        729
+        534,535,107,550,551,719,732
       ],
       "classname": "displacement"
     },
     {
       "index": 554,
       "clusters": [
-        729
+        732
       ],
       "classname": "displacement"
     },
     {
       "index": 555,
       "clusters": [
-        729
+        732
       ],
       "classname": "displacement"
     },
     {
       "index": 556,
       "clusters": [
-        729,732
+        732
       ],
       "classname": "displacement"
     },
     {
       "index": 557,
       "clusters": [
-        729,732,107
+        732
       ],
       "classname": "displacement"
     },
     {
       "index": 558,
       "clusters": [
-        731,732,743,107,141
+        732,735
       ],
       "classname": "displacement"
     },
     {
       "index": 559,
       "clusters": [
-        743,141
+        732,735,107
       ],
       "classname": "displacement"
     },
     {
       "index": 560,
       "clusters": [
-        743
+        734,735,746,107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 561,
       "clusters": [
-        737,738,743
+        746,141
       ],
       "classname": "displacement"
     },
     {
       "index": 562,
       "clusters": [
-        107,729
+        746
       ],
       "classname": "displacement"
     },
     {
       "index": 563,
       "clusters": [
-        436,439,440,442,443
+        740,741,746
       ],
       "classname": "displacement"
     },
     {
       "index": 564,
       "clusters": [
-        436
+        107,732
       ],
       "classname": "displacement"
     },
     {
       "index": 565,
       "clusters": [
-        424,426,430,435,436,439
+        436,439,440,442,443
       ],
       "classname": "displacement"
     },
     {
       "index": 566,
       "clusters": [
-        1,103,426,430,445,446
+        436
       ],
       "classname": "displacement"
     },
     {
       "index": 567,
       "clusters": [
-        1,71,77,78,95,103
+        424,426,430,435,436,439
       ],
       "classname": "displacement"
     },
     {
       "index": 568,
       "clusters": [
-        1,29,68
+        1,103,426,430,445,446
       ],
       "classname": "displacement"
     },
     {
       "index": 569,
       "clusters": [
-        29,68
+        1,71,77,78,95,103
       ],
       "classname": "displacement"
     },
     {
       "index": 570,
       "clusters": [
-        1
+        1,29,68
       ],
       "classname": "displacement"
     },
     {
       "index": 571,
       "clusters": [
-        1
+        29,68
       ],
       "classname": "displacement"
     },
@@ -4894,315 +7961,315 @@
     {
       "index": 577,
       "clusters": [
-        1,107
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 578,
       "clusters": [
-        76,87
+        1
       ],
       "classname": "displacement"
     },
     {
       "index": 579,
       "clusters": [
-        81,82,76,87
+        1,107
       ],
       "classname": "displacement"
     },
     {
       "index": 580,
       "clusters": [
-        720,722,647,737
+        76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 581,
       "clusters": [
-        717,720,721
+        81,82,76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 582,
       "clusters": [
-        717,647,720,721
+        723,725,650,740
       ],
       "classname": "displacement"
     },
     {
       "index": 583,
       "clusters": [
-        647,720,722
+        720,723,724
       ],
       "classname": "displacement"
     },
     {
       "index": 584,
       "clusters": [
-        647,720,722,737
+        720,650,723,724
       ],
       "classname": "displacement"
     },
     {
       "index": 585,
       "clusters": [
-        648,644,649,650,651,647,652,653,690,697,700,717,719,720,721
+        650,723,725
       ],
       "classname": "displacement"
     },
     {
       "index": 586,
       "clusters": [
-        649,650,651,647,652,653,690,708,709,710,711,717,719,720,722
+        650,723,725,740
       ],
       "classname": "displacement"
     },
     {
       "index": 587,
       "clusters": [
-        647,720,722,730,731,737
+        651,647,652,653,654,650,655,656,693,700,703,720,722,723,724
       ],
       "classname": "displacement"
     },
     {
       "index": 588,
       "clusters": [
-        465,489,490,510,539
+        652,653,654,650,655,656,693,711,712,713,714,720,722,723,725
       ],
       "classname": "displacement"
     },
     {
       "index": 589,
       "clusters": [
-        445,515
+        650,723,725,733,734,740
       ],
       "classname": "displacement"
     },
     {
       "index": 590,
       "clusters": [
-        515
+        465,489,490,510,539
       ],
       "classname": "displacement"
     },
     {
       "index": 591,
       "clusters": [
-        445
+        445,515
       ],
       "classname": "displacement"
     },
     {
       "index": 592,
       "clusters": [
-        445
+        515
       ],
       "classname": "displacement"
     },
     {
       "index": 593,
       "clusters": [
-        515,529
+        445
       ],
       "classname": "displacement"
     },
     {
       "index": 594,
       "clusters": [
-        445,515
+        445
       ],
       "classname": "displacement"
     },
     {
       "index": 595,
       "clusters": [
-        445,515
+        515,529
       ],
       "classname": "displacement"
     },
     {
       "index": 596,
       "clusters": [
-        445,465,449
+        445,515
       ],
       "classname": "displacement"
     },
     {
       "index": 597,
       "clusters": [
-        490,509,510,577,580,583
+        445,515
       ],
       "classname": "displacement"
     },
     {
       "index": 598,
       "clusters": [
-        577,580,581,583,586,587,591,606
+        445,465,449
       ],
       "classname": "displacement"
     },
     {
       "index": 599,
       "clusters": [
-        583,587,589,659,663,664,669,670,671,672
+        490,509,510,577,580,583
       ],
       "classname": "displacement"
     },
     {
       "index": 600,
       "clusters": [
-        634,635,636
+        577,580,581,583,586,587,591,606
       ],
       "classname": "displacement"
     },
     {
       "index": 601,
       "clusters": [
-        717
+        583,587,589,662,666,667,672,673,674,675
       ],
       "classname": "displacement"
     },
     {
       "index": 602,
       "clusters": [
-        559,574,601,604,605,633,638,639,644,700,717,726
+        637,638,639
       ],
       "classname": "displacement"
     },
     {
       "index": 603,
       "clusters": [
-        638,639,717,726
+        720
       ],
       "classname": "displacement"
     },
     {
       "index": 604,
       "clusters": [
-        633,635,638,639
+        559,574,601,604,605,636,641,642,647,703,720,729
       ],
       "classname": "displacement"
     },
     {
       "index": 605,
       "clusters": [
-        615,620,633,639
+        641,642,720,729
       ],
       "classname": "displacement"
     },
     {
       "index": 606,
       "clusters": [
-        378,380,381,382,383,387,609,610,615,620,624,633
+        636,638,641,642
       ],
       "classname": "displacement"
     },
     {
       "index": 607,
       "clusters": [
-        601
+        615,620,636,642
       ],
       "classname": "displacement"
     },
     {
       "index": 608,
       "clusters": [
-        601
+        380,382,383,384,385,393,394,609,610,615,620,624,636
       ],
       "classname": "displacement"
     },
     {
       "index": 609,
       "clusters": [
-        594,599,601,615,620,633
+        601
       ],
       "classname": "displacement"
     },
     {
       "index": 610,
       "clusters": [
-        83,86,76,87,90,92
+        601
       ],
       "classname": "displacement"
     },
     {
       "index": 611,
       "clusters": [
-        76,87
+        594,599,601,615,620,636
       ],
       "classname": "displacement"
     },
     {
       "index": 612,
       "clusters": [
-        76,87
+        83,86,76,87,90,92
       ],
       "classname": "displacement"
     },
     {
       "index": 613,
       "clusters": [
-        218,219,220,221
+        76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 614,
       "clusters": [
-        218,219,220,221,227,229
+        76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 615,
       "clusters": [
-        219
+        218,219,220,221
       ],
       "classname": "displacement"
     },
     {
       "index": 616,
       "clusters": [
-        177,219
+        218,219,220,221,227,229
       ],
       "classname": "displacement"
     },
     {
       "index": 617,
       "clusters": [
-        177,219
+        219
       ],
       "classname": "displacement"
     },
     {
       "index": 618,
       "clusters": [
-        224,225
+        177,219
       ],
       "classname": "displacement"
     },
     {
       "index": 619,
       "clusters": [
-        220,221,222,224,225,227,238,245
+        177,219
       ],
       "classname": "displacement"
     },
     {
       "index": 620,
       "clusters": [
-        445
+        224,225
       ],
       "classname": "displacement"
     },
     {
       "index": 621,
       "clusters": [
-        445
+        220,221,222,224,225,227,238,245
       ],
       "classname": "displacement"
     },
@@ -5237,147 +8304,147 @@
     {
       "index": 626,
       "clusters": [
-        636,372
+        445
       ],
       "classname": "displacement"
     },
     {
       "index": 627,
       "clusters": [
-        156,177,181,183,199
+        445
       ],
       "classname": "displacement"
     },
     {
       "index": 628,
       "clusters": [
-        177,181,183,199,219,229
+        373,639
       ],
       "classname": "displacement"
     },
     {
       "index": 629,
       "clusters": [
-        220,222,224,225,227,238,245,246
+        156,177,181,183,199
       ],
       "classname": "displacement"
     },
     {
       "index": 630,
       "clusters": [
-        225,226,246
+        177,181,183,199,219,229
       ],
       "classname": "displacement"
     },
     {
       "index": 631,
       "clusters": [
-        76,104
+        220,222,224,225,227,238,245,246
       ],
       "classname": "displacement"
     },
     {
       "index": 632,
       "clusters": [
-        67,150,151,152,153
+        225,226,246
       ],
       "classname": "displacement"
     },
     {
       "index": 633,
       "clusters": [
-        51,66
+        76,104
       ],
       "classname": "displacement"
     },
     {
       "index": 634,
       "clusters": [
-        49,50,51,54,66
+        67,150,151,152,153
       ],
       "classname": "displacement"
     },
     {
       "index": 635,
       "clusters": [
-        19,21,27,30,49,51,54
+        51,66
       ],
       "classname": "displacement"
     },
     {
       "index": 636,
       "clusters": [
-        51,53,86,90,92
+        49,50,51,54,66
       ],
       "classname": "displacement"
     },
     {
       "index": 637,
       "clusters": [
-        19,30,51,53,85,86
+        19,21,27,30,49,51,54
       ],
       "classname": "displacement"
     },
     {
       "index": 638,
       "clusters": [
-        81,82
+        51,53,86,90,92
       ],
       "classname": "displacement"
     },
     {
       "index": 639,
       "clusters": [
-        76,78,80,81,82
+        19,30,51,53,85,86
       ],
       "classname": "displacement"
     },
     {
       "index": 640,
       "clusters": [
-        644,645,141,646,647,717,718
+        81,82
       ],
       "classname": "displacement"
     },
     {
       "index": 641,
       "clusters": [
-        644,645,141,646,647,717,718
+        76,78,80,81,82
       ],
       "classname": "displacement"
     },
     {
       "index": 642,
       "clusters": [
-        717,647
+        647,648,141,649,650,720,721
       ],
       "classname": "displacement"
     },
     {
       "index": 643,
       "clusters": [
-        644,717
+        647,648,141,649,650,720,721
       ],
       "classname": "displacement"
     },
     {
       "index": 644,
       "clusters": [
-        645,647,717
+        720,650
       ],
       "classname": "displacement"
     },
     {
       "index": 645,
       "clusters": [
-        107
+        647,720
       ],
       "classname": "displacement"
     },
     {
       "index": 646,
       "clusters": [
-        107
+        648,650,720
       ],
       "classname": "displacement"
     },
@@ -5391,70 +8458,70 @@
     {
       "index": 648,
       "clusters": [
-        107,141
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 649,
       "clusters": [
-        141,275,276,293,552,553
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 650,
       "clusters": [
-        275,276,141,293,552,553
+        107,141
       ],
       "classname": "displacement"
     },
     {
       "index": 651,
       "clusters": [
-        275,276,141,293,552,553
+        141,275,276,293,552,553
       ],
       "classname": "displacement"
     },
     {
       "index": 652,
       "clusters": [
-        141,107
+        275,276,141,293,552,553
       ],
       "classname": "displacement"
     },
     {
       "index": 653,
       "clusters": [
-        141,107
+        275,276,141,293,552,553
       ],
       "classname": "displacement"
     },
     {
       "index": 654,
       "clusters": [
-        273,141
+        141,107
       ],
       "classname": "displacement"
     },
     {
       "index": 655,
       "clusters": [
-        273,107,141
+        141,107
       ],
       "classname": "displacement"
     },
     {
       "index": 656,
       "clusters": [
-        107
+        273,141
       ],
       "classname": "displacement"
     },
     {
       "index": 657,
       "clusters": [
-        107
+        273,107,141
       ],
       "classname": "displacement"
     },
@@ -5475,14 +8542,14 @@
     {
       "index": 660,
       "clusters": [
-        141
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 661,
       "clusters": [
-        141
+        107
       ],
       "classname": "displacement"
     },
@@ -5545,14 +8612,14 @@
     {
       "index": 670,
       "clusters": [
-        141,107
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 671,
       "clusters": [
-        141,107
+        141
       ],
       "classname": "displacement"
     },
@@ -5566,7 +8633,7 @@
     {
       "index": 673,
       "clusters": [
-        107
+        141,107
       ],
       "classname": "displacement"
     },
@@ -5580,14 +8647,14 @@
     {
       "index": 675,
       "clusters": [
-        4
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 676,
       "clusters": [
-        4
+        141,107
       ],
       "classname": "displacement"
     },
@@ -5608,35 +8675,35 @@
     {
       "index": 679,
       "clusters": [
-        83,86,76,87
+        4
       ],
       "classname": "displacement"
     },
     {
       "index": 680,
       "clusters": [
-        86,87
+        4
       ],
       "classname": "displacement"
     },
     {
       "index": 681,
       "clusters": [
-        86
+        83,86,76,87
       ],
       "classname": "displacement"
     },
     {
       "index": 682,
       "clusters": [
-        515
+        86,87
       ],
       "classname": "displacement"
     },
     {
       "index": 683,
       "clusters": [
-        515
+        86
       ],
       "classname": "displacement"
     },
@@ -5664,21 +8731,21 @@
     {
       "index": 687,
       "clusters": [
-        224
+        515
       ],
       "classname": "displacement"
     },
     {
       "index": 688,
       "clusters": [
-        224,225
+        515
       ],
       "classname": "displacement"
     },
     {
       "index": 689,
       "clusters": [
-        224,225
+        224
       ],
       "classname": "displacement"
     },
@@ -5692,14 +8759,14 @@
     {
       "index": 691,
       "clusters": [
-        224
+        224,225
       ],
       "classname": "displacement"
     },
     {
       "index": 692,
       "clusters": [
-        224
+        224,225
       ],
       "classname": "displacement"
     },
@@ -5748,7 +8815,7 @@
     {
       "index": 699,
       "clusters": [
-        224,263
+        224
       ],
       "classname": "displacement"
     },
@@ -5762,28 +8829,28 @@
     {
       "index": 701,
       "clusters": [
-        224
+        224,263
       ],
       "classname": "displacement"
     },
     {
       "index": 702,
       "clusters": [
-        224,263
+        224
       ],
       "classname": "displacement"
     },
     {
       "index": 703,
       "clusters": [
-        224,263
+        224
       ],
       "classname": "displacement"
     },
     {
       "index": 704,
       "clusters": [
-        224
+        224,263
       ],
       "classname": "displacement"
     },
@@ -5797,7 +8864,7 @@
     {
       "index": 706,
       "clusters": [
-        224,263
+        224
       ],
       "classname": "displacement"
     },
@@ -5811,7 +8878,7 @@
     {
       "index": 708,
       "clusters": [
-        224
+        224,263
       ],
       "classname": "displacement"
     },
@@ -5825,7 +8892,7 @@
     {
       "index": 710,
       "clusters": [
-        224,263
+        224
       ],
       "classname": "displacement"
     },
@@ -5860,21 +8927,21 @@
     {
       "index": 715,
       "clusters": [
-        263
+        224,263
       ],
       "classname": "displacement"
     },
     {
       "index": 716,
       "clusters": [
-        107
+        224,263
       ],
       "classname": "displacement"
     },
     {
       "index": 717,
       "clusters": [
-        107
+        263
       ],
       "classname": "displacement"
     },
@@ -5937,14 +9004,14 @@
     {
       "index": 726,
       "clusters": [
-        0
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 727,
       "clusters": [
-        0
+        107
       ],
       "classname": "displacement"
     },
@@ -6119,14 +9186,14 @@
     {
       "index": 752,
       "clusters": [
-        107
+        0
       ],
       "classname": "displacement"
     },
     {
       "index": 753,
       "clusters": [
-        107
+        0
       ],
       "classname": "displacement"
     },
@@ -6147,42 +9214,42 @@
     {
       "index": 756,
       "clusters": [
-        137,107,254,273
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 757,
       "clusters": [
-        137,107,254,273
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 758,
       "clusters": [
-        273,107
+        137,107,254,273
       ],
       "classname": "displacement"
     },
     {
       "index": 759,
       "clusters": [
-        273,107
+        137,107,254,273
       ],
       "classname": "displacement"
     },
     {
       "index": 760,
       "clusters": [
-        107
+        273,107
       ],
       "classname": "displacement"
     },
     {
       "index": 761,
       "clusters": [
-        107
+        273,107
       ],
       "classname": "displacement"
     },
@@ -6287,14 +9354,14 @@
     {
       "index": 776,
       "clusters": [
-        2
+        107
       ],
       "classname": "displacement"
     },
     {
       "index": 777,
       "clusters": [
-        2
+        107
       ],
       "classname": "displacement"
     },
@@ -6343,14 +9410,14 @@
     {
       "index": 784,
       "clusters": [
-        141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 785,
       "clusters": [
-        141
+        2
       ],
       "classname": "displacement"
     },
@@ -6399,54 +9466,68 @@
     {
       "index": 792,
       "clusters": [
-        2
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 793,
       "clusters": [
-        2
+        141
       ],
       "classname": "displacement"
     },
     {
       "index": 794,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 795,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 796,
       "clusters": [
-        2
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 797,
       "clusters": [
-        2
+        2,141
       ],
       "classname": "displacement"
     },
     {
       "index": 798,
       "clusters": [
-        2,141
+        2
       ],
       "classname": "displacement"
     },
     {
       "index": 799,
+      "clusters": [
+        2
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 800,
+      "clusters": [
+        2,141
+      ],
+      "classname": "displacement"
+    },
+    {
+      "index": 801,
       "clusters": [
         2,141
       ],

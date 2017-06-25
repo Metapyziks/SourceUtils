@@ -441,6 +441,14 @@ var SourceUtils;
                 _this.render3DSky = false;
                 _this.origin = new Facepunch.Vector3().copy(info.origin);
                 _this.skyScale = 1 / info.scale;
+                if (info.fogEnabled) {
+                    _this.fog.start = info.fogStart;
+                    _this.fog.end = info.fogEnd;
+                    _this.fog.maxDensity = info.fogMaxDensity;
+                    _this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
+                    if (info.farZ !== 0)
+                        _this.setFar(info.farZ);
+                }
                 return _this;
             }
             SkyCamera.prototype.onChangePosition = function () {
@@ -602,7 +610,6 @@ var SourceUtils;
     var Map = (function () {
         function Map(viewer) {
             this.clusterVis = {};
-            this.lightmapInfoValues = new Float32Array(4);
             this.viewer = viewer;
         }
         Map.prototype.unload = function () {
@@ -639,6 +646,18 @@ var SourceUtils;
                             skyMat.loadFromInfo(worldspawn.skyMaterial);
                             this.skyCube = new SourceUtils.SkyCube(this.viewer, skyMat);
                         }
+                        break;
+                    case "env_fog_controller":
+                        var fogController = ent;
+                        var fog = this.viewer.mainCamera.fog;
+                        if (!fogController.fogEnabled)
+                            break;
+                        fog.color.set(fogController.fogColor.r, fogController.fogColor.g, fogController.fogColor.b);
+                        fog.start = fogController.fogStart;
+                        fog.end = fogController.fogEnd;
+                        fog.maxDensity = fogController.fogMaxDensity;
+                        if (fogController.farZ !== 0)
+                            this.viewer.mainCamera.setFar(fogController.farZ);
                         break;
                     case "info_player_terrorist":
                         this.tSpawns.push(ent);
@@ -704,16 +723,10 @@ var SourceUtils;
                 ? this.lightmap
                 : WebGame.TextureUtils.getWhiteTexture(this.viewer.context);
             buf.setParameter(Map.lightmapParam, lightmap);
-            this.lightmapInfoValues[0] = lightmap.getWidth(0);
-            this.lightmapInfoValues[1] = lightmap.getHeight(0);
-            this.lightmapInfoValues[2] = 1 / this.lightmapInfoValues[0];
-            this.lightmapInfoValues[3] = 1 / this.lightmapInfoValues[1];
-            buf.setParameter(Map.lightmapInfoParam, this.lightmapInfoValues);
         };
         return Map;
     }());
     Map.lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
-    Map.lightmapInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
     SourceUtils.Map = Map;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="PagedLoader.ts"/>
@@ -969,6 +982,7 @@ var SourceUtils;
                 _this.alphaTest = false;
                 _this.translucent = false;
                 _this.alpha = 1;
+                _this.fogEnabled = true;
                 return _this;
             }
             return ModelBaseMaterial;
@@ -985,9 +999,12 @@ var SourceUtils;
                 _this.uAlphaTest = _this.addUniform("uAlphaTest", WebGame.Uniform1F);
                 _this.uTranslucent = _this.addUniform("uTranslucent", WebGame.Uniform1F);
                 _this.uAlpha = _this.addUniform("uAlpha", WebGame.Uniform1F);
+                _this.uFogParams = _this.addUniform("uFogParams", WebGame.Uniform4F);
+                _this.uFogColor = _this.addUniform("uFogColor", WebGame.Uniform3F);
+                _this.uFogEnabled = _this.addUniform("uFogEnabled", WebGame.Uniform1I);
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n                    uniform mat4 uModel;\n\n                    void ModelBase_main()\n                    {\n                        vec4 viewPos = uView * uModel * vec4(aPosition, 1.0);\n\n                        gl_Position = uProjection * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uBaseTexture;\n\n                    uniform float uAlphaTest;   // [0, 1]\n                    uniform float uTranslucent; // [0, 1]\n                    uniform float uAlpha;       // [0..1]\n\n                    vec4 ModelBase_main()\n                    {\n                        vec4 sample = texture2D(uBaseTexture, vTextureCoord);\n                        if (sample.a <= uAlphaTest - 0.5) discard;\n\n                        float alpha = mix(1.0, uAlpha * sample.a, uTranslucent);\n\n                        return vec4(sample.rgb, alpha);\n                    }");
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n                    uniform mat4 " + _this.uModel + ";\n\n                    void ModelBase_main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform sampler2D " + _this.uBaseTexture + ";\n\n                    uniform float " + _this.uAlphaTest + ";   // [0, 1]\n                    uniform float " + _this.uTranslucent + "; // [0, 1]\n                    uniform float " + _this.uAlpha + ";       // [0..1]\n\n                    uniform vec4 " + _this.uFogParams + ";\n                    uniform vec3 " + _this.uFogColor + ";\n                    uniform int " + _this.uFogEnabled + ";\n\n                    vec3 ApplyFog(vec3 inColor)\n                    {\n                        if (" + _this.uFogEnabled + " == 0) return inColor;\n\n                        float fogDensity = " + _this.uFogParams + ".x + " + _this.uFogParams + ".y * vDepth;\n                        fogDensity = min(max(fogDensity, " + _this.uFogParams + ".z), " + _this.uFogParams + ".w);\n                        return mix(inColor, " + _this.uFogColor + ", fogDensity);\n                    }\n\n                    vec4 ModelBase_main()\n                    {\n                        vec4 sample = texture2D(" + _this.uBaseTexture + ", vTextureCoord);\n                        if (sample.a <= " + _this.uAlphaTest + " - 0.5) discard;\n\n                        float alpha = mix(1.0, " + _this.uAlpha + " * sample.a, " + _this.uTranslucent + ");\n\n                        return vec4(sample.rgb, alpha);\n                    }");
                 _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
                 _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
                 _this.uBaseTexture.setDefault(WebGame.TextureUtils.getErrorTexture(context));
@@ -997,6 +1014,8 @@ var SourceUtils;
                 _super.prototype.bufferSetup.call(this, buf);
                 this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
                 this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
+                this.uFogParams.bufferParameter(buf, WebGame.Fog.fogInfoParam);
+                this.uFogColor.bufferParameter(buf, WebGame.Fog.fogColorParam);
             };
             ModelBase.prototype.bufferModelMatrix = function (buf, value) {
                 _super.prototype.bufferModelMatrix.call(this, buf, value);
@@ -1008,6 +1027,7 @@ var SourceUtils;
                 this.uAlphaTest.bufferValue(buf, props.alphaTest ? 1 : 0);
                 this.uTranslucent.bufferValue(buf, props.translucent ? 1 : 0);
                 this.uAlpha.bufferValue(buf, props.alpha);
+                this.uFogEnabled.bufferValue(buf, props.fogEnabled ? 1 : 0);
                 var gl = this.context;
                 buf.enable(gl.DEPTH_TEST);
                 if (props.translucent) {
@@ -1044,10 +1064,9 @@ var SourceUtils;
             function LightmappedBase(context, ctor) {
                 var _this = _super.call(this, context, ctor) || this;
                 _this.uLightmap = _this.addUniform("uLightmap", WebGame.UniformSampler);
-                _this.uLightmapParams = _this.addUniform("uLightmapParams", WebGame.Uniform4F);
                 var gl = context;
                 _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aLightmapCoord;\n\n                    varying vec2 vLightmapCoord;\n\n                    void LightmappedBase_main()\n                    {\n                        ModelBase_main();\n\n                        vLightmapCoord = aLightmapCoord;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vLightmapCoord;\n\n                    uniform sampler2D uLightmap;\n                    uniform vec4 uLightmapParams;\n\n                    vec3 DecompressLightmapSample(vec4 sample)\n                    {\n                        float exp = sample.a * 255.0 - 128.0;\n                        return sample.rgb * pow(2.0, exp);\n                    }\n\n                    vec3 ApplyLightmap(vec3 inColor)\n                    {\n                        const float gamma = 0.5;\n\n                        vec2 size = uLightmapParams.xy;\n                        vec2 invSize = uLightmapParams.zw;\n                        vec2 scaledCoord = vLightmapCoord * size;\n                        vec2 minCoord = floor(scaledCoord);\n                        vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                        vec2 delta = scaledCoord - minCoord;\n\n                        minCoord *= invSize;\n                        maxCoord *= invSize;\n\n                        vec3 sampleA = DecompressLightmapSample(texture2D(uLightmap, vec2(minCoord.x, minCoord.y)));\n                        vec3 sampleB = DecompressLightmapSample(texture2D(uLightmap, vec2(maxCoord.x, minCoord.y)));\n                        vec3 sampleC = DecompressLightmapSample(texture2D(uLightmap, vec2(minCoord.x, maxCoord.y)));\n                        vec3 sampleD = DecompressLightmapSample(texture2D(uLightmap, vec2(maxCoord.x, maxCoord.y)));\n\n                        vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                        return inColor * pow(sample, vec3(gamma, gamma, gamma));\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vLightmapCoord;\n\n                    uniform sampler2D " + _this.uLightmap + ";\n                    uniform vec4 " + _this.uLightmap.getSizeUniform() + ";\n\n                    vec3 DecompressLightmapSample(vec4 sample)\n                    {\n                        float exp = sample.a * 255.0 - 128.0;\n                        return pow(sample.rgb * pow(2.0, exp), vec3(0.5, 0.5, 0.5));\n                    }\n\n                    vec3 ApplyLightmap(vec3 inColor)\n                    {\n                        vec2 size = " + _this.uLightmap.getSizeUniform() + ".xy;\n                        vec2 invSize = " + _this.uLightmap.getSizeUniform() + ".zw;\n                        vec2 scaledCoord = vLightmapCoord * size - vec2(0.5, 0.5);\n                        vec2 minCoord = floor(scaledCoord) + vec2(0.5, 0.5);\n                        vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                        vec2 delta = scaledCoord - floor(scaledCoord);\n\n                        minCoord *= invSize;\n                        maxCoord *= invSize;\n\n                        vec3 sampleA = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(minCoord.x, minCoord.y)));\n                        vec3 sampleB = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(maxCoord.x, minCoord.y)));\n                        vec3 sampleC = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(minCoord.x, maxCoord.y)));\n                        vec3 sampleD = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(maxCoord.x, maxCoord.y)));\n\n                        vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                        return inColor * sample;\n                    }");
                 _this.addAttribute("aLightmapCoord", WebGame.VertexAttribute.uv2);
                 _this.uLightmap.setDefault(WebGame.TextureUtils.getWhiteTexture(context));
                 return _this;
@@ -1055,7 +1074,6 @@ var SourceUtils;
             LightmappedBase.prototype.bufferSetup = function (buf) {
                 _super.prototype.bufferSetup.call(this, buf);
                 this.uLightmap.bufferParameter(buf, SourceUtils.Map.lightmapParam);
-                this.uLightmapParams.bufferParameter(buf, SourceUtils.Map.lightmapInfoParam);
             };
             return LightmappedBase;
         }(Shaders.ModelBase));
@@ -1088,7 +1106,7 @@ var SourceUtils;
                 _this.uBlendModulate = _this.addUniform("uBlendModulate", WebGame.Uniform1I);
                 var gl = context;
                 _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute float aAlpha;\n\n                    varying float vAlpha;\n\n                    void main()\n                    {\n                        LightmappedBase_main();\n\n                        vAlpha = aAlpha;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vAlpha;\n\n                    uniform sampler2D uBaseTexture2;\n                    uniform sampler2D uBlendModulateTexture;\n\n                    uniform int uBlendModulate; // [0, 1]\n\n                    void main()\n                    {\n                        vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;\n                        vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;\n\n                        float blend;\n                        if (uBlendModulate != 0) {\n                            float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);\n                            float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);\n\n                            blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));\n                        } else {\n                            blend = vAlpha;\n                        }\n\n                        vec3 blendedSample = mix(sample0, sample1, blend);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(lightmapped, 1.0);\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vAlpha;\n\n                    uniform sampler2D uBaseTexture2;\n                    uniform sampler2D uBlendModulateTexture;\n\n                    uniform int uBlendModulate; // [0, 1]\n\n                    void main()\n                    {\n                        vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;\n                        vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;\n\n                        float blend;\n                        if (uBlendModulate != 0) {\n                            float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);\n                            float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);\n\n                            blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));\n                        } else {\n                            blend = vAlpha;\n                        }\n\n                        vec3 blendedSample = mix(sample0, sample1, blend);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
                 _this.addAttribute("aAlpha", WebGame.VertexAttribute.alpha);
                 _this.uBaseTexture2.setDefault(WebGame.TextureUtils.getErrorTexture(gl));
                 _this.uBlendModulateTexture.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
@@ -1125,7 +1143,7 @@ var SourceUtils;
                 var _this = _super.call(this, context, LightmappedGenericMaterial) || this;
                 var gl = context;
                 _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 modelBase = ModelBase_main();\n                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);\n\n                        gl_FragColor = vec4(lightmapped, modelBase.a);\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 modelBase = ModelBase_main();\n                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), modelBase.a);\n                    }");
                 _this.compile();
                 return _this;
             }
@@ -1168,12 +1186,11 @@ var SourceUtils;
                 _this.uFaceNegY = _this.addUniform("uFaceNegY", WebGame.UniformSampler);
                 _this.uFacePosZ = _this.addUniform("uFacePosZ", WebGame.UniformSampler);
                 _this.uFaceNegZ = _this.addUniform("uFaceNegZ", WebGame.UniformSampler);
-                _this.uAspect = _this.addUniform("uAspect", WebGame.Uniform1F);
                 _this.uHdrCompressed = _this.addUniform("uHdrCompressed", WebGame.Uniform1I);
                 _this.sortOrder = -1000;
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aTextureCoord;\n                    attribute float aFace;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n\n                    uniform float uAspect;\n\n                    vec3 GetPosition()\n                    {\n                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);\n                        int face = int(aFace + 0.5);\n                        if (face == 0) return vec3( 0.5, -pos.x, -pos.y);\n                        if (face == 1) return vec3(-0.5, pos.x, -pos.y);\n                        if (face == 2) return vec3( pos.x, 0.5, -pos.y);\n                        if (face == 3) return vec3(-pos.x, -0.5, -pos.y);\n                        if (face == 4) return vec3( pos.y,-pos.x, 0.5);\n                        if (face == 5) return vec3( pos.y, pos.x, -0.5);\n                        return vec3(0.0, 0.0, 0.0);\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = uView * vec4(GetPosition() * 128.0, 0.0);\n\n                        gl_Position = uProjection * vec4(viewPos.xyz, 1.0);\n\n                        vFace = aFace;\n                        vTextureCoord = aTextureCoord * vec2(1.0, mix(1.0, uAspect, float(aFace < 3.5)));\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uFacePosX;\n                    uniform sampler2D uFaceNegX;\n                    uniform sampler2D uFacePosY;\n                    uniform sampler2D uFaceNegY;\n                    uniform sampler2D uFacePosZ;\n                    uniform sampler2D uFaceNegZ;\n\n                    uniform int uHdrCompressed;\n\n                    vec4 GetFaceSample()\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return texture2D(uFacePosX, vTextureCoord);\n                        if (face == 1) return texture2D(uFaceNegX, vTextureCoord);\n                        if (face == 2) return texture2D(uFacePosY, vTextureCoord);\n                        if (face == 3) return texture2D(uFaceNegY, vTextureCoord);\n                        if (face == 4) return texture2D(uFacePosZ, vTextureCoord);\n                        if (face == 5) return texture2D(uFaceNegZ, vTextureCoord);\n                        return vec4(0.0, 0.0, 0.0, 1.0);\n                    }\n\n                    vec3 DecompressHdr(vec4 sample)\n                    {\n                        return sample.rgb * sample.a * 2.0;\n                    }\n\n                    void main()\n                    {\n                        vec4 sample = GetFaceSample();\n\n                        if (uHdrCompressed != 0) {\n                            gl_FragColor = vec4(DecompressHdr(sample), 1.0);\n                        } else {\n                            gl_FragColor = vec4(sample.rgb, 1.0);\n                        }\n                    }");
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aTextureCoord;\n                    attribute float aFace;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n\n                    vec3 GetPosition()\n                    {\n                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);\n                        int face = int(aFace + 0.5);\n                        if (face == 0) return vec3( 0.5, -pos.x, -pos.y);\n                        if (face == 1) return vec3(-0.5, pos.x, -pos.y);\n                        if (face == 2) return vec3( pos.x, 0.5, -pos.y);\n                        if (face == 3) return vec3(-pos.x, -0.5, -pos.y);\n                        if (face == 4) return vec3( pos.y,-pos.x, 0.5);\n                        if (face == 5) return vec3( pos.y, pos.x, -0.5);\n                        return vec3(0.0, 0.0, 0.0);\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * vec4(GetPosition() * 128.0, 0.0);\n\n                        gl_Position = " + _this.uProjection + " * vec4(viewPos.xyz, 1.0);\n\n                        vFace = aFace;\n                        vTextureCoord = aTextureCoord;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D " + _this.uFacePosX + "; uniform vec4 " + _this.uFacePosX.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegX + "; uniform vec4 " + _this.uFaceNegX.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFacePosY + "; uniform vec4 " + _this.uFacePosY.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegY + "; uniform vec4 " + _this.uFaceNegY.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFacePosZ + "; uniform vec4 " + _this.uFacePosZ.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegZ + "; uniform vec4 " + _this.uFaceNegZ.getSizeUniform() + ";\n\n                    uniform int " + _this.uHdrCompressed + ";\n\n                    vec4 GetFaceSize()\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return " + _this.uFacePosX.getSizeUniform() + ";\n                        if (face == 1) return " + _this.uFaceNegX.getSizeUniform() + ";\n                        if (face == 2) return " + _this.uFacePosY.getSizeUniform() + ";\n                        if (face == 3) return " + _this.uFaceNegY.getSizeUniform() + ";\n                        if (face == 4) return " + _this.uFacePosZ.getSizeUniform() + ";\n                        if (face == 5) return " + _this.uFaceNegZ.getSizeUniform() + ";\n                        return vec4(1.0, 1.0, 1.0, 1.0);\n                    }\n\n                    vec4 GetFaceSample(vec2 uv)\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return texture2D(" + _this.uFacePosX + ", uv);\n                        if (face == 1) return texture2D(" + _this.uFaceNegX + ", uv);\n                        if (face == 2) return texture2D(" + _this.uFacePosY + ", uv);\n                        if (face == 3) return texture2D(" + _this.uFaceNegY + ", uv);\n                        if (face == 4) return texture2D(" + _this.uFacePosZ + ", uv);\n                        if (face == 5) return texture2D(" + _this.uFaceNegZ + ", uv);\n                        return vec4(0.0, 0.0, 0.0, 1.0);\n                    }\n\n                    vec3 DecompressHdr(vec4 sample)\n                    {\n                        return sample.rgb * sample.a * 2.0;\n                    }\n\n                    void main()\n                    {\n                        if (" + _this.uHdrCompressed + " != 0) {\n                            vec4 size = GetFaceSize();\n                            vec2 scaledCoord = vTextureCoord * size.xy * vec2(1.0, size.x * size.w) - vec2(0.5, 0.5);\n                            vec2 minCoord = floor(scaledCoord) + vec2(0.5, 0.5);\n                            vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                            vec2 delta = scaledCoord - floor(scaledCoord);\n\n                            minCoord *= size.zw;\n                            maxCoord *= size.zw;\n\n                            vec3 sampleA = DecompressHdr(GetFaceSample(vec2(minCoord.x, minCoord.y)));\n                            vec3 sampleB = DecompressHdr(GetFaceSample(vec2(maxCoord.x, minCoord.y)));\n                            vec3 sampleC = DecompressHdr(GetFaceSample(vec2(minCoord.x, maxCoord.y)));\n                            vec3 sampleD = DecompressHdr(GetFaceSample(vec2(maxCoord.x, maxCoord.y)));\n\n                            vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                            gl_FragColor = vec4(sample, 1.0);\n                        } else {\n                            vec4 sample = GetFaceSample(vTextureCoord);\n                            gl_FragColor = vec4(sample.rgb, 1.0);\n                        }\n                    }");
                 _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
                 _this.addAttribute("aFace", WebGame.VertexAttribute.alpha);
                 _this.uFacePosX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
@@ -1199,12 +1216,93 @@ var SourceUtils;
                 this.uFaceNegY.bufferValue(buf, props.faceNegY);
                 this.uFacePosZ.bufferValue(buf, props.facePosZ);
                 this.uFaceNegZ.bufferValue(buf, props.faceNegZ);
-                this.uAspect.bufferValue(buf, props.aspect);
                 this.uHdrCompressed.bufferValue(buf, props.hdrCompressed ? 1 : 0);
             };
             return Sky;
         }(Shaders.BaseShaderProgram));
         Shaders.Sky = Sky;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="ModelBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Shaders;
+    (function (Shaders) {
+        var UnlitGenericMaterial = (function (_super) {
+            __extends(UnlitGenericMaterial, _super);
+            function UnlitGenericMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return UnlitGenericMaterial;
+        }(Shaders.ModelBaseMaterial));
+        Shaders.UnlitGenericMaterial = UnlitGenericMaterial;
+        var UnlitGeneric = (function (_super) {
+            __extends(UnlitGeneric, _super);
+            function UnlitGeneric(context) {
+                var _this = _super.call(this, context, UnlitGenericMaterial) || this;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        ModelBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
+                _this.compile();
+                return _this;
+            }
+            return UnlitGeneric;
+        }(Shaders.ModelBase));
+        Shaders.UnlitGeneric = UnlitGeneric;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var WaterMaterial = (function (_super) {
+            __extends(WaterMaterial, _super);
+            function WaterMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.fogStart = 8192;
+                _this.fogEnd = 16384;
+                _this.fogColor = new Facepunch.Vector3(1, 1, 1);
+                return _this;
+            }
+            return WaterMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.WaterMaterial = WaterMaterial;
+        var Water = (function (_super) {
+            __extends(Water, _super);
+            function Water(context) {
+                var _this = _super.call(this, context, WaterMaterial) || this;
+                _this.uInverseProjection = _this.addUniform("uInverseProjection", WebGame.UniformMatrix4);
+                _this.uInverseView = _this.addUniform("uInverseView", WebGame.UniformMatrix4);
+                _this.uScreenParams = _this.addUniform("uScreenParams", WebGame.Uniform4F);
+                _this.uOpaqueColor = _this.addUniform("uOpaqueColor", WebGame.UniformSampler);
+                _this.uOpaqueDepth = _this.addUniform("uOpaqueDepth", WebGame.UniformSampler);
+                _this.uWaterFogParams = _this.addUniform("uWaterFogParams", WebGame.Uniform4F);
+                _this.uWaterFogColor = _this.addUniform("uWaterFogColor", WebGame.Uniform3F);
+                _this.sortOrder = -10;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform vec4 " + _this.uScreenParams + ";\n                    uniform highp mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uInverseProjection + ";\n                    uniform mat4 " + _this.uInverseView + ";\n\n                    uniform sampler2D " + _this.uOpaqueColor + ";\n                    uniform sampler2D " + _this.uOpaqueDepth + ";\n\n                    uniform vec4 " + _this.uWaterFogParams + ";\n                    uniform vec3 " + _this.uWaterFogColor + ";\n\n                    vec4 CalcEyeFromWindow(in vec3 fragCoord)\n                    {\n                        vec3 ndcPos;\n                        ndcPos.xy = (2.0 * fragCoord.xy) * (uScreenParams.zw) - vec2(1.0, 1.0);\n                        ndcPos.z = (2.0 * fragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near);\n\n                        vec4 clipPos;\n                        clipPos.w = " + _this.uProjection + "[3][2] / (ndcPos.z - (" + _this.uProjection + "[2][2] / " + _this.uProjection + "[2][3]));\n                        clipPos.xyz = ndcPos * clipPos.w;\n\n                        return " + _this.uInverseProjection + " * clipPos;\n                    }\n\n                    vec3 GetWorldPos(float fragZ)\n                    {\n                        return (" + _this.uInverseView + " * CalcEyeFromWindow(vec3(gl_FragCoord.xy, fragZ))).xyz;\n                    }\n\n                    void main()\n                    {\n                        vec2 screenPos = gl_FragCoord.xy * " + _this.uScreenParams + ".zw;\n\n                        vec3 surfacePos = GetWorldPos(gl_FragCoord.z);\n                        float opaqueDepthSample = texture2D(" + _this.uOpaqueDepth + ", screenPos).r;\n                        vec3 opaquePos = GetWorldPos(opaqueDepthSample);\n                        vec3 opaqueColor = texture2D(" + _this.uOpaqueColor + ", screenPos).rgb;\n\n                        float opaqueDepth = surfacePos.z - opaquePos.z;\n                        float relativeDepth = mix((opaqueDepth - " + _this.uWaterFogParams + ".x) * " + _this.uWaterFogParams + ".y, 1.0, float(opaqueDepthSample >= 0.99999));\n                        float fogDensity = max(" + _this.uWaterFogParams + ".z, min(" + _this.uWaterFogParams + ".w, relativeDepth));\n\n                        vec3 fogColor = ApplyFog(ApplyLightmap(" + _this.uWaterFogColor + "));\n                        vec3 waterFogged = mix(opaqueColor, fogColor, fogDensity);\n                        gl_FragColor = vec4(waterFogged, 1.0);\n                    }");
+                _this.compile();
+                return _this;
+            }
+            Water.prototype.bufferSetup = function (buf) {
+                _super.prototype.bufferSetup.call(this, buf);
+                this.uScreenParams.bufferParameter(buf, WebGame.Game.screenInfoParam);
+                this.uInverseProjection.bufferParameter(buf, WebGame.Camera.inverseProjectionMatrixParam);
+                this.uInverseView.bufferParameter(buf, WebGame.Camera.inverseViewMatrixParam);
+                this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
+                this.uOpaqueDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
+            };
+            Water.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
+                this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
+            };
+            return Water;
+        }(Shaders.LightmappedBase));
+        Shaders.Water = Water;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -1251,6 +1349,9 @@ var SourceUtils;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         VisPage.prototype.onGetValue = function (index) {
+            if (typeof (this.page.values[index]) === "string") {
+                this.page.values[index] = Facepunch.Utils.decompress(this.page.values[index]);
+            }
             return this.page.values[index];
         };
         return VisPage;

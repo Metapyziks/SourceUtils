@@ -1529,6 +1529,7 @@ var Facepunch;
                 this.commands = [];
                 this.lastCommand = null;
                 this.drawCalls = 0;
+                this.depthMaskState = undefined;
             };
             CommandBuffer.prototype.getDrawCalls = function () {
                 return this.drawCalls;
@@ -1583,6 +1584,9 @@ var Facepunch;
                 gl.disable(args.cap);
             };
             CommandBuffer.prototype.depthMask = function (flag) {
+                if (this.depthMaskState === flag)
+                    return;
+                this.depthMaskState = flag;
                 this.push(this.onDepthMask, { enabled: flag });
             };
             CommandBuffer.prototype.onDepthMask = function (gl, args) {
@@ -1637,8 +1641,19 @@ var Facepunch;
                         break;
                     case UniformType.Texture:
                         var tex = value;
+                        var uniform = args.uniform;
                         gl.activeTexture(gl.TEXTURE0 + args.unit);
                         gl.bindTexture(tex.getTarget(), tex.getHandle());
+                        if (!uniform.hasSizeUniform())
+                            break;
+                        if (tex != null) {
+                            var width = tex.getWidth(0);
+                            var height = tex.getHeight(0);
+                            gl.uniform4f(uniform.getSizeUniform().getLocation(), width, height, 1 / width, 1 / height);
+                        }
+                        else {
+                            gl.uniform4f(uniform.getSizeUniform().getLocation(), 1, 1, 1, 1);
+                        }
                         break;
                 }
             };
@@ -1681,6 +1696,16 @@ var Facepunch;
             };
             CommandBuffer.prototype.onSetUniform4F = function (gl, args) {
                 gl.uniform4f(args.uniform.getLocation(), args.x, args.y, args.z, args.w);
+            };
+            CommandBuffer.prototype.setUniformTextureSize = function (uniform, tex) {
+                if (uniform == null || uniform.getLocation() == null)
+                    return;
+                this.push(this.onSetUniformTextureSize, { uniform: uniform, texture: tex });
+            };
+            CommandBuffer.prototype.onSetUniformTextureSize = function (gl, args) {
+                var width = args.texture.getWidth(0);
+                var height = args.texture.getHeight(0);
+                gl.uniform4f(args.uniform.getLocation(), width, height, 1 / width, 1 / height);
             };
             CommandBuffer.prototype.setUniformMatrix4 = function (uniform, transpose, values) {
                 if (uniform == null || uniform.getLocation() == null)
@@ -2216,11 +2241,11 @@ var Facepunch;
                 var clipParams = buf.getArrayParameter(WebGame.Camera.clipInfoParam);
                 var near = clipParams[0];
                 var far = clipParams[1];
-                var densMul = this.maxDensity / ((this.end - this.start) * (far - near));
-                var densNear = (near - this.start) * densMul;
-                var densFar = (far - this.start) * densMul;
-                this.paramsValues[0] = densNear;
-                this.paramsValues[1] = densFar;
+                var densMul = this.maxDensity / (this.end - this.start);
+                var dens0 = (0 - this.start) * densMul;
+                var dens1 = (1 - this.start) * densMul;
+                this.paramsValues[0] = dens0;
+                this.paramsValues[1] = dens1 - dens0;
                 this.paramsValues[2] = 0;
                 this.paramsValues[3] = this.maxDensity;
                 buf.setParameter(Fog.fogInfoParam, this.paramsValues);
@@ -2266,7 +2291,7 @@ var Facepunch;
                 var gl = this.context;
                 if (existing == null) {
                     this.ownsDepthTexture = true;
-                    this.depthTexture = new WebGame.RenderTexture(gl, WebGame.TextureTarget.Texture2D, WebGame.TextureFormat.DepthComponent, WebGame.TextureDataType.Uint32, this.frameTexture.getWidth(0), this.frameTexture.getWidth(0));
+                    this.depthTexture = new WebGame.RenderTexture(gl, WebGame.TextureTarget.Texture2D, WebGame.TextureFormat.DepthComponent, WebGame.TextureDataType.Uint32, this.frameTexture.getWidth(0), this.frameTexture.getHeight(0));
                 }
                 else {
                     this.ownsDepthTexture = false;
@@ -2736,6 +2761,15 @@ var Facepunch;
                         this.properties[info.name] = info.value;
                         break;
                     }
+                    case MaterialPropertyType.Color: {
+                        var vec = this.properties[info.name];
+                        if (vec === undefined) {
+                            vec = this.properties[info.name] = new Facepunch.Vector4();
+                        }
+                        var color = info.value;
+                        vec.set(color.r, color.g, color.b, color.a);
+                        break;
+                    }
                     case MaterialPropertyType.TextureUrl: {
                         var texUrl = Facepunch.Http.getAbsUrl(info.value, this.url);
                         var tex = this.properties[info.name] = this.game.textureLoader.load(texUrl);
@@ -3134,6 +3168,7 @@ var Facepunch;
                     ]
                 };
                 this.composeFrameHandle = this.addMeshData(meshData)[0];
+                this.composeFrameHandle.program = this.composeFrameHandle.material.program;
                 return this.composeFrameHandle;
             };
             MeshManager.prototype.dispose = function () {
@@ -3549,6 +3584,9 @@ var Facepunch;
                     _super.prototype.bufferSetup.call(this, buf);
                     this.frameColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
                     this.frameDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
+                    var gl = this.context;
+                    buf.disable(gl.CULL_FACE);
+                    buf.depthMask(true);
                 };
                 ComposeFrame.vertSource = "\n                    attribute vec2 aScreenPos;\n\n                    varying vec2 vScreenPos;\n\n                    void main()\n                    {\n                        vScreenPos = aScreenPos * 0.5 + vec2(0.5, 0.5);\n                        gl_Position = vec4(aScreenPos, 0, 1);\n                    }";
                 ComposeFrame.fragSource = "\n                    #extension GL_EXT_frag_depth : enable\n\n                    precision mediump float;\n\n                    varying vec2 vScreenPos;\n\n                    uniform sampler2D uFrameColor;\n                    uniform sampler2D uFrameDepth;\n\n                    void main()\n                    {\n                        gl_FragColor = texture2D(uFrameColor, vScreenPos);\n                        gl_FragDepthEXT = texture2D(uFrameDepth, vScreenPos).r;\n                    }";
@@ -4177,11 +4215,15 @@ var Facepunch;
                 return false;
             };
             TextureLoadable.prototype.getWidth = function (level) {
+                if (level === 0)
+                    return this.level0Width;
                 if (this.info == null)
                     return undefined;
                 return this.info.width >> level;
             };
             TextureLoadable.prototype.getHeight = function (level) {
+                if (level === 0)
+                    return this.level0Height;
                 if (this.info == null)
                     return undefined;
                 return this.info.height >> level;
@@ -4258,6 +4300,8 @@ var Facepunch;
                 if (level > 0) {
                     gl.texImage2D(target, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, values);
                 }
+                this.level0Width = width;
+                this.level0Height = height;
                 return true;
             };
             TextureLoadable.prototype.loadImageElement = function (target, level, image) {
@@ -4270,6 +4314,8 @@ var Facepunch;
                     this.info.width = image.width;
                     this.info.height = image.height;
                 }
+                this.level0Width = image.width;
+                this.level0Height = image.height;
                 return true;
             };
             TextureLoadable.prototype.loadElement = function (element, value) {
@@ -4519,6 +4565,14 @@ var Facepunch;
                 this.isSampler = true;
                 this.texUnit = program.reserveNextTextureUnit();
             }
+            UniformSampler.prototype.getSizeUniform = function () {
+                if (this.sizeUniform != null)
+                    return this.sizeUniform;
+                return this.sizeUniform = this.program.addUniform(this + "_Size", Uniform4F);
+            };
+            UniformSampler.prototype.hasSizeUniform = function () {
+                return this.sizeUniform != null;
+            };
             UniformSampler.prototype.getTexUnit = function () {
                 return this.texUnit;
             };
@@ -4538,6 +4592,14 @@ var Facepunch;
                     this.value = this.texUnit;
                     buf.setUniform1I(this, this.texUnit);
                 }
+                if (this.sizeUniform == null)
+                    return;
+                if (tex != null) {
+                    buf.setUniformTextureSize(this.sizeUniform, tex);
+                }
+                else {
+                    this.sizeUniform.bufferValue(buf, 1, 1, 1, 1);
+                }
             };
             UniformSampler.prototype.set = function (tex) {
                 if (tex == null || !tex.isLoaded()) {
@@ -4546,6 +4608,9 @@ var Facepunch;
                 this.context.activeTexture(this.context.TEXTURE0 + this.texUnit);
                 this.context.bindTexture(tex.getTarget(), tex.getHandle());
                 this.context.uniform1i(this.getLocation(), this.texUnit);
+                var width = tex.getWidth(0);
+                var height = tex.getHeight(0);
+                this.sizeUniform.set(width, height, 1 / width, 1 / height);
             };
             return UniformSampler;
         }(Uniform));

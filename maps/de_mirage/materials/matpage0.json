@@ -1,7 +1,7 @@
 {
   "textures": [
     {
-      "path": "materials/tools/toolsclip.vtf",
+      "path": "materials/tools/toolsclip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -18,7 +18,7 @@
             "r": 0.827451,
             "g": 0.2627451,
             "b": 0.192156866,
-            "a": 0.4
+            "a": 0.294117659
           }
         }
       ]
@@ -185,7 +185,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsplayerclip.vtf",
+      "path": "materials/tools/toolsplayerclip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -202,7 +202,7 @@
             "r": 0.807843149,
             "g": 0.349019617,
             "b": 0.5568628,
-            "a": 0.427450985
+            "a": 0.329411775
           }
         }
       ]
@@ -530,7 +530,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsskip.vtf",
+      "path": "materials/tools/toolsskip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -547,13 +547,13 @@
             "r": 0.149019614,
             "g": 0.7294118,
             "b": 0.968627453,
-            "a": 0.3372549
+            "a": 0.239215687
           }
         }
       ]
     },
     {
-      "path": "materials/tools/toolshint.vtf",
+      "path": "materials/tools/toolshint-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -570,7 +570,7 @@
             "r": 0.635294139,
             "g": 0.294117659,
             "b": 0.7764706,
-            "a": 0.329411775
+            "a": 0.235294119
           }
         }
       ]
@@ -1657,7 +1657,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolstrigger.vtf",
+      "path": "materials/tools/toolstrigger-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -1674,7 +1674,7 @@
             "r": 0.968627453,
             "g": 0.596078455,
             "b": 0.0,
-            "a": 0.4117647
+            "a": 0.309803933
           }
         }
       ]
@@ -1749,7 +1749,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsinvisible.vtf",
+      "path": "materials/tools/toolsinvisible-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -1766,7 +1766,7 @@
             "r": 0.847058833,
             "g": 0.0196078438,
             "b": 0.5372549,
-            "a": 0.20784314
+            "a": 0.129411772
           }
         }
       ]
@@ -1841,7 +1841,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsareaportal.vtf",
+      "path": "materials/tools/toolsareaportal-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -1858,7 +1858,7 @@
             "r": 0.0,
             "g": 0.945098042,
             "b": 0.847058833,
-            "a": 0.333333343
+            "a": 0.239215687
           }
         }
       ]
@@ -3075,9 +3075,9 @@
           "level": 0,
           "color": {
             "r": 0.6666667,
-            "g": 0.6509804,
+            "g": 0.6431373,
             "b": 0.6,
-            "a": 0.298039228
+            "a": 0.294117659
           }
         }
       ]
@@ -4231,6 +4231,4077 @@
           }
         }
       ]
+    },
+    {
+      "path": "materials/models/props_wasteland/prison_switchbox01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.286274523,
+            "g": 0.274509817,
+            "b": 0.254901975,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/urban_trees_barks01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.333333343,
+            "b": 0.298039228,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/urban_trees_branches03.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3764706,
+            "g": 0.380392164,
+            "b": 0.247058824,
+            "a": 0.392156869
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_aztec/aztec_scaffolding_system.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.407843143,
+            "g": 0.372549027,
+            "b": 0.3529412,
+            "a": 0.0235294122
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/furnitureboiler001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.407843143,
+            "g": 0.41568628,
+            "b": 0.396078438,
+            "a": 0.9764706
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/pwtrim2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.2901961,
+            "g": 0.258823544,
+            "b": 0.235294119,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/plaster.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.396078438,
+            "g": 0.380392164,
+            "b": 0.34117648,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/wall_hole/wall_hole_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.3882353,
+            "b": 0.3529412,
+            "a": 0.933333337
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/gg_vietnam/vietnam_hut_wood_gang.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.396078438,
+            "g": 0.3529412,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_junk/food_used.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.709803939,
+            "g": 0.6745098,
+            "b": 0.647058845,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_6x10_arch_flat.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.3254902,
+            "b": 0.298039228,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/flower_a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.309803933,
+            "b": 0.5058824,
+            "a": 0.75686276
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/flower_b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.20784314,
+            "b": 0.3529412,
+            "a": 0.75686276
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/flower_c.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.647058845,
+            "g": 0.478431374,
+            "b": 0.160784319,
+            "a": 0.75686276
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/flower_d.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.458823532,
+            "g": 0.192156866,
+            "b": 0.6117647,
+            "a": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/mall_trees_branches03.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.294117659,
+            "b": 0.2,
+            "a": 0.3882353
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/crate_extrasmall.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.384313732,
+            "g": 0.3019608,
+            "b": 0.223529413,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/objects/stoneblocks01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.3254902,
+            "b": 0.2784314,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_rooftop/roof_vent003.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.180392161,
+            "g": 0.180392161,
+            "b": 0.180392161,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/chimneys001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.435294122,
+            "g": 0.4117647,
+            "b": 0.403921574,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/blkmetal.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.180392161,
+            "g": 0.164705887,
+            "b": 0.149019614,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/light_orange2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.5254902,
+            "b": 0.4509804,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/lampholder2a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.168627456,
+            "g": 0.160784319,
+            "b": 0.129411772,
+            "a": 0.286274523
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/plastic_table_set001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.807843149,
+            "g": 0.7882353,
+            "b": 0.7294118,
+            "a": 0.75686276
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/telephone_pole_addons001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5137255,
+            "g": 0.5176471,
+            "b": 0.498039216,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_assault/warehouserailing.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.329411775,
+            "g": 0.305882365,
+            "b": 0.2784314,
+            "a": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_wasteland/prison_objects004.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5137255,
+            "g": 0.490196079,
+            "b": 0.435294122,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/airconditioner001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.403921574,
+            "b": 0.3882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/awning01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.458823532,
+            "b": 0.427450985,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_6x10_arch.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3372549,
+            "g": 0.333333343,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/rusted_fence_a/rusted_fence_a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.384313732,
+            "b": 0.3529412,
+            "a": 0.180392161
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/doora.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.4627451,
+            "b": 0.427450985,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_rooftop/rooftopcluster06a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.247058824,
+            "g": 0.219607845,
+            "b": 0.211764708,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_4x6_square.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.3372549,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/ammo_pallet01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.34117648,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/bomb_tanks.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.41568628,
+            "b": 0.407843143,
+            "a": 0.8745098
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/dust_food_crates.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6862745,
+            "g": 0.6666667,
+            "b": 0.647058845,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/porch_light003.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5176471,
+            "g": 0.521568656,
+            "b": 0.5137255,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/porch_light003b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.549019635,
+            "b": 0.549019635,
+            "a": 0.152941182
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_militia/sawhorse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.168627456,
+            "g": 0.141176477,
+            "b": 0.105882354,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/ceiling_light.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.294117659,
+            "b": 0.2784314,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/wall_lamp_bulb.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.654902,
+            "g": 0.654902,
+            "b": 0.623529434,
+            "a": 0.427450985
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_unique/grocerystorechiller01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.396078438,
+            "g": 0.4,
+            "b": 0.3882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_junk/garbage001a_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.490196079,
+            "b": 0.4392157,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_4x8_square_flat.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.321568638,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/sofa_chair.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.1254902,
+            "g": 0.145098045,
+            "b": 0.180392161,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/furniture_wood01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.223529413,
+            "b": 0.149019614,
+            "a": 0.6627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/lamps.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.5294118,
+            "b": 0.419607848,
+            "a": 0.180392161
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/lamps_on.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.709803939,
+            "g": 0.6901961,
+            "b": 0.6,
+            "a": 0.698039234
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_rooftop/roof_dish001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.4745098,
+            "b": 0.470588237,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/props_utilities/electric_cables01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.533333361,
+            "b": 0.5176471,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_debris/composite_debris2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.349019617,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/gasmeters001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3764706,
+            "g": 0.431372553,
+            "b": 0.427450985,
+            "a": 0.858823538
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/lamp/lamp_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.1254902,
+            "g": 0.109803922,
+            "b": 0.105882354,
+            "a": 0.6901961
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/fence001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3647059,
+            "g": 0.3647059,
+            "b": 0.3529412,
+            "a": 0.4862745
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/hazard_ribbons.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.2784314,
+            "b": 0.09411765,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_wasteland/prison_objects002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5176471,
+            "g": 0.494117647,
+            "b": 0.4509804,
+            "a": 0.956862748
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_train/wood_pallet_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4509804,
+            "g": 0.41568628,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/cinderblock.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.407843143,
+            "g": 0.403921574,
+            "b": 0.396078438,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/curbs001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.384313732,
+            "g": 0.3647059,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/curbs002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.427450985,
+            "b": 0.329411775,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_pipes/pipeset_metal.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.247058824,
+            "b": 0.180392161,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/bench_a/bench_a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.654902,
+            "g": 0.6509804,
+            "b": 0.647058845,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_italy/hpe_italy_pipe_wall.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.349019617,
+            "b": 0.34117648,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_vostok/trashcans.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.309803933,
+            "b": 0.298039228,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_junk/trashdumpster01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.4,
+            "b": 0.298039228,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_junk/trashclusters01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.192156866,
+            "g": 0.1882353,
+            "b": 0.180392161,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_pipes/pipeset02d_512_001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.235294119,
+            "g": 0.227450982,
+            "b": 0.211764708,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_lab/powerbox001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.431372553,
+            "b": 0.396078438,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/brick/infwllf.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6,
+            "g": 0.572549045,
+            "b": 0.5254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/plaster/infwlli.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.627451,
+            "g": 0.596078455,
+            "b": 0.5803922,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/plaster/infwlll.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.627451,
+            "g": 0.619607866,
+            "b": 0.5803922,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/gg_tibet/furnitureinteriorcabinetswood.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.309803933,
+            "g": 0.2627451,
+            "b": 0.192156866,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_6x8_shutters.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.3254902,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_junk/garbage003a_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.5254902,
+            "b": 0.435294122,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/woodfurniture01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.349019617,
+            "b": 0.247058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/furniture_couch02a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.482352942,
+            "g": 0.384313732,
+            "b": 0.247058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/books.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5254902,
+            "g": 0.4627451,
+            "b": 0.4392157,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/furniture_wood02.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.2784314,
+            "g": 0.180392161,
+            "b": 0.117647059,
+            "a": 0.647058845
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/clothing_pile3.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.458823532,
+            "g": 0.4117647,
+            "b": 0.3882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_6x8_shutters_flat.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.368627459,
+            "b": 0.3882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/mkt_container3.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.34117648,
+            "b": 0.329411775,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_street/electrical_boxes.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.5058824,
+            "b": 0.5058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/plaster/prodwlla.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.5176471,
+            "b": 0.4392157,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/mall_trees_branches01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.235294119,
+            "g": 0.2509804,
+            "b": 0.180392161,
+            "a": 0.3882353
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/mall_trees_barks01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.309803933,
+            "g": 0.3019608,
+            "b": 0.266666681,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_assault/wirespout.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.235294119,
+            "g": 0.227450982,
+            "b": 0.211764708,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/skybox_dust_hotel02.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.698039234,
+            "g": 0.698039234,
+            "b": 0.6784314,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/pillow_b/pillow_b_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.796078444,
+            "g": 0.396078438,
+            "b": 0.247058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/pillow_c/pillow_c_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6,
+            "g": 0.494117647,
+            "b": 0.3647059,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/pillow_a/pillow_a_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.466666669,
+            "g": 0.270588249,
+            "b": 0.305882365,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_train/ladderaluminium.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.458823532,
+            "b": 0.458823532,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/skybox_dust_hotel01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5882353,
+            "g": 0.549019635,
+            "b": 0.458823532,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_4x8_arch_flat.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.294117659,
+            "b": 0.2784314,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_italy/brick_arch01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.490196079,
+            "b": 0.4509804,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_4x8_square.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.329411775,
+            "g": 0.309803933,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/claypot02.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.368627459,
+            "g": 0.321568638,
+            "b": 0.274509817,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/urban_trees_branches02.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.180392161,
+            "g": 0.172549024,
+            "b": 0.105882354,
+            "a": 0.333333343
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/stoop002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5294118,
+            "g": 0.5294118,
+            "b": 0.5137255,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/window_a/window_a_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.5058824,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_office/rolling_gate.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.168627456,
+            "g": 0.1764706,
+            "b": 0.180392161,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/rungs.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.349019617,
+            "b": 0.3529412,
+            "a": 0.1882353
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_assault/wall_wires1.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4509804,
+            "g": 0.435294122,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_mall/cash_register.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.490196079,
+            "b": 0.470588237,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/lightbulb01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.545098066,
+            "g": 0.549019635,
+            "b": 0.498039216,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/effects/urban_puddle01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.105882354,
+            "g": 0.09803922,
+            "b": 0.08235294,
+            "a": 0.258823544
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_assault/camera.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.380392164,
+            "b": 0.3764706,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/railing01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.2784314,
+            "b": 0.266666681,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/railing01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.247058824,
+            "g": 0.2509804,
+            "b": 0.247058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/dust_arch_small.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.56078434,
+            "b": 0.5137255,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/couch_a/couch_a_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5294118,
+            "b": 0.5254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/gate_door01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.1254902,
+            "g": 0.09803922,
+            "b": 0.08235294,
+            "a": 0.509803951
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_illum_backing.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.9254902,
+            "g": 0.882352948,
+            "b": 0.807843149,
+            "a": 0.09019608
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/gg_tibet/dishestibet.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.2627451,
+            "b": 0.223529413,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/furnituretable001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.235294119,
+            "g": 0.1764706,
+            "b": 0.129411772,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_vertigo/construction_wood_2x4_pile01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6,
+            "g": 0.5176471,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/dust_rusty_barrel.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.419607848,
+            "b": 0.427450985,
+            "a": 0.423529416
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/telephone_pole001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.482352942,
+            "g": 0.458823532,
+            "b": 0.458823532,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_militia/ladderwood.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.149019614,
+            "g": 0.13333334,
+            "b": 0.1254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/furniturewooddresser001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.309803933,
+            "g": 0.160784319,
+            "b": 0.07058824,
+            "a": 0.6627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_foliage/urban_palm_trunkdust.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.2901961,
+            "b": 0.247058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/broken_corner_a/broken_corner_a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.635294139,
+            "g": 0.572549045,
+            "b": 0.470588237,
+            "a": 0.7137255
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/bench_wood.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.458823532,
+            "g": 0.419607848,
+            "b": 0.427450985,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_street/trashbin01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.160784319,
+            "g": 0.192156866,
+            "b": 0.149019614,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_vehicles/bus01_a_2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.3529412,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_vehicles/bus01_b_2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.321568638,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/shelvingstore_grocery01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.419607848,
+            "b": 0.3882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_vertigo/borealis_vent001b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.356862754,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/furniturecouch001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.149019614,
+            "b": 0.1254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_lighting/light_shop.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.4745098,
+            "b": 0.470588237,
+            "a": 0.2627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/mkt_container3a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.3019608,
+            "b": 0.298039228,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/mkt_container3b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3647059,
+            "g": 0.333333343,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/wagon.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3372549,
+            "g": 0.3372549,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/cart_wheel.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.3254902,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/cannon.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3372549,
+            "g": 0.3254902,
+            "b": 0.305882365,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/streetlight001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.384313732,
+            "g": 0.3882353,
+            "b": 0.403921574,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_street/parking_bumper_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.478431374,
+            "b": 0.470588237,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_vehicles/4carz1024.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.482352942,
+            "b": 0.470588237,
+            "a": 0.3882353
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_vehicles/4carz1024_glass.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.266666681,
+            "g": 0.254901975,
+            "b": 0.235294119,
+            "a": 0.9490196
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_exteriors/guardrail.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.447058827,
+            "b": 0.458823532,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/bucket_tools.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.282352954,
+            "b": 0.254901975,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_junk/garbage002a_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5137255,
+            "g": 0.478431374,
+            "b": 0.4392157,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_italy/paint_roller.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.807843149,
+            "g": 0.784313738,
+            "b": 0.7529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/mkt_table2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.41568628,
+            "g": 0.329411775,
+            "b": 0.254901975,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_piranesi/pi_apc.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.396078438,
+            "g": 0.396078438,
+            "b": 0.3764706,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/base_rocks_a/base_rocks_a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.635294139,
+            "g": 0.5647059,
+            "b": 0.482352942,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_vostok/hardwareitems01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.694117665,
+            "g": 0.6666667,
+            "b": 0.6431373,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/ceiling_fan.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.4,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/tire001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.168627456,
+            "g": 0.164705887,
+            "b": 0.168627456,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/furniturestove001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.533333361,
+            "b": 0.482352942,
+            "a": 0.9254902
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/refrigerator01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6784314,
+            "g": 0.623529434,
+            "b": 0.5176471,
+            "a": 0.521568656
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_office/microwave.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.596078455,
+            "b": 0.6,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/refrigeratordoor01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.635294139,
+            "g": 0.5764706,
+            "b": 0.482352942,
+            "a": 0.607843161
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/refrigeratordoor02a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6666667,
+            "g": 0.6039216,
+            "b": 0.5058824,
+            "a": 0.58431375
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_doors/roll-up_door.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.384313732,
+            "g": 0.368627459,
+            "b": 0.3764706,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_4x6_arch.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.3529412,
+            "b": 0.34117648,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_vehicles/van1.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.545098066,
+            "b": 0.5254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/metal/metal_corrugated03b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7294118,
+            "g": 0.721568644,
+            "b": 0.654902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/cs_italy/market_dolly01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.192156866,
+            "b": 0.180392161,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_militia/van2.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.09411765,
+            "g": 0.09803922,
+            "b": 0.09411765,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_militia/van1.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.298039228,
+            "g": 0.31764707,
+            "b": 0.309803933,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_c17/furniturechair001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.258823544,
+            "g": 0.1764706,
+            "b": 0.137254909,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/de_mirage/plaster/plaster_tan1_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7294118,
+            "g": 0.7176471,
+            "b": 0.6666667,
+            "a": 0.152941182
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/large_door_a/large_door_a_det_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.654902,
+            "g": 0.623529434,
+            "b": 0.5568628,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/sofa01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.160784319,
+            "g": 0.192156866,
+            "b": 0.235294119,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/florescentlight01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5254902,
+            "g": 0.5254902,
+            "b": 0.482352942,
+            "a": 0.219607845
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_dust/awning_smalldoor.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.4,
+            "b": 0.34117648,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/artillery02.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.41568628,
+            "g": 0.349019617,
+            "b": 0.223529413,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_inferno/flower_barrel.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.3254902,
+            "b": 0.309803933,
+            "a": 0.8039216
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_rooftop/rooftop01a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.192156866,
+            "g": 0.172549024,
+            "b": 0.145098045,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/small_door_b/small_door_b_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.223529413,
+            "g": 0.145098045,
+            "b": 0.09411765,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/hanging_cloth_a/hanging_cloth_a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.482352942,
+            "g": 0.384313732,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_6x8_sill.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.294117659,
+            "b": 0.2901961,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_2x6_arch.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.2901961,
+            "g": 0.286274523,
+            "b": 0.274509817,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/de_dust/windows/window_4x8_arch.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3372549,
+            "g": 0.321568638,
+            "b": 0.2901961,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_mirage/overhang/overhang/overhang_ver1_diffuse.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5176471,
+            "g": 0.478431374,
+            "b": 0.427450985,
+            "a": 0.203921571
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/cashregister01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.34117648,
+            "b": 0.3372549,
+            "a": 1.0
+          }
+        }
+      ]
     }
   ],
   "materials": [
@@ -4688,7 +8759,7 @@
           "value": true
         },
         {
-          "name": "fog",
+          "name": "fogEnabled",
           "type": 1,
           "value": false
         }
@@ -4708,7 +8779,7 @@
           "value": true
         },
         {
-          "name": "fog",
+          "name": "fogEnabled",
           "type": 1,
           "value": false
         }
@@ -7246,6 +11317,2237 @@
           "name": "translucent",
           "type": 1,
           "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 184
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 185
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 186
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 187
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 188
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 189
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 190
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 191
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 192
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 193
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 194
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 186
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 195
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 196
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 197
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 198
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 199
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 200
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 201
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 202
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 203
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 204
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 205
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 206
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 44
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 22
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 207
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 208
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 209
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 210
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 211
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 212
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 213
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 214
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 215
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 216
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 217
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 218
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 219
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 220
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 221
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 222
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 223
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 224
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 225
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 225
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 226
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 227
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 228
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 229
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 230
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 231
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 232
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 233
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 234
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 235
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 236
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 237
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 238
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 239
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 240
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 241
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 242
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 243
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 244
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 245
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 246
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 247
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 248
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 249
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 250
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 251
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 252
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 253
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 254
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 255
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 256
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 257
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 258
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 259
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 260
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 261
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 262
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 263
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 264
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 265
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 266
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 267
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 268
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 269
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 185
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 186
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 270
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 271
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 272
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 273
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 274
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 185
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 275
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 276
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 277
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 278
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 279
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 280
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 281
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 186
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 185
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 282
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 283
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 284
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 285
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 286
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 287
+        }
+      ]
+    },
+    null,
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 288
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 288
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 289
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 290
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 291
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 292
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 293
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 294
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 295
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 296
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 297
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 298
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 299
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 300
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 301
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 302
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 303
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 304
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 186
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 305
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 306
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 307
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 308
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 309
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 310
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 311
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 312
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 313
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 313
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 314
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 315
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 316
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 317
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 318
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 319
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 320
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 321
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 322
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 323
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 324
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 325
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 326
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 327
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 328
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 329
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 330
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 42
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 331
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 102
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 332
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 333
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 334
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 335
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 336
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 337
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 338
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 339
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 340
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 341
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 342
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 343
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 344
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 345
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 346
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 11
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 347
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 348
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 349
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 349
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 350
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 351
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 352
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 353
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 354
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 355
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 356
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 42
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 357
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 358
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 359
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 360
         }
       ]
     }

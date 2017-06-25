@@ -1,32 +1,44 @@
 {
   "name": "de_inferno",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18a4-12e11",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18f1-f97e",
   "visPages": [
     {
       "first": 0,
       "count": 2572,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18a4-12e11"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18f1-f97e"
     }
   ],
   "leafPages": [
     {
       "first": 0,
-      "count": 4921,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18a4-12e11"
+      "count": 5005,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18f1-f97e"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 2034,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18a4-12e11"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18f1-f97e"
     }
   ],
   "materialPages": [
     {
       "first": 0,
-      "count": 233,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18a4-12e11"
+      "count": 442,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18f1-f97e"
+    }
+  ],
+  "studioModelPages": [
+    {
+      "first": 0,
+      "count": 222,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage0.json?v=18f1-f97e"
+    },
+    {
+      "first": 222,
+      "count": 64,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage1.json?v=18f1-f97e"
     }
   ],
   "entities": [
@@ -42,146 +54,165 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18a4-12e11"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model0.json?v=18a4-12e11",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model0.json?v=18f1-f97e",
       "classname": "worldspawn"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model40.json?v=18a4-12e11",
-      "clusters": [
-        2324
-      ],
-      "classname": "func_brush",
+      "classname": "info_player_terrorist",
       "origin": {
-        "x": 485.5,
-        "y": -278.0,
-        "z": 341.0
+        "x": -1586.52,
+        "y": 440.79,
+        "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model53.json?v=18a4-12e11",
-      "clusters": [
-        1584,1585,1586,1662,1663,1664,1666
-      ],
-      "classname": "func_brush",
-      "origin": {
-        "x": 284.0,
-        "y": 328.0,
-        "z": 68.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 0.0,
+        "y": 337.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": -1592.0,
-        "y": 688.0,
-        "z": -40.0
+        "x": -1520.06,
+        "y": 430.891,
+        "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": 284.5,
+        "y": 267.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_counterterrorist",
+      "classname": "info_player_terrorist",
       "origin": {
-        "x": 2367.0,
-        "y": 2073.0,
-        "z": 155.0
+        "x": -1657.23,
+        "y": 419.577,
+        "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": 135.0,
+        "y": 358.5,
         "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model54.json?v=18a4-12e11",
-      "clusters": [
-        678,693,820,821
-      ],
-      "classname": "func_brush",
+      "classname": "info_player_terrorist",
       "origin": {
-        "x": 386.0,
-        "y": 2504.0,
-        "z": 218.5
+        "x": -1675.62,
+        "y": 351.695,
+        "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": 0.0,
+        "y": 48.0,
         "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model55.json?v=18a4-12e11",
-      "clusters": [
-        690,694,712,714,715,716,829,830,832,833
-      ],
-      "classname": "func_brush",
+      "classname": "info_player_terrorist",
       "origin": {
-        "x": 107.5,
-        "y": 2614.5,
-        "z": 221.0
+        "x": -1662.18,
+        "y": 288.762,
+        "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": 0.0,
+        "y": 77.5,
         "z": 0.0
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model59.json?v=18a4-12e11",
-      "clusters": [
-        483,485,522,523
-      ],
-      "classname": "func_brush",
+      "classname": "info_player_terrorist",
       "origin": {
-        "x": 1953.57,
-        "y": 2562.15,
-        "z": 192.5
+        "x": -1531.0,
+        "y": 544.0,
+        "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": -103.0,
+        "y": 292.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1491.0,
+        "y": 490.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 222.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1596.0,
+        "y": 579.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 313.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1657.0,
+        "y": 544.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 3.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": -1692.0,
+        "y": 490.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 32.5,
         "z": 0.0
       }
     },
@@ -194,7 +225,7 @@
       },
       "angles": {
         "x": 0.0,
-        "y": -68.0,
+        "y": 292.0,
         "z": 0.0
       }
     },
@@ -207,7 +238,7 @@
       },
       "angles": {
         "x": 0.0,
-        "y": -138.0,
+        "y": 222.0,
         "z": 0.0
       }
     },
@@ -220,7 +251,7 @@
       },
       "angles": {
         "x": 0.0,
-        "y": -46.5,
+        "y": 313.5,
         "z": 0.0
       }
     },
@@ -251,32 +282,6 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model60.json?v=18a4-12e11",
-      "clusters": [
-        2455,2472
-      ],
-      "classname": "func_brush",
-      "origin": {
-        "x": -186.625,
-        "y": -587.792,
-        "z": 245.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 81.0,
-        "z": 0.0
-      }
-    },
-    {
-      "scale": 16,
-      "classname": "sky_camera",
-      "origin": {
-        "x": -6144.0,
-        "y": 7168.0,
-        "z": -352.0
-      }
-    },
-    {
       "classname": "info_player_counterterrorist",
       "origin": {
         "x": 2458.45,
@@ -285,7 +290,7 @@
       },
       "angles": {
         "x": 0.0,
-        "y": -125.5,
+        "y": 234.5,
         "z": 0.0
       }
     },
@@ -298,7 +303,7 @@
       },
       "angles": {
         "x": 0.0,
-        "y": -97.5,
+        "y": 262.5,
         "z": 0.0
       }
     },
@@ -344,143 +349,13 @@
     {
       "classname": "info_player_counterterrorist",
       "origin": {
-        "x": 2459.88,
-        "y": 1904.25,
-        "z": 140.843
-      },
-      "angles": {
-        "x": 0.0,
-        "y": -134.0,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_counterterrorist",
-      "origin": {
-        "x": 2420.99,
-        "y": 1965.77,
-        "z": 140.843
-      },
-      "angles": {
-        "x": 0.0,
-        "y": -106.0,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_counterterrorist",
-      "origin": {
-        "x": 2442.91,
-        "y": 1819.4,
-        "z": 140.843
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 162.5,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_counterterrorist",
-      "origin": {
-        "x": 2358.06,
-        "y": 1791.12,
-        "z": 140.843
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 100.0,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_counterterrorist",
-      "origin": {
-        "x": 2285.23,
-        "y": 1830.01,
-        "z": 140.843
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 72.5,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_terrorist",
-      "origin": {
-        "x": -1586.52,
-        "y": 440.79,
-        "z": -46.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": -23.0,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_terrorist",
-      "origin": {
-        "x": -1520.06,
-        "y": 430.891,
-        "z": -46.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": -93.0,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_terrorist",
-      "origin": {
-        "x": -1657.23,
-        "y": 419.577,
-        "z": -46.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": -1.50001,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_terrorist",
-      "origin": {
-        "x": -1675.62,
-        "y": 351.695,
-        "z": -46.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 48.0,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_terrorist",
-      "origin": {
-        "x": -1662.18,
-        "y": 288.762,
-        "z": -46.0
-      },
-      "angles": {
-        "x": 0.0,
-        "y": 77.5,
-        "z": 0.0
-      }
-    },
-    {
-      "classname": "info_player_counterterrorist",
-      "origin": {
         "x": 2469.79,
         "y": 2094.25,
         "z": 140.843
       },
       "angles": {
         "x": 0.0,
-        "y": -136.5,
+        "y": 223.5,
         "z": 0.0
       }
     },
@@ -493,7 +368,7 @@
       },
       "angles": {
         "x": 0.0,
-        "y": -108.5,
+        "y": 251.5,
         "z": 0.0
       }
     },
@@ -537,67 +412,6948 @@
       }
     },
     {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2459.88,
+        "y": 1904.25,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 226.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2420.99,
+        "y": 1965.77,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 254.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2442.91,
+        "y": 1819.4,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 162.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2358.06,
+        "y": 1791.12,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 100.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2285.23,
+        "y": 1830.01,
+        "z": 140.843
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 72.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2027.0,
+        "y": 2247.0,
+        "z": 152.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 2340.0,
+        "y": 1638.0,
+        "z": 211.0
+      }
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 287.0,
+        "y": 56.8761,
+        "z": 95.0
+      }
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model11.json?v=18f1-f97e",
+      "clusters": [
+        15,41,43,45,47,48,49,52,54,56,75,76,77,78,81,83,88,89,93,94,95,96,97,98,99,100,101,102,103,104,162,163,164,165,168,169,170,171,173,174,175,176
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2620.0,
+        "y": 2112.0,
+        "z": 300.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2542.6,
+        "y": 208.0,
+        "z": 400.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2440.0,
+        "y": 782.0,
+        "z": 396.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 2040.0,
+        "y": -214.0,
+        "z": 532.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1967.0,
+        "y": 169.0,
+        "z": 436.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1966.0,
+        "y": 665.0,
+        "z": 435.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2646.0,
+        "y": 930.0,
+        "z": 475.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2825.0,
+        "y": 1213.0,
+        "z": 429.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2646.0,
+        "y": 931.0,
+        "z": 452.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1966.0,
+        "y": 665.0,
+        "z": 411.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1967.0,
+        "y": 169.0,
+        "z": 412.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2040.0,
+        "y": -214.0,
+        "z": 509.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1499.0,
+        "y": -206.0,
+        "z": 26.0
+      }
+    },
+    {
+      "classname": "light_environment",
+      "origin": {
+        "x": -1583.94,
+        "y": 249.283,
+        "z": 280.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 218.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 325.0,
+        "y": 491.0,
+        "z": 348.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 325.0,
+        "y": 475.0,
+        "z": 346.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 324.0,
+        "y": 491.0,
+        "z": 323.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": 973.0,
+        "y": -11.5,
+        "z": 172.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": 973.0,
+        "y": -61.0,
+        "z": 175.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": 973.0,
+        "y": -112.0,
+        "z": 176.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -37.0,
+        "y": -7.0,
+        "z": 113.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": -86.5,
+        "y": -7.0,
+        "z": 110.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": 14.0,
+        "y": -7.0,
+        "z": 114.0
+      }
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 88.6185,
+        "y": 471.193,
+        "z": 82.0649
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -64.0,
+        "y": 1376.0,
+        "z": 116.294
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 264.0,
+        "y": 1216.0,
+        "z": 112.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 920.0,
+        "y": 2200.0,
+        "z": 157.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 984.0,
+        "y": 1888.0,
+        "z": 157.714
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 792.0,
+        "y": 2968.0,
+        "z": 146.007
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 240.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 32.0,
+        "y": 3224.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 464.0,
+        "y": 2464.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 432.0,
+        "y": 3576.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 315.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 640.0,
+        "y": 3176.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1016.0,
+        "y": 3456.0,
+        "z": 129.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1304.0,
+        "y": 3096.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1312.0,
+        "y": 2653.32,
+        "z": 152.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2212.0,
+        "y": 2862.0,
+        "z": 173.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 255.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1603.0,
+        "y": 2946.0,
+        "z": 156.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 300.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2538.17,
+        "y": 2408.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1880.0,
+        "y": 1904.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1640.0,
+        "y": 1632.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2409.0,
+        "y": 1628.0,
+        "z": 184.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 165.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2313.0,
+        "y": 1397.0,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2656.0,
+        "y": 1232.0,
+        "z": 168.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2480.0,
+        "y": 952.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1304.0,
+        "y": 1232.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 315.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1512.0,
+        "y": 720.0,
+        "z": 154.667
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1360.0,
+        "y": -78.7104,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1840.0,
+        "y": 208.0,
+        "z": 232.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1976.0,
+        "y": 688.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2608.0,
+        "y": 360.0,
+        "z": 228.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 210.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2624.0,
+        "y": -32.0,
+        "z": 96.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2096.0,
+        "y": -224.0,
+        "z": 96.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 30.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2080.0,
+        "y": -352.0,
+        "z": 272.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1904.0,
+        "y": -352.0,
+        "z": 272.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1128.0,
+        "y": -280.0,
+        "z": 272.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 315.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1128.0,
+        "y": -171.65,
+        "z": 264.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1192.0,
+        "y": 352.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 315.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 928.0,
+        "y": 664.0,
+        "z": 136.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 928.0,
+        "y": 0.0,
+        "z": 112.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 800.0,
+        "y": -472.0,
+        "z": 112.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 315.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 288.0,
+        "y": -688.0,
+        "z": 104.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 20.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 184.0,
+        "y": -192.0,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 30.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -104.0,
+        "y": 100.17,
+        "z": 216.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -431.741,
+        "y": -432.0,
+        "z": 200.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -416.0,
+        "y": 361.396,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -448.0,
+        "y": 440.0,
+        "z": 56.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 150.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -440.0,
+        "y": 896.0,
+        "z": -16.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 330.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -668.989,
+        "y": -248.0,
+        "z": 16.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 60.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -849.0,
+        "y": 610.0,
+        "z": -8.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 568.0,
+        "y": 692.0,
+        "z": 119.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2128.0,
+        "y": 1224.0,
+        "z": 181.449
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2552.0,
+        "y": 552.0,
+        "z": 232.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1848.0,
+        "y": -96.0,
+        "z": 168.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 120.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 928.0,
+        "y": 376.0,
+        "z": 104.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 150.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -432.0,
+        "y": -128.0,
+        "z": 208.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 440.0,
+        "y": 2104.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 300.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 34.774,
+        "y": 2480.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 30.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 736.0,
+        "y": 3568.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 2440.0,
+        "y": -272.0,
+        "z": 96.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 150.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1512.0,
+        "y": 440.0,
+        "z": 152.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 800.0,
+        "y": -768.0,
+        "z": 112.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 45.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 1248.0,
+        "y": -664.0,
+        "z": 136.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -168.0,
+        "y": -248.0,
+        "z": 48.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": -560.0,
+        "y": 894.225,
+        "z": 32.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 315.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 368.0,
+        "y": 712.0,
+        "z": 104.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 264.0,
+        "y": 1368.0,
+        "z": 120.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 225.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 456.0,
+        "y": 1840.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 75.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_deathmatch_spawn",
+      "origin": {
+        "x": 768.0,
+        "y": 1880.0,
+        "z": 152.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1176.95,
+        "y": -99.738,
+        "z": 38.0857
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 248.5,
+        "z": 180.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model32.json?v=18f1-f97e",
+      "clusters": [
+        1219,1232
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1796.0,
+        "y": 286.0,
+        "z": 192.0
+      }
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1116.0,
+        "y": 300.0,
+        "z": 172.0
+      }
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 2209.77,
+        "y": 2961.47,
+        "z": 480.76
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1616.0,
+        "y": 2965.21,
+        "z": 168.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -190.0,
+        "y": 254.0,
+        "z": 184.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 85.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 1136.0,
+        "y": -82.0,
+        "z": 288.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1500.0,
+        "y": -208.0,
+        "z": 30.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_dustmotes"
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 2284.0,
+        "y": 2892.0,
+        "z": 549.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1651.0,
+        "y": 2208.0,
+        "z": 591.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2284.0,
+        "y": 2892.0,
+        "z": 525.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -406.0,
+        "y": 208.0,
+        "z": 540.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -604.0,
+        "y": 774.0,
+        "z": 410.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -526.0,
+        "y": 416.0,
+        "z": 342.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 404.0,
+        "y": -1907.0,
+        "z": 252.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 426.0,
+        "y": -1916.0,
+        "z": 247.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -942.019,
+        "y": -132.0,
+        "z": 174.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -942.019,
+        "y": 122.0,
+        "z": 172.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -942.019,
+        "y": -382.0,
+        "z": 170.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 54.1952,
+        "y": 3064.0,
+        "z": 352.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 54.1952,
+        "y": 2802.0,
+        "z": 352.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 54.1952,
+        "y": 2544.0,
+        "z": 352.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model40.json?v=18f1-f97e",
+      "clusters": [
+        2324
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 485.5,
+        "y": -278.0,
+        "z": 341.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 2164.0,
+        "y": 1296.0,
+        "z": 635.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1908.0,
+        "y": 1034.0,
+        "z": 415.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 876.0,
+        "y": -632.0,
+        "z": 356.0
+      },
+      "angles": {
+        "x": -75.0,
+        "y": 255.0,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -568.0,
+        "y": 392.0,
+        "z": 164.0
+      },
+      "angles": {
+        "x": -30.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 968.0,
+        "y": 3492.0,
+        "z": 304.0
+      },
+      "angles": {
+        "x": -33.5,
+        "y": 250.5,
+        "z": 90.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -178.0,
+        "y": 227.0,
+        "z": 227.915
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 290.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 196.0,
+        "y": 1470.0,
+        "z": 312.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 214.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1249.0,
+        "y": 2893.0,
+        "z": 336.0
+      },
+      "angles": {
+        "x": -75.0,
+        "y": 120.0,
+        "z": -180.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -2584.0,
+        "y": -240.0,
+        "z": 320.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": 832.0,
+        "y": 266.0,
+        "z": 360.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -764.0,
+        "y": 392.0,
+        "z": 254.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 256.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": 902.0,
+        "y": 1852.0,
+        "z": 450.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 325.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1952.0,
+        "y": 292.0,
+        "z": 328.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 180.0,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1952.0,
+        "y": 538.0,
+        "z": 328.0
+      },
+      "angles": {
+        "x": -45.0,
+        "y": 180.0,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 1488.0,
+        "y": 1013.0,
+        "z": 394.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1908.0,
+        "y": 1034.0,
+        "z": 440.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2645.0,
+        "y": 946.0,
+        "z": 476.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2799.0,
+        "y": 1219.0,
+        "z": 430.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2646.0,
+        "y": 946.0,
+        "z": 451.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1908.0,
+        "y": 1034.0,
+        "z": 415.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1488.0,
+        "y": 1014.0,
+        "z": 367.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1423.19,
+        "y": -24.0,
+        "z": 246.0
+      },
+      "angles": {
+        "x": -12.9525,
+        "y": 262.369,
+        "z": 120.867
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1124.0,
+        "y": -460.0,
+        "z": 0.800369
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 214.0,
+        "z": 180.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -463.0,
+        "y": 836.248,
+        "z": 209.0
+      },
+      "angles": {
+        "x": -75.0,
+        "y": 180.0,
+        "z": -180.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -650.0,
+        "y": 502.0,
+        "z": -24.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 249.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 1308.8,
+        "y": 97.0,
+        "z": 226.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 171.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 950.0,
+        "y": 266.0,
+        "z": 102.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 171.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -204.0,
+        "y": -592.0,
+        "z": 250.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model43.json?v=18f1-f97e",
+      "clusters": [
+        1901,1905,1906
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -384.0,
+        "y": 36.0,
+        "z": 250.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model44.json?v=18f1-f97e",
+      "clusters": [
+        1890,1891
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -32.0,
+        "y": 232.0,
+        "z": 242.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model45.json?v=18f1-f97e",
+      "clusters": [
+        2461,2462
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -384.0,
+        "y": -292.0,
+        "z": 250.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model46.json?v=18f1-f97e",
+      "clusters": [
+        2228,2229,2235
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1820.0,
+        "y": -320.0,
+        "z": 314.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model47.json?v=18f1-f97e",
+      "clusters": [
+        1356,1357
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1220.0,
+        "y": 70.0,
+        "z": 320.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2060.0,
+        "y": -301.0,
+        "z": 93.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 39.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2059.0,
+        "y": -282.0,
+        "z": 93.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 338.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 1367.0,
+        "y": 1138.0,
+        "z": 164.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 36.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 553.0,
+        "y": 14.0,
+        "z": 83.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -322.0,
+        "y": -163.0,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 244.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -323.0,
+        "y": -185.0,
+        "z": 192.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2147.0,
+        "y": 2207.31,
+        "z": 281.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 96.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2179.0,
+        "y": 2225.0,
+        "z": 204.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 122.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 631.815,
+        "y": -649.0,
+        "z": 271.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 634.0,
+        "y": -693.0,
+        "z": 270.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 173.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1785.0,
+        "y": 840.0,
+        "z": 56.357
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 882.0,
+        "y": 2612.0,
+        "z": 142.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 170.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 884.0,
+        "y": 2590.0,
+        "z": 142.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 258.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 123.0,
+        "y": 2673.0,
+        "z": 294.689
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 38.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 1723.0,
+        "y": 2722.0,
+        "z": 263.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -120.0,
+        "y": 764.0,
+        "z": 32.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 125.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 181.0,
+        "y": 1043.0,
+        "z": 90.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 182.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2115.0,
+        "y": 2864.0,
+        "z": 152.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 258.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 1761.0,
+        "y": 1446.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2236.0,
+        "y": 1971.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -3632.0,
+        "y": 1080.0,
+        "z": 576.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2437.0,
+        "y": 805.0,
+        "z": 393.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -1450.0,
+        "y": 520.0,
+        "z": 282.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -1482.0,
+        "y": -272.0,
+        "z": 334.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -1738.0,
+        "y": -1192.0,
+        "z": 380.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -1672.0,
+        "y": -1216.0,
+        "z": 380.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -1482.0,
+        "y": -272.0,
+        "z": 310.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -1450.0,
+        "y": 520.0,
+        "z": 258.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2414.0,
+        "y": 872.0,
+        "z": 392.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -3632.0,
+        "y": 1160.0,
+        "z": 576.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": 1061.0,
+        "y": -131.0,
+        "z": 384.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -182.0,
+        "y": 307.0,
+        "z": 312.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -372.0,
+        "y": -480.0,
+        "z": 320.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_clip_vphysics"
+    },
+    {
+      "classname": "color_correction",
+      "origin": {
+        "x": -1579.1,
+        "y": 287.0,
+        "z": 112.0
+      }
+    },
+    {
+      "fogEnabled": true,
+      "fogStart": 320.0,
+      "fogEnd": 7500.0,
+      "fogMaxDensity": 0.5,
+      "farZ": -1.0,
+      "fogColor": {
+        "r": 0.4627451,
+        "g": 0.549019635,
+        "b": 0.607843161,
+        "a": 1.0
+      },
+      "classname": "env_fog_controller",
+      "origin": {
+        "x": -1579.1,
+        "y": 319.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_map_parameters",
+      "origin": {
+        "x": -1579.1,
+        "y": 319.0,
+        "z": 176.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sun",
+      "origin": {
+        "x": -1579.1,
+        "y": 319.0,
+        "z": 208.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 218.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "water_lod_control",
+      "origin": {
+        "x": -1579.1,
+        "y": 287.0,
+        "z": 144.0
+      }
+    },
+    {
+      "classname": "postprocess_controller",
+      "origin": {
+        "x": -1579.1,
+        "y": 287.0,
+        "z": 176.0
+      }
+    },
+    {
+      "classname": "env_wind",
+      "origin": {
+        "x": -1579.1,
+        "y": 255.0,
+        "z": 144.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 312.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_tonemap_controller",
+      "origin": {
+        "x": -1579.1,
+        "y": 255.0,
+        "z": 176.0
+      }
+    },
+    {
+      "classname": "logic_auto",
+      "origin": {
+        "x": -1579.1,
+        "y": 287.0,
+        "z": 208.0
+      }
+    },
+    {
+      "classname": "shadow_control",
+      "origin": {
+        "x": -1579.1,
+        "y": 255.0,
+        "z": 208.0
+      },
+      "angles": {
+        "x": 90.0,
+        "y": 218.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -369.0,
+        "y": 387.0,
+        "z": 216.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -1095.0,
+        "y": 513.0,
+        "z": 375.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -604.0,
+        "y": 789.0,
+        "z": 410.944
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 157.0,
+        "y": 941.0,
+        "z": 529.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 910.0,
+        "y": 653.0,
+        "z": 464.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1462.0,
+        "y": 394.0,
+        "z": 382.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1346.0,
+        "y": 78.0,
+        "z": 467.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1378.0,
+        "y": -379.0,
+        "z": 508.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -1095.0,
+        "y": 513.0,
+        "z": 364.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -605.0,
+        "y": 790.0,
+        "z": 387.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 158.0,
+        "y": 941.0,
+        "z": 505.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 909.0,
+        "y": 653.0,
+        "z": 440.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1462.0,
+        "y": 393.0,
+        "z": 358.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1346.0,
+        "y": 78.0,
+        "z": 443.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1378.0,
+        "y": -379.0,
+        "z": 508.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 4080.0,
+        "y": -928.0,
+        "z": 688.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3540.0,
+        "y": -552.0,
+        "z": 621.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2783.0,
+        "y": -362.0,
+        "z": 492.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2040.0,
+        "y": -230.0,
+        "z": 532.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1362.0,
+        "y": 83.0,
+        "z": 467.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1477.0,
+        "y": 393.0,
+        "z": 383.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1477.0,
+        "y": 1024.0,
+        "z": 392.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1303.0,
+        "y": 1319.0,
+        "z": 570.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1262.0,
+        "y": 1738.0,
+        "z": 680.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 693.0,
+        "y": 1883.0,
+        "z": 547.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 91.0,
+        "y": 2101.0,
+        "z": 583.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 192.0,
+        "y": 1477.0,
+        "z": 462.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 174.0,
+        "y": 941.0,
+        "z": 528.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 917.0,
+        "y": 667.0,
+        "z": 463.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 663.0,
+        "y": 1245.0,
+        "z": 541.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 4080.49,
+        "y": -848.0,
+        "z": 688.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3549.0,
+        "y": -483.0,
+        "z": 622.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2783.0,
+        "y": -362.0,
+        "z": 467.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2041.0,
+        "y": -230.0,
+        "z": 508.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1362.0,
+        "y": 83.0,
+        "z": 443.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1478.0,
+        "y": 393.0,
+        "z": 358.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1476.0,
+        "y": 1024.0,
+        "z": 368.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1303.0,
+        "y": 1318.0,
+        "z": 546.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1262.0,
+        "y": 1736.0,
+        "z": 654.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 693.0,
+        "y": 1883.0,
+        "z": 523.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 92.0,
+        "y": 2102.0,
+        "z": 558.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 192.0,
+        "y": 1478.0,
+        "z": 437.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 174.0,
+        "y": 940.0,
+        "z": 504.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 916.0,
+        "y": 667.0,
+        "z": 440.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 663.0,
+        "y": 1245.0,
+        "z": 517.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -1128.0,
+        "y": -532.0,
+        "z": 316.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -485.0,
+        "y": -264.0,
+        "z": 484.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -136.0,
+        "y": -11.0,
+        "z": 412.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 605.0,
+        "y": -261.0,
+        "z": 500.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 918.0,
+        "y": -198.0,
+        "z": 491.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 568.0,
+        "y": -1452.0,
+        "z": 513.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -1129.0,
+        "y": -522.0,
+        "z": 317.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -484.0,
+        "y": -264.0,
+        "z": 458.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -136.0,
+        "y": -10.0,
+        "z": 388.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 605.0,
+        "y": -261.0,
+        "z": 477.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 918.0,
+        "y": -197.0,
+        "z": 467.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 672.0,
+        "y": -1503.0,
+        "z": 517.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 2609.0,
+        "y": 2709.0,
+        "z": 536.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2284.0,
+        "y": 2908.0,
+        "z": 549.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1415.0,
+        "y": 2666.0,
+        "z": 573.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 933.0,
+        "y": 2269.0,
+        "z": 438.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 693.0,
+        "y": 1898.0,
+        "z": 547.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 91.0,
+        "y": 2118.0,
+        "z": 583.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -770.0,
+        "y": 1945.0,
+        "z": 620.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 2581.0,
+        "y": 2679.0,
+        "z": 503.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2284.0,
+        "y": 2908.0,
+        "z": 525.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 1415.0,
+        "y": 2666.0,
+        "z": 549.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 933.0,
+        "y": 2269.0,
+        "z": 414.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 694.0,
+        "y": 1899.0,
+        "z": 522.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 92.0,
+        "y": 2118.0,
+        "z": 559.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -764.0,
+        "y": 2015.0,
+        "z": 613.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1611.0,
+        "y": 1999.0,
+        "z": 270.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1629.0,
+        "y": 1999.0,
+        "z": 269.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 36.0,
+        "y": 3218.74,
+        "z": 248.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "prop_door_rotating",
+      "origin": {
+        "x": 300.25,
+        "y": -324.0,
+        "z": 96.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 644.0,
+        "y": 3042.0,
+        "z": 588.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 680.0,
+        "y": 3302.0,
+        "z": 585.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 812.0,
+        "y": 3302.0,
+        "z": 585.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 990.0,
+        "y": 3048.0,
+        "z": 593.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 876.0,
+        "y": 3046.0,
+        "z": 635.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 742.0,
+        "y": 3042.0,
+        "z": 589.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -2106.0,
+        "y": 444.0,
+        "z": 17.6826
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -2076.0,
+        "y": 342.0,
+        "z": -52.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -1853.0,
+        "y": -236.0,
+        "z": 23.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -1841.0,
+        "y": -20.0,
+        "z": -70.9717
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -1866.0,
+        "y": -18.0,
+        "z": -70.9717
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model49.json?v=18f1-f97e",
+      "clusters": [
+        354,357
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 844.0,
+        "y": 3410.0,
+        "z": 191.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -158.0,
+        "y": 254.0,
+        "z": 184.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -164.0,
+        "y": 92.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 343.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -152.0,
+        "y": 148.0,
+        "z": 273.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 306.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -152.0,
+        "y": 173.0,
+        "z": 273.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 85.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -154.0,
+        "y": 190.0,
+        "z": 269.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 301.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -168.0,
+        "y": 236.0,
+        "z": 227.915
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 173.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -156.0,
+        "y": 225.0,
+        "z": 226.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 175.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -196.0,
+        "y": 222.0,
+        "z": 198.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 146.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -150.0,
+        "y": 174.0,
+        "z": 225.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 205.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 502.0,
+        "y": 34.0,
+        "z": 155.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -907.0,
+        "y": -878.325,
+        "z": 242.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 941.0,
+        "y": -1050.94,
+        "z": 285.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -210.0,
+        "y": -271.0,
+        "z": 33.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -379.0,
+        "y": -135.0,
+        "z": 240.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -35.0055,
+        "y": 111.0,
+        "z": 244.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 339.415,
+        "y": -215.0,
+        "z": 136.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 695.0,
+        "y": -678.0,
+        "z": 147.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 883.0,
+        "y": -117.375,
+        "z": 299.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 834.0,
+        "y": 311.581,
+        "z": 150.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -783.0,
+        "y": 168.0,
+        "z": 57.0
+      }
+    },
+    {
+      "classname": "func_bomb_target"
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -182.0,
+        "y": 307.0,
+        "z": 287.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -256.0,
+        "y": 72.0,
+        "z": 221.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 508.0,
+        "y": 460.0,
+        "z": 93.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 766.001,
+        "y": 849.0,
+        "z": 271.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 107.0,
+        "y": 910.0,
+        "z": 132.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 276.0,
+        "y": 695.0,
+        "z": 104.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 879.465,
+        "y": 526.0,
+        "z": 130.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 119.0,
+        "y": 1108.62,
+        "z": 145.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1061.0,
+        "y": -131.0,
+        "z": 359.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1120.0,
+        "y": 364.0,
+        "z": 171.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1875.34,
+        "y": -386.0,
+        "z": 310.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1013.11,
+        "y": -631.0,
+        "z": 175.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1874.0,
+        "y": -239.655,
+        "z": 317.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1210.0,
+        "y": 305.0,
+        "z": 181.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1182.0,
+        "y": -126.0,
+        "z": 37.1671
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 98.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1168.0,
+        "y": -124.0,
+        "z": 37.2254
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 98.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1168.0,
+        "y": -118.0,
+        "z": 40.0
+      },
+      "angles": {
+        "x": 30.1721,
+        "y": 99.264,
+        "z": 4.68658
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 467.0,
+        "y": 2799.0,
+        "z": 257.022
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -184.0,
+        "y": 3008.0,
+        "z": 472.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -177.0,
+        "y": 2553.0,
+        "z": 580.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 353.0,
+        "y": 2767.0,
+        "z": 190.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 78.0,
+        "y": 3235.78,
+        "z": 177.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 595.135,
+        "y": 3461.0,
+        "z": 222.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1059.0,
+        "y": 3232.0,
+        "z": 217.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 982.0,
+        "y": 3008.0,
+        "z": 300.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 2228.0,
+        "y": 2456.0,
+        "z": 163.574
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 2899.0,
+        "y": 2096.0,
+        "z": 282.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 2728.71,
+        "y": 2530.0,
+        "z": 190.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1955.0,
+        "y": 2562.0,
+        "z": 163.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1908.0,
+        "y": 3154.49,
+        "z": 252.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -1582.86,
+        "y": 206.222,
+        "z": -22.1215
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -1377.0,
+        "y": 1202.96,
+        "z": 141.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -1601.0,
+        "y": -436.87,
+        "z": 178.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -1843.0,
+        "y": -25.0,
+        "z": -16.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -1416.0,
+        "y": 564.0,
+        "z": 6.53799
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -1771.0,
+        "y": -187.435,
+        "z": 25.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": -1400.0,
+        "y": 376.0,
+        "z": 200.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 284.0,
+        "y": 236.0,
+        "z": 51.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 284.0,
+        "y": 457.942,
+        "z": 23.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 2142.0,
+        "y": 479.0,
+        "z": 233.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 2710.0,
+        "y": 292.0,
+        "z": 424.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 2546.0,
+        "y": -616.0,
+        "z": 406.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 1996.18,
+        "y": -53.9877,
+        "z": 135.266
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1013.0,
+        "y": -119.656,
+        "z": 301.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 2523.0,
+        "y": 1135.0,
+        "z": 210.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 2347.0,
+        "y": 1511.0,
+        "z": 212.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -564.0,
+        "y": 335.149,
+        "z": 114.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -386.0,
+        "y": 95.7625,
+        "z": 243.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -33.0,
+        "y": 279.0,
+        "z": 241.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -385.0,
+        "y": -361.363,
+        "z": 245.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 310.0,
+        "y": -376.016,
+        "z": 153.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 321.0,
+        "y": -662.137,
+        "z": 148.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -961.55,
+        "y": 516.0,
+        "z": 22.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -1262.0,
+        "y": 314.21,
+        "z": 4.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -1493.0,
+        "y": -43.0,
+        "z": -2.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -1133.0,
+        "y": -376.0,
+        "z": 56.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -936.071,
+        "y": -370.0,
+        "z": 75.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": -646.0,
+        "y": 647.0,
+        "z": 72.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 826.0,
+        "y": 2167.89,
+        "z": 209.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1251.0,
+        "y": 2837.0,
+        "z": 196.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1834.0,
+        "y": 1693.0,
+        "z": 211.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1811.67,
+        "y": 1159.0,
+        "z": 229.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 2328.0,
+        "y": 1106.0,
+        "z": 214.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1360.0,
+        "y": 334.247,
+        "z": 177.0
+      }
+    },
+    {
+      "classname": "env_soundscape",
+      "origin": {
+        "x": 1976.0,
+        "y": -186.308,
+        "z": 310.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3267.0,
+        "y": 2480.0,
+        "z": 431.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3594.0,
+        "y": 1961.0,
+        "z": 342.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3766.0,
+        "y": 1025.0,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": 2579.0,
+        "y": 2621.0,
+        "z": 536.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3199.0,
+        "y": 2416.0,
+        "z": 432.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3505.0,
+        "y": 1934.0,
+        "z": 343.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3735.0,
+        "y": 1025.0,
+        "z": 210.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3614.0,
+        "y": 1970.0,
+        "z": 342.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 3280.0,
+        "y": 2497.0,
+        "z": 431.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": 2609.0,
+        "y": 2709.0,
+        "z": 536.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1001.0,
+        "y": 3229.0,
+        "z": 390.0
+      },
+      "angles": {
+        "x": -46.47,
+        "y": 338.38,
+        "z": -10.9952
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -184.0,
+        "y": -613.0,
+        "z": 236.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 41.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -176.0,
+        "y": -618.0,
+        "z": 237.926
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 35.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -176.0,
+        "y": -608.0,
+        "z": 236.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 165.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -193.0,
+        "y": -608.0,
+        "z": 231.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 331.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -185.0,
+        "y": -620.0,
+        "z": 231.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 254.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 352.0,
+        "y": 2768.0,
+        "z": 273.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2628.0,
+        "y": 1319.0,
+        "z": 190.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 2634.11,
+        "y": 1308.0,
+        "z": 193.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 144.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 1792.0,
+        "y": -310.0,
+        "z": 646.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": 964.5,
+        "y": 7.0,
+        "z": 318.0
+      }
+    },
+    {
+      "classname": "func_breakable",
+      "origin": {
+        "x": 964.5,
+        "y": -246.0,
+        "z": 318.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 284.0,
+        "y": 164.0,
+        "z": 59.8523
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model53.json?v=18f1-f97e",
+      "clusters": [
+        1584,1585,1586,1662,1663,1664,1666
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 284.0,
+        "y": 328.0,
+        "z": 68.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -185.0,
+        "y": 723.0,
+        "z": 401.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": -1531.0,
+        "x": -1592.0,
+        "y": 688.0,
+        "z": -40.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 284.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 2082.0,
+        "y": 1648.0,
+        "z": 328.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 2336.0,
+        "y": 1648.0,
+        "z": 328.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1824.0,
+        "y": 1648.0,
+        "z": 328.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1648.0,
+        "y": 1820.0,
+        "z": 328.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1626.0,
+        "y": 2014.0,
+        "z": 279.0
+      },
+      "angles": {
+        "x": -60.0,
+        "y": 30.0,
+        "z": -90.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2367.0,
+        "y": 2073.0,
+        "z": 155.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 135.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "point_viewcontrol",
+      "origin": {
+        "x": 145.0,
+        "y": 2890.0,
+        "z": 275.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model54.json?v=18f1-f97e",
+      "clusters": [
+        678,693,820,821
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 386.0,
+        "y": 2504.0,
+        "z": 218.5
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model55.json?v=18f1-f97e",
+      "clusters": [
+        690,694,712,714,715,716,829,830,832,833
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 107.5,
+        "y": 2614.5,
+        "z": 221.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 283.47,
+        "y": 594.204,
+        "z": 59.8523
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "ambient_generic",
+      "origin": {
+        "x": 807.59,
+        "y": 655.98,
+        "z": 393.022
+      }
+    },
+    {
+      "classname": "ambient_generic",
+      "origin": {
+        "x": 1383.59,
+        "y": 1039.98,
+        "z": 393.022
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 284.0,
+        "y": 263.0,
+        "z": 59.8523
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 283.47,
+        "y": 402.204,
+        "z": 59.8523
+      }
+    },
+    {
+      "classname": "ambient_generic",
+      "origin": {
+        "x": 1255.59,
+        "y": 655.98,
+        "z": 393.022
+      }
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportal"
+    },
+    {
+      "classname": "func_areaportalwindow"
+    },
+    {
+      "classname": "info_target",
+      "origin": {
+        "x": 283.0,
+        "y": 2808.0,
+        "z": 271.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_bomb_target"
+    },
+    {
+      "classname": "func_fish_pool",
+      "origin": {
+        "x": 344.0,
+        "y": 2732.0,
+        "z": 174.0
+      }
+    },
+    {
+      "classname": "func_buyzone"
+    },
+    {
+      "classname": "func_buyzone"
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 612.0,
+        "y": 2220.0,
+        "z": 376.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 1171.0,
+        "y": 209.0,
+        "z": 648.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model59.json?v=18f1-f97e",
+      "clusters": [
+        1526,1528
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 406.0,
+        "y": 576.0,
+        "z": 136.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model60.json?v=18f1-f97e",
+      "clusters": [
+        2329,2330,2331,2332
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 622.0,
+        "y": -128.0,
+        "z": 136.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model61.json?v=18f1-f97e",
+      "clusters": [
+        2352
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 646.0,
+        "y": -680.0,
+        "z": 128.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model62.json?v=18f1-f97e",
+      "clusters": [
+        953,966
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1824.0,
+        "y": 1466.0,
+        "z": 208.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model63.json?v=18f1-f97e",
+      "clusters": [
+        124,128
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2338.0,
+        "y": 1578.0,
+        "z": 208.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 591.699,
+        "y": 545.0,
+        "z": 128.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_buyzone",
+      "origin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2272.0,
+        "y": 608.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2272.0,
+        "y": 672.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2336.0,
+        "y": 672.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_counterterrorist",
+      "origin": {
+        "x": 2336.0,
+        "y": 608.0,
+        "z": 160.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_buyzone",
+      "origin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_player_terrorist",
+      "origin": {
+        "x": 508.699,
         "y": 544.0,
-        "z": -46.0
+        "z": 128.0
       },
       "angles": {
         "x": 0.0,
-        "y": -68.0,
+        "y": 0.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": -1491.0,
-        "y": 490.0,
-        "z": -46.0
+        "x": 509.0,
+        "y": 605.0,
+        "z": 128.0
       },
       "angles": {
         "x": 0.0,
-        "y": -138.0,
+        "y": 0.0,
         "z": 0.0
       }
     },
     {
       "classname": "info_player_terrorist",
       "origin": {
-        "x": -1596.0,
-        "y": 579.0,
-        "z": -46.0
+        "x": 592.0,
+        "y": 606.0,
+        "z": 128.0
       },
       "angles": {
         "x": 0.0,
-        "y": -46.5,
+        "y": 0.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model66.json?v=18f1-f97e",
+      "clusters": [
+        953,965,966
+      ],
+      "classname": "func_brush",
       "origin": {
-        "x": -1657.0,
-        "y": 544.0,
-        "z": -46.0
+        "x": 1824.0,
+        "y": 1472.0,
+        "z": 232.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model67.json?v=18f1-f97e",
+      "clusters": [
+        124,128
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 2338.0,
+        "y": 1580.0,
+        "z": 217.5
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model68.json?v=18f1-f97e",
+      "clusters": [
+        1510,1511,1512,1513,1514,1515,1516,1519,1520,1525,1526,1527,1528,1535,1536,1537,1538,1541
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 404.0,
+        "y": 592.0,
+        "z": 326.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model69.json?v=18f1-f97e",
+      "clusters": [
+        1670,1671,1672,1674,1676,1677,1678,1679,2313,2315,2316,2323,2324,2325,2326,2327,2328,2329,2330,2331,2332
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 616.0,
+        "y": -128.0,
+        "z": 308.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model70.json?v=18f1-f97e",
+      "clusters": [
+        2351,2352
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 637.0,
+        "y": -679.5,
+        "z": 228.0
+      }
+    },
+    {
+      "classname": "logic_script",
+      "origin": {
+        "x": 2272.0,
+        "y": 640.0,
+        "z": 304.0
+      }
+    },
+    {
+      "classname": "logic_auto",
+      "origin": {
+        "x": 2240.0,
+        "y": 640.0,
+        "z": 304.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model71.json?v=18f1-f97e",
+      "clusters": [
+        483,485,522,523
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": 1953.57,
+        "y": 2562.15,
+        "z": 192.5
       },
       "angles": {
         "x": 0.0,
-        "y": 3.0,
+        "y": -103.0,
         "z": 0.0
       }
     },
     {
-      "classname": "info_player_terrorist",
+      "classname": "env_sprite",
       "origin": {
-        "x": -1692.0,
-        "y": 490.0,
+        "x": 1600.0,
+        "y": -156.0,
+        "z": 318.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1168.0,
+        "y": -632.0,
+        "z": 245.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1168.0,
+        "y": -632.0,
+        "z": 228.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1168.0,
+        "y": -632.0,
+        "z": 250.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1876.0,
+        "y": -272.0,
+        "z": 373.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1876.0,
+        "y": -272.0,
+        "z": 356.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1876.0,
+        "y": -272.0,
+        "z": 378.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 268.0,
+        "y": -616.0,
+        "z": 156.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -203.0,
+        "y": 60.0,
+        "z": 244.736
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1876.0,
+        "y": -156.0,
+        "z": 316.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -12.0,
+        "y": 388.0,
+        "z": 244.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -392.0,
+        "y": -628.0,
+        "z": 252.736
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1288.0,
+        "y": -72.0,
+        "z": 320.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -568.0,
+        "y": 60.0,
+        "z": 242.736
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -408.0,
+        "y": 388.0,
+        "z": 248.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 2676.0,
+        "y": 1224.0,
+        "z": 220.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 2612.0,
+        "y": 1480.0,
+        "z": 220.736
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": 1078.81,
+        "y": -275.018,
+        "z": 285.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 101.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": 1077.66,
+        "y": -269.129,
+        "z": 292.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 101.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_spark",
+      "origin": {
+        "x": 1079.0,
+        "y": -276.0,
+        "z": 289.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 116.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -198.983,
+        "y": -351.182,
+        "z": 224.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -169.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -204.883,
+        "y": -352.276,
+        "z": 231.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -169.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_spark",
+      "origin": {
+        "x": -198.0,
+        "y": -351.0,
+        "z": 228.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -154.5,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 2572.0,
+        "y": 1160.0,
+        "z": 277.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 2572.0,
+        "y": 1160.0,
+        "z": 260.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 2572.0,
+        "y": 1160.0,
+        "z": 282.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 2376.0,
+        "y": 1460.0,
+        "z": 277.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 2376.0,
+        "y": 1460.0,
+        "z": 260.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 2376.0,
+        "y": 1460.0,
+        "z": 282.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1611.0,
+        "y": 292.0,
+        "z": 265.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1623.0,
+        "y": 292.0,
+        "z": 260.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1617.0,
+        "y": 292.0,
+        "z": 264.0
+      },
+      "angles": {
+        "x": -66.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1818.0,
+        "y": 679.0,
+        "z": 293.0
+      },
+      "angles": {
+        "x": -62.5,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1824.0,
+        "y": 679.0,
+        "z": 284.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1810.0,
+        "y": 679.0,
+        "z": 284.0
+      }
+    },
+    {
+      "classname": "env_spark",
+      "origin": {
+        "x": -1173.2,
+        "y": -70.3982,
+        "z": 41.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -128.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_physics_multiplayer",
+      "origin": {
+        "x": -1174.0,
+        "y": -71.0,
+        "z": 37.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -143.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "info_particle_system",
+      "origin": {
+        "x": -1178.79,
+        "y": -74.6109,
+        "z": 44.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -143.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "ambient_generic",
+      "origin": {
+        "x": -1174.0,
+        "y": -71.0,
+        "z": 49.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -143.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_spark",
+      "origin": {
+        "x": -186.07,
+        "y": -588.893,
+        "z": 245.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 171.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "logic_timer",
+      "origin": {
+        "x": -166.093,
+        "y": -558.645,
+        "z": 277.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 81.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "logic_relay",
+      "origin": {
+        "x": -168.596,
+        "y": -574.448,
+        "z": 277.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 81.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic_override",
+      "origin": {
+        "x": -176.258,
+        "y": -589.434,
+        "z": 229.35
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 171.0,
+        "z": 0.0
+      }
+    },
+    {
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model72.json?v=18f1-f97e",
+      "clusters": [
+        2455,2472
+      ],
+      "classname": "func_brush",
+      "origin": {
+        "x": -186.625,
+        "y": -587.792,
+        "z": 245.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 81.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "point_spotlight",
+      "origin": {
+        "x": -187.279,
+        "y": -588.701,
+        "z": 244.35
+      },
+      "angles": {
+        "x": -8.5,
+        "y": 171.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "logic_auto",
+      "origin": {
+        "x": -171.098,
+        "y": -590.251,
+        "z": 277.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 81.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -25.0,
+        "y": 334.0,
+        "z": 280.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -25.0,
+        "y": 334.0,
+        "z": 301.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -25.0,
+        "y": 334.0,
+        "z": 295.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1211.0,
+        "y": -376.0,
+        "z": 159.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1211.0,
+        "y": -376.0,
+        "z": 180.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1211.0,
+        "y": -376.0,
+        "z": 174.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "prop_dynamic",
+      "origin": {
+        "x": -1827.0,
+        "y": -134.0,
         "z": -46.0
       },
       "angles": {
         "x": 0.0,
-        "y": 32.5,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "func_rotating",
+      "origin": {
+        "x": -1850.0,
+        "y": -134.0,
+        "z": -46.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 1.00179E-05,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -272.0,
+        "y": -416.0,
+        "z": 309.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -272.0,
+        "y": -416.0,
+        "z": 292.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -272.0,
+        "y": -416.0,
+        "z": 314.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1224.0,
+        "y": -320.0,
+        "z": 373.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1224.0,
+        "y": -320.0,
+        "z": 356.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1224.0,
+        "y": -320.0,
+        "z": 378.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1224.0,
+        "y": -56.0,
+        "z": 373.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1224.0,
+        "y": -56.0,
+        "z": 356.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1224.0,
+        "y": -56.0,
+        "z": 378.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1216.0,
+        "y": 320.0,
+        "z": 245.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1216.0,
+        "y": 320.0,
+        "z": 228.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1216.0,
+        "y": 320.0,
+        "z": 250.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1060.0,
+        "y": -20.0,
+        "z": 373.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1060.0,
+        "y": -20.0,
+        "z": 356.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1060.0,
+        "y": -20.0,
+        "z": 378.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 1060.0,
+        "y": -196.0,
+        "z": 373.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 1060.0,
+        "y": -196.0,
+        "z": 356.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 1060.0,
+        "y": -196.0,
+        "z": 378.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 312.0,
+        "y": -432.0,
+        "z": 213.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 312.0,
+        "y": -432.0,
+        "z": 196.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 312.0,
+        "y": -432.0,
+        "z": 218.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": 312.0,
+        "y": -624.0,
+        "z": 213.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": 312.0,
+        "y": -624.0,
+        "z": 196.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": 312.0,
+        "y": -624.0,
+        "z": 218.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -126.0,
+        "y": -448.0,
+        "z": 309.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -126.0,
+        "y": -448.0,
+        "z": 292.431
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -126.0,
+        "y": -448.0,
+        "z": 314.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1206.15,
+        "y": -131.53,
+        "z": 128.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 75.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1206.15,
+        "y": -131.53,
+        "z": 149.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 75.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1206.15,
+        "y": -131.53,
+        "z": 143.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": 75.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1249.0,
+        "y": 548.0,
+        "z": 88.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1249.0,
+        "y": 548.0,
+        "z": 109.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1249.0,
+        "y": 548.0,
+        "z": 103.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": -180.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light",
+      "origin": {
+        "x": -1299.0,
+        "y": 351.0,
+        "z": 64.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "env_sprite",
+      "origin": {
+        "x": -1299.0,
+        "y": 351.0,
+        "z": 85.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "light_spot",
+      "origin": {
+        "x": -1299.0,
+        "y": 351.0,
+        "z": 79.0
+      },
+      "angles": {
+        "x": -90.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -5889.0,
+        "y": 7110.0,
+        "z": -309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -5888.97,
+        "y": 7115.0,
+        "z": -309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5777.0,
+        "y": 7069.0,
+        "z": -300.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5625.0,
+        "y": 7135.0,
+        "z": -309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5435.5,
+        "y": 7279.5,
+        "z": -263.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5291.5,
+        "y": 7431.5,
+        "z": -243.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5063.0,
+        "y": 7484.0,
+        "z": -260.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5777.0,
+        "y": 7064.0,
+        "z": -300.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5623.0,
+        "y": 7130.5,
+        "z": -309.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5432.0,
+        "y": 7274.5,
+        "z": -263.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5287.0,
+        "y": 7427.0,
+        "z": -243.562
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -5063.0,
+        "y": 7473.0,
+        "z": -260.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -6371.0,
+        "y": 7235.72,
+        "z": -316.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6480.0,
+        "y": 7293.0,
+        "z": -277.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6597.5,
+        "y": 7341.5,
+        "z": -267.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6795.0,
+        "y": 7357.5,
+        "z": -219.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -7084.0,
+        "y": 7354.0,
+        "z": -219.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -6371.0,
+        "y": 7240.29,
+        "z": -316.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6478.5,
+        "y": 7297.5,
+        "z": -277.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6597.0,
+        "y": 7346.0,
+        "z": -267.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6795.0,
+        "y": 7362.0,
+        "z": -219.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -7084.0,
+        "y": 7362.0,
+        "z": -219.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -6252.63,
+        "y": 7093.5,
+        "z": -328.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "move_rope",
+      "origin": {
+        "x": -6248.5,
+        "y": 7092.0,
+        "z": -328.25
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6294.0,
+        "y": 7001.0,
+        "z": -324.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6416.0,
+        "y": 6968.0,
+        "z": -307.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6299.0,
+        "y": 7006.0,
+        "z": -324.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6418.0,
+        "y": 6973.0,
+        "z": -307.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6507.0,
+        "y": 6926.0,
+        "z": -320.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "classname": "keyframe_rope",
+      "origin": {
+        "x": -6501.0,
+        "y": 6918.0,
+        "z": -320.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "scale": 16,
+      "fogEnabled": true,
+      "fogStart": 320.0,
+      "fogEnd": 7500.0,
+      "fogMaxDensity": 0.5,
+      "farZ": 0.0,
+      "fogColor": {
+        "r": 0.4627451,
+        "g": 0.549019635,
+        "b": 0.607843161,
+        "a": 1.0
+      },
+      "classname": "sky_camera",
+      "origin": {
+        "x": -6144.0,
+        "y": 7168.0,
+        "z": -352.0
+      },
+      "angles": {
+        "x": 0.0,
+        "y": 0.0,
         "z": 0.0
       }
     },

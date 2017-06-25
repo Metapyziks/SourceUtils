@@ -70,7 +70,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsclip.vtf",
+      "path": "materials/tools/toolsclip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -87,7 +87,7 @@
             "r": 0.827451,
             "g": 0.2627451,
             "b": 0.192156866,
-            "a": 0.4
+            "a": 0.294117659
           }
         }
       ]
@@ -254,7 +254,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsskip.vtf",
+      "path": "materials/tools/toolsskip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -271,13 +271,13 @@
             "r": 0.149019614,
             "g": 0.7294118,
             "b": 0.968627453,
-            "a": 0.3372549
+            "a": 0.239215687
           }
         }
       ]
     },
     {
-      "path": "materials/tools/toolshint.vtf",
+      "path": "materials/tools/toolshint-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -294,7 +294,7 @@
             "r": 0.635294139,
             "g": 0.294117659,
             "b": 0.7764706,
-            "a": 0.329411775
+            "a": 0.235294119
           }
         }
       ]
@@ -829,7 +829,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsplayerclip.vtf",
+      "path": "materials/tools/toolsplayerclip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -846,7 +846,7 @@
             "r": 0.807843149,
             "g": 0.349019617,
             "b": 0.5568628,
-            "a": 0.427450985
+            "a": 0.329411775
           }
         }
       ]
@@ -1703,7 +1703,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsareaportal.vtf",
+      "path": "materials/tools/toolsareaportal-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -1720,7 +1720,7 @@
             "r": 0.0,
             "g": 0.945098042,
             "b": 0.847058833,
-            "a": 0.333333343
+            "a": 0.239215687
           }
         }
       ]
@@ -1749,7 +1749,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolstrigger.vtf",
+      "path": "materials/tools/toolstrigger-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -1766,7 +1766,7 @@
             "r": 0.968627453,
             "g": 0.596078455,
             "b": 0.0,
-            "a": 0.4117647
+            "a": 0.309803933
           }
         }
       ]
@@ -1795,7 +1795,7 @@
       ]
     },
     {
-      "path": "materials/tools/toolsoccluder.vtf",
+      "path": "materials/tools/toolsoccluder-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -1812,7 +1812,7 @@
             "r": 0.258823544,
             "g": 0.31764707,
             "b": 0.482352942,
-            "a": 0.521568656
+            "a": 0.423529416
           }
         }
       ]
@@ -3078,6 +3078,4031 @@
             "g": 0.56078434,
             "b": 0.698039234,
             "a": 0.7254902
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_floor_hatch/nuke_floor_hatch_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6862745,
+            "g": 0.6862745,
+            "b": 0.6862745,
+            "a": 0.956862748
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_crate_001/metal_crate_004.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.572549045,
+            "b": 0.5686275,
+            "a": 0.933333337
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac01_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.549019635,
+            "b": 0.549019635,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_trim_001/metal_trim_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.733333349,
+            "g": 0.733333349,
+            "b": 0.733333349,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_power_pole/nuke_power_pole_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5137255,
+            "g": 0.5176471,
+            "b": 0.5254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_light_fixture_pole_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.5176471,
+            "b": 0.5176471,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/security_barrier/security_barrier_end_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.494117647,
+            "b": 0.494117647,
+            "a": 0.498039216
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/security_barrier/security_barrier_base_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6431373,
+            "g": 0.6392157,
+            "b": 0.635294139,
+            "a": 0.58431375
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/chimneys001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.435294122,
+            "g": 0.4117647,
+            "b": 0.403921574,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_concrete_barrier/nuke_concrete_barrier_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.572549045,
+            "b": 0.5803922,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_door_001/metal_door_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7607843,
+            "g": 0.7607843,
+            "b": 0.7607843,
+            "a": 0.796078444
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_light_fixture_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.333333343,
+            "b": 0.329411775,
+            "a": 0.2901961
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/curbs_001/curbs_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.494117647,
+            "b": 0.494117647,
+            "a": 0.78039217
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/tall_grass_card.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5254902,
+            "g": 0.5411765,
+            "b": 0.396078438,
+            "a": 0.3647059
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_machinery/nuke_machinery_01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7176471,
+            "g": 0.7176471,
+            "b": 0.7176471,
+            "a": 0.784313738
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_metal_bollard/nuke_metal_bollard_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6666667,
+            "g": 0.6666667,
+            "b": 0.6666667,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_forklift/forklift_wheels_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.2901961,
+            "g": 0.286274523,
+            "b": 0.2784314,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cars/nuke_truck_tailer02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.635294139,
+            "g": 0.627451,
+            "b": 0.635294139,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cars/nuke_cars_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.698039234,
+            "g": 0.7019608,
+            "b": 0.698039234,
+            "a": 0.5568628
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_ventilation_exhaust/nuke_ventilation_exhaust_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7294118,
+            "g": 0.733333349,
+            "b": 0.7294118,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/tree_beech_card_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.180392161,
+            "g": 0.192156866,
+            "b": 0.149019614,
+            "a": 0.2627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_concrete_barrier/nuke_concrete_block_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.4627451,
+            "b": 0.458823532,
+            "a": 0.243137255
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/medium_silo/medium_silo_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5254902,
+            "g": 0.5294118,
+            "b": 0.5176471,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/cedar_tree_card_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.396078438,
+            "g": 0.4,
+            "b": 0.321568638,
+            "a": 0.368627459
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_twin_spot_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.2901961,
+            "g": 0.286274523,
+            "b": 0.2784314,
+            "a": 0.101960786
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_ventilation_exhaust/nuke_ventilation_exhaust_small_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4509804,
+            "g": 0.447058827,
+            "b": 0.4509804,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/medium_silo_frame/medium_silo_frame_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.329411775,
+            "g": 0.333333343,
+            "b": 0.329411775,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_crate_001/metal_crate_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7294118,
+            "g": 0.7254902,
+            "b": 0.7294118,
+            "a": 0.933333337
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_pipe_001/metal_pipe_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6901961,
+            "g": 0.6901961,
+            "b": 0.6901961,
+            "a": 0.670588255
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_pipe_001/metal_pipe_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.329411775,
+            "g": 0.329411775,
+            "b": 0.329411775,
+            "a": 0.0235294122
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_light_fixture_wall_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.478431374,
+            "b": 0.482352942,
+            "a": 0.3529412
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_forklift/forklift_base_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.4117647,
+            "b": 0.407843143,
+            "a": 0.6784314
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_forklift/forklift_fork_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.211764708,
+            "g": 0.211764708,
+            "b": 0.211764708,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac03_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.58431375,
+            "b": 0.5803922,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/viburnum_davidii_01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3647059,
+            "g": 0.368627459,
+            "b": 0.309803933,
+            "a": 0.368627459
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cars/nuke_truck_tailer01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7764706,
+            "g": 0.768627465,
+            "b": 0.7647059,
+            "a": 0.8117647
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cars/nuke_tires_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.3254902,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/beech_bark_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.309803933,
+            "g": 0.305882365,
+            "b": 0.2901961,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/beech_branch_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.407843143,
+            "g": 0.443137258,
+            "b": 0.309803933,
+            "a": 0.294117659
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.490196079,
+            "b": 0.482352942,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_wire_001_mip0.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_wire_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5529412,
+            "b": 0.5568628,
+            "a": 0.156862751
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/treeline_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.482352942,
+            "b": 0.384313732,
+            "a": 0.6156863
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skybox_buildings/nuke_skybox_buildings_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6784314,
+            "g": 0.6745098,
+            "b": 0.6784314,
+            "a": 0.196078435
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_industrial_props/nuke_industrial_props_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.8156863,
+            "g": 0.8117647,
+            "b": 0.807843149,
+            "a": 0.168627456
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/rollup_door_001/rollup_door_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6862745,
+            "g": 0.6862745,
+            "b": 0.6862745,
+            "a": 0.5372549
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/signs/signs_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.533333361,
+            "b": 0.407843143,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skybox_buildings/nuke_skybox_powerline_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.235294119,
+            "g": 0.239215687,
+            "b": 0.254901975,
+            "a": 0.294117659
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/barberry_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.3372549,
+            "b": 0.180392161,
+            "a": 0.141176477
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_power_pole/nuke_power_pole_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5254902,
+            "g": 0.533333361,
+            "b": 0.5372549,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/current_transformer/current_transformer_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.431372553,
+            "b": 0.427450985,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/transformer_yard_powerbox/transformer_yard_powerbox_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6117647,
+            "g": 0.619607866,
+            "b": 0.6117647,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_interiors/power_outlet_campground.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.431372553,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/weeds_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.549019635,
+            "b": 0.407843143,
+            "a": 0.196078435
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/weeds_clover_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4509804,
+            "g": 0.427450985,
+            "b": 0.258823544,
+            "a": 0.41568628
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_house/swat_van_generic.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.223529413,
+            "g": 0.223529413,
+            "b": 0.211764708,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cooling_tower/nuke_cooling_tower_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5568628,
+            "b": 0.549019635,
+            "a": 0.9411765
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skydome_001/nuke_skydome_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.5921569,
+            "b": 0.7647059,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skydome_001/nuke_clouds_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.9882353,
+            "g": 0.9843137,
+            "b": 0.9882353,
+            "a": 0.101960786
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skydome_001/nuke_clouds_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.254901975
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skydome_001/nuke_clouds_003.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0431372561
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_smoke_stack/nuke_smoke_stack_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.5411765,
+            "b": 0.5254902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_railing_001/metal_railing_001b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7411765,
+            "g": 0.745098054,
+            "b": 0.7411765,
+            "a": 0.8980392
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac02_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.494117647,
+            "b": 0.494117647,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_buildings/watertower_001a.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.458823532,
+            "g": 0.435294122,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_hand_truck/nuke_hand_truck_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.31764707,
+            "b": 0.321568638,
+            "a": 0.5803922
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/rubber_bumper/rubber_bumper_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5137255,
+            "g": 0.5137255,
+            "b": 0.5058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_recycle_bin/nuke_recycle_bin_01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6117647,
+            "g": 0.635294139,
+            "b": 0.647058845,
+            "a": 0.7019608
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/wires_001/wires_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6,
+            "g": 0.596078455,
+            "b": 0.6,
+            "a": 0.694117665
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/wires_001/wires_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.533333361,
+            "b": 0.5372549,
+            "a": 0.627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_fan_001_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3647059,
+            "g": 0.360784322,
+            "b": 0.3647059,
+            "a": 0.431372553
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac_fan_low01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5529412,
+            "b": 0.5568628,
+            "a": 0.721568644
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_ladder_001/metal_ladder_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.772549033,
+            "g": 0.768627465,
+            "b": 0.772549033,
+            "a": 0.9607843
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_circuit_breaker/nuke_circuit_breaker_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3764706,
+            "g": 0.372549027,
+            "b": 0.3647059,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_entrance_sign/nuke_entrance_sign_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.623529434,
+            "g": 0.6392157,
+            "b": 0.647058845,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_train/hr_t/fire_hose_wa/fire_hose_wa.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3647059,
+            "g": 0.368627459,
+            "b": 0.3647059,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/transformer_wires/transformer_wires_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.4392157,
+            "b": 0.4392157,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/substation_support/substation_support_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.3254902,
+            "b": 0.321568638,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/airduct_hvac_001/airduct_hvac_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.5411765,
+            "b": 0.5372549,
+            "a": 0.443137258
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/airduct_hvac_001/airduct_hvac_001b.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4627451,
+            "g": 0.4627451,
+            "b": 0.4627451,
+            "a": 0.286274523
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_ac_base01_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.223529413,
+            "g": 0.227450982,
+            "b": 0.223529413,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/window_001/window_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5882353,
+            "g": 0.596078455,
+            "b": 0.5882353,
+            "a": 0.709803939
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac05_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.654902,
+            "g": 0.654902,
+            "b": 0.654902,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/de_nuke/hr_nuke/hr_area_signs_decal_001_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.882352948,
+            "g": 0.8862745,
+            "b": 0.882352948,
+            "a": 0.807843149
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/transformer_wires/transformer_wires_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.407843143,
+            "g": 0.403921574,
+            "b": 0.407843143,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_recycle_bin/nuke_recycle_bin_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.482352942,
+            "g": 0.478431374,
+            "b": 0.407843143,
+            "a": 0.41568628
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_paint_bucket/nuke_paint_bucket_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.494117647,
+            "g": 0.490196079,
+            "b": 0.494117647,
+            "a": 0.192156866
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_industrial_props/nuke_industrial_props_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5176471,
+            "g": 0.521568656,
+            "b": 0.5176471,
+            "a": 0.607843161
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/transformer_fan/transformer_fan_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.356862754,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/substation_transformer/substation_transformer_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3882353,
+            "g": 0.384313732,
+            "b": 0.3764706,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/transformer_add_01/transformer_add_01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.549019635,
+            "b": 0.549019635,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/transformer_add_01/transformer_valve_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.2901961,
+            "g": 0.274509817,
+            "b": 0.2784314,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_electric_panel/nuke_electric_panel02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.5764706,
+            "b": 0.5686275,
+            "a": 0.8627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_ceiling_light_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.466666669,
+            "b": 0.458823532,
+            "a": 0.4509804
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_skylight/nuke_skylight_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6,
+            "g": 0.596078455,
+            "b": 0.6,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/window_002/window_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.458823532,
+            "b": 0.4509804,
+            "a": 0.7058824
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac_box_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6117647,
+            "g": 0.619607866,
+            "b": 0.6117647,
+            "a": 0.8352941
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cargo_crane/nuke_cargo_crane_tires_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.4509804,
+            "b": 0.458823532,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/props_utilities/hr_wall_cables2_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7411765,
+            "g": 0.745098054,
+            "b": 0.7411765,
+            "a": 0.843137264
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_train/hr_t/i_beam_f/i_beam_f.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.596078455,
+            "g": 0.5921569,
+            "b": 0.596078455,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_silo/nuke_silo_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.772549033,
+            "g": 0.772549033,
+            "b": 0.7764706,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_machinery/nuke_machinery_05_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4509804,
+            "g": 0.454901963,
+            "b": 0.4509804,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_fire_extinguisher/nuke_fire_extinguisher_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.431372553,
+            "b": 0.427450985,
+            "a": 0.419607848
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cargo_crane/nuke_cargo_crane_base_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.286274523,
+            "g": 0.286274523,
+            "b": 0.286274523,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/web_joist_001/web_joist_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.623529434,
+            "g": 0.623529434,
+            "b": 0.623529434,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/web_joist_001/web_joist_001_base.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.572549045,
+            "b": 0.5686275,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/gas_meter/gas_meter_pipes_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.478431374,
+            "b": 0.482352942,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_chair/nuke_office_chair_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.333333343,
+            "g": 0.3372549,
+            "b": 0.333333343,
+            "a": 0.31764707
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_props/nuke_office_props_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.549019635,
+            "b": 0.5254902,
+            "a": 0.75686276
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_twin_spot_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.533333361,
+            "b": 0.5372549,
+            "a": 0.6392157
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/sprinkler_001/sprinkler_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5921569,
+            "g": 0.5921569,
+            "b": 0.5921569,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props_urban/hotel_ceiling_firealarm001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6117647,
+            "g": 0.596078455,
+            "b": 0.5294118,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_whiteboard_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.772549033,
+            "g": 0.768627465,
+            "b": 0.772549033,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_chair/nuke_chair_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6431373,
+            "g": 0.6392157,
+            "b": 0.6431373,
+            "a": 0.545098066
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_fluorescent_light_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4509804,
+            "g": 0.458823532,
+            "b": 0.4509804,
+            "a": 0.149019614
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_bell_light_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.41568628,
+            "b": 0.419607848,
+            "a": 0.0784313753
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cargo_crane/nuke_cargo_crane_cart_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.419607848,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_control_room/control_room_displays_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.419607848,
+            "b": 0.419607848,
+            "a": 0.09019608
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_electric_panel/nuke_electric_panel01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.572549045,
+            "b": 0.5686275,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/nuke_fluorescent_light_on_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.545098066,
+            "b": 0.549019635,
+            "a": 0.3764706
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_crate_001/metal_crate_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.7411765,
+            "g": 0.7411765,
+            "b": 0.7411765,
+            "a": 0.9411765
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_catwalk/nuke_catwalk_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.3647059,
+            "b": 0.3882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_cargo_crane/nuke_cargo_crane_winch_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.321568638,
+            "g": 0.3254902,
+            "b": 0.34117648,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/props_utilities/electric_cables01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.533333361,
+            "b": 0.5176471,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_roof_ac04_ao.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.482352942,
+            "g": 0.4862745,
+            "b": 0.482352942,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/foliage/weeds_flowers_01.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.494117647,
+            "b": 0.298039228,
+            "a": 0.145098045
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_computers/nuke_supercomputer_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.5019608,
+            "b": 0.482352942,
+            "a": 0.223529413
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_computers/nuke_supercomputer_01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5411765,
+            "b": 0.5254902,
+            "a": 0.168627456
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/recessed_lighting_fixture_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.5764706,
+            "b": 0.5686275,
+            "a": 0.6431373
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/metal_crate_001/metal_crate_003.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.482352942,
+            "g": 0.4862745,
+            "b": 0.482352942,
+            "a": 0.870588243
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_clock/nuke_clock_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5568628,
+            "b": 0.5568628,
+            "a": 0.196078435
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_machinery/nuke_machinery_04_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5529412,
+            "b": 0.5568628,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_fire_emergency/nuke_fire_alert_light_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.549019635,
+            "b": 0.549019635,
+            "a": 0.5882353
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_office_desk_deco_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.5803922,
+            "b": 0.5686275,
+            "a": 0.5529412
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_conference_table_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.807843149,
+            "g": 0.807843149,
+            "b": 0.807843149,
+            "a": 0.854901969
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_office_desk_buttons_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3882353,
+            "g": 0.380392164,
+            "b": 0.3882353,
+            "a": 0.6431373
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_office_desk_monitor_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.435294122,
+            "b": 0.427450985,
+            "a": 0.392156869
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/catwalk_support_001/catwalk_support_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.827451,
+            "g": 0.827451,
+            "b": 0.827451,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_office_desk_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.654902,
+            "g": 0.6392157,
+            "b": 0.623529434,
+            "a": 0.5019608
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_controlroom_light/nuke_controlroom_light_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.807843149,
+            "g": 0.8117647,
+            "b": 0.807843149,
+            "a": 0.192156866
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_machinery/nuke_machinery_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5882353,
+            "g": 0.5882353,
+            "b": 0.5882353,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_machinery/nuke_machinery_03_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3529412,
+            "g": 0.3529412,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_office_binder_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5686275,
+            "g": 0.5764706,
+            "b": 0.5686275,
+            "a": 0.7411765
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_office_cupboard_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6784314,
+            "g": 0.6431373,
+            "b": 0.6117647,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/cs_office/phone.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.435294122,
+            "g": 0.435294122,
+            "b": 0.435294122,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_vending_machine/nuke_snacks_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.478431374,
+            "b": 0.5058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_cover_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.9019608,
+            "g": 0.9019608,
+            "b": 0.9019608,
+            "a": 0.905882359
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/nuke_ac_base02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.427450985,
+            "g": 0.423529416,
+            "b": 0.427450985,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_ac_inset/nuke_ac_inset_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.647058845,
+            "g": 0.654902,
+            "b": 0.647058845,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_sink/nuke_sink_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.458823532,
+            "g": 0.4627451,
+            "b": 0.470588237,
+            "a": 0.607843161
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_clipboard_holder_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4392157,
+            "g": 0.443137258,
+            "b": 0.4392157,
+            "a": 0.882352948
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_clipboard_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.498039216,
+            "g": 0.5058824,
+            "b": 0.5137255,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_bombsite_target/nuke_bombsite_target01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5372549,
+            "g": 0.482352942,
+            "b": 0.4392157,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/wall_bumper_001/wall_bumper_001.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.772549033,
+            "g": 0.772549033,
+            "b": 0.772549033,
+            "a": 0.498039216
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_vending_machine/nuke_vending_machine_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.470588237,
+            "g": 0.5647059,
+            "b": 0.5882353,
+            "a": 0.5019608
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_hard_hat/nuke_hard_hat_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.41568628,
+            "g": 0.41568628,
+            "b": 0.41568628,
+            "a": 0.619607866
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_vending_machine/nuke_snack_machine_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3882353,
+            "g": 0.356862754,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_reactor_vessel_head/nuke_reactor_vessel_head_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3764706,
+            "g": 0.356862754,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_clothes/nuke_overall_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6666667,
+            "g": 0.65882355,
+            "b": 0.6666667,
+            "a": 0.894117653
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_silo/nuke_silo_002.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.9019608,
+            "g": 0.9019608,
+            "b": 0.9019608,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_clothes/nuke_tanktop_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5019608,
+            "g": 0.5019608,
+            "b": 0.5019608,
+            "a": 0.8627451
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_lockers/nuke_locker_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.5019608,
+            "b": 0.494117647,
+            "a": 0.3647059
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_locker_bench/nuke_locker_bench_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.458823532,
+            "g": 0.3882353,
+            "b": 0.329411775,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_roof_ac/ac_powerbox_small_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5803922,
+            "g": 0.5803922,
+            "b": 0.5803922,
+            "a": 0.721568644
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_office_desk/nuke_control_room_table_flat_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.549019635,
+            "g": 0.5568628,
+            "b": 0.549019635,
+            "a": 0.23137255
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_scissor_gate/nuke_scissor_gate_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.4627451,
+            "g": 0.4627451,
+            "b": 0.4627451,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_reactor_vessel_head/nuke_spent_fuel_racks_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5568628,
+            "g": 0.5568628,
+            "b": 0.5568628,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/gas_meter/gas_meter_01_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.396078438,
+            "g": 0.41568628,
+            "b": 0.419607848,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/gas_meter/gas_meter_02_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.34117648,
+            "g": 0.3529412,
+            "b": 0.3529412,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_light_fixture/recessed_lighting_fixture_round_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3647059,
+            "g": 0.360784322,
+            "b": 0.3647059,
+            "a": 0.294117659
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_vent_slats/nuke_vent_slats.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.3764706,
+            "g": 0.372549027,
+            "b": 0.3764706,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_industrial_props/nuke_industrial_props_003.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.5058824,
+            "g": 0.5058824,
+            "b": 0.5058824,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_bombsite_target/nuke_bombsite_trolley_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.654902,
+            "g": 0.6509804,
+            "b": 0.647058845,
+            "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/hr_nuke/nuke_lifering/nuke_lifering_color.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.419607848,
+            "g": 0.41568628,
+            "b": 0.419607848,
+            "a": 0.4392157
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/models/props/de_nuke/skylight_effects.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 33071,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 1.0,
+            "g": 0.972549,
+            "b": 0.870588243,
+            "a": 0.0156862754
           }
         }
       ]
@@ -5352,6 +9377,2673 @@
           "name": "translucent",
           "type": 1,
           "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 134
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 135
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 136
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 137
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 138
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 139
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 141
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 142
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 143
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 144
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 147
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 148
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 149
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 150
+        },
+        {
+          "name": "tint",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 151
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 152
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 154
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 156
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 157
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 144
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 144
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 158
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 158
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 159
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 165
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "tint",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 167
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 168
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 169
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 170
+        },
+        {
+          "name": "tint",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 171
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 172
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 173
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 174
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 176
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 177
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 178
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 179
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 180
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 181
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 182
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 183
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 184
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 185
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 186
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 187
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 188
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 189
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 190
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 191
+        },
+        {
+          "name": "fogEnabled",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "fogEnabled",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 192
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 193
+        },
+        {
+          "name": "alpha",
+          "type": 2,
+          "value": 0.65
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "fogEnabled",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 194
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 193
+        },
+        {
+          "name": "alpha",
+          "type": 2,
+          "value": 0.35
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 195
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 196
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 196
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 197
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 198
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 199
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 200
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 201
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 202
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 203
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 204
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 205
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 206
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 206
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 207
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 208
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 209
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 210
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 211
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 82
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 212
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 213
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 214
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 215
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 215
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 215
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 216
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 217
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 218
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 219
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 220
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 220
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 221
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 222
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 223
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 224
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 225
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 226
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 227
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 227
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 228
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 229
+        }
+      ]
+    },
+    null,
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 230
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 231
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 232
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 233
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 234
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 235
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 236
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 237
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 238
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 239
+        },
+        {
+          "name": "tint",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 19
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 19
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 240
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 241
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 242
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 243
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 243
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 242
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 244
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 245
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 246
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 247
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 248
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 249
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 249
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 250
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 251
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 251
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 252
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 135
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 253
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 167
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 254
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 255
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 256
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 257
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 258
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 259
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 260
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 261
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 262
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 262
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 263
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 264
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 265
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 266
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 267
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 268
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 269
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 270
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 271
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 272
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 273
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 234
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 274
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 275
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 276
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 277
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 278
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 279
+        },
+        {
+          "name": "tint",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 280
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 281
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 254
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 282
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 283
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 284
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 285
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 286
+        },
+        {
+          "name": "alphaTest",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 287
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 288
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 289
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 290
+        },
+        {
+          "name": "tint",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 263
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 291
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 292
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 293
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 294
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 295
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 296
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 297
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 298
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 299
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 300
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 301
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 302
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 21
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 303
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 303
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 304
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 305
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 196
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 306
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 307
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 308
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 48
         }
       ]
     }
