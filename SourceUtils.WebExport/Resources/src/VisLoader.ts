@@ -1,11 +1,15 @@
 ﻿namespace SourceUtils {
     export interface IVisPage {
-        values: number[][];
+        values: (number[] | string)[];
     }
 
     export class VisPage extends ResourcePage<IVisPage, number[]> {
         protected onGetValue(index: number): number[] {
-            return this.page.values[index];
+            if (typeof (this.page.values[index]) === "string") {
+                this.page.values[index] = Facepunch.Utils.decompress(this.page.values[index]);
+            }
+
+            return this.page.values[index] as number[];
         }
     }
 
