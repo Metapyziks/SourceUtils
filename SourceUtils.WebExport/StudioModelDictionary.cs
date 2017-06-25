@@ -17,15 +17,31 @@ namespace SourceUtils.WebExport
 
         protected override IEnumerable<string> OnFindResourcePaths( ValveBspFile bsp )
         {
-            for ( var i = 0; i < bsp.StaticProps.ModelCount; ++i )
-            {
-                var path = bsp.StaticProps.GetModelName( i );
-                yield return path;
+            var items = Enumerable.Range( 0, bsp.StaticProps.ModelCount )
+                .Select( x => bsp.StaticProps.GetModelName( x ) )
+                .Select( x =>
+                {
+                    var mdl = StudioModelFile.FromProvider( x, bsp.PakFile, Program.Resources );
+                    return new
+                    {
+                        Path = x,
+                        VertexCount = mdl.TotalVertices,
+                        FirstMaterialIndex = MaterialDictionary.GetResourceIndex( bsp, mdl.GetMaterialName( 0, bsp.PakFile, Program.Resources ) )
+                    };
+                } )
+                .GroupBy( x => x.FirstMaterialIndex )
+                .OrderByDescending( x => x.Count() )
+                .SelectMany( x => x )
+                .ToArray();
 
-                var index = GetResourceIndex( path );
+            foreach ( var item in items )
+            {
+                yield return item.Path;
+
+                var index = GetResourceIndex( item.Path );
                 if ( index == _vertexCounts.Count )
                 {
-                    _vertexCounts.Add( FindVertexCount( bsp, GetResourcePath( index ) ) );
+                    _vertexCounts.Add( item.VertexCount );
                 }
             }
         }
@@ -33,12 +49,6 @@ namespace SourceUtils.WebExport
         public int GetVertexCount( int index )
         {
             return _vertexCounts[index];
-        }
-
-        private int FindVertexCount( ValveBspFile bsp, string path )
-        {
-            var mdl = StudioModelFile.FromProvider( path, bsp.PakFile, Program.Resources );
-            return mdl?.TotalVertices ?? 0;
         }
 
         protected override string NormalizePath( string path )
