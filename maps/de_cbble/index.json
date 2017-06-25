@@ -1,44 +1,44 @@
 {
   "name": "de_cbble",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f1-f97e",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f1-fb32",
   "visPages": [
     {
       "first": 0,
       "count": 771,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f1-fb32"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 3341,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f1-fb32"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 802,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f1-fb32"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 370,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f1-fb32"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 130,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f1-fb32"
     },
     {
       "first": 130,
       "count": 31,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f1-fb32"
     }
   ],
   "entities": [
@@ -54,32 +54,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f1-fb32"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f1-fb32"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f1-fb32"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f1-fb32"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f1-fb32"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f1-fb32"
           },
           {
             "name": "hdrCompressed",
@@ -93,7 +93,7 @@
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model0.json?v=18f1-fb32",
       "classname": "worldspawn"
     },
     {
@@ -487,7 +487,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model1.json?v=18f1-fb32",
       "clusters": [
         445
       ],
@@ -727,7 +727,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model2.json?v=18f1-fb32",
       "clusters": [
         720,723,724
       ],
@@ -938,7 +938,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model4.json?v=18f1-fb32",
       "clusters": [
         277
       ],
@@ -1181,7 +1181,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model5.json?v=18f1-fb32",
       "clusters": [
         506,482
       ],
@@ -1193,7 +1193,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model6.json?v=18f1-fb32",
       "clusters": [
         482
       ],
@@ -1205,7 +1205,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model7.json?v=18f1-fb32",
       "clusters": [
         140,450
       ],
@@ -1217,7 +1217,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model8.json?v=18f1-fb32",
       "clusters": [
         146
       ],
@@ -1229,7 +1229,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model9.json?v=18f1-fb32",
       "clusters": [
         2
       ],
@@ -1241,7 +1241,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model10.json?v=18f1-fb32",
       "clusters": [
         654
       ],
@@ -1674,7 +1674,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model23.json?v=18f1-fb32",
       "clusters": [
         76
       ],
@@ -1728,7 +1728,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model26.json?v=18f1-fb32",
       "clusters": [
         76
       ],
@@ -2399,7 +2399,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model45.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model45.json?v=18f1-fb32",
       "clusters": [
         110,112
       ],
@@ -2463,7 +2463,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model46.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model46.json?v=18f1-fb32",
       "clusters": [
         257
       ],
@@ -2475,7 +2475,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model47.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model47.json?v=18f1-fb32",
       "clusters": [
         107,555,556,560,561,562,563,564,565,566,567,568,569,570,584,585,586,587
       ],
@@ -2487,7 +2487,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model48.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model48.json?v=18f1-fb32",
       "clusters": [
         694,695,696,697,699,700
       ],
@@ -2575,7 +2575,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model50.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model50.json?v=18f1-fb32",
       "clusters": [
         110,112
       ],
@@ -2587,7 +2587,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model51.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model51.json?v=18f1-fb32",
       "clusters": [
         257
       ],
@@ -2599,7 +2599,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model52.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model52.json?v=18f1-fb32",
       "clusters": [
         695,696,697,699,700
       ],
@@ -2611,7 +2611,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model53.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/model53.json?v=18f1-fb32",
       "clusters": [
         556,564,566,568,570,586,587
       ],

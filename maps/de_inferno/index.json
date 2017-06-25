@@ -1,44 +1,44 @@
 {
   "name": "de_inferno",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18f1-f97e",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18f1-fb32",
   "visPages": [
     {
       "first": 0,
       "count": 2572,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18f1-fb32"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5005,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18f1-fb32"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 2034,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18f1-fb32"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 442,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18f1-fb32"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 222,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage0.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage0.json?v=18f1-fb32"
     },
     {
       "first": 222,
       "count": 64,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage1.json?v=18f1-f97e"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage1.json?v=18f1-fb32"
     }
   ],
   "entities": [
@@ -54,36 +54,36 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb32"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb32"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb32"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb32"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb32"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f97e"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb32"
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model0.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model0.json?v=18f1-fb32",
       "classname": "worldspawn"
     },
     {
@@ -527,7 +527,7 @@
       "classname": "func_areaportalwindow"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model11.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model11.json?v=18f1-fb32",
       "clusters": [
         15,41,43,45,47,48,49,52,54,56,75,76,77,78,81,83,88,89,93,94,95,96,97,98,99,100,101,102,103,104,162,163,164,165,168,169,170,171,173,174,175,176
       ],
@@ -1703,7 +1703,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model32.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model32.json?v=18f1-fb32",
       "clusters": [
         1219,1232
       ],
@@ -2012,7 +2012,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model40.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model40.json?v=18f1-fb32",
       "clusters": [
         2324
       ],
@@ -2392,7 +2392,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model43.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model43.json?v=18f1-fb32",
       "clusters": [
         1901,1905,1906
       ],
@@ -2404,7 +2404,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model44.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model44.json?v=18f1-fb32",
       "clusters": [
         1890,1891
       ],
@@ -2416,7 +2416,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model45.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model45.json?v=18f1-fb32",
       "clusters": [
         2461,2462
       ],
@@ -2428,7 +2428,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model46.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model46.json?v=18f1-fb32",
       "clusters": [
         2228,2229,2235
       ],
@@ -2440,7 +2440,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model47.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model47.json?v=18f1-fb32",
       "clusters": [
         1356,1357
       ],
@@ -4115,7 +4115,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model49.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model49.json?v=18f1-fb32",
       "clusters": [
         354,357
       ],
@@ -5305,7 +5305,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model53.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model53.json?v=18f1-fb32",
       "clusters": [
         1584,1585,1586,1662,1663,1664,1666
       ],
@@ -5503,7 +5503,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model54.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model54.json?v=18f1-fb32",
       "clusters": [
         678,693,820,821
       ],
@@ -5515,7 +5515,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model55.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model55.json?v=18f1-fb32",
       "clusters": [
         690,694,712,714,715,716,829,830,832,833
       ],
@@ -5661,7 +5661,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model59.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model59.json?v=18f1-fb32",
       "clusters": [
         1526,1528
       ],
@@ -5673,7 +5673,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model60.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model60.json?v=18f1-fb32",
       "clusters": [
         2329,2330,2331,2332
       ],
@@ -5685,7 +5685,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model61.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model61.json?v=18f1-fb32",
       "clusters": [
         2352
       ],
@@ -5697,7 +5697,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model62.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model62.json?v=18f1-fb32",
       "clusters": [
         953,966
       ],
@@ -5709,7 +5709,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model63.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model63.json?v=18f1-fb32",
       "clusters": [
         124,128
       ],
@@ -5841,7 +5841,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model66.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model66.json?v=18f1-fb32",
       "clusters": [
         953,965,966
       ],
@@ -5853,7 +5853,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model67.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model67.json?v=18f1-fb32",
       "clusters": [
         124,128
       ],
@@ -5865,7 +5865,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model68.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model68.json?v=18f1-fb32",
       "clusters": [
         1510,1511,1512,1513,1514,1515,1516,1519,1520,1525,1526,1527,1528,1535,1536,1537,1538,1541
       ],
@@ -5877,7 +5877,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model69.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model69.json?v=18f1-fb32",
       "clusters": [
         1670,1671,1672,1674,1676,1677,1678,1679,2313,2315,2316,2323,2324,2325,2326,2327,2328,2329,2330,2331,2332
       ],
@@ -5889,7 +5889,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model70.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model70.json?v=18f1-fb32",
       "clusters": [
         2351,2352
       ],
@@ -5917,7 +5917,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model71.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model71.json?v=18f1-fb32",
       "clusters": [
         483,485,522,523
       ],
@@ -6418,7 +6418,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model72.json?v=18f1-f97e",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/model72.json?v=18f1-fb32",
       "clusters": [
         2455,2472
       ],

@@ -1,94 +1,94 @@
 {
   "name": "de_nuke",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/lightmap.json?v=18f1-f980",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/lightmap.json?v=18f1-fb34",
   "visPages": [
     {
       "first": 0,
       "count": 2402,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage0.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage0.json?v=18f1-fb34"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5423,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage0.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage0.json?v=18f1-fb34"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 703,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage0.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage0.json?v=18f1-fb34"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 383,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/materials/matpage0.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/materials/matpage0.json?v=18f1-fb34"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 162,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage0.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage0.json?v=18f1-fb34"
     },
     {
       "first": 162,
       "count": 175,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage1.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage1.json?v=18f1-fb34"
     },
     {
       "first": 337,
       "count": 139,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage2.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage2.json?v=18f1-fb34"
     },
     {
       "first": 476,
       "count": 91,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage3.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage3.json?v=18f1-fb34"
     },
     {
       "first": 567,
       "count": 139,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage4.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage4.json?v=18f1-fb34"
     },
     {
       "first": 706,
       "count": 91,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage5.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage5.json?v=18f1-fb34"
     },
     {
       "first": 797,
       "count": 103,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage6.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage6.json?v=18f1-fb34"
     },
     {
       "first": 900,
       "count": 104,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage7.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage7.json?v=18f1-fb34"
     },
     {
       "first": 1004,
       "count": 101,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage8.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage8.json?v=18f1-fb34"
     },
     {
       "first": 1105,
       "count": 98,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage9.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage9.json?v=18f1-fb34"
     },
     {
       "first": 1203,
       "count": 113,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage10.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage10.json?v=18f1-fb34"
     },
     {
       "first": 1316,
       "count": 61,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage11.json?v=18f1-f980"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage11.json?v=18f1-fb34"
     }
   ],
   "entities": [
@@ -104,36 +104,36 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f980"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb34"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f980"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb34"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f980"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb34"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f980"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb34"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f980"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb34"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-f980"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f1-fb34"
           }
         ]
       },
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model0.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model0.json?v=18f1-fb34",
       "classname": "worldspawn"
     },
     {
@@ -181,7 +181,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model3.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model3.json?v=18f1-fb34",
       "clusters": [
         858,859,860,861,862,863,864,867,868,1479,1480,1481,1482,1483,1484,1487,1488,1491,1493,1495,1496,1497,1498,1499,1500,1502,1504,1506
       ],
@@ -193,7 +193,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model4.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model4.json?v=18f1-fb34",
       "clusters": [
         830,831,835,845,846,859,865,867
       ],
@@ -205,7 +205,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model5.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model5.json?v=18f1-fb34",
       "clusters": [
         297,300,301,302,307,308,310,311
       ],
@@ -295,7 +295,7 @@
       "classname": "func_occluder"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model6.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model6.json?v=18f1-fb34",
       "clusters": [
         269,302
       ],
@@ -307,7 +307,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model7.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model7.json?v=18f1-fb34",
       "clusters": [
         269,302
       ],
@@ -319,7 +319,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model8.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model8.json?v=18f1-fb34",
       "clusters": [
         78
       ],
@@ -331,7 +331,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model13.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model13.json?v=18f1-fb34",
       "clusters": [
         958
       ],
@@ -515,7 +515,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model15.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model15.json?v=18f1-fb34",
       "clusters": [
         1074,1078,1079
       ],
@@ -1034,7 +1034,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model16.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model16.json?v=18f1-fb34",
       "clusters": [
         470
       ],
@@ -1046,7 +1046,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model17.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model17.json?v=18f1-fb34",
       "clusters": [
         1147,1148,1149,1150,1153,1163
       ],
@@ -1058,7 +1058,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model18.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model18.json?v=18f1-fb34",
       "clusters": [
         1147,1148,1149,1150,1153,1163
       ],
@@ -1070,7 +1070,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model19.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model19.json?v=18f1-fb34",
       "clusters": [
         498,499,501,1183,1184
       ],
@@ -1082,7 +1082,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model20.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model20.json?v=18f1-fb34",
       "clusters": [
         1515,1516
       ],
@@ -1094,7 +1094,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model21.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model21.json?v=18f1-fb34",
       "clusters": [
         1458,1460
       ],
@@ -1106,7 +1106,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model22.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model22.json?v=18f1-fb34",
       "clusters": [
         1160,1167,1170,1511,1512,1513,1514
       ],
@@ -1118,7 +1118,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model23.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model23.json?v=18f1-fb34",
       "clusters": [
         1157,1158,1159,1160,1161
       ],
@@ -1194,7 +1194,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model24.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model24.json?v=18f1-fb34",
       "clusters": [
         163
       ],
@@ -1218,7 +1218,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model26.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model26.json?v=18f1-fb34",
       "clusters": [
         472,473
       ],
@@ -1298,7 +1298,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model27.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model27.json?v=18f1-fb34",
       "clusters": [
         1512,1513
       ],
@@ -1310,7 +1310,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model28.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model28.json?v=18f1-fb34",
       "clusters": [
         468
       ],
@@ -1322,7 +1322,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model29.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model29.json?v=18f1-fb34",
       "clusters": [
         468
       ],
@@ -1334,7 +1334,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model30.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model30.json?v=18f1-fb34",
       "clusters": [
         411
       ],
@@ -1346,7 +1346,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model31.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model31.json?v=18f1-fb34",
       "clusters": [
         1079,1083,1560
       ],
@@ -1358,7 +1358,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model32.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model32.json?v=18f1-fb34",
       "clusters": [
         732,1381
       ],
@@ -1370,7 +1370,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model33.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model33.json?v=18f1-fb34",
       "clusters": [
         1817
       ],
@@ -1382,7 +1382,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model34.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model34.json?v=18f1-fb34",
       "clusters": [
         2026
       ],
@@ -1394,7 +1394,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model35.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model35.json?v=18f1-fb34",
       "clusters": [
         1386,1393,2004,2008
       ],
@@ -1406,7 +1406,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model36.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model36.json?v=18f1-fb34",
       "clusters": [
         140,142
       ],
@@ -1418,7 +1418,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model37.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model37.json?v=18f1-fb34",
       "clusters": [
         540,541
       ],
@@ -1430,7 +1430,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model38.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model38.json?v=18f1-fb34",
       "clusters": [
         1759
       ],
@@ -1442,7 +1442,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model39.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model39.json?v=18f1-fb34",
       "clusters": [
         521,522,523,524,525,526,528,531,532,533,534,535,536,537,538,539,555,557,559,598,608,615
       ],
@@ -1467,7 +1467,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model40.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model40.json?v=18f1-fb34",
       "clusters": [
         97,99,115,332,334,335,348,349,917,923,924,959,960,1026,1028
       ],
@@ -1479,7 +1479,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model41.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model41.json?v=18f1-fb34",
       "clusters": [
         61,69,76,79,80
       ],
@@ -1828,7 +1828,7 @@
       "classname": "func_areaportal"
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model74.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model74.json?v=18f1-fb34",
       "clusters": [
         785,821,1461,1462,1916,1917,1918,1919,1920,2184,2185,2190
       ],
@@ -1853,7 +1853,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model75.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model75.json?v=18f1-fb34",
       "clusters": [
         764,765,768
       ],
@@ -1865,7 +1865,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model76.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model76.json?v=18f1-fb34",
       "clusters": [
         764,766,770,773
       ],
@@ -1877,7 +1877,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model77.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model77.json?v=18f1-fb34",
       "clusters": [
         765,767,768,769,771,772,774,775
       ],
@@ -1889,7 +1889,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model78.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model78.json?v=18f1-fb34",
       "clusters": [
         801,802,1446,1447
       ],
@@ -1901,7 +1901,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model79.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model79.json?v=18f1-fb34",
       "clusters": [
         817,818,1453,1454
       ],
@@ -1913,7 +1913,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model80.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model80.json?v=18f1-fb34",
       "clusters": [
         1484
       ],
@@ -1925,7 +1925,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model81.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model81.json?v=18f1-fb34",
       "clusters": [
         862
       ],
@@ -1953,7 +1953,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model84.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model84.json?v=18f1-fb34",
       "clusters": [
         843,844,846,848,850,851,852,856,857,858,859,860,861,862,863,1477,1478,1479,1480,1481,1482,1483,1484,1485,1486,1487,1488,1489,1490,1491,1492
       ],
@@ -2109,7 +2109,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model85.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model85.json?v=18f1-fb34",
       "clusters": [
         1457,1458,1463
       ],
@@ -2213,7 +2213,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model86.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model86.json?v=18f1-fb34",
       "clusters": [
         867,868,869,870,871,1493,1497,1499,1549,1550,1551,1922,1924,2188,2191
       ],
@@ -2283,7 +2283,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model89.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model89.json?v=18f1-fb34",
       "clusters": [
         1116
       ],
@@ -2295,7 +2295,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model90.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model90.json?v=18f1-fb34",
       "clusters": [
         1608,1609,1610,1611
       ],
@@ -4450,7 +4450,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model91.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model91.json?v=18f1-fb34",
       "clusters": [
         725
       ],
@@ -4462,7 +4462,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model92.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model92.json?v=18f1-fb34",
       "clusters": [
         725
       ],
@@ -4474,7 +4474,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model93.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model93.json?v=18f1-fb34",
       "clusters": [
         725,726
       ],
@@ -4486,7 +4486,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model94.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model94.json?v=18f1-fb34",
       "clusters": [
         725,726
       ],
@@ -4498,7 +4498,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model95.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model95.json?v=18f1-fb34",
       "clusters": [
         726
       ],
@@ -4510,7 +4510,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model96.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model96.json?v=18f1-fb34",
       "clusters": [
         726
       ],
@@ -4522,7 +4522,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model97.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model97.json?v=18f1-fb34",
       "clusters": [
         722,723,725,726
       ],
@@ -6974,7 +6974,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model98.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model98.json?v=18f1-fb34",
       "clusters": [
         553,575
       ],
@@ -6986,7 +6986,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model99.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model99.json?v=18f1-fb34",
       "clusters": [
         553,575
       ],
@@ -6998,7 +6998,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model100.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model100.json?v=18f1-fb34",
       "clusters": [
         1207
       ],
@@ -7010,7 +7010,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model101.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model101.json?v=18f1-fb34",
       "clusters": [
         1207
       ],
@@ -7022,7 +7022,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model102.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model102.json?v=18f1-fb34",
       "clusters": [
         1207
       ],
@@ -7034,7 +7034,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model103.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model103.json?v=18f1-fb34",
       "clusters": [
         1208
       ],
@@ -7046,7 +7046,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model104.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model104.json?v=18f1-fb34",
       "clusters": [
         1208,1209
       ],
@@ -7058,7 +7058,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model105.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model105.json?v=18f1-fb34",
       "clusters": [
         1209
       ],
@@ -7070,7 +7070,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model106.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model106.json?v=18f1-fb34",
       "clusters": [
         1209
       ],
@@ -7082,7 +7082,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model107.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model107.json?v=18f1-fb34",
       "clusters": [
         582
       ],
@@ -7094,7 +7094,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model108.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model108.json?v=18f1-fb34",
       "clusters": [
         580,582
       ],
@@ -7106,7 +7106,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model109.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model109.json?v=18f1-fb34",
       "clusters": [
         578,579,580
       ],
@@ -7118,7 +7118,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model110.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model110.json?v=18f1-fb34",
       "clusters": [
         1386,2004
       ],
@@ -9281,7 +9281,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model113.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model113.json?v=18f1-fb34",
       "clusters": [
         541,561
       ],
@@ -9293,7 +9293,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model114.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model114.json?v=18f1-fb34",
       "clusters": [
         541,560
       ],
@@ -9305,7 +9305,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model115.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model115.json?v=18f1-fb34",
       "clusters": [
         1191,1194
       ],
@@ -9317,7 +9317,7 @@
       }
     },
     {
-      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model116.json?v=18f1-f980",
+      "modelUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/model116.json?v=18f1-fb34",
       "clusters": [
         1191,1193
       ],
