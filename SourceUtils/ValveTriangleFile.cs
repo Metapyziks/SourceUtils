@@ -124,6 +124,17 @@ namespace SourceUtils
             throw new NotImplementedException();
         }
 
+        public static ValveTriangleFile FromProvider( string path, StudioModelFile mdl, ValveVertexFile vvd, params IResourceProvider[] providers )
+        {
+            var provider = providers.FirstOrDefault( x => x.ContainsFile( path ) );
+            if ( provider == null ) return null;
+
+            using ( var stream = provider.OpenFile( path ) )
+            {
+                return new ValveTriangleFile( stream, mdl, vvd );
+            }
+        }
+
         public int NumLods { get; }
 
         private readonly BodyPartHeader[] _bodyParts;

@@ -220,6 +220,8 @@ namespace SourceUtils
         public Vector3 HullMin => _header.HullMin;
         public Vector3 HullMax => _header.HullMax;
 
+        public int TotalVertices => _meshes.Sum( x => x.NumVertices );
+
         public StudioModelFile(Stream stream)
         {
             _header = LumpReader<Header>.ReadSingleFromStream(stream);
@@ -276,6 +278,7 @@ namespace SourceUtils
                     model.MeshIndex = meshList.Count;
                     LumpReader<StudioMesh>.ReadLumpFromStream( stream, model.NumMeshes, ( meshIndex, mesh ) =>
                     {
+                        mesh.ModelIndex = modelIndex;
                         meshList.Add( mesh );
                     } );
 

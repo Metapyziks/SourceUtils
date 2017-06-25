@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace SourceUtils.WebExport
 {
-    internal abstract class ResourceDictionary<TResource, TDictionary>
-        where TDictionary : ResourceDictionary<TResource, TDictionary>, new()
+    internal abstract class ResourceDictionary<TDictionary>
+        where TDictionary : ResourceDictionary<TDictionary>, new()
     {
         private static readonly Dictionary<ValveBspFile, TDictionary> _sDicts =
             new Dictionary<ValveBspFile, TDictionary>();
 
-        private static TDictionary GetDictionary( ValveBspFile bsp )
+        protected static TDictionary GetDictionary( ValveBspFile bsp )
         {
             TDictionary dict;
             if ( _sDicts.TryGetValue( bsp, out dict ) ) return dict;
@@ -56,12 +56,7 @@ namespace SourceUtils.WebExport
 
         protected virtual string NormalizePath( string path )
         {
-            path = path.ToLower().Replace( '\\', '/' );
-
-            if ( !path.StartsWith( "materials/" ) ) path = $"materials/{path}";
-            if ( !path.EndsWith( ".vmt" ) ) path = $"{path}.vmt";
-
-            return path;
+            return path.ToLower().Replace( '\\', '/' );
         }
 
         private void Add( string path )

@@ -112,7 +112,7 @@
     <Compile Include="ResourceController.cs" />
     <Compile Include="ResourceDictionary.cs" />
     <Compile Include="StaticFiles.cs" />
-    <Compile Include="StudioModel.cs" />
+    <Compile Include="StudioModelDictionary.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Texture.Convert.cs" />
     <Compile Include="Utils.cs" />

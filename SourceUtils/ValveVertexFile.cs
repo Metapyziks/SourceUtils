@@ -43,7 +43,18 @@ namespace SourceUtils
             public int SourceVertexId;
             public int NumVertices;
         }
-        
+
+        public static ValveVertexFile FromProvider( string path, params IResourceProvider[] providers )
+        {
+            var provider = providers.FirstOrDefault( x => x.ContainsFile( path ) );
+            if ( provider == null ) return null;
+
+            using ( var stream = provider.OpenFile( path ) )
+            {
+                return new ValveVertexFile( stream );
+            }
+        }
+
         public static ValveVertexFile FromStream(Stream stream)
         {
             return new ValveVertexFile(stream);

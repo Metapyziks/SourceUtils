@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using OpenTK;
 using SourceUtils.ValveBsp;
 using Ziks.WebServer;
 using PrimitiveType = OpenTK.Graphics.ES20.PrimitiveType;
@@ -82,12 +83,6 @@ namespace SourceUtils.WebExport.Bsp
 
         [JsonProperty("indexCount")]
         public int IndexCount { get; set; }
-
-        [JsonProperty("vertexOffset")]
-        public int? VertexOffset { get; set; }
-
-        [JsonProperty("vertexCount")]
-        public int? VertexCount { get; set; }
     }
 
     public class MeshData
@@ -144,6 +139,9 @@ namespace SourceUtils.WebExport.Bsp
             }
         }
 
+        [JsonIgnore]
+        public int MaterialIndex { get; }
+
         [JsonProperty("attributes")]
         public List<VertexAttribute> Attributes { get; } = new List<VertexAttribute>();
 
@@ -161,6 +159,11 @@ namespace SourceUtils.WebExport.Bsp
         private float[] _vertex;
         private int _vertexSize;
         private readonly List<int> _primitiveIndices = new List<int>();
+
+        public MeshData( int index )
+        {
+            MaterialIndex = index;
+        }
 
         public void BeginPrimitive()
         {
@@ -276,7 +279,7 @@ namespace SourceUtils.WebExport.Bsp
 
         public void CommitPrimitive( PrimitiveType mode, IEnumerable<int> indices = null )
         {
-            var enumerable = indices == null ? _primitiveIndices : indices.Select( x => _primitiveIndices[x] );
+            var enumerable = indices?.Select( x => _primitiveIndices[x] ) ?? _primitiveIndices;
 
             switch ( mode )
             {
@@ -301,7 +304,12 @@ namespace SourceUtils.WebExport.Bsp
         public int Material { get; set; }
 
         [JsonProperty("meshData")]
-        public MeshData MeshData { get; } = new MeshData();
+        public MeshData MeshData { get; }
+
+        public MaterialGroup( int index )
+        {
+            MeshData = new MeshData( index );
+        }
     }
 
     public struct Face
@@ -310,6 +318,39 @@ namespace SourceUtils.WebExport.Bsp
         public int Material { get; set; }
 
         [JsonProperty("element")]
+        public int Element { get; set; }
+    }
+
+    public class StudioModel
+    {
+        [JsonProperty( "bodyParts" )]
+        public List<SmdBodyPart> BodyParts { get; } = new List<SmdBodyPart>();
+    }
+
+    public class SmdBodyPart
+    {
+        [JsonProperty( "name" )]
+        public string Name { get; set; }
+
+        [JsonProperty( "models" )]
+        public List<SmdModel> Models { get; } = new List<SmdModel>();
+    }
+
+    public class SmdModel
+    {
+        [JsonProperty( "meshes" )]
+        public List<SmdMesh> Meshes { get; } = new List<SmdMesh>();
+    }
+
+    public class SmdMesh
+    {
+        [JsonProperty( "meshId" )]
+        public int MeshId { get; set; }
+
+        [JsonProperty( "material" )]
+        public int Material { get; set; }
+
+        [JsonProperty( "element" )]
         public int Element { get; set; }
     }
 
@@ -336,6 +377,13 @@ namespace SourceUtils.WebExport.Bsp
 
         [JsonProperty( "displacements" )]
         public List<Face> Displacements { get; } = new List<Face>();
+    }
+
+    public class StudioModelPage : GeometryPage
+    {
+        public const int VerticesPerPage = 65536 * 4;
+
+        public List<StudioModel> Models { get; } = new List<StudioModel>();
     }
 
     [Prefix("/maps/{map}/geom")]
@@ -372,6 +420,30 @@ namespace SourceUtils.WebExport.Bsp
             }
         }
 
+        private MeshData GetOrCreateMeshData( ValveBspFile bsp, GeometryPage page, string matPath )
+        {
+            MaterialGroup matGroup;
+
+            var matDictIndex = MaterialDictionary.GetResourceIndex( bsp, matPath );
+
+            if ( !page.MaterialIndices.TryGetValue( matDictIndex, out int matIndex ) )
+            {
+                var vmt = ValveMaterialFile.FromProvider( MaterialDictionary.GetResourcePath( bsp, matDictIndex ), bsp.PakFile, Program.Resources );
+
+                matGroup = new MaterialGroup( matIndex = page.Materials.Count ) { Material = matDictIndex };
+                page.MaterialIndices.Add( matDictIndex, matIndex );
+                page.Materials.Add( matGroup );
+
+                FindMaterialAttributes( vmt, matGroup.MeshData.Attributes );
+            }
+            else
+            {
+                matGroup = page.Materials[matIndex];
+            }
+
+            return matGroup.MeshData;
+        }
+
         private void WriteFace( ValveBspFile bsp, int faceIndex, GeometryPage page, List<Face> outFaces )
         {
             const SurfFlags ignoreFlags = SurfFlags.NODRAW | SurfFlags.LIGHT | SurfFlags.SKY | SurfFlags.SKY2D;
@@ -383,35 +455,15 @@ namespace SourceUtils.WebExport.Bsp
 
             var texData = bsp.TextureData[texInfo.TexData];
 
-            MaterialGroup matGroup;
-            
-            var matPath = bsp.GetTextureString(texData.NameStringTableId);
-            var matDictIndex = MaterialDictionary.GetResourceIndex( bsp, matPath );
-
-            int matIndex;
-            if (!page.MaterialIndices.TryGetValue(matDictIndex, out matIndex))
-            {
-                var vmt = ValveMaterialFile.FromProvider( MaterialDictionary.GetResourcePath( bsp, matDictIndex ), bsp.PakFile, Program.Resources );
-
-                matGroup = new MaterialGroup { Material = matDictIndex };
-                page.MaterialIndices.Add(matDictIndex, matIndex = page.Materials.Count);
-                page.Materials.Add(matGroup);
-
-                FindMaterialAttributes( vmt, matGroup.MeshData.Attributes );
-            }
-            else
-            {
-                matGroup = page.Materials[matIndex];
-            }
+            var matPath = bsp.GetTextureString( texData.NameStringTableId );
+            var meshData = GetOrCreateMeshData( bsp, page, matPath );
 
             if (Skip) return;
-
-            var meshData = matGroup.MeshData;
 
             MeshElement elem;
             Face face;
 
-            var leafFaceIndex = outFaces.FindIndex(x => x.Material == matIndex);
+            var leafFaceIndex = outFaces.FindIndex( x => x.Material == meshData.MaterialIndex );
             if (leafFaceIndex != -1)
             {
                 face = outFaces[leafFaceIndex];
@@ -428,7 +480,7 @@ namespace SourceUtils.WebExport.Bsp
 
                 face = new Face
                 {
-                    Material = matIndex,
+                    Material = meshData.MaterialIndex,
                     Element = meshData.Elements.Count
                 };
 
@@ -615,6 +667,108 @@ namespace SourceUtils.WebExport.Bsp
                 }
 
                 page.Leaves.Add(faces);
+            }
+
+            return page;
+        }
+
+        [Get( "/mdlpage{index}.json" )]
+        public StudioModelPage GetPage( [Url] string map, [Url] int index )
+        {
+            var bsp = Program.GetMap( map );
+
+            var info = IndexController.GetPageLayout( bsp, StudioModelDictionary.GetResourceCount( bsp ),
+                StudioModelPage.VerticesPerPage,
+                null, i => StudioModelDictionary.GetVertexCount( bsp, i ) ).Skip( index ).FirstOrDefault();
+
+            var first = info?.First ?? StudioModelDictionary.GetResourceCount( bsp );
+            var count = info?.Count ?? 0;
+
+            var page = new StudioModelPage();
+
+            StudioVertex[] vertices = null;
+            int[] indices = null;
+
+            for ( var i = 0; i < count; ++i )
+            {
+                var mdlPath = StudioModelDictionary.GetResourcePath( bsp, first + i );
+                var vvdPath = mdlPath.Replace( ".mdl", ".vvd" );
+                var vtxPath = mdlPath.Replace( ".mdl", ".dx90.vtx" );
+
+                var mdlFile = StudioModelFile.FromProvider( mdlPath, bsp.PakFile, Program.Resources );
+                var vvdFile = ValveVertexFile.FromProvider( vvdPath, bsp.PakFile, Program.Resources );
+                var vtxFile = ValveTriangleFile.FromProvider( vtxPath, mdlFile, vvdFile, bsp.PakFile, Program.Resources );
+
+                StudioModel mdl;
+                page.Models.Add( mdl = new StudioModel() );
+
+                for ( var j = 0; j < mdlFile.BodyPartCount; ++j )
+                {
+                    SmdBodyPart smdBodyPart;
+                    mdl.BodyParts.Add( smdBodyPart = new SmdBodyPart
+                    {
+                        Name = mdlFile.GetBodyPartName( j )
+                    } );
+
+                    smdBodyPart.Models.AddRange( mdlFile.GetModels( j ).Select( model =>
+                    {
+                        var smdModel = new SmdModel();
+
+                        smdModel.Meshes.AddRange( mdlFile.GetMeshes( ref model ).Select( mesh =>
+                        {
+                            var meshData = GetOrCreateMeshData( bsp, page,
+                                mdlFile.GetMaterialName( mesh.Material, bsp.PakFile, Program.Resources ) );
+
+                            var smdMesh = new SmdMesh
+                            {
+                                MeshId = mesh.MeshId,
+                                Material = meshData.MaterialIndex
+                            };
+
+                            var vertexCount = vtxFile.GetVertexCount( j, mesh.ModelIndex, 0 );
+                            if ( vertices == null || vertices.Length < vertexCount )
+                            {
+                                vertices = new StudioVertex[MathHelper.NextPowerOfTwo( vertexCount )];
+                            }
+
+                            var indexCount = vtxFile.GetIndexCount( j, mesh.ModelIndex, 0 );
+                            if ( indices == null || indices.Length < indexCount )
+                            {
+                                indices = new int[MathHelper.NextPowerOfTwo( indexCount )];
+                            }
+
+                            vtxFile.GetVertices( j, mesh.ModelIndex, 0, vertices );
+                            vtxFile.GetIndices( j, mesh.ModelIndex, 0, indices );
+
+                            var meshElem = new MeshElement
+                            {
+                                Mode = PrimitiveType.Triangles,
+                                IndexOffset = meshData.Indices.Count
+                            };
+
+                            smdMesh.Element = meshData.Elements.Count;
+                            meshData.Elements.Add( meshElem );
+
+                            meshData.BeginPrimitive();
+                            for ( var k = 0; k < vertexCount; ++k )
+                            {
+                                var vertex = vertices[k];
+
+                                meshData.VertexAttribute( VertexAttribute.Position, vertex.Position );
+                                meshData.VertexAttribute( VertexAttribute.Normal, vertex.Normal );
+                                meshData.VertexAttribute( VertexAttribute.Uv, new Vector2( vertex.TexCoordX, vertex.TexCoordY ) );
+                                meshData.CommitVertex();
+                            }
+                            meshData.CommitPrimitive( PrimitiveType.Triangles, indices.Take( indexCount ) );
+
+                            meshElem.IndexCount = meshData.Indices.Count - meshElem.IndexOffset;
+
+                            return smdMesh;
+                        } ) );
+
+                        return smdModel;
+                    } ) );
+                }
             }
 
             return page;

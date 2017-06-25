@@ -10,7 +10,7 @@ using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
 {
-    internal class MaterialDictionary : ResourceDictionary<Material, MaterialDictionary>
+    internal class MaterialDictionary : ResourceDictionary<MaterialDictionary>
     {
         protected override IEnumerable<string> OnFindResourcePaths( ValveBspFile bsp )
         {

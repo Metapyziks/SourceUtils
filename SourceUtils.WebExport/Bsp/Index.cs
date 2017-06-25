@@ -71,17 +71,42 @@ namespace SourceUtils.WebExport.Bsp
                 styles => (Url) "/styles.css" );
         }
 
-        private IEnumerable<PageInfo> GetPageLayout( ValveBspFile bsp, int count, int perPage, string filePrefix )
+        private static int DefaultItemSizeSelect( int index )
         {
-            var pageCount = (count + perPage - 1) / perPage;
+            return 1;
+        }
 
-            return Enumerable.Range( 0, pageCount )
-                .Select( x => new PageInfo
+        internal static IEnumerable<PageInfo> GetPageLayout( ValveBspFile bsp, int count, int perPage, string filePrefix, Func<int, int> itemSizeSelect = null )
+        {
+            if ( itemSizeSelect == null ) itemSizeSelect = DefaultItemSizeSelect;
+
+            var first = 0;
+            var size = 0;
+            var index = 0;
+
+            PageInfo CreatePage( int last ) => new PageInfo
+            {
+                First = first,
+                Count = last - first,
+                Url = filePrefix != null ? $"/maps/{bsp.Name}{filePrefix}{index++}.json" : null
+            };
+
+            for ( var i = 0; i < count; ++i )
+            {
+                var itemSize = itemSizeSelect( i );
+
+                if ( size + itemSize > perPage )
                 {
-                    First = x * perPage,
-                    Count = Math.Min( (x + 1) * perPage, count ) - x * perPage,
-                    Url = $"/maps/{bsp.Name}{filePrefix}{x}.json"
-                } );
+                    yield return CreatePage( i );
+
+                    size = 0;
+                    first = i;
+                }
+
+                size += itemSize;
+            }
+
+            yield return CreatePage( count );
         }
 
         public class Map
@@ -103,6 +128,9 @@ namespace SourceUtils.WebExport.Bsp
 
             [JsonProperty("materialPages")]
             public IEnumerable<PageInfo> MaterialPages { get; set; }
+
+            [JsonProperty("studioModelPages")]
+            public IEnumerable<PageInfo> StudioModelPages { get; set; }
 
             [JsonProperty("entities")]
             public IEnumerable<Entity> Entities { get; set; }
@@ -143,6 +171,7 @@ namespace SourceUtils.WebExport.Bsp
                 LeafPages = GetPageLayout( bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage" ),
                 DispPages = GetPageLayout( bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage" ),
                 MaterialPages = GetPageLayout( bsp, MaterialDictionary.GetResourceCount( bsp ), MaterialPage.MaterialsPerPage, "/materials/matpage" ),
+                StudioModelPages = GetPageLayout( bsp, StudioModelDictionary.GetResourceCount( bsp ), StudioModelPage.VerticesPerPage, "/geom/mdlpage", i => StudioModelDictionary.GetVertexCount( bsp, i ) ),
                 Entities = ents
             };
         }

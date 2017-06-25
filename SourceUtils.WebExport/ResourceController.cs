@@ -117,22 +117,31 @@ namespace SourceUtils.WebExport
             var floatArr = value as IEnumerable<float>;
             var intArr = value as IEnumerable<int>;
 
-            writer.WriteStartArray();
+            string raw;
 
             if ( floatArr != null )
             {
-                writer.WriteRaw( string.Join( ",", floatArr ) );
+                raw = string.Join( ",", floatArr );
             }
             else if ( intArr != null )
             {
-                writer.WriteRaw( string.Join( ",", intArr ) );
+                raw = string.Join( ",", intArr );
             }
             else
             {
                 throw new NotImplementedException();
             }
 
-            writer.WriteEndArray();
+            if ( raw.Length < 8192 )
+            {
+                writer.WriteStartArray();
+                writer.WriteRaw( raw );
+                writer.WriteEndArray();
+            }
+            else
+            {
+                writer.WriteValue( LZString.compressToBase64( $"[{raw}]" ) );
+            }
         }
 
         public override object ReadJson( JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer )
