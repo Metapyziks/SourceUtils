@@ -11,7 +11,7 @@ namespace SourceUtils.WebExport.Bsp
         public const int ClustersPerPage = 8192;
 
         [JsonProperty("values")]
-        public IEnumerable<IEnumerable<int>> Values { get; set; }
+        public IEnumerable<CompressedList<int>> Values { get; set; }
     }
 
     [Prefix("/maps/{map}/geom")]
@@ -34,7 +34,7 @@ namespace SourceUtils.WebExport.Bsp
 
             return new VisPage
             {
-                Values = Enumerable.Range( first, count ).Select( x => bsp.Visibility[x] )
+                Values = Enumerable.Range( first, count ).Select( x => new CompressedList<int> ( bsp.Visibility[x] ) )
             };
         }
     }

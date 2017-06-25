@@ -232,6 +232,14 @@ namespace SourceUtils.WebExport
                         {
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Failed");
+
+                            using ( var stream = e.Response.GetResponseStream() )
+                            {
+                                using ( var reader = new StreamReader( stream ) )
+                                {
+                                    Console.WriteLine( reader.ReadToEnd() );
+                                }
+                            }
                         }
                     }
                 }

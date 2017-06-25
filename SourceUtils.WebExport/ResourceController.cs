@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
 using System.Web;
 using MimeTypes;
 using Newtonsoft.Json;
@@ -104,6 +108,181 @@ namespace SourceUtils.WebExport
         }
     }
 
+    internal interface ICompressedList
+    {
+        int Count { get; }
+        int MaxUncompressedCount { get; set; }
+        void WriteRaw( JsonWriter writer, JsonSerializer serializer );
+    }
+
+    [JsonConverter(typeof(CompressedListConverter))]
+    public class CompressedList<T> : List<T>, ICompressedList
+    {
+        private class EnumerableHack<T> : IEnumerable<T>
+        {
+            private readonly CompressedList<T> _list;
+
+            public EnumerableHack( CompressedList<T> list )
+            {
+                _list = list;
+            }
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                return _list.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        private readonly EnumerableHack<T> _enumerable;
+
+        public CompressedList()
+        {
+            _enumerable = new EnumerableHack<T>( this );
+        }
+
+        public CompressedList( IEnumerable<T> collection )
+            : base( collection )
+        {
+            _enumerable = new EnumerableHack<T>( this );
+        }
+
+        public int MaxUncompressedCount { get; set; } = 256;
+
+        public virtual void WriteRaw( JsonWriter writer, JsonSerializer serializer )
+        {
+            serializer.Serialize( writer, _enumerable, typeof(IEnumerable<T>) );
+        }
+    }
+
+    public class CompressedFloatList : CompressedList<float>
+    {
+        [ThreadStatic]
+        private static StringBuilder _sStringBuilder;
+
+        public string FormatString { get; set; } = "G";
+
+        public override void WriteRaw( JsonWriter writer, JsonSerializer serializer )
+        {
+            if ( _sStringBuilder == null ) _sStringBuilder = new StringBuilder();
+            else _sStringBuilder.Remove( 0, _sStringBuilder.Length );
+
+            writer.WriteStartArray();
+
+            var formatString = FormatString;
+
+            foreach ( var item in this )
+            {
+                _sStringBuilder.Append( item.ToString( formatString ).TrimEnd( '0' ).TrimEnd( '.' ) );
+                _sStringBuilder.Append( "," );
+            }
+
+            writer.WriteRaw( _sStringBuilder.ToString( 0, _sStringBuilder.Length - 1 ) );
+            writer.WriteEndArray();
+        }
+    }
+
+    public class CompressedListConverter : JsonConverter
+    {
+        private struct TempWriter : IDisposable
+        {
+            private readonly StringWriter _textWriter;
+
+            public readonly JsonTextWriter Writer;
+
+            public TempWriter( StringWriter textWriter )
+            {
+                _textWriter = textWriter;
+                Writer = new JsonTextWriter( textWriter );
+            }
+
+            public void Clear()
+            {
+                Writer.Flush();
+                _textWriter.GetStringBuilder().Clear();
+            }
+
+            public string GetString()
+            {
+                Writer.Flush();
+                return _textWriter.ToString();
+            }
+
+            public void Dispose()
+            {
+                ReleaseTempWriter( this );
+            }
+        }
+
+        private const int MaxPoolSize = 256;
+
+        [ThreadStatic]
+        private static List<TempWriter> _sTempWriters;
+
+        private static TempWriter GetTempWriter()
+        {
+            if ( _sTempWriters == null || _sTempWriters.Count == 0 )
+            {
+                return new TempWriter( new StringWriter() );
+            }
+
+            var last = _sTempWriters[_sTempWriters.Count - 1];
+            _sTempWriters.RemoveAt( _sTempWriters.Count - 1 );
+
+            last.Clear();
+
+            return last;
+        }
+
+        private static void ReleaseTempWriter( TempWriter writer )
+        {
+            if ( _sTempWriters == null ) _sTempWriters = new List<TempWriter>();
+            if ( _sTempWriters.Count >= MaxPoolSize ) return;
+
+            _sTempWriters.Add( writer );
+        }
+
+        public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
+        {
+            var list = (ICompressedList) value;
+
+            if ( list == null )
+            {
+                writer.WriteNull();
+                return;
+            }
+
+            if ( list.Count <= list.MaxUncompressedCount )
+            {
+                list.WriteRaw( writer, serializer );
+                return;
+            }
+
+            string raw;
+            using ( var tempWriter = GetTempWriter() )
+            {
+                list.WriteRaw( tempWriter.Writer, serializer );
+                raw = tempWriter.GetString();
+            }
+
+            writer.WriteValue( LZString.compressToBase64( raw ) );
+        }
+
+        public override object ReadJson( JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer )
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert( Type objectType )
+        {
+            return typeof(ICompressedList).IsAssignableFrom( objectType );
+        }
+    }
+
     public class NiceArrayConverter : JsonConverter
     {
         public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
@@ -132,16 +311,9 @@ namespace SourceUtils.WebExport
                 throw new NotImplementedException();
             }
 
-            if ( raw.Length < 8192 )
-            {
-                writer.WriteStartArray();
-                writer.WriteRaw( raw );
-                writer.WriteEndArray();
-            }
-            else
-            {
-                writer.WriteValue( LZString.compressToBase64( $"[{raw}]" ) );
-            }
+            writer.WriteStartArray();
+            writer.WriteRaw( raw );
+            writer.WriteEndArray();
         }
 
         public override object ReadJson( JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer )

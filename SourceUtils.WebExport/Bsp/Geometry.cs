@@ -149,10 +149,10 @@ namespace SourceUtils.WebExport.Bsp
         public List<MeshElement> Elements { get; } = new List<MeshElement>();
 
         [JsonProperty("vertices")]
-        public List<float> Vertices { get; } = new List<float>();
+        public CompressedFloatList Vertices { get; } = new CompressedFloatList { FormatString = "F3" };
 
         [JsonProperty("indices")]
-        public List<int> Indices { get; } = new List<int>();
+        public CompressedList<int> Indices { get; } = new CompressedList<int>();
 
         private readonly Dictionary<int, int> _attribOffsets = new Dictionary<int, int>();
         private readonly Dictionary<Vertex, int> _vertexIndices = new Dictionary<Vertex, int>();
