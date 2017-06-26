@@ -177,7 +177,7 @@ namespace SourceUtils.WebExport.Bsp
 
             var page = new BspModelPage();
 
-            for ( var i = first; i < count; ++i )
+            for ( var i = first; i < first + count; ++i )
             {
                 var model = bsp.Models[i];
 
