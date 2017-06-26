@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using SourceUtils.ValveBsp;
 using Ziks.WebServer;
 
@@ -111,6 +113,14 @@ namespace SourceUtils.WebExport.Bsp
         public BspNode HeadNode { get; set; }
     }
 
+    public class BspModelPage
+    {
+        public const int FacesPerPage = 8192;
+
+        [JsonProperty("models")]
+        public List<BspModel> Models { get; } = new List<BspModel>();
+    }
+
     [Prefix( "/maps/{map}/geom" )]
     class ModelController : ResourceController
     {
@@ -154,20 +164,34 @@ namespace SourceUtils.WebExport.Bsp
 
         protected override bool ForceNoFormatting => true;
 
-        [Get("/model{index}.json")]
-        public BspModel Get( [Url] string map, [Url] int index )
+        [Get( "/bsppage{index}.json" )]
+        public BspModelPage GetPage( [Url] string map, [Url] int index )
         {
-            var bsp = Program.GetMap(map);
-            var model = bsp.Models[index];
+            var bsp = Program.GetMap( map );
 
-            return new BspModel
+            var info = IndexController.GetPageLayout( bsp, bsp.Models.Length,
+                BspModelPage.FacesPerPage, null, i => bsp.Models[i].NumFaces ).Skip( index ).FirstOrDefault();
+
+            var first = info?.First ?? StudioModelDictionary.GetResourceCount( bsp );
+            var count = info?.Count ?? 0;
+
+            var page = new BspModelPage();
+
+            for ( var i = first; i < count; ++i )
             {
-                Index = index,
-                Min = model.Min,
-                Max = model.Max,
-                Origin = model.Origin,
-                HeadNode = ConvertNode( bsp, model.HeadNode )
-            };
+                var model = bsp.Models[i];
+
+                page.Models.Add( new BspModel
+                {
+                    Index = index,
+                    Min = model.Min,
+                    Max = model.Max,
+                    Origin = model.Origin,
+                    HeadNode = ConvertNode( bsp, model.HeadNode )
+                } );
+            }
+
+            return page;
         }
     }
 }

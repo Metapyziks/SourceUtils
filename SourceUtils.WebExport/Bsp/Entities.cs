@@ -116,8 +116,8 @@ namespace SourceUtils.WebExport.Bsp
 
         public class BrushEntity : PvsEntity
         {
-            [JsonProperty( "modelUrl" )]
-            public Url ModelUrl { get; set; }
+            [JsonProperty( "model" )]
+            public int Model { get; set; }
         }
 
         [Classname( "func_brush" )]
@@ -138,7 +138,7 @@ namespace SourceUtils.WebExport.Bsp
 
             if ( InitPvsEntity( ent, value, clusters ) == null ) return null;
 
-            ent.ModelUrl = $"/maps/{mapParams.Bsp.Name}/geom/model{modelIndex}.json";
+            ent.Model = modelIndex;
 
             return ent;
         }

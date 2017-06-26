@@ -50,7 +50,6 @@ namespace SourceUtils {
 
         constructor(viewer: MapViewer) {
             super();
-
             this.viewer = viewer;
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SourceUtils.WebExport
 {
-    internal abstract class ResourceDictionary<TDictionary>
+    public abstract class ResourceDictionary<TDictionary>
         where TDictionary : ResourceDictionary<TDictionary>, new()
     {
         private static readonly Dictionary<ValveBspFile, TDictionary> _sDicts =

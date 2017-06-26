@@ -149,7 +149,7 @@ namespace SourceUtils.WebExport.Bsp
         public List<MeshElement> Elements { get; } = new List<MeshElement>();
 
         [JsonProperty("vertices")]
-        public CompressedFloatList Vertices { get; } = new CompressedFloatList { FormatString = "F3" };
+        public CompressedList<float> Vertices { get; } = new CompressedList<float>();
 
         [JsonProperty("indices")]
         public CompressedList<int> Indices { get; } = new CompressedList<int>();
@@ -223,7 +223,7 @@ namespace SourceUtils.WebExport.Bsp
             _primitiveIndices.Add( index / _vertexSize );
         }
 
-        private IEnumerable<int> GetTriangleStripEnumerable( IEnumerable<int> indices )
+        private static IEnumerable<int> GetTriangleStripEnumerable( IEnumerable<int> indices )
         {
             var a = -1;
             var b = -1;
@@ -252,12 +252,11 @@ namespace SourceUtils.WebExport.Bsp
             }
         }
 
-        private IEnumerable<int> GetTriangleFanEnumerable( IEnumerable<int> indices )
+        private static IEnumerable<int> GetTriangleFanEnumerable( IEnumerable<int> indices )
         {
             var a = -1;
             var b = -1;
 
-            var i = 0;
             foreach (var c in indices)
             {
                 if (a == -1)

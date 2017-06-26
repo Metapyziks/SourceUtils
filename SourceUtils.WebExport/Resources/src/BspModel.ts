@@ -1,4 +1,6 @@
-﻿namespace SourceUtils {
+﻿/// <reference path="PagedLoader.ts"/>
+
+namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
 
     export interface IPlane {
@@ -120,32 +122,27 @@
         }
     }
 
-    export class BspModel extends WebGame.RenderResource<BspModel> implements Facepunch.ILoadable {
+    export class BspModel extends WebGame.RenderResource<BspModel> {
+
         readonly map: Map;
-        readonly url: string;
 
         private info: IBspModel;
         private headNode: BspNode;
         private leaves: BspLeaf[];
 
-        constructor(map: Map, url: string) {
+        constructor(map: Map) {
             super();
 
             this.map = map;
-            this.url = url;
         }
 
-        loadNext(callback: (requeue: boolean) => void): void {
-            if (this.info == null) {
-                Facepunch.Http.getJson<IBspModel>(this.url, info => {
-                    this.onLoad(info);
-                    callback(false);
-                }, error => {
-                    console.warn(error);
-                    callback(false);
-                });
-                return;
-            }
+        loadFromInfo(info: IBspModel): void {
+            this.info = info;
+            this.headNode = new BspNode(this.map.viewer.leafGeometryLoader, info.headNode);
+            this.leaves = [];
+
+            this.headNode.findLeaves(this.leaves);
+            this.dispatchOnLoadCallbacks();
         }
 
         getLeafAt(pos: Facepunch.IVector3): BspLeaf {
@@ -165,30 +162,57 @@
             return this.leaves;
         }
 
-        private onLoad(info: IBspModel): void {
-            this.info = info;
-            this.headNode = new BspNode(this.map.viewer.leafGeometryLoader, info.headNode);
-            this.leaves = [];
-
-            this.headNode.findLeaves(this.leaves);
-            this.dispatchOnLoadCallbacks();
-        }
-
         isLoaded(): boolean {
             return this.info != null;
         }
     }
 
-    export class BspModelLoader extends Facepunch.Loader<BspModel> {
+    export interface IBspModelPage {
+        models: IBspModel[];
+    }
+
+    export class BspModelPage extends ResourcePage<IBspModelPage, IBspModel> {
+        private readonly viewer: MapViewer;
+
+        private models: IBspModel[];
+
+        constructor(viewer: MapViewer, page: IPageInfo) {
+            super(page);
+
+            this.viewer = viewer;
+        }
+
+        onLoadValues(page: IBspModelPage): void {
+            this.models = page.models;
+
+            super.onLoadValues(page);
+        }
+
+        onGetValue(index: number): IBspModel {
+            return this.models[index];
+        }
+    }
+
+    export class BspModelLoader extends PagedLoader<BspModelPage, IBspModelPage, IBspModel> {
         readonly viewer: MapViewer;
+
+        private readonly models: { [index: number]: BspModel } = {};
 
         constructor(viewer: MapViewer) {
             super();
             this.viewer = viewer;
         }
 
-        protected onCreateItem(url: string): BspModel {
-            return new BspModel(this.viewer.map, url);
+        loadModel(index: number): BspModel {
+            let model = this.models[index];
+            if (model !== undefined) return model;
+            this.models[index] = model = new BspModel(this.viewer.map);
+            this.load(index, info => model.loadFromInfo(info));
+            return model;
+        }
+
+        onCreatePage(page: IPageInfo): BspModelPage {
+            return new BspModelPage(this.viewer, page);
         }
     }
 }

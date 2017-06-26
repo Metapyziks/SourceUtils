@@ -95,7 +95,7 @@ namespace SourceUtils.WebExport.Bsp
             {
                 var itemSize = itemSizeSelect( i );
 
-                if ( size + itemSize > perPage )
+                if ( size + itemSize > perPage && size > 0 )
                 {
                     yield return CreatePage( i );
 
@@ -128,6 +128,9 @@ namespace SourceUtils.WebExport.Bsp
 
             [JsonProperty("materialPages")]
             public IEnumerable<PageInfo> MaterialPages { get; set; }
+
+            [JsonProperty("brushModelPages")]
+            public IEnumerable<PageInfo> BrushModelPages { get; set; }
 
             [JsonProperty("studioModelPages")]
             public IEnumerable<PageInfo> StudioModelPages { get; set; }
@@ -171,6 +174,7 @@ namespace SourceUtils.WebExport.Bsp
                 LeafPages = GetPageLayout( bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage" ),
                 DispPages = GetPageLayout( bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage" ),
                 MaterialPages = GetPageLayout( bsp, MaterialDictionary.GetResourceCount( bsp ), MaterialPage.MaterialsPerPage, "/materials/matpage" ),
+                BrushModelPages = GetPageLayout( bsp, bsp.Models.Length, BspModelPage.FacesPerPage, "/geom/bsppage", i => bsp.Models[i].NumFaces ),
                 StudioModelPages = GetPageLayout( bsp, StudioModelDictionary.GetResourceCount( bsp ), StudioModelPage.VerticesPerPage, "/geom/mdlpage", i => StudioModelDictionary.GetVertexCount( bsp, i ) ),
                 Entities = ents
             };

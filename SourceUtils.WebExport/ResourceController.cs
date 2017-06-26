@@ -118,7 +118,7 @@ namespace SourceUtils.WebExport
     [JsonConverter(typeof(CompressedListConverter))]
     public class CompressedList<T> : List<T>, ICompressedList
     {
-        private class EnumerableHack<T> : IEnumerable<T>
+        private class EnumerableHack : IEnumerable<T>
         {
             private readonly CompressedList<T> _list;
 
@@ -138,17 +138,17 @@ namespace SourceUtils.WebExport
             }
         }
 
-        private readonly EnumerableHack<T> _enumerable;
+        private readonly EnumerableHack _enumerable;
 
         public CompressedList()
         {
-            _enumerable = new EnumerableHack<T>( this );
+            _enumerable = new EnumerableHack( this );
         }
 
         public CompressedList( IEnumerable<T> collection )
             : base( collection )
         {
-            _enumerable = new EnumerableHack<T>( this );
+            _enumerable = new EnumerableHack( this );
         }
 
         public int MaxUncompressedCount { get; set; } = 256;

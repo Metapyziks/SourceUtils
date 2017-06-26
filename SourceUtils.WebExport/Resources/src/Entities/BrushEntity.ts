@@ -5,7 +5,7 @@ namespace SourceUtils {
 
     export namespace Entities {
         export interface IBrushEntity extends IPvsEntity {
-            modelUrl: string;
+            model: number;
         }
 
         export class BrushEntity extends PvsEntity {
@@ -14,7 +14,7 @@ namespace SourceUtils {
             constructor(map: Map, info: IBrushEntity) {
                 super(map, info);
 
-                this.model = map.viewer.bspModelLoader.load(info.modelUrl);
+                this.model = map.viewer.bspModelLoader.loadModel(info.model);
                 this.model.addUsage(this);
                 this.model.addOnLoadCallback(model => {
                     const leaves = model.getLeaves();
