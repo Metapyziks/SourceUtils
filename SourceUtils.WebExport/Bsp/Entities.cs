@@ -217,6 +217,12 @@ namespace SourceUtils.WebExport.Bsp
             public int Index { get; set; }
         }
 
+        public class StaticProp : PvsEntity
+        {
+            [JsonProperty("model")]
+            public int Model { get; set; }
+        }
+
         private class MapParams
         {
             public ValveBspFile Bsp { get; }

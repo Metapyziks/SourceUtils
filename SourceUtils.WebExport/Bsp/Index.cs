@@ -166,6 +166,35 @@ namespace SourceUtils.WebExport.Bsp
                 } );
             }
 
+            for ( var propIndex = 0; propIndex < bsp.StaticProps.PropCount; ++propIndex )
+            {
+                SourceUtils.Vector3 origin, angles;
+                bsp.StaticProps.GetPropTransform( propIndex, out origin, out angles );
+
+                StaticPropFlags flags;
+                bool solid;
+                uint diffuseMod;
+                bsp.StaticProps.GetPropInfo( propIndex, out flags, out solid, out diffuseMod );
+
+                int propModelIndex, skin;
+                bsp.StaticProps.GetPropModelSkin( propIndex, out propModelIndex, out skin );
+
+                var modelName = bsp.StaticProps.GetModelName( propModelIndex );
+                var modelIndex = StudioModelDictionary.GetResourceIndex( bsp, modelName );
+
+                ents.Add( new StaticProp
+                {
+                    ClassName = "prop_static",
+                    Origin = origin,
+                    Angles = angles,
+                    Clusters = bsp.StaticProps.GetPropLeaves( propIndex )
+                        .Select( x => (int) bsp.Leaves[x].Cluster )
+                        .Where( x => x != -1 )
+                        .Distinct(),
+                    Model = modelIndex
+                } );
+            }
+
             return new Map
             {
                 Name = bsp.Name,
