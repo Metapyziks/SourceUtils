@@ -124,21 +124,21 @@ namespace SourceUtils {
 
     export class BspModel extends WebGame.RenderResource<BspModel> {
 
-        readonly map: Map;
+        readonly viewer: MapViewer;
 
         private info: IBspModel;
         private headNode: BspNode;
         private leaves: BspLeaf[];
 
-        constructor(map: Map) {
+        constructor(viewer: MapViewer) {
             super();
 
-            this.map = map;
+            this.viewer = viewer;
         }
 
         loadFromInfo(info: IBspModel): void {
             this.info = info;
-            this.headNode = new BspNode(this.map.viewer.leafGeometryLoader, info.headNode);
+            this.headNode = new BspNode(this.viewer.leafGeometryLoader, info.headNode);
             this.leaves = [];
 
             this.headNode.findLeaves(this.leaves);
@@ -206,7 +206,7 @@ namespace SourceUtils {
         loadModel(index: number): BspModel {
             let model = this.models[index];
             if (model !== undefined) return model;
-            this.models[index] = model = new BspModel(this.viewer.map);
+            this.models[index] = model = new BspModel(this.viewer);
             this.load(index, info => model.loadFromInfo(info));
             return model;
         }

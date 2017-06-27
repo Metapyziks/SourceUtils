@@ -12,6 +12,7 @@ namespace SourceUtils {
         readonly dispGeometryLoader = this.addLoader(new DispGeometryLoader(this));
         readonly mapMaterialLoader = this.addLoader(new MapMaterialLoader(this));
         readonly bspModelLoader = this.addLoader(new BspModelLoader(this));
+        readonly studioModelLoader = this.addLoader(new StudioModelLoader(this));
         readonly visLoader = this.addLoader(new VisLoader());
 
         private time = 0;

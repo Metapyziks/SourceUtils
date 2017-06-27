@@ -149,6 +149,7 @@
     <TypeScriptCompile Include="Resources\src\Entities\Camera.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Displacement.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\PvsEntity.ts" />
+    <TypeScriptCompile Include="Resources\src\Entities\StaticProp.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Worldspawn.ts" />
     <TypeScriptCompile Include="Resources\src\LeafGeometryLoader.ts" />
     <TypeScriptCompile Include="Resources\src\Map.ts" />
@@ -164,6 +165,7 @@
     <TypeScriptCompile Include="Resources\src\Shaders\UnlitGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\Water.ts" />
     <TypeScriptCompile Include="Resources\src\SkyCube.ts" />
+    <TypeScriptCompile Include="Resources\src\StudioModel.ts" />
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
     <TypeScriptCompile Include="Resources\js\jquery.d.ts" />
   </ItemGroup>
