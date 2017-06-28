@@ -40,6 +40,7 @@ namespace SourceUtils {
 
         private info: IMap;
         private clusterVis: { [cluster: number]: number[] } = {};
+        private clusterEnts: { [cluster: number]: Entities.PvsEntity[] } = {};
 
         constructor(viewer: MapViewer) {
             this.viewer = viewer;
@@ -80,7 +81,7 @@ namespace SourceUtils {
                 switch (ent.classname) {
                     case "worldspawn":
                         const worldspawn = ent as Entities.IWorldspawn;
-                        this.worldspawn = pvsInst = new Entities.Worldspawn(this, worldspawn);
+                        this.worldspawn = new Entities.Worldspawn(this, worldspawn);
                         this.lightmap.addUsage(this.worldspawn);
 
                         if (worldspawn.skyMaterial != null) {
@@ -134,6 +135,21 @@ namespace SourceUtils {
             this.viewer.forceDrawListInvalidation(true);
         }
 
+        getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[] {
+            let ents = this.clusterEnts[cluster];
+            if (ents !== undefined) return ents;
+
+            this.clusterEnts[cluster] = ents = [];
+
+            for (let ent of this.pvsEntities) {
+                if (ent.isInCluster(cluster)) {
+                    ents.push(ent);
+                }
+            }
+
+            return ents;
+        }
+
         getLeafAt(pos: Facepunch.IVector3): BspLeaf {
             if (this.worldspawn == null || this.worldspawn.model == null) return undefined;
             return this.worldspawn.model.getLeafAt(pos);
@@ -167,8 +183,21 @@ namespace SourceUtils {
                 }
             }
 
-            for (let i = 0, iEnd = this.pvsEntities.length; i < iEnd; ++i) {
-                this.pvsEntities[i].populateDrawList(drawList, vis);
+            this.worldspawn.populateDrawList(drawList, vis);
+
+            if (vis == null) {
+                for (let ent of this.pvsEntities) {
+                    drawList.addItem(ent);
+                }
+                return;
+            }
+
+            for (let cluster of vis) {
+                const ents = this.getPvsEntitiesInCluster(cluster);
+                for (let ent of ents) {
+                    if (ent.getIsInDrawList(drawList)) continue;
+                    drawList.addItem(ent);
+                }
             }
         }
 
