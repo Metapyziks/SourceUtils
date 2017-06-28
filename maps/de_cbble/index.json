@@ -1,56 +1,68 @@
 {
   "name": "de_cbble",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f4-c2b9",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f4-10a64",
   "visPages": [
     {
       "first": 0,
       "count": 771,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f4-10a64"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 3341,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f4-10a64"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 802,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f4-10a64"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 370,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f4-10a64"
     }
   ],
   "brushModelPages": [
     {
       "first": 0,
       "count": 1,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage0.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage0.json?v=18f4-10a64"
     },
     {
       "first": 1,
       "count": 53,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage1.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage1.json?v=18f4-10a64"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 118,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f4-10a64"
     },
     {
       "first": 118,
       "count": 43,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f4-c2b9"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f4-10a64"
+    }
+  ],
+  "vertLightingPages": [
+    {
+      "first": 0,
+      "count": 1024,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vhvpage0.json?v=18f4-10a64"
+    },
+    {
+      "first": 1024,
+      "count": 309,
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vhvpage1.json?v=18f4-10a64"
     }
   ],
   "entities": [
@@ -66,32 +78,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f4-c2b9"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f4-10a64"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f4-c2b9"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f4-10a64"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f4-c2b9"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f4-10a64"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f4-c2b9"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f4-10a64"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f4-c2b9"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f4-10a64"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f4-c2b9"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f4-10a64"
           },
           {
             "name": "hdrCompressed",
@@ -9547,6 +9559,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 0,
       "clusters": [
         380
       ],
@@ -9564,6 +9577,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 1,
       "clusters": [
         380,340
       ],
@@ -9581,6 +9595,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 2,
       "clusters": [
         380
       ],
@@ -9598,6 +9613,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 3,
       "clusters": [
         380,340
       ],
@@ -9615,6 +9631,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 4,
       "clusters": [
         392
       ],
@@ -9632,6 +9649,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 5,
       "clusters": [
         392
       ],
@@ -9649,6 +9667,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 6,
       "clusters": [
         392,390
       ],
@@ -9666,6 +9685,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 7,
       "clusters": [
         392,391,390,374,370
       ],
@@ -9683,6 +9703,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 8,
       "clusters": [
         445
       ],
@@ -9700,6 +9721,7 @@
     },
     {
       "model": 17,
+      "vertLighting": 9,
       "clusters": [
         445
       ],
@@ -9717,6 +9739,7 @@
     },
     {
       "model": 45,
+      "vertLighting": 10,
       "clusters": [
         720,141,642,641,640,636,635,634,633,632,604
       ],
@@ -9734,6 +9757,7 @@
     },
     {
       "model": 45,
+      "vertLighting": 11,
       "clusters": [
         465,107,529,528,527,526,525,524,523,522,520,482,503,498,449,481,472,471,470,469,468,464,463,462,445,448,1
       ],
@@ -9751,6 +9775,7 @@
     },
     {
       "model": 45,
+      "vertLighting": 12,
       "clusters": [
         245,238,227,141,223,220
       ],
@@ -9768,6 +9793,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 13,
       "clusters": [
         515
       ],
@@ -9785,6 +9811,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 14,
       "clusters": [
         445
       ],
@@ -9802,6 +9829,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 15,
       "clusters": [
         445
       ],
@@ -9819,6 +9847,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 16,
       "clusters": [
         445
       ],
@@ -9836,6 +9865,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 17,
       "clusters": [
         382,380
       ],
@@ -9853,6 +9883,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 18,
       "clusters": [
         382,380
       ],
@@ -9870,6 +9901,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 19,
       "clusters": [
         382,380
       ],
@@ -9887,6 +9919,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 20,
       "clusters": [
         382
       ],
@@ -9904,6 +9937,7 @@
     },
     {
       "model": 77,
+      "vertLighting": 21,
       "clusters": [
         380
       ],
@@ -9921,6 +9955,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 22,
       "clusters": [
         112
       ],
@@ -9938,6 +9973,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 23,
       "clusters": [
         515,445
       ],
@@ -9955,6 +9991,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 24,
       "clusters": [
         380
       ],
@@ -9972,6 +10009,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 25,
       "clusters": [
         333,331
       ],
@@ -9989,6 +10027,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 26,
       "clusters": [
         283,280
       ],
@@ -10006,6 +10045,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 27,
       "clusters": [
         283
       ],
@@ -10023,6 +10063,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 28,
       "clusters": [
         283
       ],
@@ -10040,6 +10081,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 29,
       "clusters": [
         283
       ],
@@ -10057,6 +10099,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 30,
       "clusters": [
         283
       ],
@@ -10074,6 +10117,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 31,
       "clusters": [
         283
       ],
@@ -10091,6 +10135,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 32,
       "clusters": [
         373
       ],
@@ -10108,6 +10153,7 @@
     },
     {
       "model": 83,
+      "vertLighting": 33,
       "clusters": [
         383
       ],
@@ -10125,6 +10171,7 @@
     },
     {
       "model": 83,
+      "vertLighting": 34,
       "clusters": [
         383,342
       ],
@@ -10142,6 +10189,7 @@
     },
     {
       "model": 83,
+      "vertLighting": 35,
       "clusters": [
         342
       ],
@@ -10159,6 +10207,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 36,
       "clusters": [
         373
       ],
@@ -10176,6 +10225,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 37,
       "clusters": [
         465
       ],
@@ -10193,6 +10243,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 38,
       "clusters": [
         465
       ],
@@ -10210,6 +10261,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 39,
       "clusters": [
         465
       ],
@@ -10227,6 +10279,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 40,
       "clusters": [
         445
       ],
@@ -10244,6 +10297,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 41,
       "clusters": [
         445
       ],
@@ -10261,6 +10315,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 42,
       "clusters": [
         445
       ],
@@ -10278,6 +10333,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 43,
       "clusters": [
         449,445
       ],
@@ -10295,6 +10351,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 44,
       "clusters": [
         449,445
       ],
@@ -10312,6 +10369,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 45,
       "clusters": [
         449
       ],
@@ -10329,6 +10387,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 46,
       "clusters": [
         445
       ],
@@ -10346,6 +10405,7 @@
     },
     {
       "model": 85,
+      "vertLighting": 47,
       "clusters": [
         641
       ],
@@ -10363,6 +10423,7 @@
     },
     {
       "model": 86,
+      "vertLighting": 48,
       "clusters": [
         112
       ],
@@ -10380,6 +10441,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 49,
       "clusters": [
         606,506,507
       ],
@@ -10397,6 +10459,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 50,
       "clusters": [
         449,445
       ],
@@ -10414,6 +10477,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 51,
       "clusters": [
         445
       ],
@@ -10431,6 +10495,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 52,
       "clusters": [
         515
       ],
@@ -10448,6 +10513,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 53,
       "clusters": [
         449
       ],
@@ -10465,6 +10531,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 54,
       "clusters": [
         437,1,435,434,433,432,431
       ],
@@ -10482,6 +10549,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 55,
       "clusters": [
         442,440,439,438,437,1
       ],
@@ -10499,6 +10567,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 56,
       "clusters": [
         515
       ],
@@ -10516,6 +10585,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 57,
       "clusters": [
         445
       ],
@@ -10533,6 +10603,7 @@
     },
     {
       "model": 49,
+      "vertLighting": 58,
       "clusters": [
         606,506
       ],
@@ -10550,6 +10621,7 @@
     },
     {
       "model": 87,
+      "vertLighting": 59,
       "clusters": [
         507
       ],
@@ -10567,6 +10639,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 60,
       "clusters": [
         735,734
       ],
@@ -10584,6 +10657,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 61,
       "clusters": [
         746,741,740,650
       ],
@@ -10601,6 +10675,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 62,
       "clusters": [
         445
       ],
@@ -10618,6 +10693,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 63,
       "clusters": [
         176,155
       ],
@@ -10635,6 +10711,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 64,
       "clusters": [
         176,154
       ],
@@ -10652,6 +10729,7 @@
     },
     {
       "model": 88,
+      "vertLighting": 65,
       "clusters": [
         150,149,145
       ],
@@ -10669,6 +10747,7 @@
     },
     {
       "model": 88,
+      "vertLighting": 66,
       "clusters": [
         150
       ],
@@ -10686,6 +10765,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 67,
       "clusters": [
         445
       ],
@@ -10703,6 +10783,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 68,
       "clusters": [
         445
       ],
@@ -10720,6 +10801,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 69,
       "clusters": [
         493,491,449,458,457,456
       ],
@@ -10737,6 +10819,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 70,
       "clusters": [
         493,449
       ],
@@ -10754,6 +10837,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 71,
       "clusters": [
         636
       ],
@@ -10771,6 +10855,7 @@
     },
     {
       "model": 90,
+      "vertLighting": 72,
       "clusters": [
         515
       ],
@@ -10788,6 +10873,7 @@
     },
     {
       "model": 90,
+      "vertLighting": 73,
       "clusters": [
         515
       ],
@@ -10805,6 +10891,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 74,
       "clusters": [
         445
       ],
@@ -10822,6 +10909,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 75,
       "clusters": [
         141
       ],
@@ -10839,6 +10927,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 76,
       "clusters": [
         650
       ],
@@ -10856,6 +10945,7 @@
     },
     {
       "model": 92,
+      "vertLighting": 77,
       "clusters": [
         724,723,720
       ],
@@ -10873,6 +10963,7 @@
     },
     {
       "model": 93,
+      "vertLighting": 78,
       "clusters": [
         515,445
       ],
@@ -10890,6 +10981,7 @@
     },
     {
       "model": 94,
+      "vertLighting": 79,
       "clusters": [
         445,447,1
       ],
@@ -10907,6 +10999,7 @@
     },
     {
       "model": 50,
+      "vertLighting": 80,
       "clusters": [
         445
       ],
@@ -10924,6 +11017,7 @@
     },
     {
       "model": 50,
+      "vertLighting": 81,
       "clusters": [
         445
       ],
@@ -10941,6 +11035,7 @@
     },
     {
       "model": 95,
+      "vertLighting": 82,
       "clusters": [
         601
       ],
@@ -10958,6 +11053,7 @@
     },
     {
       "model": 95,
+      "vertLighting": 83,
       "clusters": [
         601
       ],
@@ -10975,6 +11071,7 @@
     },
     {
       "model": 95,
+      "vertLighting": 84,
       "clusters": [
         601
       ],
@@ -10992,6 +11089,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 85,
       "clusters": [
         465
       ],
@@ -11009,6 +11107,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 86,
       "clusters": [
         650
       ],
@@ -11026,6 +11125,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 87,
       "clusters": [
         650
       ],
@@ -11043,6 +11143,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 88,
       "clusters": [
         650
       ],
@@ -11060,6 +11161,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 89,
       "clusters": [
         396,369,367
       ],
@@ -11077,6 +11179,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 90,
       "clusters": [
         409,396
       ],
@@ -11094,6 +11197,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 91,
       "clusters": [
         637
       ],
@@ -11111,6 +11215,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 92,
       "clusters": [
         281
       ],
@@ -11128,6 +11233,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 93,
       "clusters": [
         283
       ],
@@ -11145,6 +11251,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 94,
       "clusters": [
         366
       ],
@@ -11162,6 +11269,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 95,
       "clusters": [
         366
       ],
@@ -11179,6 +11287,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 96,
       "clusters": [
         366
       ],
@@ -11196,6 +11305,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 97,
       "clusters": [
         366
       ],
@@ -11213,6 +11323,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 98,
       "clusters": [
         638,637
       ],
@@ -11230,6 +11341,7 @@
     },
     {
       "model": 97,
+      "vertLighting": 99,
       "clusters": [
         51
       ],
@@ -11247,6 +11359,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 100,
       "clusters": [
         369
       ],
@@ -11264,6 +11377,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 101,
       "clusters": [
         369
       ],
@@ -11281,6 +11395,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 102,
       "clusters": [
         465
       ],
@@ -11298,6 +11413,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 103,
       "clusters": [
         257,125
       ],
@@ -11315,6 +11431,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 104,
       "clusters": [
         257,125
       ],
@@ -11332,6 +11449,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 105,
       "clusters": [
         283,279,257
       ],
@@ -11349,6 +11467,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 106,
       "clusters": [
         283,279,257
       ],
@@ -11366,6 +11485,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 107,
       "clusters": [
         283
       ],
@@ -11383,6 +11503,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 108,
       "clusters": [
         281
       ],
@@ -11400,6 +11521,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 109,
       "clusters": [
         283
       ],
@@ -11417,6 +11539,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 110,
       "clusters": [
         283
       ],
@@ -11434,6 +11557,7 @@
     },
     {
       "model": 99,
+      "vertLighting": 111,
       "clusters": [
         283,281
       ],
@@ -11451,6 +11575,7 @@
     },
     {
       "model": 52,
+      "vertLighting": 112,
       "clusters": [
         286,285,284
       ],
@@ -11468,6 +11593,7 @@
     },
     {
       "model": 100,
+      "vertLighting": 113,
       "clusters": [
         285
       ],
@@ -11485,6 +11611,7 @@
     },
     {
       "model": 53,
+      "vertLighting": 114,
       "clusters": [
         112,111
       ],
@@ -11502,6 +11629,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 115,
       "clusters": [
         267
       ],
@@ -11519,6 +11647,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 116,
       "clusters": [
         267
       ],
@@ -11536,6 +11665,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 117,
       "clusters": [
         131,128,127,124
       ],
@@ -11553,6 +11683,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 118,
       "clusters": [
         131,128,127,125
       ],
@@ -11570,6 +11701,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 119,
       "clusters": [
         332,330,323
       ],
@@ -11587,6 +11719,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 120,
       "clusters": [
         332,330,323
       ],
@@ -11604,6 +11737,7 @@
     },
     {
       "model": 49,
+      "vertLighting": 121,
       "clusters": [
         606
       ],
@@ -11621,6 +11755,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 122,
       "clusters": [
         375
       ],
@@ -11638,6 +11773,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 123,
       "clusters": [
         511,503,465
       ],
@@ -11655,6 +11791,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 124,
       "clusters": [
         511,465
       ],
@@ -11672,6 +11809,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 125,
       "clusters": [
         465
       ],
@@ -11689,6 +11827,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 126,
       "clusters": [
         511,449,503,465
       ],
@@ -11706,6 +11845,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 127,
       "clusters": [
         591,590,577,576,504,486
       ],
@@ -11723,6 +11863,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 128,
       "clusters": [
         445
       ],
@@ -11740,6 +11881,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 129,
       "clusters": [
         445
       ],
@@ -11757,6 +11899,7 @@
     },
     {
       "model": 49,
+      "vertLighting": 130,
       "clusters": [
         493,449
       ],
@@ -11774,6 +11917,7 @@
     },
     {
       "model": 49,
+      "vertLighting": 131,
       "clusters": [
         449
       ],
@@ -11791,6 +11935,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 132,
       "clusters": [
         229,227,220,219,218
       ],
@@ -11808,6 +11953,7 @@
     },
     {
       "model": 77,
+      "vertLighting": 133,
       "clusters": [
         449
       ],
@@ -11825,6 +11971,7 @@
     },
     {
       "model": 103,
+      "vertLighting": 134,
       "clusters": [
         107
       ],
@@ -11842,6 +11989,7 @@
     },
     {
       "model": 103,
+      "vertLighting": 135,
       "clusters": [
         107
       ],
@@ -11859,6 +12007,7 @@
     },
     {
       "model": 103,
+      "vertLighting": 136,
       "clusters": [
         130,120
       ],
@@ -11876,6 +12025,7 @@
     },
     {
       "model": 103,
+      "vertLighting": 137,
       "clusters": [
         130
       ],
@@ -11893,6 +12043,7 @@
     },
     {
       "model": 103,
+      "vertLighting": 138,
       "clusters": [
         130
       ],
@@ -11910,6 +12061,7 @@
     },
     {
       "model": 103,
+      "vertLighting": 139,
       "clusters": [
         493
       ],
@@ -11927,6 +12079,7 @@
     },
     {
       "model": 55,
+      "vertLighting": 140,
       "clusters": [
         723,650,141
       ],
@@ -11944,6 +12097,7 @@
     },
     {
       "model": 56,
+      "vertLighting": 141,
       "clusters": [
         642,641,640,141
       ],
@@ -11961,6 +12115,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 142,
       "clusters": [
         141
       ],
@@ -11978,6 +12133,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 143,
       "clusters": [
         141
       ],
@@ -11995,6 +12151,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 144,
       "clusters": [
         184,141
       ],
@@ -12012,6 +12169,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 145,
       "clusters": [
         186,184,141
       ],
@@ -12029,6 +12187,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 146,
       "clusters": [
         366,141,358,357,356
       ],
@@ -12046,6 +12205,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 147,
       "clusters": [
         366,141
       ],
@@ -12063,6 +12223,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 148,
       "clusters": [
         366,141
       ],
@@ -12080,6 +12241,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 149,
       "clusters": [
         2
       ],
@@ -12097,6 +12259,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 150,
       "clusters": [
         2
       ],
@@ -12114,6 +12277,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 151,
       "clusters": [
         76
       ],
@@ -12131,6 +12295,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 152,
       "clusters": [
         76
       ],
@@ -12148,6 +12313,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 153,
       "clusters": [
         76
       ],
@@ -12165,6 +12331,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 154,
       "clusters": [
         186,184,141
       ],
@@ -12182,6 +12349,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 155,
       "clusters": [
         186,184,141
       ],
@@ -12199,6 +12367,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 156,
       "clusters": [
         147,146
       ],
@@ -12216,6 +12385,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 157,
       "clusters": [
         642,636,605,574
       ],
@@ -12233,6 +12403,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 158,
       "clusters": [
         636,620,601,599
       ],
@@ -12250,6 +12421,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 159,
       "clusters": [
         599,594,333
       ],
@@ -12267,6 +12439,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 160,
       "clusters": [
         177,171
       ],
@@ -12284,6 +12457,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 161,
       "clusters": [
         169,167,165,141,142,147,2
       ],
@@ -12301,6 +12475,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 162,
       "clusters": [
         47,46,39,38,37,36,35,34,33,4,2
       ],
@@ -12318,6 +12493,7 @@
     },
     {
       "model": 108,
+      "vertLighting": 163,
       "clusters": [
         177,156,153,152,151
       ],
@@ -12335,6 +12511,7 @@
     },
     {
       "model": 108,
+      "vertLighting": 164,
       "clusters": [
         67,66,51
       ],
@@ -12352,6 +12529,7 @@
     },
     {
       "model": 8,
+      "vertLighting": 165,
       "clusters": [
         383,349
       ],
@@ -12369,6 +12547,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 166,
       "clusters": [
         706,705,704,701
       ],
@@ -12386,6 +12565,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 167,
       "clusters": [
         717,706,705,704
       ],
@@ -12403,6 +12583,7 @@
     },
     {
       "model": 30,
+      "vertLighting": 168,
       "clusters": [
         131
       ],
@@ -12420,6 +12601,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 169,
       "clusters": [
         140,138,131
       ],
@@ -12437,6 +12619,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 170,
       "clusters": [
         131
       ],
@@ -12454,6 +12637,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 171,
       "clusters": [
         465
       ],
@@ -12471,6 +12655,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 172,
       "clusters": [
         511
       ],
@@ -12488,6 +12673,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 173,
       "clusters": [
         650
       ],
@@ -12505,6 +12691,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 174,
       "clusters": [
         86
       ],
@@ -12522,6 +12709,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 175,
       "clusters": [
         86
       ],
@@ -12539,6 +12727,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 176,
       "clusters": [
         51
       ],
@@ -12556,6 +12745,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 177,
       "clusters": [
         51
       ],
@@ -12573,6 +12763,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 178,
       "clusters": [
         51
       ],
@@ -12590,6 +12781,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 179,
       "clusters": [
         30,19
       ],
@@ -12607,6 +12799,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 180,
       "clusters": [
         30
       ],
@@ -12624,6 +12817,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 181,
       "clusters": [
         30
       ],
@@ -12641,6 +12835,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 182,
       "clusters": [
         51,19
       ],
@@ -12658,6 +12853,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 183,
       "clusters": [
         53
       ],
@@ -12675,6 +12871,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 184,
       "clusters": [
         53,51
       ],
@@ -12692,6 +12889,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 185,
       "clusters": [
         21
       ],
@@ -12709,6 +12907,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 186,
       "clusters": [
         50
       ],
@@ -12726,6 +12925,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 187,
       "clusters": [
         92,53
       ],
@@ -12743,6 +12943,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 188,
       "clusters": [
         84,83
       ],
@@ -12760,6 +12961,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 189,
       "clusters": [
         82,81
       ],
@@ -12777,6 +12979,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 190,
       "clusters": [
         82,81
       ],
@@ -12794,6 +12997,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 191,
       "clusters": [
         375
       ],
@@ -12811,6 +13015,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 192,
       "clusters": [
         375
       ],
@@ -12828,6 +13033,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 193,
       "clusters": [
         375
       ],
@@ -12845,6 +13051,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 194,
       "clusters": [
         375
       ],
@@ -12862,6 +13069,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 195,
       "clusters": [
         332
       ],
@@ -12879,6 +13087,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 196,
       "clusters": [
         332
       ],
@@ -12896,6 +13105,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 197,
       "clusters": [
         332
       ],
@@ -12913,6 +13123,7 @@
     },
     {
       "model": 15,
+      "vertLighting": 198,
       "clusters": [
         332
       ],
@@ -12930,6 +13141,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 199,
       "clusters": [
         51,19
       ],
@@ -12947,6 +13159,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 200,
       "clusters": [
         92,53
       ],
@@ -12964,6 +13177,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 201,
       "clusters": [
         228,227
       ],
@@ -12981,6 +13195,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 202,
       "clusters": [
         246
       ],
@@ -12998,6 +13213,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 203,
       "clusters": [
         227
       ],
@@ -13015,6 +13231,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 204,
       "clusters": [
         373
       ],
@@ -13032,6 +13249,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 205,
       "clusters": [
         373
       ],
@@ -13049,6 +13267,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 206,
       "clusters": [
         766,373
       ],
@@ -13066,6 +13285,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 207,
       "clusters": [
         766,373,421
       ],
@@ -13083,6 +13303,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 208,
       "clusters": [
         388,141,335,334
       ],
@@ -13100,6 +13321,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 209,
       "clusters": [
         388,141,335,334,247,228,227
       ],
@@ -13117,6 +13339,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 210,
       "clusters": [
         247,141,228,227
       ],
@@ -13134,6 +13357,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 211,
       "clusters": [
         247,141,228,227
       ],
@@ -13151,6 +13375,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 212,
       "clusters": [
         247,141,228,227
       ],
@@ -13168,6 +13393,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 213,
       "clusters": [
         227
       ],
@@ -13185,6 +13411,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 214,
       "clusters": [
         227,186
       ],
@@ -13202,6 +13429,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 215,
       "clusters": [
         186
       ],
@@ -13219,6 +13447,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 216,
       "clusters": [
         186
       ],
@@ -13236,6 +13465,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 217,
       "clusters": [
         175,174,169
       ],
@@ -13253,6 +13483,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 218,
       "clusters": [
         175,174,169
       ],
@@ -13270,6 +13501,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 219,
       "clusters": [
         175,174,169
       ],
@@ -13287,6 +13519,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 220,
       "clusters": [
         175,174,169
       ],
@@ -13304,6 +13537,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 221,
       "clusters": [
         44,4
       ],
@@ -13321,6 +13555,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 222,
       "clusters": [
         44,37,36,35,4
       ],
@@ -13338,6 +13573,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 223,
       "clusters": [
         38,37,36,35,4
       ],
@@ -13355,6 +13591,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 224,
       "clusters": [
         38,37,36,35
       ],
@@ -13372,6 +13609,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 225,
       "clusters": [
         39,38,37,36,35,34,33,32,4
       ],
@@ -13389,6 +13627,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 226,
       "clusters": [
         34,33,32,4
       ],
@@ -13406,6 +13645,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 227,
       "clusters": [
         32,4,9,8,7,5
       ],
@@ -13423,6 +13663,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 228,
       "clusters": [
         24,22,4,3
       ],
@@ -13440,6 +13681,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 229,
       "clusters": [
         24,4,3
       ],
@@ -13457,6 +13699,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 230,
       "clusters": [
         24,4,3
       ],
@@ -13474,6 +13717,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 231,
       "clusters": [
         24,4,3
       ],
@@ -13491,6 +13735,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 232,
       "clusters": [
         68,4,3,29
       ],
@@ -13508,6 +13753,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 233,
       "clusters": [
         650
       ],
@@ -13525,6 +13771,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 234,
       "clusters": [
         756,755
       ],
@@ -13542,6 +13789,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 235,
       "clusters": [
         760,757
       ],
@@ -13559,6 +13807,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 236,
       "clusters": [
         750,373
       ],
@@ -13576,6 +13825,7 @@
     },
     {
       "model": 109,
+      "vertLighting": 237,
       "clusters": [
         700
       ],
@@ -13593,6 +13843,7 @@
     },
     {
       "model": 110,
+      "vertLighting": 238,
       "clusters": [
         700
       ],
@@ -13610,6 +13861,7 @@
     },
     {
       "model": 110,
+      "vertLighting": 239,
       "clusters": [
         700
       ],
@@ -13627,6 +13879,7 @@
     },
     {
       "model": 111,
+      "vertLighting": 240,
       "clusters": [
         700
       ],
@@ -13644,6 +13897,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 241,
       "clusters": [
         700
       ],
@@ -13661,6 +13915,7 @@
     },
     {
       "model": 57,
+      "vertLighting": 242,
       "clusters": [
         345,344
       ],
@@ -13678,6 +13933,7 @@
     },
     {
       "model": 112,
+      "vertLighting": 243,
       "clusters": [
         495,493,491,461,458
       ],
@@ -13695,6 +13951,7 @@
     },
     {
       "model": 58,
+      "vertLighting": 244,
       "clusters": [
         495,493,491,461
       ],
@@ -13712,6 +13969,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 245,
       "clusters": [
         359,344
       ],
@@ -13729,6 +13987,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 246,
       "clusters": [
         359,344
       ],
@@ -13746,6 +14005,7 @@
     },
     {
       "model": 113,
+      "vertLighting": 247,
       "clusters": [
         83,81,69
       ],
@@ -13763,6 +14023,7 @@
     },
     {
       "model": 113,
+      "vertLighting": 248,
       "clusters": [
         83,81
       ],
@@ -13780,6 +14041,7 @@
     },
     {
       "model": 113,
+      "vertLighting": 249,
       "clusters": [
         81
       ],
@@ -13797,6 +14059,7 @@
     },
     {
       "model": 112,
+      "vertLighting": 250,
       "clusters": [
         345,344
       ],
@@ -13814,6 +14077,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 251,
       "clusters": [
         642,641
       ],
@@ -13831,6 +14095,7 @@
     },
     {
       "model": 114,
+      "vertLighting": 252,
       "clusters": [
         642
       ],
@@ -13848,6 +14113,7 @@
     },
     {
       "model": 115,
+      "vertLighting": 253,
       "clusters": [
         700,693,654
       ],
@@ -13865,6 +14131,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 254,
       "clusters": [
         186
       ],
@@ -13882,6 +14149,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 255,
       "clusters": [
         184,141
       ],
@@ -13899,6 +14167,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 256,
       "clusters": [
         334
       ],
@@ -13916,6 +14185,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 257,
       "clusters": [
         334
       ],
@@ -13933,6 +14203,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 258,
       "clusters": [
         334
       ],
@@ -13950,6 +14221,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 259,
       "clusters": [
         334
       ],
@@ -13967,6 +14239,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 260,
       "clusters": [
         334
       ],
@@ -13984,6 +14257,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 261,
       "clusters": [
         334
       ],
@@ -14001,6 +14275,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 262,
       "clusters": [
         334
       ],
@@ -14018,6 +14293,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 263,
       "clusters": [
         4
       ],
@@ -14035,6 +14311,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 264,
       "clusters": [
         4
       ],
@@ -14052,6 +14329,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 265,
       "clusters": [
         4
       ],
@@ -14069,6 +14347,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 266,
       "clusters": [
         4
       ],
@@ -14086,6 +14365,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 267,
       "clusters": [
         4,3
       ],
@@ -14103,6 +14383,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 268,
       "clusters": [
         73
       ],
@@ -14120,6 +14401,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 269,
       "clusters": [
         4
       ],
@@ -14137,6 +14419,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 270,
       "clusters": [
         141
       ],
@@ -14154,6 +14437,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 271,
       "clusters": [
         141
       ],
@@ -14171,6 +14455,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 272,
       "clusters": [
         141
       ],
@@ -14188,6 +14473,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 273,
       "clusters": [
         218
       ],
@@ -14205,6 +14491,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 274,
       "clusters": [
         223
       ],
@@ -14222,6 +14509,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 275,
       "clusters": [
         223
       ],
@@ -14239,6 +14527,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 276,
       "clusters": [
         223
       ],
@@ -14256,6 +14545,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 277,
       "clusters": [
         223
       ],
@@ -14273,6 +14563,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 278,
       "clusters": [
         223
       ],
@@ -14290,6 +14581,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 279,
       "clusters": [
         223
       ],
@@ -14307,6 +14599,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 280,
       "clusters": [
         141,2
       ],
@@ -14324,6 +14617,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 281,
       "clusters": [
         141,2
       ],
@@ -14341,6 +14635,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 282,
       "clusters": [
         141,2
       ],
@@ -14358,6 +14653,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 283,
       "clusters": [
         141,2
       ],
@@ -14375,6 +14671,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 284,
       "clusters": [
         344,337
       ],
@@ -14392,6 +14689,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 285,
       "clusters": [
         344,337
       ],
@@ -14409,6 +14707,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 286,
       "clusters": [
         334
       ],
@@ -14426,6 +14725,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 287,
       "clusters": [
         344
       ],
@@ -14443,6 +14743,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 288,
       "clusters": [
         344
       ],
@@ -14460,6 +14761,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 289,
       "clusters": [
         175,174,173,172
       ],
@@ -14477,6 +14779,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 290,
       "clusters": [
         37,4
       ],
@@ -14494,6 +14797,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 291,
       "clusters": [
         32,4
       ],
@@ -14511,6 +14815,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 292,
       "clusters": [
         679
       ],
@@ -14528,6 +14833,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 293,
       "clusters": [
         679
       ],
@@ -14545,6 +14851,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 294,
       "clusters": [
         373
       ],
@@ -14562,6 +14869,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 295,
       "clusters": [
         757,755
       ],
@@ -14579,6 +14887,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 296,
       "clusters": [
         227
       ],
@@ -14596,6 +14905,7 @@
     },
     {
       "model": 98,
+      "vertLighting": 297,
       "clusters": [
         227
       ],
@@ -14613,6 +14923,7 @@
     },
     {
       "model": 83,
+      "vertLighting": 298,
       "clusters": [
         309,295
       ],
@@ -14630,6 +14941,7 @@
     },
     {
       "model": 83,
+      "vertLighting": 299,
       "clusters": [
         333,309
       ],
@@ -14647,6 +14959,7 @@
     },
     {
       "model": 83,
+      "vertLighting": 300,
       "clusters": [
         333
       ],
@@ -14664,6 +14977,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 301,
       "clusters": [
         383,382,380
       ],
@@ -14681,6 +14995,7 @@
     },
     {
       "model": 85,
+      "vertLighting": 302,
       "clusters": [
         636
       ],
@@ -14698,6 +15013,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 303,
       "clusters": [
         723,650,720
       ],
@@ -14715,6 +15031,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 304,
       "clusters": [
         720,641
       ],
@@ -14732,6 +15049,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 305,
       "clusters": [
         141
       ],
@@ -14749,6 +15067,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 306,
       "clusters": [
         141
       ],
@@ -14766,6 +15085,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 307,
       "clusters": [
         573,572,568,559
       ],
@@ -14783,6 +15103,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 308,
       "clusters": [
         445,102
       ],
@@ -14800,6 +15121,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 309,
       "clusters": [
         587,586
       ],
@@ -14817,6 +15139,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 310,
       "clusters": [
         757,755,754
       ],
@@ -14834,6 +15157,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 311,
       "clusters": [
         508,493
       ],
@@ -14851,6 +15175,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 312,
       "clusters": [
         227
       ],
@@ -14868,6 +15193,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 313,
       "clusters": [
         175
       ],
@@ -14885,6 +15211,7 @@
     },
     {
       "model": 59,
+      "vertLighting": 314,
       "clusters": [
         27,26,25
       ],
@@ -14902,6 +15229,7 @@
     },
     {
       "model": 79,
+      "vertLighting": 315,
       "clusters": [
         449
       ],
@@ -14919,6 +15247,7 @@
     },
     {
       "model": 61,
+      "vertLighting": 316,
       "clusters": [
         141
       ],
@@ -14936,6 +15265,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 317,
       "clusters": [
         724,647,720
       ],
@@ -14953,6 +15283,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 318,
       "clusters": [
         601
       ],
@@ -14970,6 +15301,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 319,
       "clusters": [
         615
       ],
@@ -14987,6 +15319,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 320,
       "clusters": [
         246,226,225
       ],
@@ -15004,6 +15337,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 321,
       "clusters": [
         246
       ],
@@ -15021,6 +15355,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 322,
       "clusters": [
         383
       ],
@@ -15038,6 +15373,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 323,
       "clusters": [
         382,380
       ],
@@ -15055,6 +15391,7 @@
     },
     {
       "model": 119,
+      "vertLighting": 324,
       "clusters": [
         2
       ],
@@ -15072,6 +15409,7 @@
     },
     {
       "model": 119,
+      "vertLighting": 325,
       "clusters": [
         2
       ],
@@ -15089,6 +15427,7 @@
     },
     {
       "model": 120,
+      "vertLighting": 326,
       "clusters": [
         62,61,58
       ],
@@ -15106,6 +15445,7 @@
     },
     {
       "model": 121,
+      "vertLighting": 327,
       "clusters": [
         146
       ],
@@ -15123,6 +15463,7 @@
     },
     {
       "model": 109,
+      "vertLighting": 328,
       "clusters": [
         146
       ],
@@ -15140,6 +15481,7 @@
     },
     {
       "model": 122,
+      "vertLighting": 329,
       "clusters": [
         147,146
       ],
@@ -15157,6 +15499,7 @@
     },
     {
       "model": 63,
+      "vertLighting": 330,
       "clusters": [
         146
       ],
@@ -15174,6 +15517,7 @@
     },
     {
       "model": 123,
+      "vertLighting": 331,
       "clusters": [
         147,144,2
       ],
@@ -15191,6 +15535,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 332,
       "clusters": [
         383
       ],
@@ -15208,6 +15553,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 333,
       "clusters": [
         382
       ],
@@ -15225,6 +15571,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 334,
       "clusters": [
         601
       ],
@@ -15242,6 +15589,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 335,
       "clusters": [
         673
       ],
@@ -15259,6 +15607,7 @@
     },
     {
       "model": 113,
+      "vertLighting": 336,
       "clusters": [
         81,69
       ],
@@ -15276,6 +15625,7 @@
     },
     {
       "model": 124,
+      "vertLighting": 337,
       "clusters": [
         52,40,32
       ],
@@ -15293,6 +15643,7 @@
     },
     {
       "model": 125,
+      "vertLighting": 338,
       "clusters": [
         76
       ],
@@ -15310,6 +15661,7 @@
     },
     {
       "model": 126,
+      "vertLighting": 339,
       "clusters": [
         218
       ],
@@ -15327,6 +15679,7 @@
     },
     {
       "model": 127,
+      "vertLighting": 340,
       "clusters": [
         218
       ],
@@ -15344,6 +15697,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 341,
       "clusters": [
         229,227
       ],
@@ -15361,6 +15715,7 @@
     },
     {
       "model": 125,
+      "vertLighting": 342,
       "clusters": [
         227
       ],
@@ -15378,6 +15733,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 343,
       "clusters": [
         51
       ],
@@ -15395,6 +15751,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 344,
       "clusters": [
         51
       ],
@@ -15412,6 +15769,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 345,
       "clusters": [
         51
       ],
@@ -15429,6 +15787,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 346,
       "clusters": [
         51
       ],
@@ -15446,6 +15805,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 347,
       "clusters": [
         51
       ],
@@ -15463,6 +15823,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 348,
       "clusters": [
         51
       ],
@@ -15480,6 +15841,7 @@
     },
     {
       "model": 109,
+      "vertLighting": 349,
       "clusters": [
         51
       ],
@@ -15497,6 +15859,7 @@
     },
     {
       "model": 128,
+      "vertLighting": 350,
       "clusters": [
         51
       ],
@@ -15514,6 +15877,7 @@
     },
     {
       "model": 62,
+      "vertLighting": 351,
       "clusters": [
         141
       ],
@@ -15531,6 +15895,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 352,
       "clusters": [
         508,493
       ],
@@ -15548,6 +15913,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 353,
       "clusters": [
         508,493
       ],
@@ -15565,6 +15931,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 354,
       "clusters": [
         770,768,753,749,748,141
       ],
@@ -15582,6 +15949,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 355,
       "clusters": [
         141
       ],
@@ -15599,6 +15967,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 356,
       "clusters": [
         141,770,760,758,753,748
       ],
@@ -15616,6 +15985,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 357,
       "clusters": [
         141,770,760,758,748,366
       ],
@@ -15633,6 +16003,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 358,
       "clusters": [
         141
       ],
@@ -15650,6 +16021,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 359,
       "clusters": [
         141
       ],
@@ -15667,6 +16039,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 360,
       "clusters": [
         141
       ],
@@ -15684,6 +16057,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 361,
       "clusters": [
         141,770
       ],
@@ -15701,6 +16075,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 362,
       "clusters": [
         141
       ],
@@ -15718,6 +16093,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 363,
       "clusters": [
         449,465
       ],
@@ -15735,6 +16111,7 @@
     },
     {
       "model": 114,
+      "vertLighting": 364,
       "clusters": [
         465
       ],
@@ -15752,6 +16129,7 @@
     },
     {
       "model": 119,
+      "vertLighting": 365,
       "clusters": [
         498,449
       ],
@@ -15769,6 +16147,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 366,
       "clusters": [
         511,465
       ],
@@ -15786,6 +16165,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 367,
       "clusters": [
         445
       ],
@@ -15803,6 +16183,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 368,
       "clusters": [
         445
       ],
@@ -15820,6 +16201,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 369,
       "clusters": [
         445
       ],
@@ -15837,6 +16219,7 @@
     },
     {
       "model": 130,
+      "vertLighting": 370,
       "clusters": [
         697,679
       ],
@@ -15854,6 +16237,7 @@
     },
     {
       "model": 131,
+      "vertLighting": 371,
       "clusters": [
         679
       ],
@@ -15871,6 +16255,7 @@
     },
     {
       "model": 131,
+      "vertLighting": 372,
       "clusters": [
         697,679,671
       ],
@@ -15888,6 +16273,7 @@
     },
     {
       "model": 119,
+      "vertLighting": 373,
       "clusters": [
         140
       ],
@@ -15905,6 +16291,7 @@
     },
     {
       "model": 63,
+      "vertLighting": 374,
       "clusters": [
         450
       ],
@@ -15922,6 +16309,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 375,
       "clusters": [
         465,489
       ],
@@ -15939,6 +16327,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 376,
       "clusters": [
         539,490
       ],
@@ -15956,6 +16345,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 377,
       "clusters": [
         489,465
       ],
@@ -15973,6 +16363,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 378,
       "clusters": [
         510,505,490
       ],
@@ -15990,6 +16381,7 @@
     },
     {
       "model": 132,
+      "vertLighting": 379,
       "clusters": [
         650,720
       ],
@@ -16007,6 +16399,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 380,
       "clusters": [
         650
       ],
@@ -16024,6 +16417,7 @@
     },
     {
       "model": 133,
+      "vertLighting": 381,
       "clusters": [
         650,723
       ],
@@ -16041,6 +16435,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 382,
       "clusters": [
         746
       ],
@@ -16058,6 +16453,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 383,
       "clusters": [
         746,735,734
       ],
@@ -16075,6 +16471,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 384,
       "clusters": [
         735,734
       ],
@@ -16092,6 +16489,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 385,
       "clusters": [
         107,735
       ],
@@ -16109,6 +16507,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 386,
       "clusters": [
         107,735,732
       ],
@@ -16126,6 +16525,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 387,
       "clusters": [
         141
       ],
@@ -16143,6 +16543,7 @@
     },
     {
       "model": 33,
+      "vertLighting": 388,
       "clusters": [
         141
       ],
@@ -16160,6 +16561,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 389,
       "clusters": [
         141
       ],
@@ -16177,6 +16579,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 390,
       "clusters": [
         141
       ],
@@ -16194,6 +16597,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 391,
       "clusters": [
         141
       ],
@@ -16211,6 +16615,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 392,
       "clusters": [
         141
       ],
@@ -16228,6 +16633,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 393,
       "clusters": [
         141
       ],
@@ -16245,6 +16651,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 394,
       "clusters": [
         92,53,51
       ],
@@ -16262,6 +16669,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 395,
       "clusters": [
         199
       ],
@@ -16279,6 +16687,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 396,
       "clusters": [
         245,238,227
       ],
@@ -16296,6 +16705,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 397,
       "clusters": [
         219,183,181
       ],
@@ -16313,6 +16723,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 398,
       "clusters": [
         225,224
       ],
@@ -16330,6 +16741,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 399,
       "clusters": [
         312,263,225,224
       ],
@@ -16347,6 +16759,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 400,
       "clusters": [
         219,218
       ],
@@ -16364,6 +16777,7 @@
     },
     {
       "model": 33,
+      "vertLighting": 401,
       "clusters": [
         719,716,715,107,551,550,547,544,542
       ],
@@ -16381,6 +16795,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 402,
       "clusters": [
         107,534,465
       ],
@@ -16398,6 +16813,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 403,
       "clusters": [
         1
       ],
@@ -16415,6 +16831,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 404,
       "clusters": [
         22,4,3,1
       ],
@@ -16432,6 +16849,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 405,
       "clusters": [
         25,24,22,3,1
       ],
@@ -16449,6 +16867,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 406,
       "clusters": [
         70,68,4,3,1,29,25,24
       ],
@@ -16466,6 +16885,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 407,
       "clusters": [
         1
       ],
@@ -16483,6 +16903,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 408,
       "clusters": [
         25,24,22,3,1
       ],
@@ -16500,6 +16921,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 409,
       "clusters": [
         1
       ],
@@ -16517,6 +16939,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 410,
       "clusters": [
         1
       ],
@@ -16534,6 +16957,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 411,
       "clusters": [
         1
       ],
@@ -16551,6 +16975,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 412,
       "clusters": [
         2,1
       ],
@@ -16568,6 +16993,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 413,
       "clusters": [
         2
       ],
@@ -16585,6 +17011,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 414,
       "clusters": [
         141,2
       ],
@@ -16602,6 +17029,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 415,
       "clusters": [
         22,1
       ],
@@ -16619,6 +17047,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 416,
       "clusters": [
         46,2
       ],
@@ -16636,6 +17065,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 417,
       "clusters": [
         2
       ],
@@ -16653,6 +17083,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 418,
       "clusters": [
         1
       ],
@@ -16670,6 +17101,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 419,
       "clusters": [
         22,1
       ],
@@ -16687,6 +17119,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 420,
       "clusters": [
         48,46,2,1
       ],
@@ -16704,6 +17137,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 421,
       "clusters": [
         169,2
       ],
@@ -16721,6 +17155,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 422,
       "clusters": [
         141
       ],
@@ -16738,6 +17173,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 423,
       "clusters": [
         169,141,2
       ],
@@ -16755,6 +17191,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 424,
       "clusters": [
         1
       ],
@@ -16772,6 +17209,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 425,
       "clusters": [
         375,332
       ],
@@ -16789,6 +17227,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 426,
       "clusters": [
         375
       ],
@@ -16806,6 +17245,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 427,
       "clusters": [
         141,388
       ],
@@ -16823,6 +17263,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 428,
       "clusters": [
         141,388,368
       ],
@@ -16840,6 +17281,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 429,
       "clusters": [
         107
       ],
@@ -16857,6 +17299,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 430,
       "clusters": [
         187,186,184,141
       ],
@@ -16874,6 +17317,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 431,
       "clusters": [
         211,210,206,205,202,200,199,198,196,195,192,190,188,186,184,141
       ],
@@ -16891,6 +17335,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 432,
       "clusters": [
         719,716,107,660
       ],
@@ -16908,6 +17353,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 433,
       "clusters": [
         716,715,107,141,660,657
       ],
@@ -16925,6 +17371,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 434,
       "clusters": [
         534,465
       ],
@@ -16942,6 +17389,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 435,
       "clusters": [
         465
       ],
@@ -16959,6 +17407,7 @@
     },
     {
       "model": 134,
+      "vertLighting": 436,
       "clusters": [
         141
       ],
@@ -16976,6 +17425,7 @@
     },
     {
       "model": 97,
+      "vertLighting": 437,
       "clusters": [
         1,445
       ],
@@ -16993,6 +17443,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 438,
       "clusters": [
         186
       ],
@@ -17010,6 +17461,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 439,
       "clusters": [
         186
       ],
@@ -17027,6 +17479,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 440,
       "clusters": [
         186,184,141
       ],
@@ -17044,6 +17497,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 441,
       "clusters": [
         186
       ],
@@ -17061,6 +17515,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 442,
       "clusters": [
         186
       ],
@@ -17078,6 +17533,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 443,
       "clusters": [
         186
       ],
@@ -17095,6 +17551,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 444,
       "clusters": [
         186
       ],
@@ -17112,6 +17569,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 445,
       "clusters": [
         186
       ],
@@ -17129,6 +17587,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 446,
       "clusters": [
         186
       ],
@@ -17146,6 +17605,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 447,
       "clusters": [
         186,184,141
       ],
@@ -17163,6 +17623,7 @@
     },
     {
       "model": 33,
+      "vertLighting": 448,
       "clusters": [
         141
       ],
@@ -17180,6 +17641,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 449,
       "clusters": [
         141
       ],
@@ -17197,6 +17659,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 450,
       "clusters": [
         141
       ],
@@ -17214,6 +17677,7 @@
     },
     {
       "model": 129,
+      "vertLighting": 451,
       "clusters": [
         141
       ],
@@ -17231,6 +17695,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 452,
       "clusters": [
         214,198,195,190,186
       ],
@@ -17248,6 +17713,7 @@
     },
     {
       "model": 23,
+      "vertLighting": 453,
       "clusters": [
         190,186
       ],
@@ -17265,6 +17731,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 454,
       "clusters": [
         666
       ],
@@ -17282,6 +17749,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 455,
       "clusters": [
         666,548
       ],
@@ -17299,6 +17767,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 456,
       "clusters": [
         681,667
       ],
@@ -17316,6 +17785,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 457,
       "clusters": [
         679,678,660
       ],
@@ -17333,6 +17803,7 @@
     },
     {
       "model": 22,
+      "vertLighting": 458,
       "clusters": [
         687,686,679,678,660
       ],
@@ -17350,6 +17821,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 459,
       "clusters": [
         244,243,242,241,240,239,237,236,235,234,233,232,231,230,229,141,228,227,212,211,210,207,206,205,201,200,199,191,190,187,186
       ],
@@ -17367,6 +17839,7 @@
     },
     {
       "model": 31,
+      "vertLighting": 460,
       "clusters": [
         141
       ],
@@ -17384,6 +17857,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 461,
       "clusters": [
         107,535,533,532
       ],
@@ -17401,6 +17875,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 462,
       "clusters": [
         1
       ],
@@ -17418,6 +17893,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 463,
       "clusters": [
         2
       ],
@@ -17435,6 +17911,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 464,
       "clusters": [
         46,38,33,4,18,15,12,9,7,6,1
       ],
@@ -17452,6 +17929,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 465,
       "clusters": [
         2
       ],
@@ -17469,6 +17947,7 @@
     },
     {
       "model": 32,
+      "vertLighting": 466,
       "clusters": [
         174,169,165,141
       ],
@@ -17486,6 +17965,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 467,
       "clusters": [
         334
       ],
@@ -17503,6 +17983,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 468,
       "clusters": [
         334
       ],
@@ -17520,6 +18001,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 469,
       "clusters": [
         334,270
       ],
@@ -17537,6 +18019,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 470,
       "clusters": [
         508,493,453,450
       ],
@@ -17554,6 +18037,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 471,
       "clusters": [
         508,493,453,450
       ],
@@ -17571,6 +18055,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 472,
       "clusters": [
         131,126,124
       ],
@@ -17588,6 +18073,7 @@
     },
     {
       "model": 82,
+      "vertLighting": 473,
       "clusters": [
         131,126,124
       ],
@@ -17605,6 +18091,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 474,
       "clusters": [
         176
       ],
@@ -17622,6 +18109,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 475,
       "clusters": [
         176,170
       ],
@@ -17639,6 +18127,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 476,
       "clusters": [
         4
       ],
@@ -17656,6 +18145,7 @@
     },
     {
       "model": 116,
+      "vertLighting": 477,
       "clusters": [
         4
       ],
@@ -17673,6 +18163,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 478,
       "clusters": [
         256,255,120
       ],
@@ -17690,6 +18181,7 @@
     },
     {
       "model": 66,
+      "vertLighting": 479,
       "clusters": [
         256
       ],
@@ -17707,6 +18199,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 480,
       "clusters": [
         256,255,120
       ],
@@ -17724,6 +18217,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 481,
       "clusters": [
         256,255,120
       ],
@@ -17741,6 +18235,7 @@
     },
     {
       "model": 66,
+      "vertLighting": 482,
       "clusters": [
         256
       ],
@@ -17758,6 +18253,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 483,
       "clusters": [
         256,255,130
       ],
@@ -17775,6 +18271,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 484,
       "clusters": [
         120
       ],
@@ -17792,6 +18289,7 @@
     },
     {
       "model": 66,
+      "vertLighting": 485,
       "clusters": [
         120
       ],
@@ -17809,6 +18307,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 486,
       "clusters": [
         120
       ],
@@ -17826,6 +18325,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 487,
       "clusters": [
         120
       ],
@@ -17843,6 +18343,7 @@
     },
     {
       "model": 66,
+      "vertLighting": 488,
       "clusters": [
         120
       ],
@@ -17860,6 +18361,7 @@
     },
     {
       "model": 65,
+      "vertLighting": 489,
       "clusters": [
         120
       ],
@@ -17877,6 +18379,7 @@
     },
     {
       "model": 111,
+      "vertLighting": 490,
       "clusters": [
         93
       ],
@@ -17894,6 +18397,7 @@
     },
     {
       "model": 110,
+      "vertLighting": 491,
       "clusters": [
         109,94,93
       ],
@@ -17911,6 +18415,7 @@
     },
     {
       "model": 110,
+      "vertLighting": 492,
       "clusters": [
         109
       ],
@@ -17928,6 +18433,7 @@
     },
     {
       "model": 110,
+      "vertLighting": 493,
       "clusters": [
         109
       ],
@@ -17945,6 +18451,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 494,
       "clusters": [
         131
       ],
@@ -17962,6 +18469,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 495,
       "clusters": [
         131
       ],
@@ -17979,6 +18487,7 @@
     },
     {
       "model": 135,
+      "vertLighting": 496,
       "clusters": [
         109,94,93
       ],
@@ -17996,6 +18505,7 @@
     },
     {
       "model": 16,
+      "vertLighting": 497,
       "clusters": [
         104,76,89
       ],
@@ -18013,6 +18523,7 @@
     },
     {
       "model": 16,
+      "vertLighting": 498,
       "clusters": [
         76
       ],
@@ -18030,6 +18541,7 @@
     },
     {
       "model": 16,
+      "vertLighting": 499,
       "clusters": [
         76,2
       ],
@@ -18047,6 +18559,7 @@
     },
     {
       "model": 16,
+      "vertLighting": 500,
       "clusters": [
         76
       ],
@@ -18064,6 +18577,7 @@
     },
     {
       "model": 16,
+      "vertLighting": 501,
       "clusters": [
         76,2
       ],
@@ -18081,6 +18595,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 502,
       "clusters": [
         112
       ],
@@ -18098,6 +18613,7 @@
     },
     {
       "model": 136,
+      "vertLighting": 503,
       "clusters": [
         450
       ],
@@ -18115,6 +18631,7 @@
     },
     {
       "model": 137,
+      "vertLighting": 504,
       "clusters": [
         20,19,11,5
       ],
@@ -18132,6 +18649,7 @@
     },
     {
       "model": 137,
+      "vertLighting": 505,
       "clusters": [
         31,30
       ],
@@ -18149,6 +18667,7 @@
     },
     {
       "model": 138,
+      "vertLighting": 506,
       "clusters": [
         30
       ],
@@ -18166,6 +18685,7 @@
     },
     {
       "model": 67,
+      "vertLighting": 507,
       "clusters": [
         30
       ],
@@ -18183,6 +18703,7 @@
     },
     {
       "model": 130,
+      "vertLighting": 508,
       "clusters": [
         78,76
       ],
@@ -18200,6 +18721,7 @@
     },
     {
       "model": 139,
+      "vertLighting": 509,
       "clusters": [
         76
       ],
@@ -18217,6 +18739,7 @@
     },
     {
       "model": 67,
+      "vertLighting": 510,
       "clusters": [
         89,76,2
       ],
@@ -18234,6 +18757,7 @@
     },
     {
       "model": 140,
+      "vertLighting": 511,
       "clusters": [
         25,24
       ],
@@ -18251,6 +18775,7 @@
     },
     {
       "model": 140,
+      "vertLighting": 512,
       "clusters": [
         650,736,141,107
       ],
@@ -18268,6 +18793,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 513,
       "clusters": [
         157,141,2
       ],
@@ -18285,6 +18811,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 514,
       "clusters": [
         157,141,2
       ],
@@ -18302,6 +18829,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 515,
       "clusters": [
         157,141,2
       ],
@@ -18319,6 +18847,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 516,
       "clusters": [
         218,141,2
       ],
@@ -18336,6 +18865,7 @@
     },
     {
       "model": 9,
+      "vertLighting": 517,
       "clusters": [
         262,141,2,223
       ],
@@ -18353,6 +18883,7 @@
     },
     {
       "model": 9,
+      "vertLighting": 518,
       "clusters": [
         223,141
       ],
@@ -18370,6 +18901,7 @@
     },
     {
       "model": 68,
+      "vertLighting": 519,
       "clusters": [
         720
       ],
@@ -18387,6 +18919,7 @@
     },
     {
       "model": 10,
+      "vertLighting": 520,
       "clusters": [
         601,600,552
       ],
@@ -18404,6 +18937,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 521,
       "clusters": [
         396,395
       ],
@@ -18421,6 +18955,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 522,
       "clusters": [
         396
       ],
@@ -18438,6 +18973,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 523,
       "clusters": [
         396,369
       ],
@@ -18455,6 +18991,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 524,
       "clusters": [
         366
       ],
@@ -18472,6 +19009,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 525,
       "clusters": [
         366
       ],
@@ -18489,6 +19027,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 526,
       "clusters": [
         366,396
       ],
@@ -18506,6 +19045,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 527,
       "clusters": [
         366,141
       ],
@@ -18523,6 +19063,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 528,
       "clusters": [
         366,141
       ],
@@ -18540,6 +19081,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 529,
       "clusters": [
         366,141
       ],
@@ -18557,6 +19099,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 530,
       "clusters": [
         366,396
       ],
@@ -18574,6 +19117,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 531,
       "clusters": [
         396
       ],
@@ -18591,6 +19135,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 532,
       "clusters": [
         396
       ],
@@ -18608,6 +19153,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 533,
       "clusters": [
         396,367,366
       ],
@@ -18625,6 +19171,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 534,
       "clusters": [
         396
       ],
@@ -18642,6 +19189,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 535,
       "clusters": [
         396
       ],
@@ -18659,6 +19207,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 536,
       "clusters": [
         396
       ],
@@ -18676,6 +19225,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 537,
       "clusters": [
         396
       ],
@@ -18693,6 +19243,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 538,
       "clusters": [
         396
       ],
@@ -18710,6 +19261,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 539,
       "clusters": [
         396
       ],
@@ -18727,6 +19279,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 540,
       "clusters": [
         396
       ],
@@ -18744,6 +19297,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 541,
       "clusters": [
         396
       ],
@@ -18761,6 +19315,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 542,
       "clusters": [
         396
       ],
@@ -18778,6 +19333,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 543,
       "clusters": [
         373
       ],
@@ -18795,6 +19351,7 @@
     },
     {
       "model": 63,
+      "vertLighting": 544,
       "clusters": [
         624
       ],
@@ -18812,6 +19369,7 @@
     },
     {
       "model": 119,
+      "vertLighting": 545,
       "clusters": [
         623
       ],
@@ -18829,6 +19387,7 @@
     },
     {
       "model": 64,
+      "vertLighting": 546,
       "clusters": [
         629,623
       ],
@@ -18846,6 +19405,7 @@
     },
     {
       "model": 64,
+      "vertLighting": 547,
       "clusters": [
         393,392
       ],
@@ -18863,6 +19423,7 @@
     },
     {
       "model": 11,
+      "vertLighting": 548,
       "clusters": [
         393,392,390,346
       ],
@@ -18880,6 +19441,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 549,
       "clusters": [
         93
       ],
@@ -18897,6 +19459,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 550,
       "clusters": [
         93
       ],
@@ -18914,6 +19477,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 551,
       "clusters": [
         109
       ],
@@ -18931,6 +19495,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 552,
       "clusters": [
         112
       ],
@@ -18948,6 +19513,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 553,
       "clusters": [
         112
       ],
@@ -18965,6 +19531,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 554,
       "clusters": [
         112
       ],
@@ -18982,6 +19549,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 555,
       "clusters": [
         282
       ],
@@ -18999,6 +19567,7 @@
     },
     {
       "model": 78,
+      "vertLighting": 556,
       "clusters": [
         282
       ],
@@ -19016,6 +19585,7 @@
     },
     {
       "model": 141,
+      "vertLighting": 557,
       "clusters": [
         131,130,120
       ],
@@ -19033,6 +19603,7 @@
     },
     {
       "model": 141,
+      "vertLighting": 558,
       "clusters": [
         256,130
       ],
@@ -19050,6 +19621,7 @@
     },
     {
       "model": 141,
+      "vertLighting": 559,
       "clusters": [
         130,120
       ],
@@ -19067,6 +19639,7 @@
     },
     {
       "model": 109,
+      "vertLighting": 560,
       "clusters": [
         493
       ],
@@ -19084,6 +19657,7 @@
     },
     {
       "model": 120,
+      "vertLighting": 561,
       "clusters": [
         493,491,458,457,455
       ],
@@ -19101,6 +19675,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 562,
       "clusters": [
         445
       ],
@@ -19118,6 +19693,7 @@
     },
     {
       "model": 67,
+      "vertLighting": 563,
       "clusters": [
         348,347,141
       ],
@@ -19135,6 +19711,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 564,
       "clusters": [
         642,641
       ],
@@ -19152,6 +19729,7 @@
     },
     {
       "model": 10,
+      "vertLighting": 565,
       "clusters": [
         636,633,632,141
       ],
@@ -19169,6 +19747,7 @@
     },
     {
       "model": 12,
+      "vertLighting": 566,
       "clusters": [
         586,584,107
       ],
@@ -19186,6 +19765,7 @@
     },
     {
       "model": 123,
+      "vertLighting": 567,
       "clusters": [
         333,309
       ],
@@ -19203,6 +19783,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 568,
       "clusters": [
         383,382,381,379
       ],
@@ -19220,6 +19801,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 569,
       "clusters": [
         382,381,380,379
       ],
@@ -19237,6 +19819,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 570,
       "clusters": [
         384,380
       ],
@@ -19254,6 +19837,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 571,
       "clusters": [
         384,380
       ],
@@ -19271,6 +19855,7 @@
     },
     {
       "model": 68,
+      "vertLighting": 572,
       "clusters": [
         179
       ],
@@ -19288,6 +19873,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 573,
       "clusters": [
         177,176,156,153,152,151
       ],
@@ -19305,6 +19891,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 574,
       "clusters": [
         177,176,156,153,152,151
       ],
@@ -19322,6 +19909,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 575,
       "clusters": [
         153,151,67
       ],
@@ -19339,6 +19927,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 576,
       "clusters": [
         67,66,51
       ],
@@ -19356,6 +19945,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 577,
       "clusters": [
         51,19
       ],
@@ -19373,6 +19963,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 578,
       "clusters": [
         54,51
       ],
@@ -19390,6 +19981,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 579,
       "clusters": [
         51
       ],
@@ -19407,6 +19999,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 580,
       "clusters": [
         21,19
       ],
@@ -19424,6 +20017,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 581,
       "clusters": [
         52
       ],
@@ -19441,6 +20035,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 582,
       "clusters": [
         92
       ],
@@ -19458,6 +20053,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 583,
       "clusters": [
         76
       ],
@@ -19475,6 +20071,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 584,
       "clusters": [
         76
       ],
@@ -19492,6 +20089,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 585,
       "clusters": [
         76
       ],
@@ -19509,6 +20107,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 586,
       "clusters": [
         76
       ],
@@ -19526,6 +20125,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 587,
       "clusters": [
         1
       ],
@@ -19543,6 +20143,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 588,
       "clusters": [
         1
       ],
@@ -19560,6 +20161,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 589,
       "clusters": [
         1
       ],
@@ -19577,6 +20179,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 590,
       "clusters": [
         1
       ],
@@ -19594,6 +20197,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 591,
       "clusters": [
         1
       ],
@@ -19611,6 +20215,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 592,
       "clusters": [
         1
       ],
@@ -19628,6 +20233,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 593,
       "clusters": [
         1
       ],
@@ -19645,6 +20251,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 594,
       "clusters": [
         1
       ],
@@ -19662,6 +20269,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 595,
       "clusters": [
         1
       ],
@@ -19679,6 +20287,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 596,
       "clusters": [
         3
       ],
@@ -19696,6 +20305,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 597,
       "clusters": [
         3
       ],
@@ -19713,6 +20323,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 598,
       "clusters": [
         4
       ],
@@ -19730,6 +20341,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 599,
       "clusters": [
         4
       ],
@@ -19747,6 +20359,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 600,
       "clusters": [
         4
       ],
@@ -19764,6 +20377,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 601,
       "clusters": [
         1
       ],
@@ -19781,6 +20395,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 602,
       "clusters": [
         1
       ],
@@ -19798,6 +20413,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 603,
       "clusters": [
         1
       ],
@@ -19815,6 +20431,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 604,
       "clusters": [
         1
       ],
@@ -19832,6 +20449,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 605,
       "clusters": [
         4
       ],
@@ -19849,6 +20467,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 606,
       "clusters": [
         4
       ],
@@ -19866,6 +20485,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 607,
       "clusters": [
         4
       ],
@@ -19883,6 +20503,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 608,
       "clusters": [
         373
       ],
@@ -19900,6 +20521,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 609,
       "clusters": [
         373
       ],
@@ -19917,6 +20539,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 610,
       "clusters": [
         373
       ],
@@ -19934,6 +20557,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 611,
       "clusters": [
         373
       ],
@@ -19951,6 +20575,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 612,
       "clusters": [
         76
       ],
@@ -19968,6 +20593,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 613,
       "clusters": [
         4
       ],
@@ -19985,6 +20611,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 614,
       "clusters": [
         4
       ],
@@ -20002,6 +20629,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 615,
       "clusters": [
         4
       ],
@@ -20019,6 +20647,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 616,
       "clusters": [
         76
       ],
@@ -20036,6 +20665,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 617,
       "clusters": [
         76
       ],
@@ -20053,6 +20683,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 618,
       "clusters": [
         76
       ],
@@ -20070,6 +20701,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 619,
       "clusters": [
         76
       ],
@@ -20087,6 +20719,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 620,
       "clusters": [
         2
       ],
@@ -20104,6 +20737,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 621,
       "clusters": [
         2
       ],
@@ -20121,6 +20755,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 622,
       "clusters": [
         2
       ],
@@ -20138,6 +20773,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 623,
       "clusters": [
         2
       ],
@@ -20155,6 +20791,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 624,
       "clusters": [
         2
       ],
@@ -20172,6 +20809,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 625,
       "clusters": [
         51
       ],
@@ -20189,6 +20827,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 626,
       "clusters": [
         51
       ],
@@ -20206,6 +20845,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 627,
       "clusters": [
         51
       ],
@@ -20223,6 +20863,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 628,
       "clusters": [
         51
       ],
@@ -20240,6 +20881,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 629,
       "clusters": [
         51
       ],
@@ -20257,6 +20899,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 630,
       "clusters": [
         51,19
       ],
@@ -20274,6 +20917,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 631,
       "clusters": [
         51,19
       ],
@@ -20291,6 +20935,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 632,
       "clusters": [
         51,19
       ],
@@ -20308,6 +20953,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 633,
       "clusters": [
         21,19
       ],
@@ -20325,6 +20971,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 634,
       "clusters": [
         19
       ],
@@ -20342,6 +20989,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 635,
       "clusters": [
         19
       ],
@@ -20359,6 +21007,7 @@
     },
     {
       "model": 12,
+      "vertLighting": 636,
       "clusters": [
         220,141
       ],
@@ -20376,6 +21025,7 @@
     },
     {
       "model": 139,
+      "vertLighting": 637,
       "clusters": [
         86
       ],
@@ -20393,6 +21043,7 @@
     },
     {
       "model": 139,
+      "vertLighting": 638,
       "clusters": [
         86
       ],
@@ -20410,6 +21061,7 @@
     },
     {
       "model": 139,
+      "vertLighting": 639,
       "clusters": [
         85,53
       ],
@@ -20427,6 +21079,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 640,
       "clusters": [
         27
       ],
@@ -20444,6 +21097,7 @@
     },
     {
       "model": 117,
+      "vertLighting": 641,
       "clusters": [
         27
       ],
@@ -20461,6 +21115,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 642,
       "clusters": [
         30,27
       ],
@@ -20478,6 +21133,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 643,
       "clusters": [
         27,26,25,22
       ],
@@ -20495,6 +21151,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 644,
       "clusters": [
         30,27
       ],
@@ -20512,6 +21169,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 645,
       "clusters": [
         27,26,25
       ],
@@ -20529,6 +21187,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 646,
       "clusters": [
         67,66,51
       ],
@@ -20546,6 +21205,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 647,
       "clusters": [
         567,562,561,555,107
       ],
@@ -20563,6 +21223,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 648,
       "clusters": [
         568,567,556,555
       ],
@@ -20580,6 +21241,7 @@
     },
     {
       "model": 142,
+      "vertLighting": 649,
       "clusters": [
         153,151,67
       ],
@@ -20597,6 +21259,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 650,
       "clusters": [
         227
       ],
@@ -20614,6 +21277,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 651,
       "clusters": [
         227,218,186
       ],
@@ -20631,6 +21295,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 652,
       "clusters": [
         227
       ],
@@ -20648,6 +21313,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 653,
       "clusters": [
         96,76,82,81
       ],
@@ -20665,6 +21331,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 654,
       "clusters": [
         76,82,81
       ],
@@ -20682,6 +21349,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 655,
       "clusters": [
         76,81
       ],
@@ -20699,6 +21367,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 656,
       "clusters": [
         96,76,81
       ],
@@ -20716,6 +21385,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 657,
       "clusters": [
         81
       ],
@@ -20733,6 +21403,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 658,
       "clusters": [
         76
       ],
@@ -20750,6 +21421,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 659,
       "clusters": [
         81
       ],
@@ -20767,6 +21439,7 @@
     },
     {
       "model": 143,
+      "vertLighting": 660,
       "clusters": [
         76
       ],
@@ -20784,6 +21457,7 @@
     },
     {
       "model": 18,
+      "vertLighting": 661,
       "clusters": [
         76,83,81,69,40,32,31,30,11,5
       ],
@@ -20801,6 +21475,7 @@
     },
     {
       "model": 143,
+      "vertLighting": 662,
       "clusters": [
         76
       ],
@@ -20818,6 +21493,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 663,
       "clusters": [
         723,650
       ],
@@ -20835,6 +21511,7 @@
     },
     {
       "model": 84,
+      "vertLighting": 664,
       "clusters": [
         642,641
       ],
@@ -20852,6 +21529,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 665,
       "clusters": [
         465
       ],
@@ -20869,6 +21547,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 666,
       "clusters": [
         465
       ],
@@ -20886,6 +21565,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 667,
       "clusters": [
         30,19
       ],
@@ -20903,6 +21583,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 668,
       "clusters": [
         92
       ],
@@ -20920,6 +21601,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 669,
       "clusters": [
         245,238,227
       ],
@@ -20937,6 +21619,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 670,
       "clusters": [
         246
       ],
@@ -20954,6 +21637,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 671,
       "clusters": [
         245
       ],
@@ -20971,6 +21655,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 672,
       "clusters": [
         246
       ],
@@ -20988,6 +21673,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 673,
       "clusters": [
         375,332,246,226
       ],
@@ -21005,6 +21691,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 674,
       "clusters": [
         328,318,317
       ],
@@ -21022,6 +21709,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 675,
       "clusters": [
         245,238,227
       ],
@@ -21039,6 +21727,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 676,
       "clusters": [
         375
       ],
@@ -21056,6 +21745,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 677,
       "clusters": [
         601
       ],
@@ -21073,6 +21763,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 678,
       "clusters": [
         720
       ],
@@ -21090,6 +21781,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 679,
       "clusters": [
         222,221,220
       ],
@@ -21107,6 +21799,7 @@
     },
     {
       "model": 35,
+      "vertLighting": 680,
       "clusters": [
         92
       ],
@@ -21124,6 +21817,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 681,
       "clusters": [
         529,523
       ],
@@ -21141,6 +21835,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 682,
       "clusters": [
         723,650
       ],
@@ -21158,6 +21853,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 683,
       "clusters": [
         373
       ],
@@ -21175,6 +21871,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 684,
       "clusters": [
         375
       ],
@@ -21192,6 +21889,7 @@
     },
     {
       "model": 118,
+      "vertLighting": 685,
       "clusters": [
         387,386,376
       ],
@@ -21209,6 +21907,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 686,
       "clusters": [
         445
       ],
@@ -21226,6 +21925,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 687,
       "clusters": [
         525,523
       ],
@@ -21243,6 +21943,7 @@
     },
     {
       "model": 114,
+      "vertLighting": 688,
       "clusters": [
         245
       ],
@@ -21260,6 +21961,7 @@
     },
     {
       "model": 114,
+      "vertLighting": 689,
       "clusters": [
         246
       ],
@@ -21277,6 +21979,7 @@
     },
     {
       "model": 114,
+      "vertLighting": 690,
       "clusters": [
         246
       ],
@@ -21294,6 +21997,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 691,
       "clusters": [
         246
       ],
@@ -21311,6 +22015,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 692,
       "clusters": [
         245,238
       ],
@@ -21328,6 +22033,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 693,
       "clusters": [
         219
       ],
@@ -21345,6 +22051,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 694,
       "clusters": [
         219,177
       ],
@@ -21362,6 +22069,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 695,
       "clusters": [
         225,224
       ],
@@ -21379,6 +22087,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 696,
       "clusters": [
         373
       ],
@@ -21396,6 +22105,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 697,
       "clusters": [
         637
       ],
@@ -21413,6 +22123,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 698,
       "clusters": [
         650
       ],
@@ -21430,6 +22141,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 699,
       "clusters": [
         725,723,650
       ],
@@ -21447,6 +22159,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 700,
       "clusters": [
         636
       ],
@@ -21464,6 +22177,7 @@
     },
     {
       "model": 91,
+      "vertLighting": 701,
       "clusters": [
         666,548
       ],
@@ -21481,6 +22195,7 @@
     },
     {
       "model": 144,
+      "vertLighting": 702,
       "clusters": [
         120
       ],
@@ -21498,6 +22213,7 @@
     },
     {
       "model": 144,
+      "vertLighting": 703,
       "clusters": [
         120
       ],
@@ -21515,6 +22231,7 @@
     },
     {
       "model": 144,
+      "vertLighting": 704,
       "clusters": [
         120
       ],
@@ -21532,6 +22249,7 @@
     },
     {
       "model": 144,
+      "vertLighting": 705,
       "clusters": [
         120
       ],
@@ -21549,6 +22267,7 @@
     },
     {
       "model": 19,
+      "vertLighting": 706,
       "clusters": [
         263,262,246,245,238,227,225,224,223,220
       ],
@@ -21566,6 +22285,7 @@
     },
     {
       "model": 0,
+      "vertLighting": 707,
       "clusters": [
         283
       ],
@@ -21583,6 +22303,7 @@
     },
     {
       "model": 1,
+      "vertLighting": 708,
       "clusters": [
         283,281
       ],
@@ -21600,6 +22321,7 @@
     },
     {
       "model": 2,
+      "vertLighting": 709,
       "clusters": [
         112,111
       ],
@@ -21617,6 +22339,7 @@
     },
     {
       "model": 3,
+      "vertLighting": 710,
       "clusters": [
         109
       ],
@@ -21634,6 +22357,7 @@
     },
     {
       "model": 4,
+      "vertLighting": 711,
       "clusters": [
         93
       ],
@@ -21651,6 +22375,7 @@
     },
     {
       "model": 145,
+      "vertLighting": 712,
       "clusters": [
         227
       ],
@@ -21668,6 +22393,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 713,
       "clusters": [
         82,81,76
       ],
@@ -21685,6 +22411,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 714,
       "clusters": [
         76,81
       ],
@@ -21702,6 +22429,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 715,
       "clusters": [
         76
       ],
@@ -21719,6 +22447,7 @@
     },
     {
       "model": 36,
+      "vertLighting": 716,
       "clusters": [
         81,76
       ],
@@ -21736,6 +22465,7 @@
     },
     {
       "model": 146,
+      "vertLighting": 717,
       "clusters": [
         76,81
       ],
@@ -21753,6 +22483,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 718,
       "clusters": [
         87,76
       ],
@@ -21770,6 +22501,7 @@
     },
     {
       "model": 146,
+      "vertLighting": 719,
       "clusters": [
         89,76,88
       ],
@@ -21787,6 +22519,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 720,
       "clusters": [
         76
       ],
@@ -21804,6 +22537,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 721,
       "clusters": [
         81
       ],
@@ -21821,6 +22555,7 @@
     },
     {
       "model": 146,
+      "vertLighting": 722,
       "clusters": [
         82,81
       ],
@@ -21838,6 +22573,7 @@
     },
     {
       "model": 34,
+      "vertLighting": 723,
       "clusters": [
         88,76,87
       ],
@@ -21855,6 +22591,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 724,
       "clusters": [
         76,81
       ],
@@ -21872,6 +22609,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 725,
       "clusters": [
         76
       ],
@@ -21889,6 +22627,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 726,
       "clusters": [
         76
       ],
@@ -21906,6 +22645,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 727,
       "clusters": [
         104,76
       ],
@@ -21923,6 +22663,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 728,
       "clusters": [
         76
       ],
@@ -21940,6 +22681,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 729,
       "clusters": [
         104,76
       ],
@@ -21957,6 +22699,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 730,
       "clusters": [
         89,76,88,87
       ],
@@ -21974,6 +22717,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 731,
       "clusters": [
         86,83
       ],
@@ -21991,6 +22735,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 732,
       "clusters": [
         92,53
       ],
@@ -22008,6 +22753,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 733,
       "clusters": [
         177
       ],
@@ -22025,6 +22771,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 734,
       "clusters": [
         219,177
       ],
@@ -22042,6 +22789,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 735,
       "clusters": [
         246,225
       ],
@@ -22059,6 +22807,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 736,
       "clusters": [
         317,312,226,225
       ],
@@ -22076,6 +22825,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 737,
       "clusters": [
         332
       ],
@@ -22093,6 +22843,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 738,
       "clusters": [
         332,329,328,318
       ],
@@ -22110,6 +22861,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 739,
       "clusters": [
         225,224
       ],
@@ -22127,6 +22879,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 740,
       "clusters": [
         219,218
       ],
@@ -22144,6 +22897,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 741,
       "clusters": [
         225,224,222,220
       ],
@@ -22161,6 +22915,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 742,
       "clusters": [
         636
       ],
@@ -22178,6 +22933,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 743,
       "clusters": [
         723,650
       ],
@@ -22195,6 +22951,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 744,
       "clusters": [
         650
       ],
@@ -22212,6 +22969,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 745,
       "clusters": [
         638
       ],
@@ -22229,6 +22987,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 746,
       "clusters": [
         580,577,510,509
       ],
@@ -22246,6 +23005,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 747,
       "clusters": [
         577
       ],
@@ -22263,6 +23023,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 748,
       "clusters": [
         586
       ],
@@ -22280,6 +23041,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 749,
       "clusters": [
         642,636
       ],
@@ -22297,6 +23059,7 @@
     },
     {
       "model": 20,
+      "vertLighting": 750,
       "clusters": [
         219,218,181,179,177,176
       ],
@@ -22314,6 +23077,7 @@
     },
     {
       "model": 23,
+      "vertLighting": 751,
       "clusters": [
         683,681,679,675,673,671
       ],
@@ -22331,6 +23095,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 752,
       "clusters": [
         650
       ],
@@ -22348,6 +23113,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 753,
       "clusters": [
         650
       ],
@@ -22365,6 +23131,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 754,
       "clusters": [
         157,141,2
       ],
@@ -22382,6 +23149,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 755,
       "clusters": [
         218,141,2
       ],
@@ -22399,6 +23167,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 756,
       "clusters": [
         482,467
       ],
@@ -22416,6 +23185,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 757,
       "clusters": [
         482,466
       ],
@@ -22433,6 +23203,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 758,
       "clusters": [
         650,141
       ],
@@ -22450,6 +23221,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 759,
       "clusters": [
         650,141
       ],
@@ -22467,6 +23239,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 760,
       "clusters": [
         650
       ],
@@ -22484,6 +23257,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 761,
       "clusters": [
         2,4
       ],
@@ -22501,6 +23275,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 762,
       "clusters": [
         64,4
       ],
@@ -22518,6 +23293,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 763,
       "clusters": [
         2,4
       ],
@@ -22535,6 +23311,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 764,
       "clusters": [
         373
       ],
@@ -22552,6 +23329,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 765,
       "clusters": [
         373
       ],
@@ -22569,6 +23347,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 766,
       "clusters": [
         312,263
       ],
@@ -22586,6 +23365,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 767,
       "clusters": [
         317,312
       ],
@@ -22603,6 +23383,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 768,
       "clusters": [
         179
       ],
@@ -22620,6 +23401,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 769,
       "clusters": [
         179,176,173
       ],
@@ -22637,6 +23419,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 770,
       "clusters": [
         183,181,179,177,176,175,173
       ],
@@ -22654,6 +23437,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 771,
       "clusters": [
         183,182,181,179
       ],
@@ -22671,6 +23455,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 772,
       "clusters": [
         227
       ],
@@ -22688,6 +23473,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 773,
       "clusters": [
         227
       ],
@@ -22705,6 +23491,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 774,
       "clusters": [
         227
       ],
@@ -22722,6 +23509,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 775,
       "clusters": [
         227
       ],
@@ -22739,6 +23527,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 776,
       "clusters": [
         227
       ],
@@ -22756,6 +23545,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 777,
       "clusters": [
         227
       ],
@@ -22773,6 +23563,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 778,
       "clusters": [
         92,53,52,40,37
       ],
@@ -22790,6 +23581,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 779,
       "clusters": [
         92,4,37
       ],
@@ -22807,6 +23599,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 780,
       "clusters": [
         92,53
       ],
@@ -22824,6 +23617,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 781,
       "clusters": [
         4,2,76
       ],
@@ -22841,6 +23635,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 782,
       "clusters": [
         4,76
       ],
@@ -22858,6 +23653,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 783,
       "clusters": [
         90,4,83
       ],
@@ -22875,6 +23671,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 784,
       "clusters": [
         90,86,83
       ],
@@ -22892,6 +23689,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 785,
       "clusters": [
         465
       ],
@@ -22909,6 +23707,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 786,
       "clusters": [
         488,487,485
       ],
@@ -22926,6 +23725,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 787,
       "clusters": [
         2,4
       ],
@@ -22943,6 +23743,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 788,
       "clusters": [
         76,1
       ],
@@ -22960,6 +23761,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 789,
       "clusters": [
         1
       ],
@@ -22977,6 +23779,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 790,
       "clusters": [
         1
       ],
@@ -22994,6 +23797,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 791,
       "clusters": [
         1
       ],
@@ -23011,6 +23815,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 792,
       "clusters": [
         1
       ],
@@ -23028,6 +23833,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 793,
       "clusters": [
         76
       ],
@@ -23045,6 +23851,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 794,
       "clusters": [
         1,71
       ],
@@ -23062,6 +23869,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 795,
       "clusters": [
         1,71
       ],
@@ -23079,6 +23887,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 796,
       "clusters": [
         1
       ],
@@ -23096,6 +23905,7 @@
     },
     {
       "model": 51,
+      "vertLighting": 797,
       "clusters": [
         70,3,1
       ],
@@ -23113,6 +23923,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 798,
       "clusters": [
         107
       ],
@@ -23130,6 +23941,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 799,
       "clusters": [
         107
       ],
@@ -23147,6 +23959,7 @@
     },
     {
       "model": 69,
+      "vertLighting": 800,
       "clusters": [
         107
       ],
@@ -23164,6 +23977,7 @@
     },
     {
       "model": 147,
+      "vertLighting": 801,
       "clusters": [
         30,19
       ],
@@ -23181,6 +23995,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 802,
       "clusters": [
         186
       ],
@@ -23198,6 +24013,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 803,
       "clusters": [
         198,190,186
       ],
@@ -23215,6 +24031,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 804,
       "clusters": [
         328,318,317,312
       ],
@@ -23232,6 +24049,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 805,
       "clusters": [
         318,317,312,266,263
       ],
@@ -23249,6 +24067,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 806,
       "clusters": [
         266,263
       ],
@@ -23266,6 +24085,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 807,
       "clusters": [
         266,265,141,263
       ],
@@ -23283,6 +24103,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 808,
       "clusters": [
         376,334
       ],
@@ -23300,6 +24121,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 809,
       "clusters": [
         376
       ],
@@ -23317,6 +24139,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 810,
       "clusters": [
         334
       ],
@@ -23334,6 +24157,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 811,
       "clusters": [
         334
       ],
@@ -23351,6 +24175,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 812,
       "clusters": [
         387,334
       ],
@@ -23368,6 +24193,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 813,
       "clusters": [
         141
       ],
@@ -23385,6 +24211,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 814,
       "clusters": [
         220,141,218
       ],
@@ -23402,6 +24229,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 815,
       "clusters": [
         220,218
       ],
@@ -23419,6 +24247,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 816,
       "clusters": [
         220,218
       ],
@@ -23436,6 +24265,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 817,
       "clusters": [
         586,584
       ],
@@ -23453,6 +24283,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 818,
       "clusters": [
         586
       ],
@@ -23470,6 +24301,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 819,
       "clusters": [
         580,577
       ],
@@ -23487,6 +24319,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 820,
       "clusters": [
         580,578,577,576
       ],
@@ -23504,6 +24337,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 821,
       "clusters": [
         583,582,580,578
       ],
@@ -23521,6 +24355,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 822,
       "clusters": [
         583,580
       ],
@@ -23538,6 +24373,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 823,
       "clusters": [
         587,586
       ],
@@ -23555,6 +24391,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 824,
       "clusters": [
         587,586,585,584
       ],
@@ -23572,6 +24409,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 825,
       "clusters": [
         378,377,375
       ],
@@ -23589,6 +24427,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 826,
       "clusters": [
         378,377,375
       ],
@@ -23606,6 +24445,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 827,
       "clusters": [
         638,636,635,634,633,632,141
       ],
@@ -23623,6 +24463,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 828,
       "clusters": [
         638,637,366,141
       ],
@@ -23640,6 +24481,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 829,
       "clusters": [
         465,521
       ],
@@ -23657,6 +24499,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 830,
       "clusters": [
         465
       ],
@@ -23674,6 +24517,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 831,
       "clusters": [
         465
       ],
@@ -23691,6 +24535,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 832,
       "clusters": [
         503,465,472,449,464,463
       ],
@@ -23708,6 +24553,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 833,
       "clusters": [
         503,449,465
       ],
@@ -23725,6 +24571,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 834,
       "clusters": [
         525
       ],
@@ -23742,6 +24589,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 835,
       "clusters": [
         525
       ],
@@ -23759,6 +24607,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 836,
       "clusters": [
         529,523
       ],
@@ -23776,6 +24625,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 837,
       "clusters": [
         529,523
       ],
@@ -23793,6 +24643,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 838,
       "clusters": [
         529
       ],
@@ -23810,6 +24661,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 839,
       "clusters": [
         529
       ],
@@ -23827,6 +24679,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 840,
       "clusters": [
         529,528,527,526,107
       ],
@@ -23844,6 +24697,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 841,
       "clusters": [
         465,107,526
       ],
@@ -23861,6 +24715,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 842,
       "clusters": [
         445
       ],
@@ -23878,6 +24733,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 843,
       "clusters": [
         445
       ],
@@ -23895,6 +24751,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 844,
       "clusters": [
         445
       ],
@@ -23912,6 +24769,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 845,
       "clusters": [
         104,76
       ],
@@ -23929,6 +24787,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 846,
       "clusters": [
         76
       ],
@@ -23946,6 +24805,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 847,
       "clusters": [
         96,76
       ],
@@ -23963,6 +24823,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 848,
       "clusters": [
         76
       ],
@@ -23980,6 +24841,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 849,
       "clusters": [
         76
       ],
@@ -23997,6 +24859,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 850,
       "clusters": [
         104,76,96
       ],
@@ -24014,6 +24877,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 851,
       "clusters": [
         96,76
       ],
@@ -24031,6 +24895,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 852,
       "clusters": [
         76
       ],
@@ -24048,6 +24913,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 853,
       "clusters": [
         96,76,82,81,80,78
       ],
@@ -24065,6 +24931,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 854,
       "clusters": [
         76
       ],
@@ -24082,6 +24949,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 855,
       "clusters": [
         76,1
       ],
@@ -24099,6 +24967,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 856,
       "clusters": [
         1
       ],
@@ -24116,6 +24985,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 857,
       "clusters": [
         1
       ],
@@ -24133,6 +25003,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 858,
       "clusters": [
         1
       ],
@@ -24150,6 +25021,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 859,
       "clusters": [
         4,1
       ],
@@ -24167,6 +25039,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 860,
       "clusters": [
         76,4
       ],
@@ -24184,6 +25057,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 861,
       "clusters": [
         81,76,4
       ],
@@ -24201,6 +25075,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 862,
       "clusters": [
         76
       ],
@@ -24218,6 +25093,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 863,
       "clusters": [
         1
       ],
@@ -24235,6 +25111,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 864,
       "clusters": [
         76,1
       ],
@@ -24252,6 +25129,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 865,
       "clusters": [
         82,81,76,80,78
       ],
@@ -24269,6 +25147,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 866,
       "clusters": [
         373,412,409
       ],
@@ -24286,6 +25165,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 867,
       "clusters": [
         373,412,409
       ],
@@ -24303,6 +25183,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 868,
       "clusters": [
         409,396
       ],
@@ -24320,6 +25201,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 869,
       "clusters": [
         409,396
       ],
@@ -24337,6 +25219,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 870,
       "clusters": [
         369,360,359
       ],
@@ -24354,6 +25237,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 871,
       "clusters": [
         369,360,359
       ],
@@ -24371,6 +25255,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 872,
       "clusters": [
         337,334
       ],
@@ -24388,6 +25273,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 873,
       "clusters": [
         337,334
       ],
@@ -24405,6 +25291,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 874,
       "clusters": [
         396,366,141,367
       ],
@@ -24422,6 +25309,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 875,
       "clusters": [
         396,369,367
       ],
@@ -24439,6 +25327,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 876,
       "clusters": [
         366,141,396
       ],
@@ -24456,6 +25345,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 877,
       "clusters": [
         554,553,107
       ],
@@ -24473,6 +25363,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 878,
       "clusters": [
         570,568
       ],
@@ -24490,6 +25381,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 879,
       "clusters": [
         107
       ],
@@ -24507,6 +25399,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 880,
       "clusters": [
         141,107
       ],
@@ -24524,6 +25417,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 881,
       "clusters": [
         650,141,107
       ],
@@ -24541,6 +25435,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 882,
       "clusters": [
         725,723,650
       ],
@@ -24558,6 +25453,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 883,
       "clusters": [
         736,141
       ],
@@ -24575,6 +25471,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 884,
       "clusters": [
         650,725,723
       ],
@@ -24592,6 +25489,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 885,
       "clusters": [
         601
       ],
@@ -24609,6 +25507,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 886,
       "clusters": [
         601
       ],
@@ -24626,6 +25525,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 887,
       "clusters": [
         636,633
       ],
@@ -24643,6 +25543,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 888,
       "clusters": [
         636
       ],
@@ -24660,6 +25561,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 889,
       "clusters": [
         638,636
       ],
@@ -24677,6 +25579,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 890,
       "clusters": [
         637,366
       ],
@@ -24694,6 +25597,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 891,
       "clusters": [
         577
       ],
@@ -24711,6 +25615,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 892,
       "clusters": [
         577,509,504
       ],
@@ -24728,6 +25633,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 893,
       "clusters": [
         577,576,107
       ],
@@ -24745,6 +25651,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 894,
       "clusters": [
         591,590,577,576,504,486,484
       ],
@@ -24762,6 +25669,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 895,
       "clusters": [
         540,539
       ],
@@ -24779,6 +25687,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 896,
       "clusters": [
         76
       ],
@@ -24796,6 +25705,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 897,
       "clusters": [
         76,2
       ],
@@ -24813,6 +25723,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 898,
       "clusters": [
         76,1
       ],
@@ -24830,6 +25741,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 899,
       "clusters": [
         76
       ],
@@ -24847,6 +25759,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 900,
       "clusters": [
         76
       ],
@@ -24864,6 +25777,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 901,
       "clusters": [
         76
       ],
@@ -24881,6 +25795,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 902,
       "clusters": [
         76
       ],
@@ -24898,6 +25813,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 903,
       "clusters": [
         76
       ],
@@ -24915,6 +25831,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 904,
       "clusters": [
         96,76
       ],
@@ -24932,6 +25849,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 905,
       "clusters": [
         76,2
       ],
@@ -24949,6 +25867,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 906,
       "clusters": [
         76,2
       ],
@@ -24966,6 +25885,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 907,
       "clusters": [
         76
       ],
@@ -24983,6 +25903,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 908,
       "clusters": [
         92,4
       ],
@@ -25000,6 +25921,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 909,
       "clusters": [
         4
       ],
@@ -25017,6 +25939,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 910,
       "clusters": [
         92,4,53,52,45
       ],
@@ -25034,6 +25957,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 911,
       "clusters": [
         92,53
       ],
@@ -25051,6 +25975,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 912,
       "clusters": [
         51,45,4
       ],
@@ -25068,6 +25993,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 913,
       "clusters": [
         30
       ],
@@ -25085,6 +26011,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 914,
       "clusters": [
         30
       ],
@@ -25102,6 +26029,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 915,
       "clusters": [
         2
       ],
@@ -25119,6 +26047,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 916,
       "clusters": [
         2
       ],
@@ -25136,6 +26065,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 917,
       "clusters": [
         2
       ],
@@ -25153,6 +26083,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 918,
       "clusters": [
         4,2
       ],
@@ -25170,6 +26101,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 919,
       "clusters": [
         4
       ],
@@ -25187,6 +26119,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 920,
       "clusters": [
         4,2
       ],
@@ -25204,6 +26137,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 921,
       "clusters": [
         76
       ],
@@ -25221,6 +26155,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 922,
       "clusters": [
         218,141
       ],
@@ -25238,6 +26173,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 923,
       "clusters": [
         221,220
       ],
@@ -25255,6 +26191,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 924,
       "clusters": [
         170,157
       ],
@@ -25272,6 +26209,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 925,
       "clusters": [
         167,141
       ],
@@ -25289,6 +26227,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 926,
       "clusters": [
         176,157,141
       ],
@@ -25306,6 +26245,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 927,
       "clusters": [
         141
       ],
@@ -25323,6 +26263,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 928,
       "clusters": [
         223,141
       ],
@@ -25340,6 +26281,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 929,
       "clusters": [
         223
       ],
@@ -25357,6 +26299,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 930,
       "clusters": [
         223,141
       ],
@@ -25374,6 +26317,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 931,
       "clusters": [
         141,262
       ],
@@ -25391,6 +26335,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 932,
       "clusters": [
         328,318,272
       ],
@@ -25408,6 +26353,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 933,
       "clusters": [
         270,269,141
       ],
@@ -25425,6 +26371,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 934,
       "clusters": [
         376,334
       ],
@@ -25442,6 +26389,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 935,
       "clusters": [
         387
       ],
@@ -25459,6 +26407,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 936,
       "clusters": [
         337,334
       ],
@@ -25476,6 +26425,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 937,
       "clusters": [
         141
       ],
@@ -25493,6 +26443,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 938,
       "clusters": [
         227
       ],
@@ -25510,6 +26461,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 939,
       "clusters": [
         227
       ],
@@ -25527,6 +26479,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 940,
       "clusters": [
         227
       ],
@@ -25544,6 +26497,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 941,
       "clusters": [
         141
       ],
@@ -25561,6 +26515,7 @@
     },
     {
       "model": 4,
+      "vertLighting": 942,
       "clusters": [
         124
       ],
@@ -25578,6 +26533,7 @@
     },
     {
       "model": 3,
+      "vertLighting": 943,
       "clusters": [
         124
       ],
@@ -25595,6 +26551,7 @@
     },
     {
       "model": 5,
+      "vertLighting": 944,
       "clusters": [
         124
       ],
@@ -25612,6 +26569,7 @@
     },
     {
       "model": 1,
+      "vertLighting": 945,
       "clusters": [
         131
       ],
@@ -25629,6 +26587,7 @@
     },
     {
       "model": 0,
+      "vertLighting": 946,
       "clusters": [
         131
       ],
@@ -25646,6 +26605,7 @@
     },
     {
       "model": 2,
+      "vertLighting": 947,
       "clusters": [
         140
       ],
@@ -25663,6 +26623,7 @@
     },
     {
       "model": 6,
+      "vertLighting": 948,
       "clusters": [
         140
       ],
@@ -25680,6 +26641,7 @@
     },
     {
       "model": 7,
+      "vertLighting": 949,
       "clusters": [
         140
       ],
@@ -25697,6 +26659,7 @@
     },
     {
       "model": 1,
+      "vertLighting": 950,
       "clusters": [
         131
       ],
@@ -25714,6 +26677,7 @@
     },
     {
       "model": 0,
+      "vertLighting": 951,
       "clusters": [
         131
       ],
@@ -25731,6 +26695,7 @@
     },
     {
       "model": 148,
+      "vertLighting": 952,
       "clusters": [
         260,131
       ],
@@ -25748,6 +26713,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 953,
       "clusters": [
         554,553,141,107
       ],
@@ -25765,6 +26731,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 954,
       "clusters": [
         605,604,601
       ],
@@ -25782,6 +26749,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 955,
       "clusters": [
         445
       ],
@@ -25799,6 +26767,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 956,
       "clusters": [
         445
       ],
@@ -25816,6 +26785,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 957,
       "clusters": [
         515
       ],
@@ -25833,6 +26803,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 958,
       "clusters": [
         515,514
       ],
@@ -25850,6 +26821,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 959,
       "clusters": [
         514,513,512,1
       ],
@@ -25867,6 +26839,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 960,
       "clusters": [
         449,445
       ],
@@ -25884,6 +26857,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 961,
       "clusters": [
         445
       ],
@@ -25901,6 +26875,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 962,
       "clusters": [
         445
       ],
@@ -25918,6 +26893,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 963,
       "clusters": [
         465
       ],
@@ -25935,6 +26911,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 964,
       "clusters": [
         505,504
       ],
@@ -25952,6 +26929,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 965,
       "clusters": [
         504
       ],
@@ -25969,6 +26947,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 966,
       "clusters": [
         584
       ],
@@ -25986,6 +26965,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 967,
       "clusters": [
         584
       ],
@@ -26003,6 +26983,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 968,
       "clusters": [
         720
       ],
@@ -26020,6 +27001,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 969,
       "clusters": [
         720
       ],
@@ -26037,6 +27019,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 970,
       "clusters": [
         650
       ],
@@ -26054,6 +27037,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 971,
       "clusters": [
         559
       ],
@@ -26071,6 +27055,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 972,
       "clusters": [
         603
       ],
@@ -26088,6 +27073,7 @@
     },
     {
       "model": 47,
+      "vertLighting": 973,
       "clusters": [
         720,141
       ],
@@ -26105,6 +27091,7 @@
     },
     {
       "model": 146,
+      "vertLighting": 974,
       "clusters": [
         650,714,712,711
       ],
@@ -26122,6 +27109,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 975,
       "clusters": [
         650,653,648
       ],
@@ -26139,6 +27127,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 976,
       "clusters": [
         650,141,649,648
       ],
@@ -26156,6 +27145,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 977,
       "clusters": [
         656,655,650,653
       ],
@@ -26173,6 +27163,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 978,
       "clusters": [
         650
       ],
@@ -26190,6 +27181,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 979,
       "clusters": [
         650
       ],
@@ -26207,6 +27199,7 @@
     },
     {
       "model": 101,
+      "vertLighting": 980,
       "clusters": [
         650,141
       ],
@@ -26224,6 +27217,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 981,
       "clusters": [
         720
       ],
@@ -26241,6 +27235,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 982,
       "clusters": [
         720
       ],
@@ -26258,6 +27253,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 983,
       "clusters": [
         720
       ],
@@ -26275,6 +27271,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 984,
       "clusters": [
         703,647
       ],
@@ -26292,6 +27289,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 985,
       "clusters": [
         703,702,659,647,141
       ],
@@ -26309,6 +27307,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 986,
       "clusters": [
         574,572,571,559
       ],
@@ -26326,6 +27325,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 987,
       "clusters": [
         586,570,568,566,564
       ],
@@ -26343,6 +27343,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 988,
       "clusters": [
         720,647
       ],
@@ -26360,6 +27361,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 989,
       "clusters": [
         650,720,653,652,648
       ],
@@ -26377,6 +27379,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 990,
       "clusters": [
         604,601
       ],
@@ -26394,6 +27397,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 991,
       "clusters": [
         604,603,602,601,600,553,552,141
       ],
@@ -26411,6 +27415,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 992,
       "clusters": [
         553,141,107
       ],
@@ -26428,6 +27433,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 993,
       "clusters": [
         615,610
       ],
@@ -26445,6 +27451,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 994,
       "clusters": [
         615,610
       ],
@@ -26462,6 +27469,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 995,
       "clusters": [
         723,650,720
       ],
@@ -26479,6 +27487,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 996,
       "clusters": [
         723,650
       ],
@@ -26496,6 +27505,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 997,
       "clusters": [
         650,720
       ],
@@ -26513,6 +27523,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 998,
       "clusters": [
         650
       ],
@@ -26530,6 +27541,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 999,
       "clusters": [
         650
       ],
@@ -26547,6 +27559,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 1000,
       "clusters": [
         639,754,373
       ],
@@ -26564,6 +27577,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 1001,
       "clusters": [
         639,754,373,366,141
       ],
@@ -26581,6 +27595,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 1002,
       "clusters": [
         641,638
       ],
@@ -26598,6 +27613,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 1003,
       "clusters": [
         641,640,141,638,366
       ],
@@ -26615,6 +27631,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 1004,
       "clusters": [
         141
       ],
@@ -26632,6 +27649,7 @@
     },
     {
       "model": 13,
+      "vertLighting": 1005,
       "clusters": [
         639,637
       ],
@@ -26649,6 +27667,7 @@
     },
     {
       "model": 106,
+      "vertLighting": 1006,
       "clusters": [
         639,637,366,141
       ],
@@ -26666,6 +27685,7 @@
     },
     {
       "model": 14,
+      "vertLighting": 1007,
       "clusters": [
         638,636
       ],
@@ -26683,6 +27703,7 @@
     },
     {
       "model": 37,
+      "vertLighting": 1008,
       "clusters": [
         348,347,141,295,294,293
       ],
@@ -26700,6 +27721,7 @@
     },
     {
       "model": 38,
+      "vertLighting": 1009,
       "clusters": [
         141,348,347
       ],
@@ -26717,6 +27739,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 1010,
       "clusters": [
         445,1
       ],
@@ -26734,6 +27757,7 @@
     },
     {
       "model": 26,
+      "vertLighting": 1011,
       "clusters": [
         1,445
       ],
@@ -26751,6 +27775,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 1012,
       "clusters": [
         445,1
       ],
@@ -26768,6 +27793,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 1013,
       "clusters": [
         515,514,513
       ],
@@ -26785,6 +27811,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 1014,
       "clusters": [
         529,528,527,526
       ],
@@ -26802,6 +27829,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 1015,
       "clusters": [
         465
       ],
@@ -26819,6 +27847,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 1016,
       "clusters": [
         465
       ],
@@ -26836,6 +27865,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 1017,
       "clusters": [
         1
       ],
@@ -26853,6 +27883,7 @@
     },
     {
       "model": 27,
+      "vertLighting": 1018,
       "clusters": [
         515,514,513
       ],
@@ -26870,6 +27901,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 1019,
       "clusters": [
         445,1
       ],
@@ -26887,6 +27919,7 @@
     },
     {
       "model": 25,
+      "vertLighting": 1020,
       "clusters": [
         462,107
       ],
@@ -26904,6 +27937,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 1021,
       "clusters": [
         606,591,577
       ],
@@ -26921,6 +27955,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 1022,
       "clusters": [
         246
       ],
@@ -26938,6 +27973,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 1023,
       "clusters": [
         246,245,227
       ],
@@ -26955,6 +27991,7 @@
     },
     {
       "model": 96,
+      "vertLighting": 1024,
       "clusters": [
         246,226,225
       ],
@@ -26972,6 +28009,7 @@
     },
     {
       "model": 49,
+      "vertLighting": 1025,
       "clusters": [
         654
       ],
@@ -26989,6 +28027,7 @@
     },
     {
       "model": 49,
+      "vertLighting": 1026,
       "clusters": [
         722,654
       ],
@@ -27006,6 +28045,7 @@
     },
     {
       "model": 130,
+      "vertLighting": 1027,
       "clusters": [
         109
       ],
@@ -27023,6 +28063,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 1028,
       "clusters": [
         227,224
       ],
@@ -27040,6 +28081,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 1029,
       "clusters": [
         227,224,223
       ],
@@ -27057,6 +28099,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 1030,
       "clusters": [
         227,224
       ],
@@ -27074,6 +28117,7 @@
     },
     {
       "model": 48,
+      "vertLighting": 1031,
       "clusters": [
         227
       ],
@@ -27091,6 +28135,7 @@
     },
     {
       "model": 149,
+      "vertLighting": 1032,
       "clusters": [
         227,224,223
       ],
@@ -27108,6 +28153,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1033,
       "clusters": [
         227
       ],
@@ -27125,6 +28171,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1034,
       "clusters": [
         223
       ],
@@ -27142,6 +28189,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1035,
       "clusters": [
         223
       ],
@@ -27159,6 +28207,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1036,
       "clusters": [
         52,40,32,20,11,5
       ],
@@ -27176,6 +28225,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1037,
       "clusters": [
         31,20,11,5
       ],
@@ -27193,6 +28243,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1038,
       "clusters": [
         83,52,40,32
       ],
@@ -27210,6 +28261,7 @@
     },
     {
       "model": 150,
+      "vertLighting": 1039,
       "clusters": [
         650
       ],
@@ -27227,6 +28279,7 @@
     },
     {
       "model": 131,
+      "vertLighting": 1040,
       "clusters": [
         76,84,83
       ],
@@ -27244,6 +28297,7 @@
     },
     {
       "model": 37,
+      "vertLighting": 1041,
       "clusters": [
         92,53
       ],
@@ -27261,6 +28315,7 @@
     },
     {
       "model": 38,
+      "vertLighting": 1042,
       "clusters": [
         78,76,74
       ],
@@ -27278,6 +28333,7 @@
     },
     {
       "model": 37,
+      "vertLighting": 1043,
       "clusters": [
         76
       ],
@@ -27295,6 +28351,7 @@
     },
     {
       "model": 38,
+      "vertLighting": 1044,
       "clusters": [
         76
       ],
@@ -27312,6 +28369,7 @@
     },
     {
       "model": 39,
+      "vertLighting": 1045,
       "clusters": [
         87,76,83,4
       ],
@@ -27329,6 +28387,7 @@
     },
     {
       "model": 38,
+      "vertLighting": 1046,
       "clusters": [
         587,586,585,584,107
       ],
@@ -27346,6 +28405,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 1047,
       "clusters": [
         450,140
       ],
@@ -27363,6 +28423,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 1048,
       "clusters": [
         140
       ],
@@ -27380,6 +28441,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 1049,
       "clusters": [
         146
       ],
@@ -27397,6 +28459,7 @@
     },
     {
       "model": 44,
+      "vertLighting": 1050,
       "clusters": [
         76
       ],
@@ -27414,6 +28477,7 @@
     },
     {
       "model": 44,
+      "vertLighting": 1051,
       "clusters": [
         223
       ],
@@ -27431,6 +28495,7 @@
     },
     {
       "model": 43,
+      "vertLighting": 1052,
       "clusters": [
         224
       ],
@@ -27448,6 +28513,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 1053,
       "clusters": [
         445
       ],
@@ -27465,6 +28531,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 1054,
       "clusters": [
         445
       ],
@@ -27482,6 +28549,7 @@
     },
     {
       "model": 146,
+      "vertLighting": 1055,
       "clusters": [
         445
       ],
@@ -27499,6 +28567,7 @@
     },
     {
       "model": 89,
+      "vertLighting": 1056,
       "clusters": [
         724,723,722,720,647
       ],
@@ -27516,6 +28585,7 @@
     },
     {
       "model": 39,
+      "vertLighting": 1057,
       "clusters": [
         601
       ],
@@ -27533,6 +28603,7 @@
     },
     {
       "model": 37,
+      "vertLighting": 1058,
       "clusters": [
         601
       ],
@@ -27550,6 +28621,7 @@
     },
     {
       "model": 130,
+      "vertLighting": 1059,
       "clusters": [
         344
       ],
@@ -27567,6 +28639,7 @@
     },
     {
       "model": 46,
+      "vertLighting": 1060,
       "clusters": [
         107,734,732
       ],
@@ -27584,6 +28657,7 @@
     },
     {
       "model": 45,
+      "vertLighting": 1061,
       "clusters": [
         449,465,471,469,468,462,107,445,448,1
       ],
@@ -27601,6 +28675,7 @@
     },
     {
       "model": 71,
+      "vertLighting": 1062,
       "clusters": [
         720
       ],
@@ -27618,6 +28693,7 @@
     },
     {
       "model": 72,
+      "vertLighting": 1063,
       "clusters": [
         720
       ],
@@ -27635,6 +28711,7 @@
     },
     {
       "model": 72,
+      "vertLighting": 1064,
       "clusters": [
         650
       ],
@@ -27652,6 +28729,7 @@
     },
     {
       "model": 71,
+      "vertLighting": 1065,
       "clusters": [
         650
       ],
@@ -27669,6 +28747,7 @@
     },
     {
       "model": 92,
+      "vertLighting": 1066,
       "clusters": [
         650,723
       ],
@@ -27686,6 +28765,7 @@
     },
     {
       "model": 45,
+      "vertLighting": 1067,
       "clusters": [
         76,2,1,81
       ],
@@ -27703,6 +28783,7 @@
     },
     {
       "model": 71,
+      "vertLighting": 1068,
       "clusters": [
         107
       ],
@@ -27720,6 +28801,7 @@
     },
     {
       "model": 72,
+      "vertLighting": 1069,
       "clusters": [
         107
       ],
@@ -27737,6 +28819,7 @@
     },
     {
       "model": 151,
+      "vertLighting": 1070,
       "clusters": [
         229,227,219,218,199,190,186
       ],
@@ -27754,6 +28837,7 @@
     },
     {
       "model": 60,
+      "vertLighting": 1071,
       "clusters": [
         30,27,26,25
       ],
@@ -27771,6 +28855,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1072,
       "clusters": [
         626
       ],
@@ -27788,6 +28873,7 @@
     },
     {
       "model": 153,
+      "vertLighting": 1073,
       "clusters": [
         382,381,380
       ],
@@ -27805,6 +28891,7 @@
     },
     {
       "model": 73,
+      "vertLighting": 1074,
       "clusters": [
         382,381,379
       ],
@@ -27822,6 +28909,7 @@
     },
     {
       "model": 74,
+      "vertLighting": 1075,
       "clusters": [
         382,381,380
       ],
@@ -27839,6 +28927,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1076,
       "clusters": [
         445
       ],
@@ -27856,6 +28945,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1077,
       "clusters": [
         445
       ],
@@ -27873,6 +28963,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1078,
       "clusters": [
         449
       ],
@@ -27890,6 +28981,7 @@
     },
     {
       "model": 153,
+      "vertLighting": 1079,
       "clusters": [
         445
       ],
@@ -27907,6 +28999,7 @@
     },
     {
       "model": 73,
+      "vertLighting": 1080,
       "clusters": [
         445
       ],
@@ -27924,6 +29017,7 @@
     },
     {
       "model": 74,
+      "vertLighting": 1081,
       "clusters": [
         445
       ],
@@ -27941,6 +29035,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1082,
       "clusters": [
         482
       ],
@@ -27958,6 +29053,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1083,
       "clusters": [
         148,146,63,61,59
       ],
@@ -27975,6 +29071,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1084,
       "clusters": [
         474,473,459
       ],
@@ -27992,6 +29089,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1085,
       "clusters": [
         333
       ],
@@ -28009,6 +29107,7 @@
     },
     {
       "model": 153,
+      "vertLighting": 1086,
       "clusters": [
         489,465
       ],
@@ -28026,6 +29125,7 @@
     },
     {
       "model": 73,
+      "vertLighting": 1087,
       "clusters": [
         489,465
       ],
@@ -28043,6 +29143,7 @@
     },
     {
       "model": 74,
+      "vertLighting": 1088,
       "clusters": [
         489,465
       ],
@@ -28060,6 +29161,7 @@
     },
     {
       "model": 153,
+      "vertLighting": 1089,
       "clusters": [
         573,568,567
       ],
@@ -28077,6 +29179,7 @@
     },
     {
       "model": 73,
+      "vertLighting": 1090,
       "clusters": [
         573,568,567
       ],
@@ -28094,6 +29197,7 @@
     },
     {
       "model": 74,
+      "vertLighting": 1091,
       "clusters": [
         573,568,567
       ],
@@ -28111,6 +29215,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1092,
       "clusters": [
         515
       ],
@@ -28128,6 +29233,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1093,
       "clusters": [
         548,541
       ],
@@ -28145,6 +29251,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1094,
       "clusters": [
         465,525
       ],
@@ -28162,6 +29269,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1095,
       "clusters": [
         465
       ],
@@ -28179,6 +29287,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1096,
       "clusters": [
         465
       ],
@@ -28196,6 +29305,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1097,
       "clusters": [
         465
       ],
@@ -28213,6 +29323,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1098,
       "clusters": [
         131,127,125,124
       ],
@@ -28230,6 +29341,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1099,
       "clusters": [
         257,125
       ],
@@ -28247,6 +29359,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1100,
       "clusters": [
         283,279,257
       ],
@@ -28264,6 +29377,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1101,
       "clusters": [
         292,288,287,286,268
       ],
@@ -28281,6 +29395,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1102,
       "clusters": [
         292,288,268
       ],
@@ -28298,6 +29413,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1103,
       "clusters": [
         296,292
       ],
@@ -28315,6 +29431,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1104,
       "clusters": [
         307,305,304,303,302,301,300,299,298,297,296,292,288
       ],
@@ -28332,6 +29449,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1105,
       "clusters": [
         323,301
       ],
@@ -28349,6 +29467,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 1106,
       "clusters": [
         307,306,302,301,296,292,287,283
       ],
@@ -28366,6 +29485,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 1107,
       "clusters": [
         267,264,262
       ],
@@ -28383,6 +29503,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1108,
       "clusters": [
         278,277
       ],
@@ -28400,6 +29521,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1109,
       "clusters": [
         112
       ],
@@ -28417,6 +29539,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1110,
       "clusters": [
         332,330,323,308,301
       ],
@@ -28434,6 +29557,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1111,
       "clusters": [
         606
       ],
@@ -28451,6 +29575,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1112,
       "clusters": [
         459
       ],
@@ -28468,6 +29593,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1113,
       "clusters": [
         506
       ],
@@ -28485,6 +29611,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1114,
       "clusters": [
         482
       ],
@@ -28502,6 +29629,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1115,
       "clusters": [
         498
       ],
@@ -28519,6 +29647,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1116,
       "clusters": [
         498,496,449
       ],
@@ -28536,6 +29665,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1117,
       "clusters": [
         515
       ],
@@ -28553,6 +29683,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1118,
       "clusters": [
         718,717,706,705,704
       ],
@@ -28570,6 +29701,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1119,
       "clusters": [
         706,705,704,701
       ],
@@ -28587,6 +29719,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1120,
       "clusters": [
         718,717
       ],
@@ -28604,6 +29737,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1121,
       "clusters": [
         701
       ],
@@ -28621,6 +29755,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1122,
       "clusters": [
         107
       ],
@@ -28638,6 +29773,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1123,
       "clusters": [
         141
       ],
@@ -28655,6 +29791,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1124,
       "clusters": [
         1
       ],
@@ -28672,6 +29809,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1125,
       "clusters": [
         700
       ],
@@ -28689,6 +29827,7 @@
     },
     {
       "model": 75,
+      "vertLighting": 1126,
       "clusters": [
         700,699,697,696,695,694
       ],
@@ -28706,6 +29845,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1127,
       "clusters": [
         141
       ],
@@ -28723,6 +29863,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1128,
       "clusters": [
         141
       ],
@@ -28740,6 +29881,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1129,
       "clusters": [
         343,141
       ],
@@ -28757,6 +29899,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1130,
       "clusters": [
         151
       ],
@@ -28774,6 +29917,7 @@
     },
     {
       "model": 157,
+      "vertLighting": 1131,
       "clusters": [
         0
       ],
@@ -28791,6 +29935,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1132,
       "clusters": [
         0
       ],
@@ -28808,6 +29953,7 @@
     },
     {
       "model": 41,
+      "vertLighting": 1133,
       "clusters": [
         0
       ],
@@ -28825,6 +29971,7 @@
     },
     {
       "model": 42,
+      "vertLighting": 1134,
       "clusters": [
         0
       ],
@@ -28842,6 +29989,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1135,
       "clusters": [
         0
       ],
@@ -28859,6 +30007,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1136,
       "clusters": [
         0
       ],
@@ -28876,6 +30025,7 @@
     },
     {
       "model": 41,
+      "vertLighting": 1137,
       "clusters": [
         0
       ],
@@ -28893,6 +30043,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1138,
       "clusters": [
         0
       ],
@@ -28910,6 +30061,7 @@
     },
     {
       "model": 41,
+      "vertLighting": 1139,
       "clusters": [
         0
       ],
@@ -28927,6 +30079,7 @@
     },
     {
       "model": 41,
+      "vertLighting": 1140,
       "clusters": [
         0
       ],
@@ -28944,6 +30097,7 @@
     },
     {
       "model": 41,
+      "vertLighting": 1141,
       "clusters": [
         0
       ],
@@ -28961,6 +30115,7 @@
     },
     {
       "model": 41,
+      "vertLighting": 1142,
       "clusters": [
         0
       ],
@@ -28978,6 +30133,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1143,
       "clusters": [
         0
       ],
@@ -28995,6 +30151,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1144,
       "clusters": [
         0
       ],
@@ -29012,6 +30169,7 @@
     },
     {
       "model": 40,
+      "vertLighting": 1145,
       "clusters": [
         0
       ],
@@ -29029,6 +30187,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1146,
       "clusters": [
         2
       ],
@@ -29046,6 +30205,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1147,
       "clusters": [
         2
       ],
@@ -29063,6 +30223,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1148,
       "clusters": [
         2
       ],
@@ -29080,6 +30241,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1149,
       "clusters": [
         1
       ],
@@ -29097,6 +30259,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1150,
       "clusters": [
         1
       ],
@@ -29114,6 +30277,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1151,
       "clusters": [
         141
       ],
@@ -29131,6 +30295,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1152,
       "clusters": [
         141
       ],
@@ -29148,6 +30313,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1153,
       "clusters": [
         107
       ],
@@ -29165,6 +30331,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1154,
       "clusters": [
         141
       ],
@@ -29182,6 +30349,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1155,
       "clusters": [
         141
       ],
@@ -29199,6 +30367,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 1156,
       "clusters": [
         257,125
       ],
@@ -29216,6 +30385,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 1157,
       "clusters": [
         124
       ],
@@ -29233,6 +30403,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 1158,
       "clusters": [
         131
       ],
@@ -29250,6 +30421,7 @@
     },
     {
       "model": 28,
+      "vertLighting": 1159,
       "clusters": [
         131
       ],
@@ -29267,6 +30439,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1160,
       "clusters": [
         120,117
       ],
@@ -29284,6 +30457,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1161,
       "clusters": [
         135,130
       ],
@@ -29301,6 +30475,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1162,
       "clusters": [
         136,130
       ],
@@ -29318,6 +30493,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1163,
       "clusters": [
         134,130
       ],
@@ -29335,6 +30511,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1164,
       "clusters": [
         133,130
       ],
@@ -29352,6 +30529,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1165,
       "clusters": [
         120,115
       ],
@@ -29369,6 +30547,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1166,
       "clusters": [
         120,116
       ],
@@ -29386,6 +30565,7 @@
     },
     {
       "model": 105,
+      "vertLighting": 1167,
       "clusters": [
         120,118
       ],
@@ -29403,6 +30583,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1168,
       "clusters": [
         564
       ],
@@ -29420,6 +30601,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1169,
       "clusters": [
         650,141
       ],
@@ -29437,6 +30619,7 @@
     },
     {
       "model": 158,
+      "vertLighting": 1170,
       "clusters": [
         289,270
       ],
@@ -29454,6 +30637,7 @@
     },
     {
       "model": 158,
+      "vertLighting": 1171,
       "clusters": [
         141,269
       ],
@@ -29471,6 +30655,7 @@
     },
     {
       "model": 158,
+      "vertLighting": 1172,
       "clusters": [
         141
       ],
@@ -29488,6 +30673,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1173,
       "clusters": [
         54,51,49
       ],
@@ -29505,6 +30691,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1174,
       "clusters": [
         51,50
       ],
@@ -29522,6 +30709,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1175,
       "clusters": [
         30,21,19
       ],
@@ -29539,6 +30727,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1176,
       "clusters": [
         408,407,372,371
       ],
@@ -29556,6 +30745,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1177,
       "clusters": [
         666,548
       ],
@@ -29573,6 +30763,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1178,
       "clusters": [
         681,679,667,666
       ],
@@ -29590,6 +30781,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1179,
       "clusters": [
         679,678,660
       ],
@@ -29607,6 +30799,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1180,
       "clusters": [
         687,686,679,678,660
       ],
@@ -29624,6 +30817,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1181,
       "clusters": [
         687,686,679
       ],
@@ -29641,6 +30835,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1182,
       "clusters": [
         23,13,12,11,8,7,6,5,4
       ],
@@ -29658,6 +30853,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1183,
       "clusters": [
         18,16,15,14,9,8,7,5,4
       ],
@@ -29675,6 +30871,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1184,
       "clusters": [
         46,39,34,33,32,4,18,9,8,7,5
       ],
@@ -29692,6 +30889,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1185,
       "clusters": [
         46,39,34,33,32,4
       ],
@@ -29709,6 +30907,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1186,
       "clusters": [
         47,46,39,38,37,36,35,34,33,32,4
       ],
@@ -29726,6 +30925,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1187,
       "clusters": [
         47,38,37,36,35,4
       ],
@@ -29743,6 +30943,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1188,
       "clusters": [
         47,43,42,41,38,37,36,35,4
       ],
@@ -29760,6 +30961,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1189,
       "clusters": [
         44,4
       ],
@@ -29777,6 +30979,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1190,
       "clusters": [
         22,4,3
       ],
@@ -29794,6 +30997,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1191,
       "clusters": [
         24,4,3
       ],
@@ -29811,6 +31015,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1192,
       "clusters": [
         24,4,3
       ],
@@ -29828,6 +31033,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1193,
       "clusters": [
         24,4,3
       ],
@@ -29845,6 +31051,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1194,
       "clusters": [
         24,4,3
       ],
@@ -29862,6 +31069,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1195,
       "clusters": [
         24,4,3
       ],
@@ -29879,6 +31087,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1196,
       "clusters": [
         68,4,3
       ],
@@ -29896,6 +31105,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1197,
       "clusters": [
         68,4,3,29,24
       ],
@@ -29913,6 +31123,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1198,
       "clusters": [
         175,174,173,172,169
       ],
@@ -29930,6 +31141,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1199,
       "clusters": [
         186
       ],
@@ -29947,6 +31159,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1200,
       "clusters": [
         186
       ],
@@ -29964,6 +31177,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1201,
       "clusters": [
         199,190,186
       ],
@@ -29981,6 +31195,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1202,
       "clusters": [
         239,229,227
       ],
@@ -29998,6 +31213,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1203,
       "clusters": [
         388,141,335,334
       ],
@@ -30015,6 +31231,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1204,
       "clusters": [
         760,759,757,756,755
       ],
@@ -30032,6 +31249,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1205,
       "clusters": [
         756,755
       ],
@@ -30049,6 +31267,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1206,
       "clusters": [
         753,752,751,750,749,373
       ],
@@ -30066,6 +31285,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1207,
       "clusters": [
         760,757
       ],
@@ -30083,6 +31303,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1208,
       "clusters": [
         760,757,753,751
       ],
@@ -30100,6 +31321,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1209,
       "clusters": [
         764,763,373
       ],
@@ -30117,6 +31339,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1210,
       "clusters": [
         767,766,373
       ],
@@ -30134,6 +31357,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1211,
       "clusters": [
         767,766,373
       ],
@@ -30151,6 +31375,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1212,
       "clusters": [
         422,421,373,418,416,413,409
       ],
@@ -30168,6 +31393,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1213,
       "clusters": [
         650,744
       ],
@@ -30185,6 +31411,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1214,
       "clusters": [
         650
       ],
@@ -30202,6 +31429,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1215,
       "clusters": [
         650,141,721,720
       ],
@@ -30219,6 +31447,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1216,
       "clusters": [
         141,721,720
       ],
@@ -30236,6 +31465,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1217,
       "clusters": [
         141,720
       ],
@@ -30253,6 +31483,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1218,
       "clusters": [
         141,720
       ],
@@ -30270,6 +31501,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1219,
       "clusters": [
         190,186
       ],
@@ -30287,6 +31519,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1220,
       "clusters": [
         179
       ],
@@ -30304,6 +31537,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1221,
       "clusters": [
         179,173
       ],
@@ -30321,6 +31555,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1222,
       "clusters": [
         141,2
       ],
@@ -30338,6 +31573,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1223,
       "clusters": [
         586,581
       ],
@@ -30355,6 +31591,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1224,
       "clusters": [
         692,677
       ],
@@ -30372,6 +31609,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1225,
       "clusters": [
         692
       ],
@@ -30389,6 +31627,7 @@
     },
     {
       "model": 159,
+      "vertLighting": 1226,
       "clusters": [
         284,282,281,280,278,277
       ],
@@ -30406,6 +31645,7 @@
     },
     {
       "model": 70,
+      "vertLighting": 1227,
       "clusters": [
         606,591,575
       ],
@@ -30423,6 +31663,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1228,
       "clusters": [
         482,502,501,500,498,497
       ],
@@ -30440,6 +31681,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1229,
       "clusters": [
         494,492,460,459
       ],
@@ -30457,6 +31699,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 1230,
       "clusters": [
         373,631,630
       ],
@@ -30474,6 +31717,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 1231,
       "clusters": [
         393,392,389,383
       ],
@@ -30491,6 +31735,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1232,
       "clusters": [
         393,392
       ],
@@ -30508,6 +31753,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1233,
       "clusters": [
         623,351,350,346
       ],
@@ -30525,6 +31771,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1234,
       "clusters": [
         629,627,626,623,374,370,365,361,354,346
       ],
@@ -30542,6 +31789,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1235,
       "clusters": [
         654
       ],
@@ -30559,6 +31807,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1236,
       "clusters": [
         344
       ],
@@ -30576,6 +31825,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1237,
       "clusters": [
         110,109
       ],
@@ -30593,6 +31843,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1238,
       "clusters": [
         109,108,94,93
       ],
@@ -30610,6 +31861,7 @@
     },
     {
       "model": 160,
+      "vertLighting": 1239,
       "clusters": [
         141
       ],
@@ -30627,6 +31879,7 @@
     },
     {
       "model": 160,
+      "vertLighting": 1240,
       "clusters": [
         141,107
       ],
@@ -30644,6 +31897,7 @@
     },
     {
       "model": 160,
+      "vertLighting": 1241,
       "clusters": [
         1
       ],
@@ -30661,6 +31915,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1242,
       "clusters": [
         355,344,141
       ],
@@ -30678,6 +31933,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1243,
       "clusters": [
         388,141,335,334
       ],
@@ -30695,6 +31951,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1244,
       "clusters": [
         388,141,335,334,247,228,227
       ],
@@ -30712,6 +31969,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1245,
       "clusters": [
         247,141,228,227
       ],
@@ -30729,6 +31987,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1246,
       "clusters": [
         247,141,228,227
       ],
@@ -30746,6 +32005,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1247,
       "clusters": [
         190,186
       ],
@@ -30763,6 +32023,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1248,
       "clusters": [
         229,227
       ],
@@ -30780,6 +32041,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1249,
       "clusters": [
         199,190,186
       ],
@@ -30797,6 +32059,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1250,
       "clusters": [
         175,174,173,172,169
       ],
@@ -30814,6 +32077,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1251,
       "clusters": [
         175,174,173,172,169
       ],
@@ -30831,6 +32095,7 @@
     },
     {
       "model": 24,
+      "vertLighting": 1252,
       "clusters": [
         175,174,173,172,169
       ],
@@ -30848,6 +32113,7 @@
     },
     {
       "model": 21,
+      "vertLighting": 1253,
       "clusters": [
         175,174,173,172,169
       ],
@@ -30865,6 +32131,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1254,
       "clusters": [
         554,553,107
       ],
@@ -30882,6 +32149,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 1255,
       "clusters": [
         459,452,450
       ],
@@ -30899,6 +32167,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 1256,
       "clusters": [
         582,578,576
       ],
@@ -30916,6 +32185,7 @@
     },
     {
       "model": 102,
+      "vertLighting": 1257,
       "clusters": [
         585,584
       ],
@@ -30933,6 +32203,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1258,
       "clusters": [
         176,156,152,151
       ],
@@ -30950,6 +32221,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1259,
       "clusters": [
         151,67,65
       ],
@@ -30967,6 +32239,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1260,
       "clusters": [
         67,66,65,51,45,4
       ],
@@ -30984,6 +32257,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1261,
       "clusters": [
         76
       ],
@@ -31001,6 +32275,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1262,
       "clusters": [
         76
       ],
@@ -31018,6 +32293,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1263,
       "clusters": [
         76
       ],
@@ -31035,6 +32311,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1264,
       "clusters": [
         76
       ],
@@ -31052,6 +32329,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1265,
       "clusters": [
         30,27
       ],
@@ -31069,6 +32347,7 @@
     },
     {
       "model": 154,
+      "vertLighting": 1266,
       "clusters": [
         27,26,25,24,22
       ],
@@ -31086,6 +32365,7 @@
     },
     {
       "model": 75,
+      "vertLighting": 1267,
       "clusters": [
         107,141
       ],
@@ -31103,6 +32383,7 @@
     },
     {
       "model": 75,
+      "vertLighting": 1268,
       "clusters": [
         515
       ],
@@ -31120,6 +32401,7 @@
     },
     {
       "model": 75,
+      "vertLighting": 1269,
       "clusters": [
         515
       ],
@@ -31137,6 +32419,7 @@
     },
     {
       "model": 75,
+      "vertLighting": 1270,
       "clusters": [
         654,647,651
       ],
@@ -31154,6 +32437,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1271,
       "clusters": [
         227
       ],
@@ -31171,6 +32455,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1272,
       "clusters": [
         227
       ],
@@ -31188,6 +32473,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1273,
       "clusters": [
         409,404,396
       ],
@@ -31205,6 +32491,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1274,
       "clusters": [
         373,409,404
       ],
@@ -31222,6 +32509,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1275,
       "clusters": [
         641
       ],
@@ -31239,6 +32527,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1276,
       "clusters": [
         720
       ],
@@ -31256,6 +32545,7 @@
     },
     {
       "model": 107,
+      "vertLighting": 1277,
       "clusters": [
         373,408,407,372,371
       ],
@@ -31273,6 +32563,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1278,
       "clusters": [
         646,641
       ],
@@ -31290,6 +32581,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1279,
       "clusters": [
         645,644,643,641,640,141
       ],
@@ -31307,6 +32599,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1280,
       "clusters": [
         227
       ],
@@ -31324,6 +32617,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1281,
       "clusters": [
         2
       ],
@@ -31341,6 +32635,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1282,
       "clusters": [
         82,81,76,79
       ],
@@ -31358,6 +32653,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1283,
       "clusters": [
         91,76
       ],
@@ -31375,6 +32671,7 @@
     },
     {
       "model": 104,
+      "vertLighting": 1284,
       "clusters": [
         344,343,141
       ],
@@ -31392,6 +32689,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1285,
       "clusters": [
         636,620,615,601,599,594
       ],
@@ -31409,6 +32707,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1286,
       "clusters": [
         376,375,338,336,334,332,329
       ],
@@ -31426,6 +32725,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1287,
       "clusters": [
         383,342
       ],
@@ -31443,6 +32743,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1288,
       "clusters": [
         383,382,377,342,341
       ],
@@ -31460,6 +32761,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1289,
       "clusters": [
         385,384,382,380,377,341,340
       ],
@@ -31477,6 +32779,7 @@
     },
     {
       "model": 81,
+      "vertLighting": 1290,
       "clusters": [
         385,384,380,340
       ],
@@ -31494,6 +32797,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1291,
       "clusters": [
         378,377,375,338,336
       ],
@@ -31511,6 +32815,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1292,
       "clusters": [
         375,338,336
       ],
@@ -31528,6 +32833,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1293,
       "clusters": [
         378,377,375,338,336
       ],
@@ -31545,6 +32851,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1294,
       "clusters": [
         620,615,610,609
       ],
@@ -31562,6 +32869,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1295,
       "clusters": [
         620,615,610
       ],
@@ -31579,6 +32887,7 @@
     },
     {
       "model": 156,
+      "vertLighting": 1296,
       "clusters": [
         620,615
       ],
@@ -31596,6 +32905,7 @@
     },
     {
       "model": 52,
+      "vertLighting": 1297,
       "clusters": [
         162,141,160,159,158,157,2
       ],
@@ -31613,6 +32923,7 @@
     },
     {
       "model": 52,
+      "vertLighting": 1298,
       "clusters": [
         166,165,141,2
       ],
@@ -31630,6 +32941,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 1299,
       "clusters": [
         296,292,288,286,285,284,278,277,271,268,267
       ],
@@ -31647,6 +32959,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1300,
       "clusters": [
         445
       ],
@@ -31664,6 +32977,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1301,
       "clusters": [
         138
       ],
@@ -31681,6 +32995,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1302,
       "clusters": [
         139
       ],
@@ -31698,6 +33013,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1303,
       "clusters": [
         445
       ],
@@ -31715,6 +33031,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1304,
       "clusters": [
         465,490,489
       ],
@@ -31732,6 +33049,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1305,
       "clusters": [
         539,505,490,488
       ],
@@ -31749,6 +33067,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1306,
       "clusters": [
         571,559
       ],
@@ -31766,6 +33085,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1307,
       "clusters": [
         571,567,562,561
       ],
@@ -31783,6 +33103,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1308,
       "clusters": [
         615,610,609,385,384,380
       ],
@@ -31800,6 +33121,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1309,
       "clusters": [
         383,382,380,377,341,339
       ],
@@ -31817,6 +33139,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1310,
       "clusters": [
         344,337,334
       ],
@@ -31834,6 +33157,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1311,
       "clusters": [
         369,367,360,359,344
       ],
@@ -31851,6 +33175,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1312,
       "clusters": [
         570,569,568,567,566,565,564,563,562
       ],
@@ -31868,6 +33193,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 1313,
       "clusters": [
         223,217
       ],
@@ -31885,6 +33211,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 1314,
       "clusters": [
         109,108,76,93
       ],
@@ -31902,6 +33229,7 @@
     },
     {
       "model": 80,
+      "vertLighting": 1315,
       "clusters": [
         62,61,60,59,58,4
       ],
@@ -31919,6 +33247,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1316,
       "clusters": [
         650,736,141
       ],
@@ -31936,6 +33265,7 @@
     },
     {
       "model": 54,
+      "vertLighting": 1317,
       "clusters": [
         650,736
       ],
@@ -31953,6 +33283,7 @@
     },
     {
       "model": 76,
+      "vertLighting": 1318,
       "clusters": [
         112,110,109
       ],
@@ -31970,6 +33301,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1319,
       "clusters": [
         131,126,124
       ],
@@ -31987,6 +33319,7 @@
     },
     {
       "model": 29,
+      "vertLighting": 1320,
       "clusters": [
         493,491,458,453,451,450
       ],
@@ -32004,6 +33337,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1321,
       "clusters": [
         477
       ],
@@ -32021,6 +33355,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1322,
       "clusters": [
         140
       ],
@@ -32038,6 +33373,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1323,
       "clusters": [
         131
       ],
@@ -32055,6 +33391,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1324,
       "clusters": [
         124
       ],
@@ -32072,6 +33409,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1325,
       "clusters": [
         112
       ],
@@ -32089,6 +33427,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1326,
       "clusters": [
         283,282,278
       ],
@@ -32106,6 +33445,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1327,
       "clusters": [
         109
       ],
@@ -32123,6 +33463,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1328,
       "clusters": [
         380
       ],
@@ -32140,6 +33481,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1329,
       "clusters": [
         61
       ],
@@ -32157,6 +33499,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1330,
       "clusters": [
         2
       ],
@@ -32174,6 +33517,7 @@
     },
     {
       "model": 152,
+      "vertLighting": 1331,
       "clusters": [
         141
       ],
@@ -32191,6 +33535,7 @@
     },
     {
       "model": 155,
+      "vertLighting": 1332,
       "clusters": [
         141
       ],
