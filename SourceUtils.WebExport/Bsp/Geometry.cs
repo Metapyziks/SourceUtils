@@ -163,10 +163,12 @@ namespace SourceUtils.WebExport.Bsp
         [JsonProperty("indices")]
         public CompressedList<int> Indices { get; } = new CompressedList<int>();
 
+        [JsonIgnore]
+        public int VertexSize { get; private set; }
+
         private readonly Dictionary<int, int> _attribOffsets = new Dictionary<int, int>();
         private readonly Dictionary<Vertex, int> _vertexIndices = new Dictionary<Vertex, int>();
         private float[] _vertex;
-        private int _vertexSize;
         private readonly List<int> _primitiveIndices = new List<int>();
 
         public MeshData( int index, bool cacheVertices )
@@ -188,8 +190,8 @@ namespace SourceUtils.WebExport.Bsp
                     offset += attrib.Size;
                 }
 
-                _vertexSize = offset;
-                _vertex = new float[_vertexSize];
+                VertexSize = offset;
+                _vertex = new float[VertexSize];
             }
 
             _primitiveIndices.Clear();
@@ -221,17 +223,17 @@ namespace SourceUtils.WebExport.Bsp
 
         public void CommitVertex()
         {
-            var vert = new Vertex( _vertex, 0, _vertexSize );
+            var vert = new Vertex( _vertex, 0, VertexSize );
             int index;
             if ( !CacheVertices || !_vertexIndices.TryGetValue( vert, out index ) )
             {
                 index = Vertices.Count;
                 Vertices.AddRange( _vertex );
 
-                if ( CacheVertices ) _vertexIndices.Add( new Vertex( Vertices, index, _vertexSize ), index );
+                if ( CacheVertices ) _vertexIndices.Add( new Vertex( Vertices, index, VertexSize ), index );
             }
 
-            _primitiveIndices.Add( index / _vertexSize );
+            _primitiveIndices.Add( index / VertexSize );
         }
 
         private static IEnumerable<int> GetTriangleStripEnumerable( IEnumerable<int> indices )
@@ -729,35 +731,29 @@ namespace SourceUtils.WebExport.Bsp
                         Name = mdlFile.GetBodyPartName( j )
                     } );
 
-                    smdBodyPart.Models.AddRange( mdlFile.GetModels( j ).Select( model =>
+                    smdBodyPart.Models.AddRange( mdlFile.GetModels( j ).Select( (model, modelIndex) =>
                     {
                         var smdModel = new SmdModel();
 
-                        smdModel.Meshes.AddRange( mdlFile.GetMeshes( ref model ).Select( mesh =>
+                        smdModel.Meshes.AddRange( mdlFile.GetMeshes( ref model ).Select( ( mesh, meshIndex ) =>
                         {
-                            var meshData = GetOrCreateMeshData( bsp, page,
-                                mdlFile.GetMaterialName( mesh.Material, bsp.PakFile, Program.Resources ), false );
-
-                            var smdMesh = new SmdMesh
-                            {
-                                MeshId = mesh.MeshId,
-                                Material = meshData.MaterialIndex
-                            };
-
-                            var vertexCount = vtxFile.GetVertexCount( j, mesh.ModelIndex, 0 );
+                            var vertexCount = vtxFile.GetVertexCount( j, modelIndex, 0, meshIndex );
                             if ( vertices == null || vertices.Length < vertexCount )
                             {
                                 vertices = new StudioVertex[MathHelper.NextPowerOfTwo( vertexCount )];
                             }
 
-                            var indexCount = vtxFile.GetIndexCount( j, mesh.ModelIndex, 0 );
+                            var indexCount = vtxFile.GetIndexCount( j, modelIndex, 0, meshIndex );
                             if ( indices == null || indices.Length < indexCount )
                             {
                                 indices = new int[MathHelper.NextPowerOfTwo( indexCount )];
                             }
 
-                            vtxFile.GetVertices( j, mesh.ModelIndex, 0, vertices );
-                            vtxFile.GetIndices( j, mesh.ModelIndex, 0, indices );
+                            vtxFile.GetVertices( j, modelIndex, 0, meshIndex, vertices );
+                            vtxFile.GetIndices( j, modelIndex, 0, meshIndex, indices );
+
+                            var meshData = GetOrCreateMeshData( bsp, page,
+                                mdlFile.GetMaterialName( mesh.Material, bsp.PakFile, Program.Resources ), false );
 
                             var meshElem = new MeshElement
                             {
@@ -766,10 +762,15 @@ namespace SourceUtils.WebExport.Bsp
                                 VertexOffset = meshData.Vertices.Count
                             };
 
-                            smdMesh.Element = meshData.Elements.Count;
-                            meshData.Elements.Add( meshElem );
+                            var smdMesh = new SmdMesh
+                            {
+                                MeshId = mesh.MeshId,
+                                Material = meshData.MaterialIndex,
+                                Element = meshData.Elements.Count
+                            };
 
                             meshData.BeginPrimitive();
+
                             for ( var k = 0; k < vertexCount; ++k )
                             {
                                 var vertex = vertices[k];
@@ -779,10 +780,13 @@ namespace SourceUtils.WebExport.Bsp
                                 meshData.VertexAttribute( VertexAttribute.Uv, new Vector2( vertex.TexCoordX, vertex.TexCoordY ) );
                                 meshData.CommitVertex();
                             }
+
                             meshData.CommitPrimitive( PrimitiveType.Triangles, indices.Take( indexCount ) );
 
                             meshElem.IndexCount = meshData.Indices.Count - meshElem.IndexOffset;
                             meshElem.VertexCount = meshData.Vertices.Count - meshElem.VertexOffset;
+
+                            meshData.Elements.Add( meshElem );
 
                             return smdMesh;
                         } ) );
