@@ -660,6 +660,7 @@ var SourceUtils;
     var Map = (function () {
         function Map(viewer) {
             this.clusterVis = {};
+            this.clusterEnts = {};
             this.viewer = viewer;
         }
         Map.prototype.unload = function () {
@@ -692,7 +693,7 @@ var SourceUtils;
                 switch (ent.classname) {
                     case "worldspawn":
                         var worldspawn = ent;
-                        this.worldspawn = pvsInst = new SourceUtils.Entities.Worldspawn(this, worldspawn);
+                        this.worldspawn = new SourceUtils.Entities.Worldspawn(this, worldspawn);
                         this.lightmap.addUsage(this.worldspawn);
                         if (worldspawn.skyMaterial != null) {
                             var skyMat = new WebGame.MaterialLoadable(this.viewer);
@@ -741,6 +742,19 @@ var SourceUtils;
             this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
             this.viewer.forceDrawListInvalidation(true);
         };
+        Map.prototype.getPvsEntitiesInCluster = function (cluster) {
+            var ents = this.clusterEnts[cluster];
+            if (ents !== undefined)
+                return ents;
+            this.clusterEnts[cluster] = ents = [];
+            for (var _i = 0, _a = this.pvsEntities; _i < _a.length; _i++) {
+                var ent = _a[_i];
+                if (ent.isInCluster(cluster)) {
+                    ents.push(ent);
+                }
+            }
+            return ents;
+        };
         Map.prototype.getLeafAt = function (pos) {
             if (this.worldspawn == null || this.worldspawn.model == null)
                 return undefined;
@@ -770,8 +784,23 @@ var SourceUtils;
                     }
                 }
             }
-            for (var i = 0, iEnd = this.pvsEntities.length; i < iEnd; ++i) {
-                this.pvsEntities[i].populateDrawList(drawList, vis);
+            this.worldspawn.populateDrawList(drawList, vis);
+            if (vis == null) {
+                for (var _i = 0, _a = this.pvsEntities; _i < _a.length; _i++) {
+                    var ent = _a[_i];
+                    drawList.addItem(ent);
+                }
+                return;
+            }
+            for (var _b = 0, vis_1 = vis; _b < vis_1.length; _b++) {
+                var cluster = vis_1[_b];
+                var ents = this.getPvsEntitiesInCluster(cluster);
+                for (var _c = 0, ents_1 = ents; _c < ents_1.length; _c++) {
+                    var ent = ents_1[_c];
+                    if (ent.getIsInDrawList(drawList))
+                        continue;
+                    drawList.addItem(ent);
+                }
             }
         };
         Map.prototype.populateCommandBufferParameters = function (buf) {
