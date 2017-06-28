@@ -295,6 +295,7 @@ namespace SourceUtils.WebExport
 
             var floatArr = value as IEnumerable<float>;
             var intArr = value as IEnumerable<int>;
+            var uintArr = value as IEnumerable<uint>;
 
             string raw;
 
@@ -305,6 +306,10 @@ namespace SourceUtils.WebExport
             else if ( intArr != null )
             {
                 raw = string.Join( ",", intArr );
+            }
+            else if ( uintArr != null )
+            {
+                raw = string.Join( ",", uintArr );
             }
             else
             {
@@ -324,7 +329,8 @@ namespace SourceUtils.WebExport
         public override bool CanConvert( Type objectType )
         {
             return typeof(IEnumerable<float>).IsAssignableFrom( objectType ) ||
-                   typeof(IEnumerable<int>).IsAssignableFrom( objectType );
+                   typeof(IEnumerable<int>).IsAssignableFrom( objectType ) ||
+                   typeof(IEnumerable<uint>).IsAssignableFrom( objectType );
         }
     }
 

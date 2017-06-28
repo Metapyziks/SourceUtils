@@ -135,6 +135,9 @@ namespace SourceUtils.WebExport.Bsp
             [JsonProperty("studioModelPages")]
             public IEnumerable<PageInfo> StudioModelPages { get; set; }
 
+            [JsonProperty("vertLightingPages")]
+            public IEnumerable<PageInfo> VertexLightingPages { get; set; }
+
             [JsonProperty("entities")]
             public IEnumerable<Entity> Entities { get; set; }
         }
@@ -205,6 +208,7 @@ namespace SourceUtils.WebExport.Bsp
                 MaterialPages = GetPageLayout( bsp, MaterialDictionary.GetResourceCount( bsp ), MaterialPage.MaterialsPerPage, "/materials/matpage" ),
                 BrushModelPages = GetPageLayout( bsp, bsp.Models.Length, BspModelPage.FacesPerPage, "/geom/bsppage", i => bsp.Models[i].NumFaces ),
                 StudioModelPages = GetPageLayout( bsp, StudioModelDictionary.GetResourceCount( bsp ), StudioModelPage.VerticesPerPage, "/geom/mdlpage", i => StudioModelDictionary.GetVertexCount( bsp, i ) ),
+                VertexLightingPages = GetPageLayout( bsp, bsp.StaticProps.PropCount, VertexLightingPage.PropsPerPage, "/geom/vhvpage" ),
                 Entities = ents
             };
         }

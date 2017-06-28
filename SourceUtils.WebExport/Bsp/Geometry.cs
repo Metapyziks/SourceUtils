@@ -148,6 +148,9 @@ namespace SourceUtils.WebExport.Bsp
         [JsonIgnore]
         public int MaterialIndex { get; }
 
+        [JsonIgnore]
+        public bool CacheVertices { get; }
+
         [JsonProperty("attributes")]
         public List<VertexAttribute> Attributes { get; } = new List<VertexAttribute>();
 
@@ -166,9 +169,10 @@ namespace SourceUtils.WebExport.Bsp
         private int _vertexSize;
         private readonly List<int> _primitiveIndices = new List<int>();
 
-        public MeshData( int index )
+        public MeshData( int index, bool cacheVertices )
         {
             MaterialIndex = index;
+            CacheVertices = cacheVertices;
         }
 
         public void BeginPrimitive()
@@ -188,7 +192,6 @@ namespace SourceUtils.WebExport.Bsp
                 _vertex = new float[_vertexSize];
             }
 
-            _vertexIndices.Clear();
             _primitiveIndices.Clear();
         }
 
@@ -220,11 +223,12 @@ namespace SourceUtils.WebExport.Bsp
         {
             var vert = new Vertex( _vertex, 0, _vertexSize );
             int index;
-            if ( !_vertexIndices.TryGetValue( vert, out index ) )
+            if ( !CacheVertices || !_vertexIndices.TryGetValue( vert, out index ) )
             {
                 index = Vertices.Count;
                 Vertices.AddRange( _vertex );
-                _vertexIndices.Add( new Vertex( Vertices, index, _vertexSize ), index );
+
+                if ( CacheVertices ) _vertexIndices.Add( new Vertex( Vertices, index, _vertexSize ), index );
             }
 
             _primitiveIndices.Add( index / _vertexSize );
@@ -312,9 +316,9 @@ namespace SourceUtils.WebExport.Bsp
         [JsonProperty("meshData")]
         public MeshData MeshData { get; }
 
-        public MaterialGroup( int index )
+        public MaterialGroup( int index, bool cacheVertices )
         {
-            MeshData = new MeshData( index );
+            MeshData = new MeshData( index, cacheVertices );
         }
     }
 
@@ -393,6 +397,14 @@ namespace SourceUtils.WebExport.Bsp
         public List<StudioModel> Models { get; } = new List<StudioModel>();
     }
 
+    public class VertexLightingPage
+    {
+        public const int PropsPerPage = 1024;
+
+        [JsonProperty("props")]
+        public List<List<CompressedList<uint>>> Props { get; } = new List<List<CompressedList<uint>>>();
+    }
+
     [Prefix("/maps/{map}/geom")]
     class GeometryController : ResourceController
     {
@@ -427,7 +439,7 @@ namespace SourceUtils.WebExport.Bsp
             }
         }
 
-        private MeshData GetOrCreateMeshData( ValveBspFile bsp, GeometryPage page, string matPath )
+        private MeshData GetOrCreateMeshData( ValveBspFile bsp, GeometryPage page, string matPath, bool cacheVertices = true )
         {
             MaterialGroup matGroup;
 
@@ -437,7 +449,7 @@ namespace SourceUtils.WebExport.Bsp
             {
                 var vmt = ValveMaterialFile.FromProvider( MaterialDictionary.GetResourcePath( bsp, matDictIndex ), bsp.PakFile, Program.Resources );
 
-                matGroup = new MaterialGroup( matIndex = page.Materials.Count ) { Material = matDictIndex };
+                matGroup = new MaterialGroup( matIndex = page.Materials.Count, cacheVertices ) { Material = matDictIndex };
                 page.MaterialIndices.Add( matDictIndex, matIndex );
                 page.Materials.Add( matGroup );
 
@@ -680,7 +692,7 @@ namespace SourceUtils.WebExport.Bsp
         }
 
         [Get( "/mdlpage{index}.json" )]
-        public StudioModelPage GetPage( [Url] string map, [Url] int index )
+        public StudioModelPage GetStudioModelPage( [Url] string map, [Url] int index )
         {
             var bsp = Program.GetMap( map );
 
@@ -724,7 +736,7 @@ namespace SourceUtils.WebExport.Bsp
                         smdModel.Meshes.AddRange( mdlFile.GetMeshes( ref model ).Select( mesh =>
                         {
                             var meshData = GetOrCreateMeshData( bsp, page,
-                                mdlFile.GetMaterialName( mesh.Material, bsp.PakFile, Program.Resources ) );
+                                mdlFile.GetMaterialName( mesh.Material, bsp.PakFile, Program.Resources ), false );
 
                             var smdMesh = new SmdMesh
                             {
@@ -778,6 +790,53 @@ namespace SourceUtils.WebExport.Bsp
                         return smdModel;
                     } ) );
                 }
+            }
+
+            return page;
+        }
+
+        [Get( "/vhvpage{index}.json" )]
+        public VertexLightingPage GetVertexLightingPage( [Url] string map, [Url] int index )
+        {
+            var bsp = Program.GetMap( map );
+
+            var info = IndexController.GetPageLayout( bsp, bsp.StaticProps.PropCount,
+                VertexLightingPage.PropsPerPage, null ).Skip( index ).FirstOrDefault();
+
+            var first = info?.First ?? bsp.StaticProps.PropCount;
+            var count = info?.Count ?? 0;
+
+            var page = new VertexLightingPage();
+
+            for ( var i = 0; i < count; ++i )
+            {
+                var propIndex = first + i;
+                var hdrPath = $"sp_hdr_{propIndex}.vhv";
+                var ldrPath = $"sp_{propIndex}.vhv";
+                var existingPath = bsp.PakFile.ContainsFile( hdrPath )
+                    ? hdrPath : bsp.PakFile.ContainsFile( ldrPath ) ? ldrPath : null;
+
+                if ( existingPath == null )
+                {
+                    page.Props.Add( null );
+                    continue;
+                }
+
+                var meshList = new List<CompressedList<uint>>();
+                var vhvFile = ValveVertexLightingFile.FromProvider( existingPath, bsp.PakFile );
+
+                var meshCount = vhvFile.GetMeshCount( 0 );
+                for ( var j = 0; j < meshCount; ++j )
+                {
+                    var vertices = new CompressedList<uint>();
+                    var samples = vhvFile.GetSamples( 0, j );
+
+                    vertices.AddRange( samples.Select( x => ((uint) x.A << 24) | ((uint) x.R << 16) | ((uint) x.G << 8) | x.B ) );
+
+                    meshList.Add( vertices );
+                }
+
+                page.Props.Add( meshList );
             }
 
             return page;

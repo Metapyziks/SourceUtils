@@ -64,6 +64,17 @@ namespace SourceUtils
             return new ValveVertexLightingFile(stream);
         }
 
+        public static ValveVertexLightingFile FromProvider( string path, params IResourceProvider[] providers )
+        {
+            var provider = providers.FirstOrDefault( x => x.ContainsFile( path ) );
+            if ( provider == null ) return null;
+
+            using ( var stream = provider.OpenFile( path ) )
+            {
+                return new ValveVertexLightingFile( stream );
+            }
+        }
+
         private readonly VertexData4[][][] _samples;
 
         public ValveVertexLightingFile( Stream stream )
