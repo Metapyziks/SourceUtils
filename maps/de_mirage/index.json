@@ -1,56 +1,56 @@
 {
   "name": "de_mirage",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/lightmap.json?v=18f4-a714",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/lightmap.json?v=18f4-c2ba",
   "visPages": [
     {
       "first": 0,
       "count": 2115,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage0.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/vispage0.json?v=18f4-c2ba"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5178,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage0.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/leafpage0.json?v=18f4-c2ba"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 492,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/disppage0.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/disppage0.json?v=18f4-c2ba"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 446,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/materials/matpage0.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/materials/matpage0.json?v=18f4-c2ba"
     }
   ],
   "brushModelPages": [
     {
       "first": 0,
       "count": 1,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/bsppage0.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/bsppage0.json?v=18f4-c2ba"
     },
     {
       "first": 1,
       "count": 81,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/bsppage1.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/bsppage1.json?v=18f4-c2ba"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 206,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/mdlpage0.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/mdlpage0.json?v=18f4-c2ba"
     },
     {
       "first": 206,
       "count": 44,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/mdlpage1.json?v=18f4-a714"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_mirage/geom/mdlpage1.json?v=18f4-c2ba"
     }
   ],
   "entities": [
@@ -66,32 +66,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustrt.vtf.json?v=18f4-a714"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustrt.vtf.json?v=18f4-c2ba"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustlf.vtf.json?v=18f4-a714"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustlf.vtf.json?v=18f4-c2ba"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf.json?v=18f4-a714"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustbk.vtf.json?v=18f4-c2ba"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustft.vtf.json?v=18f4-a714"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustft.vtf.json?v=18f4-c2ba"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustup.vtf.json?v=18f4-a714"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustup.vtf.json?v=18f4-c2ba"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustdn.vtf.json?v=18f4-a714"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_dustdn.vtf.json?v=18f4-c2ba"
           }
         ]
       },

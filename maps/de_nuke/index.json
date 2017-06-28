@@ -1,106 +1,106 @@
 {
   "name": "de_nuke",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/lightmap.json?v=18f4-a721",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/lightmap.json?v=18f4-c2bb",
   "visPages": [
     {
       "first": 0,
       "count": 2402,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage0.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/vispage0.json?v=18f4-c2bb"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5423,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage0.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/leafpage0.json?v=18f4-c2bb"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 703,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage0.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/disppage0.json?v=18f4-c2bb"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 383,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/materials/matpage0.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/materials/matpage0.json?v=18f4-c2bb"
     }
   ],
   "brushModelPages": [
     {
       "first": 0,
       "count": 1,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/bsppage0.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/bsppage0.json?v=18f4-c2bb"
     },
     {
       "first": 1,
       "count": 119,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/bsppage1.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/bsppage1.json?v=18f4-c2bb"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 118,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage0.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage0.json?v=18f4-c2bb"
     },
     {
       "first": 118,
       "count": 102,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage1.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage1.json?v=18f4-c2bb"
     },
     {
       "first": 220,
       "count": 105,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage2.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage2.json?v=18f4-c2bb"
     },
     {
       "first": 325,
       "count": 84,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage3.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage3.json?v=18f4-c2bb"
     },
     {
       "first": 409,
       "count": 70,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage4.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage4.json?v=18f4-c2bb"
     },
     {
       "first": 479,
       "count": 77,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage5.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage5.json?v=18f4-c2bb"
     },
     {
       "first": 556,
       "count": 116,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage6.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage6.json?v=18f4-c2bb"
     },
     {
       "first": 672,
       "count": 210,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage7.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage7.json?v=18f4-c2bb"
     },
     {
       "first": 882,
       "count": 153,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage8.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage8.json?v=18f4-c2bb"
     },
     {
       "first": 1035,
       "count": 179,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage9.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage9.json?v=18f4-c2bb"
     },
     {
       "first": 1214,
       "count": 95,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage10.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage10.json?v=18f4-c2bb"
     },
     {
       "first": 1309,
       "count": 68,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage11.json?v=18f4-a721"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_nuke/geom/mdlpage11.json?v=18f4-c2bb"
     }
   ],
   "entities": [
@@ -116,32 +116,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-a721"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-c2bb"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-a721"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-c2bb"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-a721"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-c2bb"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-a721"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-c2bb"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-a721"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-c2bb"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-a721"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f4-c2bb"
           }
         ]
       },
