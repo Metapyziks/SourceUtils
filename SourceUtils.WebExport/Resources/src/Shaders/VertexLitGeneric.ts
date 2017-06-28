@@ -15,19 +15,29 @@ namespace SourceUtils {
                 const gl = context;
 
                 this.includeShaderSource(gl.VERTEX_SHADER, `
+                    attribute vec3 aVertexLighting;
+
+                    varying vec3 vVertexLighting;
+
                     void main()
                     {
+                        vVertexLighting = aVertexLighting;
+
                         ModelBase_main();
                     }`);
 
                 this.includeShaderSource(gl.FRAGMENT_SHADER, `
                     precision mediump float;
 
+                    varying vec3 vVertexLighting;
+
                     void main()
                     {
                         vec4 mainSample = ModelBase_main();
-                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);
+                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting), mainSample.a);
                     }`);
+
+                this.addAttribute("aVertexLighting", WebGame.VertexAttribute.rgb);
 
                 this.compile();
             }

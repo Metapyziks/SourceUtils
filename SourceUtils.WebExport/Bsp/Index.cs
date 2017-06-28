@@ -194,7 +194,8 @@ namespace SourceUtils.WebExport.Bsp
                         .Select( x => (int) bsp.Leaves[x].Cluster )
                         .Where( x => x != -1 )
                         .Distinct(),
-                    Model = modelIndex
+                    Model = modelIndex,
+                    VertLighting = propIndex
                 } );
             }
 

@@ -18,6 +18,7 @@ namespace SourceUtils {
         materialPages: IPageInfo[];
         brushModelPages: IPageInfo[];
         studioModelPages: IPageInfo[];
+        vertLightingPages: IPageInfo[];
         entities: Entities.IEntity[];
     }
 
@@ -58,12 +59,13 @@ namespace SourceUtils {
             if (this.info != null) this.unload();
 
             this.info = info;
+            this.viewer.visLoader.setPageLayout(info.visPages);
             this.viewer.leafGeometryLoader.setPageLayout(info.leafPages);
             this.viewer.dispGeometryLoader.setPageLayout(info.dispPages);
             this.viewer.mapMaterialLoader.setPageLayout(info.materialPages);
             this.viewer.bspModelLoader.setPageLayout(info.brushModelPages);
             this.viewer.studioModelLoader.setPageLayout(info.studioModelPages);
-            this.viewer.visLoader.setPageLayout(info.visPages);
+            this.viewer.vertLightingLoader.setPageLayout(info.vertLightingPages);
 
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
 

@@ -51,7 +51,7 @@ namespace SourceUtils {
             return newGroup;
         }
 
-        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4): WebGame.MeshHandle[] {
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, vertLighting?: number[][]): WebGame.MeshHandle[] {
             const bodyPart = this.info.bodyParts[bodyPartIndex];
             const handles: WebGame.MeshHandle[] = [];
 
@@ -60,9 +60,33 @@ namespace SourceUtils {
             for (let model of bodyPart.models) {
                 for (let mesh of model.meshes) {
                     const srcGroup = this.page.getMaterialGroup(mesh.material);
-                    const dstGroup = StudioModel.getOrCreateMatGroup(matGroups, srcGroup.attributes);
+                    const attribs = [];
+                    attribs.push.apply(attribs, srcGroup.attributes);
+                    attribs.push(WebGame.VertexAttribute.rgb);
 
-                    WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
+                    const dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
+                    const newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
+
+                    if (vertLighting == null || mesh.meshId === undefined || mesh.meshId < 0 || mesh.meshId >= vertLighting.length) continue;
+
+                    const rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
+                    const vertLength = WebGame.MeshManager.getVertexLength(attribs);
+                    const lighting = vertLighting[mesh.meshId];
+
+                    const compMul = 2 / 255;
+                    const vertData = dstGroup.vertices;
+                    for (let i = newElem.vertexOffset + rgbOffset,
+                        iEnd = newElem.vertexOffset + newElem.vertexCount,
+                        j = 0; i < iEnd; i += vertLength, ++j) {
+                        const lightValue = lighting[j];
+                        const r = ((lightValue >> 16) & 0xff) * compMul;
+                        const g = ((lightValue >> 8) & 0xff) * compMul;
+                        const b = (lightValue & 0xff) * compMul;
+
+                        vertData[i] = r;
+                        vertData[i + 1] = g;
+                        vertData[i + 2] = b;
+                    }
                 }
             }
 
@@ -91,15 +115,11 @@ namespace SourceUtils {
     }
 
     export class StudioModelPage extends ResourcePage<IStudioModelPage, IStudioModel> {
-        private readonly viewer: MapViewer;
-
         private matGroups: WebGame.IMeshData[];
         private models: IStudioModel[];
 
-        constructor(viewer: MapViewer, page: IPageInfo) {
+        constructor(page: IPageInfo) {
             super(page);
-
-            this.viewer = viewer;
         }
 
         getMaterialGroup(index: number) {
@@ -145,7 +165,40 @@ namespace SourceUtils {
         }
 
         onCreatePage(page: IPageInfo): StudioModelPage {
-            return new StudioModelPage(this.viewer, page);
+            return new StudioModelPage(page);
+        }
+    }
+
+    export interface IVertexLightingPage {
+        props: (string | number[])[][];
+    }
+
+    export class VertexLightingPage extends ResourcePage<IVertexLightingPage, number[][]> {
+        private props: number[][][];
+
+        onLoadValues(page: IVertexLightingPage): void {
+            this.props = new Array<number[][]>(page.props.length);
+
+            for (let i = 0, iEnd = page.props.length; i < iEnd; ++i) {
+                const srcProp = page.props[i];
+                const dstProp = this.props[i] = new Array<number[]>(srcProp.length);
+
+                for (let j = 0, jEnd = srcProp.length; j < jEnd; ++j) {
+                    dstProp[j] = Facepunch.Utils.decompress(srcProp[j]);
+                }
+            }
+
+            super.onLoadValues(page);
+        }
+
+        onGetValue(index: number): number[][] {
+            return this.props[index];
+        }
+    }
+
+    export class VertexLightingLoader extends PagedLoader<VertexLightingPage, IVertexLightingPage, number[][]> {
+        onCreatePage(page: IPageInfo): VertexLightingPage {
+            return new VertexLightingPage(page);
         }
     }
 }

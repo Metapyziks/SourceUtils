@@ -221,6 +221,9 @@ namespace SourceUtils.WebExport.Bsp
         {
             [JsonProperty("model")]
             public int Model { get; set; }
+
+            [JsonProperty("vertLighting")]
+            public int? VertLighting { get; set; }
         }
 
         private class MapParams

@@ -389,12 +389,13 @@ var SourceUtils;
             if (this.info != null)
                 this.unload();
             this.info = info;
+            this.viewer.visLoader.setPageLayout(info.visPages);
             this.viewer.leafGeometryLoader.setPageLayout(info.leafPages);
             this.viewer.dispGeometryLoader.setPageLayout(info.dispPages);
             this.viewer.mapMaterialLoader.setPageLayout(info.materialPages);
             this.viewer.bspModelLoader.setPageLayout(info.brushModelPages);
             this.viewer.studioModelLoader.setPageLayout(info.studioModelPages);
-            this.viewer.visLoader.setPageLayout(info.visPages);
+            this.viewer.vertLightingLoader.setPageLayout(info.vertLightingPages);
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
             this.tSpawns = [];
             this.ctSpawns = [];
@@ -571,6 +572,7 @@ var SourceUtils;
             _this.mapMaterialLoader = _this.addLoader(new SourceUtils.MapMaterialLoader(_this));
             _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
             _this.studioModelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
+            _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader());
             _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
             _this.time = 0;
             _this.frameCount = 0;
@@ -766,7 +768,7 @@ var SourceUtils;
             matGroups.push(newGroup);
             return newGroup;
         };
-        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform) {
+        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, vertLighting) {
             var _this = this;
             var bodyPart = this.info.bodyParts[bodyPartIndex];
             var handles = [];
@@ -776,8 +778,27 @@ var SourceUtils;
                 for (var _b = 0, _c = model.meshes; _b < _c.length; _b++) {
                     var mesh = _c[_b];
                     var srcGroup = this.page.getMaterialGroup(mesh.material);
-                    var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, srcGroup.attributes);
-                    WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
+                    var attribs = [];
+                    attribs.push.apply(attribs, srcGroup.attributes);
+                    attribs.push(WebGame.VertexAttribute.rgb);
+                    var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
+                    var newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
+                    if (vertLighting == null || mesh.meshId === undefined || mesh.meshId < 0 || mesh.meshId >= vertLighting.length)
+                        continue;
+                    var rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
+                    var vertLength = WebGame.MeshManager.getVertexLength(attribs);
+                    var lighting = vertLighting[mesh.meshId];
+                    var compMul = 2 / 255;
+                    var vertData = dstGroup.vertices;
+                    for (var i = newElem.vertexOffset + rgbOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
+                        var lightValue = lighting[j];
+                        var r = ((lightValue >> 16) & 0xff) * compMul;
+                        var g = ((lightValue >> 8) & 0xff) * compMul;
+                        var b = (lightValue & 0xff) * compMul;
+                        vertData[i] = r;
+                        vertData[i + 1] = g;
+                        vertData[i + 2] = b;
+                    }
                 }
             }
             for (var _d = 0, matGroups_2 = matGroups; _d < matGroups_2.length; _d++) {
@@ -799,10 +820,8 @@ var SourceUtils;
     SourceUtils.StudioModel = StudioModel;
     var StudioModelPage = (function (_super) {
         __extends(StudioModelPage, _super);
-        function StudioModelPage(viewer, page) {
-            var _this = _super.call(this, page) || this;
-            _this.viewer = viewer;
-            return _this;
+        function StudioModelPage(page) {
+            return _super.call(this, page) || this;
         }
         StudioModelPage.prototype.getMaterialGroup = function (index) {
             return this.matGroups[index];
@@ -843,11 +862,44 @@ var SourceUtils;
             return model;
         };
         StudioModelLoader.prototype.onCreatePage = function (page) {
-            return new StudioModelPage(this.viewer, page);
+            return new StudioModelPage(page);
         };
         return StudioModelLoader;
     }(SourceUtils.PagedLoader));
     SourceUtils.StudioModelLoader = StudioModelLoader;
+    var VertexLightingPage = (function (_super) {
+        __extends(VertexLightingPage, _super);
+        function VertexLightingPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VertexLightingPage.prototype.onLoadValues = function (page) {
+            this.props = new Array(page.props.length);
+            for (var i = 0, iEnd = page.props.length; i < iEnd; ++i) {
+                var srcProp = page.props[i];
+                var dstProp = this.props[i] = new Array(srcProp.length);
+                for (var j = 0, jEnd = srcProp.length; j < jEnd; ++j) {
+                    dstProp[j] = Facepunch.Utils.decompress(srcProp[j]);
+                }
+            }
+            _super.prototype.onLoadValues.call(this, page);
+        };
+        VertexLightingPage.prototype.onGetValue = function (index) {
+            return this.props[index];
+        };
+        return VertexLightingPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.VertexLightingPage = VertexLightingPage;
+    var VertexLightingLoader = (function (_super) {
+        __extends(VertexLightingLoader, _super);
+        function VertexLightingLoader() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VertexLightingLoader.prototype.onCreatePage = function (page) {
+            return new VertexLightingPage(page);
+        };
+        return VertexLightingLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.VertexLightingLoader = VertexLightingLoader;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
@@ -1091,13 +1143,29 @@ var SourceUtils;
             __extends(StaticProp, _super);
             function StaticProp(map, info) {
                 var _this = _super.call(this, map, info) || this;
+                if (info.vertLighting !== undefined) {
+                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
+                        _this.lighting = value;
+                        _this.checkLoaded();
+                    });
+                }
+                else {
+                    _this.lighting = null;
+                }
                 _this.model = map.viewer.studioModelLoader.loadModel(info.model);
                 _this.model.addUsage(_this);
                 _this.model.addOnLoadCallback(function (model) {
-                    _this.drawable.addMeshHandles(model.createMeshHandles(0, _this.getMatrix()));
+                    _this.checkLoaded();
                 });
                 return _this;
             }
+            StaticProp.prototype.checkLoaded = function () {
+                if (!this.model.isLoaded())
+                    return;
+                if (this.lighting === undefined)
+                    return;
+                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting));
+            };
             return StaticProp;
         }(Entities.PvsEntity));
         Entities.StaticProp = StaticProp;
@@ -1530,6 +1598,7 @@ var SourceUtils;
 /// <reference path="ModelBase.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
     var Shaders;
     (function (Shaders) {
         var VertexLitGenericMaterial = (function (_super) {
@@ -1545,8 +1614,9 @@ var SourceUtils;
             function VertexLitGeneric(context) {
                 var _this = _super.call(this, context, VertexLitGenericMaterial) || this;
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        ModelBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aVertexLighting;\n\n                    varying vec3 vVertexLighting;\n\n                    void main()\n                    {\n                        vVertexLighting = aVertexLighting;\n\n                        ModelBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vVertexLighting;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting), mainSample.a);\n                    }");
+                _this.addAttribute("aVertexLighting", WebGame.VertexAttribute.rgb);
                 _this.compile();
                 return _this;
             }
