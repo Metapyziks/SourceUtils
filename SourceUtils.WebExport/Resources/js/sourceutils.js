@@ -32,7 +32,7 @@ var SourceUtils;
         ResourcePage.prototype.load = function (index, callback) {
             if (this.page != null) {
                 var value = this.getValue(index);
-                callback(value);
+                callback(value, this);
                 return value;
             }
             this.toLoad.push({ index: index, callback: callback });
@@ -41,7 +41,7 @@ var SourceUtils;
             this.page = page;
             for (var i = 0, iEnd = this.toLoad.length; i < iEnd; ++i) {
                 var request = this.toLoad[i];
-                request.callback(this.getValue(request.index));
+                request.callback(this.getValue(request.index), this);
             }
             this.toLoad = null;
         };
@@ -747,25 +747,50 @@ var SourceUtils;
             _this.viewer = viewer;
             return _this;
         }
-        StudioModel.prototype.getMeshHandles = function (bodyPartIndex, target) {
+        StudioModel.getOrCreateMatGroup = function (matGroups, attribs) {
+            for (var _i = 0, matGroups_1 = matGroups; _i < matGroups_1.length; _i++) {
+                var matGroup = matGroups_1[_i];
+                if (matGroup.attributes.length !== attribs.length)
+                    continue;
+                var matches = true;
+                for (var i = 0; i < attribs.length; ++i) {
+                    if (matGroup.attributes[i].id !== attribs[i].id) {
+                        matches = false;
+                        break;
+                    }
+                }
+                if (matches)
+                    return matGroup;
+            }
+            var newGroup = WebGame.MeshManager.createEmpty(attribs);
+            matGroups.push(newGroup);
+            return newGroup;
+        };
+        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform) {
+            var _this = this;
             var bodyPart = this.info.bodyParts[bodyPartIndex];
-            if (bodyPart == null)
-                return 0;
-            var added = 0;
+            var handles = [];
+            var matGroups = [];
             for (var _i = 0, _a = bodyPart.models; _i < _a.length; _i++) {
                 var model = _a[_i];
                 for (var _b = 0, _c = model.meshes; _b < _c.length; _b++) {
                     var mesh = _c[_b];
-                    if (mesh.meshHandle == null)
-                        continue;
-                    target.push(mesh.meshHandle);
-                    ++added;
+                    var srcGroup = this.page.getMaterialGroup(mesh.material);
+                    var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, srcGroup.attributes);
+                    WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
                 }
             }
-            return added;
+            for (var _d = 0, matGroups_2 = matGroups; _d < matGroups_2.length; _d++) {
+                var matGroup = matGroups_2[_d];
+                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.position, function (pos) { return pos.applyMatrix4(transform); }, 1);
+                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.normal, function (norm) { return norm.applyMatrix4(transform); }, 0);
+                this.viewer.meshes.addMeshData(matGroup, function (index) { return _this.viewer.mapMaterialLoader.loadMaterial(index); }, handles);
+            }
+            return handles;
         };
-        StudioModel.prototype.loadFromInfo = function (info) {
+        StudioModel.prototype.loadFromInfo = function (info, page) {
             this.info = info;
+            this.page = page;
             this.dispatchOnLoadCallbacks();
         };
         StudioModel.prototype.isLoaded = function () { return this.info != null; };
@@ -779,30 +804,18 @@ var SourceUtils;
             _this.viewer = viewer;
             return _this;
         }
+        StudioModelPage.prototype.getMaterialGroup = function (index) {
+            return this.matGroups[index];
+        };
         StudioModelPage.prototype.onLoadValues = function (page) {
             this.models = page.models;
             this.matGroups = new Array(page.materials.length);
             for (var i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
                 var matGroup = page.materials[i];
-                var mat = this.viewer.mapMaterialLoader.loadMaterial(matGroup.material);
-                var data = WebGame.MeshManager.decompress(matGroup.meshData);
-                for (var _i = 0, _a = data.elements; _i < _a.length; _i++) {
+                this.matGroups[i] = WebGame.MeshManager.decompress(matGroup.meshData);
+                for (var _i = 0, _a = this.matGroups[i].elements; _i < _a.length; _i++) {
                     var element = _a[_i];
-                    element.material = mat;
-                }
-                this.matGroups[i] = this.viewer.meshes.addMeshData(data);
-            }
-            for (var _b = 0, _c = this.models; _b < _c.length; _b++) {
-                var smd = _c[_b];
-                for (var _d = 0, _e = smd.bodyParts; _d < _e.length; _d++) {
-                    var bodyPart = _e[_d];
-                    for (var _f = 0, _g = bodyPart.models; _f < _g.length; _f++) {
-                        var model = _g[_f];
-                        for (var _h = 0, _j = model.meshes; _h < _j.length; _h++) {
-                            var mesh = _j[_h];
-                            mesh.meshHandle = this.matGroups[mesh.material][mesh.element];
-                        }
-                    }
+                    element.material = matGroup.material;
                 }
             }
             _super.prototype.onLoadValues.call(this, page);
@@ -826,7 +839,7 @@ var SourceUtils;
             if (model !== undefined)
                 return model;
             this.models[index] = model = new StudioModel(this.viewer);
-            this.load(index, function (info) { return model.loadFromInfo(info); });
+            this.load(index, function (info, page) { return model.loadFromInfo(info, page); });
             return model;
         };
         StudioModelLoader.prototype.onCreatePage = function (page) {
@@ -1078,13 +1091,10 @@ var SourceUtils;
             __extends(StaticProp, _super);
             function StaticProp(map, info) {
                 var _this = _super.call(this, map, info) || this;
-                _this.drawable.isStatic = false;
                 _this.model = map.viewer.studioModelLoader.loadModel(info.model);
                 _this.model.addUsage(_this);
                 _this.model.addOnLoadCallback(function (model) {
-                    var handles = [];
-                    model.getMeshHandles(0, handles);
-                    _this.drawable.addMeshHandles(handles);
+                    _this.drawable.addMeshHandles(model.createMeshHandles(0, _this.getMatrix()));
                 });
                 return _this;
             }

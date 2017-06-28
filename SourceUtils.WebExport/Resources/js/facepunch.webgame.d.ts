@@ -839,6 +839,8 @@ declare namespace Facepunch {
             private readonly groups;
             constructor(game: Game);
             static decompress(compressed: ICompressedMeshData): IMeshData;
+            static createEmpty(attribs: VertexAttribute[]): IMeshData;
+            static copyElement(src: IMeshData, dst: IMeshData, index: number): void;
             static clone(data: IMeshData): IMeshData;
             static getAttributeOffset(attribs: VertexAttribute[], attrib: VertexAttribute): number;
             static getVertexLength(attribs: VertexAttribute[]): number;

@@ -1,7 +1,7 @@
 ﻿namespace SourceUtils {
-    export interface IPageRequest<TValue> {
+    export interface IPageRequest<TValue, TPage> {
         index: number;
-        callback: (payload: TValue) => void;
+        callback: (payload: TValue, page: TPage) => void;
     }
 
     export abstract class ResourcePage<TPayload, TValue> {
@@ -11,7 +11,7 @@
 
         private readonly values: TValue[];
 
-        private toLoad: IPageRequest<TValue>[] = [];
+        private toLoad: IPageRequest<TValue, ResourcePage<TPayload, TValue>>[] = [];
 
         protected page: TPayload;
 
@@ -38,10 +38,10 @@
 
         protected abstract onGetValue(index: number): TValue;
 
-        load(index: number, callback: (payload: TValue) => void): TValue {
+        load(index: number, callback: (payload: TValue, page: ResourcePage<TPayload, TValue>) => void): TValue {
             if (this.page != null) {
                 const value = this.getValue(index);
-                callback(value);
+                callback(value, this);
                 return value;
             }
 
@@ -53,7 +53,7 @@
 
             for (let i = 0, iEnd = this.toLoad.length; i < iEnd; ++i) {
                 const request = this.toLoad[i];
-                request.callback(this.getValue(request.index));
+                request.callback(this.getValue(request.index), this);
             }
 
             this.toLoad = null;
@@ -69,7 +69,7 @@
 
         protected abstract onCreatePage(page: IPageInfo): TPage;
 
-        load(index: number, callback: (payload: TValue) => void): TValue {
+        load(index: number, callback: (payload: TValue, page: TPage) => void): TValue {
             if (this.pages == null) {
                 throw new Error("Page layout not loaded.");
             }

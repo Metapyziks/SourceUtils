@@ -7,7 +7,6 @@ namespace SourceUtils {
         meshId: number;
         material: number;
         element: number;
-        meshHandle?: WebGame.MeshHandle;
     }
 
     export interface ISmdModel {
@@ -27,30 +26,59 @@ namespace SourceUtils {
         readonly viewer: MapViewer;
 
         private info: IStudioModel;
+        private page: StudioModelPage;
 
         constructor(viewer: MapViewer) {
             super();
             this.viewer = viewer;
         }
 
-        getMeshHandles(bodyPartIndex: number, target: WebGame.MeshHandle[]): number {
-            const bodyPart = this.info.bodyParts[bodyPartIndex];
-            if (bodyPart == null) return 0;
+        private static getOrCreateMatGroup(matGroups: WebGame.IMeshData[], attribs: WebGame.VertexAttribute[]): WebGame.IMeshData {
+            for (let matGroup of matGroups) {
+                if (matGroup.attributes.length !== attribs.length) continue;
+                let matches = true;
+                for (let i = 0; i < attribs.length; ++i) {
+                    if (matGroup.attributes[i].id !== attribs[i].id) {
+                        matches = false;
+                        break;
+                    }
+                }
+                if (matches) return matGroup;
+            }
 
-            let added = 0;
+            const newGroup = WebGame.MeshManager.createEmpty(attribs);
+            matGroups.push(newGroup);
+            return newGroup;
+        }
+
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4): WebGame.MeshHandle[] {
+            const bodyPart = this.info.bodyParts[bodyPartIndex];
+            const handles: WebGame.MeshHandle[] = [];
+
+            const matGroups: WebGame.IMeshData[] = [];
+
             for (let model of bodyPart.models) {
                 for (let mesh of model.meshes) {
-                    if (mesh.meshHandle == null) continue;
-                    target.push(mesh.meshHandle);
-                    ++added;
+                    const srcGroup = this.page.getMaterialGroup(mesh.material);
+                    const dstGroup = StudioModel.getOrCreateMatGroup(matGroups, srcGroup.attributes);
+
+                    WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
                 }
             }
 
-            return added;
+            for (let matGroup of matGroups) {
+                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.position, pos => pos.applyMatrix4(transform), 1);
+                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.normal, norm => norm.applyMatrix4(transform), 0);
+
+                this.viewer.meshes.addMeshData(matGroup, index => this.viewer.mapMaterialLoader.loadMaterial(index), handles);
+            }
+
+            return handles;
         }
 
-        loadFromInfo(info: IStudioModel): void {
+        loadFromInfo(info: IStudioModel, page: StudioModelPage): void {
             this.info = info;
+            this.page = page;
             this.dispatchOnLoadCallbacks();
         }
 
@@ -65,7 +93,7 @@ namespace SourceUtils {
     export class StudioModelPage extends ResourcePage<IStudioModelPage, IStudioModel> {
         private readonly viewer: MapViewer;
 
-        private matGroups: WebGame.MeshHandle[][];
+        private matGroups: WebGame.IMeshData[];
         private models: IStudioModel[];
 
         constructor(viewer: MapViewer, page: IPageInfo) {
@@ -74,27 +102,19 @@ namespace SourceUtils {
             this.viewer = viewer;
         }
 
+        getMaterialGroup(index: number) {
+            return this.matGroups[index];
+        }
+
         onLoadValues(page: IStudioModelPage): void {
             this.models = page.models;
-            this.matGroups = new Array<WebGame.MeshHandle[]>(page.materials.length);
+            this.matGroups = new Array<Facepunch.WebGame.IMeshData>(page.materials.length);
 
             for (let i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
                 const matGroup = page.materials[i];
-                const mat = this.viewer.mapMaterialLoader.loadMaterial(matGroup.material);
-                const data = WebGame.MeshManager.decompress(matGroup.meshData);
-                for (let element of data.elements) {
-                    element.material = mat;
-                }
-                this.matGroups[i] = this.viewer.meshes.addMeshData(data);
-            }
-
-            for (let smd of this.models) {
-                for (let bodyPart of smd.bodyParts) {
-                    for (let model of bodyPart.models) {
-                        for (let mesh of model.meshes) {
-                            mesh.meshHandle = this.matGroups[mesh.material][mesh.element];
-                        }
-                    }
+                this.matGroups[i] = WebGame.MeshManager.decompress(matGroup.meshData);
+                for (let element of this.matGroups[i].elements) {
+                    element.material = matGroup.material;
                 }
             }
 
@@ -120,7 +140,7 @@ namespace SourceUtils {
             let model = this.models[index];
             if (model !== undefined) return model;
             this.models[index] = model = new StudioModel(this.viewer);
-            this.load(index, info => model.loadFromInfo(info));
+            this.load(index, (info, page) => model.loadFromInfo(info, page));
             return model;
         }
 

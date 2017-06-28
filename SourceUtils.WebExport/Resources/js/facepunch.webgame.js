@@ -3054,6 +3054,42 @@ var Facepunch;
                     indices: Facepunch.Utils.decompress(compressed.indices)
                 };
             };
+            MeshManager.createEmpty = function (attribs) {
+                return {
+                    attributes: attribs,
+                    elements: [],
+                    vertices: [],
+                    indices: []
+                };
+            };
+            MeshManager.copyElement = function (src, dst, index) {
+                var srcElem = src.elements[index];
+                if (srcElem.vertexOffset === undefined || srcElem.vertexCount === undefined) {
+                    throw new Error("Can only copy elements with vertexOffset and vertexCount values.");
+                }
+                var dstElem = {
+                    mode: srcElem.mode,
+                    material: srcElem.material,
+                    indexOffset: dst.indices.length,
+                    indexCount: srcElem.indexCount,
+                    vertexOffset: dst.vertices.length,
+                    vertexCount: srcElem.vertexCount
+                };
+                dst.elements.push(dstElem);
+                var vertLength = MeshManager.getVertexLength(src.attributes);
+                var srcIndices = src.indices;
+                var dstIndices = dst.indices;
+                var srcVertexOffset = Math.floor(srcElem.vertexOffset / vertLength);
+                var dstVertexOffset = Math.floor(dstElem.vertexOffset / vertLength);
+                for (var i = srcElem.indexOffset, iEnd = srcElem.indexOffset + srcElem.indexCount; i < iEnd; ++i) {
+                    dstIndices.push(srcIndices[i] - srcVertexOffset + dstVertexOffset);
+                }
+                var srcVertices = src.vertices;
+                var dstVertices = dst.vertices;
+                for (var i = srcElem.vertexOffset, iEnd = srcElem.vertexOffset + srcElem.vertexCount; i < iEnd; ++i) {
+                    dstVertices.push(srcVertices[i]);
+                }
+            };
             MeshManager.clone = function (data) {
                 return {
                     attributes: data.attributes,

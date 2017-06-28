@@ -14,14 +14,10 @@ namespace SourceUtils {
             constructor(map: Map, info: IStaticProp) {
                 super(map, info);
 
-                this.drawable.isStatic = false;
-
                 this.model = map.viewer.studioModelLoader.loadModel(info.model);
                 this.model.addUsage(this);
                 this.model.addOnLoadCallback(model => {
-                    const handles: WebGame.MeshHandle[] = [];
-                    model.getMeshHandles(0, handles);
-                    this.drawable.addMeshHandles(handles);
+                    this.drawable.addMeshHandles(model.createMeshHandles(0, this.getMatrix()));
                 });
             }
         }

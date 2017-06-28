@@ -83,6 +83,12 @@ namespace SourceUtils.WebExport.Bsp
 
         [JsonProperty("indexCount")]
         public int IndexCount { get; set; }
+
+        [JsonProperty( "vertexOffset" )]
+        public int? VertexOffset { get; set; }
+
+        [JsonProperty( "vertexCount" )]
+        public int? VertexCount { get; set; }
     }
 
     public class MeshData
@@ -182,6 +188,7 @@ namespace SourceUtils.WebExport.Bsp
                 _vertex = new float[_vertexSize];
             }
 
+            _vertexIndices.Clear();
             _primitiveIndices.Clear();
         }
 
@@ -743,7 +750,8 @@ namespace SourceUtils.WebExport.Bsp
                             var meshElem = new MeshElement
                             {
                                 Mode = PrimitiveType.Triangles,
-                                IndexOffset = meshData.Indices.Count
+                                IndexOffset = meshData.Indices.Count,
+                                VertexOffset = meshData.Vertices.Count
                             };
 
                             smdMesh.Element = meshData.Elements.Count;
@@ -762,6 +770,7 @@ namespace SourceUtils.WebExport.Bsp
                             meshData.CommitPrimitive( PrimitiveType.Triangles, indices.Take( indexCount ) );
 
                             meshElem.IndexCount = meshData.Indices.Count - meshElem.IndexOffset;
+                            meshElem.VertexCount = meshData.Vertices.Count - meshElem.VertexOffset;
 
                             return smdMesh;
                         } ) );
