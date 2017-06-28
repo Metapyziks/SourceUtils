@@ -57,7 +57,7 @@ namespace SourceUtils {
             let material = this.materials[index];
             if (material !== undefined) return material;
             this.materials[index] = material = new WebGame.MaterialLoadable(this.viewer);
-            this.load(index, info => material.loadFromInfo(info));
+            this.load(index, info => info == null ? null : material.loadFromInfo(info));
             return material;
         }
 

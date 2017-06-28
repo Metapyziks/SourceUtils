@@ -163,6 +163,7 @@
     <TypeScriptCompile Include="Resources\src\Shaders\ModelBase.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\Sky.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\UnlitGeneric.ts" />
+    <TypeScriptCompile Include="Resources\src\Shaders\VertexLitGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\Water.ts" />
     <TypeScriptCompile Include="Resources\src\SkyCube.ts" />
     <TypeScriptCompile Include="Resources\src\StudioModel.ts" />

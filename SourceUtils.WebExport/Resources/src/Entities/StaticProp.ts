@@ -10,20 +10,19 @@ namespace SourceUtils {
 
         export class StaticProp extends PvsEntity {
             readonly model: StudioModel;
-            readonly drawListItem: Facepunch.WebGame.IDrawListItem;
 
             constructor(map: Map, info: IStaticProp) {
                 super(map, info);
 
+                this.drawable.isStatic = false;
+
                 this.model = map.viewer.studioModelLoader.loadModel(info.model);
                 this.model.addUsage(this);
                 this.model.addOnLoadCallback(model => {
-                    // TODO: Duplicate handles, attach vertex lighting, set entity
+                    const handles: WebGame.MeshHandle[] = [];
+                    model.getMeshHandles(0, handles);
+                    this.drawable.addMeshHandles(handles);
                 });
-            }
-
-            protected onPopulateDrawList(drawList: WebGame.DrawList, clusters: number[]): void {
-                if (this.drawListItem != null) drawList.addItem(this.drawListItem);
             }
         }
     }

@@ -43,7 +43,10 @@ namespace SourceUtils.WebExport.Bsp
                 var mat = Material.Get(bsp, path);
                 page.Materials.Add(mat);
 
-                if ( mat == null ) continue;
+                if ( mat == null )
+                {
+                    continue;
+                }
 
                 foreach ( var prop in mat.Properties )
                 {

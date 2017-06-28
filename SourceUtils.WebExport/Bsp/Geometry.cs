@@ -382,6 +382,7 @@ namespace SourceUtils.WebExport.Bsp
     {
         public const int VerticesPerPage = 65536 * 4;
 
+        [JsonProperty( "models" )]
         public List<StudioModel> Models { get; } = new List<StudioModel>();
     }
 

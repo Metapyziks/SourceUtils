@@ -62,6 +62,7 @@ namespace SourceUtils {
             this.viewer.dispGeometryLoader.setPageLayout(info.dispPages);
             this.viewer.mapMaterialLoader.setPageLayout(info.materialPages);
             this.viewer.bspModelLoader.setPageLayout(info.brushModelPages);
+            this.viewer.studioModelLoader.setPageLayout(info.studioModelPages);
             this.viewer.visLoader.setPageLayout(info.visPages);
 
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
@@ -109,6 +110,9 @@ namespace SourceUtils {
                         break;
                     case "func_brush":
                         pvsInst = new Entities.BrushEntity(this, ent as Entities.IBrushEntity);
+                        break;
+                    case "prop_static":
+                        pvsInst = new Entities.StaticProp(this, ent as Entities.IStaticProp);
                         break;
                     case "sky_camera":
                         this.skyCamera = new Entities.SkyCamera(this.viewer, ent as Entities.ISkyCamera);
