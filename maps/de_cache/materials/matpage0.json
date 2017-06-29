@@ -13319,11 +13319,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 50
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -14394,11 +14389,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 91
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -14459,11 +14449,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 94
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -14744,11 +14729,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 105
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -14799,11 +14779,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 107
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15174,11 +15149,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 91
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15239,11 +15209,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 91
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15334,11 +15299,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 124
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15439,11 +15399,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 91
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15464,11 +15419,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 94
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15574,11 +15524,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 107
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -15989,11 +15934,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 145
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19124,11 +19064,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 176
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19621,11 +19556,6 @@
           "value": 210
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -20024,11 +19954,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 238
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20054,11 +19979,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 240
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20174,11 +20094,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 247
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20269,11 +20184,6 @@
           "name": "translucent",
           "type": 1,
           "value": true
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20344,11 +20254,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 257
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20581,11 +20486,6 @@
           "value": 273
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -20619,11 +20519,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 276
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -20661,11 +20556,6 @@
           "value": 273
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -20679,11 +20569,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 279
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -20804,11 +20689,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 288
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20819,11 +20699,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 289
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -20849,11 +20724,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 291
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20864,11 +20734,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 94
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20944,11 +20809,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 296
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20971,11 +20831,6 @@
           "value": 298
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -20989,11 +20844,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 273
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -21114,11 +20964,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "translucent",
@@ -21421,11 +21266,6 @@
           "value": 91
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -21482,11 +21322,6 @@
           "value": 91
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -21502,11 +21337,6 @@
           "value": 91
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -21520,11 +21350,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 91
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -21710,11 +21535,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 273
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -21962,11 +21782,6 @@
           "value": 344
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -21980,11 +21795,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 345
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -22370,11 +22180,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 378
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -22385,11 +22190,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 379
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "baseAlphaTint",
@@ -22555,11 +22355,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 393
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -22825,11 +22620,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -22900,11 +22690,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -22965,11 +22750,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 345
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -23115,11 +22895,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -23185,11 +22960,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "translucent",
@@ -23285,11 +23055,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 447
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -23537,11 +23302,6 @@
           "value": false
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
@@ -23555,11 +23315,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 469
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -23777,11 +23532,6 @@
           "value": 488
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -23922,11 +23672,6 @@
           "value": 501
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -24020,11 +23765,6 @@
           "name": "translucent",
           "type": 1,
           "value": true
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -24038,11 +23778,6 @@
         },
         {
           "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "alphaTest",
           "type": 1,
           "value": true
         }
@@ -24267,11 +24002,6 @@
           "value": false
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
@@ -24300,11 +24030,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "translucent",

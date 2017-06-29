@@ -47,7 +47,11 @@ var SourceUtils;
         function PagedLoader() {
             this.toLoad = [];
             this.active = 0;
+            this.loadProgress = 0;
         }
+        PagedLoader.prototype.getLoadProgress = function () {
+            return this.pages == null ? 0 : this.loadProgress / this.pages.length;
+        };
         PagedLoader.prototype.load = function (index, callback) {
             if (this.pages == null) {
                 throw new Error("Page layout not loaded.");
@@ -91,13 +95,22 @@ var SourceUtils;
                 var next = this_1.getNextToLoad();
                 if (next == null)
                     return "break";
+                var lastProgress = 0;
                 ++this_1.active;
                 Facepunch.Http.getJson(next.url, function (page) {
                     --_this.active;
+                    _this.loadProgress += 1 - lastProgress;
+                    lastProgress = 1;
                     next.onLoadValues(page);
                 }, function (error) {
                     --_this.active;
                     console.warn(error);
+                }, function (loaded, total) {
+                    if (total !== undefined) {
+                        var progress = loaded / total;
+                        _this.loadProgress += (progress - lastProgress);
+                        lastProgress = progress;
+                    }
                 });
             };
             var this_1 = this;
@@ -425,8 +438,8 @@ var SourceUtils;
             };
             Camera.prototype.getLeaf = function () {
                 if (this.leafInvalid) {
-                    this.leafInvalid = false;
                     var leaf = this.onGetLeaf();
+                    this.leafInvalid = leaf !== undefined;
                     if (this.leaf !== leaf) {
                         this.leaf = leaf;
                         this.invalidateGeometry();
@@ -524,6 +537,7 @@ var SourceUtils;
             __extends(StaticProp, _super);
             function StaticProp(map, info) {
                 var _this = _super.call(this, map, info) || this;
+                _this.albedoModulation = info.albedoModulation;
                 if (info.vertLighting !== undefined) {
                     map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
                         _this.lighting = value;
@@ -545,7 +559,7 @@ var SourceUtils;
                     return;
                 if (this.lighting === undefined)
                     return;
-                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting));
+                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
             };
             return StaticProp;
         }(Entities.PvsEntity));
@@ -671,6 +685,9 @@ var SourceUtils;
             Facepunch.Http.getJson(url, function (info) {
                 _this.onLoad(info);
             });
+        };
+        Map.prototype.getLightmapLoadProgress = function () {
+            return this.lightmap == null ? 0 : this.lightmap.getLoadProgress();
         };
         Map.prototype.onLoad = function (info) {
             if (this.info != null)
@@ -882,15 +899,16 @@ var SourceUtils;
         function MapViewer() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.map = new SourceUtils.Map(_this);
+            _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
+            _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
+            _this.mapMaterialLoader = _this.addLoader(new SourceUtils.MapMaterialLoader(_this));
             _this.leafGeometryLoader = _this.addLoader(new SourceUtils.LeafGeometryLoader(_this));
             _this.dispGeometryLoader = _this.addLoader(new SourceUtils.DispGeometryLoader(_this));
-            _this.mapMaterialLoader = _this.addLoader(new SourceUtils.MapMaterialLoader(_this));
-            _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
             _this.studioModelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
-            _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader());
-            _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
+            _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader(_this));
             _this.time = 0;
             _this.frameCount = 0;
+            _this.allLoaded = false;
             _this.lookAngs = new Facepunch.Vector2();
             _this.tempQuat = new Facepunch.Quaternion();
             _this.lookQuat = new Facepunch.Quaternion();
@@ -996,6 +1014,26 @@ var SourceUtils;
                 var frameRate = (this.frameCount / timeDiff).toPrecision(4);
                 $("#debug-frametime").text(frameTime);
                 $("#debug-framerate").text(frameRate);
+                if (!this.allLoaded) {
+                    var visLoaded = this.visLoader.getLoadProgress();
+                    var bspLoaded = this.bspModelLoader.getLoadProgress();
+                    var lightmapLoaded = this.map.getLightmapLoadProgress();
+                    var materialsLoaded = this.mapMaterialLoader.getLoadProgress();
+                    var geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
+                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
+                    var propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
+                        + this.studioModelLoader.getLoadProgress() * 0.75;
+                    $("#debug-visloaded").text((visLoaded * 100).toPrecision(3));
+                    $("#debug-bsploaded").text((bspLoaded * 100).toPrecision(3));
+                    $("#debug-geomloaded").text((geomLoaded * 100).toPrecision(3));
+                    $("#debug-propsloaded").text((propsLoaded * 100).toPrecision(3));
+                    $("#debug-lightmaploaded").text((lightmapLoaded * 100).toPrecision(3));
+                    $("#debug-materialsloaded").text((materialsLoaded * 100).toPrecision(3));
+                    if (visLoaded * bspLoaded * lightmapLoaded * materialsLoaded * geomLoaded * propsLoaded === 1) {
+                        this.allLoaded = true;
+                        $("#debug-loading").hide();
+                    }
+                }
                 this.lastProfileTime = time;
                 this.frameCount = 0;
             }
@@ -1357,9 +1395,9 @@ var SourceUtils;
             function VertexLitGeneric(context) {
                 var _this = _super.call(this, context, VertexLitGenericMaterial) || this;
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aVertexLighting;\n\n                    varying vec3 vVertexLighting;\n\n                    void main()\n                    {\n                        vVertexLighting = aVertexLighting;\n\n                        ModelBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vVertexLighting;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting), mainSample.a);\n                    }");
-                _this.addAttribute("aVertexLighting", WebGame.VertexAttribute.rgb);
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aEncodedColors;\n\n                    varying vec3 vVertexLighting;\n                    varying vec3 vAlbedoModulation;\n\n                    void main()\n                    {\n                        vVertexLighting = floor(aEncodedColors) * (2.0 / 255.0);\n                        vAlbedoModulation = fract(aEncodedColors) * (256.0 / 255.0);\n\n                        ModelBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vVertexLighting;\n                    varying vec3 vAlbedoModulation;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting * vAlbedoModulation), mainSample.a);\n                    }");
+                _this.addAttribute("aEncodedColors", WebGame.VertexAttribute.rgb);
                 _this.compile();
                 return _this;
             }
@@ -1488,11 +1526,21 @@ var SourceUtils;
             matGroups.push(newGroup);
             return newGroup;
         };
-        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, vertLighting) {
+        StudioModel.encode2CompColor = function (vertLit, albedoMod) {
+            return vertLit + albedoMod * 0.00390625;
+        };
+        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, vertLighting, albedoModulation) {
             var _this = this;
             var bodyPart = this.info.bodyParts[bodyPartIndex];
             var handles = [];
             var matGroups = [];
+            if (albedoModulation === undefined)
+                albedoModulation = 0xffffff;
+            else
+                albedoModulation &= 0xffffff;
+            var albedoR = albedoModulation & 0xff;
+            var albedoG = (albedoModulation >> 8) & 0xff;
+            var albedoB = (albedoModulation >> 16) & 0xff;
             for (var _i = 0, _a = bodyPart.models; _i < _a.length; _i++) {
                 var model = _a[_i];
                 for (var _b = 0, _c = model.meshes; _b < _c.length; _b++) {
@@ -1503,21 +1551,15 @@ var SourceUtils;
                     attribs.push(WebGame.VertexAttribute.rgb);
                     var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
                     var newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
-                    if (vertLighting == null || mesh.meshId === undefined || mesh.meshId < 0 || mesh.meshId >= vertLighting.length)
-                        continue;
                     var rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
                     var vertLength = WebGame.MeshManager.getVertexLength(attribs);
-                    var lighting = vertLighting[mesh.meshId];
-                    var compMul = 2 / 255;
+                    var lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
                     var vertData = dstGroup.vertices;
                     for (var i = newElem.vertexOffset + rgbOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
-                        var lightValue = lighting[j];
-                        var r = ((lightValue >> 16) & 0xff) * compMul;
-                        var g = ((lightValue >> 8) & 0xff) * compMul;
-                        var b = (lightValue & 0xff) * compMul;
-                        vertData[i] = r;
-                        vertData[i + 1] = g;
-                        vertData[i + 2] = b;
+                        var lightValue = lighting == null ? 0xffffff : lighting[j];
+                        vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
+                        vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
+                        vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
                     }
                 }
             }
@@ -1573,6 +1615,9 @@ var SourceUtils;
             _this.viewer = viewer;
             return _this;
         }
+        StudioModelLoader.prototype.update = function (requestQuota) {
+            return _super.prototype.update.call(this, this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
+        };
         StudioModelLoader.prototype.loadModel = function (index) {
             var model = this.models[index];
             if (model !== undefined)
@@ -1596,7 +1641,9 @@ var SourceUtils;
             this.props = new Array(page.props.length);
             for (var i = 0, iEnd = page.props.length; i < iEnd; ++i) {
                 var srcProp = page.props[i];
-                var dstProp = this.props[i] = new Array(srcProp.length);
+                var dstProp = this.props[i] = srcProp == null ? null : new Array(srcProp.length);
+                if (srcProp == null)
+                    continue;
                 for (var j = 0, jEnd = srcProp.length; j < jEnd; ++j) {
                     dstProp[j] = Facepunch.Utils.decompress(srcProp[j]);
                 }
@@ -1611,9 +1658,14 @@ var SourceUtils;
     SourceUtils.VertexLightingPage = VertexLightingPage;
     var VertexLightingLoader = (function (_super) {
         __extends(VertexLightingLoader, _super);
-        function VertexLightingLoader() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function VertexLightingLoader(viewer) {
+            var _this = _super.call(this) || this;
+            _this.viewer = viewer;
+            return _this;
         }
+        VertexLightingLoader.prototype.update = function (requestQuota) {
+            return _super.prototype.update.call(this, this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
+        };
         VertexLightingLoader.prototype.onCreatePage = function (page) {
             return new VertexLightingPage(page);
         };

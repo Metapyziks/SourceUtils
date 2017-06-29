@@ -11138,11 +11138,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 63
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19353,11 +19348,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 176
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20325,11 +20315,6 @@
           "value": 237
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -20410,11 +20395,6 @@
           "value": 242
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -20445,11 +20425,6 @@
           "value": false
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
@@ -20470,11 +20445,6 @@
           "value": false
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
@@ -20493,11 +20463,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "translucent",
@@ -20523,11 +20488,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 248
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "translucent",
@@ -20645,11 +20605,6 @@
       "shader": "SourceUtils.Shaders.VertexLitGeneric",
       "properties": [
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 257
@@ -20738,11 +20693,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 264
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -20853,11 +20803,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 274
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -21283,11 +21228,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 309
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -21648,11 +21588,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 339
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -22516,11 +22451,6 @@
           "value": 410
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -22554,11 +22484,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 413
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -22909,11 +22834,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 443
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },

@@ -9616,11 +9616,6 @@
           "value": 138
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -9684,11 +9679,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 142
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -9766,11 +9756,6 @@
           "value": 147
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -9784,11 +9769,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 148
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -9841,11 +9821,6 @@
           "value": 147
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -9869,11 +9844,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 152
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -9939,11 +9909,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 156
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -10096,11 +10061,6 @@
           "value": 165
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -10117,11 +10077,6 @@
         },
         {
           "name": "baseAlphaTint",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "alphaTest",
           "type": 1,
           "value": true
         },
@@ -10204,11 +10159,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 170
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         },
         {
           "name": "cullFace",
@@ -10666,11 +10616,6 @@
           "value": 205
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -10759,11 +10704,6 @@
           "name": "cullFace",
           "type": 1,
           "value": false
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -10824,11 +10764,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 216
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -10934,11 +10869,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 221
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -11746,11 +11676,6 @@
           "value": 264
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -11896,11 +11821,6 @@
           "value": 275
         },
         {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "cullFace",
           "type": 1,
           "value": false
@@ -11934,11 +11854,6 @@
           "name": "translucent",
           "type": 1,
           "value": true
-        },
-        {
-          "name": "alphaTest",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -11952,11 +11867,6 @@
         },
         {
           "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "alphaTest",
           "type": 1,
           "value": true
         }
