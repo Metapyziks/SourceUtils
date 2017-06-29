@@ -815,8 +815,17 @@ namespace SourceUtils.WebExport.Bsp
             for ( var i = 0; i < count; ++i )
             {
                 var propIndex = first + i;
-                var hdrPath = $"sp_hdr_{propIndex}.vhv";
+
+                StaticPropFlags flags;
+                bsp.StaticProps.GetPropInfo( propIndex, out flags, out bool _, out uint _ );
+                if ( (flags & StaticPropFlags.NoPerVertexLighting) != 0 )
+                {
+                    page.Props.Add( null );
+                    continue;
+                }
+
                 var ldrPath = $"sp_{propIndex}.vhv";
+                var hdrPath = $"sp_hdr_{propIndex}.vhv";
                 var existingPath = bsp.PakFile.ContainsFile( hdrPath )
                     ? hdrPath : bsp.PakFile.ContainsFile( ldrPath ) ? ldrPath : null;
 
@@ -835,7 +844,7 @@ namespace SourceUtils.WebExport.Bsp
                     var vertices = new CompressedList<uint>();
                     var samples = vhvFile.GetSamples( 0, j );
 
-                    vertices.AddRange( samples.Select( x => ((uint) x.A << 24) | ((uint) x.R << 16) | ((uint) x.G << 8) | x.B ) );
+                    vertices.AddRange( samples.Select( x => ((uint) x.A << 24) | ((uint) x.B << 16) | ((uint) x.G << 8) | x.R) );
 
                     meshList.Add( vertices );
                 }

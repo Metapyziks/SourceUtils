@@ -2,9 +2,11 @@ declare namespace Facepunch {
     interface ILoadable {
         loadNext(callback: (requeue: boolean) => void): void;
         getLoadPriority(): number;
+        getLoadProgress(): number;
     }
     interface ILoader {
         update(requestQuota: number): number;
+        getLoadProgress(): number;
     }
     abstract class Loader<TLoadable extends ILoadable> implements ILoader {
         private queue;
@@ -12,10 +14,7 @@ declare namespace Facepunch {
         private active;
         private completed;
         load(url: string): TLoadable;
-        getQueueCount(): number;
-        getActiveCount(): number;
-        getCompletedCount(): number;
-        getTotalCount(): number;
+        getLoadProgress(): number;
         protected enqueueItem(item: TLoadable): void;
         protected abstract onCreateItem(url: string): TLoadable;
         protected onFinishedLoadStep(item: TLoadable): void;
@@ -184,9 +183,9 @@ declare namespace Facepunch {
 declare namespace Facepunch {
     class Http {
         static readonly cancelled: any;
-        static getString(url: string, success: (response: string) => void, failure?: (error: any) => void): void;
-        static getJson<TResponse>(url: string, success: (response: TResponse) => void, failure?: (error: any) => void): void;
-        static getImage(url: string, success: (response: HTMLImageElement) => void, failure?: (error: any) => void): void;
+        static getString(url: string, success: (response: string) => void, failure?: (error: any) => void, progress?: (loaded: number, total: number) => void): void;
+        static getJson<TResponse>(url: string, success: (response: TResponse) => void, failure?: (error: any) => void, progress?: (loaded: number, total: number) => void): void;
+        static getImage(url: string, success: (response: HTMLImageElement) => void, failure?: (error: any) => void, progress?: (loaded: number, total: number) => void): void;
         static isAbsUrl(url: string): boolean;
         static getAbsUrl(url: string, relativeTo: string): string;
     }
@@ -738,7 +737,9 @@ declare namespace Facepunch {
             private readonly game;
             private readonly url;
             private textureSource;
+            private loadProgress;
             constructor(game: Game, url?: string);
+            getLoadProgress(): number;
             private addPropertyFromInfo(info);
             loadFromInfo(info: IMaterialInfo, textureSource?: (index: number) => Texture): void;
             loadNext(callback: (requeue: boolean) => void): void;
@@ -872,7 +873,9 @@ declare namespace Facepunch {
             private materials;
             private meshData;
             private handles;
+            private loadProgress;
             constructor(game: Game, url: string);
+            getLoadProgress(): number;
             isLoaded(): boolean;
             getMaterial(index: number): Material;
             getMeshData(): IMeshData;
@@ -1224,7 +1227,9 @@ declare namespace Facepunch {
             private mipmap;
             private level0Width;
             private level0Height;
+            private loadProgress;
             constructor(context: WebGLRenderingContext, url: string);
+            getLoadProgress(): number;
             hasMipLevel(level: number): boolean;
             getWidth(level: number): number;
             getHeight(level: number): number;

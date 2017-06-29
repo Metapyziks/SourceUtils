@@ -224,6 +224,12 @@ namespace SourceUtils.WebExport.Bsp
 
             [JsonProperty("vertLighting")]
             public int? VertLighting { get; set; }
+
+            [JsonProperty("albedoModulation")]
+            public uint? AlbedoModulation { get; set; }
+
+            [JsonProperty("flags")]
+            public StaticPropFlags Flags { get; set; }
         }
 
         private class MapParams

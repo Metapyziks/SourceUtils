@@ -190,12 +190,14 @@ namespace SourceUtils.WebExport.Bsp
                     ClassName = "prop_static",
                     Origin = origin,
                     Angles = angles,
+                    Flags = flags,
                     Clusters = bsp.StaticProps.GetPropLeaves( propIndex )
                         .Select( x => (int) bsp.Leaves[x].Cluster )
                         .Where( x => x != -1 )
                         .Distinct(),
                     Model = modelIndex,
-                    VertLighting = propIndex
+                    VertLighting = (flags & StaticPropFlags.NoPerVertexLighting) == 0 ? (int?) propIndex : null,
+                    AlbedoModulation = diffuseMod != 0xffffffff ? (uint?) diffuseMod : null
                 } );
             }
 

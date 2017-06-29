@@ -15,13 +15,15 @@ namespace SourceUtils {
                 const gl = context;
 
                 this.includeShaderSource(gl.VERTEX_SHADER, `
-                    attribute vec3 aVertexLighting;
+                    attribute vec3 aEncodedColors;
 
                     varying vec3 vVertexLighting;
+                    varying vec3 vAlbedoModulation;
 
                     void main()
                     {
-                        vVertexLighting = aVertexLighting;
+                        vVertexLighting = floor(aEncodedColors) * (2.0 / 255.0);
+                        vAlbedoModulation = fract(aEncodedColors) * (256.0 / 255.0);
 
                         ModelBase_main();
                     }`);
@@ -30,14 +32,15 @@ namespace SourceUtils {
                     precision mediump float;
 
                     varying vec3 vVertexLighting;
+                    varying vec3 vAlbedoModulation;
 
                     void main()
                     {
                         vec4 mainSample = ModelBase_main();
-                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting), mainSample.a);
+                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting * vAlbedoModulation), mainSample.a);
                     }`);
 
-                this.addAttribute("aVertexLighting", WebGame.VertexAttribute.rgb);
+                this.addAttribute("aEncodedColors", WebGame.VertexAttribute.rgb);
 
                 this.compile();
             }

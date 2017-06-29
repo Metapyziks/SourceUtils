@@ -51,10 +51,10 @@ namespace SourceUtils
             {
                 return new VertexData4
                 {
-                    B = (byte)((Color0.B + Color1.B + Color2.B) / 3),
-                    G = (byte)((Color0.G + Color1.G + Color2.G) / 3),
-                    R = (byte)((Color0.R + Color1.R + Color2.R) / 3),
-                    A = (byte)((Color0.A + Color1.A + Color2.A) / 3)
+                    B = Math.Max( Color0.B, Math.Max( Color1.B, Color2.B ) ),
+                    G = Math.Max( Color0.G, Math.Max( Color1.G, Color2.G ) ),
+                    R = Math.Max( Color0.R, Math.Max( Color1.R, Color2.R ) ),
+                    A = Math.Max( Color0.A, Math.Max( Color1.A, Color2.A ) )
                 };
             }
         }
@@ -91,8 +91,8 @@ namespace SourceUtils
                 var vertCount = reader.ReadUInt32();
                 var meshCount = reader.ReadInt32();
 
-                reader.ReadInt64(); // Unused
-                reader.ReadInt64(); // Unused
+                var unused0 = reader.ReadInt64(); // Unused
+                var unused1 = reader.ReadInt64(); // Unused
 
                 var meshHeaders = new List<VhvMeshHeader>();
                 LumpReader<VhvMeshHeader>.ReadLumpFromStream(stream, meshCount, meshHeaders);

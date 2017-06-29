@@ -61,13 +61,19 @@
     }
 
     export abstract class PagedLoader<TPage extends ResourcePage<TPayload, TValue>, TPayload, TValue> implements Facepunch.ILoader {
+
         private pages: TPage[];
 
         private readonly toLoad: TPage[] = [];
 
         private active = 0;
+        private loadProgress = 0;
 
         protected abstract onCreatePage(page: IPageInfo): TPage;
+
+        getLoadProgress(): number {
+            return this.pages == null ? 0 : this.loadProgress / this.pages.length;
+        }
 
         load(index: number, callback: (payload: TValue, page: TPage) => void): TValue {
             if (this.pages == null) {
@@ -120,13 +126,23 @@
                 const next = this.getNextToLoad();
                 if (next == null) break;
 
+                let lastProgress = 0;
+
                 ++this.active;
                 Facepunch.Http.getJson<TPayload>(next.url, page => {
                     --this.active;
+                    this.loadProgress += 1 - lastProgress;
+                    lastProgress = 1;
                     next.onLoadValues(page);
                 }, error => {
                     --this.active;
                     console.warn(error);
+                }, (loaded, total) => {
+                    if (total !== undefined) {
+                        const progress = loaded / total;
+                        this.loadProgress += (progress - lastProgress);
+                        lastProgress = progress;
+                    }
                 });
             }
 

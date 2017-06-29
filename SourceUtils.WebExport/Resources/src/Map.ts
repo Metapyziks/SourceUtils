@@ -35,7 +35,7 @@ namespace SourceUtils {
         private worldspawn: Entities.Worldspawn;
         private pvsEntities: Entities.PvsEntity[];
 
-        private lightmap: WebGame.Texture;
+        private lightmap: WebGame.TextureLoadable;
         private skyCube: SkyCube;
 
         private info: IMap;
@@ -54,6 +54,10 @@ namespace SourceUtils {
             Facepunch.Http.getJson<IMap>(url, info => {
                 this.onLoad(info);
             });
+        }
+
+        getLightmapLoadProgress(): number {
+            return this.lightmap == null ? 0 : this.lightmap.getLoadProgress();
         }
 
         private onLoad(info: IMap): void {

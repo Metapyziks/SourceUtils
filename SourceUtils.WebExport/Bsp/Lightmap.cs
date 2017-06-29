@@ -75,20 +75,20 @@ namespace SourceUtils.WebExport.Bsp
                     LumpReader<LightmapSample>.ReadLumpFromStream(sampleStream, sampleCount, sampleBuffer);
 
                     for (var y = 0; y < rect.Height; ++y)
-                        for (var x = 0; x < rect.Width; ++x)
-                        {
-                            var s = Math.Max(0, Math.Min(x, rect.Width - 1));
-                            var t = Math.Max(0, Math.Min(y, rect.Height - 1));
+                    for (var x = 0; x < rect.Width; ++x)
+                    {
+                        var s = Math.Max(0, Math.Min(x, rect.Width - 1));
+                        var t = Math.Max(0, Math.Min(y, rect.Height - 1));
 
-                            var index = (rect.X + x + width * (rect.Y + y)) * 4;
-                            var sampleIndex = s + t * rect.Width;
-                            var sample = sampleBuffer[sampleIndex];
+                        var index = (rect.X + x + width * (rect.Y + y)) * 4;
+                        var sampleIndex = s + t * rect.Width;
+                        var sample = sampleBuffer[sampleIndex];
 
-                            pixels[index + 0] = sample.B;
-                            pixels[index + 1] = sample.G;
-                            pixels[index + 2] = sample.R;
-                            pixels[index + 3] = (byte)(sample.Exponent + 128);
-                        }
+                        pixels[index + 0] = sample.B;
+                        pixels[index + 1] = sample.G;
+                        pixels[index + 2] = sample.R;
+                        pixels[index + 3] = (byte)(sample.Exponent + 128);
+                    }
                 }
 
                 using ( var img = new MagickImage( pixels, new MagickReadSettings

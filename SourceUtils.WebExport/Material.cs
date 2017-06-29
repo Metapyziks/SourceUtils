@@ -176,7 +176,7 @@ namespace SourceUtils.WebExport
                         mat.SetBoolean("fogEnabled", !props.GetBoolean(name));
                         break;
                     case "$alphatest":
-                        mat.SetBoolean("alphaTest", props.GetBoolean(name));
+                        if (!Program.BaseOptions.Untextured) mat.SetBoolean("alphaTest", props.GetBoolean(name));
                         break;
                     case "$translucent":
                         mat.SetBoolean("translucent", props.GetBoolean(name));

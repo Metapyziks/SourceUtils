@@ -8,18 +8,19 @@ namespace SourceUtils {
         mainCamera: Entities.Camera;
 
         readonly map = new Map(this);
+        readonly visLoader = this.addLoader(new VisLoader());
+        readonly bspModelLoader = this.addLoader(new BspModelLoader(this));
+        readonly mapMaterialLoader = this.addLoader(new MapMaterialLoader(this));
         readonly leafGeometryLoader = this.addLoader(new LeafGeometryLoader(this));
         readonly dispGeometryLoader = this.addLoader(new DispGeometryLoader(this));
-        readonly mapMaterialLoader = this.addLoader(new MapMaterialLoader(this));
-        readonly bspModelLoader = this.addLoader(new BspModelLoader(this));
         readonly studioModelLoader = this.addLoader(new StudioModelLoader(this));
-        readonly vertLightingLoader = this.addLoader(new VertexLightingLoader());
-        readonly visLoader = this.addLoader(new VisLoader());
+        readonly vertLightingLoader = this.addLoader(new VertexLightingLoader(this));
 
         private time = 0;
         private frameCount = 0;
         private lastProfileTime: number;
         private lastDrawCalls: number;
+        private allLoaded = false;
 
         loadMap(url: string): void {
             this.map.load(url);
@@ -143,6 +144,31 @@ namespace SourceUtils {
 
                 $("#debug-frametime").text(frameTime);
                 $("#debug-framerate").text(frameRate);
+
+                if (!this.allLoaded) {
+                    const visLoaded = this.visLoader.getLoadProgress();
+                    const bspLoaded = this.bspModelLoader.getLoadProgress();
+                    const lightmapLoaded = this.map.getLightmapLoadProgress();
+                    const materialsLoaded = this.mapMaterialLoader.getLoadProgress();
+
+                    const geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
+                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
+
+                    const propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
+                        + this.studioModelLoader.getLoadProgress() * 0.75;
+
+                    $("#debug-visloaded").text((visLoaded * 100).toPrecision(3));
+                    $("#debug-bsploaded").text((bspLoaded * 100).toPrecision(3));
+                    $("#debug-geomloaded").text((geomLoaded * 100).toPrecision(3));
+                    $("#debug-propsloaded").text((propsLoaded * 100).toPrecision(3));
+                    $("#debug-lightmaploaded").text((lightmapLoaded * 100).toPrecision(3));
+                    $("#debug-materialsloaded").text((materialsLoaded * 100).toPrecision(3));
+
+                    if (visLoaded * bspLoaded * lightmapLoaded * materialsLoaded * geomLoaded * propsLoaded === 1) {
+                        this.allLoaded = true;
+                        $("#debug-loading").hide();
+                    }
+                }
 
                 this.lastProfileTime = time;
                 this.frameCount = 0;

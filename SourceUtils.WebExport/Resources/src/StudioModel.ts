@@ -51,11 +51,22 @@ namespace SourceUtils {
             return newGroup;
         }
 
-        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, vertLighting?: number[][]): WebGame.MeshHandle[] {
+        private static encode2CompColor(vertLit: number, albedoMod: number): number {
+            return vertLit + albedoMod * 0.00390625;
+        }
+
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, vertLighting?: number[][], albedoModulation?: number): WebGame.MeshHandle[] {
             const bodyPart = this.info.bodyParts[bodyPartIndex];
             const handles: WebGame.MeshHandle[] = [];
 
             const matGroups: WebGame.IMeshData[] = [];
+
+            if (albedoModulation === undefined) albedoModulation = 0xffffff;
+            else albedoModulation &= 0xffffff;
+
+            const albedoR = albedoModulation & 0xff;
+            const albedoG = (albedoModulation >> 8) & 0xff;
+            const albedoB = (albedoModulation >> 16) & 0xff;
 
             for (let model of bodyPart.models) {
                 for (let mesh of model.meshes) {
@@ -67,25 +78,20 @@ namespace SourceUtils {
                     const dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
                     const newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
 
-                    if (vertLighting == null || mesh.meshId === undefined || mesh.meshId < 0 || mesh.meshId >= vertLighting.length) continue;
-
                     const rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
                     const vertLength = WebGame.MeshManager.getVertexLength(attribs);
-                    const lighting = vertLighting[mesh.meshId];
+                    const lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
 
-                    const compMul = 2 / 255;
                     const vertData = dstGroup.vertices;
                     for (let i = newElem.vertexOffset + rgbOffset,
                         iEnd = newElem.vertexOffset + newElem.vertexCount,
                         j = 0; i < iEnd; i += vertLength, ++j) {
-                        const lightValue = lighting[j];
-                        const r = ((lightValue >> 16) & 0xff) * compMul;
-                        const g = ((lightValue >> 8) & 0xff) * compMul;
-                        const b = (lightValue & 0xff) * compMul;
 
-                        vertData[i] = r;
-                        vertData[i + 1] = g;
-                        vertData[i + 2] = b;
+                        const lightValue = lighting == null ? 0xffffff : lighting[j];
+
+                        vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
+                        vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
+                        vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
                     }
                 }
             }
@@ -156,6 +162,10 @@ namespace SourceUtils {
             this.viewer = viewer;
         }
 
+        update(requestQuota: number): number {
+            return super.update(this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
+        }
+
         loadModel(index: number): StudioModel {
             let model = this.models[index];
             if (model !== undefined) return model;
@@ -181,8 +191,9 @@ namespace SourceUtils {
 
             for (let i = 0, iEnd = page.props.length; i < iEnd; ++i) {
                 const srcProp = page.props[i];
-                const dstProp = this.props[i] = new Array<number[]>(srcProp.length);
+                const dstProp = this.props[i] = srcProp == null ? null : new Array<number[]>(srcProp.length);
 
+                if (srcProp == null) continue;
                 for (let j = 0, jEnd = srcProp.length; j < jEnd; ++j) {
                     dstProp[j] = Facepunch.Utils.decompress(srcProp[j]);
                 }
@@ -197,6 +208,17 @@ namespace SourceUtils {
     }
 
     export class VertexLightingLoader extends PagedLoader<VertexLightingPage, IVertexLightingPage, number[][]> {
+        readonly viewer: MapViewer;
+
+        constructor(viewer: MapViewer) {
+            super();
+            this.viewer = viewer;
+        }
+
+        update(requestQuota: number): number {
+            return super.update(this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
+        }
+
         onCreatePage(page: IPageInfo): VertexLightingPage {
             return new VertexLightingPage(page);
         }
