@@ -34,8 +34,8 @@
 
             getLeaf(): BspLeaf {
                 if (this.leafInvalid) {
-                    this.leafInvalid = false;
                     const leaf = this.onGetLeaf();
+                    this.leafInvalid = leaf !== undefined;
 
                     if (this.leaf !== leaf) {
                         this.leaf = leaf;

@@ -1,13 +1,8 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var SourceUtils;
 (function (SourceUtils) {
     var ResourcePage = (function () {
@@ -327,6 +322,298 @@ var SourceUtils;
         return DispGeometryLoader;
     }(SourceUtils.PagedLoader));
     SourceUtils.DispGeometryLoader = DispGeometryLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var Entity = (function (_super) {
+            __extends(Entity, _super);
+            function Entity(map, info) {
+                var _this = _super.call(this, true) || this;
+                _this.map = map;
+                if (info.origin !== undefined) {
+                    _this.setPosition(info.origin);
+                }
+                if (info.angles !== undefined) {
+                    var mul = Math.PI / 180;
+                    _this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
+                }
+                return _this;
+            }
+            return Entity;
+        }(WebGame.DrawableEntity));
+        Entities.Entity = Entity;
+        var PvsEntity = (function (_super) {
+            __extends(PvsEntity, _super);
+            function PvsEntity(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusters = info.clusters;
+                return _this;
+            }
+            PvsEntity.prototype.isInCluster = function (cluster) {
+                var clusters = this.clusters;
+                if (clusters == null)
+                    return false;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (clusters[i] === cluster)
+                        return true;
+                }
+                return false;
+            };
+            PvsEntity.prototype.isInAnyCluster = function (clusters) {
+                if (clusters == null)
+                    return true;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (this.isInCluster(clusters[i]))
+                        return true;
+                }
+                return false;
+            };
+            PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
+                if (!this.isInAnyCluster(clusters))
+                    return;
+                drawList.addItem(this);
+                this.onPopulateDrawList(drawList, clusters);
+            };
+            PvsEntity.prototype.onPopulateDrawList = function (drawList, clusters) { };
+            return PvsEntity;
+        }(Entity));
+        Entities.PvsEntity = PvsEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var BrushEntity = (function (_super) {
+            __extends(BrushEntity, _super);
+            function BrushEntity(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.model = map.viewer.bspModelLoader.loadModel(info.model);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    var leaves = model.getLeaves();
+                    for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                        leaves[i].entity = _this;
+                    }
+                });
+                return _this;
+            }
+            BrushEntity.prototype.onPopulateDrawList = function (drawList, clusters) {
+                var leaves = this.model.getLeaves();
+                if (leaves != null)
+                    drawList.addItems(leaves);
+            };
+            return BrushEntity;
+        }(Entities.PvsEntity));
+        Entities.BrushEntity = BrushEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var Camera = (function (_super) {
+            __extends(Camera, _super);
+            function Camera(viewer, fov) {
+                var _this = _super.call(this, viewer, fov, viewer.getWidth() / viewer.getHeight(), 1, 8192) || this;
+                _this.leafInvalid = true;
+                _this.render3DSky = true;
+                _this.viewer = viewer;
+                return _this;
+            }
+            Camera.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+                this.leafInvalid = true;
+            };
+            Camera.prototype.onGetLeaf = function () {
+                var temp = Facepunch.Vector3.pool.create();
+                var leaf = this.viewer.map.getLeafAt(this.getPosition(temp));
+                temp.release();
+                return leaf;
+            };
+            Camera.prototype.getLeaf = function () {
+                if (this.leafInvalid) {
+                    var leaf = this.onGetLeaf();
+                    this.leafInvalid = leaf !== undefined;
+                    if (this.leaf !== leaf) {
+                        this.leaf = leaf;
+                        this.invalidateGeometry();
+                    }
+                }
+                return this.leaf;
+            };
+            Camera.prototype.render = function () {
+                var leaf = this.getLeaf();
+                if (this.render3DSky && leaf != null && (leaf.flags & SourceUtils.LeafFlags.Sky) !== 0) {
+                    var skyCamera = this.viewer.map.skyCamera;
+                    if (skyCamera != null) {
+                        skyCamera.renderRelativeTo(this);
+                    }
+                }
+                _super.prototype.render.call(this);
+            };
+            return Camera;
+        }(WebGame.PerspectiveCamera));
+        Entities.Camera = Camera;
+        var SkyCamera = (function (_super) {
+            __extends(SkyCamera, _super);
+            function SkyCamera(viewer, info) {
+                var _this = _super.call(this, viewer, 60) || this;
+                _this.render3DSky = false;
+                _this.origin = new Facepunch.Vector3().copy(info.origin);
+                _this.skyScale = 1 / info.scale;
+                if (info.fogEnabled) {
+                    _this.fog.start = info.fogStart;
+                    _this.fog.end = info.fogEnd;
+                    _this.fog.maxDensity = info.fogMaxDensity;
+                    _this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
+                    if (info.farZ !== 0)
+                        _this.setFar(info.farZ);
+                }
+                return _this;
+            }
+            SkyCamera.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+            };
+            SkyCamera.prototype.onGetLeaf = function () {
+                return this.viewer.map.getLeafAt(this.origin);
+            };
+            SkyCamera.prototype.renderRelativeTo = function (camera) {
+                var temp = Facepunch.Vector3.pool.create();
+                camera.getPosition(temp);
+                temp.multiplyScalar(this.skyScale);
+                temp.add(this.origin);
+                this.setPosition(temp);
+                temp.release();
+                this.setFov(camera.getFov());
+                this.setAspect(camera.getAspect());
+                this.copyRotation(camera);
+                _super.prototype.render.call(this);
+                var gl = this.viewer.context;
+                gl.depthMask(true);
+                gl.clear(gl.DEPTH_BUFFER_BIT);
+            };
+            return SkyCamera;
+        }(Camera));
+        Entities.SkyCamera = SkyCamera;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var Displacement = (function (_super) {
+            __extends(Displacement, _super);
+            function Displacement(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.isLoaded = false;
+                _this.index = info.index;
+                return _this;
+            }
+            Displacement.prototype.onAddToDrawList = function (list) {
+                var _this = this;
+                if (!this.isLoaded) {
+                    this.isLoaded = true;
+                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) { return _this.drawable.addMeshHandles([handle]); });
+                }
+                _super.prototype.onAddToDrawList.call(this, list);
+            };
+            return Displacement;
+        }(Entities.PvsEntity));
+        Entities.Displacement = Displacement;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var StaticProp = (function (_super) {
+            __extends(StaticProp, _super);
+            function StaticProp(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.albedoModulation = info.albedoModulation;
+                if (info.vertLighting !== undefined) {
+                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
+                        _this.lighting = value;
+                        _this.checkLoaded();
+                    });
+                }
+                else {
+                    _this.lighting = null;
+                }
+                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    _this.checkLoaded();
+                });
+                return _this;
+            }
+            StaticProp.prototype.checkLoaded = function () {
+                if (!this.model.isLoaded())
+                    return;
+                if (this.lighting === undefined)
+                    return;
+                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
+            };
+            return StaticProp;
+        }(Entities.PvsEntity));
+        Entities.StaticProp = StaticProp;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var Worldspawn = (function (_super) {
+            __extends(Worldspawn, _super);
+            function Worldspawn(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusterLeaves = {};
+                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
+                return _this;
+            }
+            Worldspawn.prototype.onModelLoad = function () {
+                var leaves = this.model.getLeaves();
+                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                    var leaf = leaves[i];
+                    if (leaf.cluster === undefined)
+                        continue;
+                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
+                    if (clusterLeaves == null) {
+                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
+                    }
+                    clusterLeaves.push(leaf);
+                }
+                this.map.viewer.forceDrawListInvalidation(true);
+            };
+            Worldspawn.prototype.isInAnyCluster = function (clusters) {
+                return true;
+            };
+            Worldspawn.prototype.isInCluster = function (cluster) {
+                return true;
+            };
+            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
+                if (clusters == null) {
+                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
+                    return;
+                }
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    var cluster = clusters[i];
+                    var clusterLeaves = this.clusterLeaves[cluster];
+                    if (clusterLeaves != null)
+                        drawList.addItems(clusterLeaves);
+                }
+            };
+            return Worldspawn;
+        }(Entities.BrushEntity));
+        Entities.Worldspawn = Worldspawn;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="PagedLoader.ts"/>
 var SourceUtils;
@@ -771,539 +1058,6 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var SkyCube = (function (_super) {
-        __extends(SkyCube, _super);
-        function SkyCube(viewer, material) {
-            var _this = _super.call(this) || this;
-            var meshData = {
-                attributes: [WebGame.VertexAttribute.uv, WebGame.VertexAttribute.alpha],
-                elements: [
-                    {
-                        mode: WebGame.DrawMode.Triangles,
-                        material: material,
-                        indexOffset: 0,
-                        indexCount: 36
-                    }
-                ],
-                vertices: [],
-                indices: []
-            };
-            for (var face = 0; face < 6; ++face) {
-                meshData.vertices.push(0, 0, face);
-                meshData.vertices.push(1, 0, face);
-                meshData.vertices.push(1, 1, face);
-                meshData.vertices.push(0, 1, face);
-                var index = face * 4;
-                meshData.indices.push(index + 0, index + 1, index + 2);
-                meshData.indices.push(index + 0, index + 2, index + 3);
-            }
-            _this.addMeshHandles(viewer.meshes.addMeshData(meshData));
-            return _this;
-        }
-        return SkyCube;
-    }(WebGame.DrawListItem));
-    SourceUtils.SkyCube = SkyCube;
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PagedLoader.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var StudioModel = (function (_super) {
-        __extends(StudioModel, _super);
-        function StudioModel(viewer) {
-            var _this = _super.call(this) || this;
-            _this.viewer = viewer;
-            return _this;
-        }
-        StudioModel.getOrCreateMatGroup = function (matGroups, attribs) {
-            for (var _i = 0, matGroups_1 = matGroups; _i < matGroups_1.length; _i++) {
-                var matGroup = matGroups_1[_i];
-                if (matGroup.attributes.length !== attribs.length)
-                    continue;
-                var matches = true;
-                for (var i = 0; i < attribs.length; ++i) {
-                    if (matGroup.attributes[i].id !== attribs[i].id) {
-                        matches = false;
-                        break;
-                    }
-                }
-                if (matches)
-                    return matGroup;
-            }
-            var newGroup = WebGame.MeshManager.createEmpty(attribs);
-            matGroups.push(newGroup);
-            return newGroup;
-        };
-        StudioModel.encode2CompColor = function (vertLit, albedoMod) {
-            return vertLit + albedoMod * 0.00390625;
-        };
-        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, vertLighting, albedoModulation) {
-            var _this = this;
-            var bodyPart = this.info.bodyParts[bodyPartIndex];
-            var handles = [];
-            var matGroups = [];
-            if (albedoModulation === undefined)
-                albedoModulation = 0xffffff;
-            else
-                albedoModulation &= 0xffffff;
-            var albedoR = albedoModulation & 0xff;
-            var albedoG = (albedoModulation >> 8) & 0xff;
-            var albedoB = (albedoModulation >> 16) & 0xff;
-            for (var _i = 0, _a = bodyPart.models; _i < _a.length; _i++) {
-                var model = _a[_i];
-                for (var _b = 0, _c = model.meshes; _b < _c.length; _b++) {
-                    var mesh = _c[_b];
-                    var srcGroup = this.page.getMaterialGroup(mesh.material);
-                    var attribs = [];
-                    attribs.push.apply(attribs, srcGroup.attributes);
-                    attribs.push(WebGame.VertexAttribute.rgb);
-                    var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
-                    var newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
-                    var rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
-                    var vertLength = WebGame.MeshManager.getVertexLength(attribs);
-                    var lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
-                    var vertData = dstGroup.vertices;
-                    for (var i = newElem.vertexOffset + rgbOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
-                        var lightValue = lighting == null ? 0xffffff : lighting[j];
-                        vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
-                        vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
-                        vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
-                    }
-                }
-            }
-            for (var _d = 0, matGroups_2 = matGroups; _d < matGroups_2.length; _d++) {
-                var matGroup = matGroups_2[_d];
-                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.position, function (pos) { return pos.applyMatrix4(transform); }, 1);
-                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.normal, function (norm) { return norm.applyMatrix4(transform); }, 0);
-                this.viewer.meshes.addMeshData(matGroup, function (index) { return _this.viewer.mapMaterialLoader.loadMaterial(index); }, handles);
-            }
-            return handles;
-        };
-        StudioModel.prototype.loadFromInfo = function (info, page) {
-            this.info = info;
-            this.page = page;
-            this.dispatchOnLoadCallbacks();
-        };
-        StudioModel.prototype.isLoaded = function () { return this.info != null; };
-        return StudioModel;
-    }(WebGame.RenderResource));
-    SourceUtils.StudioModel = StudioModel;
-    var StudioModelPage = (function (_super) {
-        __extends(StudioModelPage, _super);
-        function StudioModelPage(page) {
-            return _super.call(this, page) || this;
-        }
-        StudioModelPage.prototype.getMaterialGroup = function (index) {
-            return this.matGroups[index];
-        };
-        StudioModelPage.prototype.onLoadValues = function (page) {
-            this.models = page.models;
-            this.matGroups = new Array(page.materials.length);
-            for (var i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
-                var matGroup = page.materials[i];
-                this.matGroups[i] = WebGame.MeshManager.decompress(matGroup.meshData);
-                for (var _i = 0, _a = this.matGroups[i].elements; _i < _a.length; _i++) {
-                    var element = _a[_i];
-                    element.material = matGroup.material;
-                }
-            }
-            _super.prototype.onLoadValues.call(this, page);
-        };
-        StudioModelPage.prototype.onGetValue = function (index) {
-            return this.models[index];
-        };
-        return StudioModelPage;
-    }(SourceUtils.ResourcePage));
-    SourceUtils.StudioModelPage = StudioModelPage;
-    var StudioModelLoader = (function (_super) {
-        __extends(StudioModelLoader, _super);
-        function StudioModelLoader(viewer) {
-            var _this = _super.call(this) || this;
-            _this.models = {};
-            _this.viewer = viewer;
-            return _this;
-        }
-        StudioModelLoader.prototype.update = function (requestQuota) {
-            return _super.prototype.update.call(this, this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
-        };
-        StudioModelLoader.prototype.loadModel = function (index) {
-            var model = this.models[index];
-            if (model !== undefined)
-                return model;
-            this.models[index] = model = new StudioModel(this.viewer);
-            this.load(index, function (info, page) { return model.loadFromInfo(info, page); });
-            return model;
-        };
-        StudioModelLoader.prototype.onCreatePage = function (page) {
-            return new StudioModelPage(page);
-        };
-        return StudioModelLoader;
-    }(SourceUtils.PagedLoader));
-    SourceUtils.StudioModelLoader = StudioModelLoader;
-    var VertexLightingPage = (function (_super) {
-        __extends(VertexLightingPage, _super);
-        function VertexLightingPage() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VertexLightingPage.prototype.onLoadValues = function (page) {
-            this.props = new Array(page.props.length);
-            for (var i = 0, iEnd = page.props.length; i < iEnd; ++i) {
-                var srcProp = page.props[i];
-                var dstProp = this.props[i] = srcProp == null ? null : new Array(srcProp.length);
-                if (srcProp == null)
-                    continue;
-                for (var j = 0, jEnd = srcProp.length; j < jEnd; ++j) {
-                    dstProp[j] = Facepunch.Utils.decompress(srcProp[j]);
-                }
-            }
-            _super.prototype.onLoadValues.call(this, page);
-        };
-        VertexLightingPage.prototype.onGetValue = function (index) {
-            return this.props[index];
-        };
-        return VertexLightingPage;
-    }(SourceUtils.ResourcePage));
-    SourceUtils.VertexLightingPage = VertexLightingPage;
-    var VertexLightingLoader = (function (_super) {
-        __extends(VertexLightingLoader, _super);
-        function VertexLightingLoader(viewer) {
-            var _this = _super.call(this) || this;
-            _this.viewer = viewer;
-            return _this;
-        }
-        VertexLightingLoader.prototype.update = function (requestQuota) {
-            return _super.prototype.update.call(this, this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
-        };
-        VertexLightingLoader.prototype.onCreatePage = function (page) {
-            return new VertexLightingPage(page);
-        };
-        return VertexLightingLoader;
-    }(SourceUtils.PagedLoader));
-    SourceUtils.VertexLightingLoader = VertexLightingLoader;
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var VisPage = (function (_super) {
-        __extends(VisPage, _super);
-        function VisPage() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VisPage.prototype.onGetValue = function (index) {
-            if (typeof (this.page.values[index]) === "string") {
-                this.page.values[index] = Facepunch.Utils.decompress(this.page.values[index]);
-            }
-            return this.page.values[index];
-        };
-        return VisPage;
-    }(SourceUtils.ResourcePage));
-    SourceUtils.VisPage = VisPage;
-    var VisLoader = (function (_super) {
-        __extends(VisLoader, _super);
-        function VisLoader() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        VisLoader.prototype.onCreatePage = function (page) {
-            return new VisPage(page);
-        };
-        return VisLoader;
-    }(SourceUtils.PagedLoader));
-    SourceUtils.VisLoader = VisLoader;
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var Entity = (function (_super) {
-            __extends(Entity, _super);
-            function Entity(map, info) {
-                var _this = _super.call(this, true) || this;
-                _this.map = map;
-                if (info.origin !== undefined) {
-                    _this.setPosition(info.origin);
-                }
-                if (info.angles !== undefined) {
-                    var mul = Math.PI / 180;
-                    _this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
-                }
-                return _this;
-            }
-            return Entity;
-        }(WebGame.DrawableEntity));
-        Entities.Entity = Entity;
-        var PvsEntity = (function (_super) {
-            __extends(PvsEntity, _super);
-            function PvsEntity(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusters = info.clusters;
-                return _this;
-            }
-            PvsEntity.prototype.isInCluster = function (cluster) {
-                var clusters = this.clusters;
-                if (clusters == null)
-                    return false;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (clusters[i] === cluster)
-                        return true;
-                }
-                return false;
-            };
-            PvsEntity.prototype.isInAnyCluster = function (clusters) {
-                if (clusters == null)
-                    return true;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (this.isInCluster(clusters[i]))
-                        return true;
-                }
-                return false;
-            };
-            PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
-                if (!this.isInAnyCluster(clusters))
-                    return;
-                drawList.addItem(this);
-                this.onPopulateDrawList(drawList, clusters);
-            };
-            PvsEntity.prototype.onPopulateDrawList = function (drawList, clusters) { };
-            return PvsEntity;
-        }(Entity));
-        Entities.PvsEntity = PvsEntity;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var BrushEntity = (function (_super) {
-            __extends(BrushEntity, _super);
-            function BrushEntity(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.model = map.viewer.bspModelLoader.loadModel(info.model);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    var leaves = model.getLeaves();
-                    for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                        leaves[i].entity = _this;
-                    }
-                });
-                return _this;
-            }
-            BrushEntity.prototype.onPopulateDrawList = function (drawList, clusters) {
-                var leaves = this.model.getLeaves();
-                if (leaves != null)
-                    drawList.addItems(leaves);
-            };
-            return BrushEntity;
-        }(Entities.PvsEntity));
-        Entities.BrushEntity = BrushEntity;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var Camera = (function (_super) {
-            __extends(Camera, _super);
-            function Camera(viewer, fov) {
-                var _this = _super.call(this, viewer, fov, viewer.getWidth() / viewer.getHeight(), 1, 8192) || this;
-                _this.leafInvalid = true;
-                _this.render3DSky = true;
-                _this.viewer = viewer;
-                return _this;
-            }
-            Camera.prototype.onChangePosition = function () {
-                this.invalidateMatrices();
-                this.leafInvalid = true;
-            };
-            Camera.prototype.onGetLeaf = function () {
-                var temp = Facepunch.Vector3.pool.create();
-                var leaf = this.viewer.map.getLeafAt(this.getPosition(temp));
-                temp.release();
-                return leaf;
-            };
-            Camera.prototype.getLeaf = function () {
-                if (this.leafInvalid) {
-                    this.leafInvalid = false;
-                    var leaf = this.onGetLeaf();
-                    if (this.leaf !== leaf) {
-                        this.leaf = leaf;
-                        this.invalidateGeometry();
-                    }
-                }
-                return this.leaf;
-            };
-            Camera.prototype.render = function () {
-                var leaf = this.getLeaf();
-                if (this.render3DSky && leaf != null && (leaf.flags & SourceUtils.LeafFlags.Sky) !== 0) {
-                    var skyCamera = this.viewer.map.skyCamera;
-                    if (skyCamera != null) {
-                        skyCamera.renderRelativeTo(this);
-                    }
-                }
-                _super.prototype.render.call(this);
-            };
-            return Camera;
-        }(WebGame.PerspectiveCamera));
-        Entities.Camera = Camera;
-        var SkyCamera = (function (_super) {
-            __extends(SkyCamera, _super);
-            function SkyCamera(viewer, info) {
-                var _this = _super.call(this, viewer, 60) || this;
-                _this.render3DSky = false;
-                _this.origin = new Facepunch.Vector3().copy(info.origin);
-                _this.skyScale = 1 / info.scale;
-                if (info.fogEnabled) {
-                    _this.fog.start = info.fogStart;
-                    _this.fog.end = info.fogEnd;
-                    _this.fog.maxDensity = info.fogMaxDensity;
-                    _this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
-                    if (info.farZ !== 0)
-                        _this.setFar(info.farZ);
-                }
-                return _this;
-            }
-            SkyCamera.prototype.onChangePosition = function () {
-                this.invalidateMatrices();
-            };
-            SkyCamera.prototype.onGetLeaf = function () {
-                return this.viewer.map.getLeafAt(this.origin);
-            };
-            SkyCamera.prototype.renderRelativeTo = function (camera) {
-                var temp = Facepunch.Vector3.pool.create();
-                camera.getPosition(temp);
-                temp.multiplyScalar(this.skyScale);
-                temp.add(this.origin);
-                this.setPosition(temp);
-                temp.release();
-                this.setFov(camera.getFov());
-                this.setAspect(camera.getAspect());
-                this.copyRotation(camera);
-                _super.prototype.render.call(this);
-                var gl = this.viewer.context;
-                gl.depthMask(true);
-                gl.clear(gl.DEPTH_BUFFER_BIT);
-            };
-            return SkyCamera;
-        }(Camera));
-        Entities.SkyCamera = SkyCamera;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var Displacement = (function (_super) {
-            __extends(Displacement, _super);
-            function Displacement(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.isLoaded = false;
-                _this.index = info.index;
-                return _this;
-            }
-            Displacement.prototype.onAddToDrawList = function (list) {
-                var _this = this;
-                if (!this.isLoaded) {
-                    this.isLoaded = true;
-                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) { return _this.drawable.addMeshHandles([handle]); });
-                }
-                _super.prototype.onAddToDrawList.call(this, list);
-            };
-            return Displacement;
-        }(Entities.PvsEntity));
-        Entities.Displacement = Displacement;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var StaticProp = (function (_super) {
-            __extends(StaticProp, _super);
-            function StaticProp(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.albedoModulation = info.albedoModulation;
-                if (info.vertLighting !== undefined) {
-                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
-                        _this.lighting = value;
-                        _this.checkLoaded();
-                    });
-                }
-                else {
-                    _this.lighting = null;
-                }
-                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    _this.checkLoaded();
-                });
-                return _this;
-            }
-            StaticProp.prototype.checkLoaded = function () {
-                if (!this.model.isLoaded())
-                    return;
-                if (this.lighting === undefined)
-                    return;
-                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
-            };
-            return StaticProp;
-        }(Entities.PvsEntity));
-        Entities.StaticProp = StaticProp;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var Worldspawn = (function (_super) {
-            __extends(Worldspawn, _super);
-            function Worldspawn(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusterLeaves = {};
-                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
-                return _this;
-            }
-            Worldspawn.prototype.onModelLoad = function () {
-                var leaves = this.model.getLeaves();
-                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                    var leaf = leaves[i];
-                    if (leaf.cluster === undefined)
-                        continue;
-                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
-                    if (clusterLeaves == null) {
-                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
-                    }
-                    clusterLeaves.push(leaf);
-                }
-                this.map.viewer.forceDrawListInvalidation(true);
-            };
-            Worldspawn.prototype.isInAnyCluster = function (clusters) {
-                return true;
-            };
-            Worldspawn.prototype.isInCluster = function (cluster) {
-                return true;
-            };
-            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
-                if (clusters == null) {
-                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
-                    return;
-                }
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    var cluster = clusters[i];
-                    var clusterLeaves = this.clusterLeaves[cluster];
-                    if (clusterLeaves != null)
-                        drawList.addItems(clusterLeaves);
-                }
-            };
-            return Worldspawn;
-        }(Entities.BrushEntity));
-        Entities.Worldspawn = Worldspawn;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
     var Shaders;
     (function (Shaders) {
         var BaseMaterial = (function () {
@@ -1705,4 +1459,245 @@ var SourceUtils;
         }(Shaders.LightmappedBase));
         Shaders.Water = Water;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var SkyCube = (function (_super) {
+        __extends(SkyCube, _super);
+        function SkyCube(viewer, material) {
+            var _this = _super.call(this) || this;
+            var meshData = {
+                attributes: [WebGame.VertexAttribute.uv, WebGame.VertexAttribute.alpha],
+                elements: [
+                    {
+                        mode: WebGame.DrawMode.Triangles,
+                        material: material,
+                        indexOffset: 0,
+                        indexCount: 36
+                    }
+                ],
+                vertices: [],
+                indices: []
+            };
+            for (var face = 0; face < 6; ++face) {
+                meshData.vertices.push(0, 0, face);
+                meshData.vertices.push(1, 0, face);
+                meshData.vertices.push(1, 1, face);
+                meshData.vertices.push(0, 1, face);
+                var index = face * 4;
+                meshData.indices.push(index + 0, index + 1, index + 2);
+                meshData.indices.push(index + 0, index + 2, index + 3);
+            }
+            _this.addMeshHandles(viewer.meshes.addMeshData(meshData));
+            return _this;
+        }
+        return SkyCube;
+    }(WebGame.DrawListItem));
+    SourceUtils.SkyCube = SkyCube;
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PagedLoader.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var StudioModel = (function (_super) {
+        __extends(StudioModel, _super);
+        function StudioModel(viewer) {
+            var _this = _super.call(this) || this;
+            _this.viewer = viewer;
+            return _this;
+        }
+        StudioModel.getOrCreateMatGroup = function (matGroups, attribs) {
+            for (var _i = 0, matGroups_1 = matGroups; _i < matGroups_1.length; _i++) {
+                var matGroup = matGroups_1[_i];
+                if (matGroup.attributes.length !== attribs.length)
+                    continue;
+                var matches = true;
+                for (var i = 0; i < attribs.length; ++i) {
+                    if (matGroup.attributes[i].id !== attribs[i].id) {
+                        matches = false;
+                        break;
+                    }
+                }
+                if (matches)
+                    return matGroup;
+            }
+            var newGroup = WebGame.MeshManager.createEmpty(attribs);
+            matGroups.push(newGroup);
+            return newGroup;
+        };
+        StudioModel.encode2CompColor = function (vertLit, albedoMod) {
+            return vertLit + albedoMod * 0.00390625;
+        };
+        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, vertLighting, albedoModulation) {
+            var _this = this;
+            var bodyPart = this.info.bodyParts[bodyPartIndex];
+            var handles = [];
+            var matGroups = [];
+            if (albedoModulation === undefined)
+                albedoModulation = 0xffffff;
+            else
+                albedoModulation &= 0xffffff;
+            var albedoR = albedoModulation & 0xff;
+            var albedoG = (albedoModulation >> 8) & 0xff;
+            var albedoB = (albedoModulation >> 16) & 0xff;
+            for (var _i = 0, _a = bodyPart.models; _i < _a.length; _i++) {
+                var model = _a[_i];
+                for (var _b = 0, _c = model.meshes; _b < _c.length; _b++) {
+                    var mesh = _c[_b];
+                    var srcGroup = this.page.getMaterialGroup(mesh.material);
+                    var attribs = [];
+                    attribs.push.apply(attribs, srcGroup.attributes);
+                    attribs.push(WebGame.VertexAttribute.rgb);
+                    var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
+                    var newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
+                    var rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
+                    var vertLength = WebGame.MeshManager.getVertexLength(attribs);
+                    var lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
+                    var vertData = dstGroup.vertices;
+                    for (var i = newElem.vertexOffset + rgbOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
+                        var lightValue = lighting == null ? 0xffffff : lighting[j];
+                        vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
+                        vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
+                        vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
+                    }
+                }
+            }
+            for (var _d = 0, matGroups_2 = matGroups; _d < matGroups_2.length; _d++) {
+                var matGroup = matGroups_2[_d];
+                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.position, function (pos) { return pos.applyMatrix4(transform); }, 1);
+                WebGame.MeshManager.transform4F(matGroup, WebGame.VertexAttribute.normal, function (norm) { return norm.applyMatrix4(transform); }, 0);
+                this.viewer.meshes.addMeshData(matGroup, function (index) { return _this.viewer.mapMaterialLoader.loadMaterial(index); }, handles);
+            }
+            return handles;
+        };
+        StudioModel.prototype.loadFromInfo = function (info, page) {
+            this.info = info;
+            this.page = page;
+            this.dispatchOnLoadCallbacks();
+        };
+        StudioModel.prototype.isLoaded = function () { return this.info != null; };
+        return StudioModel;
+    }(WebGame.RenderResource));
+    SourceUtils.StudioModel = StudioModel;
+    var StudioModelPage = (function (_super) {
+        __extends(StudioModelPage, _super);
+        function StudioModelPage(page) {
+            return _super.call(this, page) || this;
+        }
+        StudioModelPage.prototype.getMaterialGroup = function (index) {
+            return this.matGroups[index];
+        };
+        StudioModelPage.prototype.onLoadValues = function (page) {
+            this.models = page.models;
+            this.matGroups = new Array(page.materials.length);
+            for (var i = 0, iEnd = page.materials.length; i < iEnd; ++i) {
+                var matGroup = page.materials[i];
+                this.matGroups[i] = WebGame.MeshManager.decompress(matGroup.meshData);
+                for (var _i = 0, _a = this.matGroups[i].elements; _i < _a.length; _i++) {
+                    var element = _a[_i];
+                    element.material = matGroup.material;
+                }
+            }
+            _super.prototype.onLoadValues.call(this, page);
+        };
+        StudioModelPage.prototype.onGetValue = function (index) {
+            return this.models[index];
+        };
+        return StudioModelPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.StudioModelPage = StudioModelPage;
+    var StudioModelLoader = (function (_super) {
+        __extends(StudioModelLoader, _super);
+        function StudioModelLoader(viewer) {
+            var _this = _super.call(this) || this;
+            _this.models = {};
+            _this.viewer = viewer;
+            return _this;
+        }
+        StudioModelLoader.prototype.update = function (requestQuota) {
+            return _super.prototype.update.call(this, this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
+        };
+        StudioModelLoader.prototype.loadModel = function (index) {
+            var model = this.models[index];
+            if (model !== undefined)
+                return model;
+            this.models[index] = model = new StudioModel(this.viewer);
+            this.load(index, function (info, page) { return model.loadFromInfo(info, page); });
+            return model;
+        };
+        StudioModelLoader.prototype.onCreatePage = function (page) {
+            return new StudioModelPage(page);
+        };
+        return StudioModelLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.StudioModelLoader = StudioModelLoader;
+    var VertexLightingPage = (function (_super) {
+        __extends(VertexLightingPage, _super);
+        function VertexLightingPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VertexLightingPage.prototype.onLoadValues = function (page) {
+            this.props = new Array(page.props.length);
+            for (var i = 0, iEnd = page.props.length; i < iEnd; ++i) {
+                var srcProp = page.props[i];
+                var dstProp = this.props[i] = srcProp == null ? null : new Array(srcProp.length);
+                if (srcProp == null)
+                    continue;
+                for (var j = 0, jEnd = srcProp.length; j < jEnd; ++j) {
+                    dstProp[j] = Facepunch.Utils.decompress(srcProp[j]);
+                }
+            }
+            _super.prototype.onLoadValues.call(this, page);
+        };
+        VertexLightingPage.prototype.onGetValue = function (index) {
+            return this.props[index];
+        };
+        return VertexLightingPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.VertexLightingPage = VertexLightingPage;
+    var VertexLightingLoader = (function (_super) {
+        __extends(VertexLightingLoader, _super);
+        function VertexLightingLoader(viewer) {
+            var _this = _super.call(this) || this;
+            _this.viewer = viewer;
+            return _this;
+        }
+        VertexLightingLoader.prototype.update = function (requestQuota) {
+            return _super.prototype.update.call(this, this.viewer.visLoader.getLoadProgress() < 1 ? 0 : requestQuota);
+        };
+        VertexLightingLoader.prototype.onCreatePage = function (page) {
+            return new VertexLightingPage(page);
+        };
+        return VertexLightingLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.VertexLightingLoader = VertexLightingLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var VisPage = (function (_super) {
+        __extends(VisPage, _super);
+        function VisPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisPage.prototype.onGetValue = function (index) {
+            if (typeof (this.page.values[index]) === "string") {
+                this.page.values[index] = Facepunch.Utils.decompress(this.page.values[index]);
+            }
+            return this.page.values[index];
+        };
+        return VisPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.VisPage = VisPage;
+    var VisLoader = (function (_super) {
+        __extends(VisLoader, _super);
+        function VisLoader() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        VisLoader.prototype.onCreatePage = function (page) {
+            return new VisPage(page);
+        };
+        return VisLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.VisLoader = VisLoader;
 })(SourceUtils || (SourceUtils = {}));
