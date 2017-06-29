@@ -1,93 +1,93 @@
 {
   "name": "de_inferno",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18f5-eaca",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/lightmap.json?v=18f5-f973",
   "visPages": [
     {
       "first": 0,
       "count": 2572,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vispage0.json?v=18f5-f973"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 5005,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/leafpage0.json?v=18f5-f973"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 2034,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/disppage0.json?v=18f5-f973"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 442,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/materials/matpage0.json?v=18f5-f973"
     }
   ],
   "brushModelPages": [
     {
       "first": 0,
       "count": 1,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/bsppage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/bsppage0.json?v=18f5-f973"
     },
     {
       "first": 1,
       "count": 73,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/bsppage1.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/bsppage1.json?v=18f5-f973"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 230,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage0.json?v=18f5-f973"
     },
     {
       "first": 230,
       "count": 56,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage1.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/mdlpage1.json?v=18f5-f973"
     }
   ],
   "vertLightingPages": [
     {
       "first": 0,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage0.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage0.json?v=18f5-f973"
     },
     {
       "first": 1024,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage1.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage1.json?v=18f5-f973"
     },
     {
       "first": 2048,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage2.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage2.json?v=18f5-f973"
     },
     {
       "first": 3072,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage3.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage3.json?v=18f5-f973"
     },
     {
       "first": 4096,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage4.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage4.json?v=18f5-f973"
     },
     {
       "first": 5120,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage5.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage5.json?v=18f5-f973"
     },
     {
       "first": 6144,
       "count": 235,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage6.json?v=18f5-eaca"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_inferno/geom/vhvpage6.json?v=18f5-f973"
     }
   ],
   "entities": [
@@ -103,32 +103,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-eaca"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-f973"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-eaca"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-f973"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-eaca"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-f973"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-eaca"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-f973"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-eaca"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-f973"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-eaca"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/nukeblankup.vtf.json?v=18f5-f973"
           }
         ]
       },
