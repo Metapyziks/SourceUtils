@@ -1225,8 +1225,8 @@ var Facepunch;
                 request.addEventListener("abort", function (ev) { return failure(Http.cancelled); });
             }
             if (progress != null) {
-                request.addEventListener("progress", function (ev) { return ev.lengthComputable
-                    ? progress(ev.loaded, ev.total) : progress(0, undefined); });
+                request.onprogress = function (ev) { return ev.lengthComputable
+                    ? progress(ev.loaded, ev.total) : progress(0, undefined); };
             }
             request.open("get", url, true);
             request.send();
@@ -1243,8 +1243,8 @@ var Facepunch;
                 image.addEventListener("abort", function (ev) { return failure(Http.cancelled); });
             }
             if (progress != null) {
-                image.addEventListener("progress", function (ev) { return ev.lengthComputable
-                    ? progress(ev.loaded, ev.total) : progress(0, undefined); });
+                image.onprogress = function (ev) { return ev.lengthComputable
+                    ? progress(ev.loaded, ev.total) : progress(0, undefined); };
             }
         };
         Http.isAbsUrl = function (url) {
