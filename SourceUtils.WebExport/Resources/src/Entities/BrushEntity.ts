@@ -10,9 +10,12 @@ namespace SourceUtils {
 
         export class BrushEntity extends PvsEntity {
             readonly model: BspModel;
+            readonly isWorldSpawn: boolean;
 
             constructor(map: Map, info: IBrushEntity) {
                 super(map, info);
+
+                this.isWorldSpawn = info.model === 0;
 
                 this.model = map.viewer.bspModelLoader.loadModel(info.model);
                 this.model.addUsage(this);
@@ -24,9 +27,13 @@ namespace SourceUtils {
                 });
             }
 
-            protected onPopulateDrawList(drawList: WebGame.DrawList, clusters: number[]): void {
+            onAddToDrawList(list: Facepunch.WebGame.DrawList): void {
+                super.onAddToDrawList(list);
+
+                if (this.isWorldSpawn) return;
+
                 const leaves = this.model.getLeaves();
-                if (leaves != null) drawList.addItems(leaves);
+                if (leaves != null) list.addItems(leaves);
             }
         }
     }
