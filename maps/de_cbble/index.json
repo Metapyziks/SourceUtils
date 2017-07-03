@@ -1,68 +1,68 @@
 {
   "name": "de_cbble",
-  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f9-e020",
+  "lightmapUrl": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/lightmap.json?v=18f9-e86b",
   "visPages": [
     {
       "first": 0,
       "count": 771,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vispage0.json?v=18f9-e86b"
     }
   ],
   "leafPages": [
     {
       "first": 0,
       "count": 3341,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/leafpage0.json?v=18f9-e86b"
     }
   ],
   "dispPages": [
     {
       "first": 0,
       "count": 802,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/disppage0.json?v=18f9-e86b"
     }
   ],
   "materialPages": [
     {
       "first": 0,
       "count": 370,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/materials/matpage0.json?v=18f9-e86b"
     }
   ],
   "brushModelPages": [
     {
       "first": 0,
       "count": 1,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage0.json?v=18f9-e86b"
     },
     {
       "first": 1,
       "count": 53,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage1.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/bsppage1.json?v=18f9-e86b"
     }
   ],
   "studioModelPages": [
     {
       "first": 0,
       "count": 118,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage0.json?v=18f9-e86b"
     },
     {
       "first": 118,
       "count": 43,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/mdlpage1.json?v=18f9-e86b"
     }
   ],
   "vertLightingPages": [
     {
       "first": 0,
       "count": 1024,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vhvpage0.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vhvpage0.json?v=18f9-e86b"
     },
     {
       "first": 1024,
       "count": 309,
-      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vhvpage1.json?v=18f9-e020"
+      "url": "https://metapyziks.github.io/SourceUtils/maps/de_cbble/geom/vhvpage1.json?v=18f9-e86b"
     }
   ],
   "entities": [
@@ -78,32 +78,32 @@
           {
             "name": "facePosX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f9-e020"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrrt.vtf.json?v=18f9-e86b"
           },
           {
             "name": "faceNegX",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f9-e020"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrlf.vtf.json?v=18f9-e86b"
           },
           {
             "name": "facePosY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f9-e020"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrbk.vtf.json?v=18f9-e86b"
           },
           {
             "name": "faceNegY",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f9-e020"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrft.vtf.json?v=18f9-e86b"
           },
           {
             "name": "facePosZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f9-e020"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrup.vtf.json?v=18f9-e86b"
           },
           {
             "name": "faceNegZ",
             "type": 4,
-            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f9-e020"
+            "value": "https://metapyziks.github.io/SourceUtils/materials/skybox/sky_cs15_daylight03_hdrdn.vtf.json?v=18f9-e86b"
           },
           {
             "name": "hdrCompressed",
