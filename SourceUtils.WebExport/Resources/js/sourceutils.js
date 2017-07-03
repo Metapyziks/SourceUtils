@@ -632,10 +632,43 @@ var SourceUtils;
             this.map.load(url);
         };
         MapViewer.prototype.onInitialize = function () {
+            var _this = this;
             this.canLockPointer = true;
             this.mainCamera = new SourceUtils.Entities.Camera(this, 75);
             this.lastProfileTime = performance.now();
+            var deltaAngles = new Facepunch.Vector3();
+            var lastRotationSampleTime = new Date().getTime() / 1000;
+            var deviceRotate = function (x, y, z, period, toRadians) {
+                x *= toRadians / period;
+                y *= toRadians / period;
+                z *= toRadians / period;
+                var sampleTime = new Date().getTime() / 1000;
+                var deltaTime = sampleTime - lastRotationSampleTime;
+                lastRotationSampleTime = sampleTime;
+                deltaAngles.x = x * deltaTime;
+                deltaAngles.y = y * deltaTime;
+                deltaAngles.z = z * deltaTime;
+                _this.onDeviceRotate(deltaAngles);
+            };
+            var wind = window;
+            if (wind.DeviceMotionEvent) {
+                window.addEventListener("devicemotion", function (evnt) {
+                    var rate = evnt.rotationRate;
+                    deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
+                }, true);
+            }
             _super.prototype.onInitialize.call(this);
+        };
+        MapViewer.prototype.onDeviceRotate = function (deltaAngles) {
+            if (window.innerWidth > window.innerHeight) {
+                this.lookAngs.x += deltaAngles.z;
+                this.lookAngs.y -= deltaAngles.x;
+            }
+            else {
+                this.lookAngs.x += deltaAngles.x;
+                this.lookAngs.y += deltaAngles.z;
+            }
+            this.updateCameraAngles();
         };
         MapViewer.prototype.onResize = function () {
             _super.prototype.onResize.call(this);
@@ -1218,44 +1251,6 @@ var SourceUtils;
         Entities.Displacement = Displacement;
     })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var StaticProp = (function (_super) {
-            __extends(StaticProp, _super);
-            function StaticProp(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.albedoModulation = info.albedoModulation;
-                if (info.vertLighting !== undefined) {
-                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
-                        _this.lighting = value;
-                        _this.checkLoaded();
-                    });
-                }
-                else {
-                    _this.lighting = null;
-                }
-                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    _this.checkLoaded();
-                });
-                return _this;
-            }
-            StaticProp.prototype.checkLoaded = function () {
-                if (!this.model.isLoaded())
-                    return;
-                if (this.lighting === undefined)
-                    return;
-                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
-            };
-            return StaticProp;
-        }(Entities.PvsEntity));
-        Entities.StaticProp = StaticProp;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
     var Entities;
@@ -1719,4 +1714,42 @@ var SourceUtils;
         }(Shaders.LightmappedBase));
         Shaders.Water = Water;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var StaticProp = (function (_super) {
+            __extends(StaticProp, _super);
+            function StaticProp(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.albedoModulation = info.albedoModulation;
+                if (info.vertLighting !== undefined) {
+                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
+                        _this.lighting = value;
+                        _this.checkLoaded();
+                    });
+                }
+                else {
+                    _this.lighting = null;
+                }
+                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    _this.checkLoaded();
+                });
+                return _this;
+            }
+            StaticProp.prototype.checkLoaded = function () {
+                if (!this.model.isLoaded())
+                    return;
+                if (this.lighting === undefined)
+                    return;
+                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
+            };
+            return StaticProp;
+        }(Entities.PvsEntity));
+        Entities.StaticProp = StaticProp;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));

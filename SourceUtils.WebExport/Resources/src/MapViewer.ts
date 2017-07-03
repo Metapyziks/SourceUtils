@@ -33,7 +33,48 @@ namespace SourceUtils {
 
             this.lastProfileTime = performance.now();
 
+            const deltaAngles = new Facepunch.Vector3();
+            let lastRotationSampleTime = new Date().getTime() / 1000;
+
+            const deviceRotate = (x: number, y: number, z: number, period: number, toRadians: number) => {
+                x *= toRadians / period;
+                y *= toRadians / period;
+                z *= toRadians / period;
+
+                const sampleTime = new Date().getTime() / 1000;
+                const deltaTime = sampleTime - lastRotationSampleTime;
+                lastRotationSampleTime = sampleTime;
+
+                deltaAngles.x = x * deltaTime;
+                deltaAngles.y = y * deltaTime;
+                deltaAngles.z = z * deltaTime;
+
+                this.onDeviceRotate(deltaAngles);
+            };
+
+            const wind: any = window;
+            if (wind.DeviceMotionEvent) {
+                window.addEventListener("devicemotion",
+                    evnt => {
+                        const rate = evnt.rotationRate;
+                        deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
+                    },
+                    true);
+            }
+
+
             super.onInitialize();
+        }
+
+        protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void {
+            if (window.innerWidth > window.innerHeight) {
+                this.lookAngs.x += deltaAngles.z;
+                this.lookAngs.y -= deltaAngles.x;
+            } else {
+                this.lookAngs.x += deltaAngles.x;
+                this.lookAngs.y += deltaAngles.z;
+            }
+            this.updateCameraAngles();
         }
 
         protected onResize(): void {
