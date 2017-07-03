@@ -8,6 +8,8 @@ namespace SourceUtils {
             fogStart = 8192;
             fogEnd = 16384;
             fogColor = new Facepunch.Vector3(1, 1, 1);
+            translucent = true;
+            refract = true;
         }
 
         export class Water extends LightmappedBase<WaterMaterial> {
@@ -85,6 +87,9 @@ namespace SourceUtils {
                         gl_FragColor = vec4(waterFogged, 1.0);
                     }`);
 
+                this.uOpaqueColor.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                this.uOpaqueDepth.setDefault(WebGame.TextureUtils.getBlackTexture(context));
+
                 this.compile();
             }
 
@@ -95,9 +100,6 @@ namespace SourceUtils {
 
                 this.uInverseProjection.bufferParameter(buf, WebGame.Camera.inverseProjectionMatrixParam);
                 this.uInverseView.bufferParameter(buf, WebGame.Camera.inverseViewMatrixParam);
-
-                this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
-                this.uOpaqueDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
             }
 
             bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: WaterMaterial): void {
@@ -105,6 +107,14 @@ namespace SourceUtils {
 
                 this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
                 this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
+
+                if (props.translucent) {
+                    this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
+                    this.uOpaqueDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
+                } else {
+                    this.uOpaqueColor.bufferValue(buf, null);
+                    this.uOpaqueDepth.bufferValue(buf, null);
+                }
             }
         }
     }
