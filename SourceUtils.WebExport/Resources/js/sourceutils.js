@@ -1229,7 +1229,7 @@ var SourceUtils;
             ShadowCamera.prototype.onPopulateDrawList = function (drawList) {
                 this.viewer.map.populateDrawList(drawList, this.targetCamera.getLeaf());
             };
-            ShadowCamera.prototype.addToFrustrumBounds = function (invLight, vec, bounds) {
+            ShadowCamera.prototype.addToFrustumBounds = function (invLight, vec, bounds) {
                 vec.applyMatrix4(this.targetCamera.getMatrix());
                 vec.applyQuaternion(invLight);
             };
@@ -1245,14 +1245,14 @@ var SourceUtils;
                 var vec = Facepunch.Vector4.pool.create();
                 var invLight = Facepunch.Quaternion.pool.create();
                 invLight.setInverse(lightRotation);
-                this.addToFrustrumBounds(invLight, vec.set(xNear, yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xNear, yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(xNear, -yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(xFar, yFar, far, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xFar, yFar, far, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(xFar, -yFar, far, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xNear, yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xFar, yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xFar, -yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
                 vec.release();
                 invLight.release();
             };

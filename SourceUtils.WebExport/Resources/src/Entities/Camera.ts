@@ -133,7 +133,7 @@
                 this.viewer.map.populateDrawList(drawList, this.targetCamera.getLeaf());
             }
 
-            private addToFrustrumBounds(invLight: Facepunch.Quaternion, vec: Facepunch.Vector4, bounds: Facepunch.Box3): void {
+            private addToFrustumBounds(invLight: Facepunch.Quaternion, vec: Facepunch.Vector4, bounds: Facepunch.Box3): void {
                 vec.applyMatrix4(this.targetCamera.getMatrix());
                 vec.applyQuaternion(invLight);
             }
@@ -156,15 +156,15 @@
 
                 invLight.setInverse(lightRotation);
 
-                this.addToFrustrumBounds(invLight, vec.set( xNear,  yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xNear,  yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set( xNear, -yNear, near, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set( xNear,  yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear,  yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set( xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
                 
-                this.addToFrustrumBounds(invLight, vec.set( xFar,  yFar, far, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xFar,  yFar, far, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set( xFar, -yFar, far, 1), bounds);
-                this.addToFrustrumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set( xFar,  yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar,  yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set( xFar, -yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
 
                 vec.release();
                 invLight.release();
