@@ -46,6 +46,10 @@
                 return this.leaf;
             }
 
+            protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList): void {
+                this.viewer.map.populateDrawList(drawList, this.getLeaf());
+            }
+
             render(): void {
                 const leaf = this.getLeaf();
 
@@ -110,6 +114,68 @@
 
                 gl.depthMask(true);
                 gl.clear(gl.DEPTH_BUFFER_BIT);
+            }
+        }
+
+        export class ShadowCamera extends WebGame.OrthographicCamera {
+            readonly viewer: MapViewer;
+
+            private readonly targetCamera: Camera;
+
+            constructor(viewer: MapViewer, targetCamera: Camera) {
+                super(viewer, 1, 1, 0, 1);
+
+                this.viewer = viewer;
+                this.targetCamera = targetCamera;
+            }
+
+            protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList): void {
+                this.viewer.map.populateDrawList(drawList, this.targetCamera.getLeaf());
+            }
+
+            private addToFrustrumBounds(invLight: Facepunch.Quaternion, vec: Facepunch.Vector4, bounds: Facepunch.Box3): void {
+                vec.applyMatrix4(this.targetCamera.getMatrix());
+                vec.applyQuaternion(invLight);
+            }
+
+            private getFrustumBounds(lightRotation: Facepunch.Quaternion, near: number, far: number, bounds: Facepunch.Box3): void {
+                bounds.min.set(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
+                bounds.max.set(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
+
+                const yScale = Math.tan(this.targetCamera.getFov() * 0.5);
+                const xScale = yScale * this.targetCamera.getAspect();
+
+                const xNear = xScale * near;
+                const yNear = yScale * near;
+
+                const xFar = xScale * far;
+                const yFar = yScale * far;
+
+                const vec = Facepunch.Vector4.pool.create();
+                const invLight = Facepunch.Quaternion.pool.create();
+
+                invLight.setInverse(lightRotation);
+
+                this.addToFrustrumBounds(invLight, vec.set( xNear,  yNear, near, 1), bounds);
+                this.addToFrustrumBounds(invLight, vec.set(-xNear,  yNear, near, 1), bounds);
+                this.addToFrustrumBounds(invLight, vec.set( xNear, -yNear, near, 1), bounds);
+                this.addToFrustrumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
+                
+                this.addToFrustrumBounds(invLight, vec.set( xFar,  yFar, far, 1), bounds);
+                this.addToFrustrumBounds(invLight, vec.set(-xFar,  yFar, far, 1), bounds);
+                this.addToFrustrumBounds(invLight, vec.set( xFar, -yFar, far, 1), bounds);
+                this.addToFrustrumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
+
+                vec.release();
+                invLight.release();
+            }
+
+            renderShadows(lightRotation: Facepunch.Quaternion, near: number, far: number): void {
+                const bounds = Facepunch.Box3.pool.create();
+
+                this.getFrustumBounds(lightRotation, near, far, bounds);
+
+                bounds.release();
             }
         }
     }

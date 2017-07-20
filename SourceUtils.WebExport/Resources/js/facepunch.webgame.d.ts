@@ -119,6 +119,7 @@ declare namespace Facepunch {
         normalize(): this;
         normalizeXyz(): this;
         set(x: number, y: number, z: number, w: number): this;
+        applyQuaternion(quat: Quaternion): this;
         applyMatrix4(mat: Matrix4): this;
         release(): void;
     }
@@ -131,6 +132,8 @@ declare namespace Facepunch {
         constructor(x?: number, y?: number, z?: number, w?: number);
         copy(quat: Quaternion): this;
         setIdentity(): this;
+        setInverse(quat?: Quaternion): this;
+        setNormalized(quat?: Quaternion): this;
         setAxisAngle(axis: Vector3, angle: number): this;
         multiply(quat: Quaternion): this;
         setEuler(euler: Euler): this;
@@ -177,6 +180,7 @@ declare namespace Facepunch {
         scale(vec: Vector3): this;
         translate(vec: Vector3): this;
         setPerspective(fov: number, aspect: number, near: number, far: number): this;
+        setOrthographic(size: number, aspect: number, near: number, far: number): this;
         setInverse(from: Matrix4): this;
     }
 }
@@ -373,21 +377,26 @@ declare namespace Facepunch {
             private geometryInvalid;
             readonly game: Game;
             readonly fog: Fog;
+            private near;
+            private far;
             private projectionInvalid;
             private projectionMatrix;
             private inverseProjectionInvalid;
             private inverseProjectionMatrix;
-            constructor(game: Game);
+            constructor(game: Game, near: number, far: number);
+            setNear(value: number): void;
+            getNear(): number;
+            setFar(value: number): void;
+            getFar(): number;
             getOpaqueColorTexture(): RenderTexture;
             getOpaqueDepthTexture(): RenderTexture;
             invalidateGeometry(): void;
+            protected onPopulateDrawList(drawList: DrawList): void;
             render(): void;
             private setupFrameBuffers();
             bufferOpaqueTargetBegin(buf: CommandBuffer): void;
             bufferRenderTargetEnd(buf: CommandBuffer): void;
             getDrawCalls(): number;
-            abstract getNear(): number;
-            abstract getFar(): number;
             getProjectionMatrix(target?: Matrix4): Matrix4;
             getInverseProjectionMatrix(target?: Matrix4): Matrix4;
             protected invalidateProjectionMatrix(): void;
@@ -399,17 +408,21 @@ declare namespace Facepunch {
         class PerspectiveCamera extends Camera {
             private fov;
             private aspect;
-            private near;
-            private far;
             constructor(game: Game, fov: number, aspect: number, near: number, far: number);
             setFov(value: number): void;
             getFov(): number;
             setAspect(value: number): void;
             getAspect(): number;
-            setNear(value: number): void;
-            getNear(): number;
-            setFar(value: number): void;
-            getFar(): number;
+            protected onUpdateProjectionMatrix(matrix: Matrix4): void;
+        }
+        class OrthographicCamera extends Camera {
+            private size;
+            private aspect;
+            constructor(game: Game, size: number, aspect: number, near: number, far: number);
+            setSize(value: number): void;
+            getSize(): number;
+            setAspect(value: number): void;
+            getAspect(): number;
             protected onUpdateProjectionMatrix(matrix: Matrix4): void;
         }
     }

@@ -216,17 +216,6 @@ namespace SourceUtils {
             }
         }
 
-        populateDrawList(drawList: WebGame.DrawList, camera: WebGame.Camera): void {
-            let leaf: BspLeaf = null;
-            let sky2D = false;
-            if ((camera as Entities.Camera).getLeaf !== undefined) {
-                const mapCamera = camera as Entities.Camera;
-                leaf = mapCamera.getLeaf();
-            }
-
-            this.map.populateDrawList(drawList, leaf);
-        }
-
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void {
             super.populateCommandBufferParameters(buf);
 
