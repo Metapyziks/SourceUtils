@@ -37,25 +37,11 @@ declare namespace Facepunch {
     }
 }
 declare namespace Facepunch {
-    interface IPoolable {
-        release(): void;
-    }
-    class Pool<T extends IPoolable> {
-        private readonly list;
-        private readonly ctor;
-        readonly capacity: number;
-        constructor(ctor: {
-            new (): T;
-        });
-        create(): T;
-        release(item: T): void;
-    }
     interface IVector2 {
         x: number;
         y: number;
     }
-    class Vector2 implements IVector2, IPoolable {
-        static readonly pool: Pool<Vector2>;
+    class Vector2 implements IVector2 {
         x: number;
         y: number;
         constructor(x?: number, y?: number);
@@ -68,13 +54,11 @@ declare namespace Facepunch {
         sub(vec: IVector2): this;
         multiplyScalar(val: number): this;
         copy(vec: IVector2): this;
-        release(): void;
     }
     interface IVector3 extends IVector2 {
         z: number;
     }
-    class Vector3 implements IVector3, IPoolable {
-        static readonly pool: Pool<Vector3>;
+    class Vector3 implements IVector3 {
         static readonly zero: Vector3;
         static readonly one: Vector3;
         static readonly unitX: Vector3;
@@ -100,13 +84,11 @@ declare namespace Facepunch {
         copy(vec: IVector3): this;
         applyQuaternion(quat: Quaternion): this;
         setNormal(vec: IVector3): this;
-        release(): void;
     }
     interface IVector4 extends IVector3 {
         w: number;
     }
-    class Vector4 implements IVector4, IPoolable {
-        static readonly pool: Pool<Vector4>;
+    class Vector4 implements IVector4 {
         x: number;
         y: number;
         z: number;
@@ -121,10 +103,8 @@ declare namespace Facepunch {
         set(x: number, y: number, z: number, w: number): this;
         applyQuaternion(quat: Quaternion): this;
         applyMatrix4(mat: Matrix4): this;
-        release(): void;
     }
-    class Quaternion implements IVector4, IPoolable {
-        static readonly pool: Pool<Quaternion>;
+    class Quaternion implements IVector4 {
         x: number;
         y: number;
         z: number;
@@ -137,7 +117,6 @@ declare namespace Facepunch {
         setAxisAngle(axis: Vector3, angle: number): this;
         multiply(quat: Quaternion): this;
         setEuler(euler: Euler): this;
-        release(): void;
     }
     enum AxisOrder {
         Xyz = 5,
@@ -159,15 +138,13 @@ declare namespace Facepunch {
         distance: number;
         constructor(normal: Vector3, distance: number);
     }
-    class Box3 implements IPoolable {
-        static readonly pool: Pool<Box3>;
+    class Box3 {
         min: Vector3;
         max: Vector3;
         constructor(min?: IVector3, max?: IVector3);
         copy(box: Box3): this;
         clampLineSegment(a: IVector3, b: IVector3): boolean;
         distanceToPoint(vec: IVector3): number;
-        release(): void;
     }
     class Matrix4 {
         private static nextId;
