@@ -153,27 +153,28 @@ namespace ImageMagick
                 StartInfo =
                 {
                     FileName = "convert",
-                    Arguments = _sArgBuilder.ToString(),
+                    Arguments = _sArgBuilder.ToString().Substring( 1 ),
                     CreateNoWindow = true,
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false
                 }
             };
-
+            
             process.Start();
 
             if ( input != null )
             {
                 input.CopyTo( process.StandardInput.BaseStream );
+                process.StandardInput.BaseStream.Close();
             }
 
-            process.WaitForExit();
-            
             if ( output != null )
             {
                 process.StandardOutput.BaseStream.CopyTo( output );
             }
+            
+            process.WaitForExit();
         }
 
         public class Pixels
@@ -294,6 +295,7 @@ namespace ImageMagick
             if ( readSettings.Width == 0 ) readSettings.Width = _readSettings.Width;
             if ( readSettings.Height == 0 ) readSettings.Height = _readSettings.Height;
 
+            _mainBuffer.Seek( 0, SeekOrigin.Begin );
             Cli( _mainBuffer, _readSettings, dest, readSettings, args );
 
             ReleaseStream( _mainBuffer );
@@ -329,11 +331,13 @@ namespace ImageMagick
         
         public void Write( string filePath )
         {
+            _mainBuffer.Seek( 0, SeekOrigin.Begin );
             Cli( _mainBuffer, _readSettings, null, null, filePath );
         }
         
         public void Write( Stream stream, MagickFormat format )
         {
+            _mainBuffer.Seek( 0, SeekOrigin.Begin );
             Cli( _mainBuffer, _readSettings, stream, new MagickReadSettings { Format = format } );
         }
         
