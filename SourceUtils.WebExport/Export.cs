@@ -185,7 +185,7 @@ namespace SourceUtils.WebExport
                             {
                                 using ( var newImage = new MagickImage( input, new MagickReadSettings { Format = MagickFormat.Png } ) )
                                 {
-                                    using ( var oldImage = new MagickImage( path, new MagickReadSettings {Format = MagickFormat.Png} ) )
+                                    using ( var oldImage = new MagickImage( path, new MagickReadSettings { Format = MagickFormat.Png } ) )
                                     {
                                         if ( AreImagesEqual( oldImage, newImage ) )
                                         {
