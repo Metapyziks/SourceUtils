@@ -11,6 +11,7 @@
 *.userprefs
 
 .settings/
+.vscode/
 
 # Build results
 [Dd]ebug/
