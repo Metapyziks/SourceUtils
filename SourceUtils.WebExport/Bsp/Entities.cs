@@ -211,6 +211,36 @@ namespace SourceUtils.WebExport.Bsp
             return ent;
         }
 
+        public class LightEnvironment : Entity
+        {
+            public Color32? Brightness { get; set; }
+            public Color32? Ambient { get; set; }
+
+            public Color32? BrightnessHdr { get; set; }
+            public Color32? AmbientHdr { get; set; }
+
+            public float BrightnessScaleHdr { get; set; }
+            public float AmbientScaleHdr { get; set; }
+
+            public float Pitch { get; set; }
+        }
+
+        [Classname( "light_environment" )]
+        private static LightEnvironment InitLightEnvironment( LightEnvironment ent, ValveBsp.Entities.Entity value )
+        {
+            if ( InitEntity( ent, value ) == null ) return null;
+
+            ent.Brightness = value["_light"];
+            ent.BrightnessHdr = value["_lightHDR"];
+            ent.BrightnessScaleHdr = value["_lightscaleHDR"];
+            ent.Ambient = value["_ambient"];
+            ent.AmbientHdr = value["_ambientHDR"];
+            ent.AmbientScaleHdr = value["_AmbientScaleHDR"];
+            ent.Pitch = value["pitch"];
+
+            return ent;
+        }
+
         public class Displacement : PvsEntity
         {
             [JsonProperty( "index" )]
