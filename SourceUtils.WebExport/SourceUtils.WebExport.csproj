@@ -52,14 +52,16 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <Choose>
-    <When Condition="$(!DefineConstants.Contains('LINUX'))">
+    <When Condition="$(DefineConstants.Contains('LINUX'))">
+    </When>
+    <Otherwise>
       <ItemGroup>
         <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
           <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.0.4.400\lib\net40-client\Magick.NET-Q8-AnyCPU.dll</HintPath>
           <Private>True</Private>
         </Reference>
       </ItemGroup>
-    </When>
+    </Otherwise>
   </Choose>
   <ItemGroup>
     <Reference Include="CommandLine, Version=2.0.275.0, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
