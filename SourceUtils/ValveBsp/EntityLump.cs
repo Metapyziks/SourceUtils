@@ -283,6 +283,8 @@ namespace SourceUtils
 
                 public static Color32 ToColor32( string param )
                 {
+                    if ( param == null ) return new Color32( 0x00, 0x00, 0x00 );
+
                     var split0 = param.IndexOf( ' ' );
                     var split1 = split0 == -1 ? -1 : param.IndexOf( ' ', split0 + 1 );
                     var split2 = split1 == -1 ? -1 : param.IndexOf( ' ', split1 + 1 );
