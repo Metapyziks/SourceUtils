@@ -9,8 +9,8 @@ namespace SourceUtils
 {
     public class MaterialPropertyGroup
     {
-        private static readonly Regex _sPropertyRegex = new Regex(@"^([^""{}]*""((?<context>[^\?]+)\?)?(?<name>[\$%]?[^""]+)""|\s*(?<name>[\$%]?[a-zA-Z0-9_]+))\s*(""(?<value>[^""]+)""[^""{}]*|(?<value>\S+(\s+\S+)*)\s*)$", RegexOptions.Compiled);
-        private static readonly Regex _sNestedRegex = new Regex(@"^\s*(""(?<name>[^""]+)""|(?<name>[$%a-zA-Z0-9_]+))\s*$", RegexOptions.Compiled);
+        private static readonly Regex _sPropertyRegex = new Regex(@"^([^""{}“”]*(""|“)((?<context>[^\?]+)\?)?(?<name>[\$%]?[^""“”]+)(""|”)|\s*(?<name>[\$%]?[a-zA-Z0-9_]+))\s*((""|“)(?<value>[^""“”]+)(""|”)[^""{}“”]*|(?<value>\S+(\s+\S+)*)\s*)$", RegexOptions.Compiled);
+        private static readonly Regex _sNestedRegex = new Regex(@"^\s*((""|“)(?<name>[^""“”]+)(""|”)|(?<name>[$%a-zA-Z0-9_]+))\s*$", RegexOptions.Compiled);
         private static readonly Regex _sColorRegex = new Regex(@"^\s*\{\s*(?<red>[0-9]+)\s+(?<green>[0-9]+)\s+(?<blue>[0-9]+)\s*\}\s*$", RegexOptions.Compiled);
 
         private readonly Dictionary<string, string> _properties
@@ -226,7 +226,7 @@ namespace SourceUtils
     
             public void ExpectedError(string expected)
             {
-                throw new VmtParserException(expected, _offset, _lines[_offset]);
+                throw new VmtParserException(expected, _offset + 1, _lines[_offset]);
             }
         }
 
@@ -263,7 +263,7 @@ namespace SourceUtils
         }
 
         private readonly Dictionary<string, MaterialPropertyGroup> _propertyGroups = new Dictionary<string, MaterialPropertyGroup>(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*""(?<shader>[a-zA-Z0-9/\\]+)""[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
+        private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*(""|“)(?<shader>[a-zA-Z0-9/\\]+)(""|”)[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
 
         private ValveMaterialFile( Stream stream )
         {
