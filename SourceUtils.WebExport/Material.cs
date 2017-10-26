@@ -98,9 +98,13 @@ namespace SourceUtils.WebExport
     {
         private static Url GetTextureUrl(string path, string vmtPath, ValveBspFile bsp)
         {
-            path = path.ToLower().Replace('\\', '/');
+            path = path
+                .ToLower()
+                .Replace('\\', '/')
+                .Replace("//", "/")
+                .TrimStart('/');
+
             if (!path.EndsWith(".vtf")) path = $"{path}.vtf";
-            path = path.TrimStart('/');
 
             path = !path.Contains('/') ? $"{Path.GetDirectoryName(vmtPath)}/{path}" : $"materials/{path}";
 
