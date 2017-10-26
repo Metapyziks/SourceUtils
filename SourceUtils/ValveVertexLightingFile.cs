@@ -71,7 +71,14 @@ namespace SourceUtils
 
             using ( var stream = provider.OpenFile( path ) )
             {
-                return new ValveVertexLightingFile( stream );
+                try
+                {
+                    return new ValveVertexLightingFile( stream );
+                }
+                catch ( NotSupportedException )
+                {
+                    return null;
+                }
             }
         }
 
@@ -83,7 +90,10 @@ namespace SourceUtils
             {
                 var version = reader.ReadInt32();
 
-                Debug.Assert( version == 2 );
+                if ( version != 2 )
+                {
+                    throw new NotSupportedException( $"Vertex lighting file version {version:x} is not supported.");
+                }
 
                 var checksum = reader.ReadInt32();
                 var vertFlags = reader.ReadUInt32();

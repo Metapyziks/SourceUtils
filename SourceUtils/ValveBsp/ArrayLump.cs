@@ -108,6 +108,11 @@ namespace SourceUtils
             {
                 return GetEnumerator();
             }
+
+            public override string ToString()
+            {
+                return $"{typeof(T)}[{Length}]";
+            }
         }
     }
 }

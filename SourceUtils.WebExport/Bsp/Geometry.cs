@@ -838,15 +838,18 @@ namespace SourceUtils.WebExport.Bsp
                 var meshList = new List<CompressedList<uint>>();
                 var vhvFile = ValveVertexLightingFile.FromProvider( existingPath, bsp.PakFile );
 
-                var meshCount = vhvFile.GetMeshCount( 0 );
-                for ( var j = 0; j < meshCount; ++j )
+                if ( vhvFile != null )
                 {
-                    var vertices = new CompressedList<uint>();
-                    var samples = vhvFile.GetSamples( 0, j );
+                    var meshCount = vhvFile.GetMeshCount( 0 );
+                    for ( var j = 0; j < meshCount; ++j )
+                    {
+                        var vertices = new CompressedList<uint>();
+                        var samples = vhvFile.GetSamples( 0, j );
 
-                    vertices.AddRange( samples.Select( x => ((uint) x.A << 24) | ((uint) x.B << 16) | ((uint) x.G << 8) | x.R) );
+                        vertices.AddRange( samples.Select( x => ((uint) x.A << 24) | ((uint) x.B << 16) | ((uint) x.G << 8) | x.R) );
 
-                    meshList.Add( vertices );
+                        meshList.Add( vertices );
+                    }
                 }
 
                 page.Props.Add( meshList );
