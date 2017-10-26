@@ -59,9 +59,9 @@ namespace SourceUtils
             }
         }
         
-        public static ValveVertexLightingFile FromStream(Stream stream)
+        public static ValveVertexLightingFile FromStream( Stream stream )
         {
-            return new ValveVertexLightingFile(stream);
+            return new ValveVertexLightingFile( stream );
         }
 
         public static ValveVertexLightingFile FromProvider( string path, params IResourceProvider[] providers )
@@ -88,7 +88,20 @@ namespace SourceUtils
         {
             using ( var reader = new BinaryReader( stream ) )
             {
-                var version = reader.ReadInt32();
+                var version = (int) reader.ReadByte();
+                var baseOffset = 0;
+
+                if ( version == 0 )
+                {
+                    // First 3 bytes are missing :(
+                    version = 2;
+                    baseOffset = -3;
+                }
+                else
+                {
+                    version |= reader.ReadByte() << 8;
+                    version |= reader.ReadUInt16() << 16;
+                }
 
                 if ( version != 2 )
                 {
@@ -114,9 +127,9 @@ namespace SourceUtils
                     _samples[i] = new VertexData4[meshHeaders.Count( x => x.Lod == i )][];
                 }
 
-                foreach (var meshHeader in meshHeaders)
+                foreach ( var meshHeader in meshHeaders )
                 {
-                    stream.Seek(meshHeader.VertOffset, SeekOrigin.Begin);
+                    stream.Seek( meshHeader.VertOffset + baseOffset, SeekOrigin.Begin );
 
                     var samples = _samples[meshHeader.Lod];
                     var meshIndex = Array.IndexOf( samples, null );
@@ -127,7 +140,7 @@ namespace SourceUtils
                     }
                     else
                     {
-                        samples[meshIndex] = LumpReader<VertexData4>.ReadLumpFromStream(stream, meshHeader.VertCount, x => x.GetVertexColor());
+                        samples[meshIndex] = LumpReader<VertexData4>.ReadLumpFromStream( stream, meshHeader.VertCount, x => x.GetVertexColor() );
                     }
                 }
             }
