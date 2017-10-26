@@ -24,6 +24,8 @@ namespace SourceUtils.WebExport
                 var modelName = bsp.StaticProps.GetModelName( i );
                 var mdl = StudioModelFile.FromProvider( modelName, bsp.PakFile, Program.Resources );
 
+                if ( mdl == null ) continue;
+
                 for ( var j = 0; j < mdl.MaterialCount; ++j )
                 {
                     yield return mdl.GetMaterialName( j, bsp.PakFile, Program.Resources );

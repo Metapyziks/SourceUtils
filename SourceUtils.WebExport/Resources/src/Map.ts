@@ -124,6 +124,7 @@ namespace SourceUtils {
                         pvsInst = new Entities.BrushEntity(this, ent as Entities.IBrushEntity);
                         break;
                     case "prop_static":
+                        if ((ent as Entities.IStaticProp).model === -1) break;
                         pvsInst = new Entities.StaticProp(this, ent as Entities.IStaticProp);
                         break;
                     case "sky_camera":

@@ -22,6 +22,7 @@ namespace SourceUtils.WebExport
                 .Select( x =>
                 {
                     var mdl = StudioModelFile.FromProvider( x, bsp.PakFile, Program.Resources );
+                    if ( mdl == null ) return null;
                     return new
                     {
                         Path = x,
@@ -29,6 +30,7 @@ namespace SourceUtils.WebExport
                         FirstMaterialIndex = MaterialDictionary.GetResourceIndex( bsp, mdl.GetMaterialName( 0, bsp.PakFile, Program.Resources ) )
                     };
                 } )
+                .Where( x => x != null )
                 .GroupBy( x => x.FirstMaterialIndex )
                 .OrderByDescending( x => x.Count() )
                 .SelectMany( x => x )
