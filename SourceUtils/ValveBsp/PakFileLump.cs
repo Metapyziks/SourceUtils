@@ -61,8 +61,9 @@ namespace SourceUtils
                         for ( var i = 0; i < archive.Count; ++i )
                         {
                             var entry = archive[i];
-                            if ( !entry.IsFile ) continue;
-                            _entryDict.Add( $"/{entry.Name}", i );
+                            var path = $"/{entry.Name}";
+                            if ( !entry.IsFile || _entryDict.ContainsKey( path ) ) continue;
+                            _entryDict.Add( path, i );
                         }
                     }
                 }
