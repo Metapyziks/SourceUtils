@@ -70,7 +70,7 @@ namespace SourceUtils.ValveBsp
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 76)]
-    public struct StaticPropV9 : IStaticProp
+    public struct StaticPropV10 : IStaticProp
     {
         public readonly Vector3 Origin;
         public readonly Vector3 Angles;
@@ -225,13 +225,13 @@ namespace SourceUtils.ValveBsp
                                 .Cast<IStaticProp>()
                                 .ToArray();
                             break;
-                        case 9:
-                            _props = LumpReader<StaticPropV9>.ReadLumpFromStream( reader.BaseStream, propCount )
+                        case 10:
+                            _props = LumpReader<StaticPropV10>.ReadLumpFromStream( reader.BaseStream, propCount )
                                 .Cast<IStaticProp>()
                                 .ToArray();
                             break;
                         default:
-                            throw new NotSupportedException( $"Static prop version {version:x} is not supported." );
+                            throw new NotSupportedException( $"Static prop version {version} is not supported." );
                     }
                 }
             }
