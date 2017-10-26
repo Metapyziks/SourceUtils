@@ -269,7 +269,7 @@ namespace SourceUtils.WebExport
                     hdrCompressed = texProp.Name == "hdrcompressedtexture";
 
                     var tex = Texture.Get( bsp, TextureController.GetTexturePath( (Url) texProp.Value ) );
-                    aspect = (float) tex.Width / tex.Height;
+                    aspect = tex == null ? 1f : (float) tex.Width / tex.Height;
                 }
 
                 skyMaterial.SetTextureUrl($"face{names[face]}", (Url)texProp.Value);
