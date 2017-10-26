@@ -169,6 +169,8 @@ namespace SourceUtils
                 case TextureFormat.RGBA16161616F:
                     return toAdd + ((width * height * depth) << 3);
                 case TextureFormat.BGR888:
+                case TextureFormat.RGB888:
+                case TextureFormat.RGB888_BLUESCREEN:
                     return toAdd + width * height * depth * 3;
                 default:
                     throw new NotImplementedException();
@@ -269,6 +271,8 @@ namespace SourceUtils
                 case TextureFormat.DXT1:
                 case TextureFormat.DXT5:
                 case TextureFormat.BGR888:
+                case TextureFormat.RGB888:
+                case TextureFormat.RGB888_BLUESCREEN:
                 case TextureFormat.ABGR8888:
                 case TextureFormat.BGRA8888:
                 case TextureFormat.RGBA8888:
