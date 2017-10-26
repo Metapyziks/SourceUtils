@@ -23,7 +23,7 @@ namespace SourceUtils
             }
 
             private readonly ValveBspFile _bspFile;
-            private Dictionary<int, Item> _items;
+            private Dictionary<string, Item> _items;
 
             public LumpType LumpType { get; }
 
@@ -33,32 +33,26 @@ namespace SourceUtils
                 LumpType = type;
             }
 
-            private int GetIdInt( string id )
+            private string GetIdString( int id )
             {
-                if ( id.Length != 4 ) throw new ArgumentException( "Expected a 4 character id string.", nameof( id ) );
+                var str = "";
 
-                var idInt = 0;
-                for ( var i = 0; i < 4; ++i )
+                for ( var i = 0; i < 4 && id >> (i << 3) > 0; ++i )
                 {
-                    idInt |= (id[3 - i] & 0xff) << (i << 3);
+                    str = (char) ((id >> (i << 3)) & 0x7f) + str;
                 }
 
-                return idInt;
+                return str;
             }
 
             public ushort GetItemVersion( string id )
             {
                 EnsureLoaded();
 
-                return _items[GetIdInt( id )].Version;
+                return _items[id].Version;
             }
 
             public Stream OpenItem( string id )
-            {
-                return OpenItem( GetIdInt( id ) );
-            }
-
-            public Stream OpenItem( int id )
             {
                 EnsureLoaded();
 
@@ -72,12 +66,12 @@ namespace SourceUtils
                 {
                     if ( _items != null ) return;
 
-                    _items = new Dictionary<int, Item>();
+                    _items = new Dictionary<string, Item>();
 
                     using ( var reader = new BinaryReader( _bspFile.GetLumpStream( LumpType ) ) )
                     {
                         var count = reader.ReadInt32();
-                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item => _items.Add( item.Id, item ) );
+                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item => _items.Add( GetIdString( item.Id ), item ) );
                     }
                 }
             }

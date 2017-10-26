@@ -216,6 +216,7 @@ namespace SourceUtils
         private readonly StudioModel[] _models;
         private readonly StudioMesh[] _meshes;
 
+        public int Checksum => _header.Checksum;
         public int NumTextures => _header.NumTextures;
         public Vector3 HullMin => _header.HullMin;
         public Vector3 HullMax => _header.HullMax;

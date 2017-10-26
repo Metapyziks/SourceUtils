@@ -10,7 +10,12 @@ namespace SourceUtils
             public int Offset;
             public int Length;
             public int Version;
-            public int IdentCode;
+            public LumpType IdentCode;
+
+            public override string ToString()
+            {
+                return $"{{ Type: {IdentCode}, Length: {Length:N0}, Version: {Version} }}";
+            }
         }
     }
 }

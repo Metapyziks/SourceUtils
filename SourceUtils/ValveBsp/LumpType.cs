@@ -7,7 +7,7 @@ namespace SourceUtils
             LumpType LumpType { get; }
         }
 
-        public enum LumpType
+        public enum LumpType : int
         {
             ENTITIES,
             PLANES,

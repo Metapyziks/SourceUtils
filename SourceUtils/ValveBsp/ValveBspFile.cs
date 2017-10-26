@@ -47,6 +47,11 @@ namespace SourceUtils
                 var lumpInfoBytes = reader.ReadBytes( LumpInfoCount * Marshal.SizeOf( typeof(LumpInfo) ) );
                 var lumps = LumpReader<LumpInfo>.ReadLump( lumpInfoBytes, 0, lumpInfoBytes.Length );
 
+                for ( var i = 0; i < lumps.Length; ++i )
+                {
+                    lumps[i].IdentCode = (LumpType) i;
+                }
+
                 header.Lumps = lumps;
                 header.MapRevision = reader.ReadInt32();
 

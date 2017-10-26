@@ -38,6 +38,11 @@ namespace SourceUtils
             {
                 return this;
             }
+
+            public override string ToString()
+            {
+                return $"{{ {B:x2}{G:x2}{R:x2}{A:x2} }}";
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
