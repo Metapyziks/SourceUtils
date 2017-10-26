@@ -23,6 +23,9 @@ namespace SourceUtils.WebExport
 
         [Option('s', "resdir", HelpText = "Directory containing static files to serve (css / html etc).")]
         public string ResourcesDir { get; set; }
+
+        [Option('d', "mapsdir", HelpText = "Directory to export maps from, relative to gamedir.")]
+        public string MapsDir { get; set; } = "maps";
     }
 
     [Verb("host", HelpText = "Run a HTTP server that exports requested resources.")]
@@ -50,7 +53,7 @@ namespace SourceUtils.WebExport
             ValveBspFile map;
             if ( _sOpenMaps.TryGetValue( name, out map ) ) return map;
 
-            map = new ValveBspFile( GetGameFilePath( $"maps/{name}.bsp" ) );
+            map = new ValveBspFile( Path.Combine( BaseOptions.MapsDir, $"{name}.bsp" ) );
             _sOpenMaps.Add( name, map );
 
             return map;
@@ -88,6 +91,16 @@ namespace SourceUtils.WebExport
             if ( !Directory.Exists( args.ResourcesDir ) )
             {
                 args.ResourcesDir = null;
+            }
+
+            if ( string.IsNullOrEmpty( args.MapsDir ) )
+            {
+                args.MapsDir = "maps";
+            }
+
+            if ( !Path.IsPathRooted( args.MapsDir ) )
+            {
+                args.MapsDir = Path.Combine( args.GameDir, args.MapsDir );
             }
         }
 
