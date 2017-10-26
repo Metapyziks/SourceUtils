@@ -19,7 +19,9 @@
             onAddToDrawList(list: Facepunch.WebGame.DrawList): void {
                 if (!this.isLoaded) {
                     this.isLoaded = true;
-                    this.map.viewer.dispGeometryLoader.load(this.index, handle => this.drawable.addMeshHandles([handle]));
+                    this.map.viewer.dispGeometryLoader.load(this.index, handle => {
+                        if (handle != null) this.drawable.addMeshHandles([handle]);
+                    });
                 }
 
                 super.onAddToDrawList(list);

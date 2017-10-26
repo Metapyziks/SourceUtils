@@ -472,14 +472,20 @@ namespace SourceUtils.WebExport.Bsp
             var faceInfo = bsp.Faces[faceIndex];
             var texInfo = bsp.TextureInfos[faceInfo.TexInfo];
 
-            if ((texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0) return;
+            if ((texInfo.Flags & ignoreFlags) != 0 || texInfo.TexData < 0)
+            {
+                return;
+            }
 
             var texData = bsp.TextureData[texInfo.TexData];
 
             var matPath = bsp.GetTextureString( texData.NameStringTableId );
             var meshData = GetOrCreateMeshData( bsp, page, matPath );
 
-            if (Skip) return;
+            if (Skip)
+            {
+                return;
+            }
 
             MeshElement elem;
             Face face;
@@ -655,7 +661,14 @@ namespace SourceUtils.WebExport.Bsp
                 faces.Clear();
                 WriteFace( bsp, faceIndex, page, faces );
 
-                page.Displacements.Add( faces[0] );
+                if ( faces.Count == 0 )
+                {
+                    page.Displacements.Add( new Face { Element = -1, Material = -1 } );
+                }
+                else
+                {
+                    page.Displacements.Add( faces[0] );
+                }
             }
 
             return page;

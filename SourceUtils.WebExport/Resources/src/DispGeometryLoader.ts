@@ -36,6 +36,7 @@ namespace SourceUtils {
 
         protected onGetValue(index: number): Facepunch.WebGame.MeshHandle {
             const dispFace = this.dispFaces[index];
+            if (dispFace.element === -1 || dispFace.material === -1) return null;
             return this.matGroups[dispFace.material][dispFace.element];
         }
     }

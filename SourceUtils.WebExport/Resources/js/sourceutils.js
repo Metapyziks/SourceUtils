@@ -304,6 +304,8 @@ var SourceUtils;
         };
         DispGeometryPage.prototype.onGetValue = function (index) {
             var dispFace = this.dispFaces[index];
+            if (dispFace.element === -1 || dispFace.material === -1)
+                return null;
             return this.matGroups[dispFace.material][dispFace.element];
         };
         return DispGeometryPage;
@@ -572,7 +574,10 @@ var SourceUtils;
                 var _this = this;
                 if (!this.isLoaded) {
                     this.isLoaded = true;
-                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) { return _this.drawable.addMeshHandles([handle]); });
+                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) {
+                        if (handle != null)
+                            _this.drawable.addMeshHandles([handle]);
+                    });
                 }
                 _super.prototype.onAddToDrawList.call(this, list);
             };
