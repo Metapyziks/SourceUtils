@@ -134,13 +134,15 @@ namespace SourceUtils
         {
             private readonly List<string> _lines;
             private int _offset;
+
+            public string OriginalString { get; }
     
             public Reader(Stream stream)
             {
                 var reader = new StreamReader(stream);
-                var value = reader.ReadToEnd();
+                OriginalString = reader.ReadToEnd();
     
-                _lines = value.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None)
+                _lines = OriginalString.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None)
                     .Select(TrimLine)
                     .ToList();
 
@@ -243,6 +245,8 @@ namespace SourceUtils
             {
                 vmt = new ValveMaterialFile( stream );
             }
+            
+            if ( !vmt.Shaders.Any() ) return null;
 
             var shader = vmt.Shaders.First();
             var props = vmt[shader];
@@ -261,17 +265,17 @@ namespace SourceUtils
         private readonly Dictionary<string, MaterialPropertyGroup> _propertyGroups = new Dictionary<string, MaterialPropertyGroup>(StringComparer.InvariantCultureIgnoreCase);
         private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*""(?<shader>[a-zA-Z0-9/\\]+)""[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
 
-        private ValveMaterialFile(Stream stream)
+        private ValveMaterialFile( Stream stream )
         {
             var reader = new Reader( stream );
 
             Match match;
-            while (reader.ReadRegex(_sShaderNameRegex, out match))
+            while ( reader.ReadRegex( _sShaderNameRegex, out match ) )
             {
                 var shader = match.Groups["shader"].Value;
-                var group = new MaterialPropertyGroup(reader);
+                var group = new MaterialPropertyGroup( reader );
 
-                _propertyGroups.Add(shader, group);
+                _propertyGroups.Add( shader, group );
             }
         }
 
