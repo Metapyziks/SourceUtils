@@ -164,6 +164,7 @@ namespace SourceUtils
                     return toAdd + width * height * depth;
                 case TextureFormat.ABGR8888:
                 case TextureFormat.BGRA8888:
+                case TextureFormat.RGBA8888:
                     return toAdd + ((width * height * depth) << 2);
                 case TextureFormat.RGBA16161616F:
                     return toAdd + ((width * height * depth) << 3);
@@ -270,6 +271,7 @@ namespace SourceUtils
                 case TextureFormat.BGR888:
                 case TextureFormat.ABGR8888:
                 case TextureFormat.BGRA8888:
+                case TextureFormat.RGBA8888:
                 case TextureFormat.RGBA16161616F:
                     break;
                 default:

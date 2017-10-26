@@ -156,6 +156,9 @@ namespace SourceUtils.WebExport
                 case TextureFormat.BGRA8888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGRA");
                     break;
+                case TextureFormat.RGBA8888:
+                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "RGBA");
+                    break;
                 default:
                     throw new NotImplementedException();
             }
