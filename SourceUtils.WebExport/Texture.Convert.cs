@@ -150,6 +150,9 @@ namespace SourceUtils.WebExport
                 case TextureFormat.BGR888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGR");
                     break;
+                case TextureFormat.ABGR8888:
+                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "ABGR");
+                    break;
                 case TextureFormat.BGRA8888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGRA");
                     break;

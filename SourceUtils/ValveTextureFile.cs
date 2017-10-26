@@ -162,6 +162,7 @@ namespace SourceUtils
                     return toAdd + ((width * height) >> 1) * depth;
                 case TextureFormat.DXT5:
                     return toAdd + width * height * depth;
+                case TextureFormat.ABGR8888:
                 case TextureFormat.BGRA8888:
                     return toAdd + ((width * height * depth) << 2);
                 case TextureFormat.RGBA16161616F:
@@ -267,6 +268,7 @@ namespace SourceUtils
                 case TextureFormat.DXT1:
                 case TextureFormat.DXT5:
                 case TextureFormat.BGR888:
+                case TextureFormat.ABGR8888:
                 case TextureFormat.BGRA8888:
                 case TextureFormat.RGBA16161616F:
                     break;
