@@ -100,6 +100,7 @@ namespace SourceUtils.WebExport
         {
             path = path.ToLower().Replace('\\', '/');
             if (!path.EndsWith(".vtf")) path = $"{path}.vtf";
+            path = path.TrimStart('/');
 
             path = !path.Contains('/') ? $"{Path.GetDirectoryName(vmtPath)}/{path}" : $"materials/{path}";
 

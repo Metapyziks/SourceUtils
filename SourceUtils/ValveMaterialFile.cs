@@ -178,10 +178,10 @@ namespace SourceUtils
     
             private string TrimLine(string line)
             {
-                line = line.Trim();
-    
                 var comment = line.IndexOf("//");
                 if (comment != -1) line = line.Substring(0, comment);
+                
+                line = line.Trim();
     
                 return line;
             }
