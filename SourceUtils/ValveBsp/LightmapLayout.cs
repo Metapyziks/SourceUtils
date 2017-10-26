@@ -102,9 +102,11 @@ namespace SourceUtils.ValveBsp
                 if ( FoundPacking ) return;
                 if ( TryLoadFromCached() ) return;
 
-                _packing = new IntRect[_bspFile.FacesHdr.Length];
+                var faces = _bspFile.FacesHdr.Length > 0 ? _bspFile.FacesHdr : _bspFile.Faces;
 
-                var toPack = _bspFile.FacesHdr
+                _packing = new IntRect[faces.Length];
+
+                var toPack = faces
                     .Select( ( x, i ) => new Packable( i, x ) )
                     .Where( x => x.HasSamples )
                     .OrderByDescending( x => x.Width * 65536 + x.Height )

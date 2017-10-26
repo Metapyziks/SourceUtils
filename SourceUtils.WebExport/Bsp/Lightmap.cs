@@ -52,7 +52,8 @@ namespace SourceUtils.WebExport.Bsp
 
             var bsp = Program.GetMap( map );
 
-            using (var sampleStream = bsp.GetLumpStream(ValveBspFile.LumpType.LIGHTING_HDR))
+            var lightingLump = bsp.LightingHdr.Length > 0 ? bsp.LightingHdr.LumpType : bsp.Lighting.LumpType;
+            using (var sampleStream = bsp.GetLumpStream(lightingLump))
             {
                 var lightmap = bsp.LightmapLayout;
                 var width = lightmap.TextureSize.X;
@@ -61,10 +62,11 @@ namespace SourceUtils.WebExport.Bsp
                 var pixels = new byte[width * height * 4];
 
                 var sampleBuffer = new LightmapSample[256 * 256];
+                var faces = bsp.FacesHdr.Length > 0 ? bsp.FacesHdr : bsp.Faces;
 
-                for (int i = 0, iEnd = bsp.FacesHdr.Length; i < iEnd; ++i)
+                for (int i = 0, iEnd = faces.Length; i < iEnd; ++i)
                 {
-                    var face = bsp.FacesHdr[i];
+                    var face = faces[i];
                     if (face.LightOffset == -1) continue;
 
                     var rect = lightmap.GetLightmapRegion(i);

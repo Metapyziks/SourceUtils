@@ -106,7 +106,8 @@ namespace SourceUtils.ValveBsp
             _min = IntVector2.Zero;
             _max = new IntVector2( Subdivisions, Subdivisions );
 
-            var face = bsp.FacesHdr[_dispInfo.MapFace];
+            var faces = bsp.FacesHdr.Length > 0 ? bsp.FacesHdr : bsp.Faces;
+            var face = faces[_dispInfo.MapFace];
             var firstCornerDist2 = float.MaxValue;
 
             Normal = bsp.Planes[face.PlaneNum].Normal;
