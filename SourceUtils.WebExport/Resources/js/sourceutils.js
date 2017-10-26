@@ -416,6 +416,7 @@ var SourceUtils;
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
             this.tSpawns = [];
             this.ctSpawns = [];
+            this.playerSpawns = [];
             this.pvsEntities = [];
             for (var i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
                 var ent = info.entities[i];
@@ -449,6 +450,9 @@ var SourceUtils;
                     case "info_player_counterterrorist":
                         this.ctSpawns.push(ent);
                         break;
+                    case "info_player_start":
+                        this.playerSpawns.push(ent);
+                        break;
                     case "displacement":
                         pvsInst = new SourceUtils.Entities.Displacement(this, ent);
                         break;
@@ -466,7 +470,7 @@ var SourceUtils;
                     this.pvsEntities.push(pvsInst);
                 }
             }
-            var spawn = this.tSpawns[0];
+            var spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
             this.viewer.mainCamera.setPosition(spawn.origin);
             this.viewer.mainCamera.translate(0, 0, 64);
             this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
@@ -539,9 +543,9 @@ var SourceUtils;
                 : WebGame.TextureUtils.getWhiteTexture(this.viewer.context);
             buf.setParameter(Map.lightmapParam, lightmap);
         };
-        Map.lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
         return Map;
     }());
+    Map.lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
     SourceUtils.Map = Map;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="PagedLoader.ts"/>
@@ -1173,9 +1177,9 @@ var SourceUtils;
                 }
                 _super.prototype.render.call(this);
             };
-            Camera.onGetLeaf_temp = new Facepunch.Vector3();
             return Camera;
         }(WebGame.PerspectiveCamera));
+        Camera.onGetLeaf_temp = new Facepunch.Vector3();
         Entities.Camera = Camera;
         var SkyCamera = (function (_super) {
             __extends(SkyCamera, _super);
@@ -1214,9 +1218,9 @@ var SourceUtils;
                 gl.depthMask(true);
                 gl.clear(gl.DEPTH_BUFFER_BIT);
             };
-            SkyCamera.renderRelativeTo_temp = new Facepunch.Vector3();
             return SkyCamera;
         }(Camera));
+        SkyCamera.renderRelativeTo_temp = new Facepunch.Vector3();
         Entities.SkyCamera = SkyCamera;
         var ShadowCamera = (function (_super) {
             __extends(ShadowCamera, _super);
@@ -1258,11 +1262,11 @@ var SourceUtils;
                 var bounds = ShadowCamera.renderShadows_bounds;
                 this.getFrustumBounds(lightRotation, near, far, bounds);
             };
-            ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
-            ShadowCamera.getFrustumBounds_invLight = new Facepunch.Quaternion();
-            ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
             return ShadowCamera;
         }(WebGame.OrthographicCamera));
+        ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
+        ShadowCamera.getFrustumBounds_invLight = new Facepunch.Quaternion();
+        ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
         Entities.ShadowCamera = ShadowCamera;
     })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));

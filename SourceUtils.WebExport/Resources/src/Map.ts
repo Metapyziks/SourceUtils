@@ -31,6 +31,7 @@ namespace SourceUtils {
 
         private tSpawns: Entities.IEntity[];
         private ctSpawns: Entities.IEntity[];
+        private playerSpawns: Entities.IEntity[];
 
         private worldspawn: Entities.Worldspawn;
         private pvsEntities: Entities.PvsEntity[];
@@ -76,6 +77,7 @@ namespace SourceUtils {
 
             this.tSpawns = [];
             this.ctSpawns = [];
+            this.playerSpawns = [];
 
             this.pvsEntities = [];
             for (let i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
@@ -112,6 +114,9 @@ namespace SourceUtils {
                     case "info_player_counterterrorist":
                         this.ctSpawns.push(ent);
                         break;
+                    case "info_player_start":
+                        this.playerSpawns.push(ent);
+                        break;
                     case "displacement":
                         pvsInst = new Entities.Displacement(this, ent as Entities.IDisplacement);
                         break;
@@ -131,7 +136,7 @@ namespace SourceUtils {
                 }
             }
 
-            const spawn = this.tSpawns[0];
+            const spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
             this.viewer.mainCamera.setPosition(spawn.origin);
             this.viewer.mainCamera.translate(0, 0, 64);
             this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
