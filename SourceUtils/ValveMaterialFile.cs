@@ -141,6 +141,8 @@ namespace SourceUtils
             {
                 var reader = new StreamReader(stream);
                 OriginalString = reader.ReadToEnd();
+
+                // todo: assumption about always being split into lines is wrong!
     
                 _lines = OriginalString.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None)
                     .Select(TrimLine)
@@ -168,6 +170,9 @@ namespace SourceUtils
     
             public void AssertToken(string token)
             {
+                // todo: hack
+                if ( _offset > 0 && _lines[_offset - 1].EndsWith( token ) ) return;
+
                 if (!ReadToken(token)) ExpectedError( $"'{token}'" );
             }
     
