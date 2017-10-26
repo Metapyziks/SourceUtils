@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using CommandLine;
 using Ziks.WebServer;
@@ -10,6 +11,9 @@ namespace SourceUtils.WebExport
     {
         [Option('g', "gamedir", HelpText = "Game directory to export from.", Required = true)]
         public string GameDir { get; set; }
+
+        [Option('p', "packages", HelpText = "Comma separated VPK file names.")]
+        public string Packages { get; set; } = "pak01_dir.vpk";
 
         [Option('v', "verbose", HelpText = "Write every action to standard output.")]
         public bool Verbose { get; set; }
@@ -55,7 +59,26 @@ namespace SourceUtils.WebExport
         static void SetBaseOptions( BaseOptions args )
         {
             BaseOptions = args;
-            Resources = new ValvePackage(Path.Combine(args.GameDir, "pak01_dir.vpk"));
+
+            var vpkNames = args.Packages.Split( ',' )
+                .Select( x => Path.IsPathRooted( x ) ? x.Trim() : Path.Combine( args.GameDir, x.Trim() ) )
+                .ToArray();
+
+            if ( vpkNames.Length == 1 )
+            {
+                Resources = new ValvePackage( vpkNames[0] );
+            }
+            else
+            {
+                var loader = new ResourceLoader();
+
+                foreach ( var path in vpkNames )
+                {
+                    loader.AddResourceProvider( new ValvePackage( path ) );
+                }
+
+                Resources = loader;
+            }
 
             if ( string.IsNullOrEmpty( args.ResourcesDir ) )
             {
