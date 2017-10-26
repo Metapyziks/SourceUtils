@@ -33,7 +33,7 @@ namespace SourceUtils
                 LumpType = type;
             }
 
-            public Stream OpenItem( string id )
+            private int GetIdInt( string id )
             {
                 if ( id.Length != 4 ) throw new ArgumentException( "Expected a 4 character id string.", nameof( id ) );
 
@@ -43,7 +43,19 @@ namespace SourceUtils
                     idInt |= (id[3 - i] & 0xff) << (i << 3);
                 }
 
-                return OpenItem( idInt );
+                return idInt;
+            }
+
+            public ushort GetItemVersion( string id )
+            {
+                EnsureLoaded();
+
+                return _items[GetIdInt( id )].Version;
+            }
+
+            public Stream OpenItem( string id )
+            {
+                return OpenItem( GetIdInt( id ) );
             }
 
             public Stream OpenItem( int id )
