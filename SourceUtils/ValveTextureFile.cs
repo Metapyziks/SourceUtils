@@ -143,7 +143,7 @@ namespace SourceUtils
             var toAdd = 0;
             if ( mipCount > 1 ) toAdd += GetImageDataSize( width >> 1, height >> 1, depth, mipCount - 1, format );
 
-            if ( format == TextureFormat.DXT1 || format == TextureFormat.DXT5 )
+            if ( format == TextureFormat.DXT1 || format == TextureFormat.DXT3 || format == TextureFormat.DXT5 )
             {
                 if ( width < 4 ) width = 4;
                 if ( height < 4 ) height = 4;
@@ -160,6 +160,7 @@ namespace SourceUtils
                     return toAdd;
                 case TextureFormat.DXT1:
                     return toAdd + ((width * height) >> 1) * depth;
+                case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
                     return toAdd + width * height * depth;
                 case TextureFormat.ABGR8888:
@@ -269,6 +270,7 @@ namespace SourceUtils
             switch ( Header.HiResFormat )
             {
                 case TextureFormat.DXT1:
+                case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
                 case TextureFormat.BGR888:
                 case TextureFormat.RGB888:

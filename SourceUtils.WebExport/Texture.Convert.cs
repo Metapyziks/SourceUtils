@@ -85,6 +85,10 @@ namespace SourceUtils.WebExport
                     blockSize = 8;
                     fourCC = 0x31545844;
                     break;
+                case TextureFormat.DXT3:
+                    blockSize = 16;
+                    fourCC = 0x33545844;
+                    break;
                 case TextureFormat.DXT5:
                     blockSize = 16;
                     fourCC = 0x35545844;
@@ -143,6 +147,7 @@ namespace SourceUtils.WebExport
             switch ( vtf.Header.HiResFormat )
             {
                 case TextureFormat.DXT1:
+                case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
                     readSettings.Format = MagickFormat.Dds;
                     offset = WriteDdsHeader(vtf, mip, _sPixelBuffer);
