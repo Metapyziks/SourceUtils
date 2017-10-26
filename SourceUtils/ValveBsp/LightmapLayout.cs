@@ -116,9 +116,16 @@ namespace SourceUtils.ValveBsp
                 var sizeIndex = 1;
 
                 while ( GetWidth( sizeIndex ) * GetHeight( sizeIndex ) < area ) ++sizeIndex;
-                if ( !TryPacking( GetWidth( sizeIndex ), GetHeight( sizeIndex ), toPack ) )
+
+                var tries = 2;
+                while ( tries-- > 0 && !TryPacking( GetWidth( sizeIndex ), GetHeight( sizeIndex ), toPack ) )
                 {
-                    throw new Exception( "Unable to pack lightmap!" );
+                    ++sizeIndex;
+
+                    if ( tries == 0 )
+                    {
+                        throw new Exception( "Unable to pack lightmap!" );
+                    }
                 }
 
                 if ( string.IsNullOrEmpty( CacheFilePath ) ) return;
