@@ -130,7 +130,7 @@ namespace SourceUtils.WebExport
 
             IsExporting = true;
 
-            var maps = args.Maps.Split( new [] { ',' }, StringSplitOptions.RemoveEmptyEntries );
+            var maps = args.Maps.Split( new [] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries );
 
             foreach ( var item in maps )
             {

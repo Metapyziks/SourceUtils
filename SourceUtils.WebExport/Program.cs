@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -63,7 +64,7 @@ namespace SourceUtils.WebExport
         {
             BaseOptions = args;
 
-            var vpkNames = args.Packages.Split( ',' )
+            var vpkNames = args.Packages.Split( new [] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries )
                 .Select( x => Path.IsPathRooted( x ) ? x.Trim() : Path.Combine( args.GameDir, x.Trim() ) )
                 .ToArray();
 

@@ -25,7 +25,7 @@ namespace SourceUtils.FileExport
 
         static int Main( Options args )
         {
-            var maps = args.Maps.Split( new [] {';'}, StringSplitOptions.RemoveEmptyEntries );
+            var maps = args.Maps.Split( new [] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries );
 
             foreach ( var map in maps )
             {
