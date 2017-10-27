@@ -309,6 +309,8 @@ var SourceUtils;
         };
         DispGeometryPage.prototype.onGetValue = function (index) {
             var dispFace = this.dispFaces[index];
+            if (dispFace.element === -1 || dispFace.material === -1)
+                return null;
             return this.matGroups[dispFace.material][dispFace.element];
         };
         return DispGeometryPage;
@@ -416,6 +418,7 @@ var SourceUtils;
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
             this.tSpawns = [];
             this.ctSpawns = [];
+            this.playerSpawns = [];
             this.pvsEntities = [];
             for (var i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
                 var ent = info.entities[i];
@@ -449,6 +452,9 @@ var SourceUtils;
                     case "info_player_counterterrorist":
                         this.ctSpawns.push(ent);
                         break;
+                    case "info_player_start":
+                        this.playerSpawns.push(ent);
+                        break;
                     case "displacement":
                         pvsInst = new SourceUtils.Entities.Displacement(this, ent);
                         break;
@@ -456,6 +462,8 @@ var SourceUtils;
                         pvsInst = new SourceUtils.Entities.BrushEntity(this, ent);
                         break;
                     case "prop_static":
+                        if (ent.model === -1)
+                            break;
                         pvsInst = new SourceUtils.Entities.StaticProp(this, ent);
                         break;
                     case "sky_camera":
@@ -466,7 +474,7 @@ var SourceUtils;
                     this.pvsEntities.push(pvsInst);
                 }
             }
-            var spawn = this.tSpawns[0];
+            var spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
             this.viewer.mainCamera.setPosition(spawn.origin);
             this.viewer.mainCamera.translate(0, 0, 64);
             this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
@@ -745,6 +753,7 @@ var SourceUtils;
             _super.prototype.onRenderFrame.call(this, dt);
             var gl = this.context;
             gl.clear(gl.DEPTH_BUFFER_BIT);
+            gl.depthFunc(gl.LEQUAL);
             gl.cullFace(gl.FRONT);
             this.mainCamera.render();
             var drawCalls = this.mainCamera.getDrawCalls();
@@ -783,15 +792,6 @@ var SourceUtils;
                 this.lastProfileTime = time;
                 this.frameCount = 0;
             }
-        };
-        MapViewer.prototype.populateDrawList = function (drawList, camera) {
-            var leaf = null;
-            var sky2D = false;
-            if (camera.getLeaf !== undefined) {
-                var mapCamera = camera;
-                leaf = mapCamera.getLeaf();
-            }
-            this.map.populateDrawList(drawList, leaf);
         };
         MapViewer.prototype.populateCommandBufferParameters = function (buf) {
             _super.prototype.populateCommandBufferParameters.call(this, buf);
@@ -1154,9 +1154,8 @@ var SourceUtils;
                 this.leafInvalid = true;
             };
             Camera.prototype.onGetLeaf = function () {
-                var temp = Facepunch.Vector3.pool.create();
+                var temp = Camera.onGetLeaf_temp;
                 var leaf = this.viewer.map.getLeafAt(this.getPosition(temp));
-                temp.release();
                 return leaf;
             };
             Camera.prototype.getLeaf = function () {
@@ -1170,6 +1169,9 @@ var SourceUtils;
                 }
                 return this.leaf;
             };
+            Camera.prototype.onPopulateDrawList = function (drawList) {
+                this.viewer.map.populateDrawList(drawList, this.getLeaf());
+            };
             Camera.prototype.render = function () {
                 var leaf = this.getLeaf();
                 if (this.render3DSky && leaf != null && (leaf.flags & SourceUtils.LeafFlags.Sky) !== 0) {
@@ -1182,6 +1184,7 @@ var SourceUtils;
             };
             return Camera;
         }(WebGame.PerspectiveCamera));
+        Camera.onGetLeaf_temp = new Facepunch.Vector3();
         Entities.Camera = Camera;
         var SkyCamera = (function (_super) {
             __extends(SkyCamera, _super);
@@ -1207,12 +1210,11 @@ var SourceUtils;
                 return this.viewer.map.getLeafAt(this.origin);
             };
             SkyCamera.prototype.renderRelativeTo = function (camera) {
-                var temp = Facepunch.Vector3.pool.create();
+                var temp = SkyCamera.renderRelativeTo_temp;
                 camera.getPosition(temp);
                 temp.multiplyScalar(this.skyScale);
                 temp.add(this.origin);
                 this.setPosition(temp);
-                temp.release();
                 this.setFov(camera.getFov());
                 this.setAspect(camera.getAspect());
                 this.copyRotation(camera);
@@ -1223,7 +1225,54 @@ var SourceUtils;
             };
             return SkyCamera;
         }(Camera));
+        SkyCamera.renderRelativeTo_temp = new Facepunch.Vector3();
         Entities.SkyCamera = SkyCamera;
+        var ShadowCamera = (function (_super) {
+            __extends(ShadowCamera, _super);
+            function ShadowCamera(viewer, targetCamera) {
+                var _this = _super.call(this, viewer, 1, 1, 0, 1) || this;
+                _this.viewer = viewer;
+                _this.targetCamera = targetCamera;
+                return _this;
+            }
+            ShadowCamera.prototype.onPopulateDrawList = function (drawList) {
+                this.viewer.map.populateDrawList(drawList, this.targetCamera.getLeaf());
+            };
+            ShadowCamera.prototype.addToFrustumBounds = function (invLight, vec, bounds) {
+                vec.applyMatrix4(this.targetCamera.getMatrix());
+                vec.applyQuaternion(invLight);
+            };
+            ShadowCamera.prototype.getFrustumBounds = function (lightRotation, near, far, bounds) {
+                bounds.min.set(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
+                bounds.max.set(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
+                var yScale = Math.tan(this.targetCamera.getFov() * 0.5);
+                var xScale = yScale * this.targetCamera.getAspect();
+                var xNear = xScale * near;
+                var yNear = yScale * near;
+                var xFar = xScale * far;
+                var yFar = yScale * far;
+                var vec = ShadowCamera.getFrustumBounds_vec;
+                var invLight = ShadowCamera.getFrustumBounds_invLight;
+                invLight.setInverse(lightRotation);
+                this.addToFrustumBounds(invLight, vec.set(xNear, yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xFar, yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xFar, -yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
+            };
+            ShadowCamera.prototype.renderShadows = function (lightRotation, near, far) {
+                var bounds = ShadowCamera.renderShadows_bounds;
+                this.getFrustumBounds(lightRotation, near, far, bounds);
+            };
+            return ShadowCamera;
+        }(WebGame.OrthographicCamera));
+        ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
+        ShadowCamera.getFrustumBounds_invLight = new Facepunch.Quaternion();
+        ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
+        Entities.ShadowCamera = ShadowCamera;
     })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -1242,13 +1291,54 @@ var SourceUtils;
                 var _this = this;
                 if (!this.isLoaded) {
                     this.isLoaded = true;
-                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) { return _this.drawable.addMeshHandles([handle]); });
+                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) {
+                        if (handle != null)
+                            _this.drawable.addMeshHandles([handle]);
+                    });
                 }
                 _super.prototype.onAddToDrawList.call(this, list);
             };
             return Displacement;
         }(Entities.PvsEntity));
         Entities.Displacement = Displacement;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var StaticProp = (function (_super) {
+            __extends(StaticProp, _super);
+            function StaticProp(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.albedoModulation = info.albedoModulation;
+                if (info.vertLighting !== undefined) {
+                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
+                        _this.lighting = value;
+                        _this.checkLoaded();
+                    });
+                }
+                else {
+                    _this.lighting = null;
+                }
+                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    _this.checkLoaded();
+                });
+                return _this;
+            }
+            StaticProp.prototype.checkLoaded = function () {
+                if (!this.model.isLoaded())
+                    return;
+                if (this.lighting === undefined)
+                    return;
+                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
+            };
+            return StaticProp;
+        }(Entities.PvsEntity));
+        Entities.StaticProp = StaticProp;
     })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
@@ -1285,7 +1375,9 @@ var SourceUtils;
             };
             Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
                 if (clusters == null) {
-                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
+                    var leaves = this.model.getLeaves();
+                    if (leaves != null)
+                        drawList.addItems(leaves);
                     return;
                 }
                 for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
@@ -1666,6 +1758,7 @@ var SourceUtils;
                 _this.fogColor = new Facepunch.Vector3(1, 1, 1);
                 _this.translucent = true;
                 _this.refract = true;
+                _this.cullFace = false;
                 return _this;
             }
             return WaterMaterial;
@@ -1714,42 +1807,4 @@ var SourceUtils;
         }(Shaders.LightmappedBase));
         Shaders.Water = Water;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var StaticProp = (function (_super) {
-            __extends(StaticProp, _super);
-            function StaticProp(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.albedoModulation = info.albedoModulation;
-                if (info.vertLighting !== undefined) {
-                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
-                        _this.lighting = value;
-                        _this.checkLoaded();
-                    });
-                }
-                else {
-                    _this.lighting = null;
-                }
-                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    _this.checkLoaded();
-                });
-                return _this;
-            }
-            StaticProp.prototype.checkLoaded = function () {
-                if (!this.model.isLoaded())
-                    return;
-                if (this.lighting === undefined)
-                    return;
-                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
-            };
-            return StaticProp;
-        }(Entities.PvsEntity));
-        Entities.StaticProp = StaticProp;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
 })(SourceUtils || (SourceUtils = {}));

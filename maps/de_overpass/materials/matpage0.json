@@ -1,7 +1,7 @@
 {
   "textures": [
     {
-      "path": "materials/tools/toolsgrenadeclip.vtf",
+      "path": "materials/tools/toolsclip-dx10.vtf",
       "target": 3553,
       "width": 1,
       "height": 1,
@@ -15,10 +15,10 @@
         {
           "level": 0,
           "color": {
-            "r": 0.6862745,
-            "g": 0.945098042,
-            "b": 0.0627451,
-            "a": 0.34117648
+            "r": 0.827451,
+            "g": 0.2627451,
+            "b": 0.192156866,
+            "a": 0.294117659
           }
         }
       ]
@@ -47,6 +47,29 @@
       ]
     },
     {
+      "path": "materials/tools/toolsgrenadeclip.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.6862745,
+            "g": 0.945098042,
+            "b": 0.0627451,
+            "a": 0.34117648
+          }
+        }
+      ]
+    },
+    {
       "path": "materials/concrete/drainage_concretewall_01.vtf",
       "target": 3553,
       "width": 1,
@@ -65,29 +88,6 @@
             "g": 0.5568628,
             "b": 0.5058824,
             "a": 1.0
-          }
-        }
-      ]
-    },
-    {
-      "path": "materials/tools/toolsclip-dx10.vtf",
-      "target": 3553,
-      "width": 1,
-      "height": 1,
-      "params": {
-        "wrapS": 10497,
-        "wrapT": 10497,
-        "filter": 9728,
-        "mipmap": false
-      },
-      "elements": [
-        {
-          "level": 0,
-          "color": {
-            "r": 0.827451,
-            "g": 0.2627451,
-            "b": 0.192156866,
-            "a": 0.294117659
           }
         }
       ]
@@ -3124,6 +3124,29 @@
             "g": 0.235294119,
             "b": 0.235294119,
             "a": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "materials/tools/wrongway.vtf",
+      "target": 3553,
+      "width": 1,
+      "height": 1,
+      "params": {
+        "wrapS": 10497,
+        "wrapT": 10497,
+        "filter": 9728,
+        "mipmap": false
+      },
+      "elements": [
+        {
+          "level": 0,
+          "color": {
+            "r": 0.223529413,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 0.06666667
           }
         }
       ]
@@ -11460,14 +11483,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 0
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 0
         }
       ]
     },
@@ -11488,17 +11511,17 @@
           "name": "basetexture",
           "type": 5,
           "value": 2
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
     {
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
         {
           "name": "basetexture",
           "type": 5,
@@ -13052,12 +13075,17 @@
       ]
     },
     {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
       "properties": [
         {
           "name": "basetexture",
           "type": 5,
           "value": 136
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -13075,6 +13103,16 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
+          "name": "basetexture",
+          "type": 5,
+          "value": 138
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
           "name": "translucent",
           "type": 1,
           "value": true
@@ -13082,7 +13120,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 138
+          "value": 139
         }
       ]
     },
@@ -13112,7 +13150,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
+          "value": 140
         }
       ]
     },
@@ -13122,7 +13160,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
+          "value": 140
         }
       ]
     },
@@ -13132,7 +13170,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
+          "value": 140
         }
       ]
     },
@@ -13142,17 +13180,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
+          "value": 140
         }
       ]
     },
@@ -13182,16 +13210,6 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 141
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 142
         }
       ]
@@ -13242,66 +13260,6 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 144
         }
       ]
@@ -13312,7 +13270,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 144
+          "value": 145
         }
       ]
     },
@@ -13322,7 +13280,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 144
+          "value": 146
         }
       ]
     },
@@ -13332,107 +13290,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 146
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 147
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 148
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 146
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 147
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 148
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 146
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 147
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 148
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 146
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 147
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 148
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 146
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 147
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 148
         }
       ]
     },
@@ -13441,6 +13299,176 @@
       "properties": [
         {
           "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 147
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 148
+        },
+        {
+          "name": "blendModulateTexture",
+          "type": 5,
+          "value": 149
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 147
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 148
+        },
+        {
+          "name": "blendModulateTexture",
+          "type": 5,
+          "value": 149
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 147
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 148
+        },
+        {
+          "name": "blendModulateTexture",
+          "type": 5,
+          "value": 149
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 147
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 148
+        },
+        {
+          "name": "blendModulateTexture",
+          "type": 5,
+          "value": 149
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 147
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 148
+        },
+        {
+          "name": "blendModulateTexture",
           "type": 5,
           "value": 149
         }
@@ -13452,27 +13480,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 140
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 140
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 140
+          "value": 150
         }
       ]
     },
@@ -13502,7 +13510,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 150
+          "value": 141
         }
       ]
     },
@@ -13512,7 +13520,27 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 150
+          "value": 142
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 142
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 151
         }
       ]
     },
@@ -13552,16 +13580,6 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 154
         }
       ]
@@ -13572,7 +13590,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 154
+          "value": 153
         }
       ]
     },
@@ -13582,7 +13600,27 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 154
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
         }
       ]
     },
@@ -13592,37 +13630,17 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 155
+          "value": 156
         },
         {
           "name": "basetexture2",
           "type": 5,
-          "value": 156
+          "value": 157
         },
         {
           "name": "blendModulateTexture",
           "type": 5,
-          "value": 157
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 149
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 149
+          "value": 158
         }
       ]
     },
@@ -13652,7 +13670,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 144
+          "value": 151
         }
       ]
     },
@@ -13662,7 +13680,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 158
+          "value": 151
         }
       ]
     },
@@ -13672,157 +13690,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 158
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 155
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 156
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 157
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 155
-        },
-        {
-          "name": "basetexture2",
-          "type": 5,
-          "value": 156
-        },
-        {
-          "name": "blendModulateTexture",
-          "type": 5,
-          "value": 157
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 142
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 142
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 142
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
+          "value": 145
         }
       ]
     },
@@ -13842,7 +13710,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 160
+          "value": 159
         }
       ]
     },
@@ -13852,7 +13720,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 160
+          "value": 145
         }
       ]
     },
@@ -13862,17 +13730,147 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 141
+          "value": 145
         }
       ]
     },
     {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
       "properties": [
         {
           "name": "basetexture",
+          "type": 5,
+          "value": 156
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 157
+        },
+        {
+          "name": "blendModulateTexture",
           "type": 5,
           "value": 158
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.Lightmapped2WayBlend",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 156
+        },
+        {
+          "name": "basetexture2",
+          "type": 5,
+          "value": 157
+        },
+        {
+          "name": "blendModulateTexture",
+          "type": 5,
+          "value": 158
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 143
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 143
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 143
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
         }
       ]
     },
@@ -13892,337 +13890,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 153
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 151
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 141
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 164
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 150
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 158
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 149
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 154
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 154
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 166
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 166
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
+          "value": 161
         }
       ]
     },
@@ -14242,27 +13910,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
+          "value": 159
         }
       ]
     },
@@ -14282,7 +13930,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 163
         }
       ]
     },
@@ -14292,7 +13940,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 160
+          "value": 163
         }
       ]
     },
@@ -14302,37 +13950,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
+          "value": 163
         }
       ]
     },
@@ -14352,307 +13970,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 149
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 154
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 154
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 154
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 167
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 168
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 168
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 168
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 143
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 143
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 169
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 169
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 151
         }
       ]
     },
@@ -14672,7 +13990,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 153
         }
       ]
     },
@@ -14682,7 +14000,677 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 142
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 165
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 151
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 159
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 150
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 167
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 167
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 143
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 150
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 155
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 168
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 169
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 169
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 169
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 144
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 144
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 161
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 145
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 170
         }
       ]
     },
@@ -14712,7 +14700,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 154
         }
       ]
     },
@@ -14722,7 +14710,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 153
         }
       ]
     },
@@ -14732,7 +14720,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 140
+          "value": 153
         }
       ]
     },
@@ -14742,7 +14730,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 140
+          "value": 171
         }
       ]
     },
@@ -14752,7 +14740,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 158
+          "value": 153
         }
       ]
     },
@@ -14762,7 +14750,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 153
         }
       ]
     },
@@ -14772,7 +14760,157 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 141
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 141
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 159
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
         }
       ]
     },
@@ -14802,7 +14940,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 163
+          "value": 153
         }
       ]
     },
@@ -14812,7 +14950,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 163
+          "value": 153
         }
       ]
     },
@@ -14822,137 +14960,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 144
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
+          "value": 153
         }
       ]
     },
@@ -14972,7 +14980,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 145
         }
       ]
     },
@@ -14982,7 +14990,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 164
         }
       ]
     },
@@ -14992,7 +15000,27 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
         }
       ]
     },
@@ -15012,7 +15040,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 163
         }
       ]
     },
@@ -15022,7 +15050,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 153
         }
       ]
     },
@@ -15032,7 +15060,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 167
+          "value": 163
         }
       ]
     },
@@ -15042,7 +15070,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 171
+          "value": 168
         }
       ]
     },
@@ -15062,7 +15090,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 171
+          "value": 173
         }
       ]
     },
@@ -15082,6 +15110,166 @@
         {
           "name": "basetexture",
           "type": 5,
+          "value": 173
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 172
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 172
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
           "value": 171
         }
       ]
@@ -15102,7 +15290,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 171
         }
       ]
     },
@@ -15112,7 +15300,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 171
         }
       ]
     },
@@ -15122,7 +15310,17 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -15132,7 +15330,27 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 171
         }
       ]
     },
@@ -15153,6 +15371,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 165
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
         },
         {
           "name": "translucent",
@@ -15173,16 +15401,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -15193,16 +15411,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -15212,7 +15420,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
+          "value": 160
         }
       ]
     },
@@ -15222,317 +15430,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 170
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 170
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 170
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 170
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 170
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 161
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 164
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 164
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 164
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 142
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 163
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 173
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 173
+          "value": 160
         }
       ]
     },
@@ -15552,7 +15450,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 143
+          "value": 164
         }
       ]
     },
@@ -15562,7 +15460,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 143
+          "value": 164
         }
       ]
     },
@@ -15572,7 +15470,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 145
+          "value": 164
         }
       ]
     },
@@ -15582,7 +15480,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 145
+          "value": 164
         }
       ]
     },
@@ -15592,7 +15490,47 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 163
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
         }
       ]
     },
@@ -15613,76 +15551,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 164
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 161
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 160
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 169
         }
       ]
     },
@@ -15712,7 +15580,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
+          "value": 144
         }
       ]
     },
@@ -15722,7 +15590,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 144
         }
       ]
     },
@@ -15732,7 +15600,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 152
+          "value": 144
         }
       ]
     },
@@ -15742,7 +15610,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 146
         }
       ]
     },
@@ -15752,7 +15620,27 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 164
         }
       ]
     },
@@ -15763,36 +15651,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 165
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -15812,46 +15670,6 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 162
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 140
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 140
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 140
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 161
         }
       ]
@@ -15902,67 +15720,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 145
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 152
+          "value": 170
         }
       ]
     },
@@ -15982,7 +15740,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
+          "value": 175
         }
       ]
     },
@@ -15992,7 +15750,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
+          "value": 175
         }
       ]
     },
@@ -16002,7 +15760,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
+          "value": 153
         }
       ]
     },
@@ -16012,7 +15770,237 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
+          "value": 153
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 166
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 163
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 141
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 141
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 141
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 146
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 153
         }
       ]
     },
@@ -16042,26 +16030,6 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 176
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 176
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 175
         }
       ]
@@ -16072,127 +16040,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 159
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 169
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 169
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 176
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 177
+          "value": 175
         }
       ]
     },
@@ -16222,17 +16070,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 174
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 174
+          "value": 176
         }
       ]
     },
@@ -16252,7 +16090,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 177
         }
       ]
     },
@@ -16262,7 +16100,127 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 176
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 160
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 170
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 170
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 175
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 177
         }
       ]
     },
@@ -16273,6 +16231,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 178
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 176
         }
       ]
     },
@@ -16302,7 +16270,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
+          "value": 175
         }
       ]
     },
@@ -16312,7 +16280,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
+          "value": 178
         }
       ]
     },
@@ -16322,7 +16290,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
+          "value": 162
         }
       ]
     },
@@ -16332,17 +16300,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 139
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 169
+          "value": 162
         }
       ]
     },
@@ -16372,7 +16330,57 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 180
+          "value": 176
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 140
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 170
         }
       ]
     },
@@ -16402,7 +16410,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 181
         }
       ]
     },
@@ -16412,7 +16420,37 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 161
+          "value": 181
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 181
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 162
         }
       ]
     },
@@ -16432,7 +16470,7 @@
         {
           "name": "normalMap",
           "type": 5,
-          "value": 181
+          "value": 182
         },
         {
           "name": "fogColor",
@@ -16467,22 +16505,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 182
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 183
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -16535,14 +16558,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 187
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -16550,14 +16573,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 188
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 188
         }
       ]
     },
@@ -16640,14 +16663,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 194
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -16655,14 +16678,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 195
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 195
         }
       ]
     },
@@ -16703,17 +16726,17 @@
           "name": "basetexture",
           "type": 5,
           "value": 198
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
     {
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
         {
           "name": "basetexture",
           "type": 5,
@@ -16725,14 +16748,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 200
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 200
         }
       ]
     },
@@ -16755,29 +16778,29 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 202
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
     {
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
         {
           "name": "basetexture",
           "type": 5,
           "value": 203
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -16785,14 +16808,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 204
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -16815,14 +16838,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 206
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 206
         }
       ]
     },
@@ -16830,14 +16853,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 207
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -16860,14 +16883,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 209
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 209
         }
       ]
     },
@@ -16923,6 +16946,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 213
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -16943,11 +16971,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 215
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -16985,14 +17008,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 218
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17000,14 +17023,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 219
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 219
         }
       ]
     },
@@ -17045,14 +17068,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 222
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17075,6 +17098,11 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
           "name": "basetexture",
           "type": 5,
           "value": 224
@@ -17088,26 +17116,21 @@
           "name": "basetexture",
           "type": 5,
           "value": 225
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
     {
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
         {
           "name": "basetexture",
           "type": 5,
           "value": 226
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17115,14 +17138,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 227
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 227
         }
       ]
     },
@@ -17235,14 +17258,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 235
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17265,14 +17288,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 237
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 237
         }
       ]
     },
@@ -17295,14 +17318,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 239
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17325,14 +17348,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 241
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 241
         }
       ]
     },
@@ -17520,14 +17543,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 254
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17535,14 +17558,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "basetexture",
-          "type": 5,
-          "value": 255
-        },
-        {
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 255
         }
       ]
     },
@@ -17610,14 +17633,14 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
           "name": "basetexture",
           "type": 5,
           "value": 260
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17640,6 +17663,11 @@
       "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        },
+        {
           "name": "basetexture",
           "type": 5,
           "value": 262
@@ -17653,6 +17681,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 263
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 264
         },
         {
           "name": "translucent",
@@ -17668,21 +17706,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 83
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 264
         },
         {
           "name": "translucent",
@@ -17803,6 +17826,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 272
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -17813,11 +17841,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 273
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -17837,7 +17860,7 @@
       ]
     },
     {
-      "shader": "DecalModulate",
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
       "properties": [
         {
           "name": "basetexture",
@@ -17852,7 +17875,7 @@
       ]
     },
     {
-      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "shader": "DecalModulate",
       "properties": [
         {
           "name": "basetexture",
@@ -17888,6 +17911,21 @@
           "name": "basetexture",
           "type": 5,
           "value": 278
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.LightmappedGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 279
         }
       ]
     },
@@ -17899,16 +17937,6 @@
           "type": 1,
           "value": true
         },
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 279
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
         {
           "name": "basetexture",
           "type": 5,
@@ -17953,11 +17981,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 284
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -18028,6 +18051,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 289
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -18088,6 +18116,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 295
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 296
         },
         {
           "name": "baseAlphaTint",
@@ -18102,47 +18140,37 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 296
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 284
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 284
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 297
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 285
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 285
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -18233,6 +18261,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 306
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 307
         },
         {
           "name": "baseAlphaTint",
@@ -18247,22 +18285,12 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 307
+          "value": 308
         },
         {
           "name": "translucent",
           "type": 1,
           "value": true
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 308
         }
       ]
     },
@@ -18273,11 +18301,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 309
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -18288,11 +18311,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 310
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         },
         {
           "name": "translucent",
@@ -18308,6 +18326,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 311
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -18368,6 +18396,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 317
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 318
         },
         {
           "name": "cullFace",
@@ -18387,17 +18425,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 318
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 318
+          "value": 319
         }
       ]
     },
@@ -18708,16 +18736,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 349
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -18750,7 +18768,12 @@
           "value": 351
         },
         {
-          "name": "baseAlphaTint",
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "translucent",
           "type": 1,
           "value": true
         }
@@ -18763,6 +18786,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 352
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -18833,16 +18861,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 359
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -18853,6 +18871,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 360
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -18953,11 +18981,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 370
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -18968,6 +18991,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 371
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -18988,11 +19016,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 373
-        },
-        {
-          "name": "baseAlphaTint",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19003,6 +19026,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 374
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -19123,6 +19151,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 386
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 387
         },
         {
           "name": "cullFace",
@@ -19142,27 +19180,27 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 387
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 388
         }
       ]
     },
     {
-      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
       "properties": [
         {
           "name": "basetexture",
           "type": 5,
           "value": 389
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 390
         },
         {
           "name": "cullFace",
@@ -19177,22 +19215,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 390
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.UnlitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 391
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -19212,12 +19235,17 @@
       ]
     },
     {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
       "properties": [
         {
           "name": "basetexture",
           "type": 5,
-          "value": 283
+          "value": 393
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -19227,7 +19255,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 393
+          "value": 284
         }
       ]
     },
@@ -19238,11 +19266,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 394
-        },
-        {
-          "name": "baseAlphaTint",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19253,6 +19276,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 395
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -19362,7 +19390,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 321
+          "value": 406
         }
       ]
     },
@@ -19372,12 +19400,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 406
-        },
-        {
-          "name": "baseAlphaTint",
-          "type": 1,
-          "value": true
+          "value": 322
         }
       ]
     },
@@ -19388,6 +19411,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 407
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -19448,6 +19476,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 413
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 414
         },
         {
           "name": "translucent",
@@ -19463,46 +19501,11 @@
     },
     {
       "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 412
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.UnlitGeneric",
       "properties": [
         {
           "name": "basetexture",
           "type": 5,
           "value": 413
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
-          "value": 414
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19518,6 +19521,11 @@
           "name": "translucent",
           "type": 1,
           "value": true
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -19528,10 +19536,29 @@
           "name": "basetexture",
           "type": 5,
           "value": 415
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
-    null,
+    {
+      "shader": "SourceUtils.Shaders.UnlitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 415
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
+        }
+      ]
+    },
     {
       "shader": "SourceUtils.Shaders.VertexLitGeneric",
       "properties": [
@@ -19542,6 +19569,7 @@
         }
       ]
     },
+    null,
     {
       "shader": "SourceUtils.Shaders.VertexLitGeneric",
       "properties": [
@@ -19578,7 +19606,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 283
+          "value": 420
         }
       ]
     },
@@ -19589,6 +19617,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 284
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 285
         },
         {
           "name": "cullFace",
@@ -19603,16 +19641,6 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 420
-        }
-      ]
-    },
-    {
-      "shader": "SourceUtils.Shaders.VertexLitGeneric",
-      "properties": [
-        {
-          "name": "basetexture",
-          "type": 5,
           "value": 421
         }
       ]
@@ -19623,7 +19651,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 421
+          "value": 422
         }
       ]
     },
@@ -19684,11 +19712,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 427
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19699,6 +19722,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 428
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -19718,12 +19746,7 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 370
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
+          "value": 430
         }
       ]
     },
@@ -19733,7 +19756,12 @@
         {
           "name": "basetexture",
           "type": 5,
-          "value": 430
+          "value": 371
+        },
+        {
+          "name": "translucent",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -19764,11 +19792,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 433
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -19779,6 +19802,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 434
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -19799,11 +19827,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 436
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -19829,6 +19852,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 438
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -19859,11 +19887,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 441
-        },
-        {
-          "name": "translucent",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -19876,9 +19899,9 @@
           "value": 442
         },
         {
-          "name": "cullFace",
+          "name": "translucent",
           "type": 1,
-          "value": false
+          "value": true
         }
       ]
     },
@@ -19904,6 +19927,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 444
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -20047,7 +20075,6 @@
         }
       ]
     },
-    null,
     {
       "shader": "SourceUtils.Shaders.VertexLitGeneric",
       "properties": [
@@ -20058,6 +20085,7 @@
         }
       ]
     },
+    null,
     {
       "shader": "SourceUtils.Shaders.VertexLitGeneric",
       "properties": [
@@ -20095,11 +20123,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 463
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -20155,6 +20178,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 467
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -20205,11 +20233,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 472
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -20235,6 +20258,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 474
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -20375,11 +20403,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 488
-        },
-        {
-          "name": "cullFace",
-          "type": 1,
-          "value": false
         }
       ]
     },
@@ -20390,6 +20413,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 489
+        },
+        {
+          "name": "cullFace",
+          "type": 1,
+          "value": false
         }
       ]
     },
@@ -20430,11 +20458,6 @@
           "name": "basetexture",
           "type": 5,
           "value": 493
-        },
-        {
-          "name": "baseAlphaTint",
-          "type": 1,
-          "value": true
         }
       ]
     },
@@ -20445,6 +20468,11 @@
           "name": "basetexture",
           "type": 5,
           "value": 494
+        },
+        {
+          "name": "baseAlphaTint",
+          "type": 1,
+          "value": true
         }
       ]
     },
@@ -20475,6 +20503,16 @@
           "name": "basetexture",
           "type": 5,
           "value": 497
+        }
+      ]
+    },
+    {
+      "shader": "SourceUtils.Shaders.VertexLitGeneric",
+      "properties": [
+        {
+          "name": "basetexture",
+          "type": 5,
+          "value": 498
         }
       ]
     }
