@@ -43,7 +43,8 @@
 
             protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList, clusters: number[]): void {
                 if (clusters == null) {
-                    super.onPopulateDrawList(drawList, clusters);
+                    const leaves = this.model.getLeaves();
+                    if (leaves != null) drawList.addItems(leaves);
                     return;
                 }
 

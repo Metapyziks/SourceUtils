@@ -1375,7 +1375,9 @@ var SourceUtils;
             };
             Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
                 if (clusters == null) {
-                    _super.prototype.onPopulateDrawList.call(this, drawList, clusters);
+                    var leaves = this.model.getLeaves();
+                    if (leaves != null)
+                        drawList.addItems(leaves);
                     return;
                 }
                 for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
