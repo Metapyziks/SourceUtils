@@ -22,7 +22,7 @@ namespace SourceUtils.WebExport
         [Option( 'p', "url-prefix", HelpText = "Prefix to prepend to each exported URL." )]
         public string UrlPrefix { get; set; } = "";
 
-        [Option('m', "maps", HelpText = "Specific semi-colon separated map names to export (e.g. 'de_dust2;de_mirage;kz_*').", Required = true)]
+        [Option('m', "maps", HelpText = "Specific comma separated map names to export (e.g. 'de_dust2,e_mirage,kz_*').", Required = true)]
         public string Maps { get; set; }
     }
 
@@ -130,7 +130,7 @@ namespace SourceUtils.WebExport
 
             IsExporting = true;
 
-            var maps = args.Maps.Split( new [] { ';' }, StringSplitOptions.RemoveEmptyEntries );
+            var maps = args.Maps.Split( new [] { ',' }, StringSplitOptions.RemoveEmptyEntries );
 
             foreach ( var item in maps )
             {

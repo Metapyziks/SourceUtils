@@ -1,42 +1,136 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace SourceUtils
 {
     partial class ValveBspFile
     {
-        public class ArrayLump<T> : ILump, IEnumerable<T>
+        public abstract class ArrayLump<T> : ILump, IEnumerable<T>
+        {
+            protected ValveBspFile BspFile { get; }
+            public LumpType LumpType { get; }
+            public int Length { get; }
+
+            protected virtual Type StructType => typeof(T);
+
+            public ArrayLump( ValveBspFile bspFile, LumpType type )
+            {
+                BspFile = bspFile;
+                LumpType = type;
+                Length = BspFile.GetLumpLength( type, StructType );
+            }
+
+            public abstract IEnumerator<T> GetEnumerator();
+
+            public abstract T this[int index] { get; }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public override string ToString()
+            {
+                return $"{StructType}[{Length}]";
+            }
+        }
+
+        public class VersionedArrayLump<T> : ArrayLump<T>
+            where T : class
+        {
+            private T[] _array;
+            private Type _structType;
+
+            protected override Type StructType => _structType ?? (_structType = FindStructType());
+
+            public VersionedArrayLump( ValveBspFile bspFile, LumpType type )
+                : base( bspFile, type ) { }
+            
+            private void EnsureLoaded()
+            {
+                lock ( this )
+                {
+                    if ( _array != null ) return;
+
+                    _array = new T[Length];
+
+                    var temp = Array.CreateInstance( StructType, Length );
+                    var method = typeof(ValveBspFile)
+                        .GetMethod( nameof(ReadLumpValues), BindingFlags.Instance | BindingFlags.NonPublic )
+                        .MakeGenericMethod( StructType );
+
+                    method.Invoke( BspFile, new object[] { LumpType, 0, temp, 0, Length } );
+
+                    for ( var i = 0; i < Length; ++i )
+                    {
+                        _array[i] = (T) temp.GetValue( i );
+                    }
+                }
+            }
+
+            private Type FindStructType()
+            {
+                foreach ( var type in Assembly.GetExecutingAssembly().GetTypes() )
+                {
+                    if ( !typeof(T).IsAssignableFrom( type ) ) continue;
+
+                    var versionAttrib = type.GetCustomAttribute<StructVersionAttribute>();
+
+                    if ( versionAttrib != null && versionAttrib.MinVersion <= BspFile.Version && versionAttrib.MaxVersion >= BspFile.Version )
+                    {
+                        return type;
+                    }
+                }
+
+                throw new NotSupportedException( $"Version {BspFile.Version} of lump {LumpType} is not supported." );
+            }
+
+            public override T this[ int index ]
+            {
+                get
+                { 
+                    EnsureLoaded();
+                    
+                    if ( index < 0 || index >= _array.Length )
+                    {
+                        throw new IndexOutOfRangeException( $"{index} is not >= 0 and < {_array.Length}." );
+                    }
+                    
+                    return _array[index];
+                }
+            }
+
+            public override IEnumerator<T> GetEnumerator()
+            {
+                EnsureLoaded();
+                return ((IEnumerable<T>) _array).GetEnumerator();
+            }
+        }
+
+        public class StructArrayLump<T> : ArrayLump<T>
             where T : struct
         {
-            public LumpType LumpType { get; }
-
-            private readonly int _length;
-            private readonly ValveBspFile _bspFile;
             private T[] _array;
             
             private volatile bool _firstRequest = true;
 
-            public ArrayLump( ValveBspFile bspFile, LumpType type )
-            {
-                _bspFile = bspFile;
-                LumpType = type;
-                _length = _bspFile.GetLumpLength<T>( LumpType );
-            }
+            public StructArrayLump( ValveBspFile bspFile, LumpType type )
+                : base( bspFile, type ) { }
 
-            public void EnsureLoaded()
+            private void EnsureLoaded()
             {
                 lock ( this )
                 {
                     if ( _array != null ) return;
                     _array = new T[Length];
-                    _bspFile.ReadLumpValues( LumpType, 0, _array, 0, Length );
+                    BspFile.ReadLumpValues( LumpType, 0, _array, 0, Length );
                 }
             }
 
-            public int Length => _length;
-
-            public T this[ int index ]
+            public override T this[ int index ]
             {
                 get
                 {
@@ -50,7 +144,7 @@ namespace SourceUtils
 
                     if ( index < 0 || index >= _array.Length )
                     {
-                        throw new IndexOutOfRangeException( $"{index} vs {_array.Length}" );
+                        throw new IndexOutOfRangeException( $"{index} is not >= 0 and < {_array.Length}." );
                     }
 
                     return _array[index];
@@ -65,7 +159,7 @@ namespace SourceUtils
                 if ( _array != null ) return _array[index];
                 if ( _sSingleArray == null ) _sSingleArray = new T[1];
 
-                _bspFile.ReadLumpValues( LumpType, index, _sSingleArray, 0, 1 );
+                BspFile.ReadLumpValues( LumpType, index, _sSingleArray, 0, 1 );
                 return _sSingleArray[0];
             }
 
@@ -76,7 +170,7 @@ namespace SourceUtils
                 if ( count <= 0 ) return Enumerable.Empty<T>();
 
                 var array = new T[count];
-                _bspFile.ReadLumpValues( LumpType, start, array, 0, count );
+                BspFile.ReadLumpValues( LumpType, start, array, 0, count );
                 return array;
             }
 
@@ -98,20 +192,10 @@ namespace SourceUtils
                 return -1;
             }
 
-            public IEnumerator<T> GetEnumerator()
+            public override IEnumerator<T> GetEnumerator()
             {
                 EnsureLoaded();
                 return ((IEnumerable<T>) _array).GetEnumerator();
-            }
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-
-            public override string ToString()
-            {
-                return $"{typeof(T)}[{Length}]";
             }
         }
     }

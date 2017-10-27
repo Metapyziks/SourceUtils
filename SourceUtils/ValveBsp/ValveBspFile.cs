@@ -65,81 +65,82 @@ namespace SourceUtils
         }
 
         public string Name { get; }
+        public int Version => _header.Version;
         
         [BspLump(LumpType.MODELS)]
-        public ArrayLump<BspModel> Models { get; private set; }
+        public StructArrayLump<BspModel> Models { get; private set; }
 
         [BspLump(LumpType.PLANES)]
-        public ArrayLump<Plane> Planes { get; private set; }
+        public StructArrayLump<Plane> Planes { get; private set; }
         
         [BspLump(LumpType.NODES)]
-        public ArrayLump<BspNode> Nodes { get; private set; }
+        public StructArrayLump<BspNode> Nodes { get; private set; }
         
         [BspLump(LumpType.LEAFS)]
-        public ArrayLump<BspLeaf> Leaves { get; private set; }
+        public VersionedArrayLump<IBspLeaf> Leaves { get; private set; }
 
         [BspLump(LumpType.VERTEXES)]
-        public ArrayLump<Vector3> Vertices { get; private set; }
+        public StructArrayLump<Vector3> Vertices { get; private set; }
         
         [BspLump(LumpType.VERTNORMALINDICES)]
-        public ArrayLump<ushort> VertexNormalIndices { get; private set; }
+        public StructArrayLump<ushort> VertexNormalIndices { get; private set; }
 
         [BspLump(LumpType.VERTNORMALS)]
-        public ArrayLump<Vector3> VertexNormals { get; private set; }
+        public StructArrayLump<Vector3> VertexNormals { get; private set; }
 
         [BspLump(LumpType.EDGES)]
-        public ArrayLump<Edge> Edges { get; private set; }
+        public StructArrayLump<Edge> Edges { get; private set; }
 
         [BspLump(LumpType.SURFEDGES)]
-        public ArrayLump<int> SurfEdges { get; private set; }
+        public StructArrayLump<int> SurfEdges { get; private set; }
         
         [BspLump(LumpType.LEAFFACES)]
-        public ArrayLump<ushort> LeafFaces { get; private set; }
+        public StructArrayLump<ushort> LeafFaces { get; private set; }
 
         [BspLump(LumpType.FACES)]
-        public ArrayLump<Face> Faces { get; private set; }
+        public StructArrayLump<Face> Faces { get; private set; }
 
         [BspLump(LumpType.FACES_HDR)]
-        public ArrayLump<Face> FacesHdr { get; private set; }
+        public StructArrayLump<Face> FacesHdr { get; private set; }
 
         [BspLump(LumpType.PRIMITIVES)]
-        public ArrayLump<Primitive> Primitives { get; private set; }
+        public StructArrayLump<Primitive> Primitives { get; private set; }
 
         [BspLump(LumpType.PRIMINDICES)]
-        public ArrayLump<ushort> PrimitiveIndices { get; private set; }
+        public StructArrayLump<ushort> PrimitiveIndices { get; private set; }
 
         [BspLump(LumpType.VISIBILITY)]
         public VisibilityLump Visibility { get; private set; }
 
         [BspLump(LumpType.TEXINFO)]
-        public ArrayLump<TextureInfo> TextureInfos { get; private set; }
+        public StructArrayLump<TextureInfo> TextureInfos { get; private set; }
 
         [BspLump(LumpType.TEXDATA)]
-        public ArrayLump<TextureData> TextureData { get; private set; }
+        public StructArrayLump<TextureData> TextureData { get; private set; }
 
         [BspLump(LumpType.TEXDATA_STRING_TABLE)]
-        public ArrayLump<int> TextureStringTable { get; private set; }
+        public StructArrayLump<int> TextureStringTable { get; private set; }
 
         [BspLump(LumpType.TEXDATA_STRING_DATA)]
-        public ArrayLump<byte> TextureStringData { get; private set; }
+        public StructArrayLump<byte> TextureStringData { get; private set; }
 
         [BspLump(LumpType.BRUSHES)]
-        public ArrayLump<Brush> Brushes { get; private set; }
+        public StructArrayLump<Brush> Brushes { get; private set; }
         
         [BspLump(LumpType.BRUSHSIDES)]
-        public ArrayLump<BrushSide> BrushSides { get; private set; }
+        public StructArrayLump<BrushSide> BrushSides { get; private set; }
 
         [BspLump(LumpType.DISPINFO)]
-        public ArrayLump<DispInfo> DisplacementInfos { get; private set; }
+        public StructArrayLump<DispInfo> DisplacementInfos { get; private set; }
 
         [BspLump(LumpType.DISP_VERTS)]
-        public ArrayLump<DispVert> DisplacementVerts { get; private set; }
+        public StructArrayLump<DispVert> DisplacementVerts { get; private set; }
         
         [BspLump(LumpType.LIGHTING)]
-        public ArrayLump<byte> Lighting { get; private set; }
+        public StructArrayLump<byte> Lighting { get; private set; }
 
         [BspLump(LumpType.LIGHTING_HDR)]
-        public ArrayLump<byte> LightingHdr { get; private set; }
+        public StructArrayLump<byte> LightingHdr { get; private set; }
 
         [BspLump(LumpType.PAKFILE)]
         public PakFileLump PakFile { get; private set; }
@@ -151,7 +152,7 @@ namespace SourceUtils
         public GameLump GameData { get; private set; }
 
         [BspLump(LumpType.CUBEMAPS)]
-        public ArrayLump<CubemapSample> Cubemaps { get; private set; }
+        public StructArrayLump<CubemapSample> Cubemaps { get; private set; }
 
         public DisplacementManager DisplacementManager { get; }
         public LightmapLayout LightmapLayout { get; }
@@ -190,11 +191,10 @@ namespace SourceUtils
             return _header.Lumps[lumpIndex];
         }
 
-        private int GetLumpLength<T>( LumpType type )
-            where T : struct
+        private int GetLumpLength( LumpType lumpType, Type structType )
         {
-            var info = GetLumpInfo( type );
-            return info.Length / Marshal.SizeOf<T>();
+            var info = GetLumpInfo( lumpType );
+            return info.Length / Marshal.SizeOf( structType );
         }
 
         private int ReadLumpValues<T>( LumpType type, int srcOffset, T[] dst, int dstOffset, int count )

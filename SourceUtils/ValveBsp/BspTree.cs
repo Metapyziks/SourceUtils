@@ -73,7 +73,7 @@ namespace SourceUtils.ValveBsp
         public class Leaf : IElem
         {
             public readonly int Index;
-            public readonly BspLeaf Info;
+            public readonly IBspLeaf Info;
 
             public Leaf( ValveBspFile bsp, int index )
             {

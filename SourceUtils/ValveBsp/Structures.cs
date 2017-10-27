@@ -66,8 +66,45 @@ namespace SourceUtils.ValveBsp
         public LeafFlags Flags => (LeafFlags) (_value >> 9);
     }
 
+    public interface IBspLeaf
+    {
+        short Cluster { get; }
+        Vector3S Min { get; }
+        Vector3S Max { get; }
+        AreaFlags AreaFlags { get; }
+        ushort FirstLeafFace { get; }
+        ushort NumLeafFaces { get; }
+    }
+
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
-    public struct BspLeaf
+    [StructVersion( MaxVersion = 19 )]
+    public unsafe struct BspLeafV19 : IBspLeaf
+    {
+        public readonly int Contents;
+        public readonly short Cluster;
+        public readonly AreaFlags AreaFlags;
+        public readonly Vector3S Min;
+        public readonly Vector3S Max;
+        public readonly ushort FirstLeafFace;
+        public readonly ushort NumLeafFaces;
+        public readonly ushort FirstLeafBrush;
+        public readonly ushort NumLeafBrushes;
+        public readonly short LeafWaterDataId;
+
+        private fixed uint _compressedLightCube[6];
+        private readonly short _padding;
+
+        short IBspLeaf.Cluster => Cluster;
+        Vector3S IBspLeaf.Min => Min;
+        Vector3S IBspLeaf.Max => Max;
+        AreaFlags IBspLeaf.AreaFlags => AreaFlags;
+        ushort IBspLeaf.FirstLeafFace => FirstLeafFace;
+        ushort IBspLeaf.NumLeafFaces => NumLeafFaces;
+    }
+
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructVersion( MinVersion = 20 )]
+    public struct BspLeafV20 : IBspLeaf
     {
         public readonly int Contents;
         public readonly short Cluster;
@@ -81,6 +118,13 @@ namespace SourceUtils.ValveBsp
         public readonly short LeafWaterDataId;
 
         private readonly short _padding;
+
+        short IBspLeaf.Cluster => Cluster;
+        Vector3S IBspLeaf.Min => Min;
+        Vector3S IBspLeaf.Max => Max;
+        AreaFlags IBspLeaf.AreaFlags => AreaFlags;
+        ushort IBspLeaf.FirstLeafFace => FirstLeafFace;
+        ushort IBspLeaf.NumLeafFaces => NumLeafFaces;
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
