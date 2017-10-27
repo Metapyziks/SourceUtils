@@ -77,8 +77,8 @@ namespace SourceUtils.ValveBsp
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
-    [StructVersion( MaxVersion = 19 )]
-    public unsafe struct BspLeafV19 : IBspLeaf
+    [StructVersion( MaxVersion = 0 )]
+    public unsafe struct BspLeafV0 : IBspLeaf
     {
         public readonly int Contents;
         public readonly short Cluster;
@@ -103,8 +103,8 @@ namespace SourceUtils.ValveBsp
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
-    [StructVersion( MinVersion = 20 )]
-    public struct BspLeafV20 : IBspLeaf
+    [StructVersion( MinVersion = 1 )]
+    public struct BspLeafV1 : IBspLeaf
     {
         public readonly int Contents;
         public readonly short Cluster;

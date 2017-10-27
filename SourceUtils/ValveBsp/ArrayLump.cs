@@ -73,19 +73,21 @@ namespace SourceUtils
 
             private Type FindStructType()
             {
+                var version = BspFile.GetLumpInfo( LumpType ).Version;
+
                 foreach ( var type in Assembly.GetExecutingAssembly().GetTypes() )
                 {
                     if ( !typeof(T).IsAssignableFrom( type ) ) continue;
 
                     var versionAttrib = type.GetCustomAttribute<StructVersionAttribute>();
 
-                    if ( versionAttrib != null && versionAttrib.MinVersion <= BspFile.Version && versionAttrib.MaxVersion >= BspFile.Version )
+                    if ( versionAttrib != null && versionAttrib.MinVersion <= version && versionAttrib.MaxVersion >= version )
                     {
                         return type;
                     }
                 }
 
-                throw new NotSupportedException( $"Version {BspFile.Version} of lump {LumpType} is not supported." );
+                throw new NotSupportedException( $"Version {version} of lump {LumpType} is not supported." );
             }
 
             public override T this[ int index ]
