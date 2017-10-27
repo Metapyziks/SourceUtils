@@ -170,6 +170,9 @@ namespace SourceUtils.WebExport
                     case "$basetexture2":
                         mat.SetTextureUrl("basetexture2", GetTextureUrl(props[name], vmtPath, bsp));
                         break;
+                    case "$detail":
+                        mat.SetTextureUrl("detail", GetTextureUrl(props[name], vmtPath, bsp));
+                        break;
                     case "$blendmodulatetexture":
                         mat.SetTextureUrl("blendModulateTexture", GetTextureUrl(props[name], vmtPath, bsp));
                         break;
@@ -193,6 +196,9 @@ namespace SourceUtils.WebExport
                         break;
                     case "$alpha":
                         mat.SetNumber("alpha", props.GetSingle(name));
+                        break;
+                    case "$detailscale":
+                        mat.SetNumber("detailScale", props.GetSingle(name));
                         break;
                     case "$nocull":
                         mat.SetBoolean("cullFace", !props.GetBoolean(name));
