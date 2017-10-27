@@ -69,6 +69,41 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
+    public struct StaticPropV6 : IStaticProp
+    {
+        public readonly Vector3 Origin;
+        public readonly Vector3 Angles;
+        public readonly ushort PropType;
+        public readonly ushort FirstLeaf;
+        public readonly ushort LeafCount;
+        [MarshalAs(UnmanagedType.U1)]
+        public readonly bool Solid;
+        public readonly StaticPropFlags Flags;
+        public readonly int Skin;
+        public readonly float FadeMinDist;
+        public readonly float FadeMaxDist;
+        public readonly Vector3 LightingOrigin;
+
+        public readonly float ForcedFadeScale;
+
+        public readonly ushort MinDXLevel;
+        public readonly ushort MaxDXLevel;
+
+        Vector3 IStaticProp.Origin => Origin;
+        Vector3 IStaticProp.Angles => Angles;
+        ushort IStaticProp.PropType => PropType;
+        int IStaticProp.Skin => Skin;
+        ushort IStaticProp.FirstLeaf => FirstLeaf;
+        ushort IStaticProp.LeafCount => LeafCount;
+        StaticPropFlags IStaticProp.Flags => Flags;
+        bool IStaticProp.Solid => Solid;
+        uint IStaticProp.ColorModulation => 0xffffffff;
+        float IStaticProp.FadeMinDist => FadeMinDist;
+        float IStaticProp.FadeMaxDist => FadeMaxDist;
+        float IStaticProp.ForcedFadeScale => ForcedFadeScale;
+    }
+
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 76)]
     public struct StaticPropV10 : IStaticProp
     {
@@ -222,6 +257,11 @@ namespace SourceUtils.ValveBsp
                     {
                         case 5:
                             _props = LumpReader<StaticPropV5>.ReadLumpFromStream( reader.BaseStream, propCount )
+                                .Cast<IStaticProp>()
+                                .ToArray();
+                            break;
+                        case 6:
+                            _props = LumpReader<StaticPropV6>.ReadLumpFromStream( reader.BaseStream, propCount )
                                 .Cast<IStaticProp>()
                                 .ToArray();
                             break;
