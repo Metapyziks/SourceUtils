@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title>Map Viewer - de_dust2</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/facepunch.webgame.js?v=196d-d545"></script>
+        <script src="https://metapyziks.github.io/SourceUtils/js/sourceutils.js?v=196d-d545"></script>
+        <link type="text/css" rel="stylesheet" href="https://metapyziks.github.io/SourceUtils/styles.css?v=196d-d545" />
+    </head>
+    <body>
+    <h2>Source Map Viewer Demo - de_dust2</h2>
+    <div id="map-view">
+        <script>
+            var viewer;
+            window.onload = function() {
+                viewer = new SourceUtils.MapViewer($("#map-view")[0]);
+                viewer.loadMap("https://metapyziks.github.io/SourceUtils/maps/de_dust2/index.json?v=196d-d545");
+                viewer.animate();
+            }
+        </script>
+        <div id="debug-panel">
+            <span class="debug-label">Frame time:</span>&nbsp;<span id="debug-frametime"></span>&nbsp;ms<br/>
+            <span class="debug-label">Frame rate:</span>&nbsp;<span id="debug-framerate"></span>&nbsp;fps<br />
+            <span class="debug-label">Draw calls:</span>&nbsp;<span id="debug-drawcalls"></span><br />
+            <div id="debug-loading">
+                <span class="debug-label">Vis loaded:</span>&nbsp;<span id="debug-visloaded"></span>%<br />
+                <span class="debug-label">Bsp loaded:</span>&nbsp;<span id="debug-bsploaded"></span>%<br />
+                <span class="debug-label">Geom loaded:</span>&nbsp;<span id="debug-geomloaded"></span>%<br />
+                <span class="debug-label">Props loaded:</span>&nbsp;<span id="debug-propsloaded"></span>%<br />
+                <span class="debug-label">Lightmap loaded:</span>&nbsp;<span id="debug-lightmaploaded"></span>%<br />
+                <span class="debug-label">Materials loaded:</span>&nbsp;<span id="debug-materialsloaded"></span>%<br />
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
