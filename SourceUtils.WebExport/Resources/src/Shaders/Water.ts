@@ -10,6 +10,7 @@ namespace SourceUtils {
             fogColor = new Facepunch.Vector3(1, 1, 1);
             translucent = true;
             refract = true;
+            cullFace = false;
         }
 
         export class Water extends LightmappedBase<WaterMaterial> {

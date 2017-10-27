@@ -164,6 +164,7 @@ namespace SourceUtils {
             const gl = this.context;
 
             gl.clear(gl.DEPTH_BUFFER_BIT);
+            gl.depthFunc(gl.LEQUAL);
             gl.cullFace(gl.FRONT);
 
             this.mainCamera.render();
