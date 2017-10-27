@@ -78,6 +78,7 @@ declare namespace Facepunch {
         sub(vec: IVector3): this;
         multiply(x: number, y: number, z: number): this;
         multiply(vec: IVector3): this;
+        cross(vec: IVector3): this;
         divide(vec: IVector3): this;
         multiplyScalar(val: number): this;
         dot(vec: IVector3): number;
@@ -101,6 +102,7 @@ declare namespace Facepunch {
         normalize(): this;
         normalizeXyz(): this;
         set(x: number, y: number, z: number, w: number): this;
+        multiplyScalar(val: number): this;
         applyQuaternion(quat: Quaternion): this;
         applyMatrix4(mat: Matrix4): this;
     }
@@ -114,7 +116,9 @@ declare namespace Facepunch {
         setIdentity(): this;
         setInverse(quat?: Quaternion): this;
         setNormalized(quat?: Quaternion): this;
-        setAxisAngle(axis: Vector3, angle: number): this;
+        private static readonly setLookAlong_temp;
+        setLookAlong(normal: IVector3): this;
+        setAxisAngle(axis: IVector3, angle: number): this;
         multiply(quat: Quaternion): this;
         setEuler(euler: Euler): this;
     }
@@ -145,6 +149,7 @@ declare namespace Facepunch {
         copy(box: Box3): this;
         clampLineSegment(a: IVector3, b: IVector3): boolean;
         distanceToPoint(vec: IVector3): number;
+        addPoint(vec: IVector3): void;
     }
     class Matrix4 {
         private static nextId;
@@ -212,7 +217,7 @@ declare namespace Facepunch {
             setAngles(value: IVector3): void;
             setAngles(pitch: number, yaw: number, roll: number): void;
             copyRotation(other: Entity): void;
-            applyRotationTo(vector: Vector3): void;
+            applyRotationTo(vector: Vector3 | Vector4): void;
             setScale(value: IVector3 | number): void;
         }
     }
@@ -360,19 +365,27 @@ declare namespace Facepunch {
             private projectionMatrix;
             private inverseProjectionInvalid;
             private inverseProjectionMatrix;
+            private shadowCamera;
+            private shadowCascades;
             constructor(game: Game, near: number, far: number);
+            setShadowCascades(cascadeFractions: number[]): void;
             setNear(value: number): void;
             getNear(): number;
             setFar(value: number): void;
             getFar(): number;
             getOpaqueColorTexture(): RenderTexture;
             getOpaqueDepthTexture(): RenderTexture;
+            getShadowCascadeCount(): number;
             invalidateGeometry(): void;
             protected onPopulateDrawList(drawList: DrawList): void;
             render(): void;
             private setupFrameBuffers();
             bufferOpaqueTargetBegin(buf: CommandBuffer): void;
             bufferRenderTargetEnd(buf: CommandBuffer): void;
+            private static readonly bufferShadowTargetBegin_lightNorm;
+            private static readonly bufferShadowTargetBegin_lightDir;
+            bufferShadowTargetBegin(buf: CommandBuffer, cascadeIndex: number): void;
+            bufferShadowTargetEnd(buf: CommandBuffer): void;
             getDrawCalls(): number;
             getProjectionMatrix(target?: Matrix4): Matrix4;
             getInverseProjectionMatrix(target?: Matrix4): Matrix4;
@@ -381,6 +394,7 @@ declare namespace Facepunch {
             private cameraPosParams;
             private clipParams;
             populateCommandBufferParameters(buf: CommandBuffer): void;
+            dispose(): void;
         }
         class PerspectiveCamera extends Camera {
             private fov;
@@ -424,6 +438,7 @@ declare namespace Facepunch {
             private static readonly identityMatrix;
             private items;
             private invalid;
+            private shadowCast;
             private opaque;
             private translucent;
             private lastHandle;
@@ -620,6 +635,7 @@ declare namespace Facepunch {
         class Game implements ICommandBufferParameterProvider {
             static readonly timeInfoParam: CommandBufferParameter;
             static readonly screenInfoParam: CommandBufferParameter;
+            static readonly lightDirParam: CommandBufferParameter;
             canLockPointer: boolean;
             private initialized;
             readonly shaders: ShaderManager;
@@ -667,6 +683,7 @@ declare namespace Facepunch {
             protected onRenderFrame(dt: number): void;
             private readonly timeParams;
             private readonly screenParams;
+            private readonly lightDirParams;
             populateCommandBufferParameters(buf: CommandBuffer): void;
         }
     }
@@ -997,6 +1014,7 @@ declare namespace Facepunch {
                 baseTexture: Texture;
                 noFog: boolean;
                 translucent: boolean;
+                shadowCast: boolean;
             }
             abstract class ModelBase<TMaterialProps extends ModelBaseMaterialProps> extends BaseShaderProgram<TMaterialProps> {
                 static readonly vertSource: string;
@@ -1035,6 +1053,23 @@ declare namespace Facepunch {
                 constructor(context: WebGLRenderingContext);
                 bufferMaterialProps(buf: CommandBuffer, props: VertexLitGenericMaterialProps): void;
             }
+        }
+    }
+}
+declare namespace Facepunch {
+    namespace WebGame {
+        class ShadowCamera extends WebGame.OrthographicCamera {
+            readonly game: Game;
+            private readonly targetCamera;
+            constructor(game: Game, targetCamera: Camera);
+            private addToFrustumBounds(vec, bounds);
+            private static readonly getFrustumBounds_vec;
+            private getFrustumBounds(near, far, bounds);
+            private static readonly renderShadows_bounds;
+            private static readonly renderShadows_vec1;
+            private static readonly renderShadows_vec2;
+            bufferCascadeBegin(lightRotation: Facepunch.Quaternion, near: number, far: number): void;
+            bufferCascadeEnd(): void;
         }
     }
 }
