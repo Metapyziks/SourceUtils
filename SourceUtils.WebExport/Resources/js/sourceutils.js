@@ -1089,6 +1089,7 @@ var SourceUtils;
                 case WebGame.Key.A:
                 case WebGame.Key.S:
                 case WebGame.Key.D:
+                case WebGame.Key.Shift:
                     return this.useDefaultCameraControl;
                 default:
                     return false;
@@ -1099,7 +1100,7 @@ var SourceUtils;
             if (!this.useDefaultCameraControl || !this.isPointerLocked())
                 return;
             this.move.set(0, 0, 0);
-            var moveSpeed = 512 * dt;
+            var moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
             if (this.isKeyDown(WebGame.Key.W))
                 this.move.z -= moveSpeed;
             if (this.isKeyDown(WebGame.Key.S))

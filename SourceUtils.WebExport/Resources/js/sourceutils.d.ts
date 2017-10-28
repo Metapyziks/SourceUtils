@@ -76,7 +76,7 @@ declare namespace SourceUtils {
         private readonly loader;
         readonly isLeaf: boolean;
         readonly plane: Plane;
-        readonly children: (BspLeaf | BspNode)[];
+        readonly children: (BspNode | BspLeaf)[];
         constructor(loader: LeafGeometryLoader, info: IBspNode);
         private loadChild(value);
         findLeaves(target: BspLeaf[]): void;
