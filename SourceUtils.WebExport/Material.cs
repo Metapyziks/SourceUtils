@@ -123,6 +123,7 @@ namespace SourceUtils.WebExport
 
             switch (shader.ToLower())
             {
+                case "lightmapped_4wayblend": // todo: temp
                 case "lightmappedgeneric":
                     {
                         mat.Shader = "SourceUtils.Shaders.LightmappedGeneric";

@@ -268,7 +268,7 @@ namespace SourceUtils
         }
 
         private readonly Dictionary<string, MaterialPropertyGroup> _propertyGroups = new Dictionary<string, MaterialPropertyGroup>(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*(""|“)(?<shader>[a-zA-Z0-9/\\]+)(""|”)[^""{}]*|\s*(?<shader>[a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
+        private static readonly Regex _sShaderNameRegex = new Regex(@"^[^""{}]*(""|“)(?<shader>[_a-zA-Z0-9/\\]+)(""|”)[^""{}]*|\s*(?<shader>[_a-zA-Z0-9/\\]+)\s*$", RegexOptions.Compiled);
 
         private ValveMaterialFile( Stream stream )
         {

@@ -737,6 +737,9 @@ var SourceUtils;
             this.clusterEnts = {};
             this.viewer = viewer;
         }
+        Map.prototype.isReady = function () {
+            return this.info != null && this.lightmap != null && this.lightmap.isLoaded() && this.worldspawn.model != null;
+        };
         Map.prototype.unload = function () {
             throw new Error("Map unloading not implemented.");
         };
@@ -1578,6 +1581,46 @@ var SourceUtils;
         Shaders.Water = Water;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var WorldTwoTextureBlendMaterial = (function (_super) {
+            __extends(WorldTwoTextureBlendMaterial, _super);
+            function WorldTwoTextureBlendMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.detail = null;
+                _this.detailScale = 1;
+                return _this;
+            }
+            return WorldTwoTextureBlendMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.WorldTwoTextureBlendMaterial = WorldTwoTextureBlendMaterial;
+        var WorldTwoTextureBlend = (function (_super) {
+            __extends(WorldTwoTextureBlend, _super);
+            function WorldTwoTextureBlend(context) {
+                var _this = _super.call(this, context, WorldTwoTextureBlendMaterial) || this;
+                _this.uDetail = _this.addUniform("uDetail", WebGame.UniformSampler);
+                _this.uDetailScale = _this.addUniform("uDetailScale", WebGame.Uniform1F);
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform sampler2D uDetail;\n                    uniform float uDetailScale;\n\n                    void main()\n                    {\n                        vec3 base = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec4 detail = texture2D(uDetail, vTextureCoord * uDetailScale).rgb;\n\n                        vec3 blendedSample = mix(base, detail, detail.a);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
+                _this.uDetail.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
+                _this.compile();
+                return _this;
+            }
+            WorldTwoTextureBlend.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uDetail.bufferValue(buf, props.detail);
+                this.uDetailScale.bufferValue(buf, props.detailScale);
+            };
+            return WorldTwoTextureBlend;
+        }(Shaders.LightmappedBase));
+        Shaders.WorldTwoTextureBlend = WorldTwoTextureBlend;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
@@ -1818,44 +1861,4 @@ var SourceUtils;
         return VisLoader;
     }(SourceUtils.PagedLoader));
     SourceUtils.VisLoader = VisLoader;
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="LightmappedBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var WorldTwoTextureBlendMaterial = (function (_super) {
-            __extends(WorldTwoTextureBlendMaterial, _super);
-            function WorldTwoTextureBlendMaterial() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.detail = null;
-                _this.detailScale = 1;
-                return _this;
-            }
-            return WorldTwoTextureBlendMaterial;
-        }(Shaders.LightmappedBaseMaterial));
-        Shaders.WorldTwoTextureBlendMaterial = WorldTwoTextureBlendMaterial;
-        var WorldTwoTextureBlend = (function (_super) {
-            __extends(WorldTwoTextureBlend, _super);
-            function WorldTwoTextureBlend(context) {
-                var _this = _super.call(this, context, WorldTwoTextureBlendMaterial) || this;
-                _this.uDetail = _this.addUniform("uDetail", WebGame.UniformSampler);
-                _this.uDetailScale = _this.addUniform("uDetailScale", WebGame.Uniform1F);
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform sampler2D uDetail;\n                    uniform float uDetailScale;\n\n                    void main()\n                    {\n                        vec3 base = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec4 detail = texture2D(uDetail, vTextureCoord * uDetailScale).rgb;\n\n                        vec3 blendedSample = mix(base, detail, detail.a);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
-                _this.uDetail.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
-                _this.compile();
-                return _this;
-            }
-            WorldTwoTextureBlend.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                this.uDetail.bufferValue(buf, props.detail);
-                this.uDetailScale.bufferValue(buf, props.detailScale);
-            };
-            return WorldTwoTextureBlend;
-        }(Shaders.LightmappedBase));
-        Shaders.WorldTwoTextureBlend = WorldTwoTextureBlend;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));

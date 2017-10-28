@@ -47,6 +47,10 @@ namespace SourceUtils {
             this.viewer = viewer;
         }
 
+        isReady(): boolean {
+            return this.info != null && this.lightmap != null && this.lightmap.isLoaded() && this.worldspawn.model != null;
+        }
+
         unload(): void {
             throw new Error("Map unloading not implemented.");
         }

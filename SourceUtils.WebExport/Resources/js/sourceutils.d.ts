@@ -76,7 +76,7 @@ declare namespace SourceUtils {
         private readonly loader;
         readonly isLeaf: boolean;
         readonly plane: Plane;
-        readonly children: (BspNode | BspLeaf)[];
+        readonly children: (BspLeaf | BspNode)[];
         constructor(loader: LeafGeometryLoader, info: IBspNode);
         private loadChild(value);
         findLeaves(target: BspLeaf[]): void;
@@ -342,6 +342,7 @@ declare namespace SourceUtils {
         private clusterVis;
         private clusterEnts;
         constructor(viewer: MapViewer);
+        isReady(): boolean;
         unload(): void;
         load(url: string): void;
         getLightmapLoadProgress(): number;
@@ -569,6 +570,21 @@ declare namespace SourceUtils {
 }
 declare namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
+    namespace Shaders {
+        class WorldTwoTextureBlendMaterial extends LightmappedBaseMaterial {
+            detail: WebGame.Texture;
+            detailScale: number;
+        }
+        class WorldTwoTextureBlend extends LightmappedBase<WorldTwoTextureBlendMaterial> {
+            readonly uDetail: WebGame.UniformSampler;
+            readonly uDetailScale: WebGame.Uniform1F;
+            constructor(context: WebGLRenderingContext);
+            bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: WorldTwoTextureBlendMaterial): void;
+        }
+    }
+}
+declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
     class SkyCube extends WebGame.DrawListItem {
         constructor(viewer: MapViewer, material: WebGame.Material);
     }
@@ -645,20 +661,5 @@ declare namespace SourceUtils {
     }
     class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
         protected onCreatePage(page: IPageInfo): VisPage;
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    namespace Shaders {
-        class WorldTwoTextureBlendMaterial extends LightmappedBaseMaterial {
-            detail: WebGame.Texture;
-            detailScale: number;
-        }
-        class WorldTwoTextureBlend extends LightmappedBase<WorldTwoTextureBlendMaterial> {
-            readonly uDetail: WebGame.UniformSampler;
-            readonly uDetailScale: WebGame.Uniform1F;
-            constructor(context: WebGLRenderingContext);
-            bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: WorldTwoTextureBlendMaterial): void;
-        }
     }
 }
