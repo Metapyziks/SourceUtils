@@ -46,10 +46,11 @@ namespace SourceUtils {
                     {
                         vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;
                         vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;
-                        vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;
 
                         float blend;
                         if (uBlendModulate != 0) {
+                            vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;
+
                             float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);
                             float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);
 

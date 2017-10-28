@@ -435,6 +435,7 @@ namespace SourceUtils.WebExport.Bsp
                 case "water":
                     dest.Add( VertexAttribute.Uv2 );
                     break;
+                case "lightmapped_4wayblend":
                 case "worldvertextransition":
                     dest.Add( VertexAttribute.Alpha );
                     goto case "lightmappedgeneric";
