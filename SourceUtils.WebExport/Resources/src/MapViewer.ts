@@ -16,6 +16,8 @@ namespace SourceUtils {
         readonly studioModelLoader = this.addLoader(new StudioModelLoader(this));
         readonly vertLightingLoader = this.addLoader(new VertexLightingLoader(this));
 
+        useDefaultCameraControl = true;
+
         private time = 0;
         private frameCount = 0;
         private lastProfileTime: number;
@@ -62,11 +64,11 @@ namespace SourceUtils {
                     true);
             }
 
-
             super.onInitialize();
         }
 
         protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void {
+            if (!this.useDefaultCameraControl) return;
             if (window.innerWidth > window.innerHeight) {
                 this.lookAngs.x += deltaAngles.z;
                 this.lookAngs.y -= deltaAngles.x;
@@ -107,11 +109,13 @@ namespace SourceUtils {
         protected onMouseLook(delta: Facepunch.Vector2): void {
             super.onMouseLook(delta);
 
+            if (!this.useDefaultCameraControl) return;
+
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
             this.updateCameraAngles();
         }
 
-        private toggleFullscreen(): void {
+        toggleFullscreen(): void {
             const container = this.container;
             const cont = container as any;
             const doc = document as any;
@@ -129,11 +133,22 @@ namespace SourceUtils {
             }
         }
 
-        protected onKeyDown(key: WebGame.Key): void {
+        protected onKeyDown(key: WebGame.Key): boolean {
             super.onKeyDown(key);
 
-            if (key === WebGame.Key.F) {
-                this.toggleFullscreen();
+            if (!this.isPointerLocked()) return false;
+
+            switch (key) {
+                case WebGame.Key.F:
+                    this.toggleFullscreen();
+                    return true;
+                case WebGame.Key.W:
+                case WebGame.Key.A:
+                case WebGame.Key.S:
+                case WebGame.Key.D:
+                    return this.useDefaultCameraControl;
+                default:
+                    return false;
             }
         }
 
@@ -142,7 +157,7 @@ namespace SourceUtils {
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
-            if (!this.isPointerLocked()) return;
+            if (!this.useDefaultCameraControl || !this.isPointerLocked()) return;
 
             this.move.set(0, 0, 0);
             const moveSpeed = 512 * dt;

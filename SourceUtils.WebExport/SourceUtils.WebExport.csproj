@@ -136,6 +136,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +185,7 @@
     <Content Include="Resources\index.template.html" />
     <Content Include="Resources\js\facepunch.webgame.js" />
     <Content Include="Resources\js\sourceutils.js" />
-    <Content Include="Resources\styles.css" />
+    <Content Include="Resources\mapview-styles.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">

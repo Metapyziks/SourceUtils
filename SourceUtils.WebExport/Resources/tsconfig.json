@@ -4,6 +4,7 @@
     "noEmitOnError": true,
     "removeComments": false,
     "sourceMap": false,
+    "declaration": true,
     "outFile": "js/sourceutils.js",
     "target": "es5"
   },

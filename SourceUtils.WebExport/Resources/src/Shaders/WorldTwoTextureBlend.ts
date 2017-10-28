@@ -15,7 +15,7 @@ namespace SourceUtils {
 
             constructor(context: WebGLRenderingContext) {
                 super(context, WorldTwoTextureBlendMaterial);
-
+                
                 const gl = context;
 
                 this.includeShaderSource(gl.VERTEX_SHADER, `

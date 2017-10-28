@@ -72,10 +72,10 @@ namespace SourceUtils.WebExport.Properties {
         ///        function Loader() {
         ///            this.queue = [];
         ///            this.loaded = {};
-        ///            this.active = 0;
+        ///            this.active = [];
         ///            this.completed = 0;
         ///        }
-        ///        Loa [rest of string was truncated]&quot;;.
+        ///        Lo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string facepunch_webgame {
             get {
@@ -102,17 +102,19 @@ namespace SourceUtils.WebExport.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || (function () {
-        ///    var extendStatics = Object.setPrototypeOf ||
-        ///        ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
-        ///        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        ///    return function (d, b) {
-        ///        extendStatics(d, b);
-        ///        function __() { this.constructor = d; }
-        ///        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        ///    };
-        ///})();
-        ///var Sourc [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+        ///    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        ///    function __() { this.constructor = d; }
+        ///    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        ///};
+        ///var SourceUtils;
+        ///(function (SourceUtils) {
+        ///    var ResourcePage = (function () {
+        ///        function ResourcePage(info) {
+        ///            this.toLoad = [];
+        ///            this.first = info.first;
+        ///            this.count = info.count;
+        ///            this.ur [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string sourceutils {
             get {
@@ -127,6 +129,7 @@ namespace SourceUtils.WebExport.Properties {
         ///    left: 32px;
         ///    right: 32px;
         ///    bottom: 32px;
+        ///    background-color: black;
         ///}
         ///
         ///#map-view canvas {
@@ -152,8 +155,7 @@ namespace SourceUtils.WebExport.Properties {
         ///    padding: 8px;
         ///}
         ///
-        ///#debug-panel .debug-label {
-        ///    [rest of string was truncated]&quot;;.
+        ///#d [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string styles {
             get {

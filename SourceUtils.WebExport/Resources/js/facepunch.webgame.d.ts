@@ -672,18 +672,17 @@ declare namespace Facepunch {
             protected onInitialize(): void;
             protected onResize(): void;
             protected addLoader<TLoader extends ILoader>(loader: TLoader): TLoader;
-            protected onMouseDown(button: MouseButton, screenPos: Vector2): void;
-            protected onMouseUp(button: MouseButton, screenPos: Vector2): void;
-            protected onMouseScroll(delta: number): void;
+            protected onMouseDown(button: MouseButton, screenPos: Vector2): boolean;
+            protected onMouseUp(button: MouseButton, screenPos: Vector2): boolean;
+            protected onMouseScroll(delta: number): boolean;
             protected onMouseMove(screenPos: Vector2): void;
             protected onMouseLook(delta: Vector2): void;
-            protected onKeyDown(key: Key): void;
-            protected onKeyUp(key: Key): void;
+            protected onKeyDown(key: Key): boolean;
+            protected onKeyUp(key: Key): boolean;
             protected onUpdateFrame(dt: number): void;
             protected onRenderFrame(dt: number): void;
             private readonly timeParams;
             private readonly screenParams;
-            private readonly lightDirParams;
             populateCommandBufferParameters(buf: CommandBuffer): void;
         }
     }

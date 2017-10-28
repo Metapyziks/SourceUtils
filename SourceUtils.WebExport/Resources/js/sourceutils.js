@@ -972,6 +972,7 @@ var SourceUtils;
             _this.dispGeometryLoader = _this.addLoader(new SourceUtils.DispGeometryLoader(_this));
             _this.studioModelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
             _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader(_this));
+            _this.useDefaultCameraControl = true;
             _this.time = 0;
             _this.frameCount = 0;
             _this.allLoaded = false;
@@ -1013,6 +1014,8 @@ var SourceUtils;
             _super.prototype.onInitialize.call(this);
         };
         MapViewer.prototype.onDeviceRotate = function (deltaAngles) {
+            if (!this.useDefaultCameraControl)
+                return;
             if (window.innerWidth > window.innerHeight) {
                 this.lookAngs.x += deltaAngles.z;
                 this.lookAngs.y -= deltaAngles.x;
@@ -1044,6 +1047,8 @@ var SourceUtils;
         };
         MapViewer.prototype.onMouseLook = function (delta) {
             _super.prototype.onMouseLook.call(this, delta);
+            if (!this.useDefaultCameraControl)
+                return;
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
             this.updateCameraAngles();
         };
@@ -1071,13 +1076,24 @@ var SourceUtils;
         };
         MapViewer.prototype.onKeyDown = function (key) {
             _super.prototype.onKeyDown.call(this, key);
-            if (key === WebGame.Key.F) {
-                this.toggleFullscreen();
+            if (!this.isPointerLocked())
+                return false;
+            switch (key) {
+                case WebGame.Key.F:
+                    this.toggleFullscreen();
+                    return true;
+                case WebGame.Key.W:
+                case WebGame.Key.A:
+                case WebGame.Key.S:
+                case WebGame.Key.D:
+                    return this.useDefaultCameraControl;
+                default:
+                    return false;
             }
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
-            if (!this.isPointerLocked())
+            if (!this.useDefaultCameraControl || !this.isPointerLocked())
                 return;
             this.move.set(0, 0, 0);
             var moveSpeed = 512 * dt;
