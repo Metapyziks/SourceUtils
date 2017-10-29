@@ -959,7 +959,6 @@ var SourceUtils;
     SourceUtils.MapMaterialLoader = MapMaterialLoader;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="../js/facepunch.webgame.d.ts"/>
-/// <reference path="../js/jquery.d.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;

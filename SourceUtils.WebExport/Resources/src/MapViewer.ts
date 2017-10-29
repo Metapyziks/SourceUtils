@@ -1,5 +1,4 @@
 ﻿/// <reference path="../js/facepunch.webgame.d.ts"/>
-/// <reference path="../js/jquery.d.ts"/>
 
 namespace SourceUtils {
     import WebGame = Facepunch.WebGame;

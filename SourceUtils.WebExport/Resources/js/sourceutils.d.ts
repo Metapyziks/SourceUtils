@@ -1,5 +1,4 @@
 /// <reference path="facepunch.webgame.d.ts" />
-/// <reference path="jquery.d.ts" />
 declare namespace SourceUtils {
     interface IPageRequest<TValue, TPage> {
         index: number;
