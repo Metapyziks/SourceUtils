@@ -1704,7 +1704,7 @@ var SourceUtils;
                     var lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
                     var vertData = dstGroup.vertices;
                     for (var i = newElem.vertexOffset + rgbOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
-                        var lightValue = lighting == null ? 0xffffff : lighting[j];
+                        var lightValue = lighting == null ? 0x7f7f7f : lighting[j];
                         vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
                         vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
                         vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
