@@ -212,6 +212,8 @@ namespace SourceUtils.WebExport
                                                 Console.ResetColor();
                                                 Console.WriteLine($"Skipped '{url}'");
                                             }
+                                            
+                                            ++exported;
                                             continue;
                                         }
                                     }
