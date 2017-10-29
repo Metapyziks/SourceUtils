@@ -29,6 +29,11 @@ namespace SourceUtils {
         cameraMode = CameraMode.Fixed;
         showDebugPanel = false;
 
+        totalLoadProgress = 0;
+
+        avgFrameTime: number;
+        avgFrameRate: number;
+
         constructor(container: HTMLElement) {
             super(container);
 
@@ -84,12 +89,7 @@ namespace SourceUtils {
                 <span class="label">Frame rate:</span>&nbsp;<span id="debug-framerate">0</span>&nbsp;fps<br />
                 <span class="label">Draw calls:</span>&nbsp;<span id="debug-drawcalls">0</span><br />
                 <div id="debug-loading">
-                    <span class="label">Vis loaded:</span>&nbsp;<span id="debug-visloaded">0</span>%<br />
-                    <span class="label">Bsp loaded:</span>&nbsp;<span id="debug-bsploaded">0</span>%<br />
-                    <span class="label">Geom loaded:</span>&nbsp;<span id="debug-geomloaded">0</span>%<br />
-                    <span class="label">Props loaded:</span>&nbsp;<span id="debug-propsloaded">0</span>%<br />
-                    <span class="label">Lightmap loaded:</span>&nbsp;<span id="debug-lightmaploaded">0</span>%<br />
-                    <span class="label">Materials loaded:</span>&nbsp;<span id="debug-materialsloaded">0</span>%<br />
+                    <span class="label">Map loaded:</span>&nbsp;<span id="debug-loadpercent">0</span>%<br />
                 </div>`;
 
             this.container.appendChild(panel);
@@ -182,6 +182,11 @@ namespace SourceUtils {
 
         private readonly move = new Facepunch.Vector3();
 
+        private lastProfileTime: number;
+        private frameCount = 0;
+        private lastDrawCalls: number;
+        private allLoaded = false;
+
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
@@ -211,6 +216,55 @@ namespace SourceUtils {
                     this.mainCamera.applyRotationTo(this.move);
                     this.mainCamera.translate(this.move);
                 }
+            }
+
+            const drawCalls = this.mainCamera.getDrawCalls();
+            if (drawCalls !== this.lastDrawCalls && this.showDebugPanel) {
+                this.lastDrawCalls = drawCalls;
+                $("#debug-drawcalls").text(drawCalls);
+            }
+
+            ++this.frameCount;
+            const time = performance.now();
+
+            if (this.lastProfileTime === undefined) {
+                this.lastProfileTime = time;
+            } else if (time - this.lastProfileTime >= 500) {
+                const timeDiff = (time - this.lastProfileTime) / 1000;
+                this.avgFrameTime = timeDiff * 1000 / this.frameCount;
+                this.avgFrameRate = this.frameCount / timeDiff;
+
+                if (this.showDebugPanel) {
+                    $("#debug-frametime").text(this.avgFrameTime.toPrecision(4));
+                    $("#debug-framerate").text(this.avgFrameRate.toPrecision(4));
+                }
+
+                if (!this.allLoaded) {
+                    const visLoaded = this.visLoader.getLoadProgress();
+                    const bspLoaded = this.bspModelLoader.getLoadProgress();
+                    const lightmapLoaded = this.map.getLightmapLoadProgress();
+                    const materialsLoaded = this.mapMaterialLoader.getLoadProgress();
+
+                    const geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
+                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
+
+                    const propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
+                        + this.studioModelLoader.getLoadProgress() * 0.75;
+
+                    this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
+
+                    if (this.showDebugPanel) {
+                        $("#debug-loadpercent").text((this.totalLoadProgress * 100).toPrecision(3));
+                    }
+
+                    if (this.totalLoadProgress >= 1) {
+                        this.allLoaded = true;
+                        $("#debug-loading").hide();
+                    }
+                }
+
+                this.lastProfileTime = time;
+                this.frameCount = 0;
             }
         }
 

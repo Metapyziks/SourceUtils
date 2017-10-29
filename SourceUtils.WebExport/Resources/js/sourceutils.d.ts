@@ -396,6 +396,9 @@ declare namespace SourceUtils {
         private debugPanelVisible;
         cameraMode: CameraMode;
         showDebugPanel: boolean;
+        totalLoadProgress: number;
+        avgFrameTime: number;
+        avgFrameRate: number;
         constructor(container: HTMLElement);
         loadMap(url: string): void;
         protected onInitialize(): void;
@@ -411,6 +414,10 @@ declare namespace SourceUtils {
         toggleFullscreen(): void;
         protected onKeyDown(key: WebGame.Key): boolean;
         private readonly move;
+        private lastProfileTime;
+        private frameCount;
+        private lastDrawCalls;
+        private allLoaded;
         protected onUpdateFrame(dt: number): void;
         protected onRenderFrame(dt: number): void;
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void;

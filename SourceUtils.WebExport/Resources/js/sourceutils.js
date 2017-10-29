@@ -984,10 +984,13 @@ var SourceUtils;
             _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader(_this));
             _this.cameraMode = CameraMode.Fixed;
             _this.showDebugPanel = false;
+            _this.totalLoadProgress = 0;
             _this.lookAngs = new Facepunch.Vector2();
             _this.tempQuat = new Facepunch.Quaternion();
             _this.lookQuat = new Facepunch.Quaternion();
             _this.move = new Facepunch.Vector3();
+            _this.frameCount = 0;
+            _this.allLoaded = false;
             container.classList.add("map-viewer");
             return _this;
         }
@@ -1024,7 +1027,7 @@ var SourceUtils;
         MapViewer.prototype.onCreateDebugPanel = function () {
             var panel = document.createElement("div");
             panel.classList.add("side-panel");
-            panel.innerHTML = "\n                <span class=\"label\">Frame time:</span>&nbsp;<span id=\"debug-frametime\">0</span>&nbsp;ms<br/>\n                <span class=\"label\">Frame rate:</span>&nbsp;<span id=\"debug-framerate\">0</span>&nbsp;fps<br />\n                <span class=\"label\">Draw calls:</span>&nbsp;<span id=\"debug-drawcalls\">0</span><br />\n                <div id=\"debug-loading\">\n                    <span class=\"label\">Vis loaded:</span>&nbsp;<span id=\"debug-visloaded\">0</span>%<br />\n                    <span class=\"label\">Bsp loaded:</span>&nbsp;<span id=\"debug-bsploaded\">0</span>%<br />\n                    <span class=\"label\">Geom loaded:</span>&nbsp;<span id=\"debug-geomloaded\">0</span>%<br />\n                    <span class=\"label\">Props loaded:</span>&nbsp;<span id=\"debug-propsloaded\">0</span>%<br />\n                    <span class=\"label\">Lightmap loaded:</span>&nbsp;<span id=\"debug-lightmaploaded\">0</span>%<br />\n                    <span class=\"label\">Materials loaded:</span>&nbsp;<span id=\"debug-materialsloaded\">0</span>%<br />\n                </div>";
+            panel.innerHTML = "\n                <span class=\"label\">Frame time:</span>&nbsp;<span id=\"debug-frametime\">0</span>&nbsp;ms<br/>\n                <span class=\"label\">Frame rate:</span>&nbsp;<span id=\"debug-framerate\">0</span>&nbsp;fps<br />\n                <span class=\"label\">Draw calls:</span>&nbsp;<span id=\"debug-drawcalls\">0</span><br />\n                <div id=\"debug-loading\">\n                    <span class=\"label\">Map loaded:</span>&nbsp;<span id=\"debug-loadpercent\">0</span>%<br />\n                </div>";
             this.container.appendChild(panel);
             return panel;
         };
@@ -1134,6 +1137,45 @@ var SourceUtils;
                     this.mainCamera.applyRotationTo(this.move);
                     this.mainCamera.translate(this.move);
                 }
+            }
+            var drawCalls = this.mainCamera.getDrawCalls();
+            if (drawCalls !== this.lastDrawCalls && this.showDebugPanel) {
+                this.lastDrawCalls = drawCalls;
+                $("#debug-drawcalls").text(drawCalls);
+            }
+            ++this.frameCount;
+            var time = performance.now();
+            if (this.lastProfileTime === undefined) {
+                this.lastProfileTime = time;
+            }
+            else if (time - this.lastProfileTime >= 500) {
+                var timeDiff = (time - this.lastProfileTime) / 1000;
+                this.avgFrameTime = timeDiff * 1000 / this.frameCount;
+                this.avgFrameRate = this.frameCount / timeDiff;
+                if (this.showDebugPanel) {
+                    $("#debug-frametime").text(this.avgFrameTime.toPrecision(4));
+                    $("#debug-framerate").text(this.avgFrameRate.toPrecision(4));
+                }
+                if (!this.allLoaded) {
+                    var visLoaded = this.visLoader.getLoadProgress();
+                    var bspLoaded = this.bspModelLoader.getLoadProgress();
+                    var lightmapLoaded = this.map.getLightmapLoadProgress();
+                    var materialsLoaded = this.mapMaterialLoader.getLoadProgress();
+                    var geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
+                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
+                    var propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
+                        + this.studioModelLoader.getLoadProgress() * 0.75;
+                    this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
+                    if (this.showDebugPanel) {
+                        $("#debug-loadpercent").text((this.totalLoadProgress * 100).toPrecision(3));
+                    }
+                    if (this.totalLoadProgress >= 1) {
+                        this.allLoaded = true;
+                        $("#debug-loading").hide();
+                    }
+                }
+                this.lastProfileTime = time;
+                this.frameCount = 0;
             }
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
