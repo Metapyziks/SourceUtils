@@ -538,6 +538,7 @@ declare namespace Facepunch {
             PauseBreak = 19,
             CapsLock = 20,
             Escape = 27,
+            Space = 32,
             PageUp = 33,
             PageDown = 34,
             End = 35,

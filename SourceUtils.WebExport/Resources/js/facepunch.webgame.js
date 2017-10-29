@@ -2518,6 +2518,7 @@ var Facepunch;
             Key[Key["PauseBreak"] = 19] = "PauseBreak";
             Key[Key["CapsLock"] = 20] = "CapsLock";
             Key[Key["Escape"] = 27] = "Escape";
+            Key[Key["Space"] = 32] = "Space";
             Key[Key["PageUp"] = 33] = "PageUp";
             Key[Key["PageDown"] = 34] = "PageDown";
             Key[Key["End"] = 35] = "End";
