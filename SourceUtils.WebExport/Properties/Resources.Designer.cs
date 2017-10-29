@@ -102,6 +102,45 @@ namespace SourceUtils.WebExport.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .map-viewer canvas {
+        ///    width: 100%;
+        ///    height: 100%;
+        ///}
+        ///
+        ///.map-viewer:-webkit-full-screen {
+        ///    top: 0;
+        ///    left: 0;
+        ///    bottom: 0;
+        ///    right: 0;
+        ///}
+        ///
+        ///.map-viewer .side-panel {
+        ///    position: relative;
+        ///    float: right;
+        ///    clear: right;
+        ///    z-index: 32;
+        ///    width: 256px;
+        ///    background-color: rgba(0, 0, 0, 0.25);
+        ///    color: white;
+        ///    font-family: sans-serif;
+        ///    padding: 16px;
+        ///    margin: 8px;
+        ///}
+        ///
+        ///.map-viewer .side-panel .slider {
+        ///    width: 240px;
+        ///    margin: 8px;
+        ///}
+        ///
+        ///.map-viewe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string mapviewer {
+            get {
+                return ResourceManager.GetString("mapviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
         ///    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         ///    function __() { this.constructor = d; }
@@ -119,47 +158,6 @@ namespace SourceUtils.WebExport.Properties {
         internal static string sourceutils {
             get {
                 return ResourceManager.GetString("sourceutils", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #map-view {
-        ///    position: absolute;
-        ///    top: 72px;
-        ///    left: 32px;
-        ///    right: 32px;
-        ///    bottom: 32px;
-        ///    background-color: black;
-        ///}
-        ///
-        ///#map-view canvas {
-        ///    width: 100%;
-        ///    height: 100%;
-        ///}
-        ///
-        ///#map-view:-webkit-full-screen {
-        ///    top: 0;
-        ///    left: 0;
-        ///    bottom: 0;
-        ///    right: 0;
-        ///}
-        ///
-        ///#debug-panel {
-        ///    position: absolute;
-        ///    top: 8px;
-        ///    right: 8px;
-        ///    width: 256px;
-        ///    background-color: rgba(0, 0, 0, 0.25);
-        ///    color: white;
-        ///    font-family: sans-serif;
-        ///    padding: 8px;
-        ///}
-        ///
-        ///#d [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string styles {
-            get {
-                return ResourceManager.GetString("styles", resourceCulture);
             }
         }
     }

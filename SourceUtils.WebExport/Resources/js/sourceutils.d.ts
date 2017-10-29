@@ -376,8 +376,15 @@ declare namespace SourceUtils {
 }
 declare namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
+    enum CameraMode {
+        Fixed = 0,
+        CanLook = 1,
+        CanMove = 2,
+        FreeCam = 3,
+    }
     class MapViewer extends WebGame.Game {
         mainCamera: Entities.Camera;
+        debugPanel: HTMLElement;
         readonly map: Map;
         readonly visLoader: VisLoader;
         readonly bspModelLoader: BspModelLoader;
@@ -386,14 +393,13 @@ declare namespace SourceUtils {
         readonly dispGeometryLoader: DispGeometryLoader;
         readonly studioModelLoader: StudioModelLoader;
         readonly vertLightingLoader: VertexLightingLoader;
-        useDefaultCameraControl: boolean;
-        private time;
-        private frameCount;
-        private lastProfileTime;
-        private lastDrawCalls;
-        private allLoaded;
+        private debugPanelVisible;
+        cameraMode: CameraMode;
+        showDebugPanel: boolean;
+        constructor(container: HTMLElement);
         loadMap(url: string): void;
         protected onInitialize(): void;
+        protected onCreateDebugPanel(): HTMLElement;
         protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void;
         protected onResize(): void;
         private readonly lookAngs;

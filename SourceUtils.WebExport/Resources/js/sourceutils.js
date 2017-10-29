@@ -963,10 +963,17 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
+    var CameraMode;
+    (function (CameraMode) {
+        CameraMode[CameraMode["Fixed"] = 0] = "Fixed";
+        CameraMode[CameraMode["CanLook"] = 1] = "CanLook";
+        CameraMode[CameraMode["CanMove"] = 2] = "CanMove";
+        CameraMode[CameraMode["FreeCam"] = 3] = "FreeCam";
+    })(CameraMode = SourceUtils.CameraMode || (SourceUtils.CameraMode = {}));
     var MapViewer = (function (_super) {
         __extends(MapViewer, _super);
-        function MapViewer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
+        function MapViewer(container) {
+            var _this = _super.call(this, container) || this;
             _this.map = new SourceUtils.Map(_this);
             _this.visLoader = _this.addLoader(new SourceUtils.VisLoader());
             _this.bspModelLoader = _this.addLoader(new SourceUtils.BspModelLoader(_this));
@@ -975,14 +982,13 @@ var SourceUtils;
             _this.dispGeometryLoader = _this.addLoader(new SourceUtils.DispGeometryLoader(_this));
             _this.studioModelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
             _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader(_this));
-            _this.useDefaultCameraControl = true;
-            _this.time = 0;
-            _this.frameCount = 0;
-            _this.allLoaded = false;
+            _this.cameraMode = CameraMode.Fixed;
+            _this.showDebugPanel = false;
             _this.lookAngs = new Facepunch.Vector2();
             _this.tempQuat = new Facepunch.Quaternion();
             _this.lookQuat = new Facepunch.Quaternion();
             _this.move = new Facepunch.Vector3();
+            container.classList.add("map-viewer");
             return _this;
         }
         MapViewer.prototype.loadMap = function (url) {
@@ -992,7 +998,6 @@ var SourceUtils;
             var _this = this;
             this.canLockPointer = true;
             this.mainCamera = new SourceUtils.Entities.Camera(this, 75);
-            this.lastProfileTime = performance.now();
             var deltaAngles = new Facepunch.Vector3();
             var lastRotationSampleTime = new Date().getTime() / 1000;
             var deviceRotate = function (x, y, z, period, toRadians) {
@@ -1016,8 +1021,15 @@ var SourceUtils;
             }
             _super.prototype.onInitialize.call(this);
         };
+        MapViewer.prototype.onCreateDebugPanel = function () {
+            var panel = document.createElement("div");
+            panel.classList.add("side-panel");
+            panel.innerHTML = "\n                <span class=\"label\">Frame time:</span>&nbsp;<span id=\"debug-frametime\">0</span>&nbsp;ms<br/>\n                <span class=\"label\">Frame rate:</span>&nbsp;<span id=\"debug-framerate\">0</span>&nbsp;fps<br />\n                <span class=\"label\">Draw calls:</span>&nbsp;<span id=\"debug-drawcalls\">0</span><br />\n                <div id=\"debug-loading\">\n                    <span class=\"label\">Vis loaded:</span>&nbsp;<span id=\"debug-visloaded\">0</span>%<br />\n                    <span class=\"label\">Bsp loaded:</span>&nbsp;<span id=\"debug-bsploaded\">0</span>%<br />\n                    <span class=\"label\">Geom loaded:</span>&nbsp;<span id=\"debug-geomloaded\">0</span>%<br />\n                    <span class=\"label\">Props loaded:</span>&nbsp;<span id=\"debug-propsloaded\">0</span>%<br />\n                    <span class=\"label\">Lightmap loaded:</span>&nbsp;<span id=\"debug-lightmaploaded\">0</span>%<br />\n                    <span class=\"label\">Materials loaded:</span>&nbsp;<span id=\"debug-materialsloaded\">0</span>%<br />\n                </div>";
+            this.container.appendChild(panel);
+            return panel;
+        };
         MapViewer.prototype.onDeviceRotate = function (deltaAngles) {
-            if (!this.useDefaultCameraControl)
+            if ((this.cameraMode & CameraMode.CanLook) === 0)
                 return;
             if (window.innerWidth > window.innerHeight) {
                 this.lookAngs.x += deltaAngles.z;
@@ -1050,7 +1062,7 @@ var SourceUtils;
         };
         MapViewer.prototype.onMouseLook = function (delta) {
             _super.prototype.onMouseLook.call(this, delta);
-            if (!this.useDefaultCameraControl)
+            if ((this.cameraMode & CameraMode.CanLook) === 0)
                 return;
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
             this.updateCameraAngles();
@@ -1079,8 +1091,6 @@ var SourceUtils;
         };
         MapViewer.prototype.onKeyDown = function (key) {
             _super.prototype.onKeyDown.call(this, key);
-            if (!this.isPointerLocked())
-                return false;
             switch (key) {
                 case WebGame.Key.F:
                     this.toggleFullscreen();
@@ -1090,28 +1100,40 @@ var SourceUtils;
                 case WebGame.Key.S:
                 case WebGame.Key.D:
                 case WebGame.Key.Shift:
-                    return this.useDefaultCameraControl;
+                    return this.isPointerLocked() && (this.cameraMode & CameraMode.CanMove) !== 0;
                 default:
                     return false;
             }
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
-            if (!this.useDefaultCameraControl || !this.isPointerLocked())
-                return;
-            this.move.set(0, 0, 0);
-            var moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
-            if (this.isKeyDown(WebGame.Key.W))
-                this.move.z -= moveSpeed;
-            if (this.isKeyDown(WebGame.Key.S))
-                this.move.z += moveSpeed;
-            if (this.isKeyDown(WebGame.Key.A))
-                this.move.x -= moveSpeed;
-            if (this.isKeyDown(WebGame.Key.D))
-                this.move.x += moveSpeed;
-            if (this.move.lengthSq() > 0) {
-                this.mainCamera.applyRotationTo(this.move);
-                this.mainCamera.translate(this.move);
+            if (this.showDebugPanel !== this.debugPanelVisible) {
+                this.debugPanelVisible = this.showDebugPanel;
+                if (this.showDebugPanel && this.debugPanel === undefined) {
+                    this.debugPanel = this.onCreateDebugPanel();
+                }
+                if (this.debugPanel != null) {
+                    if (this.showDebugPanel)
+                        this.debugPanel.style.display = null;
+                    else
+                        this.debugPanel.style.display = "none";
+                }
+            }
+            if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked()) {
+                this.move.set(0, 0, 0);
+                var moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
+                if (this.isKeyDown(WebGame.Key.W))
+                    this.move.z -= moveSpeed;
+                if (this.isKeyDown(WebGame.Key.S))
+                    this.move.z += moveSpeed;
+                if (this.isKeyDown(WebGame.Key.A))
+                    this.move.x -= moveSpeed;
+                if (this.isKeyDown(WebGame.Key.D))
+                    this.move.x += moveSpeed;
+                if (this.move.lengthSq() > 0) {
+                    this.mainCamera.applyRotationTo(this.move);
+                    this.mainCamera.translate(this.move);
+                }
             }
         };
         MapViewer.prototype.onRenderFrame = function (dt) {
@@ -1121,42 +1143,6 @@ var SourceUtils;
             gl.depthFunc(gl.LEQUAL);
             gl.cullFace(gl.FRONT);
             this.mainCamera.render();
-            var drawCalls = this.mainCamera.getDrawCalls();
-            if (drawCalls !== this.lastDrawCalls) {
-                this.lastDrawCalls = drawCalls;
-                $("#debug-drawcalls").text(drawCalls);
-            }
-            ++this.frameCount;
-            var time = performance.now();
-            if (time - this.lastProfileTime >= 500) {
-                var timeDiff = (time - this.lastProfileTime) / 1000;
-                var frameTime = (timeDiff * 1000 / this.frameCount).toPrecision(4);
-                var frameRate = (this.frameCount / timeDiff).toPrecision(4);
-                $("#debug-frametime").text(frameTime);
-                $("#debug-framerate").text(frameRate);
-                if (!this.allLoaded) {
-                    var visLoaded = this.visLoader.getLoadProgress();
-                    var bspLoaded = this.bspModelLoader.getLoadProgress();
-                    var lightmapLoaded = this.map.getLightmapLoadProgress();
-                    var materialsLoaded = this.mapMaterialLoader.getLoadProgress();
-                    var geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
-                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
-                    var propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
-                        + this.studioModelLoader.getLoadProgress() * 0.75;
-                    $("#debug-visloaded").text((visLoaded * 100).toPrecision(3));
-                    $("#debug-bsploaded").text((bspLoaded * 100).toPrecision(3));
-                    $("#debug-geomloaded").text((geomLoaded * 100).toPrecision(3));
-                    $("#debug-propsloaded").text((propsLoaded * 100).toPrecision(3));
-                    $("#debug-lightmaploaded").text((lightmapLoaded * 100).toPrecision(3));
-                    $("#debug-materialsloaded").text((materialsLoaded * 100).toPrecision(3));
-                    if (visLoaded * bspLoaded * lightmapLoaded * materialsLoaded * geomLoaded * propsLoaded === 1) {
-                        this.allLoaded = true;
-                        $("#debug-loading").hide();
-                    }
-                }
-                this.lastProfileTime = time;
-                this.frameCount = 0;
-            }
         };
         MapViewer.prototype.populateCommandBufferParameters = function (buf) {
             _super.prototype.populateCommandBufferParameters.call(this, buf);

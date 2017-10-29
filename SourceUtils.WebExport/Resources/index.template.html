@@ -10,6 +10,16 @@
         <script src="${facepunchWebGame}"></script>
         <script src="${sourceUtils}"></script>
         <link type="text/css" rel="stylesheet" href="${styles}" />
+        <style>
+            #map-view {
+                position: absolute;
+                top: 72px;
+                left: 32px;
+                right: 32px;
+                bottom: 32px;
+                background-color: black;
+            }
+        </style>
     </head>
     <body>
     <h2>Source Map Viewer Demo - ${mapName}</h2>
@@ -18,23 +28,12 @@
             var viewer;
             window.onload = function() {
                 viewer = new SourceUtils.MapViewer($("#map-view")[0]);
+                viewer.cameraMode = SourceUtils.CameraMode.FreeCam;
+                viewer.showDebugPanel = true;
                 viewer.loadMap("${mapIndexJson}");
                 viewer.animate();
             }
         </script>
-        <div id="debug-panel">
-            <span class="debug-label">Frame time:</span>&nbsp;<span id="debug-frametime"></span>&nbsp;ms<br/>
-            <span class="debug-label">Frame rate:</span>&nbsp;<span id="debug-framerate"></span>&nbsp;fps<br />
-            <span class="debug-label">Draw calls:</span>&nbsp;<span id="debug-drawcalls"></span><br />
-            <div id="debug-loading">
-                <span class="debug-label">Vis loaded:</span>&nbsp;<span id="debug-visloaded"></span>%<br />
-                <span class="debug-label">Bsp loaded:</span>&nbsp;<span id="debug-bsploaded"></span>%<br />
-                <span class="debug-label">Geom loaded:</span>&nbsp;<span id="debug-geomloaded"></span>%<br />
-                <span class="debug-label">Props loaded:</span>&nbsp;<span id="debug-propsloaded"></span>%<br />
-                <span class="debug-label">Lightmap loaded:</span>&nbsp;<span id="debug-lightmaploaded"></span>%<br />
-                <span class="debug-label">Materials loaded:</span>&nbsp;<span id="debug-materialsloaded"></span>%<br />
-            </div>
-        </div>
     </div>
     </body>
 </html>

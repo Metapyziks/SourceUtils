@@ -185,7 +185,7 @@
     <Content Include="Resources\index.template.html" />
     <Content Include="Resources\js\facepunch.webgame.js" />
     <Content Include="Resources\js\sourceutils.js" />
-    <Content Include="Resources\mapview-styles.css" />
+    <Content Include="Resources\styles\mapviewer.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">

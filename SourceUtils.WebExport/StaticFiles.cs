@@ -15,7 +15,7 @@ namespace SourceUtils.WebExport
             {
                 {"/js/facepunch.webgame.js", Properties.Resources.facepunch_webgame},
                 {"/js/sourceutils.js", Properties.Resources.sourceutils},
-                {"/mapview-styles.css", Properties.Resources.styles}
+                {"/styles/mapviewer.css", Properties.Resources.mapviewer}
             };
 
         class StaticController : Controller

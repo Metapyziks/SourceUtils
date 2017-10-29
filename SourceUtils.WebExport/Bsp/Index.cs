@@ -68,7 +68,7 @@ namespace SourceUtils.WebExport.Bsp
                 mapIndexJson => (Url) $"/maps/{map}/index.json",
                 facepunchWebGame => (Url) "/js/facepunch.webgame.js",
                 sourceUtils => (Url) "/js/sourceutils.js",
-                styles => (Url) "/mapview-styles.css" );
+                styles => (Url) "/styles/mapviewer.css" );
         }
 
         private static int DefaultItemSizeSelect( int index )

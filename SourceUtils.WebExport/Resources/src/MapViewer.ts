@@ -4,8 +4,16 @@
 namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
 
+    export enum CameraMode {
+        Fixed = 0,
+        CanLook = 1,
+        CanMove = 2,
+        FreeCam = CanLook | CanMove
+    }
+
     export class MapViewer extends WebGame.Game {
         mainCamera: Entities.Camera;
+        debugPanel: HTMLElement;
 
         readonly map = new Map(this);
         readonly visLoader = this.addLoader(new VisLoader());
@@ -16,13 +24,16 @@ namespace SourceUtils {
         readonly studioModelLoader = this.addLoader(new StudioModelLoader(this));
         readonly vertLightingLoader = this.addLoader(new VertexLightingLoader(this));
 
-        useDefaultCameraControl = true;
+        private debugPanelVisible: boolean;
 
-        private time = 0;
-        private frameCount = 0;
-        private lastProfileTime: number;
-        private lastDrawCalls: number;
-        private allLoaded = false;
+        cameraMode = CameraMode.Fixed;
+        showDebugPanel = false;
+
+        constructor(container: HTMLElement) {
+            super(container);
+
+            container.classList.add("map-viewer");
+        }
 
         loadMap(url: string): void {
             this.map.load(url);
@@ -32,8 +43,6 @@ namespace SourceUtils {
             this.canLockPointer = true;
 
             this.mainCamera = new Entities.Camera(this, 75);
-
-            this.lastProfileTime = performance.now();
 
             const deltaAngles = new Facepunch.Vector3();
             let lastRotationSampleTime = new Date().getTime() / 1000;
@@ -67,8 +76,28 @@ namespace SourceUtils {
             super.onInitialize();
         }
 
+        protected onCreateDebugPanel(): HTMLElement {
+            const panel = document.createElement("div");
+            panel.classList.add("side-panel");
+            panel.innerHTML = `
+                <span class="label">Frame time:</span>&nbsp;<span id="debug-frametime">0</span>&nbsp;ms<br/>
+                <span class="label">Frame rate:</span>&nbsp;<span id="debug-framerate">0</span>&nbsp;fps<br />
+                <span class="label">Draw calls:</span>&nbsp;<span id="debug-drawcalls">0</span><br />
+                <div id="debug-loading">
+                    <span class="label">Vis loaded:</span>&nbsp;<span id="debug-visloaded">0</span>%<br />
+                    <span class="label">Bsp loaded:</span>&nbsp;<span id="debug-bsploaded">0</span>%<br />
+                    <span class="label">Geom loaded:</span>&nbsp;<span id="debug-geomloaded">0</span>%<br />
+                    <span class="label">Props loaded:</span>&nbsp;<span id="debug-propsloaded">0</span>%<br />
+                    <span class="label">Lightmap loaded:</span>&nbsp;<span id="debug-lightmaploaded">0</span>%<br />
+                    <span class="label">Materials loaded:</span>&nbsp;<span id="debug-materialsloaded">0</span>%<br />
+                </div>`;
+
+            this.container.appendChild(panel);
+            return panel;
+        }
+
         protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void {
-            if (!this.useDefaultCameraControl) return;
+            if ((this.cameraMode & CameraMode.CanLook) === 0) return;
             if (window.innerWidth > window.innerHeight) {
                 this.lookAngs.x += deltaAngles.z;
                 this.lookAngs.y -= deltaAngles.x;
@@ -109,7 +138,7 @@ namespace SourceUtils {
         protected onMouseLook(delta: Facepunch.Vector2): void {
             super.onMouseLook(delta);
 
-            if (!this.useDefaultCameraControl) return;
+            if ((this.cameraMode & CameraMode.CanLook) === 0) return;
 
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
             this.updateCameraAngles();
@@ -136,8 +165,6 @@ namespace SourceUtils {
         protected onKeyDown(key: WebGame.Key): boolean {
             super.onKeyDown(key);
 
-            if (!this.isPointerLocked()) return false;
-
             switch (key) {
                 case WebGame.Key.F:
                     this.toggleFullscreen();
@@ -147,7 +174,7 @@ namespace SourceUtils {
                 case WebGame.Key.S:
                 case WebGame.Key.D:
                 case WebGame.Key.Shift:
-                    return this.useDefaultCameraControl;
+                    return this.isPointerLocked() && (this.cameraMode & CameraMode.CanMove) !== 0;
                 default:
                     return false;
             }
@@ -158,19 +185,32 @@ namespace SourceUtils {
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
-            if (!this.useDefaultCameraControl || !this.isPointerLocked()) return;
+            if (this.showDebugPanel !== this.debugPanelVisible) {
+                this.debugPanelVisible = this.showDebugPanel;
 
-            this.move.set(0, 0, 0);
-            const moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
+                if (this.showDebugPanel && this.debugPanel === undefined) {
+                    this.debugPanel = this.onCreateDebugPanel();
+                }
 
-            if (this.isKeyDown(WebGame.Key.W)) this.move.z -= moveSpeed;
-            if (this.isKeyDown(WebGame.Key.S)) this.move.z += moveSpeed;
-            if (this.isKeyDown(WebGame.Key.A)) this.move.x -= moveSpeed;
-            if (this.isKeyDown(WebGame.Key.D)) this.move.x += moveSpeed;
+                if (this.debugPanel != null) {
+                    if (this.showDebugPanel) this.debugPanel.style.display = null;
+                    else this.debugPanel.style.display = "none";
+                }
+            }
 
-            if (this.move.lengthSq() > 0) {
-                this.mainCamera.applyRotationTo(this.move);
-                this.mainCamera.translate(this.move);
+            if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked()) {
+                this.move.set(0, 0, 0);
+                const moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
+
+                if (this.isKeyDown(WebGame.Key.W)) this.move.z -= moveSpeed;
+                if (this.isKeyDown(WebGame.Key.S)) this.move.z += moveSpeed;
+                if (this.isKeyDown(WebGame.Key.A)) this.move.x -= moveSpeed;
+                if (this.isKeyDown(WebGame.Key.D)) this.move.x += moveSpeed;
+
+                if (this.move.lengthSq() > 0) {
+                    this.mainCamera.applyRotationTo(this.move);
+                    this.mainCamera.translate(this.move);
+                }
             }
         }
 
@@ -184,53 +224,6 @@ namespace SourceUtils {
             gl.cullFace(gl.FRONT);
 
             this.mainCamera.render();
-
-            const drawCalls = this.mainCamera.getDrawCalls();
-            if (drawCalls !== this.lastDrawCalls) {
-                this.lastDrawCalls = drawCalls;
-                $("#debug-drawcalls").text(drawCalls);
-            }
-
-            ++this.frameCount;
-            const time = performance.now();
-
-            if (time - this.lastProfileTime >= 500) {
-
-                const timeDiff = (time - this.lastProfileTime) / 1000;
-                const frameTime = (timeDiff * 1000 / this.frameCount).toPrecision(4);
-                const frameRate = (this.frameCount / timeDiff).toPrecision(4);
-
-                $("#debug-frametime").text(frameTime);
-                $("#debug-framerate").text(frameRate);
-
-                if (!this.allLoaded) {
-                    const visLoaded = this.visLoader.getLoadProgress();
-                    const bspLoaded = this.bspModelLoader.getLoadProgress();
-                    const lightmapLoaded = this.map.getLightmapLoadProgress();
-                    const materialsLoaded = this.mapMaterialLoader.getLoadProgress();
-
-                    const geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
-                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
-
-                    const propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
-                        + this.studioModelLoader.getLoadProgress() * 0.75;
-
-                    $("#debug-visloaded").text((visLoaded * 100).toPrecision(3));
-                    $("#debug-bsploaded").text((bspLoaded * 100).toPrecision(3));
-                    $("#debug-geomloaded").text((geomLoaded * 100).toPrecision(3));
-                    $("#debug-propsloaded").text((propsLoaded * 100).toPrecision(3));
-                    $("#debug-lightmaploaded").text((lightmapLoaded * 100).toPrecision(3));
-                    $("#debug-materialsloaded").text((materialsLoaded * 100).toPrecision(3));
-
-                    if (visLoaded * bspLoaded * lightmapLoaded * materialsLoaded * geomLoaded * propsLoaded === 1) {
-                        this.allLoaded = true;
-                        $("#debug-loading").hide();
-                    }
-                }
-
-                this.lastProfileTime = time;
-                this.frameCount = 0;
-            }
         }
 
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void {
