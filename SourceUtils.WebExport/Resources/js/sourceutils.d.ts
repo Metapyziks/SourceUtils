@@ -418,6 +418,7 @@ declare namespace SourceUtils {
         private frameCount;
         private lastDrawCalls;
         private allLoaded;
+        protected onSetDebugText(id: string, value: string): void;
         protected onUpdateFrame(dt: number): void;
         protected onRenderFrame(dt: number): void;
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void;

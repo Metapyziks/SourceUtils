@@ -187,6 +187,20 @@ namespace SourceUtils {
         private lastDrawCalls: number;
         private allLoaded = false;
 
+        protected onSetDebugText(id: string, value: string): void {
+            const elem = document.getElementById(id);
+            if (elem != null) {
+                elem.innerText = value;
+            }
+
+            if (id === "debug-loadpercent" && parseInt(value) >= 100) {
+                const loading = document.getElementById("debug-loading");
+                if (loading != null) {
+                    loading.style.display = "none";
+                }
+            }
+        }
+
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
@@ -221,7 +235,7 @@ namespace SourceUtils {
             const drawCalls = this.mainCamera.getDrawCalls();
             if (drawCalls !== this.lastDrawCalls && this.showDebugPanel) {
                 this.lastDrawCalls = drawCalls;
-                $("#debug-drawcalls").text(drawCalls);
+                this.onSetDebugText("debug-drawcalls", drawCalls.toString());
             }
 
             ++this.frameCount;
@@ -235,8 +249,8 @@ namespace SourceUtils {
                 this.avgFrameRate = this.frameCount / timeDiff;
 
                 if (this.showDebugPanel) {
-                    $("#debug-frametime").text(this.avgFrameTime.toPrecision(4));
-                    $("#debug-framerate").text(this.avgFrameRate.toPrecision(4));
+                    this.onSetDebugText("debug-frametime", this.avgFrameTime.toPrecision(4));
+                    this.onSetDebugText("debug-framerate", this.avgFrameRate.toPrecision(4));
                 }
 
                 if (!this.allLoaded) {
@@ -254,12 +268,11 @@ namespace SourceUtils {
                     this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
 
                     if (this.showDebugPanel) {
-                        $("#debug-loadpercent").text((this.totalLoadProgress * 100).toPrecision(3));
+                        this.onSetDebugText("debug-loadpercent", (this.totalLoadProgress * 100).toPrecision(3));
                     }
 
                     if (this.totalLoadProgress >= 1) {
                         this.allLoaded = true;
-                        $("#debug-loading").hide();
                     }
                 }
 

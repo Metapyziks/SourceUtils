@@ -1108,6 +1108,18 @@ var SourceUtils;
                     return false;
             }
         };
+        MapViewer.prototype.onSetDebugText = function (id, value) {
+            var elem = document.getElementById(id);
+            if (elem != null) {
+                elem.innerText = value;
+            }
+            if (id === "debug-loadpercent" && parseInt(value) >= 100) {
+                var loading = document.getElementById("debug-loading");
+                if (loading != null) {
+                    loading.style.display = "none";
+                }
+            }
+        };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
             if (this.showDebugPanel !== this.debugPanelVisible) {
@@ -1141,7 +1153,7 @@ var SourceUtils;
             var drawCalls = this.mainCamera.getDrawCalls();
             if (drawCalls !== this.lastDrawCalls && this.showDebugPanel) {
                 this.lastDrawCalls = drawCalls;
-                $("#debug-drawcalls").text(drawCalls);
+                this.onSetDebugText("debug-drawcalls", drawCalls.toString());
             }
             ++this.frameCount;
             var time = performance.now();
@@ -1153,8 +1165,8 @@ var SourceUtils;
                 this.avgFrameTime = timeDiff * 1000 / this.frameCount;
                 this.avgFrameRate = this.frameCount / timeDiff;
                 if (this.showDebugPanel) {
-                    $("#debug-frametime").text(this.avgFrameTime.toPrecision(4));
-                    $("#debug-framerate").text(this.avgFrameRate.toPrecision(4));
+                    this.onSetDebugText("debug-frametime", this.avgFrameTime.toPrecision(4));
+                    this.onSetDebugText("debug-framerate", this.avgFrameRate.toPrecision(4));
                 }
                 if (!this.allLoaded) {
                     var visLoaded = this.visLoader.getLoadProgress();
@@ -1167,11 +1179,10 @@ var SourceUtils;
                         + this.studioModelLoader.getLoadProgress() * 0.75;
                     this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
                     if (this.showDebugPanel) {
-                        $("#debug-loadpercent").text((this.totalLoadProgress * 100).toPrecision(3));
+                        this.onSetDebugText("debug-loadpercent", (this.totalLoadProgress * 100).toPrecision(3));
                     }
                     if (this.totalLoadProgress >= 1) {
                         this.allLoaded = true;
-                        $("#debug-loading").hide();
                     }
                 }
                 this.lastProfileTime = time;

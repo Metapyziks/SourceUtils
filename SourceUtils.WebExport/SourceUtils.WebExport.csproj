@@ -179,7 +179,6 @@
     <TypeScriptCompile Include="Resources\src\SkyCube.ts" />
     <TypeScriptCompile Include="Resources\src\StudioModel.ts" />
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
-    <TypeScriptCompile Include="Resources\js\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\index.template.html" />
