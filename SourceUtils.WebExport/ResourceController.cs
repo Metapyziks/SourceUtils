@@ -85,7 +85,7 @@ namespace SourceUtils.WebExport
         public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer )
         {
             var url = (Url) value;
-            var encoded = HttpUtility.UrlEncode( url.Value ).Replace( "%2f", "/" );
+            var encoded = HttpUtility.UrlEncode( url.Value ).Replace( "%2f", "/" ).Replace( "+", "%20" );
             var suffix = ShouldAppendVersionSuffix(url) ? $"?v={GetTimeHash()}" : "";
 
             if ( url.Export && Program.IsExporting )
