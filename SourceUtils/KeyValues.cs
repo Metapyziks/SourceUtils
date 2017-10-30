@@ -64,25 +64,39 @@ namespace SourceUtils
                 return float.TryParse( entry, NumberStyles.Float, CultureInfo.InvariantCulture, out var result ) ? result : 0f;
             }
 
-            private static readonly Regex _sColorRegex = new Regex( @"^\s*\{\s*(?<red>[0-9]+)\s+(?<green>[0-9]+)\s+(?<blue>[0-9]+)\s*\}\s*$" );
+            private static readonly Regex _sColor32Regex = new Regex( @"^\s*\{\s*(?<red>[0-9]+)\s+(?<green>[0-9]+)\s+(?<blue>[0-9]+)\s*\}\s*$" );
+            private static readonly Regex _sColorFloatRegex = new Regex( @"^\s*\[\s*(?<red>[0-9]+|([0-9]+)?\.[0-9]+)\s+(?<green>[0-9]+|([0-9]+)?\.[0-9]+)\s+(?<blue>[0-9]+|([0-9]+)?\.[0-9]+)\s*\]\s*$" );
 
             public static implicit operator Color32( Entry entry )
             {
                 var value = (string) entry;
-                var match = _sColorRegex.Match( value );
+                var match = _sColor32Regex.Match( value );
 
-                if ( !match.Success )
+                if ( match.Success )
                 {
-                    return new Color32( 0xff, 0x00, 0xff );
+                    return new Color32
+                    {
+                        R = (byte) int.Parse( match.Groups["red"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture ),
+                        G = (byte) int.Parse( match.Groups["green"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture ),
+                        B = (byte) int.Parse( match.Groups["blue"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture ),
+                        A = 255
+                    };
                 }
 
-                return new Color32
+                match = _sColorFloatRegex.Match( value );
+
+                if ( match.Success )
                 {
-                    R = (byte) int.Parse( match.Groups["red"].Value ),
-                    G = (byte) int.Parse( match.Groups["green"].Value ),
-                    B = (byte) int.Parse( match.Groups["blue"].Value ),
-                    A = 255
-                };
+                    return new Color32
+                    {
+                        R = (byte) Math.Round(float.Parse( match.Groups["red"].Value, NumberStyles.Float, CultureInfo.InvariantCulture ) * 255f),
+                        G = (byte) Math.Round(float.Parse( match.Groups["green"].Value, NumberStyles.Float, CultureInfo.InvariantCulture ) * 255f),
+                        B = (byte) Math.Round(float.Parse( match.Groups["blue"].Value, NumberStyles.Float, CultureInfo.InvariantCulture ) * 255f),
+                        A = 255
+                    };
+                }
+
+                return new Color32( 0xff, 0x00, 0xff );
             }
 
             public static Entry Null { get; } = new Entry();
@@ -162,6 +176,11 @@ namespace SourceUtils
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return GetEnumerator();
+            }
+
+            public override string ToString()
+            {
+                return IsNull ? "null" : HasValue ? Value : $"KeyValues[{_subEntries.Count}]";
             }
         }
 

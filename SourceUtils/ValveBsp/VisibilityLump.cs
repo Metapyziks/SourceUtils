@@ -94,6 +94,12 @@ namespace SourceUtils
 
                     using ( var reader = new BinaryReader( _bspFile.GetLumpStream( LumpType ) ) )
                     {
+                        if ( reader.BaseStream.Length == 0 )
+                        {
+                            _numClusters = 0;
+                            return;
+                        }
+
                         _numClusters = reader.ReadInt32();
                         _vpsList = new HashSet<int>[_numClusters];
                         _offsets = LumpReader<ByteOffset>.ReadLumpFromStream( reader.BaseStream, _numClusters );

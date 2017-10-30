@@ -10,10 +10,14 @@ namespace SourceUtils {
             fogColor = new Facepunch.Vector3(1, 1, 1);
             translucent = true;
             refract = true;
+            refractTint = new Facepunch.Vector3(1, 1, 1);
+            normalMap: WebGame.Texture = null;
             cullFace = false;
         }
 
         export class Water extends LightmappedBase<WaterMaterial> {
+            uCameraPos = this.addUniform("uCameraPos", WebGame.Uniform3F);
+
             uInverseProjection = this.addUniform("uInverseProjection", WebGame.UniformMatrix4);
             uInverseView = this.addUniform("uInverseView", WebGame.UniformMatrix4);
 
@@ -24,6 +28,9 @@ namespace SourceUtils {
 
             uWaterFogParams = this.addUniform("uWaterFogParams", WebGame.Uniform4F);
             uWaterFogColor = this.addUniform("uWaterFogColor", WebGame.Uniform3F);
+
+            uNormalMap = this.addUniform("uNormalMap", WebGame.UniformSampler);
+            uRefractTint = this.addUniform("uRefractTint", WebGame.Uniform3F);
 
             constructor(context: WebGLRenderingContext) {
                 super(context, WaterMaterial);
@@ -41,6 +48,8 @@ namespace SourceUtils {
                 this.includeShaderSource(gl.FRAGMENT_SHADER, `
                     precision mediump float;
 
+                    uniform vec3 ${this.uCameraPos};
+
                     uniform vec4 ${this.uScreenParams};
                     uniform highp mat4 ${this.uProjection};
                     uniform mat4 ${this.uInverseProjection};
@@ -51,6 +60,9 @@ namespace SourceUtils {
 
                     uniform vec4 ${this.uWaterFogParams};
                     uniform vec3 ${this.uWaterFogColor};
+
+                    uniform sampler2D ${this.uNormalMap};
+                    uniform vec3 ${this.uRefractTint};
 
                     vec4 CalcEyeFromWindow(in vec3 fragCoord)
                     {
@@ -74,12 +86,18 @@ namespace SourceUtils {
                     {
                         vec2 screenPos = gl_FragCoord.xy * ${this.uScreenParams}.zw;
 
+                        vec3 normal = normalize(texture2D(${this.uNormalMap}, vTextureCoord).xyz - vec3(0.5, 0.5, 0.5));
                         vec3 surfacePos = GetWorldPos(gl_FragCoord.z);
+                        vec3 viewDir = normalize(surfacePos - uCameraPos);
+
                         float opaqueDepthSample = texture2D(${this.uOpaqueDepth}, screenPos).r;
                         vec3 opaquePos = GetWorldPos(opaqueDepthSample);
-                        vec3 opaqueColor = texture2D(${this.uOpaqueColor}, screenPos).rgb;
-
                         float opaqueDepth = surfacePos.z - opaquePos.z;
+                        vec2 refractedScreenPos = screenPos + normal.xy * opaqueDepth * 1.0 / 512.0;
+                        float refractedOpaqueDepthSample = texture2D(${this.uOpaqueDepth}, refractedScreenPos).r;
+                        vec3 opaqueColor = texture2D(${this.uOpaqueColor},
+                            refractedOpaqueDepthSample > gl_FragCoord.z ? refractedScreenPos : screenPos).rgb * ${this.uRefractTint};
+
                         float relativeDepth = mix((opaqueDepth - ${this.uWaterFogParams}.x) * ${this.uWaterFogParams}.y, 1.0, float(opaqueDepthSample >= 0.99999));
                         float fogDensity = max(${this.uWaterFogParams}.z, min(${this.uWaterFogParams}.w, relativeDepth));
 
@@ -91,12 +109,15 @@ namespace SourceUtils {
                 this.uOpaqueColor.setDefault(WebGame.TextureUtils.getErrorTexture(context));
                 this.uOpaqueDepth.setDefault(WebGame.TextureUtils.getBlackTexture(context));
 
+                this.uNormalMap.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+
                 this.compile();
             }
 
             bufferSetup(buf: Facepunch.WebGame.CommandBuffer): void {
                 super.bufferSetup(buf);
 
+                this.uCameraPos.bufferParameter(buf, WebGame.Camera.cameraPosParam);
                 this.uScreenParams.bufferParameter(buf, WebGame.Game.screenInfoParam);
 
                 this.uInverseProjection.bufferParameter(buf, WebGame.Camera.inverseProjectionMatrixParam);
@@ -108,6 +129,9 @@ namespace SourceUtils {
 
                 this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
                 this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
+
+                this.uNormalMap.bufferValue(buf, props.normalMap);
+                this.uRefractTint.bufferValue(buf, props.refractTint.x, props.refractTint.y, props.refractTint.z);
 
                 if (props.translucent) {
                     this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);

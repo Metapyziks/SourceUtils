@@ -432,6 +432,7 @@ namespace SourceUtils.WebExport.Bsp
             switch ( shader.ToLower() )
             {
                 case "lightmappedgeneric":
+                case "lightmappedreflective":
                 case "water":
                     dest.Add( VertexAttribute.Uv2 );
                     break;

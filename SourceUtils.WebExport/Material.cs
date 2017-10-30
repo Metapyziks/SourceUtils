@@ -124,6 +124,7 @@ namespace SourceUtils.WebExport
             switch (shader.ToLower())
             {
                 case "lightmappedgeneric":
+                case "lightmappedreflective":
                     {
                         mat.Shader = "SourceUtils.Shaders.LightmappedGeneric";
                         break;
@@ -223,6 +224,9 @@ namespace SourceUtils.WebExport
                     case "$reflecttint":
                         mat.SetColor("reflectTint", new MaterialColor(value));
                         break;
+                    case "$refracttint":
+                        mat.SetColor("refractTint", new MaterialColor(value));
+                        break;
                     case "$refractamount":
                         mat.SetNumber("refractAmount", value);
                         break;
@@ -268,6 +272,8 @@ namespace SourceUtils.WebExport
             {
                 var matPath = $"materials/skybox/{skyName}{postfixes[face]}.vmt";
                 var mat = Get( bsp, matPath );
+
+                if ( mat == null ) continue;
 
                 var texProp = mat.Properties.FirstOrDefault( x => x.Name == "hdrcompressedtexture")
                     ?? mat.Properties.First(x => x.Name == "basetexture");

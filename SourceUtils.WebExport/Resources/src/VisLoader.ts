@@ -14,6 +14,11 @@
     }
 
     export class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
+        constructor() {
+            super();
+            this.throwIfNotFound = false;
+        }
+
         protected onCreatePage(page: IPageInfo): VisPage {
             return new VisPage(page);
         }

@@ -71,6 +71,8 @@
 
         protected abstract onCreatePage(page: IPageInfo): TPage;
 
+        throwIfNotFound = true;
+
         getLoadProgress(): number {
             return this.pages == null ? 0 : this.loadProgress / this.pages.length;
         }
@@ -87,7 +89,9 @@
                 }
             }
 
-            throw new Error(`Unable to find page for index ${index}.`);
+            if (this.throwIfNotFound) {
+                throw new Error(`Unable to find page for index ${index}.`);
+            }
         }
 
         setPageLayout(pages: IPageInfo[]): void {
