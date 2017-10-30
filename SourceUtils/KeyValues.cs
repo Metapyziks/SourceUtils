@@ -51,7 +51,7 @@ namespace SourceUtils
 
             public static implicit operator bool( Entry entry )
             {
-                return bool.TryParse( entry, out var result ) && result;
+                return (int) entry != 0;
             }
 
             public static implicit operator int( Entry entry )
