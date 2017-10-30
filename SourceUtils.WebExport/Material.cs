@@ -157,73 +157,74 @@ namespace SourceUtils.WebExport
                     }
             }
 
-            foreach (var name in props.PropertyNames)
+            foreach (var name in props.Keys)
             {
+                var value = props[name];
                 switch (name.ToLower())
                 {
                     case "$basetexture":
-                        mat.SetTextureUrl("basetexture", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("basetexture", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$hdrcompressedtexture":
-                        mat.SetTextureUrl("hdrcompressedtexture", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("hdrcompressedtexture", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$texture2":
                     case "$basetexture2":
-                        mat.SetTextureUrl("basetexture2", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("basetexture2", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$detail":
-                        mat.SetTextureUrl("detail", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("detail", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$blendmodulatetexture":
-                        mat.SetTextureUrl("blendModulateTexture", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("blendModulateTexture", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$normalmap":
-                        mat.SetTextureUrl("normalMap", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("normalMap", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$simpleoverlay":
-                        mat.SetTextureUrl("simpleOverlay", GetTextureUrl(props[name], vmtPath, bsp));
+                        mat.SetTextureUrl("simpleOverlay", GetTextureUrl(value, vmtPath, bsp));
                         break;
                     case "$nofog":
-                        mat.SetBoolean("fogEnabled", !props.GetBoolean(name));
+                        mat.SetBoolean("fogEnabled", !value);
                         break;
                     case "$alphatest":
-                        if (!Program.BaseOptions.Untextured) mat.SetBoolean("alphaTest", props.GetBoolean(name));
+                        if (!Program.BaseOptions.Untextured) mat.SetBoolean("alphaTest", !value);
                         break;
                     case "$translucent":
-                        mat.SetBoolean("translucent", props.GetBoolean(name));
+                        mat.SetBoolean("translucent", value);
                         break;
                     case "$refract":
-                        mat.SetBoolean("refract", props.GetBoolean(name));
+                        mat.SetBoolean("refract", value);
                         break;
                     case "$alpha":
-                        mat.SetNumber("alpha", props.GetSingle(name));
+                        mat.SetNumber("alpha", value);
                         break;
                     case "$detailscale":
-                        mat.SetNumber("detailScale", props.GetSingle(name));
+                        mat.SetNumber("detailScale", value);
                         break;
                     case "$nocull":
-                        mat.SetBoolean("cullFace", !props.GetBoolean(name));
+                        mat.SetBoolean("cullFace", !value);
                         break;
                     case "$notint":
-                        mat.SetBoolean("tint", !props.GetBoolean(name));
+                        mat.SetBoolean("tint", !value);
                         break;
                     case "$blendtintbybasealpha":
-                        mat.SetBoolean("baseAlphaTint", props.GetBoolean(name));
+                        mat.SetBoolean("baseAlphaTint", value);
                         break;
                     case "$fogstart":
-                        mat.SetNumber("fogStart", props.GetSingle(name));
+                        mat.SetNumber("fogStart", value);
                         break;
                     case "$fogend":
-                        mat.SetNumber("fogEnd", props.GetSingle(name));
+                        mat.SetNumber("fogEnd", value);
                         break;
                     case "$fogcolor":
-                        mat.SetColor("fogColor", new MaterialColor(props.GetColor(name)));
+                        mat.SetColor("fogColor", new MaterialColor(value));
                         break;
                     case "$reflecttint":
-                        mat.SetColor("reflectTint", new MaterialColor(props.GetColor(name)));
+                        mat.SetColor("reflectTint", new MaterialColor(value));
                         break;
                     case "$refractamount":
-                        mat.SetNumber("refractAmount", props.GetSingle(name));
+                        mat.SetNumber("refractAmount", value);
                         break;
                 }
             }

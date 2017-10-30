@@ -1,0 +1,44 @@
+﻿Skip = /\s+|\/\/[^\n]*(\n|$)/;
+
+Escaped
+{
+    Document = Definition.List /$/;
+
+    String = '"' Quoted '"' | Unquoted
+    {
+        Quoted = /([^"\n\\]|\\[\\"nt])+/;
+        Unquoted = /([^\s\/"{}\\]|\/(?!\/)|\\[\\"nt{}])+/;
+    }
+
+    ignore Skip
+    {
+        Definition = String ( "{" List "}" | String )
+        {
+            List = Definition*;
+        }
+
+        Key = String;
+        Value = String;
+
+        Definiti = Definition* "}";
+    }
+}
+
+Unescaped
+{
+    Document = Definition.List /$/;
+
+    String = '"' Quoted '"' | Unquoted
+    {
+        Quoted = /[^"\n]+/;
+        Unquoted = /([^\s\/"{}]|\/(?!\/))+/;
+    }
+
+    ignore Skip
+    {
+        Definition = String ( "{" List "}" | String )
+        {
+            List = Definition*;
+        }
+    }
+}
