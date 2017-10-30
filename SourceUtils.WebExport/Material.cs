@@ -188,7 +188,7 @@ namespace SourceUtils.WebExport
                         mat.SetBoolean("fogEnabled", !value);
                         break;
                     case "$alphatest":
-                        if (!Program.BaseOptions.Untextured) mat.SetBoolean("alphaTest", !value);
+                        if (!Program.BaseOptions.Untextured) mat.SetBoolean("alphaTest", value);
                         break;
                     case "$translucent":
                         mat.SetBoolean("translucent", value);
