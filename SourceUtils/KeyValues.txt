@@ -4,7 +4,7 @@ Escaped
 {
     Document = Definition.List /$/;
 
-    String = '"' Quoted '"' | Unquoted
+    String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
         Quoted = /([^"\n\\]|\\[\\"nt])+/;
         Unquoted = /([^\s\/"{}\\]|\/(?!\/)|\\[\\"nt{}])+/;
@@ -28,7 +28,7 @@ Unescaped
 {
     Document = Definition.List /$/;
 
-    String = '"' Quoted '"' | Unquoted
+    String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
         Quoted = /[^"\n]+/;
         Unquoted = /([^\s\/"{}]|\/(?!\/))+/;
