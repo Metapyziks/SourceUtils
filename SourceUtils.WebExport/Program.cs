@@ -25,8 +25,11 @@ namespace SourceUtils.WebExport
         [Option('s', "resdir", HelpText = "Directory containing static files to serve (css / html etc).")]
         public string ResourcesDir { get; set; }
 
-        [Option('d', "mapsdir", HelpText = "Directory to export maps from, relative to gamedir.")]
+        [Option('m', "mapsdir", HelpText = "Directory to export maps from, relative to gamedir.")]
         public string MapsDir { get; set; } = "maps";
+        
+        [Option("debug-pakfile", HelpText = "Save pakfile to disk for each map, for debugging.")]
+        public bool DebugPakFile { get; set; }
     }
 
     [Verb("host", HelpText = "Run a HTTP server that exports requested resources.")]
@@ -103,6 +106,8 @@ namespace SourceUtils.WebExport
             {
                 args.MapsDir = Path.Combine( args.GameDir, args.MapsDir );
             }
+
+            ValveBspFile.PakFileLump.DebugContents = args.DebugPakFile;
         }
 
         static int Host( HostOptions args )

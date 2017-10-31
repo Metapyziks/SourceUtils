@@ -10,6 +10,11 @@ namespace SourceUtils
     {
         public class PakFileLump : ILump, IResourceProvider, IDisposable
         {
+            /// <summary>
+            /// If true, will write to a file to help debug the contents.
+            /// </summary>
+            public static bool DebugContents { get; set; }
+
             [ThreadStatic]
             private static Dictionary<PakFileLump, ZipFile> _sArchivePool;
 
@@ -54,6 +59,16 @@ namespace SourceUtils
                 {
                     if ( _loaded ) return;
                     _loaded = true;
+
+                    if ( DebugContents )
+                    {
+                        using ( var stream = _bspFile.GetLumpStream( LumpType ) )
+                        {
+                            var bytes = new byte[stream.Length];
+                            stream.Read( bytes, 0, bytes.Length );
+                            File.WriteAllBytes( $"{_bspFile.Name}.pakfile.zip", bytes );
+                        }
+                    }
 
                     using ( var archive = new ZipFile( _bspFile.GetLumpStream( LumpType ) ) )
                     {
