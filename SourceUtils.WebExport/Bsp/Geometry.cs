@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json;
 using OpenTK;
@@ -197,8 +198,19 @@ namespace SourceUtils.WebExport.Bsp
             _primitiveIndices.Clear();
         }
 
+        [Conditional("DEBUG")]
+        private static void AssertFinite( float value )
+        {
+            if ( float.IsNaN( value ) || float.IsInfinity( value ) )
+            {
+                throw new NotFiniteNumberException();
+            }
+        }
+
         public void VertexAttribute( VertexAttribute attrib, float value )
         {
+            AssertFinite( value );
+
             int offset;
             if ( !_attribOffsets.TryGetValue( attrib.Index, out offset ) ) return;
             _vertex[offset] = value;
@@ -206,6 +218,9 @@ namespace SourceUtils.WebExport.Bsp
 
         public void VertexAttribute(VertexAttribute attrib, Vector2 value)
         {
+            AssertFinite( value.X );
+            AssertFinite( value.Y );
+
             int offset;
             if (!_attribOffsets.TryGetValue(attrib.Index, out offset)) return;
             _vertex[offset + 0] = value.X;
@@ -214,6 +229,10 @@ namespace SourceUtils.WebExport.Bsp
 
         public void VertexAttribute(VertexAttribute attrib, SourceUtils.Vector3 value)
         {
+            AssertFinite( value.X );
+            AssertFinite( value.Y );
+            AssertFinite( value.Z );
+
             int offset;
             if (!_attribOffsets.TryGetValue(attrib.Index, out offset)) return;
             _vertex[offset + 0] = value.X;
@@ -517,7 +536,7 @@ namespace SourceUtils.WebExport.Bsp
                 meshData.Elements.Add(elem);
             }
 
-            var texScale = new Vector2(1f / texData.Width, 1f / texData.Height);
+            var texScale = new Vector2(1f / Math.Max(texData.Width, 1), 1f / Math.Max(texData.Height, 1));
 
             Vector2 lmMin, lmSize;
             bsp.LightmapLayout.GetUvs(faceIndex, out lmMin, out lmSize);
