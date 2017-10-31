@@ -256,7 +256,9 @@ namespace SourceUtils
                 
                 public static int ToInt32( string param )
                 {
-                    return param == null ? 0 : int.Parse( param );
+                    return param == null ? 0
+                        : int.TryParse( param, out var intVal ) ? intVal
+                        : float.TryParse( param, out var value ) ? (int) value : 0;
                 }
 
                 public static bool ToBoolean( string param )
@@ -266,7 +268,7 @@ namespace SourceUtils
 
                 public static float ToSingle( string param )
                 {
-                    return param == null ? 0f : float.Parse( param );
+                    return param == null ? 0f : float.TryParse( param, out var value ) ? value : 0f;
                 }
 
                 public static Vector3 ToVector3( string param )
