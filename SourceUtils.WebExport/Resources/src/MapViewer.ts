@@ -10,6 +10,14 @@ namespace SourceUtils {
         FreeCam = CanLook | CanMove
     }
 
+    export interface IPositionHash {
+        x?: number;
+        y?: number;
+        z?: number;
+        r?: number;
+        s?: number;
+    }
+
     export class MapViewer extends WebGame.Game {
         mainCamera: Entities.Camera;
         debugPanel: HTMLElement;
@@ -26,12 +34,15 @@ namespace SourceUtils {
         private debugPanelVisible: boolean;
 
         cameraMode = CameraMode.Fixed;
+        saveCameraPosInHash = false;
         showDebugPanel = false;
 
         totalLoadProgress = 0;
 
         avgFrameTime: number;
         avgFrameRate: number;
+
+        notMovedTime: number;
 
         constructor(container: HTMLElement) {
             super(container);
@@ -77,7 +88,103 @@ namespace SourceUtils {
                     true);
             }
 
+            if (window.location.hash != null && window.location.hash.length > 1) {
+                this.hashChange();
+            }
+
+            window.onhashchange = ev => this.hashChange();
+
             super.onInitialize();
+        }
+
+        private static readonly hashKeyRegex = /^[a-z_]+$/i;
+        private static readonly hashObjectRegex = /^#((?:[a-z_]+)(?:-?[0-9]+(?:\.[0-9]+)))+$/i;
+
+        protected setHash(value: string | Object): void {
+            if (typeof value === "string") {
+                this.oldHash = value;
+                window.location.hash = value;
+                return;
+            }
+
+            let hash = "#";
+            for (let key in value) {
+                if (!value.hasOwnProperty(key)) continue;
+                if (!MapViewer.hashKeyRegex.test(key)) {
+                    console.warn(`Invalid hash object key: ${key}`);
+                    continue;
+                }
+
+                const val = value[key];
+                if (typeof val !== "number" && (typeof val !== "string" || isNaN(parseFloat(val)))) {
+                    console.warn(`Invalid hash object value: ${val}`);
+                    continue;
+                }
+
+                hash += key;
+                hash += val;
+            }
+
+            this.setHash(hash);
+        }
+
+        private oldHash: string;
+
+        private hashChange(): void {
+            const hash = window.location.hash;
+            if (hash === this.oldHash) return;
+            this.oldHash = hash;
+            
+            if (!MapViewer.hashObjectRegex.test(hash)) {
+                this.onHashChange(hash);
+                return;
+            }
+
+            const obj = {};
+
+            const keyValRegex = /([a-z_]+)(-?[0-9]+(?:\.[0-9]+))/ig;
+
+            let match: RegExpExecArray;
+            while ((match = keyValRegex.exec(hash)) != null) {
+                obj[match[1]] = parseFloat(match[2]);
+            }
+
+            this.onHashChange(obj);
+        }
+
+        private readonly onHashChange_temp = new Facepunch.Vector3();
+
+        protected onHashChange(value: string | Object): void {
+            if (typeof value === "string") return;
+            if (!this.saveCameraPosInHash) return;
+
+            const posHash = value as IPositionHash;
+
+            const pos = this.mainCamera.getPosition(this.onHashChange_temp);
+
+            if (posHash.x !== undefined) {
+                pos.x = posHash.x;
+            }
+
+            if (posHash.y !== undefined) {
+                pos.y = posHash.y;
+            }
+
+            if (posHash.z !== undefined) {
+                pos.z = posHash.z;
+            }
+
+            this.mainCamera.setPosition(pos);
+
+            if (posHash.r !== undefined) {
+                this.lookAngs.x = posHash.r / 180 * Math.PI;
+            }
+
+            if (posHash.s !== undefined) {
+                this.lookAngs.y = posHash.s / 180 * Math.PI;
+            }
+
+            this.updateCameraAngles();
         }
 
         protected onCreateDebugPanel(): HTMLElement {
@@ -104,6 +211,7 @@ namespace SourceUtils {
                 this.lookAngs.x += deltaAngles.x;
                 this.lookAngs.y += deltaAngles.z;
             }
+            this.notMovedTime = 0;
             this.updateCameraAngles();
         }
 
@@ -138,8 +246,10 @@ namespace SourceUtils {
             super.onMouseLook(delta);
 
             if ((this.cameraMode & CameraMode.CanLook) === 0) return;
+            if (Math.abs(delta.x) === 0 && Math.abs(delta.y) === 0) return;
 
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
+            this.notMovedTime = 0;
             this.updateCameraAngles();
         }
 
@@ -179,8 +289,6 @@ namespace SourceUtils {
             }
         }
 
-        private readonly move = new Facepunch.Vector3();
-
         private lastProfileTime: number;
         private frameCount = 0;
         private lastDrawCalls: number;
@@ -200,6 +308,8 @@ namespace SourceUtils {
             }
         }
 
+        private readonly onUpdateFrame_temp = new Facepunch.Vector3();
+
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
 
@@ -216,20 +326,44 @@ namespace SourceUtils {
                 }
             }
 
-            if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked()) {
-                this.move.set(0, 0, 0);
+            const savePosPeriod = 1;
+            const wasBeforeSavePosPeriod = this.notMovedTime < savePosPeriod;
+
+            if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked() && this.map.isReady()) {
+                const move = this.onUpdateFrame_temp;
+
+                move.set(0, 0, 0);
                 const moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
 
-                if (this.isKeyDown(WebGame.Key.W)) this.move.z -= moveSpeed;
-                if (this.isKeyDown(WebGame.Key.S)) this.move.z += moveSpeed;
-                if (this.isKeyDown(WebGame.Key.A)) this.move.x -= moveSpeed;
-                if (this.isKeyDown(WebGame.Key.D)) this.move.x += moveSpeed;
+                if (this.isKeyDown(WebGame.Key.W)) move.z -= moveSpeed;
+                if (this.isKeyDown(WebGame.Key.S)) move.z += moveSpeed;
+                if (this.isKeyDown(WebGame.Key.A)) move.x -= moveSpeed;
+                if (this.isKeyDown(WebGame.Key.D)) move.x += moveSpeed;
 
-                if (this.move.lengthSq() > 0) {
-                    this.mainCamera.applyRotationTo(this.move);
-                    this.mainCamera.translate(this.move);
+                if (move.lengthSq() > 0) {
+                    this.mainCamera.applyRotationTo(move);
+                    this.mainCamera.translate(move);
+                    this.notMovedTime = 0;
                 }
             }
+
+            this.notMovedTime += dt;
+
+            if (this.saveCameraPosInHash && wasBeforeSavePosPeriod && this.notMovedTime >= savePosPeriod) {
+                const pos = this.mainCamera.getPosition(this.onUpdateFrame_temp);
+                const pitch = this.lookAngs.x * 180.0 / Math.PI;
+                const yaw = this.lookAngs.y * 180.0 / Math.PI;
+
+                this.setHash({
+                    x: pos.x.toFixed(1),
+                    y: pos.y.toFixed(1),
+                    z: pos.z.toFixed(1),
+                    r: pitch.toFixed(1),
+                    s: yaw.toFixed(1)
+                });
+            }
+
+            // Diagnostics
 
             const drawCalls = this.mainCamera.getDrawCalls();
             if (drawCalls !== this.lastDrawCalls && this.showDebugPanel) {

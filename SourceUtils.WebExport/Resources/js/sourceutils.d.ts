@@ -244,6 +244,13 @@ declare namespace SourceUtils {
         CanMove = 2,
         FreeCam = 3,
     }
+    interface IPositionHash {
+        x?: number;
+        y?: number;
+        z?: number;
+        r?: number;
+        s?: number;
+    }
     class MapViewer extends WebGame.Game {
         mainCamera: Entities.Camera;
         debugPanel: HTMLElement;
@@ -257,13 +264,22 @@ declare namespace SourceUtils {
         readonly vertLightingLoader: VertexLightingLoader;
         private debugPanelVisible;
         cameraMode: CameraMode;
+        saveCameraPosInHash: boolean;
         showDebugPanel: boolean;
         totalLoadProgress: number;
         avgFrameTime: number;
         avgFrameRate: number;
+        notMovedTime: number;
         constructor(container: HTMLElement);
         loadMap(url: string): void;
         protected onInitialize(): void;
+        private static readonly hashKeyRegex;
+        private static readonly hashObjectRegex;
+        protected setHash(value: string | Object): void;
+        private oldHash;
+        private hashChange();
+        private readonly onHashChange_temp;
+        protected onHashChange(value: string | Object): void;
         protected onCreateDebugPanel(): HTMLElement;
         protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void;
         protected onResize(): void;
@@ -275,12 +291,12 @@ declare namespace SourceUtils {
         protected onMouseLook(delta: Facepunch.Vector2): void;
         toggleFullscreen(): void;
         protected onKeyDown(key: WebGame.Key): boolean;
-        private readonly move;
         private lastProfileTime;
         private frameCount;
         private lastDrawCalls;
         private allLoaded;
         protected onSetDebugText(id: string, value: string): void;
+        private readonly onUpdateFrame_temp;
         protected onUpdateFrame(dt: number): void;
         protected onRenderFrame(dt: number): void;
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void;

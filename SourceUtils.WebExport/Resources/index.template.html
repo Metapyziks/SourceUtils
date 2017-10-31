@@ -29,6 +29,7 @@
                 viewer = new SourceUtils.MapViewer(document.getElementById("map-view"));
                 viewer.cameraMode = SourceUtils.CameraMode.FreeCam;
                 viewer.showDebugPanel = true;
+                viewer.saveCameraPosInHash = true;
                 viewer.loadMap("${mapIndexJson}");
                 viewer.animate();
             }

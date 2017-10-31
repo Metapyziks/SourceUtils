@@ -141,10 +141,14 @@ namespace SourceUtils {
                 }
             }
 
-            const spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
-            this.viewer.mainCamera.setPosition(spawn.origin);
-            this.viewer.mainCamera.translate(0, 0, 64);
-            this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
+            const pos = new Facepunch.Vector3();
+
+            if (this.viewer.mainCamera.getPosition(pos).x === 0 && pos.y === 0 && pos.z === 0) {
+                const spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
+                this.viewer.mainCamera.setPosition(spawn.origin);
+                this.viewer.mainCamera.translate(0, 0, 64);
+                this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
+            }
 
             this.viewer.forceDrawListInvalidation(true);
         }

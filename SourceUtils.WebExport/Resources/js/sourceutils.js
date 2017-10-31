@@ -480,10 +480,13 @@ var SourceUtils;
                     this.pvsEntities.push(pvsInst);
                 }
             }
-            var spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
-            this.viewer.mainCamera.setPosition(spawn.origin);
-            this.viewer.mainCamera.translate(0, 0, 64);
-            this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
+            var pos = new Facepunch.Vector3();
+            if (this.viewer.mainCamera.getPosition(pos).x === 0 && pos.y === 0 && pos.z === 0) {
+                var spawn = this.tSpawns[0] || this.ctSpawns[0] || this.playerSpawns[0];
+                this.viewer.mainCamera.setPosition(spawn.origin);
+                this.viewer.mainCamera.translate(0, 0, 64);
+                this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
+            }
             this.viewer.forceDrawListInvalidation(true);
         };
         Map.prototype.getPvsEntitiesInCluster = function (cluster) {
@@ -640,14 +643,16 @@ var SourceUtils;
             _this.studioModelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
             _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader(_this));
             _this.cameraMode = CameraMode.Fixed;
+            _this.saveCameraPosInHash = false;
             _this.showDebugPanel = false;
             _this.totalLoadProgress = 0;
+            _this.onHashChange_temp = new Facepunch.Vector3();
             _this.lookAngs = new Facepunch.Vector2();
             _this.tempQuat = new Facepunch.Quaternion();
             _this.lookQuat = new Facepunch.Quaternion();
-            _this.move = new Facepunch.Vector3();
             _this.frameCount = 0;
             _this.allLoaded = false;
+            _this.onUpdateFrame_temp = new Facepunch.Vector3();
             container.classList.add("map-viewer");
             return _this;
         }
@@ -679,7 +684,77 @@ var SourceUtils;
                     deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
                 }, true);
             }
+            if (window.location.hash != null && window.location.hash.length > 1) {
+                this.hashChange();
+            }
+            window.onhashchange = function (ev) { return _this.hashChange(); };
             _super.prototype.onInitialize.call(this);
+        };
+        MapViewer.prototype.setHash = function (value) {
+            if (typeof value === "string") {
+                this.oldHash = value;
+                window.location.hash = value;
+                return;
+            }
+            var hash = "#";
+            for (var key in value) {
+                if (!value.hasOwnProperty(key))
+                    continue;
+                if (!MapViewer.hashKeyRegex.test(key)) {
+                    console.warn("Invalid hash object key: " + key);
+                    continue;
+                }
+                var val = value[key];
+                if (typeof val !== "number" && (typeof val !== "string" || isNaN(parseFloat(val)))) {
+                    console.warn("Invalid hash object value: " + val);
+                    continue;
+                }
+                hash += key;
+                hash += val;
+            }
+            this.setHash(hash);
+        };
+        MapViewer.prototype.hashChange = function () {
+            var hash = window.location.hash;
+            if (hash === this.oldHash)
+                return;
+            this.oldHash = hash;
+            if (!MapViewer.hashObjectRegex.test(hash)) {
+                this.onHashChange(hash);
+                return;
+            }
+            var obj = {};
+            var keyValRegex = /([a-z_]+)(-?[0-9]+(?:\.[0-9]+))/ig;
+            var match;
+            while ((match = keyValRegex.exec(hash)) != null) {
+                obj[match[1]] = parseFloat(match[2]);
+            }
+            this.onHashChange(obj);
+        };
+        MapViewer.prototype.onHashChange = function (value) {
+            if (typeof value === "string")
+                return;
+            if (!this.saveCameraPosInHash)
+                return;
+            var posHash = value;
+            var pos = this.mainCamera.getPosition(this.onHashChange_temp);
+            if (posHash.x !== undefined) {
+                pos.x = posHash.x;
+            }
+            if (posHash.y !== undefined) {
+                pos.y = posHash.y;
+            }
+            if (posHash.z !== undefined) {
+                pos.z = posHash.z;
+            }
+            this.mainCamera.setPosition(pos);
+            if (posHash.r !== undefined) {
+                this.lookAngs.x = posHash.r / 180 * Math.PI;
+            }
+            if (posHash.s !== undefined) {
+                this.lookAngs.y = posHash.s / 180 * Math.PI;
+            }
+            this.updateCameraAngles();
         };
         MapViewer.prototype.onCreateDebugPanel = function () {
             var panel = document.createElement("div");
@@ -699,6 +774,7 @@ var SourceUtils;
                 this.lookAngs.x += deltaAngles.x;
                 this.lookAngs.y += deltaAngles.z;
             }
+            this.notMovedTime = 0;
             this.updateCameraAngles();
         };
         MapViewer.prototype.onResize = function () {
@@ -724,7 +800,10 @@ var SourceUtils;
             _super.prototype.onMouseLook.call(this, delta);
             if ((this.cameraMode & CameraMode.CanLook) === 0)
                 return;
+            if (Math.abs(delta.x) === 0 && Math.abs(delta.y) === 0)
+                return;
             this.lookAngs.sub(delta.multiplyScalar(1 / 800));
+            this.notMovedTime = 0;
             this.updateCameraAngles();
         };
         MapViewer.prototype.toggleFullscreen = function () {
@@ -791,22 +870,40 @@ var SourceUtils;
                         this.debugPanel.style.display = "none";
                 }
             }
-            if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked()) {
-                this.move.set(0, 0, 0);
+            var savePosPeriod = 1;
+            var wasBeforeSavePosPeriod = this.notMovedTime < savePosPeriod;
+            if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked() && this.map.isReady()) {
+                var move = this.onUpdateFrame_temp;
+                move.set(0, 0, 0);
                 var moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
                 if (this.isKeyDown(WebGame.Key.W))
-                    this.move.z -= moveSpeed;
+                    move.z -= moveSpeed;
                 if (this.isKeyDown(WebGame.Key.S))
-                    this.move.z += moveSpeed;
+                    move.z += moveSpeed;
                 if (this.isKeyDown(WebGame.Key.A))
-                    this.move.x -= moveSpeed;
+                    move.x -= moveSpeed;
                 if (this.isKeyDown(WebGame.Key.D))
-                    this.move.x += moveSpeed;
-                if (this.move.lengthSq() > 0) {
-                    this.mainCamera.applyRotationTo(this.move);
-                    this.mainCamera.translate(this.move);
+                    move.x += moveSpeed;
+                if (move.lengthSq() > 0) {
+                    this.mainCamera.applyRotationTo(move);
+                    this.mainCamera.translate(move);
+                    this.notMovedTime = 0;
                 }
             }
+            this.notMovedTime += dt;
+            if (this.saveCameraPosInHash && wasBeforeSavePosPeriod && this.notMovedTime >= savePosPeriod) {
+                var pos = this.mainCamera.getPosition(this.onUpdateFrame_temp);
+                var pitch = this.lookAngs.x * 180.0 / Math.PI;
+                var yaw = this.lookAngs.y * 180.0 / Math.PI;
+                this.setHash({
+                    x: pos.x.toFixed(1),
+                    y: pos.y.toFixed(1),
+                    z: pos.z.toFixed(1),
+                    r: pitch.toFixed(1),
+                    s: yaw.toFixed(1)
+                });
+            }
+            // Diagnostics
             var drawCalls = this.mainCamera.getDrawCalls();
             if (drawCalls !== this.lastDrawCalls && this.showDebugPanel) {
                 this.lastDrawCalls = drawCalls;
@@ -860,6 +957,8 @@ var SourceUtils;
         };
         return MapViewer;
     }(WebGame.Game));
+    MapViewer.hashKeyRegex = /^[a-z_]+$/i;
+    MapViewer.hashObjectRegex = /^#((?:[a-z_]+)(?:-?[0-9]+(?:\.[0-9]+)))+$/i;
     SourceUtils.MapViewer = MapViewer;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
