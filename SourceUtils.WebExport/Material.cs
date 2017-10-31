@@ -37,7 +37,7 @@ namespace SourceUtils.WebExport
         {
             path = base.NormalizePath( path );
 
-            if ( !path.StartsWith( "materials/" ) ) path = $"materials/{path}";
+            if ( !path.StartsWith( "materials/" ) ) path = $"materials/{path}".Replace( "//", "/" );
             if ( !path.EndsWith( ".vmt" ) ) path = $"{path}.vmt";
 
             return path;

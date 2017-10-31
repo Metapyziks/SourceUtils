@@ -56,7 +56,7 @@ namespace SourceUtils.WebExport
 
         protected virtual string NormalizePath( string path )
         {
-            return path.ToLower().Replace( '\\', '/' );
+            return path.ToLower().Replace( '\\', '/' ).Replace( "//", "/" );
         }
 
         private void Add( string path )

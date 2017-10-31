@@ -1,4 +1,4 @@
-﻿Skip = /\s+|\/\/[^\n]*(\n|$)/;
+﻿Skip = /(\s+|\/\/[^\n]*(\n|$))+/;
 
 Escaped
 {
@@ -6,8 +6,8 @@ Escaped
 
     String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
-        Quoted = /([^"\n\\]|\\[\\"nt])+/;
-        Unquoted = /([^\s\/"{}\\]|\/(?!\/)|\\[\\"nt{}])+/;
+        Quoted = /([^"\n\\]|\\[\\"nt])*/;
+        Unquoted = /([^\s\/"{}\\]|\/(?!\/)|\\[\\"nt{}])*/;
     }
 
     ignore Skip
@@ -16,11 +16,6 @@ Escaped
         {
             List = Definition*;
         }
-
-        Key = String;
-        Value = String;
-
-        Definiti = Definition* "}";
     }
 }
 
@@ -30,8 +25,8 @@ Unescaped
 
     String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
-        Quoted = /[^"\n]+/;
-        Unquoted = /([^\s\/"{}]|\/(?!\/))+/;
+        Quoted = /[^"\n]*/;
+        Unquoted = /([^\s\/"{}]|\/(?!\/))*/;
     }
 
     ignore Skip
