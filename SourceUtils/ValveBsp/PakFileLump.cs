@@ -76,7 +76,7 @@ namespace SourceUtils
                         for ( var i = 0; i < archive.Count; ++i )
                         {
                             var entry = archive[i];
-                            var path = $"/{entry.Name}";
+                            var path = $"/{entry.Name.Replace( '\\', '/' )}";
                             if ( !entry.IsFile || _entryDict.ContainsKey( path ) ) continue;
                             _entryDict.Add( path, i );
                         }
