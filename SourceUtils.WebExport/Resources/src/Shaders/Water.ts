@@ -8,6 +8,7 @@ namespace SourceUtils {
             fogStart = 8192;
             fogEnd = 16384;
             fogColor = new Facepunch.Vector3(1, 1, 1);
+            fogLightmapped = true;
             translucent = true;
             refract = true;
             refractTint = new Facepunch.Vector3(1, 1, 1);
@@ -28,6 +29,7 @@ namespace SourceUtils {
 
             uWaterFogParams = this.addUniform("uWaterFogParams", WebGame.Uniform4F);
             uWaterFogColor = this.addUniform("uWaterFogColor", WebGame.Uniform3F);
+            uWaterFogLightmapped = this.addUniform("uWaterFogLightmapped", WebGame.Uniform1F);
 
             uNormalMap = this.addUniform("uNormalMap", WebGame.UniformSampler);
             uRefractTint = this.addUniform("uRefractTint", WebGame.Uniform3F);
@@ -60,6 +62,7 @@ namespace SourceUtils {
 
                     uniform vec4 ${this.uWaterFogParams};
                     uniform vec3 ${this.uWaterFogColor};
+                    uniform float ${this.uWaterFogLightmapped};
 
                     uniform sampler2D ${this.uNormalMap};
                     uniform vec3 ${this.uRefractTint};
@@ -98,11 +101,16 @@ namespace SourceUtils {
                         vec3 opaqueColor = texture2D(${this.uOpaqueColor},
                             refractedOpaqueDepthSample > gl_FragCoord.z ? refractedScreenPos : screenPos).rgb * ${this.uRefractTint};
 
-                        float relativeDepth = mix((opaqueDepth - ${this.uWaterFogParams}.x) * ${this.uWaterFogParams}.y, 1.0, float(opaqueDepthSample >= 0.99999));
-                        float fogDensity = max(${this.uWaterFogParams}.z, min(${this.uWaterFogParams}.w, relativeDepth));
+                        float relativeDepth = (opaqueDepth - ${this.uWaterFogParams}.x) * ${this.uWaterFogParams}.y;
+                        float fogDensity = max(${this.uWaterFogParams}.z, min(${this.uWaterFogParams}.w, relativeDepth)) * float(opaqueDepthSample < 1.0);
 
-                        vec3 fogColor = ApplyFog(ApplyLightmap(${this.uWaterFogColor}));
-                        vec3 waterFogged = mix(opaqueColor, fogColor, fogDensity);
+                        vec3 waterFogColor = ${this.uWaterFogColor};
+
+                        if (${this.uWaterFogLightmapped} > 0.5) {
+                            waterFogColor = ApplyLightmap(waterFogColor);
+                        }
+
+                        vec3 waterFogged = mix(opaqueColor, ApplyFog(waterFogColor), fogDensity);
                         gl_FragColor = vec4(waterFogged, 1.0);
                     }`);
 
@@ -129,6 +137,7 @@ namespace SourceUtils {
 
                 this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
                 this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
+                this.uWaterFogLightmapped.bufferValue(buf, props.fogLightmapped ? 1 : 0);
 
                 this.uNormalMap.bufferValue(buf, props.normalMap);
                 this.uRefractTint.bufferValue(buf, props.refractTint.x, props.refractTint.y, props.refractTint.z);

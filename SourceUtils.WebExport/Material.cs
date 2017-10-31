@@ -223,6 +223,9 @@ namespace SourceUtils.WebExport
                     case "$fogcolor":
                         mat.SetColor("fogColor", new MaterialColor(value));
                         break;
+                    case "$lightmapwaterfog":
+                        mat.SetBoolean("fogLightmapped", value);
+                        break;
                     case "$reflecttint":
                         mat.SetColor("reflectTint", new MaterialColor(value));
                         break;

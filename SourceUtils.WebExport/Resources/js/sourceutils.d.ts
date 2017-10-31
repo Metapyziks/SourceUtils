@@ -645,6 +645,7 @@ declare namespace SourceUtils {
             fogStart: number;
             fogEnd: number;
             fogColor: Facepunch.Vector3;
+            fogLightmapped: boolean;
             translucent: boolean;
             refract: boolean;
             refractTint: Facepunch.Vector3;
@@ -660,6 +661,7 @@ declare namespace SourceUtils {
             uOpaqueDepth: WebGame.UniformSampler;
             uWaterFogParams: WebGame.Uniform4F;
             uWaterFogColor: WebGame.Uniform3F;
+            uWaterFogLightmapped: WebGame.Uniform1F;
             uNormalMap: WebGame.UniformSampler;
             uRefractTint: WebGame.Uniform3F;
             constructor(context: WebGLRenderingContext);
