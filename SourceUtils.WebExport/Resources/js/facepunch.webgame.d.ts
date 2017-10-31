@@ -684,6 +684,7 @@ declare namespace Facepunch {
             protected onRenderFrame(dt: number): void;
             private readonly timeParams;
             private readonly screenParams;
+            private readonly lightDirParams;
             populateCommandBufferParameters(buf: CommandBuffer): void;
         }
     }
