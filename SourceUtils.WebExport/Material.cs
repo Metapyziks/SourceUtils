@@ -102,6 +102,8 @@ namespace SourceUtils.WebExport
                 .ToLower()
                 .Replace('\\', '/')
                 .Replace("//", "/")
+                .Replace("<", "")
+                .Replace(">", "")
                 .TrimStart('/');
 
             if (!path.EndsWith(".vtf")) path = $"{path}.vtf";
