@@ -243,21 +243,28 @@ namespace SourceUtils
 
             var thumbSize = GetImageDataSize( Header.LowResWidth, Header.LowResHeight, 1, 1, Header.LowResFormat );
 
-            VtfResource[] resources;
+            VtfResource[] resources = null;
+            var buffer = new byte[8];
 
             if ( Header.MajorVersion > 7 || Header.MajorVersion == 7 && Header.MinorVersion >= 3 )
             {
                 Skip( stream, 3 );
                 readCount += 3;
-                var resourceCount = stream.ReadByte() | (stream.ReadByte() << 8) | (stream.ReadByte() << 16) | (stream.ReadByte() << 24);
+
+                stream.Read( buffer, 0, 4 );
                 readCount += 4;
-                Skip( stream, 8 );
+
+                var resourceCount = BitConverter.ToInt32( buffer, 0 );
+
+                // Probably padding?
+                stream.Read( buffer, 0, 8 );
                 readCount += 8;
 
                 resources = LumpReader<VtfResource>.ReadLumpFromStream( stream, resourceCount );
                 readCount += Marshal.SizeOf<VtfResource>() * resourceCount;
             }
-            else
+
+            if ( resources == null || resources.Length == 0 )
             {
                 resources = new VtfResource[2];
                 resources[0] = new VtfResource(VtfResourceType.LowResImage, Header.HeaderSize);
