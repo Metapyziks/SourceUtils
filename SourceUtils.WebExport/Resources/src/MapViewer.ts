@@ -98,7 +98,7 @@ namespace SourceUtils {
         }
 
         private static readonly hashKeyRegex = /^[a-z_]+$/i;
-        private static readonly hashObjectRegex = /^#((?:[a-z_]+)(?:-?[0-9]+(?:\.[0-9]+)))+$/i;
+        private static readonly hashObjectRegex = /^#((?:[a-z_]+)(?:-?[0-9]+(?:\.[0-9]+)?))+$/i;
 
         protected setHash(value: string | Object): void {
             if (typeof value === "string") {
@@ -142,7 +142,7 @@ namespace SourceUtils {
 
             const obj = {};
 
-            const keyValRegex = /([a-z_]+)(-?[0-9]+(?:\.[0-9]+))/ig;
+            const keyValRegex = /([a-z_]+)(-?[0-9]+(?:\.[0-9]+)?)/ig;
 
             let match: RegExpExecArray;
             while ((match = keyValRegex.exec(hash)) != null) {
@@ -191,11 +191,11 @@ namespace SourceUtils {
             const panel = document.createElement("div");
             panel.classList.add("side-panel");
             panel.innerHTML = `
-                <span class="label">Frame time:</span>&nbsp;<span id="debug-frametime">0</span>&nbsp;ms<br/>
-                <span class="label">Frame rate:</span>&nbsp;<span id="debug-framerate">0</span>&nbsp;fps<br />
-                <span class="label">Draw calls:</span>&nbsp;<span id="debug-drawcalls">0</span><br />
-                <div id="debug-loading">
-                    <span class="label">Map loaded:</span>&nbsp;<span id="debug-loadpercent">0</span>%<br />
+                <span class="label">Frame time:</span>&nbsp;<span class="debug-frametime">0</span>&nbsp;ms<br/>
+                <span class="label">Frame rate:</span>&nbsp;<span class="debug-framerate">0</span>&nbsp;fps<br />
+                <span class="label">Draw calls:</span>&nbsp;<span class="debug-drawcalls">0</span><br />
+                <div class="debug-loading">
+                    <span class="label">Map loaded:</span>&nbsp;<span class="debug-loadpercent">0</span>%<br />
                 </div>`;
 
             this.container.appendChild(panel);
@@ -294,14 +294,14 @@ namespace SourceUtils {
         private lastDrawCalls: number;
         private allLoaded = false;
 
-        protected onSetDebugText(id: string, value: string): void {
-            const elem = document.getElementById(id);
-            if (elem != null) {
-                elem.innerText = value;
-            }
+        protected onSetDebugText(className: string, value: string): void {
+            const elem = this.debugPanel.getElementsByClassName(className)[0] as HTMLElement;
+            if (elem == null) return;
 
-            if (id === "debug-loadpercent" && parseInt(value) >= 100) {
-                const loading = document.getElementById("debug-loading");
+            elem.innerText = value;
+
+            if (className === "debug-loadpercent" && parseInt(value) >= 100) {
+                const loading = this.debugPanel.getElementsByClassName("debug-loading")[0] as HTMLElement;
                 if (loading != null) {
                     loading.style.display = "none";
                 }
