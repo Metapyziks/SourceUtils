@@ -151,6 +151,7 @@ namespace SourceUtils
             }
         }
 
+        [ThreadStatic]
         private static StringBuilder _sBuilder;
         private static string ReadNullTerminatedString(BinaryReader reader)
         {
@@ -335,14 +336,13 @@ namespace SourceUtils
             return string.Format(_archiveFileNameFormat, index);
         }
 
-        private class ArchiveInfo : IDisposable
+        private class ArchiveInfo : DisposingEventTarget<ArchiveInfo>
         {
             [ThreadStatic]
             private static Dictionary<ArchiveInfo, Stream> _sStreams;
 
             public int Accessors;
             private readonly string _fileName;
-            private readonly List<Stream> _streams = new List<Stream>();
 
             public ArchiveInfo( string fileName )
             {
@@ -352,33 +352,21 @@ namespace SourceUtils
 
             public Stream GetStream()
             {
-                if (_sStreams == null) _sStreams = new Dictionary<ArchiveInfo, Stream>();
+                var streams = _sStreams ?? (_sStreams = new Dictionary<ArchiveInfo, Stream>());
 
                 Stream stream;
-                if ( _sStreams.TryGetValue( this, out stream ) ) return stream;
+                if ( streams.TryGetValue( this, out stream ) ) return stream;
 
                 stream = File.Open( _fileName, FileMode.Open, FileAccess.Read, FileShare.Read );
-                _sStreams.Add( this, stream );
+                streams.Add( this, stream );
 
-                lock ( this )
+                Disposing += _ =>
                 {
-                    _streams.Add( stream );
-                }
+                    streams.Remove( this );
+                    stream.Dispose();
+                };
 
                 return stream;
-            }
-
-            public void Dispose()
-            {
-                lock ( this )
-                {
-                    foreach ( var stream in _streams )
-                    {
-                        stream.Dispose();
-                    }
-
-                    _streams.Clear();
-                }
             }
         }
 

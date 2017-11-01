@@ -9,25 +9,29 @@ using SourceUtils.ValveBsp.Entities;
 
 namespace SourceUtils
 {
-    public partial class ValveBspFile : IDisposable
+    public partial class ValveBspFile : DisposingEventTarget<ValveBspFile>
     {
         [ThreadStatic]
         private static Dictionary<ValveBspFile, Stream> _sStreamPool;
 
         private static Stream GetBspStream( ValveBspFile bsp )
         {
-            if (_sStreamPool == null) _sStreamPool = new Dictionary<ValveBspFile, Stream>();
+            var pool = _sStreamPool ?? (_sStreamPool = new Dictionary<ValveBspFile, Stream>());
 
             Stream stream;
-            if ( _sStreamPool.TryGetValue( bsp, out stream ) ) return stream;
+            if ( pool.TryGetValue( bsp, out stream ) )
+            {
+                return stream;
+            }
 
             stream = File.Open( bsp._filePath, FileMode.Open, FileAccess.Read, FileShare.Read );
-            _sStreamPool.Add( bsp, stream );
+            pool.Add( bsp, stream );
 
-            lock ( bsp._threadStreams )
+            bsp.Disposing += _ =>
             {
-                bsp._threadStreams.Add( stream );
-            }
+                pool?.Remove( bsp );
+                stream?.Dispose();
+            };
 
             return stream;
         }
@@ -161,8 +165,6 @@ namespace SourceUtils
         private readonly string _filePath;
         private readonly Header _header;
 
-        private readonly List<Stream> _threadStreams = new List<Stream>();
-
         public ValveBspFile( string filePath )
         {
             Name = Path.GetFileNameWithoutExtension( filePath );
@@ -259,21 +261,6 @@ namespace SourceUtils
             }
 
             return _sStringBuilder.ToString();
-        }
-
-        public void Dispose()
-        {
-            lock ( _threadStreams )
-            {
-                foreach ( var stream in _threadStreams )
-                {
-                    stream.Dispose();
-                }
-
-                _threadStreams.Clear();
-            }
-
-            PakFile.Dispose();
         }
     }
 }

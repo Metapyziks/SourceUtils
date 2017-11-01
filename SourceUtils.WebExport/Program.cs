@@ -63,6 +63,14 @@ namespace SourceUtils.WebExport
             return map;
         }
 
+        public static void UnloadMap( string name )
+        {
+            if ( !_sOpenMaps.TryGetValue( name, out var map ) ) return;
+
+            _sOpenMaps.Remove( name );
+            map.Dispose();
+        }
+
         static void SetBaseOptions( BaseOptions args )
         {
             BaseOptions = args;

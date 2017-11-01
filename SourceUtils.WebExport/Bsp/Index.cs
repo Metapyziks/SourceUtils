@@ -76,6 +76,16 @@ namespace SourceUtils.WebExport.Bsp
             return 1;
         }
 
+        private static PageInfo CreatePage( ValveBspFile bsp, int first, int last, ref int index, string filePrefix )
+        {
+            return new PageInfo
+            {
+                First = first,
+                Count = last - first,
+                Url = filePrefix != null ? $"/maps/{bsp.Name}{filePrefix}{index++}.json" : null
+            };
+        }
+
         internal static IEnumerable<PageInfo> GetPageLayout( ValveBspFile bsp, int count, int perPage, string filePrefix, Func<int, int> itemSizeSelect = null )
         {
             if ( itemSizeSelect == null ) itemSizeSelect = DefaultItemSizeSelect;
@@ -84,20 +94,13 @@ namespace SourceUtils.WebExport.Bsp
             var size = 0;
             var index = 0;
 
-            PageInfo CreatePage( int last ) => new PageInfo
-            {
-                First = first,
-                Count = last - first,
-                Url = filePrefix != null ? $"/maps/{bsp.Name}{filePrefix}{index++}.json" : null
-            };
-
             for ( var i = 0; i < count; ++i )
             {
                 var itemSize = itemSizeSelect( i );
 
                 if ( size + itemSize > perPage && size > 0 )
                 {
-                    yield return CreatePage( i );
+                    yield return CreatePage( bsp, first, i, ref index, filePrefix );
 
                     size = 0;
                     first = i;
@@ -105,8 +108,8 @@ namespace SourceUtils.WebExport.Bsp
 
                 size += itemSize;
             }
-
-            yield return CreatePage( count );
+            
+            yield return CreatePage( bsp, first, count, ref index, filePrefix );
         }
 
         public class Map

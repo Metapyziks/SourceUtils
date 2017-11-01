@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SourceUtils.WebExport
@@ -16,6 +17,8 @@ namespace SourceUtils.WebExport
 
             dict = new TDictionary();
             dict.FindResourcePaths( bsp );
+
+            bsp.Disposing += _ => _sDicts.Remove( bsp );
 
             _sDicts.Add( bsp, dict );
 

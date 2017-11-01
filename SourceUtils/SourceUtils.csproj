@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BitBuffer.cs" />
     <Compile Include="Color32.cs" />
+    <Compile Include="DisposingEventTarget.cs" />
     <Compile Include="IntRect.cs" />
     <Compile Include="IntVector2.cs" />
     <Compile Include="KeyValues.cs" />

@@ -8,7 +8,7 @@ namespace SourceUtils
 {
     partial class ValveBspFile
     {
-        public class PakFileLump : ILump, IResourceProvider, IDisposable
+        public class PakFileLump : DisposingEventTarget<PakFileLump>, ILump, IResourceProvider
         {
             /// <summary>
             /// If true, will write to a file to help debug the contents.
@@ -20,25 +20,25 @@ namespace SourceUtils
 
             private static ZipFile GetZipArchive( PakFileLump pak )
             {
-                if (_sArchivePool == null) _sArchivePool = new Dictionary<PakFileLump, ZipFile>();
+                var pool = _sArchivePool ?? (_sArchivePool = new Dictionary<PakFileLump, ZipFile>());
 
                 ZipFile archive;
-                if ( _sArchivePool.TryGetValue( pak, out archive ) ) return archive;
+                if ( pool.TryGetValue( pak, out archive ) ) return archive;
 
                 archive = new ZipFile( pak._bspFile.GetLumpStream( pak.LumpType ) );
-                _sArchivePool.Add( pak, archive );
 
-                lock ( pak._threadArchives )
+                pak.Disposing += _ =>
                 {
-                    pak._threadArchives.Add( archive );
-                }
+                    pool.Remove( pak );
+                    archive.Close();
+                };
+
+                pool.Add( pak, archive );
 
                 return archive;
             }
 
             public LumpType LumpType { get; }
-
-            private readonly List<ZipFile> _threadArchives = new List<ZipFile>();
 
             private readonly ValveBspFile _bspFile;
             private bool _loaded;
@@ -59,6 +59,8 @@ namespace SourceUtils
                 {
                     if ( _loaded ) return;
                     _loaded = true;
+
+                    _bspFile.Disposing += _ => Dispose();
 
                     if ( DebugContents )
                     {
@@ -118,19 +120,6 @@ namespace SourceUtils
                 EnsureLoaded();
                 var archive = GetZipArchive( this );
                 return archive.GetInputStream( _entryDict[$"/{filePath}"] );
-            }
-
-            public void Dispose()
-            {
-                lock ( _threadArchives )
-                {
-                    foreach ( var archive in _threadArchives )
-                    {
-                        archive.Close();
-                    }
-
-                    _threadArchives.Clear();
-                }
             }
         }
     }

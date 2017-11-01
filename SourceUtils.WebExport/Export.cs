@@ -24,10 +24,15 @@ namespace SourceUtils.WebExport
 
         [Option('m', "maps", HelpText = "Specific comma separated map names to export (e.g. 'de_dust2,e_mirage,kz_*').", Required = true)]
         public string Maps { get; set; }
+
+        [Option("dry", HelpText = "Don't actually write any files, just test exporting.")]
+        public bool DryRun { get; set; }
     }
 
     partial class Program
     {
+        private const int ExportPort = 39281;
+
         public static ExportOptions ExportOptions { get; private set; }
 
         public static bool IsExporting { get; private set; }
@@ -39,6 +44,11 @@ namespace SourceUtils.WebExport
         {
             if ( !_sExportUrls.Add( url ) ) return;
             _sToExport.Enqueue( url );
+        }
+
+        public static void RemoveExportUrls( Url prefix )
+        {
+            _sExportUrls.RemoveWhere( x => x.Value.StartsWith( prefix.Value ) );
         }
 
         private static readonly string[] _sBytesUnits =
@@ -105,61 +115,23 @@ namespace SourceUtils.WebExport
             return true;
         }
 
-        static int Export(ExportOptions args)
+        static void ExportMap( string mapName, ExportOptions args )
         {
-            SetBaseOptions(args);
-            ExportOptions = args;
-
-            if ( args.UrlPrefix != null && args.UrlPrefix.EndsWith( "/" ) )
-            {
-                args.UrlPrefix = args.UrlPrefix.Substring( 0, args.UrlPrefix.Length - 1 );
-            }
-
-            const int port = 39281;
-            var server = new Server();
-            server.Prefixes.Add( $"http://localhost:{port}/" );
-
-            AddStaticFileControllers( server );
-
-            server.Controllers.Add( Assembly.GetExecutingAssembly() );
-
-            if (!Directory.Exists(args.OutDir))
-            {
-                Directory.CreateDirectory(args.OutDir);
-            }
-
-            IsExporting = true;
-
-            var maps = args.Maps.Split( new [] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries );
-
-            foreach ( var item in maps )
-            {
-                if ( item.Contains( "*" ) )
-                {
-                    var pattern = item.ToLower().EndsWith( ".bsp" )
-                        ? item
-                        : $"{item}.bsp";
-
-                    foreach ( var map in Directory.EnumerateFiles( args.MapsDir, pattern, SearchOption.TopDirectoryOnly ) )
-                    {
-                        AddExportUrl( $"/maps/{Path.GetFileNameWithoutExtension( map )}/index.html" );
-                    }
-                }
-                else
-                {
-                    var map = item.ToLower().EndsWith( ".bsp" )
-                        ? item.Substring( 0, item.Length - ".bsp".Length )
-                        : item;
-
-                    AddExportUrl( $"/maps/{map}/index.html" );
-                }
-            }
-
-            var startedServer = false;
-
             var skipped = 0;
             var failed = 0;
             var exported = 0;
+            var oldCount = _sExportUrls.Count;
+
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine( $"# Exporting {mapName}" );
+            Console.WriteLine();
+
+            AddExportUrl( $"/maps/{mapName}/index.html" );
+
+            MemoryStream dummyStream = null;
+
+            if ( args.DryRun ) dummyStream = new MemoryStream();
 
             using (var client = new WebClient())
             {
@@ -179,23 +151,20 @@ namespace SourceUtils.WebExport
                     {
                         Console.ResetColor();
                         if ( skip ) Console.WriteLine($"Skipped '{url}'");
-                        else Console.Write($"[{exported + skipped + failed + 1}/{_sExportUrls.Count}] Exporting '{url}' ... ");
+                        else Console.Write($"[{exported + skipped + failed + 1}/{_sExportUrls.Count - oldCount}] Exporting '{url}' ... ");
                     }
 
                     var dir = Path.GetDirectoryName(path);
-                    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-
-                    if ( !startedServer )
+                    if ( !args.DryRun && !Directory.Exists( dir ) )
                     {
-                        startedServer = true;
-                        Task.Run( () => server.Run() );
+                        Directory.CreateDirectory( dir );
                     }
 
                     var skipStr = skip ? "?skip=1" : "";
 
                     try
                     {
-                        using ( var input = client.OpenRead( $"http://localhost:{port}{url}{skipStr}" ) )
+                        using ( var input = client.OpenRead( $"http://localhost:{ExportPort}{url}{skipStr}" ) )
                         {
                             if ( skip ) continue;
 
@@ -219,7 +188,10 @@ namespace SourceUtils.WebExport
                                     }
 
                                     ++exported;
-                                    newImage.Write( path );
+                                    if ( !args.DryRun )
+                                    {
+                                        newImage.Write( path );
+                                    }
 
                                     if (args.Verbose)
                                     {
@@ -231,16 +203,30 @@ namespace SourceUtils.WebExport
                                 continue;
                             }
 
-                            using ( var output = File.Create( path ) )
-                            {
-                                input.CopyTo( output );
-                                ++exported;
+                            long length = -1;
 
-                                if ( args.Verbose )
+                            if ( !args.DryRun )
+                            {
+                                using ( var output = File.Create( path ) )
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.WriteLine( $"Wrote {FormatFileSize( output.Length )}" );
+                                    input.CopyTo( output );
+                                    length = output.Length;
                                 }
+                            }
+                            else
+                            {
+                                dummyStream.Seek( 0, SeekOrigin.Begin );
+                                dummyStream.SetLength( 0 );
+                                input.CopyTo( dummyStream );
+                                length = dummyStream.Length;
+                            }
+                            
+                            ++exported;
+
+                            if ( args.Verbose )
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine( $"Wrote {FormatFileSize( length )}" );
                             }
                         }
                     }
@@ -265,10 +251,62 @@ namespace SourceUtils.WebExport
                 }
             }
 
-            if ( startedServer ) server.Stop();
+            RemoveExportUrls( $"/maps/{mapName}/" );
+            UnloadMap( mapName );
 
             Console.ResetColor();
-            Console.WriteLine( $"Finished ({exported} exported, {skipped} skipped, {failed} failed)" );
+            Console.WriteLine();
+            Console.WriteLine( $"# Finished {mapName} ({exported} exported, {skipped} skipped, {failed} failed)" );
+            Console.WriteLine();
+        }
+
+        static int Export(ExportOptions args)
+        {
+            SetBaseOptions(args);
+            ExportOptions = args;
+
+            if ( args.UrlPrefix != null && args.UrlPrefix.EndsWith( "/" ) )
+            {
+                args.UrlPrefix = args.UrlPrefix.Substring( 0, args.UrlPrefix.Length - 1 );
+            }
+
+            var server = new Server();
+            server.Prefixes.Add( $"http://localhost:{ExportPort}/" );
+
+            AddStaticFileControllers( server );
+
+            server.Controllers.Add( Assembly.GetExecutingAssembly() );
+
+            IsExporting = true;
+
+            var maps = args.Maps.Split( new [] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries );
+
+            Task.Run( () => server.Run() );
+
+            foreach ( var item in maps )
+            {
+                if ( item.Contains( "*" ) )
+                {
+                    var pattern = item.ToLower().EndsWith( ".bsp" )
+                        ? item
+                        : $"{item}.bsp";
+
+                    foreach ( var map in Directory.EnumerateFiles( args.MapsDir, pattern, SearchOption.TopDirectoryOnly ) )
+                    {
+                        ExportMap( Path.GetFileNameWithoutExtension( map ), args );
+                    }
+                }
+                else
+                {
+                    var map = item.ToLower().EndsWith( ".bsp" )
+                        ? item.Substring( 0, item.Length - ".bsp".Length )
+                        : item;
+
+                    ExportMap( map, args );
+                }
+            }
+
+            server.Stop();
 
             return 0;
         }
