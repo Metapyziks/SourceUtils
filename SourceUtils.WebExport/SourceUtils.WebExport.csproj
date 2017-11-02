@@ -100,6 +100,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bsp\AmbientCubes.cs" />
     <Compile Include="Bsp\Entities.cs" />
     <Compile Include="Bsp\Geometry.cs" />
     <Compile Include="Bsp\Index.cs" />

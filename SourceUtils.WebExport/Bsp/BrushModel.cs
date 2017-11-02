@@ -46,6 +46,13 @@ namespace SourceUtils.WebExport.Bsp
 
         [JsonProperty("z")]
         public float Z;
+        
+        public Vector3(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
 
         public Vector3(SourceUtils.Vector3 vec)
         {

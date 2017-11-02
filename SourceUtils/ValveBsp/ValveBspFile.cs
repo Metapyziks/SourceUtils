@@ -158,6 +158,18 @@ namespace SourceUtils
         [BspLump(LumpType.CUBEMAPS)]
         public StructArrayLump<CubemapSample> Cubemaps { get; private set; }
 
+        [BspLump(LumpType.LEAF_AMBIENT_INDEX)]
+        public StructArrayLump<LeafAmbientIndex> LeafAmbientIndices { get; private set; }
+
+        [BspLump(LumpType.LEAF_AMBIENT_INDEX_HDR)]
+        public StructArrayLump<LeafAmbientIndex> LeafAmbientIndicesHdr { get; private set; }
+        
+        [BspLump(LumpType.LEAF_AMBIENT_LIGHTING)]
+        public StructArrayLump<LeafAmbientLighting> LeafAmbientLighting { get; private set; }
+        
+        [BspLump(LumpType.LEAF_AMBIENT_LIGHTING_HDR)]
+        public StructArrayLump<LeafAmbientLighting> LeafAmbientLightingHdr { get; private set; }
+
         public DisplacementManager DisplacementManager { get; }
         public LightmapLayout LightmapLayout { get; }
         public StaticProps StaticProps { get; }

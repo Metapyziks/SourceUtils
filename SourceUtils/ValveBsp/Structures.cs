@@ -509,8 +509,13 @@ namespace SourceUtils.ValveBsp
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
-    public struct LightmapSample
+    public struct ColorRGBExp32
     {
+        public static implicit operator uint(ColorRGBExp32 color)
+        {
+            return color.R | (uint) (color.G << 8) | (uint) (color.B << 16) | (uint) (color.Exponent << 24);
+        }
+
         public readonly byte R;
         public readonly byte G;
         public readonly byte B;
@@ -524,5 +529,49 @@ namespace SourceUtils.ValveBsp
         public readonly int OriginY;
         public readonly int OriginZ;
         public readonly int Size;
+    }
+    
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct LeafAmbientLighting
+    {
+        public readonly CompressedLightCube Cube;
+        public readonly byte X;
+        public readonly byte Y;
+        public readonly byte Z;
+        private readonly byte _padding;
+    }
+    
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct LeafAmbientIndex
+    {
+        public readonly ushort AmbientSampleCount;
+        public readonly ushort FirstAmbientSample;
+    }
+    
+    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    public struct CompressedLightCube
+    {
+        public readonly ColorRGBExp32 MinX;
+        public readonly ColorRGBExp32 MaxX;
+        public readonly ColorRGBExp32 MinY;
+        public readonly ColorRGBExp32 MaxY;
+        public readonly ColorRGBExp32 MinZ;
+        public readonly ColorRGBExp32 MaxZ;
+
+        public ColorRGBExp32 this[int face]
+        {
+            get {
+                switch ( face )
+                {
+                    case 0: return MinX;
+                    case 1: return MaxX;
+                    case 2: return MinY;
+                    case 3: return MaxY;
+                    case 4: return MinZ;
+                    case 5: return MaxZ;
+                    default: throw new IndexOutOfRangeException();
+                }
+            }
+        }
     }
 }

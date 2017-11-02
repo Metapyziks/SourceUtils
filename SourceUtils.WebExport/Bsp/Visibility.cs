@@ -34,7 +34,7 @@ namespace SourceUtils.WebExport.Bsp
 
             return new VisPage
             {
-                Values = Enumerable.Range( first, count ).Select( x => new CompressedList<int> ( bsp.Visibility[x] ) )
+                Values = Enumerable.Range( first, count ).Select( x => new CompressedList<int>( bsp.Visibility[x] ) )
             };
         }
     }

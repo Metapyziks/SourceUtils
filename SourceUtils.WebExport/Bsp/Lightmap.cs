@@ -61,7 +61,7 @@ namespace SourceUtils.WebExport.Bsp
 
                 var pixels = new byte[width * height * 4];
 
-                var sampleBuffer = new LightmapSample[256 * 256];
+                var sampleBuffer = new ColorRGBExp32[256 * 256];
                 var faces = bsp.FacesHdr.Length > 0 ? bsp.FacesHdr : bsp.Faces;
 
                 for (int i = 0, iEnd = faces.Length; i < iEnd; ++i)
@@ -74,7 +74,7 @@ namespace SourceUtils.WebExport.Bsp
 
                     sampleStream.Seek(face.LightOffset, SeekOrigin.Begin);
 
-                    LumpReader<LightmapSample>.ReadLumpFromStream(sampleStream, sampleCount, sampleBuffer);
+                    LumpReader<ColorRGBExp32>.ReadLumpFromStream(sampleStream, sampleCount, sampleBuffer);
 
                     for (var y = 0; y < rect.Height; ++y)
                     for (var x = 0; x < rect.Width; ++x)

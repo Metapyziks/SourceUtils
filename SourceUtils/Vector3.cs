@@ -47,6 +47,7 @@ namespace SourceUtils
         public float LengthSquared => X * X + Y * Y + Z * Z;
 
         public Vector3 Normalized => this * (1f / Length);
+        public Vector3 Rounded => new Vector3((float) Math.Round(X), (float) Math.Round(Y), (float) Math.Round(Z));
 
         public bool IsNaN => float.IsNaN( X ) || float.IsNaN( Y ) || float.IsNaN( Z );
 

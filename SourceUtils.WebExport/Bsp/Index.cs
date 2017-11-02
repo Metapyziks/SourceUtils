@@ -120,9 +120,6 @@ namespace SourceUtils.WebExport.Bsp
             [JsonProperty("lightmapUrl")]
             public Url LightmapUrl { get; set; }
 
-            [JsonProperty("visPages")]
-            public IEnumerable<PageInfo> VisPages { get; set; }
-
             [JsonProperty("leafPages")]
             public IEnumerable<PageInfo> LeafPages { get; set; }
 
@@ -140,6 +137,12 @@ namespace SourceUtils.WebExport.Bsp
 
             [JsonProperty("vertLightingPages")]
             public IEnumerable<PageInfo> VertexLightingPages { get; set; }
+
+            [JsonProperty("visPages")]
+            public IEnumerable<PageInfo> VisPages { get; set; }
+
+            [JsonProperty("ambientPages")]
+            public IEnumerable<PageInfo> AmbientPages { get; set; }
 
             [JsonProperty("entities")]
             public IEnumerable<Entity> Entities { get; set; }
@@ -209,6 +212,7 @@ namespace SourceUtils.WebExport.Bsp
                 Name = bsp.Name,
                 LightmapUrl = $"/maps/{bsp.Name}/lightmap.json",
                 VisPages = GetPageLayout( bsp, bsp.Visibility.NumClusters, VisPage.ClustersPerPage, "/geom/vispage" ),
+                AmbientPages = GetPageLayout( bsp, bsp.Leaves.Length, AmbientPage.LeavesPerPage, "/geom/ambientpage" ),
                 LeafPages = GetPageLayout( bsp, bsp.Leaves.Length, LeafGeometryPage.LeavesPerPage, "/geom/leafpage" ),
                 DispPages = GetPageLayout( bsp, bsp.DisplacementInfos.Length, DispGeometryPage.DisplacementsPerPage, "/geom/disppage" ),
                 MaterialPages = GetPageLayout( bsp, MaterialDictionary.GetResourceCount( bsp ), MaterialPage.MaterialsPerPage, "/materials/matpage" ),
