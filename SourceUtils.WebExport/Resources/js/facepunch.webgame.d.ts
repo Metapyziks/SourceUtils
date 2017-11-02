@@ -1256,6 +1256,8 @@ declare namespace Facepunch {
             private info;
             private frameCount;
             private nextElement;
+            private readyFrameCount;
+            private readyFrames;
             private frameHandles;
             private target;
             private filter;
@@ -1266,6 +1268,7 @@ declare namespace Facepunch {
             constructor(context: WebGLRenderingContext, url: string);
             getLoadProgress(): number;
             hasMipLevel(level: number): boolean;
+            isLoaded(): boolean;
             getWidth(level: number): number;
             getHeight(level: number): number;
             getFrameCount(): number;
