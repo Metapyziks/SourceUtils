@@ -162,7 +162,7 @@ namespace SourceUtils.WebExport
         public TextureTarget Target { get; set; }
 
         [JsonProperty("frames")]
-        public int FrameCount { get; set; }
+        public int FrameCount { get; set; } = 1;
 
         [JsonProperty("width")]
         public int Width { get; set; }
