@@ -1543,6 +1543,8 @@ var Facepunch;
                 if (immediate === void 0) { immediate = false; }
                 this.parameters = {};
                 this.drawCalls = 0;
+                this.tempSpareTime = 0;
+                this.tempCurFrame = 0;
                 this.context = context;
                 this.immediate = !!immediate;
                 this.clearCommands();
@@ -1623,6 +1625,15 @@ var Facepunch;
                     var command = this.commands[i];
                     command.action(gl, command);
                 }
+                // TODO: temp animated texture solution
+                var time = performance.now();
+                if (this.tempLastRunTime !== undefined && (time - this.tempLastRunTime) < 1000.0) {
+                    this.tempSpareTime += time - this.tempLastRunTime;
+                    var frames_1 = Math.floor(this.tempSpareTime * 60.0 / 1000.0);
+                    this.tempCurFrame += frames_1;
+                    this.tempSpareTime -= frames_1 * 1000.0 / 60.0;
+                }
+                this.tempLastRunTime = time;
             };
             CommandBuffer.prototype.push = function (action, args) {
                 if (this.immediate)
@@ -1793,11 +1804,22 @@ var Facepunch;
                 if (this.boundTextures[unit] === value)
                     return;
                 this.boundTextures[unit] = value;
-                this.push(this.onBindTexture, { unit: unit + this.context.TEXTURE0, target: value.getTarget(), texture: value });
+                var frameCount = value.getFrameCount();
+                this.push(frameCount == 1 ? this.onBindTexture : this.onBindAnimatedTexture, {
+                    unit: unit + this.context.TEXTURE0,
+                    target: value.getTarget(),
+                    texture: value,
+                    frames: frameCount,
+                    commandBuffer: this
+                });
             };
             CommandBuffer.prototype.onBindTexture = function (gl, args) {
                 gl.activeTexture(args.unit);
                 gl.bindTexture(args.target, args.texture.getHandle());
+            };
+            CommandBuffer.prototype.onBindAnimatedTexture = function (gl, args) {
+                gl.activeTexture(args.unit);
+                gl.bindTexture(args.target, args.texture.getHandle(args.commandBuffer.tempCurFrame % args.frames));
             };
             CommandBuffer.prototype.bindBuffer = function (target, buffer) {
                 if (this.boundBuffers[target] === buffer)
@@ -4129,6 +4151,9 @@ var Facepunch;
             Texture.prototype.isLoaded = function () {
                 return this.getHandle() !== undefined;
             };
+            Texture.prototype.getFrameCount = function () {
+                return 1;
+            };
             Texture.prototype.dispose = function () { };
             Texture.nextId = 1;
             return Texture;
@@ -4227,7 +4252,7 @@ var Facepunch;
             RenderTexture.prototype.getTarget = function () {
                 return this.target;
             };
-            RenderTexture.prototype.getHandle = function () {
+            RenderTexture.prototype.getHandle = function (frame) {
                 return this.handle;
             };
             RenderTexture.prototype.resize = function (width, height) {
@@ -4498,7 +4523,6 @@ var Facepunch;
             function TextureLoadable(context, url) {
                 _super.call(this);
                 this.nextElement = 0;
-                this.canRender = false;
                 this.loadProgress = 0;
                 this.context = context;
                 this.url = url;
@@ -4543,19 +4567,22 @@ var Facepunch;
                     return undefined;
                 return this.info.height >> level;
             };
+            TextureLoadable.prototype.getFrameCount = function () {
+                return this.frameCount;
+            };
             TextureLoadable.prototype.toString = function () {
                 return "[TextureLoadable " + this.url + "]";
-            };
-            TextureLoadable.prototype.isLoaded = function () {
-                return _super.prototype.isLoaded.call(this) && this.canRender;
             };
             TextureLoadable.prototype.getTarget = function () {
                 if (this.info == null)
                     throw new Error("Attempted to get target of an unloaded texture.");
                 return this.target;
             };
-            TextureLoadable.prototype.getHandle = function () {
-                return this.handle;
+            TextureLoadable.prototype.getHandle = function (frame) {
+                var frames = this.frameHandles;
+                return frames == null ? undefined
+                    : frame === undefined || this.frameCount === 1 ? frames[0]
+                        : frames[frame % this.frameCount];
             };
             TextureLoadable.prototype.getLoadPriority = function () {
                 if (_super.prototype.getLoadPriority.call(this) === 0)
@@ -4578,17 +4605,22 @@ var Facepunch;
                 gl.texParameteri(this.target, gl.TEXTURE_MIN_FILTER, this.filter);
                 gl.texParameteri(this.target, gl.TEXTURE_MAG_FILTER, this.filter);
             };
-            TextureLoadable.prototype.getOrCreateHandle = function () {
-                if (this.handle !== undefined)
-                    return this.handle;
+            TextureLoadable.prototype.getOrCreateHandle = function (frame) {
+                if (this.frameHandles === undefined) {
+                    this.frameHandles = new Array(this.frameCount);
+                }
+                frame = frame % this.frameCount;
+                var handle = this.frameHandles[frame];
+                if (handle !== undefined)
+                    return handle;
                 var gl = this.context;
-                this.handle = gl.createTexture();
+                handle = this.frameHandles[frame] = gl.createTexture();
                 if (this.info.params != null) {
-                    gl.bindTexture(this.target, this.handle);
+                    gl.bindTexture(this.target, handle);
                     this.applyTexParameters();
                     gl.bindTexture(this.target, null);
                 }
-                return this.handle;
+                return handle;
             };
             TextureLoadable.prototype.loadColorElement = function (target, level, color) {
                 var width = Math.max(1, this.info.width >> level);
@@ -4635,7 +4667,8 @@ var Facepunch;
             };
             TextureLoadable.prototype.loadElement = function (element, value) {
                 var target = Facepunch.WebGl.decodeConst(element.target != undefined ? element.target : this.info.target);
-                var handle = this.getOrCreateHandle();
+                var frame = element.frame || 0;
+                var handle = this.getOrCreateHandle(frame);
                 var gl = this.context;
                 this.loadProgress = 0;
                 gl.bindTexture(this.target, handle);
@@ -4661,17 +4694,19 @@ var Facepunch;
                     gl.texParameteri(this.target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                 }
                 gl.bindTexture(this.target, null);
-                this.canRender = true;
-                this.dispatchOnLoadCallbacks();
                 return success;
             };
             TextureLoadable.prototype.loadFromInfo = function (info) {
                 this.info = info;
+                this.frameCount = info.frames || 1;
                 this.target = Facepunch.WebGl.decodeConst(info.target);
-                this.getOrCreateHandle();
+                for (var frame = 0; frame < this.frameCount; ++frame) {
+                    this.getOrCreateHandle(frame);
+                }
                 while (this.canLoadImmediately(this.nextElement)) {
                     this.loadElement(info.elements[this.nextElement++]);
                 }
+                this.dispatchOnLoadCallbacks();
             };
             TextureLoadable.prototype.loadNext = function (callback) {
                 var _this = this;
@@ -4696,6 +4731,7 @@ var Facepunch;
                     while (_this.canLoadImmediately(_this.nextElement)) {
                         _this.loadElement(info.elements[_this.nextElement++]);
                     }
+                    _this.dispatchOnLoadCallbacks();
                     callback(info.elements != null && _this.nextElement < info.elements.length);
                 }, function (error) {
                     callback(false);

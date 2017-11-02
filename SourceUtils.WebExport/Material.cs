@@ -46,6 +46,7 @@ namespace SourceUtils.WebExport
 
     public enum MaterialPropertyType
     {
+        String = 0,
         Boolean = 1,
         Number = 2,
         Color = 3,
@@ -319,6 +320,11 @@ namespace SourceUtils.WebExport
             if ( prop == null ) Properties.Add( prop = new MaterialProperty {Name = name} );
             prop.Type = type;
             return prop;
+        }
+
+        public void SetString( string name, string value )
+        {
+            GetOrAddProperty( name, MaterialPropertyType.String ).Value = value;
         }
 
         public void SetBoolean( string name, bool value )

@@ -227,6 +227,7 @@ declare namespace Facepunch {
         type CommandBufferAction = (gl: WebGLRenderingContext, args: ICommandBufferItem) => void;
         interface ICommandBufferItem {
             action?: CommandBufferAction;
+            commandBuffer?: CommandBuffer;
             parameters?: {
                 [param: number]: Float32Array | Texture;
             };
@@ -236,6 +237,7 @@ declare namespace Facepunch {
             target?: number;
             unit?: number;
             texture?: Texture;
+            frames?: number;
             transpose?: boolean;
             values?: Float32Array;
             cap?: number;
@@ -285,6 +287,9 @@ declare namespace Facepunch {
             private parameters;
             private lastCommand;
             private drawCalls;
+            private tempLastRunTime;
+            private tempSpareTime;
+            private tempCurFrame;
             readonly immediate: boolean;
             constructor(context: WebGLRenderingContext, immediate?: boolean);
             private getCommandName(action);
@@ -327,6 +332,7 @@ declare namespace Facepunch {
             private onSetUniformMatrix4(gl, args);
             bindTexture(unit: number, value: Texture): void;
             private onBindTexture(gl, args);
+            private onBindAnimatedTexture(gl, args);
             bindBuffer(target: number, buffer: WebGLBuffer): void;
             private onBindBuffer(gl, args);
             enableVertexAttribArray(index: number): void;
@@ -1097,8 +1103,9 @@ declare namespace Facepunch {
             abstract hasMipLevel(level: number): boolean;
             abstract getWidth(level: number): number;
             abstract getHeight(level: number): number;
+            getFrameCount(): number;
             abstract getTarget(): TextureTarget;
-            abstract getHandle(): WebGLTexture;
+            abstract getHandle(frame?: number): WebGLTexture;
             dispose(): void;
         }
         enum TextureFormat {
@@ -1161,7 +1168,7 @@ declare namespace Facepunch {
             setWrapMode(wrapS: TextureWrapMode, wrapT: TextureWrapMode): void;
             setFilter(minFilter: TextureMinFilter, magFilter: TextureMagFilter): void;
             getTarget(): TextureTarget;
-            getHandle(): WebGLTexture;
+            getHandle(frame?: number): WebGLTexture;
             resize(width: number, height: number): void;
             protected onResize(width: number, height: number): void;
             dispose(): void;
@@ -1229,6 +1236,7 @@ declare namespace Facepunch {
         }
         interface ITextureElement {
             level: number;
+            frame?: number;
             target?: TextureTarget | string;
             url?: string;
             color?: IColor;
@@ -1238,6 +1246,7 @@ declare namespace Facepunch {
             target: TextureTarget | string;
             width?: number;
             height?: number;
+            frames?: number;
             params: ITextureParameters;
             elements: ITextureElement[];
         }
@@ -1245,9 +1254,9 @@ declare namespace Facepunch {
             private readonly context;
             readonly url: string;
             private info;
+            private frameCount;
             private nextElement;
-            private canRender;
-            private handle;
+            private frameHandles;
             private target;
             private filter;
             private mipmap;
@@ -1259,14 +1268,14 @@ declare namespace Facepunch {
             hasMipLevel(level: number): boolean;
             getWidth(level: number): number;
             getHeight(level: number): number;
+            getFrameCount(): number;
             toString(): string;
-            isLoaded(): boolean;
             getTarget(): TextureTarget;
-            getHandle(): WebGLTexture;
+            getHandle(frame?: number): WebGLTexture;
             getLoadPriority(): number;
             private canLoadImmediately(index);
             private applyTexParameters();
-            private getOrCreateHandle();
+            private getOrCreateHandle(frame);
             private static pixelBuffer;
             private loadColorElement(target, level, color);
             private loadImageElement(target, level, image);

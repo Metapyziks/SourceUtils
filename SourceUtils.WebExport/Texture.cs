@@ -31,6 +31,9 @@ namespace SourceUtils.WebExport
         [JsonProperty("level")]
         public int Level { get; set; }
 
+        [JsonProperty("frame")]
+        public int? Frame { get; set; }
+
         [JsonProperty("target")]
         public TextureTarget? Target { get; set; }
 
@@ -65,6 +68,7 @@ namespace SourceUtils.WebExport
                 Target = isCube ? TextureTarget.TextureCubeMap : TextureTarget.Texture2D,
                 Width = untextured ? 1 : vtf.Header.Width,
                 Height = untextured ? 1 : vtf.Header.Height,
+                FrameCount = vtf.Header.Frames,
                 Params =
                 {
                     Filter = untextured || (vtf.Header.Flags & TextureFlags.POINTSAMPLE) != 0
@@ -86,51 +90,60 @@ namespace SourceUtils.WebExport
             {
                 var isSinglePixel = Math.Max(tex.Width >> mip, 1) * Math.Max(tex.Height >> mip, 1) == 1;
 
-                for (var face = 0; face < vtf.FaceCount; ++face)
+                for (var frame = 0; frame < vtf.FrameCount; ++frame)
                 {
-                    var elem = new TextureElement
+                    for (var face = 0; face < vtf.FaceCount; ++face)
                     {
-                        Level = untextured ? 0 : mip
-                    };
-
-                    if (isCube) elem.Target = TextureTarget.TextureCubeMapPositiveX + face;
-                    if (isSinglePixel)
-                    {
-                        if (pixelBuf == null) pixelBuf = new byte[vtf.GetHiResPixelDataLength(mip)];
-
-                        vtf.GetHiResPixelData(mip, 0, face, 0, pixelBuf);
-
-                        using (var img = DecodeImage(vtf, mip, 0, face, 0))
+                        var elem = new TextureElement
                         {
-                            var pixel = img.GetPixels()[0, 0];
-                            switch (pixel.Channels)
+                            Level = untextured ? 0 : mip,
+                            Frame = vtf.FrameCount > 1 ? (int?) frame : null
+                        };
+
+                        if (isCube) elem.Target = TextureTarget.TextureCubeMapPositiveX + face;
+                        if (isSinglePixel)
+                        {
+                            if (pixelBuf == null) pixelBuf = new byte[vtf.GetHiResPixelDataLength(mip)];
+
+                            vtf.GetHiResPixelData(mip, frame, face, 0, pixelBuf);
+
+                            using (var img = DecodeImage(vtf, mip, frame, face, 0))
                             {
-                                case 3:
-                                    elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2]);
-                                    break;
-                                case 4:
-                                    elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2], pixel[3]);
-                                    break;
-                                default:
-                                    throw new NotImplementedException();
+                                var pixel = img.GetPixels()[0, 0];
+                                switch (pixel.Channels)
+                                {
+                                    case 3:
+                                        elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2]);
+                                        break;
+                                    case 4:
+                                        elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2], pixel[3]);
+                                        break;
+                                    default:
+                                        throw new NotImplementedException();
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        var fileName = $"{path}/mip{mip}";
-
-                        if (vtf.FaceCount > 1)
+                        else
                         {
-                            fileName = $"{fileName}.face{face}";
+                            var fileName = $"{path}/mip{mip}";
+
+                            if (vtf.FrameCount > 1)
+                            {
+                                fileName = $"{fileName}.frame{frame}";
+                            }
+
+                            if (vtf.FaceCount > 1)
+                            {
+                                fileName = $"{fileName}.face{face}";
+                            }
+
+                            fileName = $"{fileName}.png";
+
+                            elem.Url = inBsp ? $"/maps/{bsp.Name}/{fileName}" : $"/{fileName}";
                         }
 
-                        fileName = $"{fileName}.png";
-
-                        elem.Url = inBsp ? $"/maps/{bsp.Name}/{fileName}" : $"/{fileName}";
+                        tex.Elements.Add(elem);
                     }
-
-                    tex.Elements.Add(elem);
                 }
 
                 if (untextured) break;
@@ -147,6 +160,9 @@ namespace SourceUtils.WebExport
 
         [JsonProperty("target")]
         public TextureTarget Target { get; set; }
+
+        [JsonProperty("frames")]
+        public int FrameCount { get; set; }
 
         [JsonProperty("width")]
         public int Width { get; set; }

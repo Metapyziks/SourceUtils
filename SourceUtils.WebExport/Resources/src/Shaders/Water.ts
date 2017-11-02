@@ -89,7 +89,8 @@ namespace SourceUtils {
                     {
                         vec2 screenPos = gl_FragCoord.xy * ${this.uScreenParams}.zw;
 
-                        vec3 normal = normalize(texture2D(${this.uNormalMap}, vTextureCoord).xyz - vec3(0.5, 0.5, 0.5));
+                        vec3 normalSample = texture2D(${this.uNormalMap}, vTextureCoord).xyz;
+                        vec3 normal = normalize(normalSample - vec3(0.5, 0.5, 0.5));
                         vec3 surfacePos = GetWorldPos(gl_FragCoord.z);
                         vec3 viewDir = normalize(surfacePos - uCameraPos);
 
