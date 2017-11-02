@@ -33,6 +33,21 @@ declare namespace SourceUtils {
     }
 }
 declare namespace SourceUtils {
+    interface IAmbientPage {
+        values: IAmbientSample[][];
+    }
+    interface IAmbientSample {
+        position: Facepunch.IVector3;
+        samples: number[];
+    }
+    class AmbientPage extends ResourcePage<IAmbientPage, IAmbientSample[]> {
+        protected onGetValue(index: number): IAmbientSample[];
+    }
+    class AmbientLoader extends PagedLoader<AmbientPage, IAmbientPage, IAmbientSample[]> {
+        protected onCreatePage(page: IPageInfo): AmbientPage;
+    }
+}
+declare namespace SourceUtils {
     import WebGame = Facepunch.WebGame;
     interface IPlane {
         norm: Facepunch.IVector3;
@@ -144,252 +159,6 @@ declare namespace SourceUtils {
         readonly viewer: MapViewer;
         constructor(viewer: MapViewer);
         protected onCreatePage(page: IPageInfo): DispGeometryPage;
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    interface IFace {
-        material: number;
-        element: number;
-    }
-    interface IMaterialGroup {
-        material: number;
-        meshData: WebGame.ICompressedMeshData;
-    }
-    interface ILeafGeometryPage {
-        leaves: IFace[][];
-        materials: IMaterialGroup[];
-    }
-    class LeafGeometryPage extends ResourcePage<ILeafGeometryPage, WebGame.MeshHandle[]> {
-        private readonly viewer;
-        private matGroups;
-        private leafFaces;
-        constructor(viewer: MapViewer, page: IPageInfo);
-        onLoadValues(page: ILeafGeometryPage): void;
-        protected onGetValue(index: number): Facepunch.WebGame.MeshHandle[];
-    }
-    class LeafGeometryLoader extends PagedLoader<LeafGeometryPage, ILeafGeometryPage, WebGame.MeshHandle[]> {
-        readonly viewer: MapViewer;
-        constructor(viewer: MapViewer);
-        protected onCreatePage(page: IPageInfo): LeafGeometryPage;
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    interface IPageInfo {
-        first: number;
-        count: number;
-        url: string;
-    }
-    interface IMap {
-        name: string;
-        lightmapUrl: string;
-        visPages: IPageInfo[];
-        leafPages: IPageInfo[];
-        dispPages: IPageInfo[];
-        materialPages: IPageInfo[];
-        brushModelPages: IPageInfo[];
-        studioModelPages: IPageInfo[];
-        vertLightingPages: IPageInfo[];
-        entities: Entities.IEntity[];
-    }
-    class Map implements WebGame.ICommandBufferParameterProvider {
-        static readonly lightmapParam: WebGame.CommandBufferParameter;
-        readonly viewer: MapViewer;
-        skyCamera: Entities.SkyCamera;
-        private tSpawns;
-        private ctSpawns;
-        private playerSpawns;
-        private worldspawn;
-        private pvsEntities;
-        private lightmap;
-        private skyCube;
-        private info;
-        private clusterVis;
-        private clusterEnts;
-        private worldspawnLoadedCallbacks;
-        constructor(viewer: MapViewer);
-        isReady(): boolean;
-        unload(): void;
-        load(url: string): void;
-        getLightmapLoadProgress(): number;
-        private onLoad(info);
-        getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[];
-        getLeafAt(pos: Facepunch.IVector3, callback?: (leaf: BspLeaf) => void): BspLeaf;
-        update(dt: number): void;
-        populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void;
-        populateCommandBufferParameters(buf: Facepunch.WebGame.CommandBuffer): void;
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    interface IMapMaterialPage {
-        textures: WebGame.ITextureInfo[];
-        materials: WebGame.IMaterialInfo[];
-    }
-    class MapMaterialPage extends ResourcePage<IMapMaterialPage, WebGame.IMaterialInfo> {
-        private readonly viewer;
-        private materials;
-        constructor(viewer: MapViewer, page: IPageInfo);
-        onLoadValues(page: IMapMaterialPage): void;
-        onGetValue(index: number): WebGame.IMaterialInfo;
-    }
-    class MapMaterialLoader extends PagedLoader<MapMaterialPage, IMapMaterialPage, WebGame.IMaterialInfo> {
-        readonly viewer: MapViewer;
-        private readonly materials;
-        constructor(viewer: MapViewer);
-        loadMaterial(index: number): WebGame.Material;
-        protected onCreatePage(page: IPageInfo): MapMaterialPage;
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    enum CameraMode {
-        Fixed = 0,
-        CanLook = 1,
-        CanMove = 2,
-        FreeCam = 3,
-    }
-    interface IPositionHash {
-        x?: number;
-        y?: number;
-        z?: number;
-        r?: number;
-        s?: number;
-    }
-    class MapViewer extends WebGame.Game {
-        mainCamera: Entities.Camera;
-        debugPanel: HTMLElement;
-        readonly map: Map;
-        readonly visLoader: VisLoader;
-        readonly bspModelLoader: BspModelLoader;
-        readonly mapMaterialLoader: MapMaterialLoader;
-        readonly leafGeometryLoader: LeafGeometryLoader;
-        readonly dispGeometryLoader: DispGeometryLoader;
-        readonly studioModelLoader: StudioModelLoader;
-        readonly vertLightingLoader: VertexLightingLoader;
-        readonly ambientLoader: AmbientLoader;
-        private debugPanelVisible;
-        cameraMode: CameraMode;
-        saveCameraPosInHash: boolean;
-        showDebugPanel: boolean;
-        totalLoadProgress: number;
-        avgFrameTime: number;
-        avgFrameRate: number;
-        notMovedTime: number;
-        constructor(container: HTMLElement);
-        loadMap(url: string): void;
-        protected onInitialize(): void;
-        private static readonly hashKeyRegex;
-        private static readonly hashObjectRegex;
-        protected setHash(value: string | Object): void;
-        private oldHash;
-        private hashChange();
-        private readonly onHashChange_temp;
-        protected onHashChange(value: string | Object): void;
-        protected onCreateDebugPanel(): HTMLElement;
-        protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void;
-        protected onResize(): void;
-        private readonly lookAngs;
-        private readonly tempQuat;
-        private readonly lookQuat;
-        setCameraAngles(yaw: number, pitch: number): void;
-        private updateCameraAngles();
-        protected onMouseLook(delta: Facepunch.Vector2): void;
-        toggleFullscreen(): void;
-        protected onKeyDown(key: WebGame.Key): boolean;
-        private lastProfileTime;
-        private frameCount;
-        private lastDrawCalls;
-        private allLoaded;
-        protected onSetDebugText(className: string, value: string): void;
-        private readonly onUpdateFrame_temp;
-        protected onUpdateFrame(dt: number): void;
-        protected onRenderFrame(dt: number): void;
-        populateCommandBufferParameters(buf: WebGame.CommandBuffer): void;
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    class SkyCube extends WebGame.DrawListItem {
-        constructor(viewer: MapViewer, material: WebGame.Material);
-    }
-}
-declare namespace SourceUtils {
-    import WebGame = Facepunch.WebGame;
-    interface ISmdMesh {
-        meshId: number;
-        material: number;
-        element: number;
-    }
-    interface ISmdModel {
-        meshes: ISmdMesh[];
-    }
-    interface ISmdBodyPart {
-        name: string;
-        models: ISmdModel[];
-    }
-    interface IStudioModel {
-        bodyParts: ISmdBodyPart[];
-    }
-    class StudioModel extends WebGame.RenderResource<StudioModel> {
-        readonly viewer: MapViewer;
-        private info;
-        private page;
-        constructor(viewer: MapViewer);
-        private static getOrCreateMatGroup(matGroups, attribs);
-        private static encode2CompColor(vertLit, albedoMod);
-        private static readonly sampleAmbientCube_temp;
-        private static sampleAmbientCube(normal, samples);
-        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | Facepunch.IVector3[]), albedoModulation?: number): WebGame.MeshHandle[];
-        loadFromInfo(info: IStudioModel, page: StudioModelPage): void;
-        isLoaded(): boolean;
-    }
-    interface IStudioModelPage {
-        models: IStudioModel[];
-        materials: IMaterialGroup[];
-    }
-    class StudioModelPage extends ResourcePage<IStudioModelPage, IStudioModel> {
-        private matGroups;
-        private models;
-        constructor(page: IPageInfo);
-        getMaterialGroup(index: number): WebGame.IMeshData;
-        onLoadValues(page: IStudioModelPage): void;
-        onGetValue(index: number): IStudioModel;
-    }
-    class StudioModelLoader extends PagedLoader<StudioModelPage, IStudioModelPage, IStudioModel> {
-        readonly viewer: MapViewer;
-        private readonly models;
-        constructor(viewer: MapViewer);
-        update(requestQuota: number): number;
-        loadModel(index: number): StudioModel;
-        onCreatePage(page: IPageInfo): StudioModelPage;
-    }
-    interface IVertexLightingPage {
-        props: (string | number[])[][];
-    }
-    class VertexLightingPage extends ResourcePage<IVertexLightingPage, number[][]> {
-        private props;
-        onLoadValues(page: IVertexLightingPage): void;
-        onGetValue(index: number): number[][];
-    }
-    class VertexLightingLoader extends PagedLoader<VertexLightingPage, IVertexLightingPage, number[][]> {
-        readonly viewer: MapViewer;
-        constructor(viewer: MapViewer);
-        update(requestQuota: number): number;
-        onCreatePage(page: IPageInfo): VertexLightingPage;
-    }
-}
-declare namespace SourceUtils {
-    interface IVisPage {
-        values: (number[] | string)[];
-    }
-    class VisPage extends ResourcePage<IVisPage, number[]> {
-        protected onGetValue(index: number): number[];
-    }
-    class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
-        constructor();
-        protected onCreatePage(page: IPageInfo): VisPage;
     }
 }
 declare namespace SourceUtils {
@@ -529,6 +298,170 @@ declare namespace SourceUtils {
             isInCluster(cluster: number): boolean;
             protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList, clusters: number[]): void;
         }
+    }
+}
+declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
+    interface IFace {
+        material: number;
+        element: number;
+    }
+    interface IMaterialGroup {
+        material: number;
+        meshData: WebGame.ICompressedMeshData;
+    }
+    interface ILeafGeometryPage {
+        leaves: IFace[][];
+        materials: IMaterialGroup[];
+    }
+    class LeafGeometryPage extends ResourcePage<ILeafGeometryPage, WebGame.MeshHandle[]> {
+        private readonly viewer;
+        private matGroups;
+        private leafFaces;
+        constructor(viewer: MapViewer, page: IPageInfo);
+        onLoadValues(page: ILeafGeometryPage): void;
+        protected onGetValue(index: number): Facepunch.WebGame.MeshHandle[];
+    }
+    class LeafGeometryLoader extends PagedLoader<LeafGeometryPage, ILeafGeometryPage, WebGame.MeshHandle[]> {
+        readonly viewer: MapViewer;
+        constructor(viewer: MapViewer);
+        protected onCreatePage(page: IPageInfo): LeafGeometryPage;
+    }
+}
+declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
+    interface IPageInfo {
+        first: number;
+        count: number;
+        url: string;
+    }
+    interface IMap {
+        name: string;
+        lightmapUrl: string;
+        visPages: IPageInfo[];
+        leafPages: IPageInfo[];
+        dispPages: IPageInfo[];
+        materialPages: IPageInfo[];
+        brushModelPages: IPageInfo[];
+        studioModelPages: IPageInfo[];
+        vertLightingPages: IPageInfo[];
+        ambientPages: IPageInfo[];
+        entities: Entities.IEntity[];
+    }
+    class Map implements WebGame.ICommandBufferParameterProvider {
+        static readonly lightmapParam: WebGame.CommandBufferParameter;
+        readonly viewer: MapViewer;
+        skyCamera: Entities.SkyCamera;
+        private tSpawns;
+        private ctSpawns;
+        private playerSpawns;
+        private worldspawn;
+        private pvsEntities;
+        private lightmap;
+        private skyCube;
+        private info;
+        private clusterVis;
+        private clusterEnts;
+        private worldspawnLoadedCallbacks;
+        constructor(viewer: MapViewer);
+        isReady(): boolean;
+        unload(): void;
+        load(url: string): void;
+        getLightmapLoadProgress(): number;
+        private onLoad(info);
+        getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[];
+        getLeafAt(pos: Facepunch.IVector3, callback?: (leaf: BspLeaf) => void): BspLeaf;
+        update(dt: number): void;
+        populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void;
+        populateCommandBufferParameters(buf: Facepunch.WebGame.CommandBuffer): void;
+    }
+}
+declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
+    interface IMapMaterialPage {
+        textures: WebGame.ITextureInfo[];
+        materials: WebGame.IMaterialInfo[];
+    }
+    class MapMaterialPage extends ResourcePage<IMapMaterialPage, WebGame.IMaterialInfo> {
+        private readonly viewer;
+        private materials;
+        constructor(viewer: MapViewer, page: IPageInfo);
+        onLoadValues(page: IMapMaterialPage): void;
+        onGetValue(index: number): WebGame.IMaterialInfo;
+    }
+    class MapMaterialLoader extends PagedLoader<MapMaterialPage, IMapMaterialPage, WebGame.IMaterialInfo> {
+        readonly viewer: MapViewer;
+        private readonly materials;
+        constructor(viewer: MapViewer);
+        loadMaterial(index: number): WebGame.Material;
+        protected onCreatePage(page: IPageInfo): MapMaterialPage;
+    }
+}
+declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
+    enum CameraMode {
+        Fixed = 0,
+        CanLook = 1,
+        CanMove = 2,
+        FreeCam = 3,
+    }
+    interface IPositionHash {
+        x?: number;
+        y?: number;
+        z?: number;
+        r?: number;
+        s?: number;
+    }
+    class MapViewer extends WebGame.Game {
+        mainCamera: Entities.Camera;
+        debugPanel: HTMLElement;
+        readonly map: Map;
+        readonly visLoader: VisLoader;
+        readonly bspModelLoader: BspModelLoader;
+        readonly mapMaterialLoader: MapMaterialLoader;
+        readonly leafGeometryLoader: LeafGeometryLoader;
+        readonly dispGeometryLoader: DispGeometryLoader;
+        readonly studioModelLoader: StudioModelLoader;
+        readonly vertLightingLoader: VertexLightingLoader;
+        readonly ambientLoader: AmbientLoader;
+        private debugPanelVisible;
+        cameraMode: CameraMode;
+        saveCameraPosInHash: boolean;
+        showDebugPanel: boolean;
+        totalLoadProgress: number;
+        avgFrameTime: number;
+        avgFrameRate: number;
+        notMovedTime: number;
+        constructor(container: HTMLElement);
+        loadMap(url: string): void;
+        protected onInitialize(): void;
+        private static readonly hashKeyRegex;
+        private static readonly hashObjectRegex;
+        protected setHash(value: string | Object): void;
+        private oldHash;
+        private hashChange();
+        private readonly onHashChange_temp;
+        protected onHashChange(value: string | Object): void;
+        protected onCreateDebugPanel(): HTMLElement;
+        protected onDeviceRotate(deltaAngles: Facepunch.Vector3): void;
+        protected onResize(): void;
+        private readonly lookAngs;
+        private readonly tempQuat;
+        private readonly lookQuat;
+        setCameraAngles(yaw: number, pitch: number): void;
+        private updateCameraAngles();
+        protected onMouseLook(delta: Facepunch.Vector2): void;
+        toggleFullscreen(): void;
+        protected onKeyDown(key: WebGame.Key): boolean;
+        private lastProfileTime;
+        private frameCount;
+        private lastDrawCalls;
+        private allLoaded;
+        protected onSetDebugText(className: string, value: string): void;
+        private readonly onUpdateFrame_temp;
+        protected onUpdateFrame(dt: number): void;
+        protected onRenderFrame(dt: number): void;
+        populateCommandBufferParameters(buf: WebGame.CommandBuffer): void;
     }
 }
 declare namespace SourceUtils {
@@ -712,17 +645,85 @@ declare namespace SourceUtils {
     }
 }
 declare namespace SourceUtils {
-    interface IAmbientPage {
-        values: IAmbientSample[][];
+    import WebGame = Facepunch.WebGame;
+    class SkyCube extends WebGame.DrawListItem {
+        constructor(viewer: MapViewer, material: WebGame.Material);
     }
-    interface IAmbientSample {
-        position: Facepunch.IVector3;
-        samples: number[];
+}
+declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
+    interface ISmdMesh {
+        meshId: number;
+        material: number;
+        element: number;
     }
-    class AmbientPage extends ResourcePage<IAmbientPage, IAmbientSample[]> {
-        protected onGetValue(index: number): IAmbientSample[];
+    interface ISmdModel {
+        meshes: ISmdMesh[];
     }
-    class AmbientLoader extends PagedLoader<AmbientPage, IAmbientPage, IAmbientSample[]> {
-        protected onCreatePage(page: IPageInfo): AmbientPage;
+    interface ISmdBodyPart {
+        name: string;
+        models: ISmdModel[];
+    }
+    interface IStudioModel {
+        bodyParts: ISmdBodyPart[];
+    }
+    class StudioModel extends WebGame.RenderResource<StudioModel> {
+        readonly viewer: MapViewer;
+        private info;
+        private page;
+        constructor(viewer: MapViewer);
+        private static getOrCreateMatGroup(matGroups, attribs);
+        private static encode2CompColor(vertLit, albedoMod);
+        private static readonly sampleAmbientCube_temp;
+        private static sampleAmbientCube(normal, samples);
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | Facepunch.IVector3[]), albedoModulation?: number): WebGame.MeshHandle[];
+        loadFromInfo(info: IStudioModel, page: StudioModelPage): void;
+        isLoaded(): boolean;
+    }
+    interface IStudioModelPage {
+        models: IStudioModel[];
+        materials: IMaterialGroup[];
+    }
+    class StudioModelPage extends ResourcePage<IStudioModelPage, IStudioModel> {
+        private matGroups;
+        private models;
+        constructor(page: IPageInfo);
+        getMaterialGroup(index: number): WebGame.IMeshData;
+        onLoadValues(page: IStudioModelPage): void;
+        onGetValue(index: number): IStudioModel;
+    }
+    class StudioModelLoader extends PagedLoader<StudioModelPage, IStudioModelPage, IStudioModel> {
+        readonly viewer: MapViewer;
+        private readonly models;
+        constructor(viewer: MapViewer);
+        update(requestQuota: number): number;
+        loadModel(index: number): StudioModel;
+        onCreatePage(page: IPageInfo): StudioModelPage;
+    }
+    interface IVertexLightingPage {
+        props: (string | number[])[][];
+    }
+    class VertexLightingPage extends ResourcePage<IVertexLightingPage, number[][]> {
+        private props;
+        onLoadValues(page: IVertexLightingPage): void;
+        onGetValue(index: number): number[][];
+    }
+    class VertexLightingLoader extends PagedLoader<VertexLightingPage, IVertexLightingPage, number[][]> {
+        readonly viewer: MapViewer;
+        constructor(viewer: MapViewer);
+        update(requestQuota: number): number;
+        onCreatePage(page: IPageInfo): VertexLightingPage;
+    }
+}
+declare namespace SourceUtils {
+    interface IVisPage {
+        values: (number[] | string)[];
+    }
+    class VisPage extends ResourcePage<IVisPage, number[]> {
+        protected onGetValue(index: number): number[];
+    }
+    class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
+        constructor();
+        protected onCreatePage(page: IPageInfo): VisPage;
     }
 }

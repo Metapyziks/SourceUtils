@@ -12,7 +12,7 @@ namespace SourceUtils.WebExport.Bsp
         public Vector3 Position { get; set; }
 
         [JsonProperty("samples")]
-        public uint[] Samples { get; set; }
+        public int[] Samples { get; set; }
     }
     
     public class AmbientPage
@@ -59,7 +59,7 @@ namespace SourceUtils.WebExport.Bsp
                     for (var i = index.FirstAmbientSample; i < index.FirstAmbientSample + index.AmbientSampleCount; ++i)
                     {
                         var ambient = ambients[i];
-                        var samples = new uint[6];
+                        var samples = new int[6];
                         var relPos = new SourceUtils.Vector3(ambient.X, ambient.Y, ambient.Z) * (1f / 255f);
 
                         for (var j = 0; j < 6; ++j)

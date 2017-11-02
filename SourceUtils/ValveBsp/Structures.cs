@@ -511,9 +511,9 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct ColorRGBExp32
     {
-        public static implicit operator uint(ColorRGBExp32 color)
+        public static implicit operator int(ColorRGBExp32 color)
         {
-            return color.R | (uint) (color.G << 8) | (uint) (color.B << 16) | (uint) (color.Exponent << 24);
+            return color.R | (color.G << 8) | (color.B << 16) | ((color.Exponent + 128) << 24);
         }
 
         public readonly byte R;
@@ -551,24 +551,24 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct CompressedLightCube
     {
-        public readonly ColorRGBExp32 MinX;
-        public readonly ColorRGBExp32 MaxX;
-        public readonly ColorRGBExp32 MinY;
-        public readonly ColorRGBExp32 MaxY;
-        public readonly ColorRGBExp32 MinZ;
-        public readonly ColorRGBExp32 MaxZ;
+        public readonly ColorRGBExp32 Face0;
+        public readonly ColorRGBExp32 Face1;
+        public readonly ColorRGBExp32 Face2;
+        public readonly ColorRGBExp32 Face3;
+        public readonly ColorRGBExp32 Face4;
+        public readonly ColorRGBExp32 Face5;
 
         public ColorRGBExp32 this[int face]
         {
             get {
                 switch ( face )
                 {
-                    case 0: return MinX;
-                    case 1: return MaxX;
-                    case 2: return MinY;
-                    case 3: return MaxY;
-                    case 4: return MinZ;
-                    case 5: return MaxZ;
+                    case 0: return Face0;
+                    case 1: return Face1;
+                    case 2: return Face2;
+                    case 3: return Face3;
+                    case 4: return Face4;
+                    case 5: return Face5;
                     default: throw new IndexOutOfRangeException();
                 }
             }

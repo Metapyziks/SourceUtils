@@ -1,4 +1,6 @@
-﻿namespace SourceUtils {
+﻿/// <reference path="PagedLoader.ts"/>
+
+namespace SourceUtils {
     export interface IAmbientPage {
         values: IAmbientSample[][];
     }

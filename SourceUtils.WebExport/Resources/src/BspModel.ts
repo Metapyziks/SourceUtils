@@ -161,11 +161,17 @@ namespace SourceUtils {
             for (let i = 0; i < 6; ++i) {
                 const rgbExp = closestSamples[i];
                 const outVec = outSamples[i] || (outSamples[i] = new Facepunch.Vector3());
-                const mul = Math.pow(2.0, (rgbExp >> 24)) / 255.0;
 
-                outVec.x = mul * ((rgbExp >> 0) & 0xff);
-                outVec.y = mul * ((rgbExp >> 8) & 0xff);
-                outVec.z = mul * ((rgbExp >> 16) & 0xff);
+                const r = ((rgbExp >> 0) & 0xff);
+                const g = ((rgbExp >> 8) & 0xff);
+                const b = ((rgbExp >> 16) & 0xff);
+                const exp = ((rgbExp >> 24) & 0xff) - 128;
+
+                const mul = Math.pow(2.0, exp);
+
+                outVec.x = Math.pow(mul * r, 0.5);
+                outVec.y = Math.pow(mul * g, 0.5);
+                outVec.z = Math.pow(mul * b, 0.5);
             }
 
             if (callback != null) callback(true);

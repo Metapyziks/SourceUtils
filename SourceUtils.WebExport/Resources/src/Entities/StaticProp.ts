@@ -33,12 +33,10 @@ namespace SourceUtils {
                     // TODO: lighting offset
                     this.map.getLeafAt(this.info.origin, leaf => {
                         if (leaf == null) {
-                            console.log("Leaf is null");
                             this.lighting = null;
                         } else {
                             const samples = new Array<Facepunch.IVector3>(6);
                             leaf.getAmbientCube(this.info.origin, samples, success => {
-                                console.log(`getAmbientCube: ${success}`);
                                 this.lighting = success ? samples : null;
                             });
                         }

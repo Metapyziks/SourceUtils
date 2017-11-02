@@ -63,38 +63,35 @@ namespace SourceUtils {
             let mul: number;
 
             if (normal.x < 0) {
-                sample = samples[0];
-                mul = -normal.x;
-            } else {
                 sample = samples[1];
-                mul = normal.x;
+            } else {
+                sample = samples[0];
             }
 
+            mul = normal.x * normal.x;
             rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
 
             if (normal.y < 0) {
-                sample = samples[2];
-                mul = -normal.y;
-            } else {
                 sample = samples[3];
-                mul = normal.y;
+            } else {
+                sample = samples[2];
             }
 
+            mul = normal.y * normal.y;
             rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
 
             if (normal.z < 0) {
-                sample = samples[4];
-                mul = -normal.z;
-            } else {
                 sample = samples[5];
-                mul = normal.z;
+            } else {
+                sample = samples[4];
             }
 
+            mul = normal.z * normal.z;
             rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
 
-            const r = Math.min(Math.round(rgb.x * 127.0), 255);
-            const g = Math.min(Math.round(rgb.x * 127.0), 255);
-            const b = Math.min(Math.round(rgb.x * 127.0), 255);
+            const r = Math.min(Math.round(rgb.x * 255.0), 255);
+            const g = Math.min(Math.round(rgb.y * 255.0), 255);
+            const b = Math.min(Math.round(rgb.z * 255.0), 255);
 
             return r | (g << 8) | (b << 16);
         }

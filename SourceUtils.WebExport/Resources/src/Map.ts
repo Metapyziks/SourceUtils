@@ -19,6 +19,7 @@ namespace SourceUtils {
         brushModelPages: IPageInfo[];
         studioModelPages: IPageInfo[];
         vertLightingPages: IPageInfo[];
+        ambientPages: IPageInfo[];
         entities: Entities.IEntity[];
     }
 
@@ -78,6 +79,7 @@ namespace SourceUtils {
             this.viewer.bspModelLoader.setPageLayout(info.brushModelPages);
             this.viewer.studioModelLoader.setPageLayout(info.studioModelPages);
             this.viewer.vertLightingLoader.setPageLayout(info.vertLightingPages);
+            this.viewer.ambientLoader.setPageLayout(info.ambientPages);
 
             this.lightmap = this.viewer.textureLoader.load(info.lightmapUrl);
 
@@ -171,7 +173,7 @@ namespace SourceUtils {
         }
 
         getLeafAt(pos: Facepunch.IVector3, callback?: (leaf: BspLeaf) => void): BspLeaf {
-            if (this.worldspawn == null || this.worldspawn.model == null) {
+            if (this.worldspawn == null || !this.worldspawn.model.isLoaded()) {
                 if (callback != null) {
                     const posCopy = new Facepunch.Vector3().copy(pos);
                     this.worldspawnLoadedCallbacks.push(() => callback(this.getLeafAt(posCopy)));
@@ -186,7 +188,7 @@ namespace SourceUtils {
         }
 
         update(dt: number): void {
-            if (this.worldspawn != null && this.worldspawn.model != null && this.worldspawnLoadedCallbacks.length > 0) {
+            if (this.worldspawnLoadedCallbacks.length > 0 && this.worldspawn != null && this.worldspawn.model.isLoaded()) {
                 for (let callback of this.worldspawnLoadedCallbacks) {
                     callback();
                 }
