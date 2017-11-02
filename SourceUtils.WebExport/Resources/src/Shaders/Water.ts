@@ -94,13 +94,17 @@ namespace SourceUtils {
                         vec3 surfacePos = GetWorldPos(gl_FragCoord.z);
                         vec3 viewDir = normalize(surfacePos - uCameraPos);
 
+                        vec3 lightmap = ApplyLightmap(vec3(1.0, 1.0, 1.0));
+                        float normalDot = abs(dot(viewDir, normal));
+
                         float opaqueDepthSample = texture2D(${this.uOpaqueDepth}, screenPos).r;
                         vec3 opaquePos = GetWorldPos(opaqueDepthSample);
                         float opaqueDepth = surfacePos.z - opaquePos.z;
                         vec2 refractedScreenPos = screenPos + normal.xy * opaqueDepth * 1.0 / 512.0;
                         float refractedOpaqueDepthSample = texture2D(${this.uOpaqueDepth}, refractedScreenPos).r;
-                        vec3 opaqueColor = texture2D(${this.uOpaqueColor},
-                            refractedOpaqueDepthSample > gl_FragCoord.z ? refractedScreenPos : screenPos).rgb * ${this.uRefractTint};
+                        vec3 opaqueColor = mix(pow(lightmap, vec3(0.5, 0.5, 0.5)), texture2D(${this.uOpaqueColor},
+                            refractedOpaqueDepthSample > gl_FragCoord.z ? refractedScreenPos : screenPos).rgb, pow(normalDot, 0.5))
+                            * ${this.uRefractTint};
 
                         float relativeDepth = (opaqueDepth - ${this.uWaterFogParams}.x) * ${this.uWaterFogParams}.y;
                         float fogDensity = max(${this.uWaterFogParams}.z, min(${this.uWaterFogParams}.w, relativeDepth)) * float(opaqueDepthSample < 1.0);
@@ -108,7 +112,7 @@ namespace SourceUtils {
                         vec3 waterFogColor = ${this.uWaterFogColor};
 
                         if (${this.uWaterFogLightmapped} > 0.5) {
-                            waterFogColor = ApplyLightmap(waterFogColor);
+                            waterFogColor *= lightmap;
                         }
 
                         vec3 waterFogged = mix(opaqueColor, ApplyFog(waterFogColor), fogDensity);
