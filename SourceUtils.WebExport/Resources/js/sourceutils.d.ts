@@ -73,23 +73,27 @@ declare namespace SourceUtils {
         readonly isLeaf: boolean;
     }
     class BspNode implements INodeOrLeaf {
-        private readonly loader;
+        private readonly viewer;
         readonly isLeaf: boolean;
         readonly plane: Plane;
-        readonly children: (BspNode | BspLeaf)[];
-        constructor(loader: LeafGeometryLoader, info: IBspNode);
+        readonly children: (BspLeaf | BspNode)[];
+        constructor(viewer: MapViewer, info: IBspNode);
         private loadChild(value);
         findLeaves(target: BspLeaf[]): void;
     }
     class BspLeaf extends WebGame.DrawListItem implements INodeOrLeaf {
         readonly isLeaf: boolean;
-        private readonly loader;
+        private readonly viewer;
         readonly index: number;
         readonly flags: LeafFlags;
         readonly cluster: number;
         readonly hasFaces: boolean;
         private hasLoaded;
-        constructor(loader: LeafGeometryLoader, info: IBspLeaf);
+        private ambientSamples;
+        private hasLoadedAmbient;
+        constructor(viewer: MapViewer, info: IBspLeaf);
+        private static readonly getAmbientCube_temp;
+        getAmbientCube(pos: Facepunch.IVector3, outSamples: Facepunch.IVector3[], callback?: (success: boolean) => void): boolean;
         getMeshHandles(): Facepunch.WebGame.MeshHandle[];
         findLeaves(target: BspLeaf[]): void;
     }
@@ -203,6 +207,7 @@ declare namespace SourceUtils {
         private info;
         private clusterVis;
         private clusterEnts;
+        private worldspawnLoadedCallbacks;
         constructor(viewer: MapViewer);
         isReady(): boolean;
         unload(): void;
@@ -210,7 +215,8 @@ declare namespace SourceUtils {
         getLightmapLoadProgress(): number;
         private onLoad(info);
         getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[];
-        getLeafAt(pos: Facepunch.IVector3): BspLeaf;
+        getLeafAt(pos: Facepunch.IVector3, callback?: (leaf: BspLeaf) => void): BspLeaf;
+        update(dt: number): void;
         populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void;
         populateCommandBufferParameters(buf: Facepunch.WebGame.CommandBuffer): void;
     }
@@ -262,6 +268,7 @@ declare namespace SourceUtils {
         readonly dispGeometryLoader: DispGeometryLoader;
         readonly studioModelLoader: StudioModelLoader;
         readonly vertLightingLoader: VertexLightingLoader;
+        readonly ambientLoader: AmbientLoader;
         private debugPanelVisible;
         cameraMode: CameraMode;
         saveCameraPosInHash: boolean;
@@ -332,7 +339,9 @@ declare namespace SourceUtils {
         constructor(viewer: MapViewer);
         private static getOrCreateMatGroup(matGroups, attribs);
         private static encode2CompColor(vertLit, albedoMod);
-        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, vertLighting?: number[][], albedoModulation?: number): WebGame.MeshHandle[];
+        private static readonly sampleAmbientCube_temp;
+        private static sampleAmbientCube(normal, samples);
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | Facepunch.IVector3[]), albedoModulation?: number): WebGame.MeshHandle[];
         loadFromInfo(info: IStudioModel, page: StudioModelPage): void;
         isLoaded(): boolean;
     }
@@ -498,6 +507,7 @@ declare namespace SourceUtils {
         }
         class StaticProp extends PvsEntity {
             readonly model: StudioModel;
+            private readonly info;
             private lighting;
             private albedoModulation?;
             constructor(map: Map, info: IStaticProp);
@@ -699,5 +709,20 @@ declare namespace SourceUtils {
             constructor(context: WebGLRenderingContext);
             bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: WorldTwoTextureBlendMaterial): void;
         }
+    }
+}
+declare namespace SourceUtils {
+    interface IAmbientPage {
+        values: IAmbientSample[][];
+    }
+    interface IAmbientSample {
+        position: Facepunch.IVector3;
+        samples: number[];
+    }
+    class AmbientPage extends ResourcePage<IAmbientPage, IAmbientSample[]> {
+        protected onGetValue(index: number): IAmbientSample[];
+    }
+    class AmbientLoader extends PagedLoader<AmbientPage, IAmbientPage, IAmbientSample[]> {
+        protected onCreatePage(page: IPageInfo): AmbientPage;
     }
 }

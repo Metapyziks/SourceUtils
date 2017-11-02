@@ -55,7 +55,51 @@ namespace SourceUtils {
             return vertLit + albedoMod * 0.00390625;
         }
 
-        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, vertLighting?: number[][], albedoModulation?: number): WebGame.MeshHandle[] {
+        private static readonly sampleAmbientCube_temp = new Facepunch.Vector3();
+        private static sampleAmbientCube(normal: Facepunch.IVector3, samples: Facepunch.IVector3[]): number {
+            const rgb = StudioModel.sampleAmbientCube_temp.set(0, 0, 0);
+
+            let sample: Facepunch.IVector3;
+            let mul: number;
+
+            if (normal.x < 0) {
+                sample = samples[0];
+                mul = -normal.x;
+            } else {
+                sample = samples[1];
+                mul = normal.x;
+            }
+
+            rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
+
+            if (normal.y < 0) {
+                sample = samples[2];
+                mul = -normal.y;
+            } else {
+                sample = samples[3];
+                mul = normal.y;
+            }
+
+            rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
+
+            if (normal.z < 0) {
+                sample = samples[4];
+                mul = -normal.z;
+            } else {
+                sample = samples[5];
+                mul = normal.z;
+            }
+
+            rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
+
+            const r = Math.min(Math.round(rgb.x * 127.0), 255);
+            const g = Math.min(Math.round(rgb.x * 127.0), 255);
+            const b = Math.min(Math.round(rgb.x * 127.0), 255);
+
+            return r | (g << 8) | (b << 16);
+        }
+
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | Facepunch.IVector3[]), albedoModulation?: number): WebGame.MeshHandle[] {
             const bodyPart = this.info.bodyParts[bodyPartIndex];
             const handles: WebGame.MeshHandle[] = [];
 
@@ -68,6 +112,12 @@ namespace SourceUtils {
             const albedoG = (albedoModulation >> 8) & 0xff;
             const albedoB = (albedoModulation >> 16) & 0xff;
 
+            const hasAmbientLighting = lighting != null && lighting.length === 6 && (lighting[0] as Facepunch.IVector3).x !== undefined;
+            const hasVertLighting = lighting != null && !hasAmbientLighting;
+
+            const ambientLighting = hasAmbientLighting ? lighting as Facepunch.IVector3[] : null;
+            const tempNormal = new Facepunch.Vector4();
+
             for (let model of bodyPart.models) {
                 for (let mesh of model.meshes) {
                     const srcGroup = this.page.getMaterialGroup(mesh.material);
@@ -78,20 +128,34 @@ namespace SourceUtils {
                     const dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
                     const newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
 
+                    const normalOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.normal);
                     const rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
                     const vertLength = WebGame.MeshManager.getVertexLength(attribs);
-                    const lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
+                    const vertLighting = hasVertLighting ? (lighting as number[][])[mesh.meshId] : null;
 
                     const vertData = dstGroup.vertices;
-                    for (let i = newElem.vertexOffset + rgbOffset,
+                    for (let i = newElem.vertexOffset,
                         iEnd = newElem.vertexOffset + newElem.vertexCount,
                         j = 0; i < iEnd; i += vertLength, ++j) {
 
-                        const lightValue = lighting == null ? 0x7f7f7f : lighting[j];
+                        const normalIndex = i + normalOffset;
+                        const rgbIndex = i + rgbOffset;
 
-                        vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
-                        vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
-                        vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
+                        let lightValue: number;
+
+                        if (hasVertLighting) {
+                            lightValue = vertLighting[j];
+                        } else if (hasAmbientLighting) {
+                            tempNormal.set(vertData[normalIndex], vertData[normalIndex + 1], vertData[normalIndex + 2], 0);
+                            tempNormal.applyMatrix4(transform);
+                            lightValue = StudioModel.sampleAmbientCube(tempNormal, ambientLighting);
+                        } else {
+                            lightValue = 0x7f7f7f;
+                        }
+
+                        vertData[rgbIndex] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
+                        vertData[rgbIndex + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
+                        vertData[rgbIndex + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
                     }
                 }
             }

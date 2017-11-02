@@ -30,6 +30,7 @@ namespace SourceUtils {
         readonly dispGeometryLoader = this.addLoader(new DispGeometryLoader(this));
         readonly studioModelLoader = this.addLoader(new StudioModelLoader(this));
         readonly vertLightingLoader = this.addLoader(new VertexLightingLoader(this));
+        readonly ambientLoader = this.addLoader(new AmbientLoader());
 
         private debugPanelVisible: boolean;
 
@@ -312,6 +313,8 @@ namespace SourceUtils {
 
         protected onUpdateFrame(dt: number): void {
             super.onUpdateFrame(dt);
+
+            this.map.update(dt);
 
             if (this.showDebugPanel !== this.debugPanelVisible) {
                 this.debugPanelVisible = this.showDebugPanel;

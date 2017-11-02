@@ -442,6 +442,7 @@ namespace SourceUtils.WebExport.Bsp
         private void FindMaterialAttributes( ValveMaterialFile vmt, List<VertexAttribute> dest )
         {
             dest.Add( VertexAttribute.Position );
+            dest.Add( VertexAttribute.Normal );
             dest.Add( VertexAttribute.Uv );
 
             if ( vmt == null ) return;
@@ -566,6 +567,7 @@ namespace SourceUtils.WebExport.Bsp
                         var u = x * subDivMul;
 
                         meshData.VertexAttribute( VertexAttribute.Position, disp.GetPosition( x, y + 0 ) );
+                        meshData.VertexAttribute( VertexAttribute.Normal, disp.GetNormal( x, y + 0 ) );
                         meshData.VertexAttribute( VertexAttribute.Uv,
                             (uv00 * (1f - u) + uv10 * u) * (1f - v0) + (uv01 * (1f - u) + uv11 * u) * v0 );
                         meshData.VertexAttribute( VertexAttribute.Uv2, new Vector2( u, v0 ) * lmSize + lmMin );
@@ -573,6 +575,7 @@ namespace SourceUtils.WebExport.Bsp
                         meshData.CommitVertex();
 
                         meshData.VertexAttribute( VertexAttribute.Position, disp.GetPosition( x, y + 1 ) );
+                        meshData.VertexAttribute( VertexAttribute.Normal, disp.GetNormal( x, y + 1 ) );
                         meshData.VertexAttribute( VertexAttribute.Uv,
                             (uv00 * (1f - u) + uv10 * u) * (1f - v1) + (uv01 * (1f - u) + uv11 * u) * v1 );
                         meshData.VertexAttribute( VertexAttribute.Uv2, new Vector2( u, v1 ) * lmSize + lmMin );
@@ -586,6 +589,8 @@ namespace SourceUtils.WebExport.Bsp
             else
             {
                 meshData.BeginPrimitive();
+
+                var plane = bsp.Planes[faceInfo.PlaneNum];
 
                 for ( int k = faceInfo.FirstEdge, kEnd = faceInfo.FirstEdge + faceInfo.NumEdges; k < kEnd; ++k )
                 {
@@ -602,6 +607,7 @@ namespace SourceUtils.WebExport.Bsp
                     uv2 += lmMin;
 
                     meshData.VertexAttribute( VertexAttribute.Position, vert );
+                    meshData.VertexAttribute( VertexAttribute.Normal, plane.Normal );
                     meshData.VertexAttribute( VertexAttribute.Uv, uv * texScale );
                     meshData.VertexAttribute( VertexAttribute.Uv2, uv2 );
 

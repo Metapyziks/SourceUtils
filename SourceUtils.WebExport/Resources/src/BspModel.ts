@@ -56,14 +56,14 @@ namespace SourceUtils {
     }
 
     export class BspNode implements INodeOrLeaf {
-        private readonly loader: LeafGeometryLoader;
+        private readonly viewer: MapViewer;
 
         readonly isLeaf = false;
         readonly plane = new Plane();
         readonly children = new Array<BspNode | BspLeaf>(2);
 
-        constructor(loader: LeafGeometryLoader, info: IBspNode) {
-            this.loader = loader;
+        constructor(viewer: MapViewer, info: IBspNode) {
+            this.viewer = viewer;
             this.plane.copy(info.plane);
             this.children[0] = this.loadChild(info.children[0]);
             this.children[1] = this.loadChild(info.children[1]);
@@ -72,11 +72,11 @@ namespace SourceUtils {
         private loadChild(value: IBspElement): BspNode | BspLeaf {
             const node = value as IBspNode;
             if (node.children !== undefined) {
-                return new BspNode(this.loader, node);
+                return new BspNode(this.viewer, node);
             }
 
             const leaf = value as IBspLeaf;
-            return new BspLeaf(this.loader, leaf);
+            return new BspLeaf(this.viewer, leaf);
         }
 
         findLeaves(target: BspLeaf[]): void {
@@ -88,7 +88,7 @@ namespace SourceUtils {
     export class BspLeaf extends WebGame.DrawListItem implements INodeOrLeaf {
         readonly isLeaf = true;
 
-        private readonly loader: LeafGeometryLoader;
+        private readonly viewer: MapViewer;
 
         readonly index: number;
         readonly flags: LeafFlags;
@@ -96,22 +96,88 @@ namespace SourceUtils {
         readonly hasFaces: boolean;
 
         private hasLoaded: boolean;
+        private ambientSamples: IAmbientSample[];
+        private hasLoadedAmbient: boolean;
 
-        constructor(loader: LeafGeometryLoader, info: IBspLeaf) {
+        constructor(viewer: MapViewer, info: IBspLeaf) {
             super();
 
-            this.loader = loader;
+            this.viewer = viewer;
             this.index = info.index;
             this.flags = info.flags;
             this.cluster = info.cluster;
             this.hasFaces = info.hasFaces;
         }
 
+        private static readonly getAmbientCube_temp = new Facepunch.Vector3();
+        getAmbientCube(pos: Facepunch.IVector3, outSamples: Facepunch.IVector3[], callback?: (success: boolean) => void): boolean {
+            if (!this.hasLoadedAmbient) {
+                this.hasLoadedAmbient = true;
+                this.viewer.ambientLoader.load(this.index, value => this.ambientSamples = value);
+            }
+
+            const samples = this.ambientSamples;
+            if (samples == null) {
+                if (callback != null) {
+                    const leafCopy = this;
+                    this.viewer.ambientLoader.load(this.index, value => {
+                        if (value.length > 0) {
+                            leafCopy.getAmbientCube(pos, outSamples);
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
+                return false;
+            }
+
+            if (samples.length === 0) {
+                if (callback != null) callback(false);
+                return false;
+            }
+
+            let closestIndex: number = undefined;
+            let closestDistSq = Number.MAX_VALUE;
+
+            const temp = BspLeaf.getAmbientCube_temp;
+
+            // TODO: interpolation
+
+            for (let i = 0; i < samples.length; ++i) {
+                const sample = samples[i];
+                temp.copy(sample.position);
+                temp.sub(pos);
+                const distSq = temp.lengthSq();
+
+                if (distSq < closestDistSq) {
+                    closestDistSq = distSq;
+                    closestIndex = i;
+                }
+            }
+
+            const closestSamples = samples[closestIndex].samples;
+
+            for (let i = 0; i < 6; ++i) {
+                const rgbExp = closestSamples[i];
+                const outVec = outSamples[i] || (outSamples[i] = new Facepunch.Vector3());
+                const mul = Math.pow(2.0, (rgbExp >> 24)) / 255.0;
+
+                outVec.x = mul * ((rgbExp >> 0) & 0xff);
+                outVec.y = mul * ((rgbExp >> 8) & 0xff);
+                outVec.z = mul * ((rgbExp >> 16) & 0xff);
+            }
+
+            if (callback != null) callback(true);
+
+            return true;
+        }
+
         getMeshHandles(): Facepunch.WebGame.MeshHandle[] {
             if (!this.hasFaces) return null;
             if (!this.hasLoaded) {
                 this.hasLoaded = true;
-                this.loader.load(this.index, handles => this.addMeshHandles(handles));
+                this.viewer.leafGeometryLoader.load(this.index, handles => this.addMeshHandles(handles));
             }
 
             return super.getMeshHandles();
@@ -138,7 +204,7 @@ namespace SourceUtils {
 
         loadFromInfo(info: IBspModel): void {
             this.info = info;
-            this.headNode = new BspNode(this.viewer.leafGeometryLoader, info.headNode);
+            this.headNode = new BspNode(this.viewer, info.headNode);
             this.leaves = [];
 
             this.headNode.findLeaves(this.leaves);

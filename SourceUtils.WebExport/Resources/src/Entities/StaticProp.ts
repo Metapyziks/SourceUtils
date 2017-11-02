@@ -12,21 +12,37 @@ namespace SourceUtils {
 
         export class StaticProp extends PvsEntity {
             readonly model: StudioModel;
-            private lighting: number[][];
+
+            private readonly info: IStaticProp;
+
+            private lighting: (number[][] | Facepunch.IVector3[]);
             private albedoModulation?: number;
 
             constructor(map: Map, info: IStaticProp) {
                 super(map, info);
 
+                this.info = info;
                 this.albedoModulation = info.albedoModulation;
 
-                if (info.vertLighting !== undefined) {
-                    map.viewer.vertLightingLoader.load(info.vertLighting, value => {
+                if (this.info.vertLighting !== undefined) {
+                    this.map.viewer.vertLightingLoader.load(this.info.vertLighting, value => {
                         this.lighting = value;
                         this.checkLoaded();
                     });
                 } else {
-                    this.lighting = null;
+                    // TODO: lighting offset
+                    this.map.getLeafAt(this.info.origin, leaf => {
+                        if (leaf == null) {
+                            console.log("Leaf is null");
+                            this.lighting = null;
+                        } else {
+                            const samples = new Array<Facepunch.IVector3>(6);
+                            leaf.getAmbientCube(this.info.origin, samples, success => {
+                                console.log(`getAmbientCube: ${success}`);
+                                this.lighting = success ? samples : null;
+                            });
+                        }
+                    });
                 }
 
                 this.model = map.viewer.studioModelLoader.loadModel(info.model);

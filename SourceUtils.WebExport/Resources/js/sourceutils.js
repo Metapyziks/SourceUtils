@@ -157,11 +157,11 @@ var SourceUtils;
     }());
     SourceUtils.Plane = Plane;
     var BspNode = (function () {
-        function BspNode(loader, info) {
+        function BspNode(viewer, info) {
             this.isLeaf = false;
             this.plane = new Plane();
             this.children = new Array(2);
-            this.loader = loader;
+            this.viewer = viewer;
             this.plane.copy(info.plane);
             this.children[0] = this.loadChild(info.children[0]);
             this.children[1] = this.loadChild(info.children[1]);
@@ -169,10 +169,10 @@ var SourceUtils;
         BspNode.prototype.loadChild = function (value) {
             var node = value;
             if (node.children !== undefined) {
-                return new BspNode(this.loader, node);
+                return new BspNode(this.viewer, node);
             }
             var leaf = value;
-            return new BspLeaf(this.loader, leaf);
+            return new BspLeaf(this.viewer, leaf);
         };
         BspNode.prototype.findLeaves = function (target) {
             this.children[0].findLeaves(target);
@@ -183,23 +183,77 @@ var SourceUtils;
     SourceUtils.BspNode = BspNode;
     var BspLeaf = (function (_super) {
         __extends(BspLeaf, _super);
-        function BspLeaf(loader, info) {
+        function BspLeaf(viewer, info) {
             var _this = _super.call(this) || this;
             _this.isLeaf = true;
-            _this.loader = loader;
+            _this.viewer = viewer;
             _this.index = info.index;
             _this.flags = info.flags;
             _this.cluster = info.cluster;
             _this.hasFaces = info.hasFaces;
             return _this;
         }
+        BspLeaf.prototype.getAmbientCube = function (pos, outSamples, callback) {
+            var _this = this;
+            if (!this.hasLoadedAmbient) {
+                this.hasLoadedAmbient = true;
+                this.viewer.ambientLoader.load(this.index, function (value) { return _this.ambientSamples = value; });
+            }
+            var samples = this.ambientSamples;
+            if (samples == null) {
+                if (callback != null) {
+                    var leafCopy_1 = this;
+                    this.viewer.ambientLoader.load(this.index, function (value) {
+                        if (value.length > 0) {
+                            leafCopy_1.getAmbientCube(pos, outSamples);
+                            callback(true);
+                        }
+                        else {
+                            callback(false);
+                        }
+                    });
+                }
+                return false;
+            }
+            if (samples.length === 0) {
+                if (callback != null)
+                    callback(false);
+                return false;
+            }
+            var closestIndex = undefined;
+            var closestDistSq = Number.MAX_VALUE;
+            var temp = BspLeaf.getAmbientCube_temp;
+            // TODO: interpolation
+            for (var i = 0; i < samples.length; ++i) {
+                var sample = samples[i];
+                temp.copy(sample.position);
+                temp.sub(pos);
+                var distSq = temp.lengthSq();
+                if (distSq < closestDistSq) {
+                    closestDistSq = distSq;
+                    closestIndex = i;
+                }
+            }
+            var closestSamples = samples[closestIndex].samples;
+            for (var i = 0; i < 6; ++i) {
+                var rgbExp = closestSamples[i];
+                var outVec = outSamples[i] || (outSamples[i] = new Facepunch.Vector3());
+                var mul = Math.pow(2.0, (rgbExp >> 24)) / 255.0;
+                outVec.x = mul * ((rgbExp >> 0) & 0xff);
+                outVec.y = mul * ((rgbExp >> 8) & 0xff);
+                outVec.z = mul * ((rgbExp >> 16) & 0xff);
+            }
+            if (callback != null)
+                callback(true);
+            return true;
+        };
         BspLeaf.prototype.getMeshHandles = function () {
             var _this = this;
             if (!this.hasFaces)
                 return null;
             if (!this.hasLoaded) {
                 this.hasLoaded = true;
-                this.loader.load(this.index, function (handles) { return _this.addMeshHandles(handles); });
+                this.viewer.leafGeometryLoader.load(this.index, function (handles) { return _this.addMeshHandles(handles); });
             }
             return _super.prototype.getMeshHandles.call(this);
         };
@@ -209,6 +263,7 @@ var SourceUtils;
         };
         return BspLeaf;
     }(WebGame.DrawListItem));
+    BspLeaf.getAmbientCube_temp = new Facepunch.Vector3();
     SourceUtils.BspLeaf = BspLeaf;
     var BspModel = (function (_super) {
         __extends(BspModel, _super);
@@ -219,7 +274,7 @@ var SourceUtils;
         }
         BspModel.prototype.loadFromInfo = function (info) {
             this.info = info;
-            this.headNode = new BspNode(this.viewer.leafGeometryLoader, info.headNode);
+            this.headNode = new BspNode(this.viewer, info.headNode);
             this.leaves = [];
             this.headNode.findLeaves(this.leaves);
             this.dispatchOnLoadCallbacks();
@@ -393,6 +448,7 @@ var SourceUtils;
         function Map(viewer) {
             this.clusterVis = {};
             this.clusterEnts = {};
+            this.worldspawnLoadedCallbacks = [];
             this.viewer = viewer;
         }
         Map.prototype.isReady = function () {
@@ -502,10 +558,28 @@ var SourceUtils;
             }
             return ents;
         };
-        Map.prototype.getLeafAt = function (pos) {
-            if (this.worldspawn == null || this.worldspawn.model == null)
+        Map.prototype.getLeafAt = function (pos, callback) {
+            var _this = this;
+            if (this.worldspawn == null || this.worldspawn.model == null) {
+                if (callback != null) {
+                    var posCopy_1 = new Facepunch.Vector3().copy(pos);
+                    this.worldspawnLoadedCallbacks.push(function () { return callback(_this.getLeafAt(posCopy_1)); });
+                }
                 return undefined;
-            return this.worldspawn.model.getLeafAt(pos);
+            }
+            var leaf = this.worldspawn.model.getLeafAt(pos);
+            if (callback != null)
+                callback(leaf);
+            return leaf;
+        };
+        Map.prototype.update = function (dt) {
+            if (this.worldspawn != null && this.worldspawn.model != null && this.worldspawnLoadedCallbacks.length > 0) {
+                for (var _i = 0, _a = this.worldspawnLoadedCallbacks; _i < _a.length; _i++) {
+                    var callback = _a[_i];
+                    callback();
+                }
+                this.worldspawnLoadedCallbacks = [];
+            }
         };
         Map.prototype.populateDrawList = function (drawList, pvsRoot) {
             var _this = this;
@@ -642,6 +716,7 @@ var SourceUtils;
             _this.dispGeometryLoader = _this.addLoader(new SourceUtils.DispGeometryLoader(_this));
             _this.studioModelLoader = _this.addLoader(new SourceUtils.StudioModelLoader(_this));
             _this.vertLightingLoader = _this.addLoader(new SourceUtils.VertexLightingLoader(_this));
+            _this.ambientLoader = _this.addLoader(new SourceUtils.AmbientLoader());
             _this.cameraMode = CameraMode.Fixed;
             _this.saveCameraPosInHash = false;
             _this.showDebugPanel = false;
@@ -858,6 +933,7 @@ var SourceUtils;
         };
         MapViewer.prototype.onUpdateFrame = function (dt) {
             _super.prototype.onUpdateFrame.call(this, dt);
+            this.map.update(dt);
             if (this.showDebugPanel !== this.debugPanelVisible) {
                 this.debugPanelVisible = this.showDebugPanel;
                 if (this.showDebugPanel && this.debugPanel === undefined) {
@@ -1030,7 +1106,43 @@ var SourceUtils;
         StudioModel.encode2CompColor = function (vertLit, albedoMod) {
             return vertLit + albedoMod * 0.00390625;
         };
-        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, vertLighting, albedoModulation) {
+        StudioModel.sampleAmbientCube = function (normal, samples) {
+            var rgb = StudioModel.sampleAmbientCube_temp.set(0, 0, 0);
+            var sample;
+            var mul;
+            if (normal.x < 0) {
+                sample = samples[0];
+                mul = -normal.x;
+            }
+            else {
+                sample = samples[1];
+                mul = normal.x;
+            }
+            rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
+            if (normal.y < 0) {
+                sample = samples[2];
+                mul = -normal.y;
+            }
+            else {
+                sample = samples[3];
+                mul = normal.y;
+            }
+            rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
+            if (normal.z < 0) {
+                sample = samples[4];
+                mul = -normal.z;
+            }
+            else {
+                sample = samples[5];
+                mul = normal.z;
+            }
+            rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
+            var r = Math.min(Math.round(rgb.x * 127.0), 255);
+            var g = Math.min(Math.round(rgb.x * 127.0), 255);
+            var b = Math.min(Math.round(rgb.x * 127.0), 255);
+            return r | (g << 8) | (b << 16);
+        };
+        StudioModel.prototype.createMeshHandles = function (bodyPartIndex, transform, lighting, albedoModulation) {
             var _this = this;
             var bodyPart = this.info.bodyParts[bodyPartIndex];
             var handles = [];
@@ -1042,6 +1154,10 @@ var SourceUtils;
             var albedoR = albedoModulation & 0xff;
             var albedoG = (albedoModulation >> 8) & 0xff;
             var albedoB = (albedoModulation >> 16) & 0xff;
+            var hasAmbientLighting = lighting != null && lighting.length === 6 && lighting[0].x !== undefined;
+            var hasVertLighting = lighting != null && !hasAmbientLighting;
+            var ambientLighting = hasAmbientLighting ? lighting : null;
+            var tempNormal = new Facepunch.Vector4();
             for (var _i = 0, _a = bodyPart.models; _i < _a.length; _i++) {
                 var model = _a[_i];
                 for (var _b = 0, _c = model.meshes; _b < _c.length; _b++) {
@@ -1052,15 +1168,29 @@ var SourceUtils;
                     attribs.push(WebGame.VertexAttribute.rgb);
                     var dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
                     var newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
+                    var normalOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.normal);
                     var rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
                     var vertLength = WebGame.MeshManager.getVertexLength(attribs);
-                    var lighting = vertLighting == null ? null : vertLighting[mesh.meshId];
+                    var vertLighting = hasVertLighting ? lighting[mesh.meshId] : null;
                     var vertData = dstGroup.vertices;
-                    for (var i = newElem.vertexOffset + rgbOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
-                        var lightValue = lighting == null ? 0x7f7f7f : lighting[j];
-                        vertData[i] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
-                        vertData[i + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
-                        vertData[i + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
+                    for (var i = newElem.vertexOffset, iEnd = newElem.vertexOffset + newElem.vertexCount, j = 0; i < iEnd; i += vertLength, ++j) {
+                        var normalIndex = i + normalOffset;
+                        var rgbIndex = i + rgbOffset;
+                        var lightValue = void 0;
+                        if (hasVertLighting) {
+                            lightValue = vertLighting[j];
+                        }
+                        else if (hasAmbientLighting) {
+                            tempNormal.set(vertData[normalIndex], vertData[normalIndex + 1], vertData[normalIndex + 2], 0);
+                            tempNormal.applyMatrix4(transform);
+                            lightValue = StudioModel.sampleAmbientCube(tempNormal, ambientLighting);
+                        }
+                        else {
+                            lightValue = 0x7f7f7f;
+                        }
+                        vertData[rgbIndex] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
+                        vertData[rgbIndex + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
+                        vertData[rgbIndex + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
                     }
                 }
             }
@@ -1080,6 +1210,7 @@ var SourceUtils;
         StudioModel.prototype.isLoaded = function () { return this.info != null; };
         return StudioModel;
     }(WebGame.RenderResource));
+    StudioModel.sampleAmbientCube_temp = new Facepunch.Vector3();
     SourceUtils.StudioModel = StudioModel;
     var StudioModelPage = (function (_super) {
         __extends(StudioModelPage, _super);
@@ -1474,15 +1605,29 @@ var SourceUtils;
             __extends(StaticProp, _super);
             function StaticProp(map, info) {
                 var _this = _super.call(this, map, info) || this;
+                _this.info = info;
                 _this.albedoModulation = info.albedoModulation;
-                if (info.vertLighting !== undefined) {
-                    map.viewer.vertLightingLoader.load(info.vertLighting, function (value) {
+                if (_this.info.vertLighting !== undefined) {
+                    _this.map.viewer.vertLightingLoader.load(_this.info.vertLighting, function (value) {
                         _this.lighting = value;
                         _this.checkLoaded();
                     });
                 }
                 else {
-                    _this.lighting = null;
+                    // TODO: lighting offset
+                    _this.map.getLeafAt(_this.info.origin, function (leaf) {
+                        if (leaf == null) {
+                            console.log("Leaf is null");
+                            _this.lighting = null;
+                        }
+                        else {
+                            var samples_1 = new Array(6);
+                            leaf.getAmbientCube(_this.info.origin, samples_1, function (success) {
+                                console.log("getAmbientCube: " + success);
+                                _this.lighting = success ? samples_1 : null;
+                            });
+                        }
+                    });
                 }
                 _this.model = map.viewer.studioModelLoader.loadModel(info.model);
                 _this.model.addUsage(_this);
@@ -2021,4 +2166,29 @@ var SourceUtils;
         }(Shaders.LightmappedBase));
         Shaders.WorldTwoTextureBlend = WorldTwoTextureBlend;
     })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var AmbientPage = (function (_super) {
+        __extends(AmbientPage, _super);
+        function AmbientPage() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        AmbientPage.prototype.onGetValue = function (index) {
+            return this.page.values[index];
+        };
+        return AmbientPage;
+    }(SourceUtils.ResourcePage));
+    SourceUtils.AmbientPage = AmbientPage;
+    var AmbientLoader = (function (_super) {
+        __extends(AmbientLoader, _super);
+        function AmbientLoader() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        AmbientLoader.prototype.onCreatePage = function (page) {
+            return new AmbientPage(page);
+        };
+        return AmbientLoader;
+    }(SourceUtils.PagedLoader));
+    SourceUtils.AmbientLoader = AmbientLoader;
 })(SourceUtils || (SourceUtils = {}));

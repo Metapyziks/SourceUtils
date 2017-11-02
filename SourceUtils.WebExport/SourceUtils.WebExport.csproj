@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Resources\js\facepunch.webgame.d.ts" />
+    <TypeScriptCompile Include="Resources\src\AmbientLoader.ts" />
     <TypeScriptCompile Include="Resources\src\BspModel.ts" />
     <TypeScriptCompile Include="Resources\src\DispGeometryLoader.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\BrushEntity.ts" />

@@ -43,6 +43,8 @@ namespace SourceUtils {
         private clusterVis: { [cluster: number]: number[] } = {};
         private clusterEnts: { [cluster: number]: Entities.PvsEntity[] } = {};
 
+        private worldspawnLoadedCallbacks: (() => void)[] = [];
+
         constructor(viewer: MapViewer) {
             this.viewer = viewer;
         }
@@ -168,9 +170,29 @@ namespace SourceUtils {
             return ents;
         }
 
-        getLeafAt(pos: Facepunch.IVector3): BspLeaf {
-            if (this.worldspawn == null || this.worldspawn.model == null) return undefined;
-            return this.worldspawn.model.getLeafAt(pos);
+        getLeafAt(pos: Facepunch.IVector3, callback?: (leaf: BspLeaf) => void): BspLeaf {
+            if (this.worldspawn == null || this.worldspawn.model == null) {
+                if (callback != null) {
+                    const posCopy = new Facepunch.Vector3().copy(pos);
+                    this.worldspawnLoadedCallbacks.push(() => callback(this.getLeafAt(posCopy)));
+                }
+                return undefined;
+            }
+
+            const leaf = this.worldspawn.model.getLeafAt(pos);
+            if (callback != null) callback(leaf);
+
+            return leaf;
+        }
+
+        update(dt: number): void {
+            if (this.worldspawn != null && this.worldspawn.model != null && this.worldspawnLoadedCallbacks.length > 0) {
+                for (let callback of this.worldspawnLoadedCallbacks) {
+                    callback();
+                }
+
+                this.worldspawnLoadedCallbacks = [];
+            }
         }
 
         populateDrawList(drawList: WebGame.DrawList, pvsRoot: BspLeaf): void {
