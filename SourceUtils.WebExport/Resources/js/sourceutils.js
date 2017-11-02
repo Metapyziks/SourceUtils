@@ -1242,7 +1242,9 @@ var SourceUtils;
         };
         MapViewer.prototype.onResize = function () {
             _super.prototype.onResize.call(this);
-            this.mainCamera.setAspect(this.getWidth() / this.getHeight());
+            if (this.mainCamera != null) {
+                this.mainCamera.setAspect(this.getWidth() / this.getHeight());
+            }
         };
         MapViewer.prototype.setCameraAngles = function (yaw, pitch) {
             this.lookAngs.x = yaw;

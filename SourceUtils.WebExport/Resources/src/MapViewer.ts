@@ -219,7 +219,9 @@ namespace SourceUtils {
         protected onResize(): void {
             super.onResize();
 
-            this.mainCamera.setAspect(this.getWidth() / this.getHeight());
+            if (this.mainCamera != null) {
+                this.mainCamera.setAspect(this.getWidth() / this.getHeight());
+            }
         }
 
         private readonly lookAngs = new Facepunch.Vector2();
