@@ -31,6 +31,17 @@ namespace SourceUtils.WebExport
                     yield return mdl.GetMaterialName( j, bsp.PakFile, Program.Resources );
                 }
             }
+
+            foreach ( var entity in bsp.Entities )
+            {
+                switch ( entity.ClassName )
+                {
+                    case "move_rope":
+                    case "keyframe_rope":
+                        yield return entity["RopeMaterial"];
+                        break;
+                }
+            }
         }
 
         protected override string NormalizePath( string path )

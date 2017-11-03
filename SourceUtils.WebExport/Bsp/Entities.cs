@@ -77,6 +77,9 @@ namespace SourceUtils.WebExport.Bsp
 
         public class Entity
         {
+            [JsonProperty( "targetname" )]
+            public string TargetName { get; set; }
+
             [JsonProperty( "classname" )]
             public string ClassName { get; set; }
 
@@ -95,6 +98,7 @@ namespace SourceUtils.WebExport.Bsp
             ent.ClassName = value["classname"];
             if ( (string) value["origin"] != null ) ent.Origin = (SourceUtils.Vector3) value["origin"];
             if ( (string) value["angles"] != null ) ent.Angles = (SourceUtils.Vector3) value["angles"];
+            if ( (string) value["targetname"] != null ) ent.TargetName = value["targetname"];
 
             return ent;
         }
@@ -237,6 +241,62 @@ namespace SourceUtils.WebExport.Bsp
             ent.AmbientHdr = value["_ambientHDR"];
             ent.AmbientScaleHdr = value["_AmbientScaleHDR"];
             ent.Pitch = value["pitch"];
+
+            return ent;
+        }
+
+        public class KeyframeRope : Entity
+        {
+            [JsonProperty("width")]
+            public float Width { get; set; }
+
+            [JsonProperty("textureScale")]
+            public float TextureScale { get; set; }
+            
+            [JsonProperty("subDivisons")]
+            public int SubDivisions { get; set; }
+
+            [JsonProperty("slack")]
+            public float Slack { get; set; }
+
+            [JsonProperty("ropeMaterial")]
+            public int RopeMaterial { get; set; }
+            
+            [JsonProperty("nextKey")]
+            public string NextKey { get; set; }
+            
+            [JsonProperty("moveSpeed")]
+            public float MoveSpeed { get; set; }
+        }
+        
+        [Classname( "keyframe_rope" )]
+        private static KeyframeRope InitKeyframeRope( KeyframeRope ent, ValveBsp.Entities.Entity value, MapParams mapParams )
+        {
+            if ( InitEntity( ent, value ) == null ) return null;
+
+            ent.Width = value["Width"];
+            ent.TextureScale = value["TextureScale"];
+            ent.SubDivisions = value["Subdiv"];
+            ent.Slack = value["Slack"];
+            ent.RopeMaterial = MaterialDictionary.GetResourceIndex( mapParams.Bsp, value["RopeMaterial"] );
+            ent.NextKey = value["NextKey"];
+            ent.MoveSpeed = value["MoveSpeed"];
+
+            return ent;
+        }
+        
+        public class MoveRope : KeyframeRope
+        {
+            [JsonProperty("positionInterp")]
+            public int PositionInterpolator { get; set; } = 2;
+        }
+        
+        [Classname( "move_rope" )]
+        private static MoveRope InitMoveRope( MoveRope ent, ValveBsp.Entities.Entity value, MapParams mapParams )
+        {
+            if ( InitKeyframeRope( ent, value, mapParams ) == null ) return null;
+
+            ent.PositionInterpolator = value["PositionInterpolator"];
 
             return ent;
         }

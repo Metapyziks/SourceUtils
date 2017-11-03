@@ -223,5 +223,17 @@ namespace SourceUtils.WebExport.Bsp
                 Entities = ents
             };
         }
+
+        [Get("/entities.txt")]
+        public string GetEntitiesDebug( [Url] string map )
+        {
+            var bsp = Program.GetMap( map );
+
+            using ( var stream = bsp.GetLumpStream( ValveBspFile.LumpType.ENTITIES ) )
+            {
+                var reader = new StreamReader( stream );
+                return reader.ReadToEnd();
+            }
+        }
     }
 }
