@@ -203,6 +203,7 @@ namespace SourceUtils.WebExport.Bsp
                         .Distinct(),
                     Model = modelIndex,
                     VertLighting = (flags & StaticPropFlags.NoPerVertexLighting) == 0 ? (int?) propIndex : null,
+                    LightingOrigin = (flags & StaticPropFlags.UseLightingOrigin) == 0 ? null : (Vector3?) bsp.StaticProps.GetLightingOrigin( propIndex ),
                     AlbedoModulation = diffuseMod != 0xffffffff ? (uint?) diffuseMod : null
                 } );
             }

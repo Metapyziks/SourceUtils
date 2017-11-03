@@ -55,9 +55,13 @@ namespace SourceUtils {
             return vertLit + albedoMod * 0.00390625;
         }
 
+        private static readonly sampleAmbientCube_samples = new Array<Facepunch.Vector3>(6);
         private static readonly sampleAmbientCube_temp = new Facepunch.Vector3();
-        private static sampleAmbientCube(normal: Facepunch.IVector3, samples: Facepunch.IVector3[]): number {
+        private static sampleAmbientCube(leaf: BspLeaf, pos: Facepunch.IVector3, normal: Facepunch.IVector3): number {
             const rgb = StudioModel.sampleAmbientCube_temp.set(0, 0, 0);
+            const samples = StudioModel.sampleAmbientCube_samples;
+
+            leaf.getAmbientCube(pos, samples);
 
             let sample: Facepunch.IVector3;
             let mul: number;
@@ -89,14 +93,14 @@ namespace SourceUtils {
             mul = normal.z * normal.z;
             rgb.add(sample.x * mul, sample.y * mul, sample.z * mul);
 
-            const r = Math.min(Math.round(rgb.x * 255.0), 255);
-            const g = Math.min(Math.round(rgb.y * 255.0), 255);
-            const b = Math.min(Math.round(rgb.z * 255.0), 255);
+            const r = ColorConversion.linearToScreenGamma(rgb.x);
+            const g = ColorConversion.linearToScreenGamma(rgb.y);
+            const b = ColorConversion.linearToScreenGamma(rgb.z);
 
             return r | (g << 8) | (b << 16);
         }
 
-        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | Facepunch.IVector3[]), albedoModulation?: number): WebGame.MeshHandle[] {
+        createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | BspLeaf), albedoModulation?: number): WebGame.MeshHandle[] {
             const bodyPart = this.info.bodyParts[bodyPartIndex];
             const handles: WebGame.MeshHandle[] = [];
 
@@ -109,10 +113,11 @@ namespace SourceUtils {
             const albedoG = (albedoModulation >> 8) & 0xff;
             const albedoB = (albedoModulation >> 16) & 0xff;
 
-            const hasAmbientLighting = lighting != null && lighting.length === 6 && (lighting[0] as Facepunch.IVector3).x !== undefined;
+            const hasAmbientLighting = lighting != null && (lighting as BspLeaf).isLeaf;
             const hasVertLighting = lighting != null && !hasAmbientLighting;
 
-            const ambientLighting = hasAmbientLighting ? lighting as Facepunch.IVector3[] : null;
+            const leaf = hasAmbientLighting ? lighting as BspLeaf : null;
+            const tempPos = new Facepunch.Vector4();
             const tempNormal = new Facepunch.Vector4();
 
             for (let model of bodyPart.models) {
@@ -125,6 +130,7 @@ namespace SourceUtils {
                     const dstGroup = StudioModel.getOrCreateMatGroup(matGroups, attribs);
                     const newElem = WebGame.MeshManager.copyElement(srcGroup, dstGroup, mesh.element);
 
+                    const posOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.position);
                     const normalOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.normal);
                     const rgbOffset = WebGame.MeshManager.getAttributeOffset(attribs, WebGame.VertexAttribute.rgb);
                     const vertLength = WebGame.MeshManager.getVertexLength(attribs);
@@ -135,24 +141,35 @@ namespace SourceUtils {
                         iEnd = newElem.vertexOffset + newElem.vertexCount,
                         j = 0; i < iEnd; i += vertLength, ++j) {
 
+                        const posIndex = i + posOffset;
                         const normalIndex = i + normalOffset;
                         const rgbIndex = i + rgbOffset;
 
-                        let lightValue: number;
+                        let r: number;
+                        let g: number;
+                        let b: number;
 
                         if (hasVertLighting) {
-                            lightValue = vertLighting[j];
+                            const rgba = vertLighting[j];
+                            r = rgba & 0xff;
+                            g = (rgba >> 8) & 0xff;
+                            b = (rgba >> 16) & 0xff;
                         } else if (hasAmbientLighting) {
+                            tempPos.set(vertData[posIndex], vertData[posIndex + 1], vertData[posIndex + 2], 1);
+                            tempPos.applyMatrix4(transform);
                             tempNormal.set(vertData[normalIndex], vertData[normalIndex + 1], vertData[normalIndex + 2], 0);
                             tempNormal.applyMatrix4(transform);
-                            lightValue = StudioModel.sampleAmbientCube(tempNormal, ambientLighting);
+                            const rgb = StudioModel.sampleAmbientCube(leaf, tempPos, tempNormal);
+                            r = rgb & 0xff;
+                            g = (rgb >> 8) & 0xff;
+                            b = (rgb >> 16) & 0xff;
                         } else {
-                            lightValue = 0x7f7f7f;
+                            r = g = b = 0x7f;
                         }
 
-                        vertData[rgbIndex] = StudioModel.encode2CompColor(lightValue & 0xff, albedoR);
-                        vertData[rgbIndex + 1] = StudioModel.encode2CompColor((lightValue >> 8) & 0xff, albedoG);
-                        vertData[rgbIndex + 2] = StudioModel.encode2CompColor((lightValue >> 16) & 0xff, albedoB);
+                        vertData[rgbIndex] = StudioModel.encode2CompColor(r, albedoR);
+                        vertData[rgbIndex + 1] = StudioModel.encode2CompColor(g, albedoG);
+                        vertData[rgbIndex + 2] = StudioModel.encode2CompColor(b, albedoB);
                     }
                 }
             }

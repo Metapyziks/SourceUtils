@@ -180,6 +180,7 @@
     <TypeScriptCompile Include="Resources\src\Shaders\WorldTwoTextureBlend.ts" />
     <TypeScriptCompile Include="Resources\src\SkyCube.ts" />
     <TypeScriptCompile Include="Resources\src\StudioModel.ts" />
+    <TypeScriptCompile Include="Resources\src\Utils.ts" />
     <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
   </ItemGroup>
   <ItemGroup>

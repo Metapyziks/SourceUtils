@@ -15,7 +15,7 @@ namespace SourceUtils {
 
             private readonly info: IStaticProp;
 
-            private lighting: (number[][] | Facepunch.IVector3[]);
+            private lighting: (number[][] | BspLeaf);
             private albedoModulation?: number;
 
             constructor(map: Map, info: IStaticProp) {
@@ -34,10 +34,11 @@ namespace SourceUtils {
                     this.map.getLeafAt(this.info.origin, leaf => {
                         if (leaf == null) {
                             this.lighting = null;
+                            this.checkLoaded();
                         } else {
-                            const samples = new Array<Facepunch.IVector3>(6);
-                            leaf.getAmbientCube(this.info.origin, samples, success => {
-                                this.lighting = success ? samples : null;
+                            leaf.getAmbientCube(null, null, success => {
+                                this.lighting = leaf;
+                                this.checkLoaded();
                             });
                         }
                     });

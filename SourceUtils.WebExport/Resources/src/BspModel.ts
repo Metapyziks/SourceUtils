@@ -122,7 +122,7 @@ namespace SourceUtils {
                     const leafCopy = this;
                     this.viewer.ambientLoader.load(this.index, value => {
                         if (value.length > 0) {
-                            leafCopy.getAmbientCube(pos, outSamples);
+                            if (pos != null) leafCopy.getAmbientCube(pos, outSamples);
                             callback(true);
                         } else {
                             callback(false);
@@ -137,41 +137,33 @@ namespace SourceUtils {
                 return false;
             }
 
-            let closestIndex: number = undefined;
-            let closestDistSq = Number.MAX_VALUE;
+            if (pos != null) {
+                let closestIndex: number = undefined;
+                let closestDistSq = Number.MAX_VALUE;
 
-            const temp = BspLeaf.getAmbientCube_temp;
+                const temp = BspLeaf.getAmbientCube_temp;
 
-            // TODO: interpolation
+                // TODO: interpolation
 
-            for (let i = 0; i < samples.length; ++i) {
-                const sample = samples[i];
-                temp.copy(sample.position);
-                temp.sub(pos);
-                const distSq = temp.lengthSq();
+                for (let i = 0; i < samples.length; ++i) {
+                    const sample = samples[i];
+                    temp.copy(sample.position);
+                    temp.sub(pos);
+                    const distSq = temp.lengthSq();
 
-                if (distSq < closestDistSq) {
-                    closestDistSq = distSq;
-                    closestIndex = i;
+                    if (distSq < closestDistSq) {
+                        closestDistSq = distSq;
+                        closestIndex = i;
+                    }
                 }
-            }
 
-            const closestSamples = samples[closestIndex].samples;
+                const closestSamples = samples[closestIndex].samples;
 
-            for (let i = 0; i < 6; ++i) {
-                const rgbExp = closestSamples[i];
-                const outVec = outSamples[i] || (outSamples[i] = new Facepunch.Vector3());
-
-                const r = ((rgbExp >> 0) & 0xff);
-                const g = ((rgbExp >> 8) & 0xff);
-                const b = ((rgbExp >> 16) & 0xff);
-                const exp = ((rgbExp >> 24) & 0xff) - 128;
-
-                const mul = Math.pow(2.0, exp);
-
-                outVec.x = Math.pow(mul * r, 0.5);
-                outVec.y = Math.pow(mul * g, 0.5);
-                outVec.z = Math.pow(mul * b, 0.5);
+                for (let i = 0; i < 6; ++i) {
+                    const rgbExp = closestSamples[i];
+                    const outVec = outSamples[i] || (outSamples[i] = new Facepunch.Vector3());
+                    ColorConversion.rgbExp32ToVector3(rgbExp, outVec);
+                }
             }
 
             if (callback != null) callback(true);

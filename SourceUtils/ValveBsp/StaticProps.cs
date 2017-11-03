@@ -35,6 +35,7 @@ namespace SourceUtils.ValveBsp
         float FadeMinDist { get; }
         float FadeMaxDist { get; }
         float ForcedFadeScale { get; }
+        Vector3 LightingOrigin { get; }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
@@ -67,6 +68,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMinDist => FadeMinDist;
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
+        Vector3 IStaticProp.LightingOrigin => LightingOrigin;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
@@ -102,6 +104,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMinDist => FadeMinDist;
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
+        Vector3 IStaticProp.LightingOrigin => LightingOrigin;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 76)]
@@ -143,6 +146,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMinDist => FadeMinDist;
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
+        Vector3 IStaticProp.LightingOrigin => LightingOrigin;
     }
 
     public class StaticProps
@@ -215,6 +219,11 @@ namespace SourceUtils.ValveBsp
             fadeMin = _props[propIndex].FadeMinDist;
             fadeMax = _props[propIndex].FadeMaxDist;
             fadeScale = _props[propIndex].ForcedFadeScale;
+        }
+
+        public Vector3 GetLightingOrigin( int propIndex )
+        {
+            return _props[propIndex].LightingOrigin;
         }
 
         public void GetPropTransform( int propIndex, out Vector3 origin, out Vector3 angles )

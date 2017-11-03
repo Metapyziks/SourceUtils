@@ -260,6 +260,9 @@ namespace SourceUtils.WebExport.Bsp
 
             [JsonProperty("flags")]
             public StaticPropFlags Flags { get; set; }
+
+            [JsonProperty("lightingOrigin")]
+            public Vector3? LightingOrigin { get; set; }
         }
 
         private class MapParams

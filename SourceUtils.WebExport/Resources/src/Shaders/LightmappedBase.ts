@@ -39,11 +39,13 @@ namespace SourceUtils {
                     vec3 DecompressLightmapSample(vec4 sample)
                     {
                         float exp = sample.a * 255.0 - 128.0;
-                        return pow(sample.rgb * pow(2.0, exp), vec3(0.5, 0.5, 0.5));
+                        return sample.rgb * pow(2.0, exp);
                     }
 
                     vec3 ApplyLightmap(vec3 inColor)
                     {
+                        const float gamma = 1.0 / 2.2;
+
                         vec2 size = ${this.uLightmap.getSizeUniform()}.xy;
                         vec2 invSize = ${this.uLightmap.getSizeUniform()}.zw;
                         vec2 scaledCoord = vLightmapCoord * size - vec2(0.5, 0.5);
@@ -61,7 +63,7 @@ namespace SourceUtils {
 
                         vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);
 
-                        return inColor * sample;
+                        return inColor * pow(sample, vec3(gamma, gamma, gamma));
                     }`);
 
                 this.addAttribute("aLightmapCoord", WebGame.VertexAttribute.uv2);
