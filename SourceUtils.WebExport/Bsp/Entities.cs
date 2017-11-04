@@ -245,7 +245,7 @@ namespace SourceUtils.WebExport.Bsp
             return ent;
         }
 
-        public class KeyframeRope : Entity
+        public class KeyframeRope : PvsEntity
         {
             [JsonProperty("width")]
             public float Width { get; set; }
@@ -272,14 +272,31 @@ namespace SourceUtils.WebExport.Bsp
         [Classname( "keyframe_rope" )]
         private static KeyframeRope InitKeyframeRope( KeyframeRope ent, ValveBsp.Entities.Entity value, MapParams mapParams )
         {
-            if ( InitEntity( ent, value ) == null ) return null;
+            var min = (SourceUtils.Vector3) value["origin"];
+            var max = min;
+            
+            ent.NextKey = value["NextKey"];
+
+            if ( !string.IsNullOrEmpty( ent.NextKey ) )
+            {
+                var next = mapParams.Bsp.Entities.FirstOrDefault( x => ent.NextKey.Equals( x["targetname"] ) );
+                if ( next != null )
+                {
+                    var nextOrigin = (SourceUtils.Vector3) next["origin"];
+                    min = SourceUtils.Vector3.Min( min, nextOrigin );
+                    max = SourceUtils.Vector3.Max( max, nextOrigin );
+                }
+            }
+
+            var clusters = GetIntersectingClusters( mapParams.Tree, min, max );
+
+            if ( InitPvsEntity( ent, value, clusters ) == null ) return null;
 
             ent.Width = value["Width"];
             ent.TextureScale = value["TextureScale"];
             ent.SubDivisions = value["Subdiv"];
             ent.Slack = value["Slack"];
             ent.RopeMaterial = MaterialDictionary.GetResourceIndex( mapParams.Bsp, value["RopeMaterial"] );
-            ent.NextKey = value["NextKey"];
             ent.MoveSpeed = value["MoveSpeed"];
 
             return ent;

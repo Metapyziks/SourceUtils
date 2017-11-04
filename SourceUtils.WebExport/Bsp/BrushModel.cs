@@ -33,6 +33,11 @@ namespace SourceUtils.WebExport.Bsp
             return new Vector3(vec);
         }
 
+        public static implicit operator SourceUtils.Vector3(Vector3 vec)
+        {
+            return new SourceUtils.Vector3(vec.X, vec.Y, vec.Z);
+        }
+
         public static implicit operator Vector3(Vector3S vec)
         {
             return new Vector3(vec);

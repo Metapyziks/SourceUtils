@@ -39,6 +39,16 @@ namespace SourceUtils
             return new Vector3( vec.X * scalar, vec.Y * scalar, vec.Z * scalar );
         }
 
+        public static Vector3 Min( Vector3 a, Vector3 b )
+        {
+            return new Vector3( Math.Min( a.X, b.X ), Math.Min( a.Y, b.Y ), Math.Min( a.Z, b.Z ) );
+        }
+
+        public static Vector3 Max( Vector3 a, Vector3 b )
+        {
+            return new Vector3( Math.Max( a.X, b.X ), Math.Max( a.Y, b.Y ), Math.Max( a.Z, b.Z ) );
+        }
+
         public float X;
         public float Y;
         public float Z;
