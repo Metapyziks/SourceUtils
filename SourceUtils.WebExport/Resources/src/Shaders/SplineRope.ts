@@ -23,9 +23,11 @@
                         vec3 viewTangent = normalize((${this.uView} * ${this.uModel} * vec4(aTangent, 0.0)).xyz);
                         vec3 viewNormalA = normalize(cross(viewPos.xyz, viewTangent));
                         vec3 viewNormalB = normalize(cross(viewNormalA, viewTangent));
+                        vec3 viewUp = normalize((${this.uView} * vec4(0.0, 0.0, 1.0, 0.0)).xyz);
 
                         viewPos.xyz += viewNormalA * (aTextureCoord.x - 0.5) * aSplineParams.x;
                         viewPos.xyz += viewNormalB * sqrt(1.0 - pow(1.0 - aTextureCoord.x * 2.0, 2.0)) * aSplineParams.x * 0.5;
+                        viewPos.xyz += viewUp * aSplineParams.y;
 
                         gl_Position = ${this.uProjection} * viewPos;
 

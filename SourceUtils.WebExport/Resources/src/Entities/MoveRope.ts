@@ -88,7 +88,6 @@
                 const pos = new Facepunch.Vector3();
                 const norm = new Facepunch.Vector3();
 
-                // TODO: slack
                 // TODO: check current texture res, use info.textureScale
                 const texScale = this.info.textureScale / 64;
 
@@ -103,18 +102,22 @@
                     this.keyframes[i + 1].getPosition(next);
 
                     const segmentLength = norm.copy(next).sub(prev).length();
+
+                    // TODO: this is just a rough guess
+                    const slack = (keyframe.slack / segmentLength) * Math.sqrt(segmentLength) * 4.0;
                     norm.normalize();
 
                     for (let j = 0; j <= keyframe.subDivisions + 1; ++j) {
                         const t = j / (keyframe.subDivisions + 1);
                         const v = (totalLength + segmentLength * t) * texScale;
+                        const s = slack * 4 * (t * t - t);
 
                         pos.copy(next).sub(prev).multiplyScalar(t).add(prev);
 
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, 0);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, 0);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, 0);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, 0);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, s);
 
                         if (j > 0) {
                             for (let k = 0; k < 3; ++k) {

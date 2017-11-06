@@ -2342,7 +2342,6 @@ var SourceUtils;
                 var next = new Facepunch.Vector3();
                 var pos = new Facepunch.Vector3();
                 var norm = new Facepunch.Vector3();
-                // TODO: slack
                 // TODO: check current texture res, use info.textureScale
                 var texScale = this.info.textureScale / 64;
                 this.keyframes[0].getPosition(prev);
@@ -2352,15 +2351,18 @@ var SourceUtils;
                     var keyframe = this.keyframes[i];
                     this.keyframes[i + 1].getPosition(next);
                     var segmentLength = norm.copy(next).sub(prev).length();
+                    // TODO: this is just a rough guess
+                    var slack = (keyframe.slack / segmentLength) * Math.sqrt(segmentLength) * 4.0;
                     norm.normalize();
                     for (var j = 0; j <= keyframe.subDivisions + 1; ++j) {
                         var t = j / (keyframe.subDivisions + 1);
                         var v = (totalLength + segmentLength * t) * texScale;
+                        var s = slack * 4 * (t * t - t);
                         pos.copy(next).sub(prev).multiplyScalar(t).add(prev);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, 0);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, 0);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, 0);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, 0);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, s);
                         if (j > 0) {
                             for (var k = 0; k < 3; ++k) {
                                 mesh.indices.push(indexOffset + k, indexOffset + k + 4, indexOffset + k + 1, indexOffset + k + 1, indexOffset + k + 4, indexOffset + k + 5);
@@ -2411,7 +2413,7 @@ var SourceUtils;
             function SplineRope(context) {
                 var _this = _super.call(this, context, Shaders.UnlitGenericMaterial) || this;
                 var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aTangent;\n                    attribute vec2 aSplineParams;\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n                        vec3 viewTangent = normalize((" + _this.uView + " * " + _this.uModel + " * vec4(aTangent, 0.0)).xyz);\n                        vec3 viewNormalA = normalize(cross(viewPos.xyz, viewTangent));\n                        vec3 viewNormalB = normalize(cross(viewNormalA, viewTangent));\n\n                        viewPos.xyz += viewNormalA * (aTextureCoord.x - 0.5) * aSplineParams.x;\n                        viewPos.xyz += viewNormalB * sqrt(1.0 - pow(1.0 - aTextureCoord.x * 2.0, 2.0)) * aSplineParams.x * 0.5;\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aTangent;\n                    attribute vec2 aSplineParams;\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n                        vec3 viewTangent = normalize((" + _this.uView + " * " + _this.uModel + " * vec4(aTangent, 0.0)).xyz);\n                        vec3 viewNormalA = normalize(cross(viewPos.xyz, viewTangent));\n                        vec3 viewNormalB = normalize(cross(viewNormalA, viewTangent));\n                        vec3 viewUp = normalize((" + _this.uView + " * vec4(0.0, 0.0, 1.0, 0.0)).xyz);\n\n                        viewPos.xyz += viewNormalA * (aTextureCoord.x - 0.5) * aSplineParams.x;\n                        viewPos.xyz += viewNormalB * sqrt(1.0 - pow(1.0 - aTextureCoord.x * 2.0, 2.0)) * aSplineParams.x * 0.5;\n                        viewPos.xyz += viewUp * aSplineParams.y;\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
                 _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
                 _this.addAttribute("aTangent", WebGame.VertexAttribute.normal);
                 _this.addAttribute("aSplineParams", WebGame.VertexAttribute.uv2);
