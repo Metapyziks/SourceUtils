@@ -4,6 +4,7 @@
     export namespace Entities {
         export interface IEntity {
             classname: string;
+            targetname?: string;
             origin?: Facepunch.IVector3;
             angles?: Facepunch.IVector3;
         }
@@ -25,11 +26,17 @@
 
         export class Entity extends WebGame.DrawableEntity {
             readonly map: Map;
+            readonly targetname: string;
 
             constructor(map: Map, info: IEntity) {
                 super(true);
 
                 this.map = map;
+                this.targetname = info.targetname;
+
+                if (this.targetname != null) {
+                    this.map.addNamedEntity(this.targetname, this);
+                }
 
                 if (info.origin !== undefined) {
                     this.setPosition(info.origin);

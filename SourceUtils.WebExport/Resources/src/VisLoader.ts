@@ -13,7 +13,7 @@
         }
     }
 
-    export class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
+    export class VisLoader extends PagedLoader<IVisPage, number[], VisPage> {
         constructor() {
             super();
             this.throwIfNotFound = false;

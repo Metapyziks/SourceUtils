@@ -18,7 +18,7 @@ declare namespace SourceUtils {
         load(index: number, callback: (payload: TValue, page: ResourcePage<TPayload, TValue>) => void): TValue;
         onLoadValues(page: TPayload): void;
     }
-    abstract class PagedLoader<TPage extends ResourcePage<TPayload, TValue>, TPayload, TValue> implements Facepunch.ILoader {
+    abstract class PagedLoader<TPayload, TValue, TPage extends ResourcePage<TPayload, TValue>> implements Facepunch.ILoader {
         private pages;
         private readonly toLoad;
         private active;
@@ -43,7 +43,7 @@ declare namespace SourceUtils {
     class AmbientPage extends ResourcePage<IAmbientPage, IAmbientSample[]> {
         protected onGetValue(index: number): IAmbientSample[];
     }
-    class AmbientLoader extends PagedLoader<AmbientPage, IAmbientPage, IAmbientSample[]> {
+    class AmbientLoader extends PagedLoader<IAmbientPage, IAmbientSample[], AmbientPage> {
         protected onCreatePage(page: IPageInfo): AmbientPage;
     }
 }
@@ -131,9 +131,9 @@ declare namespace SourceUtils {
         private models;
         constructor(viewer: MapViewer, page: IPageInfo);
         onLoadValues(page: IBspModelPage): void;
-        onGetValue(index: number): IBspModel;
+        protected onGetValue(index: number): IBspModel;
     }
-    class BspModelLoader extends PagedLoader<BspModelPage, IBspModelPage, IBspModel> {
+    class BspModelLoader extends PagedLoader<IBspModelPage, IBspModel, BspModelPage> {
         readonly viewer: MapViewer;
         private readonly models;
         constructor(viewer: MapViewer);
@@ -155,7 +155,7 @@ declare namespace SourceUtils {
         onLoadValues(page: IDispGeometryPage): void;
         protected onGetValue(index: number): Facepunch.WebGame.MeshHandle;
     }
-    class DispGeometryLoader extends PagedLoader<DispGeometryPage, IDispGeometryPage, WebGame.MeshHandle> {
+    class DispGeometryLoader extends PagedLoader<IDispGeometryPage, WebGame.MeshHandle, DispGeometryPage> {
         readonly viewer: MapViewer;
         constructor(viewer: MapViewer);
         protected onCreatePage(page: IPageInfo): DispGeometryPage;
@@ -183,7 +183,7 @@ declare namespace SourceUtils {
         onLoadValues(page: ILeafGeometryPage): void;
         protected onGetValue(index: number): Facepunch.WebGame.MeshHandle[];
     }
-    class LeafGeometryLoader extends PagedLoader<LeafGeometryPage, ILeafGeometryPage, WebGame.MeshHandle[]> {
+    class LeafGeometryLoader extends PagedLoader<ILeafGeometryPage, WebGame.MeshHandle[], LeafGeometryPage> {
         readonly viewer: MapViewer;
         constructor(viewer: MapViewer);
         protected onCreatePage(page: IPageInfo): LeafGeometryPage;
@@ -216,6 +216,7 @@ declare namespace SourceUtils {
         private tSpawns;
         private ctSpawns;
         private playerSpawns;
+        private namedEntities;
         private worldspawn;
         private pvsEntities;
         private lightmap;
@@ -230,6 +231,8 @@ declare namespace SourceUtils {
         load(url: string): void;
         getLightmapLoadProgress(): number;
         private onLoad(info);
+        addNamedEntity(targetname: string, entity: Entities.Entity): void;
+        getNamedEntity(targetname: string): Entities.Entity;
         getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[];
         getLeafAt(pos: Facepunch.IVector3, callback?: (leaf: BspLeaf) => void): BspLeaf;
         update(dt: number): void;
@@ -248,9 +251,9 @@ declare namespace SourceUtils {
         private materials;
         constructor(viewer: MapViewer, page: IPageInfo);
         onLoadValues(page: IMapMaterialPage): void;
-        onGetValue(index: number): WebGame.IMaterialInfo;
+        protected onGetValue(index: number): WebGame.IMaterialInfo;
     }
-    class MapMaterialLoader extends PagedLoader<MapMaterialPage, IMapMaterialPage, WebGame.IMaterialInfo> {
+    class MapMaterialLoader extends PagedLoader<IMapMaterialPage, WebGame.IMaterialInfo, MapMaterialPage> {
         readonly viewer: MapViewer;
         private readonly materials;
         constructor(viewer: MapViewer);
@@ -372,9 +375,9 @@ declare namespace SourceUtils {
         constructor(page: IPageInfo);
         getMaterialGroup(index: number): WebGame.IMeshData;
         onLoadValues(page: IStudioModelPage): void;
-        onGetValue(index: number): IStudioModel;
+        protected onGetValue(index: number): IStudioModel;
     }
-    class StudioModelLoader extends PagedLoader<StudioModelPage, IStudioModelPage, IStudioModel> {
+    class StudioModelLoader extends PagedLoader<IStudioModelPage, IStudioModel, StudioModelPage> {
         readonly viewer: MapViewer;
         private readonly models;
         constructor(viewer: MapViewer);
@@ -388,13 +391,23 @@ declare namespace SourceUtils {
     class VertexLightingPage extends ResourcePage<IVertexLightingPage, number[][]> {
         private props;
         onLoadValues(page: IVertexLightingPage): void;
-        onGetValue(index: number): number[][];
+        protected onGetValue(index: number): number[][];
     }
-    class VertexLightingLoader extends PagedLoader<VertexLightingPage, IVertexLightingPage, number[][]> {
+    class VertexLightingLoader extends PagedLoader<IVertexLightingPage, number[][], VertexLightingPage> {
         readonly viewer: MapViewer;
         constructor(viewer: MapViewer);
         update(requestQuota: number): number;
         onCreatePage(page: IPageInfo): VertexLightingPage;
+    }
+}
+declare namespace SourceUtils {
+    class ColorConversion {
+        private static lastScreenGamma;
+        private static linearToScreenGammaTable;
+        private static exponentTable;
+        static initialize(screenGamma: number): void;
+        static rgbExp32ToVector3(rgbExp: number, out: Facepunch.IVector3): Facepunch.IVector3;
+        static linearToScreenGamma(f: number): number;
     }
 }
 declare namespace SourceUtils {
@@ -404,7 +417,7 @@ declare namespace SourceUtils {
     class VisPage extends ResourcePage<IVisPage, number[]> {
         protected onGetValue(index: number): number[];
     }
-    class VisLoader extends PagedLoader<VisPage, IVisPage, number[]> {
+    class VisLoader extends PagedLoader<IVisPage, number[], VisPage> {
         constructor();
         protected onCreatePage(page: IPageInfo): VisPage;
     }
@@ -414,6 +427,7 @@ declare namespace SourceUtils {
     namespace Entities {
         interface IEntity {
             classname: string;
+            targetname?: string;
             origin?: Facepunch.IVector3;
             angles?: Facepunch.IVector3;
         }
@@ -432,6 +446,7 @@ declare namespace SourceUtils {
         }
         class Entity extends WebGame.DrawableEntity {
             readonly map: Map;
+            readonly targetname: string;
             constructor(map: Map, info: IEntity);
         }
         interface IPvsEntity extends IEntity {
@@ -729,12 +744,50 @@ declare namespace SourceUtils {
     }
 }
 declare namespace SourceUtils {
-    class ColorConversion {
-        private static lastScreenGamma;
-        private static linearToScreenGammaTable;
-        private static exponentTable;
-        static initialize(screenGamma: number): void;
-        static rgbExp32ToVector3(rgbExp: number, out: Facepunch.IVector3): Facepunch.IVector3;
-        static linearToScreenGamma(f: number): number;
+    namespace Entities {
+        interface IKeyframeRope extends IPvsEntity {
+            width: number;
+            textureScale: number;
+            subDivisions: number;
+            slack: number;
+            ropeMaterial: number;
+            nextKey: string;
+            moveSpeed: number;
+        }
+        class KeyframeRope extends PvsEntity {
+            readonly nextKey: string;
+            readonly width: number;
+            readonly slack: number;
+            readonly subDivisions: number;
+            constructor(map: Map, info: IKeyframeRope);
+        }
+        enum PositionInterpolator {
+            Linear = 0,
+            CatmullRomSpline = 1,
+            Rope = 2,
+        }
+        interface IMoveRope extends IKeyframeRope {
+            positionInterp: PositionInterpolator;
+        }
+        class MoveRope extends KeyframeRope {
+            private readonly info;
+            private keyframes;
+            private material;
+            private meshHandles;
+            constructor(map: Map, info: IMoveRope);
+            private findKeyframes();
+            private generateMesh();
+            onAddToDrawList(list: Facepunch.WebGame.DrawList): void;
+            getMeshHandles(): Facepunch.WebGame.MeshHandle[];
+        }
+    }
+}
+declare namespace SourceUtils {
+    namespace Shaders {
+        class SplineRopeMaterial extends ModelBaseMaterial {
+        }
+        class SplineRope extends ModelBase<SplineRopeMaterial> {
+            constructor(context: WebGLRenderingContext);
+        }
     }
 }

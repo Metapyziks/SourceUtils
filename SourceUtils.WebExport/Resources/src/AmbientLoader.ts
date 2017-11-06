@@ -16,7 +16,7 @@ namespace SourceUtils {
         }
     }
 
-    export class AmbientLoader extends PagedLoader<AmbientPage, IAmbientPage, IAmbientSample[]> {
+    export class AmbientLoader extends PagedLoader<IAmbientPage, IAmbientSample[], AmbientPage> {
         protected onCreatePage(page: IPageInfo): AmbientPage {
             return new AmbientPage(page);
         }

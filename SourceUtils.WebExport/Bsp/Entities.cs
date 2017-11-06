@@ -253,7 +253,7 @@ namespace SourceUtils.WebExport.Bsp
             [JsonProperty("textureScale")]
             public float TextureScale { get; set; }
             
-            [JsonProperty("subDivisons")]
+            [JsonProperty("subDivisions")]
             public int SubDivisions { get; set; }
 
             [JsonProperty("slack")]

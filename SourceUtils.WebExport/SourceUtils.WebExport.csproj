@@ -160,6 +160,7 @@
     <TypeScriptCompile Include="Resources\src\Entities\BrushEntity.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Camera.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Displacement.ts" />
+    <TypeScriptCompile Include="Resources\src\Entities\MoveRope.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\PvsEntity.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\StaticProp.ts" />
     <TypeScriptCompile Include="Resources\src\Entities\Worldspawn.ts" />
@@ -174,6 +175,7 @@
     <TypeScriptCompile Include="Resources\src\Shaders\LightmappedGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\ModelBase.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\Sky.ts" />
+    <TypeScriptCompile Include="Resources\src\Shaders\SplineRope.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\UnlitGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\VertexLitGeneric.ts" />
     <TypeScriptCompile Include="Resources\src\Shaders\Water.ts" />

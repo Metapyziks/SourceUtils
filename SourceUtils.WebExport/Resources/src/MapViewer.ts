@@ -286,6 +286,7 @@ namespace SourceUtils {
                 case WebGame.Key.S:
                 case WebGame.Key.D:
                 case WebGame.Key.Shift:
+                case WebGame.Key.Alt:
                     return this.isPointerLocked() && (this.cameraMode & CameraMode.CanMove) !== 0;
                 default:
                     return false;
@@ -338,7 +339,9 @@ namespace SourceUtils {
                 const move = this.onUpdateFrame_temp;
 
                 move.set(0, 0, 0);
-                const moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
+                const moveSpeed = 512 * dt
+                    * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1)
+                    * (this.isKeyDown(WebGame.Key.Alt) ? 0.333 : 1);
 
                 if (this.isKeyDown(WebGame.Key.W)) move.z -= moveSpeed;
                 if (this.isKeyDown(WebGame.Key.S)) move.z += moveSpeed;

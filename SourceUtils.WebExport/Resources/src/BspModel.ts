@@ -252,12 +252,12 @@ namespace SourceUtils {
             super.onLoadValues(page);
         }
 
-        onGetValue(index: number): IBspModel {
+        protected onGetValue(index: number): IBspModel {
             return this.models[index];
         }
     }
 
-    export class BspModelLoader extends PagedLoader<BspModelPage, IBspModelPage, IBspModel> {
+    export class BspModelLoader extends PagedLoader<IBspModelPage, IBspModel, BspModelPage> {
         readonly viewer: MapViewer;
 
         private readonly models: { [index: number]: BspModel } = {};

@@ -57,7 +57,7 @@ namespace SourceUtils {
         }
     }
 
-    export class LeafGeometryLoader extends PagedLoader<LeafGeometryPage, ILeafGeometryPage, WebGame.MeshHandle[]> {
+    export class LeafGeometryLoader extends PagedLoader<ILeafGeometryPage, WebGame.MeshHandle[], LeafGeometryPage> {
         readonly viewer: MapViewer;
 
         constructor(viewer: MapViewer) {

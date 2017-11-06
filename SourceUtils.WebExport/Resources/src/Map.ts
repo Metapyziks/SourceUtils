@@ -34,6 +34,8 @@ namespace SourceUtils {
         private ctSpawns: Entities.IEntity[];
         private playerSpawns: Entities.IEntity[];
 
+        private namedEntities: { [targetname: string]: Entities.Entity } = {};
+
         private worldspawn: Entities.Worldspawn;
         private pvsEntities: Entities.PvsEntity[];
 
@@ -90,6 +92,7 @@ namespace SourceUtils {
             this.pvsEntities = [];
             for (let i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
                 const ent = info.entities[i];
+                let inst: Entities.Entity = null;
                 let pvsInst: Entities.PvsEntity = null;
 
                 switch (ent.classname) {
@@ -138,6 +141,15 @@ namespace SourceUtils {
                     case "sky_camera":
                         this.skyCamera = new Entities.SkyCamera(this.viewer, ent as Entities.ISkyCamera);
                         break;
+                    case "keyframe_rope":
+                        inst = new Entities.KeyframeRope(this, ent as Entities.IKeyframeRope);
+                        break;
+                    case "move_rope":
+                        pvsInst = new Entities.MoveRope(this, ent as Entities.IMoveRope);
+                        break;
+                    default:
+                        inst = new Entities.Entity(this, ent);
+                        break;
                 }
 
                 if (pvsInst != null) {
@@ -155,6 +167,14 @@ namespace SourceUtils {
             }
 
             this.viewer.forceDrawListInvalidation(true);
+        }
+
+        addNamedEntity(targetname: string, entity: Entities.Entity): void {
+            this.namedEntities[targetname] = entity;
+        }
+
+        getNamedEntity(targetname: string): Entities.Entity {
+            return this.namedEntities[targetname];
         }
 
         getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[] {

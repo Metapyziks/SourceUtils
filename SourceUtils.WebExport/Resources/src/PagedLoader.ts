@@ -60,7 +60,7 @@
         }
     }
 
-    export abstract class PagedLoader<TPage extends ResourcePage<TPayload, TValue>, TPayload, TValue> implements Facepunch.ILoader {
+    export abstract class PagedLoader<TPayload, TValue, TPage extends ResourcePage<TPayload, TValue>> implements Facepunch.ILoader {
 
         private pages: TPage[];
 

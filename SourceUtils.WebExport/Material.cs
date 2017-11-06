@@ -165,6 +165,12 @@ namespace SourceUtils.WebExport
                         mat.Shader = "SourceUtils.Shaders.Water";
                         break;
                     }
+                case "splinerope":
+                case "cable":
+                    {
+                        mat.Shader = "SourceUtils.Shaders.SplineRope";
+                        break;
+                    }
                 default:
                     {
                         mat.Shader = shader;

@@ -38,12 +38,12 @@ namespace SourceUtils {
             super.onLoadValues(page);
         }
 
-        onGetValue(index: number): WebGame.IMaterialInfo {
+        protected onGetValue(index: number): WebGame.IMaterialInfo {
             return this.materials[index];
         }
     }
 
-    export class MapMaterialLoader extends PagedLoader<MapMaterialPage, IMapMaterialPage, WebGame.IMaterialInfo> {
+    export class MapMaterialLoader extends PagedLoader<IMapMaterialPage, WebGame.IMaterialInfo, MapMaterialPage> {
         readonly viewer: MapViewer;
 
         private readonly materials: {[index: number]: WebGame.MaterialLoadable} = {};

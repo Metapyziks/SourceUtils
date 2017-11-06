@@ -225,12 +225,12 @@ namespace SourceUtils {
             super.onLoadValues(page);
         }
 
-        onGetValue(index: number): IStudioModel {
+        protected onGetValue(index: number): IStudioModel {
             return this.models[index];
         }
     }
 
-    export class StudioModelLoader extends PagedLoader<StudioModelPage, IStudioModelPage, IStudioModel> {
+    export class StudioModelLoader extends PagedLoader<IStudioModelPage, IStudioModel, StudioModelPage> {
         readonly viewer: MapViewer;
 
         private readonly models: { [index: number]: StudioModel } = {};
@@ -280,12 +280,12 @@ namespace SourceUtils {
             super.onLoadValues(page);
         }
 
-        onGetValue(index: number): number[][] {
+        protected onGetValue(index: number): number[][] {
             return this.props[index];
         }
     }
 
-    export class VertexLightingLoader extends PagedLoader<VertexLightingPage, IVertexLightingPage, number[][]> {
+    export class VertexLightingLoader extends PagedLoader<IVertexLightingPage, number[][], VertexLightingPage> {
         readonly viewer: MapViewer;
 
         constructor(viewer: MapViewer) {

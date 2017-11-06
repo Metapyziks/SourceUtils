@@ -41,7 +41,7 @@ namespace SourceUtils {
         }
     }
 
-    export class DispGeometryLoader extends PagedLoader<DispGeometryPage, IDispGeometryPage, WebGame.MeshHandle> {
+    export class DispGeometryLoader extends PagedLoader<IDispGeometryPage, WebGame.MeshHandle, DispGeometryPage> {
         readonly viewer: MapViewer;
 
         constructor(viewer: MapViewer) {

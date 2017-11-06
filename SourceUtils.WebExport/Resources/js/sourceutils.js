@@ -472,6 +472,7 @@ var SourceUtils;
     var WebGame = Facepunch.WebGame;
     var Map = (function () {
         function Map(viewer) {
+            this.namedEntities = {};
             this.clusterVis = {};
             this.clusterEnts = {};
             this.worldspawnLoadedCallbacks = [];
@@ -511,6 +512,7 @@ var SourceUtils;
             this.pvsEntities = [];
             for (var i = 0, iEnd = info.entities.length; i < iEnd; ++i) {
                 var ent = info.entities[i];
+                var inst = null;
                 var pvsInst = null;
                 switch (ent.classname) {
                     case "worldspawn":
@@ -558,6 +560,15 @@ var SourceUtils;
                     case "sky_camera":
                         this.skyCamera = new SourceUtils.Entities.SkyCamera(this.viewer, ent);
                         break;
+                    case "keyframe_rope":
+                        inst = new SourceUtils.Entities.KeyframeRope(this, ent);
+                        break;
+                    case "move_rope":
+                        pvsInst = new SourceUtils.Entities.MoveRope(this, ent);
+                        break;
+                    default:
+                        inst = new SourceUtils.Entities.Entity(this, ent);
+                        break;
                 }
                 if (pvsInst != null) {
                     this.pvsEntities.push(pvsInst);
@@ -571,6 +582,12 @@ var SourceUtils;
                 this.viewer.setCameraAngles((spawn.angles.y - 90) * Math.PI / 180, spawn.angles.x * Math.PI / 180);
             }
             this.viewer.forceDrawListInvalidation(true);
+        };
+        Map.prototype.addNamedEntity = function (targetname, entity) {
+            this.namedEntities[targetname] = entity;
+        };
+        Map.prototype.getNamedEntity = function (targetname) {
+            return this.namedEntities[targetname];
         };
         Map.prototype.getPvsEntitiesInCluster = function (cluster) {
             var ents = this.clusterEnts[cluster];
@@ -943,6 +960,7 @@ var SourceUtils;
                 case WebGame.Key.S:
                 case WebGame.Key.D:
                 case WebGame.Key.Shift:
+                case WebGame.Key.Alt:
                     return this.isPointerLocked() && (this.cameraMode & CameraMode.CanMove) !== 0;
                 default:
                     return false;
@@ -980,7 +998,9 @@ var SourceUtils;
             if ((this.cameraMode & CameraMode.CanMove) !== 0 && this.isPointerLocked() && this.map.isReady()) {
                 var move = this.onUpdateFrame_temp;
                 move.set(0, 0, 0);
-                var moveSpeed = 512 * dt * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1);
+                var moveSpeed = 512 * dt
+                    * (this.isKeyDown(WebGame.Key.Shift) ? 4 : 1)
+                    * (this.isKeyDown(WebGame.Key.Alt) ? 0.333 : 1);
                 if (this.isKeyDown(WebGame.Key.W))
                     move.z -= moveSpeed;
                 if (this.isKeyDown(WebGame.Key.S))
@@ -1349,6 +1369,55 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
+    var ColorConversion = (function () {
+        function ColorConversion() {
+        }
+        ColorConversion.initialize = function (screenGamma) {
+            if (this.exponentTable == null) {
+                var table = this.exponentTable = new Array(256);
+                for (var i = 0; i < 256; ++i) {
+                    table[i] = Math.pow(2.0, i - 128);
+                }
+            }
+            if (this.lastScreenGamma !== screenGamma) {
+                this.lastScreenGamma = screenGamma;
+                var g = 1.0 / screenGamma;
+                var table = this.linearToScreenGammaTable = new Array(1024);
+                for (var i = 0; i < 1024; ++i) {
+                    var f = i / 1023;
+                    var inf = Math.floor(255 * Math.pow(f, g));
+                    table[i] = inf < 0 ? 0 : inf > 255 ? 255 : inf;
+                }
+            }
+        };
+        ColorConversion.rgbExp32ToVector3 = function (rgbExp, out) {
+            if (out == null)
+                out = new Facepunch.Vector3();
+            var r = (rgbExp >> 0) & 0xff;
+            var g = (rgbExp >> 8) & 0xff;
+            var b = (rgbExp >> 16) & 0xff;
+            var exp = (rgbExp >> 24) & 0xff;
+            var mul = this.exponentTable[exp];
+            out.x = r * mul;
+            out.y = g * mul;
+            out.z = b * mul;
+            return out;
+        };
+        ColorConversion.linearToScreenGamma = function (f) {
+            var index = Math.floor(f * 1023);
+            if (index < 0)
+                index = 0;
+            else if (index > 1023)
+                index = 1023;
+            return this.linearToScreenGammaTable[index];
+        };
+        return ColorConversion;
+    }());
+    SourceUtils.ColorConversion = ColorConversion;
+    ColorConversion.initialize(2.2);
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
     var VisPage = (function (_super) {
         __extends(VisPage, _super);
         function VisPage() {
@@ -1387,6 +1456,10 @@ var SourceUtils;
             function Entity(map, info) {
                 var _this = _super.call(this, true) || this;
                 _this.map = map;
+                _this.targetname = info.targetname;
+                if (_this.targetname != null) {
+                    _this.map.addNamedEntity(_this.targetname, _this);
+                }
                 if (info.origin !== undefined) {
                     _this.setPosition(info.origin);
                 }
@@ -2210,50 +2283,143 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var ColorConversion = (function () {
-        function ColorConversion() {
-        }
-        ColorConversion.initialize = function (screenGamma) {
-            if (this.exponentTable == null) {
-                var table = this.exponentTable = new Array(256);
-                for (var i = 0; i < 256; ++i) {
-                    table[i] = Math.pow(2.0, i - 128);
-                }
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var KeyframeRope = (function (_super) {
+            __extends(KeyframeRope, _super);
+            function KeyframeRope(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.nextKey = info.nextKey;
+                _this.width = info.width;
+                _this.slack = info.slack;
+                _this.subDivisions = info.subDivisions;
+                return _this;
             }
-            if (this.lastScreenGamma !== screenGamma) {
-                this.lastScreenGamma = screenGamma;
-                var g = 1.0 / screenGamma;
-                var table = this.linearToScreenGammaTable = new Array(1024);
-                for (var i = 0; i < 1024; ++i) {
-                    var f = i / 1023;
-                    var inf = Math.floor(255 * Math.pow(f, g));
-                    table[i] = inf < 0 ? 0 : inf > 255 ? 255 : inf;
-                }
+            return KeyframeRope;
+        }(Entities.PvsEntity));
+        Entities.KeyframeRope = KeyframeRope;
+        var PositionInterpolator;
+        (function (PositionInterpolator) {
+            PositionInterpolator[PositionInterpolator["Linear"] = 0] = "Linear";
+            PositionInterpolator[PositionInterpolator["CatmullRomSpline"] = 1] = "CatmullRomSpline";
+            PositionInterpolator[PositionInterpolator["Rope"] = 2] = "Rope";
+        })(PositionInterpolator = Entities.PositionInterpolator || (Entities.PositionInterpolator = {}));
+        var MoveRope = (function (_super) {
+            __extends(MoveRope, _super);
+            function MoveRope(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.info = info;
+                return _this;
             }
-        };
-        ColorConversion.rgbExp32ToVector3 = function (rgbExp, out) {
-            if (out == null)
-                out = new Facepunch.Vector3();
-            var r = (rgbExp >> 0) & 0xff;
-            var g = (rgbExp >> 8) & 0xff;
-            var b = (rgbExp >> 16) & 0xff;
-            var exp = (rgbExp >> 24) & 0xff;
-            var mul = this.exponentTable[exp];
-            out.x = r * mul;
-            out.y = g * mul;
-            out.z = b * mul;
-            return out;
-        };
-        ColorConversion.linearToScreenGamma = function (f) {
-            var index = Math.floor(f * 1023);
-            if (index < 0)
-                index = 0;
-            else if (index > 1023)
-                index = 1023;
-            return this.linearToScreenGammaTable[index];
-        };
-        return ColorConversion;
-    }());
-    SourceUtils.ColorConversion = ColorConversion;
-    ColorConversion.initialize(2.2);
+            MoveRope.prototype.findKeyframes = function () {
+                var list = [];
+                var prev = this;
+                while (prev != null && list.length < 256) {
+                    list.push(prev);
+                    prev = this.map.getNamedEntity(prev.nextKey);
+                }
+                return list;
+            };
+            MoveRope.prototype.generateMesh = function () {
+                if (this.keyframes == null) {
+                    this.keyframes = this.findKeyframes();
+                }
+                if (this.keyframes.length <= 1) {
+                    return [];
+                }
+                if (this.material == null) {
+                    this.material = this.map.viewer.mapMaterialLoader.loadMaterial(this.info.ropeMaterial);
+                    this.material.addUsage(this);
+                }
+                var mesh = {
+                    attributes: [WebGame.VertexAttribute.position, WebGame.VertexAttribute.normal, WebGame.VertexAttribute.uv, WebGame.VertexAttribute.uv2],
+                    elements: [],
+                    vertices: [],
+                    indices: []
+                };
+                var prev = new Facepunch.Vector3();
+                var next = new Facepunch.Vector3();
+                var pos = new Facepunch.Vector3();
+                var norm = new Facepunch.Vector3();
+                // TODO: slack
+                // TODO: check current texture res, use info.textureScale
+                var texScale = this.info.textureScale / 64;
+                this.keyframes[0].getPosition(prev);
+                var totalLength = 0;
+                var indexOffset = -4;
+                for (var i = 0; i < this.keyframes.length - 1; ++i) {
+                    var keyframe = this.keyframes[i];
+                    this.keyframes[i + 1].getPosition(next);
+                    var segmentLength = norm.copy(next).sub(prev).length();
+                    norm.normalize();
+                    for (var j = 0; j <= keyframe.subDivisions + 1; ++j) {
+                        var t = j / (keyframe.subDivisions + 1);
+                        var v = (totalLength + segmentLength * t) * texScale;
+                        pos.copy(next).sub(prev).multiplyScalar(t).add(prev);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, 0);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, 0);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, 0);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, 0);
+                        if (j > 0) {
+                            for (var k = 0; k < 3; ++k) {
+                                mesh.indices.push(indexOffset + k, indexOffset + k + 4, indexOffset + k + 1, indexOffset + k + 1, indexOffset + k + 4, indexOffset + k + 5);
+                            }
+                        }
+                        indexOffset += 4;
+                    }
+                    totalLength += segmentLength;
+                    prev.copy(next);
+                }
+                mesh.elements.push({
+                    mode: WebGame.DrawMode.Triangles,
+                    material: this.material,
+                    indexOffset: 0,
+                    indexCount: mesh.indices.length
+                });
+                return this.map.viewer.meshes.addMeshData(mesh);
+            };
+            MoveRope.prototype.onAddToDrawList = function (list) {
+                _super.prototype.onAddToDrawList.call(this, list);
+                if (this.meshHandles == null) {
+                    this.meshHandles = this.generateMesh();
+                }
+            };
+            MoveRope.prototype.getMeshHandles = function () {
+                return this.meshHandles;
+            };
+            return MoveRope;
+        }(KeyframeRope));
+        Entities.MoveRope = MoveRope;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var SplineRopeMaterial = (function (_super) {
+            __extends(SplineRopeMaterial, _super);
+            function SplineRopeMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return SplineRopeMaterial;
+        }(Shaders.ModelBaseMaterial));
+        Shaders.SplineRopeMaterial = SplineRopeMaterial;
+        var SplineRope = (function (_super) {
+            __extends(SplineRope, _super);
+            function SplineRope(context) {
+                var _this = _super.call(this, context, Shaders.UnlitGenericMaterial) || this;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aTangent;\n                    attribute vec2 aSplineParams;\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n                        vec3 viewTangent = normalize((" + _this.uView + " * " + _this.uModel + " * vec4(aTangent, 0.0)).xyz);\n                        vec3 viewNormalA = normalize(cross(viewPos.xyz, viewTangent));\n                        vec3 viewNormalB = normalize(cross(viewNormalA, viewTangent));\n\n                        viewPos.xyz += viewNormalA * (aTextureCoord.x - 0.5) * aSplineParams.x;\n                        viewPos.xyz += viewNormalB * sqrt(1.0 - pow(1.0 - aTextureCoord.x * 2.0, 2.0)) * aSplineParams.x * 0.5;\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
+                _this.addAttribute("aTangent", WebGame.VertexAttribute.normal);
+                _this.addAttribute("aSplineParams", WebGame.VertexAttribute.uv2);
+                _this.compile();
+                return _this;
+            }
+            return SplineRope;
+        }(Shaders.ModelBase));
+        Shaders.SplineRope = SplineRope;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));
