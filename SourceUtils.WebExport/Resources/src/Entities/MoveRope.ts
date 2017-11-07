@@ -72,7 +72,7 @@
                 }
 
                 if (this.material == null) {
-                    this.material = this.map.viewer.mapMaterialLoader.loadMaterial(this.info.ropeMaterial);
+                    this.material = this.map.viewer.mapMaterialLoader.loadMaterial(this.info.ropeMaterial).clone();
                     this.material.addUsage(this);
                 }
 
@@ -87,11 +87,13 @@
                 const next = new Facepunch.Vector3();
                 const pos = new Facepunch.Vector3();
                 const norm = new Facepunch.Vector3();
+                const mid = new Facepunch.Vector3();
 
                 // TODO: check current texture res, use info.textureScale
                 const texScale = this.info.textureScale / 64;
 
                 this.keyframes[0].getPosition(prev);
+                mid.add(prev);
 
                 let totalLength = 0;
                 let indexOffset = -4;
@@ -100,10 +102,12 @@
                     const keyframe = this.keyframes[i];
 
                     this.keyframes[i + 1].getPosition(next);
+                    mid.add(next);
 
                     const segmentLength = norm.copy(next).sub(prev).length();
 
                     // TODO: this is just a rough guess
+                    // TODO: need to solve `L = 1/2 sqrt(1 + 16 h^2) + (arcsinh(4 h))/(8 h)` for h
                     const slack = (keyframe.slack / segmentLength) * Math.sqrt(segmentLength) * 4.0;
                     norm.normalize();
 
@@ -135,6 +139,15 @@
 
                     prev.copy(next);
                 }
+
+                mid.multiplyScalar(1 / this.keyframes.length);
+
+                this.map.getLeafAt(mid, leaf => {
+                    const ambient = (this.material.properties as Shaders.SplineRopeMaterial).ambient = new Array<Facepunch.Vector3>(6);
+                    leaf.getAmbientCube(mid, ambient, success => {
+                        if (success) this.map.viewer.forceDrawListInvalidation(false);
+                    });
+                });
 
                 mesh.elements.push({
                     mode: WebGame.DrawMode.Triangles,

@@ -532,6 +532,45 @@ declare namespace SourceUtils {
 }
 declare namespace SourceUtils {
     namespace Entities {
+        interface IKeyframeRope extends IPvsEntity {
+            width: number;
+            textureScale: number;
+            subDivisions: number;
+            slack: number;
+            ropeMaterial: number;
+            nextKey: string;
+            moveSpeed: number;
+        }
+        class KeyframeRope extends PvsEntity {
+            readonly nextKey: string;
+            readonly width: number;
+            readonly slack: number;
+            readonly subDivisions: number;
+            constructor(map: Map, info: IKeyframeRope);
+        }
+        enum PositionInterpolator {
+            Linear = 0,
+            CatmullRomSpline = 1,
+            Rope = 2,
+        }
+        interface IMoveRope extends IKeyframeRope {
+            positionInterp: PositionInterpolator;
+        }
+        class MoveRope extends KeyframeRope {
+            private readonly info;
+            private keyframes;
+            private material;
+            private meshHandles;
+            constructor(map: Map, info: IMoveRope);
+            private findKeyframes();
+            private generateMesh();
+            onAddToDrawList(list: Facepunch.WebGame.DrawList): void;
+            getMeshHandles(): Facepunch.WebGame.MeshHandle[];
+        }
+    }
+}
+declare namespace SourceUtils {
+    namespace Entities {
         interface IStaticProp extends IPvsEntity {
             model: number;
             vertLighting?: number;
@@ -679,6 +718,25 @@ declare namespace SourceUtils {
     }
 }
 declare namespace SourceUtils {
+    import WebGame = Facepunch.WebGame;
+    namespace Shaders {
+        class SplineRopeMaterial extends ModelBaseMaterial {
+            ambient: Facepunch.Vector3[];
+        }
+        class SplineRope extends ModelBase<SplineRopeMaterial> {
+            private uAmbient0;
+            private uAmbient1;
+            private uAmbient2;
+            private uAmbient3;
+            private uAmbient4;
+            private uAmbient5;
+            uAmbient: WebGame.Uniform3F[];
+            constructor(context: WebGLRenderingContext);
+            bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: SplineRopeMaterial): void;
+        }
+    }
+}
+declare namespace SourceUtils {
     namespace Shaders {
         class UnlitGenericMaterial extends ModelBaseMaterial {
         }
@@ -740,54 +798,6 @@ declare namespace SourceUtils {
             readonly uDetailScale: WebGame.Uniform1F;
             constructor(context: WebGLRenderingContext);
             bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: WorldTwoTextureBlendMaterial): void;
-        }
-    }
-}
-declare namespace SourceUtils {
-    namespace Entities {
-        interface IKeyframeRope extends IPvsEntity {
-            width: number;
-            textureScale: number;
-            subDivisions: number;
-            slack: number;
-            ropeMaterial: number;
-            nextKey: string;
-            moveSpeed: number;
-        }
-        class KeyframeRope extends PvsEntity {
-            readonly nextKey: string;
-            readonly width: number;
-            readonly slack: number;
-            readonly subDivisions: number;
-            constructor(map: Map, info: IKeyframeRope);
-        }
-        enum PositionInterpolator {
-            Linear = 0,
-            CatmullRomSpline = 1,
-            Rope = 2,
-        }
-        interface IMoveRope extends IKeyframeRope {
-            positionInterp: PositionInterpolator;
-        }
-        class MoveRope extends KeyframeRope {
-            private readonly info;
-            private keyframes;
-            private material;
-            private meshHandles;
-            constructor(map: Map, info: IMoveRope);
-            private findKeyframes();
-            private generateMesh();
-            onAddToDrawList(list: Facepunch.WebGame.DrawList): void;
-            getMeshHandles(): Facepunch.WebGame.MeshHandle[];
-        }
-    }
-}
-declare namespace SourceUtils {
-    namespace Shaders {
-        class SplineRopeMaterial extends ModelBaseMaterial {
-        }
-        class SplineRope extends ModelBase<SplineRopeMaterial> {
-            constructor(context: WebGLRenderingContext);
         }
     }
 }

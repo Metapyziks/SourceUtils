@@ -744,7 +744,11 @@ declare namespace Facepunch {
             enabled: boolean;
             constructor();
             constructor(program: ShaderProgram);
+            clone(): Material;
             isLoaded(): boolean;
+        }
+        class MaterialClone extends Material {
+            constructor(base: Material);
         }
         class MaterialLoadable extends Material implements ILoadable {
             private static nextDummyId;
