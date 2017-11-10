@@ -431,7 +431,9 @@ namespace SourceUtils {
             gl.depthFunc(gl.LEQUAL);
             gl.cullFace(gl.FRONT);
 
-            this.mainCamera.render();
+            if (this.mainCamera != null) {
+                this.mainCamera.render();
+            }
         }
 
         populateCommandBufferParameters(buf: WebGame.CommandBuffer): void {
