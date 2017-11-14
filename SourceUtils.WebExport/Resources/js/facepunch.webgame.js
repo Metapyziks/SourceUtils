@@ -2666,8 +2666,6 @@ var Facepunch;
                 container.addEventListener("mousedown", function (evnt) {
                     _this.heldMouseButtons[evnt.which] = true;
                     var handled = _this.onMouseDown(evnt.which, _this.getScreenPos(evnt.pageX, evnt.pageY, _this.mouseScreenPos));
-                    if (_this.canLockPointer)
-                        _this.container.requestPointerLock();
                     if (handled)
                         evnt.preventDefault();
                     return handled;
@@ -2806,7 +2804,13 @@ var Facepunch;
                 this.loaders.push(loader);
                 return loader;
             };
-            Game.prototype.onMouseDown = function (button, screenPos) { return false; };
+            Game.prototype.onMouseDown = function (button, screenPos) {
+                if (this.canLockPointer && event.target === this.canvas) {
+                    this.container.requestPointerLock();
+                    return true;
+                }
+                return false;
+            };
             Game.prototype.onMouseUp = function (button, screenPos) { return false; };
             Game.prototype.onMouseScroll = function (delta) { return false; };
             Game.prototype.onMouseMove = function (screenPos) { };
