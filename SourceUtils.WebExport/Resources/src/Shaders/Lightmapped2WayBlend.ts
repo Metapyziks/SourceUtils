@@ -56,7 +56,7 @@ namespace SourceUtils {
 
                             blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));
                         } else {
-                            blend = vAlpha;
+                            blend = max(0.0, min(1.0, vAlpha));
                         }
 
                         vec3 blendedSample = mix(sample0, sample1, blend);
