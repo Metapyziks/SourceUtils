@@ -228,9 +228,6 @@ declare namespace Facepunch {
         interface ICommandBufferItem {
             action?: CommandBufferAction;
             commandBuffer?: CommandBuffer;
-            parameters?: {
-                [param: number]: Float32Array | Texture;
-            };
             parameter?: CommandBufferParameter;
             program?: ShaderProgram;
             uniform?: Uniform;
@@ -290,10 +287,11 @@ declare namespace Facepunch {
             private tempLastRunTime;
             private tempSpareTime;
             private tempCurFrame;
-            readonly immediate: boolean;
+            immediate: boolean;
             constructor(context: WebGLRenderingContext, immediate?: boolean);
             private getCommandName(action);
             logCommands(): void;
+            private clearState();
             clearCommands(): void;
             getDrawCalls(): number;
             setParameter(param: CommandBufferParameter, value: Float32Array | Texture): void;
@@ -303,6 +301,7 @@ declare namespace Facepunch {
             private push(action, args);
             clear(mask: number): void;
             private onClear(gl, args);
+            dynamicMaterial(callback: (buf: CommandBuffer) => void): void;
             private setCap(cap, enabled);
             enable(cap: number): void;
             private onEnable(gl, args);
@@ -315,6 +314,7 @@ declare namespace Facepunch {
             useProgram(program: ShaderProgram): void;
             private onUseProgram(gl, args);
             setUniformParameter(uniform: Uniform, parameter: CommandBufferParameter): void;
+            private setUniformParameterInternal(uniform, param, unit?);
             private onSetUniformParameter(gl, args);
             setUniform1F(uniform: Uniform, x: number): void;
             private onSetUniform1F(gl, args);
@@ -344,6 +344,7 @@ declare namespace Facepunch {
             drawElements(mode: number, count: number, type: number, offset: number, elemSize: number): void;
             private onDrawElements(gl, args);
             bindFramebuffer(buffer: FrameBuffer, fitView?: boolean): void;
+            bindFramebufferInternal(buffer: FrameBuffer, fitView: boolean): void;
             private onBindFramebuffer(gl, args);
         }
     }
@@ -435,6 +436,36 @@ declare namespace Facepunch {
             onAddToDrawList(list: DrawList): void;
             onRemoveFromDrawList(list: DrawList): void;
             getMeshHandles(): MeshHandle[];
+        }
+    }
+}
+declare namespace Facepunch {
+    namespace WebGame {
+        class DebugLine extends DrawableEntity {
+            private readonly game;
+            private readonly attribs;
+            private readonly material;
+            private readonly materialProps;
+            private readonly meshGroup;
+            private readonly meshHandle;
+            private readonly meshHandles;
+            private readonly vertData;
+            private readonly indexData;
+            private readonly vertBuffer;
+            private meshChanged;
+            constructor(game: Game);
+            clear(): void;
+            setPhase(value: number): void;
+            setFrequency(value: number): void;
+            setColor(color: IVector3): void;
+            setColor(color0: IVector3, color1: IVector3): void;
+            private lastPos;
+            private progress;
+            private addVertex(pos, progress);
+            moveTo(pos: IVector3): void;
+            lineTo(pos: IVector3, progressScale?: number): void;
+            update(): void;
+            dispose(): void;
         }
     }
 }
@@ -679,8 +710,8 @@ declare namespace Facepunch {
             protected onInitialize(): void;
             protected onResize(): void;
             protected addLoader<TLoader extends ILoader>(loader: TLoader): TLoader;
-            protected onMouseDown(button: MouseButton, screenPos: Vector2): boolean;
-            protected onMouseUp(button: MouseButton, screenPos: Vector2): boolean;
+            protected onMouseDown(button: MouseButton, screenPos: Vector2, target: EventTarget): boolean;
+            protected onMouseUp(button: MouseButton, screenPos: Vector2, target: EventTarget): boolean;
             protected onMouseScroll(delta: number): boolean;
             protected onMouseMove(screenPos: Vector2): void;
             protected onMouseLook(delta: Vector2): void;
@@ -742,13 +773,14 @@ declare namespace Facepunch {
             properties: any;
             program: ShaderProgram;
             enabled: boolean;
-            constructor();
-            constructor(program: ShaderProgram);
-            clone(): Material;
+            readonly isDynamic: boolean;
+            constructor(isDynamic: boolean);
+            constructor(program: ShaderProgram, isDynamic: boolean);
+            clone(isDynamic?: boolean): Material;
             isLoaded(): boolean;
         }
         class MaterialClone extends Material {
-            constructor(base: Material);
+            constructor(base: Material, isDynamic: boolean);
         }
         class MaterialLoadable extends Material implements ILoadable {
             private static nextDummyId;
@@ -803,8 +835,8 @@ declare namespace Facepunch {
             private readonly context;
             private readonly attribs;
             private readonly attribOffsets;
-            private readonly vertexLength;
-            private readonly indexSize;
+            readonly vertexLength: number;
+            readonly indexSize: number;
             private readonly maxVertexDataLength;
             private readonly maxSubBufferLength;
             private vertexBuffer;
@@ -815,10 +847,13 @@ declare namespace Facepunch {
             private indexDataLength;
             private subBufferOffset;
             constructor(context: WebGLRenderingContext, attribs: VertexAttribute[]);
+            clear(): void;
             compareTo(other: MeshGroup): number;
             canAddMeshData(data: IMeshData): boolean;
             private ensureCapacity<TArray>(array, length, ctor);
             private updateBuffer<TArray>(target, buffer, data, newData, oldData, offset);
+            addVertexData(data: Float32Array, meshHandle?: MeshHandle): number;
+            addIndexData(data: Uint32Array | Uint16Array, meshHandle?: MeshHandle): number;
             addMeshData(data: IMeshData, getMaterial: (materialIndex: number) => Material, target: MeshHandle[]): void;
             bufferBindBuffers(buf: CommandBuffer, program: ShaderProgram): void;
             bufferAttribPointers(buf: CommandBuffer, program: ShaderProgram, vertexOffset: number): void;
@@ -830,6 +865,9 @@ declare namespace Facepunch {
 declare namespace Facepunch {
     namespace WebGame {
         enum DrawMode {
+            Lines,
+            LineStrip,
+            LineLoop,
             Triangles,
             TriangleStrip,
             TriangleFan,
@@ -843,7 +881,7 @@ declare namespace Facepunch {
             readonly vertexOffset: number;
             readonly drawMode: DrawMode;
             readonly indexOffset: number;
-            readonly indexCount: number;
+            indexCount: number;
             constructor(group: MeshGroup, vertexOffset: number, drawMode: DrawMode, indexOffset: number, indexCount: number, material: Material, transform?: Matrix4);
             clone(newTransform: Matrix4, newMaterial?: Material): MeshHandle;
             compareTo(other: MeshHandle): number;
@@ -923,7 +961,7 @@ declare namespace Facepunch {
             private getFromCtor(ctor);
             get(name: string): ShaderProgram;
             get(ctor: IProgramCtor): ShaderProgram;
-            createMaterial(ctor: IProgramCtor): Material;
+            createMaterial(ctor: IProgramCtor, isDynamic: boolean): Material;
             dispose(): void;
         }
     }
@@ -991,8 +1029,6 @@ declare namespace Facepunch {
     namespace WebGame {
         namespace Shaders {
             class ComposeFrame extends ShaderProgram {
-                static readonly vertSource: string;
-                static readonly fragSource: string;
                 readonly frameColor: UniformSampler;
                 readonly frameDepth: UniformSampler;
                 constructor(context: WebGLRenderingContext);
@@ -1004,9 +1040,34 @@ declare namespace Facepunch {
 declare namespace Facepunch {
     namespace WebGame {
         namespace Shaders {
+            class DebugLineProps extends BaseMaterialProps {
+                noCull: boolean;
+                color0: Vector3;
+                color1: Vector3;
+                phase: number;
+                frequency: number;
+            }
+            class DebugLine extends BaseShaderProgram<DebugLineProps> {
+                readonly projectionMatrix: UniformMatrix4;
+                readonly viewMatrix: UniformMatrix4;
+                readonly modelMatrix: UniformMatrix4;
+                readonly time: Uniform4F;
+                readonly color0: Uniform3F;
+                readonly color1: Uniform3F;
+                readonly phase: Uniform1F;
+                readonly frequency: Uniform1F;
+                constructor(context: WebGLRenderingContext);
+                bufferSetup(buf: CommandBuffer): void;
+                bufferModelMatrix(buf: CommandBuffer, value: Float32Array): void;
+                bufferMaterialProps(buf: CommandBuffer, props: DebugLineProps): void;
+            }
+        }
+    }
+}
+declare namespace Facepunch {
+    namespace WebGame {
+        namespace Shaders {
             class Error extends ShaderProgram {
-                static readonly vertSource: string;
-                static readonly fragSource: string;
                 readonly projectionMatrix: UniformMatrix4;
                 readonly viewMatrix: UniformMatrix4;
                 readonly modelMatrix: UniformMatrix4;
@@ -1028,8 +1089,6 @@ declare namespace Facepunch {
                 shadowCast: boolean;
             }
             abstract class ModelBase<TMaterialProps extends ModelBaseMaterialProps> extends BaseShaderProgram<TMaterialProps> {
-                static readonly vertSource: string;
-                static readonly fragSource: string;
                 readonly projectionMatrix: UniformMatrix4;
                 readonly viewMatrix: UniformMatrix4;
                 readonly modelMatrix: UniformMatrix4;
@@ -1056,8 +1115,6 @@ declare namespace Facepunch {
                 alphaTest: boolean;
             }
             class VertexLitGeneric extends ModelBase<VertexLitGenericMaterialProps> {
-                static readonly vertSource: string;
-                static readonly fragSource: string;
                 readonly alpha: Uniform1F;
                 readonly alphaTest: Uniform1F;
                 readonly translucent: Uniform1F;

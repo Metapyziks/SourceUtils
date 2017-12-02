@@ -177,6 +177,17 @@ namespace SourceUtils {
             return this.namedEntities[targetname];
         }
 
+        addPvsEntity(entity: Entities.PvsEntity): void {
+            this.pvsEntities.push(entity);
+        }
+
+        removePvsEntity(entity: Entities.PvsEntity): void {
+            const index = this.pvsEntities.indexOf(entity);
+            if (index !== -1) {
+                this.pvsEntities.splice(index, 1);
+            }
+        }
+
         getPvsEntitiesInCluster(cluster: number): Entities.PvsEntity[] {
             let ents = this.clusterEnts[cluster];
             if (ents !== undefined) return ents;

@@ -60,7 +60,7 @@ var Facepunch;
         Loader.prototype.update = function (requestQuota) {
             var _this = this;
             var next;
-            var _loop_1 = function() {
+            var _loop_1 = function () {
                 this_1.active.push(next);
                 var nextCopy = next;
                 next.loadNext(function (requeue) {
@@ -553,18 +553,18 @@ var Facepunch;
     var LZString = (function () {
         function LZString() {
         }
-        LZString.compressToBase64 = _LZString.compressToBase64;
-        LZString.decompressFromBase64 = _LZString.decompressFromBase64;
-        LZString.compressToUTF16 = _LZString.compressToUTF16;
-        LZString.decompressFromUTF16 = _LZString.decompressFromUTF16;
-        LZString.compressToUint8Array = _LZString.compressToUint8Array;
-        LZString.decompressFromUint8Array = _LZString.decompressFromUint8Array;
-        LZString.compressToEncodedURIComponent = _LZString.compressToEncodedURIComponent;
-        LZString.decompressFromEncodedURIComponent = _LZString.decompressFromEncodedURIComponent;
-        LZString.compress = _LZString.compress;
-        LZString.decompress = _LZString.decompress;
         return LZString;
     }());
+    LZString.compressToBase64 = _LZString.compressToBase64;
+    LZString.decompressFromBase64 = _LZString.decompressFromBase64;
+    LZString.compressToUTF16 = _LZString.compressToUTF16;
+    LZString.decompressFromUTF16 = _LZString.decompressFromUTF16;
+    LZString.compressToUint8Array = _LZString.compressToUint8Array;
+    LZString.decompressFromUint8Array = _LZString.decompressFromUint8Array;
+    LZString.compressToEncodedURIComponent = _LZString.compressToEncodedURIComponent;
+    LZString.decompressFromEncodedURIComponent = _LZString.decompressFromEncodedURIComponent;
+    LZString.compress = _LZString.compress;
+    LZString.decompress = _LZString.decompress;
     Facepunch.LZString = LZString;
 })(Facepunch || (Facepunch = {}));
 var Facepunch;
@@ -741,13 +741,13 @@ var Facepunch;
             this.z = z * invLen;
             return this;
         };
-        Vector3.zero = new Vector3(0, 0, 0);
-        Vector3.one = new Vector3(1, 1, 1);
-        Vector3.unitX = new Vector3(1, 0, 0);
-        Vector3.unitY = new Vector3(0, 1, 0);
-        Vector3.unitZ = new Vector3(0, 0, 1);
         return Vector3;
     }());
+    Vector3.zero = new Vector3(0, 0, 0);
+    Vector3.one = new Vector3(1, 1, 1);
+    Vector3.unitX = new Vector3(1, 0, 0);
+    Vector3.unitY = new Vector3(0, 1, 0);
+    Vector3.unitZ = new Vector3(0, 0, 1);
     Facepunch.Vector3 = Vector3;
     var Vector4 = (function () {
         function Vector4(x, y, z, w) {
@@ -926,10 +926,11 @@ var Facepunch;
             this.w = c1 * c2 * c3 + s1 * s2 * s3 * ((order & 8) !== 0 ? 1 : -1);
             return this;
         };
-        Quaternion.setLookAlong_temp = new Facepunch.Vector3();
         return Quaternion;
     }());
+    Quaternion.setLookAlong_temp = new Facepunch.Vector3();
     Facepunch.Quaternion = Quaternion;
+    var AxisOrder;
     (function (AxisOrder) {
         AxisOrder[AxisOrder["Xyz"] = 5] = "Xyz";
         AxisOrder[AxisOrder["Xzy"] = 12] = "Xzy";
@@ -937,8 +938,7 @@ var Facepunch;
         AxisOrder[AxisOrder["Yzx"] = 3] = "Yzx";
         AxisOrder[AxisOrder["Zxy"] = 6] = "Zxy";
         AxisOrder[AxisOrder["Zyx"] = 10] = "Zyx"; // 0101
-    })(Facepunch.AxisOrder || (Facepunch.AxisOrder = {}));
-    var AxisOrder = Facepunch.AxisOrder;
+    })(AxisOrder = Facepunch.AxisOrder || (Facepunch.AxisOrder = {}));
     var Euler = (function () {
         function Euler(x, y, z, order) {
             this.x = x || 0;
@@ -1272,9 +1272,9 @@ var Facepunch;
                 inv[i] *= det;
             return this;
         };
-        Matrix4.nextId = 1;
         return Matrix4;
     }());
+    Matrix4.nextId = 1;
     Facepunch.Matrix4 = Matrix4;
 })(Facepunch || (Facepunch = {}));
 var Facepunch;
@@ -1328,9 +1328,9 @@ var Facepunch;
             var prefix = relativeTo.substr(0, lastSep + 1);
             return "" + prefix + url;
         };
-        Http.cancelled = { toString: function () { return "Request cancelled by user."; } };
         return Http;
     }());
+    Http.cancelled = { toString: function () { return "Request cancelled by user."; } };
     Facepunch.Http = Http;
     var Utils = (function () {
         function Utils() {
@@ -1509,10 +1509,10 @@ var Facepunch;
                 }
                 this.onChangeScale();
             };
-            Entity.nextId = 0;
-            Entity.tempEuler = new Facepunch.Euler(0, 0, 0, Facepunch.AxisOrder.Zyx);
             return Entity;
         }());
+        Entity.nextId = 0;
+        Entity.tempEuler = new Facepunch.Euler(0, 0, 0, Facepunch.AxisOrder.Zyx);
         WebGame.Entity = Entity;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -1520,6 +1520,7 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
+        var UniformType;
         (function (UniformType) {
             UniformType[UniformType["Float"] = 0] = "Float";
             UniformType[UniformType["Float2"] = 1] = "Float2";
@@ -1527,16 +1528,15 @@ var Facepunch;
             UniformType[UniformType["Float4"] = 3] = "Float4";
             UniformType[UniformType["Matrix4"] = 4] = "Matrix4";
             UniformType[UniformType["Texture"] = 5] = "Texture";
-        })(WebGame.UniformType || (WebGame.UniformType = {}));
-        var UniformType = WebGame.UniformType;
+        })(UniformType = WebGame.UniformType || (WebGame.UniformType = {}));
         var CommandBufferParameter = (function () {
             function CommandBufferParameter(type) {
                 this.id = CommandBufferParameter.nextId++;
                 this.type = type;
             }
-            CommandBufferParameter.nextId = 1;
             return CommandBufferParameter;
         }());
+        CommandBufferParameter.nextId = 1;
         WebGame.CommandBufferParameter = CommandBufferParameter;
         var CommandBuffer = (function () {
             function CommandBuffer(context, immediate) {
@@ -1581,8 +1581,8 @@ var Facepunch;
                         if (value !== undefined)
                             params.push(name_3 + ": " + value);
                     }
-                    if (command.parameter !== undefined && command.parameters !== undefined) {
-                        var value = command.parameters[command.parameter.id];
+                    if (command.parameter !== undefined && this.parameters !== undefined) {
+                        var value = this.parameters[command.parameter.id];
                         if (value === undefined) {
                             params.push("undefined");
                         }
@@ -1598,14 +1598,17 @@ var Facepunch;
                 }
                 console.log(commands.join("\r\n"));
             };
-            CommandBuffer.prototype.clearCommands = function () {
+            CommandBuffer.prototype.clearState = function () {
                 this.boundTextures = {};
                 this.boundBuffers = {};
                 this.capStates = {};
+                this.depthMaskState = undefined;
+            };
+            CommandBuffer.prototype.clearCommands = function () {
+                this.clearState();
                 this.commands = [];
                 this.lastCommand = null;
                 this.drawCalls = 0;
-                this.depthMaskState = undefined;
             };
             CommandBuffer.prototype.getDrawCalls = function () {
                 return this.drawCalls;
@@ -1620,6 +1623,7 @@ var Facepunch;
                 return this.parameters[param.id];
             };
             CommandBuffer.prototype.run = function () {
+                this.clearState();
                 var gl = this.context;
                 for (var i = 0, iEnd = this.commands.length; i < iEnd; ++i) {
                     var command = this.commands[i];
@@ -1637,7 +1641,7 @@ var Facepunch;
             };
             CommandBuffer.prototype.push = function (action, args) {
                 if (this.immediate)
-                    action(this.context, args);
+                    throw new Error("CommandBuffer.push was called in immediate mode!");
                 else {
                     args.action = action;
                     this.commands.push(args);
@@ -1645,16 +1649,40 @@ var Facepunch;
                 }
             };
             CommandBuffer.prototype.clear = function (mask) {
-                this.push(this.onClear, { mask: mask });
+                if (this.immediate)
+                    this.context.clear(mask);
+                else
+                    this.push(this.onClear, { mask: mask });
             };
             CommandBuffer.prototype.onClear = function (gl, args) {
                 gl.clear(args.mask);
+            };
+            CommandBuffer.prototype.dynamicMaterial = function (callback) {
+                var _this = this;
+                if (this.immediate) {
+                    callback(this);
+                    return;
+                }
+                var buf = this;
+                this.push(function (gl, args) {
+                    var wasImmediate = _this.immediate;
+                    _this.immediate = true;
+                    callback(buf);
+                    _this.immediate = wasImmediate;
+                }, {});
             };
             CommandBuffer.prototype.setCap = function (cap, enabled) {
                 if (this.capStates[cap] === enabled)
                     return;
                 this.capStates[cap] = enabled;
-                this.push(enabled ? this.onEnable : this.onDisable, { cap: cap });
+                if (this.immediate) {
+                    if (enabled)
+                        this.context.enable(cap);
+                    else
+                        this.context.disable(cap);
+                }
+                else
+                    this.push(enabled ? this.onEnable : this.onDisable, { cap: cap });
             };
             CommandBuffer.prototype.enable = function (cap) {
                 this.setCap(cap, true);
@@ -1672,19 +1700,28 @@ var Facepunch;
                 if (this.depthMaskState === flag)
                     return;
                 this.depthMaskState = flag;
-                this.push(this.onDepthMask, { enabled: flag });
+                if (this.immediate)
+                    this.context.depthMask(flag);
+                else
+                    this.push(this.onDepthMask, { enabled: flag });
             };
             CommandBuffer.prototype.onDepthMask = function (gl, args) {
                 gl.depthMask(args.enabled);
             };
             CommandBuffer.prototype.blendFuncSeparate = function (srcRgb, dstRgb, srcAlpha, dstAlpha) {
-                this.push(this.onBlendFuncSeparate, { x: srcRgb, y: dstRgb, z: srcAlpha, w: dstAlpha });
+                if (this.immediate)
+                    this.context.blendFuncSeparate(srcRgb, dstRgb, srcAlpha, dstAlpha);
+                else
+                    this.push(this.onBlendFuncSeparate, { x: srcRgb, y: dstRgb, z: srcAlpha, w: dstAlpha });
             };
             CommandBuffer.prototype.onBlendFuncSeparate = function (gl, args) {
                 gl.blendFuncSeparate(args.x, args.y, args.z, args.w);
             };
             CommandBuffer.prototype.useProgram = function (program) {
-                this.push(this.onUseProgram, { program: program });
+                if (this.immediate)
+                    this.context.useProgram(program == null ? null : program.getProgram());
+                else
+                    this.push(this.onUseProgram, { program: program });
             };
             CommandBuffer.prototype.onUseProgram = function (gl, args) {
                 gl.useProgram(args.program == null ? null : args.program.getProgram());
@@ -1695,57 +1732,67 @@ var Facepunch;
                 var loc = uniform.getLocation();
                 if (loc == null)
                     return;
-                var args = { uniform: uniform, parameters: this.parameters, parameter: parameter };
+                var unit;
                 if (uniform.isSampler) {
                     var sampler = uniform;
-                    this.setUniform1I(uniform, sampler.getTexUnit());
-                    args.unit = sampler.getTexUnit();
+                    unit = sampler.getTexUnit();
+                    this.setUniform1I(uniform, unit);
                 }
-                this.push(this.onSetUniformParameter, args);
+                if (this.immediate) {
+                    this.setUniformParameterInternal(uniform, parameter, unit);
+                    return;
+                }
+                this.push(this.onSetUniformParameter, { uniform: uniform, commandBuffer: this, parameter: parameter, unit: unit });
             };
-            CommandBuffer.prototype.onSetUniformParameter = function (gl, args) {
-                var param = args.parameter;
-                var value = args.parameters[param.id];
+            CommandBuffer.prototype.setUniformParameterInternal = function (uniform, param, unit) {
+                var gl = this.context;
+                var value = this.parameters[param.id];
                 if (value == null)
                     return;
                 switch (param.type) {
                     case UniformType.Matrix4:
-                        gl.uniformMatrix4fv(args.uniform.getLocation(), false, value);
+                        gl.uniformMatrix4fv(uniform.getLocation(), false, value);
                         break;
                     case UniformType.Float:
-                        gl.uniform1f(args.uniform.getLocation(), value[0]);
+                        gl.uniform1f(uniform.getLocation(), value[0]);
                         break;
                     case UniformType.Float2:
-                        gl.uniform2f(args.uniform.getLocation(), value[0], value[1]);
+                        gl.uniform2f(uniform.getLocation(), value[0], value[1]);
                         break;
                     case UniformType.Float3:
-                        gl.uniform3f(args.uniform.getLocation(), value[0], value[1], value[2]);
+                        gl.uniform3f(uniform.getLocation(), value[0], value[1], value[2]);
                         break;
                     case UniformType.Float4:
-                        gl.uniform4f(args.uniform.getLocation(), value[0], value[1], value[2], value[3]);
+                        gl.uniform4f(uniform.getLocation(), value[0], value[1], value[2], value[3]);
                         break;
                     case UniformType.Texture:
                         var tex = value;
-                        var uniform = args.uniform;
-                        gl.activeTexture(gl.TEXTURE0 + args.unit);
+                        var sampler = uniform;
+                        gl.activeTexture(gl.TEXTURE0 + unit);
                         gl.bindTexture(tex.getTarget(), tex.getHandle());
-                        if (!uniform.hasSizeUniform())
+                        if (!sampler.hasSizeUniform())
                             break;
                         if (tex != null) {
                             var width = tex.getWidth(0);
                             var height = tex.getHeight(0);
-                            gl.uniform4f(uniform.getSizeUniform().getLocation(), width, height, 1 / width, 1 / height);
+                            gl.uniform4f(sampler.getSizeUniform().getLocation(), width, height, 1 / width, 1 / height);
                         }
                         else {
-                            gl.uniform4f(uniform.getSizeUniform().getLocation(), 1, 1, 1, 1);
+                            gl.uniform4f(sampler.getSizeUniform().getLocation(), 1, 1, 1, 1);
                         }
                         break;
                 }
             };
+            CommandBuffer.prototype.onSetUniformParameter = function (gl, args) {
+                args.commandBuffer.setUniformParameterInternal(args.uniform, args.parameter, args.unit);
+            };
             CommandBuffer.prototype.setUniform1F = function (uniform, x) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniform1F, { uniform: uniform, x: x });
+                if (this.immediate)
+                    this.context.uniform1f(uniform.getLocation(), x);
+                else
+                    this.push(this.onSetUniform1F, { uniform: uniform, x: x });
             };
             CommandBuffer.prototype.onSetUniform1F = function (gl, args) {
                 gl.uniform1f(args.uniform.getLocation(), args.x);
@@ -1753,7 +1800,10 @@ var Facepunch;
             CommandBuffer.prototype.setUniform1I = function (uniform, x) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniform1I, { uniform: uniform, x: x });
+                if (this.immediate)
+                    this.context.uniform1i(uniform.getLocation(), x);
+                else
+                    this.push(this.onSetUniform1I, { uniform: uniform, x: x });
             };
             CommandBuffer.prototype.onSetUniform1I = function (gl, args) {
                 gl.uniform1i(args.uniform.getLocation(), args.x);
@@ -1761,7 +1811,10 @@ var Facepunch;
             CommandBuffer.prototype.setUniform2F = function (uniform, x, y) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniform2F, { uniform: uniform, x: x, y: y });
+                if (this.immediate)
+                    this.context.uniform2f(uniform.getLocation(), x, y);
+                else
+                    this.push(this.onSetUniform2F, { uniform: uniform, x: x, y: y });
             };
             CommandBuffer.prototype.onSetUniform2F = function (gl, args) {
                 gl.uniform2f(args.uniform.getLocation(), args.x, args.y);
@@ -1769,7 +1822,10 @@ var Facepunch;
             CommandBuffer.prototype.setUniform3F = function (uniform, x, y, z) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniform3F, { uniform: uniform, x: x, y: y, z: z });
+                if (this.immediate)
+                    this.context.uniform3f(uniform.getLocation(), x, y, z);
+                else
+                    this.push(this.onSetUniform3F, { uniform: uniform, x: x, y: y, z: z });
             };
             CommandBuffer.prototype.onSetUniform3F = function (gl, args) {
                 gl.uniform3f(args.uniform.getLocation(), args.x, args.y, args.z);
@@ -1777,7 +1833,10 @@ var Facepunch;
             CommandBuffer.prototype.setUniform4F = function (uniform, x, y, z, w) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniform4F, { uniform: uniform, x: x, y: y, z: z, w: w });
+                if (this.immediate)
+                    this.context.uniform4f(uniform.getLocation(), x, y, z, w);
+                else
+                    this.push(this.onSetUniform4F, { uniform: uniform, x: x, y: y, z: z, w: w });
             };
             CommandBuffer.prototype.onSetUniform4F = function (gl, args) {
                 gl.uniform4f(args.uniform.getLocation(), args.x, args.y, args.z, args.w);
@@ -1785,7 +1844,13 @@ var Facepunch;
             CommandBuffer.prototype.setUniformTextureSize = function (uniform, tex) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniformTextureSize, { uniform: uniform, texture: tex });
+                if (this.immediate) {
+                    var width = tex.getWidth(0);
+                    var height = tex.getHeight(0);
+                    this.context.uniform4f(uniform.getLocation(), width, height, 1 / width, 1 / height);
+                }
+                else
+                    this.push(this.onSetUniformTextureSize, { uniform: uniform, texture: tex });
             };
             CommandBuffer.prototype.onSetUniformTextureSize = function (gl, args) {
                 var width = args.texture.getWidth(0);
@@ -1795,7 +1860,10 @@ var Facepunch;
             CommandBuffer.prototype.setUniformMatrix4 = function (uniform, transpose, values) {
                 if (uniform == null || uniform.getLocation() == null)
                     return;
-                this.push(this.onSetUniformMatrix4, { uniform: uniform, transpose: transpose, values: values });
+                if (this.immediate)
+                    this.context.uniformMatrix4fv(uniform.getLocation(), transpose, values);
+                else
+                    this.push(this.onSetUniformMatrix4, { uniform: uniform, transpose: transpose, values: values });
             };
             CommandBuffer.prototype.onSetUniformMatrix4 = function (gl, args) {
                 gl.uniformMatrix4fv(args.uniform.getLocation(), args.transpose, args.values);
@@ -1805,7 +1873,13 @@ var Facepunch;
                     return;
                 this.boundTextures[unit] = value;
                 var frameCount = value.getFrameCount();
-                this.push(frameCount == 1 ? this.onBindTexture : this.onBindAnimatedTexture, {
+                if (this.immediate) {
+                    var gl = this.context;
+                    gl.activeTexture(unit + this.context.TEXTURE0);
+                    gl.bindTexture(value.getTarget(), value.getHandle(frameCount === 1 ? undefined : this.tempCurFrame % frameCount));
+                    return;
+                }
+                this.push(frameCount === 1 ? this.onBindTexture : this.onBindAnimatedTexture, {
                     unit: unit + this.context.TEXTURE0,
                     target: value.getTarget(),
                     texture: value,
@@ -1825,30 +1899,46 @@ var Facepunch;
                 if (this.boundBuffers[target] === buffer)
                     return;
                 this.boundBuffers[target] = buffer;
-                this.push(this.onBindBuffer, { target: target, buffer: buffer });
+                if (this.immediate)
+                    this.context.bindBuffer(target, buffer);
+                else
+                    this.push(this.onBindBuffer, { target: target, buffer: buffer });
             };
             CommandBuffer.prototype.onBindBuffer = function (gl, args) {
                 gl.bindBuffer(args.target, args.buffer);
             };
             CommandBuffer.prototype.enableVertexAttribArray = function (index) {
-                this.push(this.onEnableVertexAttribArray, { index: index });
+                if (this.immediate)
+                    this.context.enableVertexAttribArray(index);
+                else
+                    this.push(this.onEnableVertexAttribArray, { index: index });
             };
             CommandBuffer.prototype.onEnableVertexAttribArray = function (gl, args) {
                 gl.enableVertexAttribArray(args.index);
             };
             CommandBuffer.prototype.disableVertexAttribArray = function (index) {
-                this.push(this.onDisableVertexAttribArray, { index: index });
+                if (this.immediate)
+                    this.context.disableVertexAttribArray(index);
+                else
+                    this.push(this.onDisableVertexAttribArray, { index: index });
             };
             CommandBuffer.prototype.onDisableVertexAttribArray = function (gl, args) {
                 gl.disableVertexAttribArray(args.index);
             };
             CommandBuffer.prototype.vertexAttribPointer = function (index, size, type, normalized, stride, offset) {
-                this.push(this.onVertexAttribPointer, { index: index, size: size, type: type, normalized: normalized, stride: stride, offset: offset });
+                if (this.immediate)
+                    this.context.vertexAttribPointer(index, size, type, normalized, stride, offset);
+                else
+                    this.push(this.onVertexAttribPointer, { index: index, size: size, type: type, normalized: normalized, stride: stride, offset: offset });
             };
             CommandBuffer.prototype.onVertexAttribPointer = function (gl, args) {
                 gl.vertexAttribPointer(args.index, args.size, args.type, args.normalized, args.stride, args.offset);
             };
             CommandBuffer.prototype.drawElements = function (mode, count, type, offset, elemSize) {
+                if (this.immediate) {
+                    this.context.drawElements(mode, count, type, offset);
+                    return;
+                }
                 if (this.lastCommand != null && this.lastCommand.action === this.onDrawElements &&
                     this.lastCommand.type === type &&
                     this.lastCommand.offset + this.lastCommand.count * elemSize === offset) {
@@ -1862,18 +1952,24 @@ var Facepunch;
                 gl.drawElements(args.mode, args.count, args.type, args.offset);
             };
             CommandBuffer.prototype.bindFramebuffer = function (buffer, fitView) {
-                this.push(this.onBindFramebuffer, { framebuffer: buffer, fitView: fitView });
+                if (this.immediate)
+                    this.bindFramebufferInternal(buffer, fitView);
+                else
+                    this.push(this.onBindFramebuffer, { commandBuffer: this, framebuffer: buffer, fitView: fitView });
             };
-            CommandBuffer.prototype.onBindFramebuffer = function (gl, args) {
-                var buffer = args.framebuffer;
+            CommandBuffer.prototype.bindFramebufferInternal = function (buffer, fitView) {
+                var gl = this.context;
                 if (buffer == null) {
                     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
                     return;
                 }
-                if (args.fitView) {
+                if (fitView) {
                     buffer.resize(gl.drawingBufferWidth, gl.drawingBufferHeight);
                 }
                 gl.bindFramebuffer(gl.FRAMEBUFFER, buffer.getHandle());
+            };
+            CommandBuffer.prototype.onBindFramebuffer = function (gl, args) {
+                args.commandBuffer.bindFramebufferInternal(args.framebuffer, args.fitView);
             };
             return CommandBuffer;
         }());
@@ -1889,26 +1985,26 @@ var Facepunch;
         var Camera = (function (_super) {
             __extends(Camera, _super);
             function Camera(game, near, far) {
-                var _this = this;
-                _super.call(this);
-                this.drawList = new WebGame.DrawList();
-                this.geometryInvalid = true;
-                this.fog = new WebGame.Fog();
-                this.projectionInvalid = true;
-                this.projectionMatrix = new Facepunch.Matrix4();
-                this.inverseProjectionInvalid = true;
-                this.inverseProjectionMatrix = new Facepunch.Matrix4();
-                this.cameraPosParams = new Float32Array(3);
-                this.clipParams = new Float32Array(4);
-                this.game = game;
-                this.commandBuffer = new WebGame.CommandBuffer(game.context);
-                this.near = near;
-                this.far = far;
+                var _this = _super.call(this) || this;
+                _this.drawList = new WebGame.DrawList();
+                _this.geometryInvalid = true;
+                _this.fog = new WebGame.Fog();
+                _this.projectionInvalid = true;
+                _this.projectionMatrix = new Facepunch.Matrix4();
+                _this.inverseProjectionInvalid = true;
+                _this.inverseProjectionMatrix = new Facepunch.Matrix4();
+                _this.cameraPosParams = new Float32Array(3);
+                _this.clipParams = new Float32Array(4);
+                _this.game = game;
+                _this.commandBuffer = new WebGame.CommandBuffer(game.context);
+                _this.near = near;
+                _this.far = far;
                 game.addDrawListInvalidationHandler(function (geom) {
                     if (geom)
                         _this.invalidateGeometry();
                     _this.drawList.invalidate();
                 });
+                return _this;
             }
             Camera.prototype.setShadowCascades = function (cascadeFractions) {
                 if (this.shadowCamera == null) {
@@ -2042,25 +2138,26 @@ var Facepunch;
                     this.opaqueFrameBuffer = null;
                 }
             };
-            Camera.cameraPosParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
-            Camera.clipInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
-            Camera.projectionMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
-            Camera.inverseProjectionMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
-            Camera.viewMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
-            Camera.inverseViewMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
-            Camera.opaqueColorParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
-            Camera.opaqueDepthParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
-            Camera.bufferShadowTargetBegin_lightNorm = new Facepunch.Vector3();
-            Camera.bufferShadowTargetBegin_lightDir = new Facepunch.Quaternion();
             return Camera;
         }(WebGame.Entity));
+        Camera.cameraPosParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
+        Camera.clipInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
+        Camera.projectionMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
+        Camera.inverseProjectionMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
+        Camera.viewMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
+        Camera.inverseViewMatrixParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Matrix4);
+        Camera.opaqueColorParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
+        Camera.opaqueDepthParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
+        Camera.bufferShadowTargetBegin_lightNorm = new Facepunch.Vector3();
+        Camera.bufferShadowTargetBegin_lightDir = new Facepunch.Quaternion();
         WebGame.Camera = Camera;
         var PerspectiveCamera = (function (_super) {
             __extends(PerspectiveCamera, _super);
             function PerspectiveCamera(game, fov, aspect, near, far) {
-                _super.call(this, game, near, far);
-                this.fov = fov;
-                this.aspect = aspect;
+                var _this = _super.call(this, game, near, far) || this;
+                _this.fov = fov;
+                _this.aspect = aspect;
+                return _this;
             }
             PerspectiveCamera.prototype.setFov = function (value) {
                 if (value === this.fov)
@@ -2086,9 +2183,10 @@ var Facepunch;
         var OrthographicCamera = (function (_super) {
             __extends(OrthographicCamera, _super);
             function OrthographicCamera(game, size, aspect, near, far) {
-                _super.call(this, game, near, far);
-                this.size = size;
-                this.aspect = aspect;
+                var _this = _super.call(this, game, near, far) || this;
+                _this.size = size;
+                _this.aspect = aspect;
+                return _this;
             }
             OrthographicCamera.prototype.setSize = function (value) {
                 if (value === this.size)
@@ -2121,10 +2219,11 @@ var Facepunch;
             __extends(DrawableEntity, _super);
             function DrawableEntity(isStatic) {
                 if (isStatic === void 0) { isStatic = false; }
-                _super.call(this);
-                this.drawable = new WebGame.DrawListItem();
-                this.drawable.entity = this;
-                this.drawable.isStatic = isStatic;
+                var _this = _super.call(this) || this;
+                _this.drawable = new WebGame.DrawListItem();
+                _this.drawable.entity = _this;
+                _this.drawable.isStatic = isStatic;
+                return _this;
             }
             DrawableEntity.prototype.invalidateDrawLists = function () {
                 this.drawable.invalidateDrawLists();
@@ -2147,6 +2246,91 @@ var Facepunch;
             return DrawableEntity;
         }(WebGame.Entity));
         WebGame.DrawableEntity = DrawableEntity;
+    })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
+})(Facepunch || (Facepunch = {}));
+/// <reference path="DrawableEntity.ts"/>
+var Facepunch;
+(function (Facepunch) {
+    var WebGame;
+    (function (WebGame) {
+        var DebugLine = (function (_super) {
+            __extends(DebugLine, _super);
+            function DebugLine(game) {
+                var _this = _super.call(this) || this;
+                _this.attribs = [WebGame.VertexAttribute.position, WebGame.VertexAttribute.alpha];
+                _this.vertData = new Float32Array(4);
+                _this.vertBuffer = new Float32Array(6);
+                _this.meshChanged = false;
+                _this.lastPos = new Facepunch.Vector3();
+                _this.progress = 0;
+                _this.game = game;
+                _this.material = game.shaders.createMaterial(WebGame.Shaders.DebugLine, true);
+                _this.materialProps = _this.material.properties;
+                _this.meshGroup = new WebGame.MeshGroup(game.context, _this.attribs);
+                _this.meshHandle = new WebGame.MeshHandle(_this.meshGroup, 0, WebGame.DrawMode.Lines, 0, 0, _this.material);
+                _this.meshHandles = [_this.meshHandle];
+                _this.vertData = new Float32Array(4);
+                _this.indexData = _this.meshGroup.indexSize === 2 ? new Uint16Array(2) : new Uint32Array(4);
+                return _this;
+            }
+            DebugLine.prototype.clear = function () {
+                this.meshGroup.clear();
+                this.meshHandle.indexCount = 0;
+                this.meshChanged = true;
+            };
+            DebugLine.prototype.setPhase = function (value) {
+                this.materialProps.phase = value;
+            };
+            DebugLine.prototype.setFrequency = function (value) {
+                this.materialProps.frequency = value;
+            };
+            DebugLine.prototype.setColor = function (color0, color1) {
+                if (color1 === undefined)
+                    color1 = color0;
+                this.materialProps.color0.copy(color0);
+                this.materialProps.color1.copy(color1);
+            };
+            DebugLine.prototype.addVertex = function (pos, progress) {
+                var vertData = this.vertData;
+                vertData[0] = pos.x;
+                vertData[1] = pos.y;
+                vertData[2] = pos.z;
+                vertData[3] = this.progress;
+                return this.meshGroup.addVertexData(vertData, this.meshHandle) >> 2;
+            };
+            DebugLine.prototype.moveTo = function (pos) {
+                this.lastPos.copy(pos);
+                this.progress = 0;
+                this.addVertex(pos, this.progress);
+            };
+            DebugLine.prototype.lineTo = function (pos, progressScale) {
+                if (progressScale === undefined)
+                    progressScale = 1;
+                var indexData = this.indexData;
+                this.meshChanged = true;
+                this.lastPos.sub(pos);
+                this.progress += this.lastPos.length() * progressScale;
+                this.lastPos.copy(pos);
+                var index = this.addVertex(pos, this.progress);
+                indexData[0] = Math.max(0, index - 1);
+                indexData[1] = index;
+                this.meshGroup.addIndexData(indexData, this.meshHandle);
+            };
+            DebugLine.prototype.update = function () {
+                if (this.meshChanged) {
+                    this.meshChanged = false;
+                    this.drawable.clearMeshHandles();
+                    if (this.meshHandle.indexCount > 0) {
+                        this.drawable.addMeshHandles(this.meshHandles);
+                    }
+                }
+            };
+            DebugLine.prototype.dispose = function () {
+                this.meshGroup.dispose();
+            };
+            return DebugLine;
+        }(WebGame.DrawableEntity));
+        WebGame.DebugLine = DebugLine;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
 var Facepunch;
@@ -2314,9 +2498,9 @@ var Facepunch;
                     buf.useProgram(null);
                 }
             };
-            DrawList.identityMatrix = new Facepunch.Matrix4().setIdentity();
             return DrawList;
         }());
+        DrawList.identityMatrix = new Facepunch.Matrix4().setIdentity();
         WebGame.DrawList = DrawList;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -2424,10 +2608,10 @@ var Facepunch;
                 this.paramsValues[3] = this.maxDensity;
                 buf.setParameter(Fog.fogInfoParam, this.paramsValues);
             };
-            Fog.fogColorParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
-            Fog.fogInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
             return Fog;
         }());
+        Fog.fogColorParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
+        Fog.fogInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
         WebGame.Fog = Fog;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -2520,12 +2704,13 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
+        var MouseButton;
         (function (MouseButton) {
             MouseButton[MouseButton["Left"] = 1] = "Left";
             MouseButton[MouseButton["Middle"] = 2] = "Middle";
             MouseButton[MouseButton["Right"] = 3] = "Right";
-        })(WebGame.MouseButton || (WebGame.MouseButton = {}));
-        var MouseButton = WebGame.MouseButton;
+        })(MouseButton = WebGame.MouseButton || (WebGame.MouseButton = {}));
+        var Key;
         (function (Key) {
             Key[Key["Backspace"] = 8] = "Backspace";
             Key[Key["Tab"] = 9] = "Tab";
@@ -2626,8 +2811,7 @@ var Facepunch;
             Key[Key["BackSlash"] = 220] = "BackSlash";
             Key[Key["CloseBraket"] = 221] = "CloseBraket";
             Key[Key["SingleQuote"] = 222] = "SingleQuote";
-        })(WebGame.Key || (WebGame.Key = {}));
-        var Key = WebGame.Key;
+        })(Key = WebGame.Key || (WebGame.Key = {}));
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
 /// <reference path="Input.ts"/>
@@ -2665,7 +2849,7 @@ var Facepunch;
                 this.enableExtension("WEBGL_depth_texture");
                 container.addEventListener("mousedown", function (evnt) {
                     _this.heldMouseButtons[evnt.which] = true;
-                    var handled = _this.onMouseDown(evnt.which, _this.getScreenPos(evnt.pageX, evnt.pageY, _this.mouseScreenPos));
+                    var handled = _this.onMouseDown(evnt.which, _this.getScreenPos(evnt.pageX, evnt.pageY, _this.mouseScreenPos), evnt.target);
                     if (handled)
                         evnt.preventDefault();
                     return handled;
@@ -2676,7 +2860,7 @@ var Facepunch;
                 });
                 window.addEventListener("mouseup", function (evnt) {
                     _this.heldMouseButtons[evnt.which] = false;
-                    var handled = _this.onMouseUp(evnt.which, _this.getScreenPos(evnt.pageX, evnt.pageY, _this.mouseScreenPos));
+                    var handled = _this.onMouseUp(evnt.which, _this.getScreenPos(evnt.pageX, evnt.pageY, _this.mouseScreenPos), evnt.target);
                     if (handled)
                         evnt.preventDefault();
                     return handled;
@@ -2804,14 +2988,14 @@ var Facepunch;
                 this.loaders.push(loader);
                 return loader;
             };
-            Game.prototype.onMouseDown = function (button, screenPos) {
-                if (this.canLockPointer && event.target === this.canvas) {
+            Game.prototype.onMouseDown = function (button, screenPos, target) {
+                if (this.canLockPointer && target === this.canvas) {
                     this.container.requestPointerLock();
                     return true;
                 }
                 return false;
             };
-            Game.prototype.onMouseUp = function (button, screenPos) { return false; };
+            Game.prototype.onMouseUp = function (button, screenPos, target) { return false; };
             Game.prototype.onMouseScroll = function (delta) { return false; };
             Game.prototype.onMouseMove = function (screenPos) { };
             Game.prototype.onMouseLook = function (delta) { };
@@ -2820,7 +3004,7 @@ var Facepunch;
             Game.prototype.onUpdateFrame = function (dt) { };
             Game.prototype.onRenderFrame = function (dt) { };
             Game.prototype.populateCommandBufferParameters = function (buf) {
-                this.timeParams[0] = this.getLastUpdateTime();
+                this.timeParams[0] = this.getLastUpdateTime() * 0.001;
                 this.screenParams[0] = this.getWidth();
                 this.screenParams[1] = this.getHeight();
                 this.screenParams[2] = 1 / this.getWidth();
@@ -2832,11 +3016,11 @@ var Facepunch;
                 buf.setParameter(Game.screenInfoParam, this.screenParams);
                 buf.setParameter(Game.lightDirParam, this.lightDirParams);
             };
-            Game.timeInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
-            Game.screenInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
-            Game.lightDirParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
             return Game;
         }());
+        Game.timeInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
+        Game.screenInfoParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float4);
+        Game.lightDirParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Float3);
         WebGame.Game = Game;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -2915,6 +3099,7 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
+        var MaterialPropertyType;
         (function (MaterialPropertyType) {
             MaterialPropertyType[MaterialPropertyType["Boolean"] = 1] = "Boolean";
             MaterialPropertyType[MaterialPropertyType["Number"] = 2] = "Number";
@@ -2922,40 +3107,46 @@ var Facepunch;
             MaterialPropertyType[MaterialPropertyType["TextureUrl"] = 4] = "TextureUrl";
             MaterialPropertyType[MaterialPropertyType["TextureIndex"] = 5] = "TextureIndex";
             MaterialPropertyType[MaterialPropertyType["TextureInfo"] = 6] = "TextureInfo";
-        })(WebGame.MaterialPropertyType || (WebGame.MaterialPropertyType = {}));
-        var MaterialPropertyType = WebGame.MaterialPropertyType;
+        })(MaterialPropertyType = WebGame.MaterialPropertyType || (WebGame.MaterialPropertyType = {}));
         var Material = (function (_super) {
             __extends(Material, _super);
-            function Material(program) {
-                _super.call(this);
-                this.id = Material.nextId++;
-                this.enabled = true;
-                this.program = program;
-                if (program != null) {
-                    this.properties = program.createMaterialProperties();
+            function Material(program, isDynamic) {
+                var _this = _super.call(this) || this;
+                _this.id = Material.nextId++;
+                _this.enabled = true;
+                if (typeof program === "boolean") {
+                    _this.isDynamic = program;
                 }
                 else {
-                    this.properties = {};
+                    _this.program = program;
+                    _this.isDynamic = isDynamic !== undefined && isDynamic;
                 }
+                if (_this.program != null) {
+                    _this.properties = _this.program.createMaterialProperties();
+                }
+                else {
+                    _this.properties = {};
+                }
+                return _this;
             }
-            Material.prototype.clone = function () {
-                return new MaterialClone(this);
+            Material.prototype.clone = function (isDynamic) {
+                if (isDynamic === void 0) { isDynamic = false; }
+                return new MaterialClone(this, isDynamic);
             };
             Material.prototype.isLoaded = function () {
                 return this.program != null;
             };
-            Material.nextId = 0;
             return Material;
         }(WebGame.RenderResource));
+        Material.nextId = 0;
         WebGame.Material = Material;
         var MaterialClone = (function (_super) {
             __extends(MaterialClone, _super);
-            function MaterialClone(base) {
-                var _this = this;
-                _super.call(this);
-                base.addDependent(this);
-                this.program = base.program;
-                this.properties = {};
+            function MaterialClone(base, isDynamic) {
+                var _this = _super.call(this, isDynamic) || this;
+                base.addDependent(_this);
+                _this.program = base.program;
+                _this.properties = {};
                 if (base.program == null) {
                     base.addOnLoadCallback(function (mat) {
                         _this.program = mat.program;
@@ -2968,6 +3159,7 @@ var Facepunch;
                         }
                     });
                 }
+                return _this;
             }
             return MaterialClone;
         }(Material));
@@ -2975,10 +3167,11 @@ var Facepunch;
         var MaterialLoadable = (function (_super) {
             __extends(MaterialLoadable, _super);
             function MaterialLoadable(game, url) {
-                _super.call(this);
-                this.loadProgress = 0;
-                this.game = game;
-                this.url = url;
+                var _this = _super.call(this, false) || this;
+                _this.loadProgress = 0;
+                _this.game = game;
+                _this.url = url;
+                return _this;
             }
             MaterialLoadable.prototype.getLoadProgress = function () {
                 return this.loadProgress;
@@ -3058,9 +3251,9 @@ var Facepunch;
                     }
                 });
             };
-            MaterialLoadable.nextDummyId = 0;
             return MaterialLoadable;
         }(Material));
+        MaterialLoadable.nextDummyId = 0;
         WebGame.MaterialLoadable = MaterialLoadable;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -3071,8 +3264,9 @@ var Facepunch;
         var MaterialLoader = (function (_super) {
             __extends(MaterialLoader, _super);
             function MaterialLoader(game) {
-                _super.call(this);
-                this.game = game;
+                var _this = _super.call(this) || this;
+                _this.game = game;
+                return _this;
             }
             MaterialLoader.prototype.onCreateItem = function (url) {
                 return new WebGame.MaterialLoadable(this.game, url);
@@ -3108,6 +3302,11 @@ var Facepunch;
                 this.vertexBuffer = context.createBuffer();
                 this.indexBuffer = context.createBuffer();
             }
+            MeshGroup.prototype.clear = function () {
+                this.vertexDataLength = 0;
+                this.indexDataLength = 0;
+                this.subBufferOffset = 0;
+            };
             MeshGroup.prototype.compareTo = function (other) {
                 return this.id - other.id;
             };
@@ -3143,6 +3342,37 @@ var Facepunch;
                     gl.bufferSubData(target, offset * data.BYTES_PER_ELEMENT, newData);
                 }
             };
+            MeshGroup.prototype.addVertexData = function (data, meshHandle) {
+                var gl = this.context;
+                // TODO: maybe validate MeshHandle if given
+                var vertexOffset = this.vertexDataLength;
+                var oldVertexData = this.vertexData;
+                this.vertexData = this.ensureCapacity(this.vertexData, this.vertexDataLength + data.length, function (size) { return new Float32Array(size); });
+                this.vertexData.set(data, vertexOffset);
+                this.vertexDataLength += data.length;
+                if (this.vertexDataLength - this.subBufferOffset > this.maxSubBufferLength) {
+                    this.subBufferOffset = vertexOffset;
+                }
+                this.updateBuffer(gl.ARRAY_BUFFER, this.vertexBuffer, this.vertexData, data, oldVertexData, vertexOffset);
+                return vertexOffset;
+            };
+            MeshGroup.prototype.addIndexData = function (data, meshHandle) {
+                if (data.BYTES_PER_ELEMENT !== this.indexSize) {
+                    throw new Error("Expected index data element size to be " + this.indexSize + ", not " + data.BYTES_PER_ELEMENT + ".");
+                }
+                // TODO: maybe validate MeshHandle if given
+                var gl = this.context;
+                var indexOffset = this.indexDataLength;
+                var oldIndexData = this.indexData;
+                this.indexData = this.ensureCapacity(this.indexData, this.indexDataLength + data.length, this.indexSize === 4 ? function (size) { return new Uint32Array(size); } : function (size) { return new Uint16Array(size); });
+                this.indexData.set(data, indexOffset);
+                this.indexDataLength += data.length;
+                this.updateBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer, this.indexData, data, oldIndexData, indexOffset);
+                if (meshHandle != null) {
+                    meshHandle.indexCount += data.length;
+                }
+                return indexOffset;
+            };
             MeshGroup.prototype.addMeshData = function (data, getMaterial, target) {
                 if (!this.canAddMeshData(data)) {
                     throw new Error("Target MeshGroup is incompatible with the given IMeshData.");
@@ -3150,27 +3380,16 @@ var Facepunch;
                 var gl = this.context;
                 var newVertices = new Float32Array(data.vertices);
                 var newIndices = this.indexSize === 4 ? new Uint32Array(data.indices) : new Uint16Array(data.indices);
-                var vertexOffset = this.vertexDataLength;
                 var oldVertexData = this.vertexData;
-                this.vertexData = this.ensureCapacity(this.vertexData, this.vertexDataLength + newVertices.length, function (size) { return new Float32Array(size); });
-                var indexOffset = this.indexDataLength;
                 var oldIndexData = this.indexData;
-                this.indexData = this.ensureCapacity(this.indexData, this.indexDataLength + newIndices.length, this.indexSize === 4 ? function (size) { return new Uint32Array(size); } : function (size) { return new Uint16Array(size); });
-                this.vertexData.set(newVertices, vertexOffset);
-                this.vertexDataLength += newVertices.length;
-                if (this.vertexDataLength - this.subBufferOffset > this.maxSubBufferLength) {
-                    this.subBufferOffset = vertexOffset;
-                }
+                var vertexOffset = this.addVertexData(newVertices);
                 var elementOffset = Math.round(vertexOffset / this.vertexLength) - this.subBufferOffset;
                 if (elementOffset !== 0) {
                     for (var i = 0, iEnd = newIndices.length; i < iEnd; ++i) {
                         newIndices[i] += elementOffset;
                     }
                 }
-                this.indexData.set(newIndices, indexOffset);
-                this.indexDataLength += newIndices.length;
-                this.updateBuffer(gl.ARRAY_BUFFER, this.vertexBuffer, this.vertexData, newVertices, oldVertexData, vertexOffset);
-                this.updateBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer, this.indexData, newIndices, oldIndexData, indexOffset);
+                var indexOffset = this.addIndexData(newIndices);
                 for (var i = 0; i < data.elements.length; ++i) {
                     var element = data.elements[i];
                     var material = typeof element.material === "number"
@@ -3207,11 +3426,11 @@ var Facepunch;
                     this.indexBuffer = undefined;
                 }
             };
-            MeshGroup.maxIndexDataLength = 2147483648;
-            MeshGroup.vertexComponentSize = 4;
-            MeshGroup.nextId = 1;
             return MeshGroup;
         }());
+        MeshGroup.maxIndexDataLength = 2147483648;
+        MeshGroup.vertexComponentSize = 4;
+        MeshGroup.nextId = 1;
         WebGame.MeshGroup = MeshGroup;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -3219,12 +3438,15 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
+        var DrawMode;
         (function (DrawMode) {
+            DrawMode[DrawMode["Lines"] = WebGLRenderingContext.LINES] = "Lines";
+            DrawMode[DrawMode["LineStrip"] = WebGLRenderingContext.LINE_STRIP] = "LineStrip";
+            DrawMode[DrawMode["LineLoop"] = WebGLRenderingContext.LINE_LOOP] = "LineLoop";
             DrawMode[DrawMode["Triangles"] = WebGLRenderingContext.TRIANGLES] = "Triangles";
             DrawMode[DrawMode["TriangleStrip"] = WebGLRenderingContext.TRIANGLE_STRIP] = "TriangleStrip";
             DrawMode[DrawMode["TriangleFan"] = WebGLRenderingContext.TRIANGLE_FAN] = "TriangleFan";
-        })(WebGame.DrawMode || (WebGame.DrawMode = {}));
-        var DrawMode = WebGame.DrawMode;
+        })(DrawMode = WebGame.DrawMode || (WebGame.DrawMode = {}));
         var MeshHandle = (function () {
             function MeshHandle(group, vertexOffset, drawMode, indexOffset, indexCount, material, transform) {
                 this.group = group;
@@ -3259,9 +3481,9 @@ var Facepunch;
                     return groupComp;
                 return this.indexOffset - other.indexOffset;
             };
-            MeshHandle.undefinedHandle = new MeshHandle(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
             return MeshHandle;
         }());
+        MeshHandle.undefinedHandle = new MeshHandle(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
         WebGame.MeshHandle = MeshHandle;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -3443,7 +3665,7 @@ var Facepunch;
                     elements: [
                         {
                             mode: WebGame.DrawMode.Triangles,
-                            material: this.game.shaders.createMaterial(Facepunch.WebGame.Shaders.ComposeFrame),
+                            material: this.game.shaders.createMaterial(Facepunch.WebGame.Shaders.ComposeFrame, false),
                             indexOffset: 0,
                             indexCount: 6
                         }
@@ -3472,9 +3694,10 @@ var Facepunch;
         var Model = (function (_super) {
             __extends(Model, _super);
             function Model(meshManager, materialLoader) {
-                _super.call(this);
-                this.meshManager = meshManager;
-                this.materialLoader = materialLoader;
+                var _this = _super.call(this) || this;
+                _this.meshManager = meshManager;
+                _this.materialLoader = materialLoader;
+                return _this;
             }
             return Model;
         }(WebGame.RenderResource));
@@ -3482,9 +3705,10 @@ var Facepunch;
         var ModelLoadable = (function (_super) {
             __extends(ModelLoadable, _super);
             function ModelLoadable(game, url) {
-                _super.call(this, game.meshes, game.materialLoader);
-                this.loadProgress = 0;
-                this.url = url;
+                var _this = _super.call(this, game.meshes, game.materialLoader) || this;
+                _this.loadProgress = 0;
+                _this.url = url;
+                return _this;
             }
             ModelLoadable.prototype.getLoadProgress = function () {
                 return this.loadProgress;
@@ -3542,8 +3766,9 @@ var Facepunch;
         var ModelLoader = (function (_super) {
             __extends(ModelLoader, _super);
             function ModelLoader(game) {
-                _super.call(this);
-                this.game = game;
+                var _this = _super.call(this) || this;
+                _this.game = game;
+                return _this;
             }
             ModelLoader.prototype.onCreateItem = function (url) {
                 return new WebGame.ModelLoadable(this.game, url);
@@ -3602,8 +3827,8 @@ var Facepunch;
                     return this.getFromCtor(nameOrCtor);
                 }
             };
-            ShaderManager.prototype.createMaterial = function (ctor) {
-                return new WebGame.Material(this.getFromCtor(ctor));
+            ShaderManager.prototype.createMaterial = function (ctor, isDynamic) {
+                return new WebGame.Material(this.getFromCtor(ctor), isDynamic);
             };
             ShaderManager.prototype.dispose = function () {
                 for (var name_4 in this.namedPrograms) {
@@ -3816,9 +4041,9 @@ var Facepunch;
             };
             ShaderProgram.prototype.bufferModelMatrix = function (buf, value) { };
             ShaderProgram.prototype.bufferMaterial = function (buf, material) { };
-            ShaderProgram.nextId = 0;
             return ShaderProgram;
         }());
+        ShaderProgram.nextId = 0;
         WebGame.ShaderProgram = ShaderProgram;
         var BaseMaterialProps = (function () {
             function BaseMaterialProps() {
@@ -3830,14 +4055,22 @@ var Facepunch;
         var BaseShaderProgram = (function (_super) {
             __extends(BaseShaderProgram, _super);
             function BaseShaderProgram(context, ctor) {
-                _super.call(this, context);
-                this.materialPropsCtor = ctor;
+                var _this = _super.call(this, context) || this;
+                _this.materialPropsCtor = ctor;
+                return _this;
             }
             BaseShaderProgram.prototype.createMaterialProperties = function () {
                 return new this.materialPropsCtor();
             };
             BaseShaderProgram.prototype.bufferMaterial = function (buf, material) {
-                this.bufferMaterialProps(buf, material.properties);
+                var _this = this;
+                var props = material.properties;
+                if (material.isDynamic) {
+                    buf.dynamicMaterial(function (buf) { return _this.bufferMaterialProps(buf, props); });
+                }
+                else {
+                    this.bufferMaterialProps(buf, props);
+                }
             };
             BaseShaderProgram.prototype.bufferMaterialProps = function (buf, props) {
                 var gl = this.context;
@@ -3862,14 +4095,15 @@ var Facepunch;
             var ComposeFrame = (function (_super) {
                 __extends(ComposeFrame, _super);
                 function ComposeFrame(context) {
-                    _super.call(this, context);
+                    var _this = _super.call(this, context) || this;
                     var gl = context;
-                    this.includeShaderSource(gl.VERTEX_SHADER, ComposeFrame.vertSource);
-                    this.includeShaderSource(gl.FRAGMENT_SHADER, ComposeFrame.fragSource);
-                    this.addAttribute("aScreenPos", WebGame.VertexAttribute.uv);
-                    this.frameColor = this.addUniform("uFrameColor", WebGame.UniformSampler);
-                    this.frameDepth = this.addUniform("uFrameDepth", WebGame.UniformSampler);
-                    this.compile();
+                    _this.includeShaderSource(gl.VERTEX_SHADER, "\n                        attribute vec2 aScreenPos;\n\n                        varying vec2 vScreenPos;\n\n                        void main()\n                        {\n                            vScreenPos = aScreenPos * 0.5 + vec2(0.5, 0.5);\n                            gl_Position = vec4(aScreenPos, 0, 1);\n                        }");
+                    _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                        #extension GL_EXT_frag_depth : enable\n\n                        precision mediump float;\n\n                        varying vec2 vScreenPos;\n\n                        uniform sampler2D uFrameColor;\n                        uniform sampler2D uFrameDepth;\n\n                        void main()\n                        {\n                            vec4 sample = texture2D(uFrameColor, vScreenPos);\n                            float depth = texture2D(uFrameDepth, vScreenPos).r;\n\n                            if (sample.a <= 0.004 || depth >= 1.0) discard;\n\n                            gl_FragColor = sample;\n                            gl_FragDepthEXT = depth;\n                        }");
+                    _this.addAttribute("aScreenPos", WebGame.VertexAttribute.uv);
+                    _this.frameColor = _this.addUniform("uFrameColor", WebGame.UniformSampler);
+                    _this.frameDepth = _this.addUniform("uFrameDepth", WebGame.UniformSampler);
+                    _this.compile();
+                    return _this;
                 }
                 ComposeFrame.prototype.bufferSetup = function (buf) {
                     _super.prototype.bufferSetup.call(this, buf);
@@ -3879,8 +4113,6 @@ var Facepunch;
                     buf.disable(gl.CULL_FACE);
                     buf.depthMask(true);
                 };
-                ComposeFrame.vertSource = "\n                    attribute vec2 aScreenPos;\n\n                    varying vec2 vScreenPos;\n\n                    void main()\n                    {\n                        vScreenPos = aScreenPos * 0.5 + vec2(0.5, 0.5);\n                        gl_Position = vec4(aScreenPos, 0, 1);\n                    }";
-                ComposeFrame.fragSource = "\n                    #extension GL_EXT_frag_depth : enable\n\n                    precision mediump float;\n\n                    varying vec2 vScreenPos;\n\n                    uniform sampler2D uFrameColor;\n                    uniform sampler2D uFrameDepth;\n\n                    void main()\n                    {\n                        vec4 sample = texture2D(uFrameColor, vScreenPos);\n                        float depth = texture2D(uFrameDepth, vScreenPos).r;\n\n                        if (sample.a <= 0.004 || depth >= 1.0) discard;\n\n                        gl_FragColor = sample;\n                        gl_FragDepthEXT = depth;\n                    }";
                 return ComposeFrame;
             }(WebGame.ShaderProgram));
             Shaders.ComposeFrame = ComposeFrame;
@@ -3893,20 +4125,89 @@ var Facepunch;
     (function (WebGame) {
         var Shaders;
         (function (Shaders) {
+            var DebugLineProps = (function (_super) {
+                __extends(DebugLineProps, _super);
+                function DebugLineProps() {
+                    var _this = _super !== null && _super.apply(this, arguments) || this;
+                    _this.noCull = true;
+                    _this.color0 = new Facepunch.Vector3(1.0, 1.0, 1.0);
+                    _this.color1 = new Facepunch.Vector3(1.0, 1.0, 1.0);
+                    _this.phase = 0;
+                    _this.frequency = 1;
+                    return _this;
+                }
+                return DebugLineProps;
+            }(WebGame.BaseMaterialProps));
+            Shaders.DebugLineProps = DebugLineProps;
+            var DebugLine = (function (_super) {
+                __extends(DebugLine, _super);
+                function DebugLine(context) {
+                    var _this = _super.call(this, context, DebugLineProps) || this;
+                    var gl = context;
+                    _this.includeShaderSource(gl.VERTEX_SHADER, "\n                        attribute vec3 aPosition;\n                        attribute float aProgress;\n\n                        varying float vProgress;\n\n                        uniform mat4 uProjection;\n                        uniform mat4 uView;\n                        uniform mat4 uModel;\n\n                        void main()\n                        {\n                            vProgress = aProgress;\n\n                            gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);\n                        }");
+                    _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                        precision mediump float;\n\n                        varying float vProgress;\n\n                        uniform vec4 uTime;\n                        uniform vec3 uColor0;\n                        uniform vec3 uColor1;\n                        uniform float uPhase;\n                        uniform float uFrequency;\n\n                        void main()\n                        {\n                            gl_FragColor = vec4(mod(vProgress - uPhase - uTime.x * uFrequency, 2.0) < 1.0 ? uColor0 : uColor1, 1.0);\n                        }");
+                    _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
+                    _this.addAttribute("aProgress", WebGame.VertexAttribute.alpha);
+                    _this.projectionMatrix = _this.addUniform("uProjection", WebGame.UniformMatrix4);
+                    _this.viewMatrix = _this.addUniform("uView", WebGame.UniformMatrix4);
+                    _this.modelMatrix = _this.addUniform("uModel", WebGame.UniformMatrix4);
+                    _this.time = _this.addUniform("uTime", WebGame.Uniform4F);
+                    _this.color0 = _this.addUniform("uColor0", WebGame.Uniform3F);
+                    _this.color1 = _this.addUniform("uColor1", WebGame.Uniform3F);
+                    _this.phase = _this.addUniform("uPhase", WebGame.Uniform1F);
+                    _this.frequency = _this.addUniform("uFrequency", WebGame.Uniform1F);
+                    _this.compile();
+                    return _this;
+                }
+                DebugLine.prototype.bufferSetup = function (buf) {
+                    _super.prototype.bufferSetup.call(this, buf);
+                    this.projectionMatrix.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
+                    this.viewMatrix.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
+                    this.time.bufferParameter(buf, WebGame.Game.timeInfoParam);
+                    var gl = this.context;
+                    buf.enable(gl.DEPTH_TEST);
+                    buf.depthMask(true);
+                    buf.disable(gl.BLEND);
+                };
+                DebugLine.prototype.bufferModelMatrix = function (buf, value) {
+                    _super.prototype.bufferModelMatrix.call(this, buf, value);
+                    this.modelMatrix.bufferValue(buf, false, value);
+                };
+                DebugLine.prototype.bufferMaterialProps = function (buf, props) {
+                    _super.prototype.bufferMaterialProps.call(this, buf, props);
+                    var gl = this.context;
+                    this.color0.bufferValue(buf, props.color0.x, props.color0.y, props.color0.z);
+                    this.color1.bufferValue(buf, props.color1.x, props.color1.y, props.color1.z);
+                    this.phase.bufferValue(buf, props.phase);
+                    this.frequency.bufferValue(buf, props.frequency);
+                };
+                return DebugLine;
+            }(WebGame.BaseShaderProgram));
+            Shaders.DebugLine = DebugLine;
+        })(Shaders = WebGame.Shaders || (WebGame.Shaders = {}));
+    })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
+})(Facepunch || (Facepunch = {}));
+var Facepunch;
+(function (Facepunch) {
+    var WebGame;
+    (function (WebGame) {
+        var Shaders;
+        (function (Shaders) {
             var Error = (function (_super) {
                 __extends(Error, _super);
                 function Error(context) {
-                    _super.call(this, context);
+                    var _this = _super.call(this, context) || this;
                     var gl = context;
-                    this.includeShaderSource(gl.VERTEX_SHADER, Error.vertSource);
-                    this.includeShaderSource(gl.FRAGMENT_SHADER, Error.fragSource);
-                    this.addAttribute("aPosition", WebGame.VertexAttribute.position);
-                    this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
-                    this.projectionMatrix = this.addUniform("uProjection", WebGame.UniformMatrix4);
-                    this.viewMatrix = this.addUniform("uView", WebGame.UniformMatrix4);
-                    this.modelMatrix = this.addUniform("uModel", WebGame.UniformMatrix4);
-                    this.errorTexture = this.addUniform("uErrorTexture", WebGame.UniformSampler);
-                    this.compile();
+                    _this.includeShaderSource(gl.VERTEX_SHADER, "\n                        attribute vec3 aPosition;\n                        attribute vec2 aTextureCoord;\n\n                        varying vec2 vTextureCoord;\n\n                        uniform mat4 uProjection;\n                        uniform mat4 uView;\n                        uniform mat4 uModel;\n\n                        void main()\n                        {\n                            gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);\n                            \n                            vTextureCoord = aTextureCoord;\n                        }");
+                    _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                        precision mediump float;\n\n                        varying vec2 vTextureCoord;\n\n                        uniform sampler2D uErrorTexture;\n\n                        void main()\n                        {\n                            gl_FragColor = vec4(texture2D(uErrorTexture, vTextureCoord).rgb, 1.0);\n                        }");
+                    _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
+                    _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
+                    _this.projectionMatrix = _this.addUniform("uProjection", WebGame.UniformMatrix4);
+                    _this.viewMatrix = _this.addUniform("uView", WebGame.UniformMatrix4);
+                    _this.modelMatrix = _this.addUniform("uModel", WebGame.UniformMatrix4);
+                    _this.errorTexture = _this.addUniform("uErrorTexture", WebGame.UniformSampler);
+                    _this.compile();
+                    return _this;
                 }
                 Error.prototype.bufferSetup = function (buf) {
                     _super.prototype.bufferSetup.call(this, buf);
@@ -3923,8 +4224,6 @@ var Facepunch;
                     _super.prototype.bufferModelMatrix.call(this, buf, value);
                     this.modelMatrix.bufferValue(buf, false, value);
                 };
-                Error.vertSource = "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n                    uniform mat4 uModel;\n\n                    void main()\n                    {\n                        gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);\n                        \n                        vTextureCoord = aTextureCoord;\n                    }";
-                Error.fragSource = "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uErrorTexture;\n\n                    void main()\n                    {\n                        gl_FragColor = vec4(texture2D(uErrorTexture, vTextureCoord).rgb, 1.0);\n                    }";
                 return Error;
             }(WebGame.ShaderProgram));
             Shaders.Error = Error;
@@ -3940,11 +4239,12 @@ var Facepunch;
             var ModelBaseMaterialProps = (function (_super) {
                 __extends(ModelBaseMaterialProps, _super);
                 function ModelBaseMaterialProps() {
-                    _super.apply(this, arguments);
-                    this.baseTexture = null;
-                    this.noFog = false;
-                    this.translucent = false;
-                    this.shadowCast = true;
+                    var _this = _super !== null && _super.apply(this, arguments) || this;
+                    _this.baseTexture = null;
+                    _this.noFog = false;
+                    _this.translucent = false;
+                    _this.shadowCast = true;
+                    return _this;
                 }
                 return ModelBaseMaterialProps;
             }(WebGame.BaseMaterialProps));
@@ -3952,21 +4252,22 @@ var Facepunch;
             var ModelBase = (function (_super) {
                 __extends(ModelBase, _super);
                 function ModelBase(context, ctor) {
-                    _super.call(this, context, ctor);
+                    var _this = _super.call(this, context, ctor) || this;
                     var gl = context;
-                    this.includeShaderSource(gl.VERTEX_SHADER, ModelBase.vertSource);
-                    this.includeShaderSource(gl.FRAGMENT_SHADER, ModelBase.fragSource);
-                    this.addAttribute("aPosition", WebGame.VertexAttribute.position);
-                    this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
-                    this.projectionMatrix = this.addUniform("uProjection", WebGame.UniformMatrix4);
-                    this.viewMatrix = this.addUniform("uView", WebGame.UniformMatrix4);
-                    this.modelMatrix = this.addUniform("uModel", WebGame.UniformMatrix4);
-                    this.baseTexture = this.addUniform("uBaseTexture", WebGame.UniformSampler);
-                    this.baseTexture.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                    this.time = this.addUniform("uTime", WebGame.Uniform4F);
-                    this.fogParams = this.addUniform("uFogParams", WebGame.Uniform4F);
-                    this.fogColor = this.addUniform("uFogColor", WebGame.Uniform3F);
-                    this.noFog = this.addUniform("uNoFog", WebGame.Uniform1F);
+                    _this.includeShaderSource(gl.VERTEX_SHADER, "\n                        attribute vec3 aPosition;\n                        attribute vec2 aTextureCoord;\n\n                        varying float vDepth;\n                        varying vec2 vTextureCoord;\n\n                        uniform mat4 uProjection;\n                        uniform mat4 uView;\n                        uniform mat4 uModel;\n\n                        void Base_main()\n                        {\n                            vec4 viewPos = uView * uModel * vec4(aPosition, 1.0);\n\n                            gl_Position = uProjection * viewPos;\n                            \n                            vDepth = -viewPos.z;\n                            vTextureCoord = aTextureCoord;\n                        }");
+                    _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                        precision mediump float;\n\n                        varying float vDepth;\n                        varying vec2 vTextureCoord;\n\n                        uniform sampler2D uBaseTexture;\n\n                        // x: time in seconds, y, z, w: unused\n                        uniform vec4 uTime;\n\n                        // x: near fog density, y: far plane fog density, z: min density, w: max density\n                        uniform vec4 uFogParams;\n                        uniform vec3 uFogColor;\n                        uniform float uNoFog;\n\n                        vec3 ApplyFog(vec3 inColor)\n                        {\n                            if (uNoFog > 0.5) return inColor;\n\n                            float fogDensity = uFogParams.x + uFogParams.y * vDepth;\n\n                            fogDensity = min(max(fogDensity, uFogParams.z), uFogParams.w);\n\n                            return mix(inColor, uFogColor, fogDensity);\n                        }");
+                    _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
+                    _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
+                    _this.projectionMatrix = _this.addUniform("uProjection", WebGame.UniformMatrix4);
+                    _this.viewMatrix = _this.addUniform("uView", WebGame.UniformMatrix4);
+                    _this.modelMatrix = _this.addUniform("uModel", WebGame.UniformMatrix4);
+                    _this.baseTexture = _this.addUniform("uBaseTexture", WebGame.UniformSampler);
+                    _this.baseTexture.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                    _this.time = _this.addUniform("uTime", WebGame.Uniform4F);
+                    _this.fogParams = _this.addUniform("uFogParams", WebGame.Uniform4F);
+                    _this.fogColor = _this.addUniform("uFogColor", WebGame.Uniform3F);
+                    _this.noFog = _this.addUniform("uNoFog", WebGame.Uniform1F);
+                    return _this;
                 }
                 ModelBase.prototype.bufferSetup = function (buf) {
                     _super.prototype.bufferSetup.call(this, buf);
@@ -3996,8 +4297,6 @@ var Facepunch;
                         buf.disable(gl.BLEND);
                     }
                 };
-                ModelBase.vertSource = "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying float vDepth;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 uProjection;\n                    uniform mat4 uView;\n                    uniform mat4 uModel;\n\n                    void Base_main()\n                    {\n                        vec4 viewPos = uView * uModel * vec4(aPosition, 1.0);\n\n                        gl_Position = uProjection * viewPos;\n                        \n                        vDepth = -viewPos.z;\n                        vTextureCoord = aTextureCoord;\n                    }";
-                ModelBase.fragSource = "\n                    precision mediump float;\n\n                    varying float vDepth;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D uBaseTexture;\n\n                    // x: time in seconds, y, z, w: unused\n                    uniform vec4 uTime;\n\n                    // x: near fog density, y: far plane fog density, z: min density, w: max density\n                    uniform vec4 uFogParams;\n                    uniform vec3 uFogColor;\n                    uniform float uNoFog;\n\n                    vec3 ApplyFog(vec3 inColor)\n                    {\n                        if (uNoFog > 0.5) return inColor;\n\n                        float fogDensity = uFogParams.x + uFogParams.y * vDepth;\n\n                        fogDensity = min(max(fogDensity, uFogParams.z), uFogParams.w);\n\n                        return mix(inColor, uFogColor, fogDensity);\n                    }";
                 return ModelBase;
             }(WebGame.BaseShaderProgram));
             Shaders.ModelBase = ModelBase;
@@ -4013,9 +4312,10 @@ var Facepunch;
             var VertexLitGenericMaterialProps = (function (_super) {
                 __extends(VertexLitGenericMaterialProps, _super);
                 function VertexLitGenericMaterialProps() {
-                    _super.apply(this, arguments);
-                    this.alpha = 1.0;
-                    this.alphaTest = false;
+                    var _this = _super !== null && _super.apply(this, arguments) || this;
+                    _this.alpha = 1.0;
+                    _this.alphaTest = false;
+                    return _this;
                 }
                 return VertexLitGenericMaterialProps;
             }(Shaders.ModelBaseMaterialProps));
@@ -4023,15 +4323,16 @@ var Facepunch;
             var VertexLitGeneric = (function (_super) {
                 __extends(VertexLitGeneric, _super);
                 function VertexLitGeneric(context) {
-                    _super.call(this, context, VertexLitGenericMaterialProps);
+                    var _this = _super.call(this, context, VertexLitGenericMaterialProps) || this;
                     var gl = context;
-                    this.addAttribute("aColor", WebGame.VertexAttribute.rgb);
-                    this.includeShaderSource(gl.VERTEX_SHADER, VertexLitGeneric.vertSource);
-                    this.includeShaderSource(gl.FRAGMENT_SHADER, VertexLitGeneric.fragSource);
-                    this.alpha = this.addUniform("uAlpha", WebGame.Uniform1F);
-                    this.alphaTest = this.addUniform("uAlphaTest", WebGame.Uniform1F);
-                    this.translucent = this.addUniform("uTranslucent", WebGame.Uniform1F);
-                    this.compile();
+                    _this.addAttribute("aColor", WebGame.VertexAttribute.rgb);
+                    _this.includeShaderSource(gl.VERTEX_SHADER, "\n                        attribute vec3 aColor;\n\n                        varying vec3 vColor;\n\n                        void main()\n                        {\n                            Base_main();\n                            vColor = aColor * (1.0 / 255.0);\n                        }");
+                    _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                        varying vec3 vColor;\n\n                        uniform float uAlpha;\n\n                        uniform float uAlphaTest;\n                        uniform float uTranslucent;\n\n                        void main()\n                        {\n                            vec4 texSample = texture2D(uBaseTexture, vTextureCoord);\n                            if (texSample.a < uAlphaTest - 0.5) discard;\n\n                            vec3 color = ApplyFog(texSample.rgb * vColor);\n\n                            gl_FragColor = vec4(color, mix(1.0, texSample.a, uTranslucent) * uAlpha);\n                        }");
+                    _this.alpha = _this.addUniform("uAlpha", WebGame.Uniform1F);
+                    _this.alphaTest = _this.addUniform("uAlphaTest", WebGame.Uniform1F);
+                    _this.translucent = _this.addUniform("uTranslucent", WebGame.Uniform1F);
+                    _this.compile();
+                    return _this;
                 }
                 VertexLitGeneric.prototype.bufferMaterialProps = function (buf, props) {
                     _super.prototype.bufferMaterialProps.call(this, buf, props);
@@ -4039,8 +4340,6 @@ var Facepunch;
                     this.alphaTest.bufferValue(buf, props.alphaTest ? 1 : 0);
                     this.translucent.bufferValue(buf, props.translucent ? 1 : 0);
                 };
-                VertexLitGeneric.vertSource = "\n                    attribute vec3 aColor;\n\n                    varying vec3 vColor;\n\n                    void main()\n                    {\n                        Base_main();\n                        vColor = aColor * (1.0 / 255.0);\n                    }";
-                VertexLitGeneric.fragSource = "\n                    varying vec3 vColor;\n\n                    uniform float uAlpha;\n\n                    uniform float uAlphaTest;\n                    uniform float uTranslucent;\n\n                    void main()\n                    {\n                        vec4 texSample = texture2D(uBaseTexture, vTextureCoord);\n                        if (texSample.a < uAlphaTest - 0.5) discard;\n\n                        vec3 color = ApplyFog(texSample.rgb * vColor);\n\n                        gl_FragColor = vec4(color, mix(1.0, texSample.a, uTranslucent) * uAlpha);\n                    }";
                 return VertexLitGeneric;
             }(Shaders.ModelBase));
             Shaders.VertexLitGeneric = VertexLitGeneric;
@@ -4054,9 +4353,10 @@ var Facepunch;
         var ShadowCamera = (function (_super) {
             __extends(ShadowCamera, _super);
             function ShadowCamera(game, targetCamera) {
-                _super.call(this, game, 1, 1, 0, 1);
-                this.game = game;
-                this.targetCamera = targetCamera;
+                var _this = _super.call(this, game, 1, 1, 0, 1) || this;
+                _this.game = game;
+                _this.targetCamera = targetCamera;
+                return _this;
             }
             ShadowCamera.prototype.addToFrustumBounds = function (vec, bounds) {
                 vec.applyMatrix4(this.targetCamera.getMatrix());
@@ -4099,6 +4399,7 @@ var Facepunch;
                 this.setPosition(vec1);
                 this.getFrustumBounds(near, far, bounds);
                 var xDiff = bounds.max.x - bounds.min.x;
+                var yDiff = bounds.max.y - bounds.min.y;
                 var zDiff = bounds.max.z - bounds.min.z;
                 // TODO: Reposition based on bounds
                 this.setSize(zDiff);
@@ -4106,12 +4407,12 @@ var Facepunch;
             };
             ShadowCamera.prototype.bufferCascadeEnd = function () {
             };
-            ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
-            ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
-            ShadowCamera.renderShadows_vec1 = new Facepunch.Vector3();
-            ShadowCamera.renderShadows_vec2 = new Facepunch.Vector3();
             return ShadowCamera;
         }(WebGame.OrthographicCamera));
+        ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
+        ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
+        ShadowCamera.renderShadows_vec1 = new Facepunch.Vector3();
+        ShadowCamera.renderShadows_vec2 = new Facepunch.Vector3();
         WebGame.ShadowCamera = ShadowCamera;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
@@ -4123,7 +4424,7 @@ var Facepunch;
         var StaticProp = (function (_super) {
             __extends(StaticProp, _super);
             function StaticProp() {
-                _super.call(this, true);
+                return _super.call(this, true) || this;
             }
             StaticProp.prototype.setColorTint = function (color) {
                 if (this.tint != null)
@@ -4176,8 +4477,9 @@ var Facepunch;
         var Texture = (function (_super) {
             __extends(Texture, _super);
             function Texture() {
-                _super.call(this);
-                this.id = Texture.nextId++;
+                var _this = _super.call(this) || this;
+                _this.id = Texture.nextId++;
+                return _this;
             }
             Texture.prototype.isLoaded = function () {
                 return this.getHandle() !== undefined;
@@ -4186,36 +4488,37 @@ var Facepunch;
                 return 1;
             };
             Texture.prototype.dispose = function () { };
-            Texture.nextId = 1;
             return Texture;
         }(WebGame.RenderResource));
+        Texture.nextId = 1;
         WebGame.Texture = Texture;
+        var TextureFormat;
         (function (TextureFormat) {
             TextureFormat[TextureFormat["Alpha"] = WebGLRenderingContext.ALPHA] = "Alpha";
             TextureFormat[TextureFormat["Rgb"] = WebGLRenderingContext.RGB] = "Rgb";
             TextureFormat[TextureFormat["Rgba"] = WebGLRenderingContext.RGBA] = "Rgba";
             TextureFormat[TextureFormat["DepthComponent"] = WebGLRenderingContext.DEPTH_COMPONENT] = "DepthComponent";
             TextureFormat[TextureFormat["Luminance"] = WebGLRenderingContext.LUMINANCE] = "Luminance";
-        })(WebGame.TextureFormat || (WebGame.TextureFormat = {}));
-        var TextureFormat = WebGame.TextureFormat;
+        })(TextureFormat = WebGame.TextureFormat || (WebGame.TextureFormat = {}));
+        var TextureDataType;
         (function (TextureDataType) {
             TextureDataType[TextureDataType["Uint8"] = WebGLRenderingContext.UNSIGNED_BYTE] = "Uint8";
             TextureDataType[TextureDataType["Uint16"] = WebGLRenderingContext.UNSIGNED_SHORT] = "Uint16";
             TextureDataType[TextureDataType["Uint32"] = WebGLRenderingContext.UNSIGNED_INT] = "Uint32";
             TextureDataType[TextureDataType["Float"] = WebGLRenderingContext.FLOAT] = "Float";
-        })(WebGame.TextureDataType || (WebGame.TextureDataType = {}));
-        var TextureDataType = WebGame.TextureDataType;
+        })(TextureDataType = WebGame.TextureDataType || (WebGame.TextureDataType = {}));
+        var TextureTarget;
         (function (TextureTarget) {
             TextureTarget[TextureTarget["Texture2D"] = WebGLRenderingContext.TEXTURE_2D] = "Texture2D";
             TextureTarget[TextureTarget["TextureCubeMap"] = WebGLRenderingContext.TEXTURE_CUBE_MAP] = "TextureCubeMap";
-        })(WebGame.TextureTarget || (WebGame.TextureTarget = {}));
-        var TextureTarget = WebGame.TextureTarget;
+        })(TextureTarget = WebGame.TextureTarget || (WebGame.TextureTarget = {}));
+        var TextureWrapMode;
         (function (TextureWrapMode) {
             TextureWrapMode[TextureWrapMode["ClampToEdge"] = WebGLRenderingContext.CLAMP_TO_EDGE] = "ClampToEdge";
             TextureWrapMode[TextureWrapMode["Repeat"] = WebGLRenderingContext.REPEAT] = "Repeat";
             TextureWrapMode[TextureWrapMode["MirroredRepeat"] = WebGLRenderingContext.MIRRORED_REPEAT] = "MirroredRepeat";
-        })(WebGame.TextureWrapMode || (WebGame.TextureWrapMode = {}));
-        var TextureWrapMode = WebGame.TextureWrapMode;
+        })(TextureWrapMode = WebGame.TextureWrapMode || (WebGame.TextureWrapMode = {}));
+        var TextureMinFilter;
         (function (TextureMinFilter) {
             TextureMinFilter[TextureMinFilter["Nearest"] = WebGLRenderingContext.NEAREST] = "Nearest";
             TextureMinFilter[TextureMinFilter["Linear"] = WebGLRenderingContext.LINEAR] = "Linear";
@@ -4223,37 +4526,37 @@ var Facepunch;
             TextureMinFilter[TextureMinFilter["LinearMipmapNearest"] = WebGLRenderingContext.LINEAR_MIPMAP_NEAREST] = "LinearMipmapNearest";
             TextureMinFilter[TextureMinFilter["NearestMipmapLinear"] = WebGLRenderingContext.NEAREST_MIPMAP_LINEAR] = "NearestMipmapLinear";
             TextureMinFilter[TextureMinFilter["LinearMipmapLinear"] = WebGLRenderingContext.LINEAR_MIPMAP_LINEAR] = "LinearMipmapLinear";
-        })(WebGame.TextureMinFilter || (WebGame.TextureMinFilter = {}));
-        var TextureMinFilter = WebGame.TextureMinFilter;
+        })(TextureMinFilter = WebGame.TextureMinFilter || (WebGame.TextureMinFilter = {}));
+        var TextureMagFilter;
         (function (TextureMagFilter) {
             TextureMagFilter[TextureMagFilter["Nearest"] = TextureMinFilter.Nearest] = "Nearest";
             TextureMagFilter[TextureMagFilter["Linear"] = TextureMinFilter.Linear] = "Linear";
-        })(WebGame.TextureMagFilter || (WebGame.TextureMagFilter = {}));
-        var TextureMagFilter = WebGame.TextureMagFilter;
+        })(TextureMagFilter = WebGame.TextureMagFilter || (WebGame.TextureMagFilter = {}));
+        var TextureParameterType;
         (function (TextureParameterType) {
             TextureParameterType[TextureParameterType["Integer"] = WebGLRenderingContext.INT] = "Integer";
             TextureParameterType[TextureParameterType["Float"] = WebGLRenderingContext.FLOAT] = "Float";
-        })(WebGame.TextureParameterType || (WebGame.TextureParameterType = {}));
-        var TextureParameterType = WebGame.TextureParameterType;
+        })(TextureParameterType = WebGame.TextureParameterType || (WebGame.TextureParameterType = {}));
+        var TextureParameter;
         (function (TextureParameter) {
             TextureParameter[TextureParameter["WrapS"] = WebGLRenderingContext.TEXTURE_WRAP_S] = "WrapS";
             TextureParameter[TextureParameter["WrapT"] = WebGLRenderingContext.TEXTURE_WRAP_T] = "WrapT";
             TextureParameter[TextureParameter["MinFilter"] = WebGLRenderingContext.TEXTURE_MIN_FILTER] = "MinFilter";
             TextureParameter[TextureParameter["MagFilter"] = WebGLRenderingContext.TEXTURE_MAG_FILTER] = "MagFilter";
-        })(WebGame.TextureParameter || (WebGame.TextureParameter = {}));
-        var TextureParameter = WebGame.TextureParameter;
+        })(TextureParameter = WebGame.TextureParameter || (WebGame.TextureParameter = {}));
         var RenderTexture = (function (_super) {
             __extends(RenderTexture, _super);
             function RenderTexture(context, target, format, type, width, height) {
-                _super.call(this);
-                this.context = context;
-                this.target = target;
-                this.format = format;
-                this.type = type;
-                this.handle = context.createTexture();
-                this.setWrapMode(TextureWrapMode.ClampToEdge);
-                this.setFilter(TextureMinFilter.Linear, TextureMagFilter.Nearest);
-                this.resize(width, height);
+                var _this = _super.call(this) || this;
+                _this.context = context;
+                _this.target = target;
+                _this.format = format;
+                _this.type = type;
+                _this.handle = context.createTexture();
+                _this.setWrapMode(TextureWrapMode.ClampToEdge);
+                _this.setFilter(TextureMinFilter.Linear, TextureMagFilter.Nearest);
+                _this.resize(width, height);
+                return _this;
             }
             RenderTexture.prototype.hasMipLevel = function (level) {
                 return level === 0;
@@ -4337,8 +4640,9 @@ var Facepunch;
         var ProceduralTexture2D = (function (_super) {
             __extends(ProceduralTexture2D, _super);
             function ProceduralTexture2D(context, width, height, format, type) {
-                _super.call(this, context, TextureTarget.Texture2D, format === undefined ? TextureFormat.Rgba : format, type === undefined ? TextureDataType.Uint8 : type, width, height);
-                this.setWrapMode(TextureWrapMode.Repeat);
+                var _this = _super.call(this, context, TextureTarget.Texture2D, format === undefined ? TextureFormat.Rgba : format, type === undefined ? TextureDataType.Uint8 : type, width, height) || this;
+                _this.setWrapMode(TextureWrapMode.Repeat);
+                return _this;
             }
             ProceduralTexture2D.prototype.setImage = function (image) {
                 this.resize(image.width, image.height);
@@ -4492,9 +4796,9 @@ var Facepunch;
                         throw new Error("Texture data type not implemented.");
                 }
             };
-            ProceduralTexture2D.channelBuffer = [0, 0, 0, 0];
             return ProceduralTexture2D;
         }(RenderTexture));
+        ProceduralTexture2D.channelBuffer = [0, 0, 0, 0];
         WebGame.ProceduralTexture2D = ProceduralTexture2D;
         var TextureUtils = (function () {
             function TextureUtils() {
@@ -4544,22 +4848,22 @@ var Facepunch;
             return TextureUtils;
         }());
         WebGame.TextureUtils = TextureUtils;
+        var TextureFilter;
         (function (TextureFilter) {
             TextureFilter[TextureFilter["Nearest"] = WebGLRenderingContext.NEAREST] = "Nearest";
             TextureFilter[TextureFilter["Linear"] = WebGLRenderingContext.LINEAR] = "Linear";
-        })(WebGame.TextureFilter || (WebGame.TextureFilter = {}));
-        var TextureFilter = WebGame.TextureFilter;
+        })(TextureFilter = WebGame.TextureFilter || (WebGame.TextureFilter = {}));
         var TextureLoadable = (function (_super) {
             __extends(TextureLoadable, _super);
             function TextureLoadable(context, url) {
-                _super.call(this);
-                this.nextElement = 0;
-                this.readyFrameCount = 0;
-                this.loadProgress = 0;
-                this.context = context;
-                this.url = url;
-                if (/\.(png|jpe?g)$/i.test(this.url)) {
-                    this.loadFromInfo({
+                var _this = _super.call(this) || this;
+                _this.nextElement = 0;
+                _this.readyFrameCount = 0;
+                _this.loadProgress = 0;
+                _this.context = context;
+                _this.url = url;
+                if (/\.(png|jpe?g)$/i.test(_this.url)) {
+                    _this.loadFromInfo({
                         target: TextureTarget.Texture2D,
                         params: {
                             filter: TextureFilter.Linear,
@@ -4574,6 +4878,7 @@ var Facepunch;
                         ]
                     });
                 }
+                return _this;
             }
             TextureLoadable.prototype.getLoadProgress = function () {
                 return this.info == null ? 0 : Math.min(1, (this.nextElement + this.loadProgress) / this.info.elements.length);
@@ -4803,8 +5108,9 @@ var Facepunch;
         var TextureLoader = (function (_super) {
             __extends(TextureLoader, _super);
             function TextureLoader(context) {
-                _super.call(this);
-                this.context = context;
+                var _this = _super.call(this) || this;
+                _this.context = context;
+                return _this;
             }
             TextureLoader.prototype.onCreateItem = function (url) {
                 return new WebGame.TextureLoadable(this.context, url);
@@ -4850,14 +5156,14 @@ var Facepunch;
         var Uniform1F = (function (_super) {
             __extends(Uniform1F, _super);
             function Uniform1F() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             Uniform1F.prototype.reset = function () {
                 _super.prototype.reset.call(this);
                 this.x = undefined;
             };
             Uniform1F.prototype.bufferValue = function (buf, x) {
-                if (this.x === x)
+                if (!buf.immediate && this.x === x)
                     return;
                 this.x = x;
                 buf.setUniform1F(this, x);
@@ -4871,14 +5177,14 @@ var Facepunch;
         var Uniform1I = (function (_super) {
             __extends(Uniform1I, _super);
             function Uniform1I() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             Uniform1I.prototype.reset = function () {
                 _super.prototype.reset.call(this);
                 this.x = undefined;
             };
             Uniform1I.prototype.bufferValue = function (buf, x) {
-                if (this.x === x)
+                if (!buf.immediate && this.x === x)
                     return;
                 this.x = x;
                 buf.setUniform1I(this, x);
@@ -4892,7 +5198,7 @@ var Facepunch;
         var Uniform2F = (function (_super) {
             __extends(Uniform2F, _super);
             function Uniform2F() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             Uniform2F.prototype.reset = function () {
                 _super.prototype.reset.call(this);
@@ -4900,7 +5206,7 @@ var Facepunch;
                 this.y = undefined;
             };
             Uniform2F.prototype.bufferValue = function (buf, x, y) {
-                if (this.x === x && this.y === y)
+                if (!buf.immediate && this.x === x && this.y === y)
                     return;
                 this.x = x;
                 this.y = y;
@@ -4915,7 +5221,7 @@ var Facepunch;
         var Uniform3F = (function (_super) {
             __extends(Uniform3F, _super);
             function Uniform3F() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             Uniform3F.prototype.reset = function () {
                 _super.prototype.reset.call(this);
@@ -4924,7 +5230,7 @@ var Facepunch;
                 this.z = undefined;
             };
             Uniform3F.prototype.bufferValue = function (buf, x, y, z) {
-                if (this.x === x && this.y === y && this.z === z)
+                if (!buf.immediate && this.x === x && this.y === y && this.z === z)
                     return;
                 this.x = x;
                 this.y = y;
@@ -4940,7 +5246,7 @@ var Facepunch;
         var Uniform4F = (function (_super) {
             __extends(Uniform4F, _super);
             function Uniform4F() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             Uniform4F.prototype.reset = function () {
                 _super.prototype.reset.call(this);
@@ -4950,7 +5256,7 @@ var Facepunch;
                 this.w = undefined;
             };
             Uniform4F.prototype.bufferValue = function (buf, x, y, z, w) {
-                if (this.x === x && this.y === y && this.z === z && this.w === w)
+                if (!buf.immediate && this.x === x && this.y === y && this.z === z && this.w === w)
                     return;
                 this.x = x;
                 this.y = y;
@@ -4967,9 +5273,10 @@ var Facepunch;
         var UniformSampler = (function (_super) {
             __extends(UniformSampler, _super);
             function UniformSampler(program, name) {
-                _super.call(this, program, name);
-                this.isSampler = true;
-                this.texUnit = program.reserveNextTextureUnit();
+                var _this = _super.call(this, program, name) || this;
+                _this.isSampler = true;
+                _this.texUnit = program.reserveNextTextureUnit();
+                return _this;
             }
             UniformSampler.prototype.getSizeUniform = function () {
                 if (this.sizeUniform != null)
@@ -4994,7 +5301,7 @@ var Facepunch;
                     tex = this.default;
                 }
                 buf.bindTexture(this.texUnit, tex);
-                if (this.value !== this.texUnit) {
+                if (!buf.immediate && this.value !== this.texUnit) {
                     this.value = this.texUnit;
                     buf.setUniform1I(this, this.texUnit);
                 }
@@ -5024,7 +5331,7 @@ var Facepunch;
         var UniformMatrix4 = (function (_super) {
             __extends(UniformMatrix4, _super);
             function UniformMatrix4() {
-                _super.apply(this, arguments);
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             UniformMatrix4.prototype.reset = function () {
                 _super.prototype.reset.call(this);
@@ -5032,7 +5339,7 @@ var Facepunch;
                 this.values = undefined;
             };
             UniformMatrix4.prototype.bufferValue = function (buf, transpose, values) {
-                if (this.transpose === transpose && this.values === values)
+                if (!buf.immediate && this.transpose === transpose && this.values === values)
                     return;
                 this.transpose = transpose;
                 this.values = values;
@@ -5050,10 +5357,10 @@ var Facepunch;
 (function (Facepunch) {
     var WebGame;
     (function (WebGame) {
+        var AttributeType;
         (function (AttributeType) {
             AttributeType[AttributeType["Float"] = WebGLRenderingContext.FLOAT] = "Float";
-        })(WebGame.AttributeType || (WebGame.AttributeType = {}));
-        var AttributeType = WebGame.AttributeType;
+        })(AttributeType = WebGame.AttributeType || (WebGame.AttributeType = {}));
         var VertexAttribute = (function () {
             function VertexAttribute(size, type, normalized) {
                 this.id = VertexAttribute.nextId++;
@@ -5064,16 +5371,16 @@ var Facepunch;
             VertexAttribute.compare = function (a, b) {
                 return a.id - b.id;
             };
-            VertexAttribute.nextId = 1;
-            VertexAttribute.position = new VertexAttribute(3, AttributeType.Float, false);
-            VertexAttribute.normal = new VertexAttribute(3, AttributeType.Float, true);
-            VertexAttribute.uv = new VertexAttribute(2, AttributeType.Float, false);
-            VertexAttribute.uv2 = new VertexAttribute(2, AttributeType.Float, false);
-            VertexAttribute.rgb = new VertexAttribute(3, AttributeType.Float, false);
-            VertexAttribute.rgba = new VertexAttribute(4, AttributeType.Float, false);
-            VertexAttribute.alpha = new VertexAttribute(1, AttributeType.Float, false);
             return VertexAttribute;
         }());
+        VertexAttribute.nextId = 1;
+        VertexAttribute.position = new VertexAttribute(3, AttributeType.Float, false);
+        VertexAttribute.normal = new VertexAttribute(3, AttributeType.Float, true);
+        VertexAttribute.uv = new VertexAttribute(2, AttributeType.Float, false);
+        VertexAttribute.uv2 = new VertexAttribute(2, AttributeType.Float, false);
+        VertexAttribute.rgb = new VertexAttribute(3, AttributeType.Float, false);
+        VertexAttribute.rgba = new VertexAttribute(4, AttributeType.Float, false);
+        VertexAttribute.alpha = new VertexAttribute(1, AttributeType.Float, false);
         WebGame.VertexAttribute = VertexAttribute;
     })(WebGame = Facepunch.WebGame || (Facepunch.WebGame = {}));
 })(Facepunch || (Facepunch = {}));
