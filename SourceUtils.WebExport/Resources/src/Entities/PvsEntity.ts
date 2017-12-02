@@ -64,7 +64,7 @@
 
             isInCluster(cluster: number): boolean {
                 const clusters = this.clusters;
-                if (clusters == null) return false;
+                if (clusters == null) return true;
                 for (let i = 0, iEnd = clusters.length; i < iEnd; ++i) {
                     if (clusters[i] === cluster) return true;
                 }
@@ -80,7 +80,6 @@
             }
 
             populateDrawList(drawList: WebGame.DrawList, clusters: number[]): void {
-                if (!this.isInAnyCluster(clusters)) return;
                 drawList.addItem(this);
                 this.onPopulateDrawList(drawList, clusters);
             }

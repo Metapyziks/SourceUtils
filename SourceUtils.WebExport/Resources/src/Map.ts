@@ -179,12 +179,14 @@ namespace SourceUtils {
 
         addPvsEntity(entity: Entities.PvsEntity): void {
             this.pvsEntities.push(entity);
+            this.clusterEnts = {};
         }
 
         removePvsEntity(entity: Entities.PvsEntity): void {
             const index = this.pvsEntities.indexOf(entity);
             if (index !== -1) {
                 this.pvsEntities.splice(index, 1);
+                this.clusterEnts = {};
             }
         }
 
@@ -269,7 +271,7 @@ namespace SourceUtils {
                 const ents = this.getPvsEntitiesInCluster(cluster);
                 for (let ent of ents) {
                     if (ent.getIsInDrawList(drawList)) continue;
-                    drawList.addItem(ent);
+                    ent.populateDrawList(drawList, vis);
                 }
             }
         }

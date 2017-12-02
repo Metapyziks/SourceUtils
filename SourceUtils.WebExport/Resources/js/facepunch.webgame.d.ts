@@ -453,17 +453,18 @@ declare namespace Facepunch {
             private readonly indexData;
             private readonly vertBuffer;
             private meshChanged;
+            progressScale: number;
             constructor(game: Game);
             clear(): void;
-            setPhase(value: number): void;
-            setFrequency(value: number): void;
+            phase: number;
+            frequency: number;
             setColor(color: IVector3): void;
             setColor(color0: IVector3, color1: IVector3): void;
             private lastPos;
             private progress;
             private addVertex(pos, progress);
             moveTo(pos: IVector3): void;
-            lineTo(pos: IVector3, progressScale?: number): void;
+            lineTo(pos: IVector3, progress?: number): void;
             update(): void;
             dispose(): void;
         }

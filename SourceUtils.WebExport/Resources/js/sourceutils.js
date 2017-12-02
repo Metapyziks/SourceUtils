@@ -445,7 +445,7 @@ var SourceUtils;
             PvsEntity.prototype.isInCluster = function (cluster) {
                 var clusters = this.clusters;
                 if (clusters == null)
-                    return false;
+                    return true;
                 for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
                     if (clusters[i] === cluster)
                         return true;
@@ -462,8 +462,6 @@ var SourceUtils;
                 return false;
             };
             PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
-                if (!this.isInAnyCluster(clusters))
-                    return;
                 drawList.addItem(this);
                 this.onPopulateDrawList(drawList, clusters);
             };
@@ -1080,11 +1078,13 @@ var SourceUtils;
         };
         Map.prototype.addPvsEntity = function (entity) {
             this.pvsEntities.push(entity);
+            this.clusterEnts = {};
         };
         Map.prototype.removePvsEntity = function (entity) {
             var index = this.pvsEntities.indexOf(entity);
             if (index !== -1) {
                 this.pvsEntities.splice(index, 1);
+                this.clusterEnts = {};
             }
         };
         Map.prototype.getPvsEntitiesInCluster = function (cluster) {
@@ -1162,7 +1162,7 @@ var SourceUtils;
                     var ent = ents_1[_c];
                     if (ent.getIsInDrawList(drawList))
                         continue;
-                    drawList.addItem(ent);
+                    ent.populateDrawList(drawList, vis);
                 }
             }
         };

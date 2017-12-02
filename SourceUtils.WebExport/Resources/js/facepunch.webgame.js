@@ -2261,6 +2261,7 @@ var Facepunch;
                 _this.vertData = new Float32Array(4);
                 _this.vertBuffer = new Float32Array(6);
                 _this.meshChanged = false;
+                _this.progressScale = 1;
                 _this.lastPos = new Facepunch.Vector3();
                 _this.progress = 0;
                 _this.game = game;
@@ -2278,12 +2279,26 @@ var Facepunch;
                 this.meshHandle.indexCount = 0;
                 this.meshChanged = true;
             };
-            DebugLine.prototype.setPhase = function (value) {
-                this.materialProps.phase = value;
-            };
-            DebugLine.prototype.setFrequency = function (value) {
-                this.materialProps.frequency = value;
-            };
+            Object.defineProperty(DebugLine.prototype, "phase", {
+                get: function () {
+                    return this.materialProps.phase;
+                },
+                set: function (value) {
+                    this.materialProps.phase = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(DebugLine.prototype, "frequency", {
+                get: function () {
+                    return this.materialProps.frequency;
+                },
+                set: function (value) {
+                    this.materialProps.frequency = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
             DebugLine.prototype.setColor = function (color0, color1) {
                 if (color1 === undefined)
                     color1 = color0;
@@ -2303,13 +2318,16 @@ var Facepunch;
                 this.progress = 0;
                 this.addVertex(pos, this.progress);
             };
-            DebugLine.prototype.lineTo = function (pos, progressScale) {
-                if (progressScale === undefined)
-                    progressScale = 1;
+            DebugLine.prototype.lineTo = function (pos, progress) {
                 var indexData = this.indexData;
                 this.meshChanged = true;
-                this.lastPos.sub(pos);
-                this.progress += this.lastPos.length() * progressScale;
+                if (progress === undefined) {
+                    this.lastPos.sub(pos);
+                    this.progress += this.lastPos.length() * this.progressScale;
+                }
+                else {
+                    this.progress = progress;
+                }
                 this.lastPos.copy(pos);
                 var index = this.addVertex(pos, this.progress);
                 indexData[0] = Math.max(0, index - 1);
