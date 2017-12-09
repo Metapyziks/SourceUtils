@@ -2887,8 +2887,17 @@ var Facepunch;
                     _this.onMouseMove(_this.getScreenPos(evnt.pageX, evnt.pageY, _this.mouseScreenPos));
                     if (_this.isPointerLocked()) {
                         var e = evnt;
-                        _this.mouseLookDelta.set(e.movementX, e.movementY);
+                        var accelX = e.movementX - _this.mouseLookDelta.x;
+                        var accelY = e.movementY - _this.mouseLookDelta.y;
+                        // https://bugs.chromium.org/p/chromium/issues/detail?id=781182
+                        if (Math.abs(accelX) < 300 && Math.abs(accelY) < 300) {
+                            _this.mouseLookDelta.x = e.movementX;
+                            _this.mouseLookDelta.y = e.movementY;
+                        }
                         _this.onMouseLook(_this.mouseLookDelta);
+                    }
+                    else {
+                        _this.mouseLookDelta.set(0, 0);
                     }
                 });
                 window.addEventListener("mousewheel", function (evnt) {
