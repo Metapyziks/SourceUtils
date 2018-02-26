@@ -321,6 +321,8 @@ namespace SourceUtils
 
         public static KeyValues Parse( string value, KeyValuesFlags flags = KeyValuesFlags.Default )
         {
+            value = value.TrimEnd( '\0' );
+
             var parser = (flags & KeyValuesFlags.UsesEscapeSequences) != 0 ? _sEscapedParser : _sUnescapedParser;
             var result = parser.Parse( value );
 
@@ -334,12 +336,10 @@ namespace SourceUtils
 
         public static IEnumerable<KeyValues> ParseList( string value, KeyValuesFlags flags = KeyValuesFlags.Default )
         {
+            value = value.TrimEnd( '\0' );
+
             var parser = (flags & KeyValuesFlags.UsesEscapeSequences) != 0 ? _sEscapedParser : _sUnescapedParser;
             var result = parser.Parse( value );
-
-            var xml = result.ToXElement().ToString();
-
-            Console.WriteLine(xml);
 
             if ( !result.Success )
             {
