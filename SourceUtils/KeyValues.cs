@@ -203,7 +203,7 @@ namespace SourceUtils
 
             public void MergeFrom( Entry other, bool replace )
             {
-                if ( !other.HasKeys ) return;
+                if ( other == null || !other.HasKeys ) return;
 
                 foreach ( var key in other.Keys )
                 {
