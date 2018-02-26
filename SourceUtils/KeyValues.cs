@@ -32,7 +32,61 @@ namespace SourceUtils
 
     public class KeyValues
     {
-        public class Entry : IEnumerable<string>
+        public class EntryCollection : IEnumerable<Entry>
+        {
+            public static EntryCollection Empty { get; } = new EntryCollection();
+
+            public static implicit operator Entry( EntryCollection collection )
+            {
+                return collection.FirstOrDefault();
+            }
+            
+            public static implicit operator string( EntryCollection collection )
+            {
+                return collection.FirstOrDefault();
+            }
+
+            public static implicit operator bool( EntryCollection collection )
+            {
+                return collection.FirstOrDefault();
+            }
+
+            public static implicit operator int( EntryCollection collection )
+            {
+                return collection.FirstOrDefault();
+            }
+
+            public static implicit operator float( EntryCollection collection )
+            {
+                return collection.FirstOrDefault();
+            }
+            
+            public static implicit operator Color32( EntryCollection collection )
+            {
+                return collection.FirstOrDefault();
+            }
+
+            private readonly List<Entry> _entries = new List<Entry>();
+        
+            internal void AddValue( ParseResult result, KeyValuesFlags flags )
+            {
+                var entry = new Entry();
+                entry.AddValue( result, flags );
+                _entries.Add( entry );
+            }
+
+            public IEnumerator<Entry> GetEnumerator()
+            {
+                return _entries.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        public class Entry : IEnumerable<KeyValuePair<string, Entry>>
         {
             public static bool operator==( Entry a, object b )
             {
@@ -46,7 +100,7 @@ namespace SourceUtils
 
             public static implicit operator string( Entry entry )
             {
-                return entry == null || !entry.HasValue ? null : entry._values.LastOrDefault();
+                return entry == null || !entry.HasValue ? null : entry._value;
             }
 
             public static implicit operator bool( Entry entry )
@@ -99,19 +153,17 @@ namespace SourceUtils
                 return new Color32( 0xff, 0x00, 0xff );
             }
 
-            public static Entry Null { get; } = new Entry();
+            private Dictionary<string, EntryCollection> _subEntries;
+            private string _value;
 
-            private Dictionary<string, Entry> _subEntries;
-            private List<string> _values;
-
-            public Entry this[string key] => _subEntries != null && _subEntries.TryGetValue( key, out var entry ) ? entry : Null;
+            public EntryCollection this[string key] => _subEntries != null && _subEntries.TryGetValue( key, out var entry ) ? entry : EntryCollection.Empty;
 
             public bool IsNull => !HasValue && !HasKeys;
             
-            public bool HasValue => _values != null && _values.Count > 0;
+            public bool HasValue => _value != null;
             public bool HasKeys => _subEntries != null && _subEntries.Count > 0;
 
-            public string Value => HasValue ? _values[_values.Count - 1] : null;
+            public string Value => HasValue ? _value : null;
 
             public IEnumerable<string> Keys => _subEntries == null ? Enumerable.Empty<string>() : _subEntries.Keys;
 
@@ -121,9 +173,7 @@ namespace SourceUtils
             {
                 if ( result.Parser.ElementName.EndsWith( ".String" ) )
                 {
-                    if ( _values == null ) _values = new List<string>();
-
-                    _values.Add( ReadString( result, flags ) );
+                    _value = ReadString( result, flags );
                     return;
                 }
 
@@ -131,7 +181,7 @@ namespace SourceUtils
 
                 if ( result.Length == 0 ) return;
 
-                if ( _subEntries == null ) _subEntries = new Dictionary<string, Entry>( StringComparer.InvariantCultureIgnoreCase );
+                if ( _subEntries == null ) _subEntries = new Dictionary<string, EntryCollection>( StringComparer.InvariantCultureIgnoreCase );
                 
                 foreach ( var def in result )
                 {
@@ -139,7 +189,7 @@ namespace SourceUtils
 
                     if ( !_subEntries.TryGetValue( key, out var existing ) )
                     {
-                        _subEntries.Add( key, existing = new Entry() );
+                        _subEntries.Add( key, existing = new EntryCollection() );
                     }
 
                     existing.AddValue( def[1], flags );
@@ -168,19 +218,27 @@ namespace SourceUtils
                 }
             }
 
-            public IEnumerator<string> GetEnumerator()
+            public IEnumerator<KeyValuePair<string, Entry>> GetEnumerator()
             {
-                return _values == null ? Enumerable.Empty<string>().GetEnumerator() : _values.GetEnumerator();
-            }
+                if ( _subEntries == null ) yield break;
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
+                foreach ( var keyValue in _subEntries )
+                {
+                    foreach ( var entry in keyValue.Value )
+                    {
+                        yield return new KeyValuePair<string, Entry>( keyValue.Key, entry );
+                    }
+                }
             }
 
             public override string ToString()
             {
                 return IsNull ? "null" : HasValue ? Value : $"KeyValues[{_subEntries.Count}]";
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
             }
         }
 
@@ -299,6 +357,6 @@ namespace SourceUtils
             return _root.ContainsKey( key );
         }
 
-        public Entry this[string key] => _root[key];
+        public EntryCollection this[string key] => _root[key];
     }
 }
