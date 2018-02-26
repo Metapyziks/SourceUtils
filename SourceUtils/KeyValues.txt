@@ -2,12 +2,12 @@
 
 Escaped
 {
-    Document = Definition.List /$/;
+    Document = ( Definition.BlockList* | Definition.List ) /\s*$/;
 
     String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
         Quoted = /([^"\n\\]|\\[\\"nt])*/;
-        Unquoted = /([^\s\/"{}\\]|\/(?!\/)|\\[\\"nt{}])*/;
+        Unquoted = /([^\s\/"{}\\]|\/(?!\/)|\\[\\"nt{}])+/;
     }
 
     ignore Skip
@@ -15,18 +15,23 @@ Escaped
         Definition = String ( "{" List "}" | String )
         {
             List = Definition*;
+
+            collapse
+            {
+                BlockList = "{" Definition.List "}";
+            }
         }
     }
 }
 
 Unescaped
 {
-    Document = Definition.List /$/;
+    Document = ( Definition.BlockList* | Definition.List ) /\s*$/;
 
     String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
         Quoted = /[^"\n]*/;
-        Unquoted = /([^\s\/"{}]|\/(?!\/))*/;
+        Unquoted = /([^\s\/"{}]|\/(?!\/))+/;
     }
 
     ignore Skip
@@ -34,6 +39,11 @@ Unescaped
         Definition = String ( "{" List "}" | String )
         {
             List = Definition*;
+
+            collapse
+            {
+                BlockList = "{" Definition.List "}";
+            }
         }
     }
 }

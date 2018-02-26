@@ -30,7 +30,7 @@ namespace SourceUtils
         }
     }
 
-    public class KeyValues
+    public class KeyValues : IEnumerable<KeyValuePair<string, KeyValues.Entry>>
     {
         public class EntryCollection : IEnumerable<Entry>
         {
@@ -329,7 +329,27 @@ namespace SourceUtils
                 throw new KeyValuesParserException( result );
             }
 
-            return new KeyValues( result, flags );
+            return new KeyValues( result.First(), flags );
+        }
+
+        public static IEnumerable<KeyValues> ParseList( string value, KeyValuesFlags flags = KeyValuesFlags.Default )
+        {
+            var parser = (flags & KeyValuesFlags.UsesEscapeSequences) != 0 ? _sEscapedParser : _sUnescapedParser;
+            var result = parser.Parse( value );
+
+            var xml = result.ToXElement().ToString();
+
+            Console.WriteLine(xml);
+
+            if ( !result.Success )
+            {
+                throw new KeyValuesParserException( result );
+            }
+
+            foreach ( var parsed in result )
+            {
+                yield return new KeyValues( parsed, flags );
+            }
         }
 
         public static KeyValues FromStream( Stream stream, KeyValuesFlags flags = KeyValuesFlags.Default )
@@ -340,16 +360,26 @@ namespace SourceUtils
             }
         }
 
+        public static IEnumerable<KeyValues> ListFromStream( Stream stream, KeyValuesFlags flags = KeyValuesFlags.Default )
+        {
+            using ( var reader = new StreamReader( stream ) )
+            {
+                return ParseList( reader.ReadToEnd(), flags );
+            }
+        }
+
         private readonly Entry _root;
 
         public IEnumerable<string> Keys => _root.Keys;
 
+        public IEnumerable<Entry> Values => _root.SelectMany( x => x.Value.Select( y => y.Value ) );
+
         private KeyValues( ParseResult result, KeyValuesFlags flags )
         {
-            AssertParser( result, ".Document" );
+            AssertParser( result, ".Definition.List" );
 
             _root = new Entry();
-            _root.AddValue( result[0], flags );
+            _root.AddValue( result, flags );
         }
 
         public bool ContainsKey( string key )
@@ -358,5 +388,15 @@ namespace SourceUtils
         }
 
         public EntryCollection this[string key] => _root[key];
+
+        public IEnumerator<KeyValuePair<string, Entry>> GetEnumerator()
+        {
+            return _root.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

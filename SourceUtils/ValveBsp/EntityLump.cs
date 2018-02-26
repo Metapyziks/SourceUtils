@@ -71,50 +71,18 @@ namespace SourceUtils
 
                     _entities = new List<Entity>();
 
-                    var propBuffer = new List<KeyValuePair<string, string>>();
+                    var keyValues = KeyValues.ListFromStream( _bspFile.GetLumpStream( LumpType ) );
 
-                    using ( var reader = new StreamReader( _bspFile.GetLumpStream( LumpType ) ) )
+                    foreach ( var entity in keyValues )
                     {
-                        string line;
-                        while ( (line = reader.ReadLine()) != null )
-                        {
-                            if ( line != "{" ) continue;
+                        var className = entity["classname"];
 
-                            string className;
+                        Func<Entity> ctor;
+                        var ent = _sEntityCtors.TryGetValue( className, out ctor ) ? ctor() : new Entity();
+                        ent.Initialize( entity );
 
-                            propBuffer.Clear();
-                            ReadPropertyGroup( reader, propBuffer, out className );
-
-                            Func<Entity> ctor;
-                            var ent = _sEntityCtors.TryGetValue( className, out ctor ) ? ctor() : new Entity();
-                            ent.Initialize( propBuffer );
-
-                            _entities.Add( ent );
-                        }
+                        _entities.Add( ent );
                     }
-                }
-            }
-
-            private static readonly Regex _sPropertyRegex = new Regex( @"^\s*""(?<name>([^""]|\\.)+)""\s*""(?<value>([^""]|\\.)*)""\s*$", RegexOptions.Compiled );
-
-            private static void ReadPropertyGroup( StreamReader reader, List<KeyValuePair<string, string>> propertyBuffer, out string className )
-            {
-                className = null;
-
-                string line;
-                while ( (line = reader.ReadLine()) != null )
-                {
-                    if ( line == "}" ) break;
-
-                    var match = _sPropertyRegex.Match( line );
-                    if ( !match.Success ) throw new Exception( $"Unexpected value while reading entity lump ({line})." );
-
-                    var name = match.Groups["name"].Value;
-                    var value = match.Groups["value"].Value;
-
-                    if ( name == "classname" ) className = value;
-
-                    propertyBuffer.Add( new KeyValuePair<string, string>( name, value ) );
                 }
             }
 
@@ -351,11 +319,10 @@ namespace SourceUtils
 
             public string GetRawPropertyValue( string name )
             {
-                string value;
-                return _properties.TryGetValue( name, out value ) ? value : null;
+                return _properties.TryGetValue( name, out var value ) ? value : null;
             }
 
-            internal void Initialize( List<KeyValuePair<string, string>> props )
+            internal void Initialize( KeyValues props )
             {
                 foreach ( var pair in props )
                 {
@@ -363,13 +330,11 @@ namespace SourceUtils
                     else _properties.Add( pair.Key, pair.Value );
                 }
 
-                Dictionary<string, Action<Entity, string>> actions;
-                if ( !_sPropertyActions.TryGetValue( GetType(), out actions ) ) return;
+                if ( !_sPropertyActions.TryGetValue( GetType(), out var actions ) ) return;
 
                 foreach ( var pair in props )
                 {
-                    Action<Entity, string> action;
-                    if ( actions.TryGetValue( pair.Key, out action ) ) action( this, pair.Value );
+                    if ( actions.TryGetValue( pair.Key, out var action ) ) action( this, pair.Value );
                 }
             }
 
