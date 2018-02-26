@@ -2,7 +2,7 @@
 
 Escaped
 {
-    Document = ( Definition.BlockList* | Definition.List ) /\s*$/;
+    Document = ( Definition.BlockList* | Definition.List ) /$/;
 
     String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
@@ -26,7 +26,7 @@ Escaped
 
 Unescaped
 {
-    Document = ( Definition.BlockList* | Definition.List ) /\s*$/;
+    Document = ( Definition.BlockList* | Definition.List ) /$/;
 
     String = '"' Quoted '"' | '“' Quoted '”' | Unquoted
     {
