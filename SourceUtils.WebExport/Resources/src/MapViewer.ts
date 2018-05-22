@@ -84,7 +84,7 @@ namespace SourceUtils {
                 window.addEventListener("devicemotion",
                     evnt => {
                         const rate = evnt.rotationRate;
-                        deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
+                        //deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
                     },
                     true);
             }

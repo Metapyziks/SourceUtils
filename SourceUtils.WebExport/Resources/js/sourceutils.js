@@ -1,11 +1,16 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var SourceUtils;
 (function (SourceUtils) {
-    var ResourcePage = (function () {
+    var ResourcePage = /** @class */ (function () {
         function ResourcePage(info) {
             this.toLoad = [];
             this.first = info.first;
@@ -43,7 +48,7 @@ var SourceUtils;
         return ResourcePage;
     }());
     SourceUtils.ResourcePage = ResourcePage;
-    var PagedLoader = (function () {
+    var PagedLoader = /** @class */ (function () {
         function PagedLoader() {
             this.toLoad = [];
             this.active = 0;
@@ -131,7 +136,7 @@ var SourceUtils;
 /// <reference path="PagedLoader.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
-    var AmbientPage = (function (_super) {
+    var AmbientPage = /** @class */ (function (_super) {
         __extends(AmbientPage, _super);
         function AmbientPage() {
             return _super !== null && _super.apply(this, arguments) || this;
@@ -142,7 +147,7 @@ var SourceUtils;
         return AmbientPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.AmbientPage = AmbientPage;
-    var AmbientLoader = (function (_super) {
+    var AmbientLoader = /** @class */ (function (_super) {
         __extends(AmbientLoader, _super);
         function AmbientLoader() {
             return _super !== null && _super.apply(this, arguments) || this;
@@ -164,7 +169,7 @@ var SourceUtils;
         LeafFlags[LeafFlags["Radial"] = 2] = "Radial";
         LeafFlags[LeafFlags["Sky2D"] = 4] = "Sky2D";
     })(LeafFlags = SourceUtils.LeafFlags || (SourceUtils.LeafFlags = {}));
-    var Plane = (function () {
+    var Plane = /** @class */ (function () {
         function Plane() {
             this.norm = new Facepunch.Vector3();
             this.dist = 0;
@@ -177,7 +182,7 @@ var SourceUtils;
         return Plane;
     }());
     SourceUtils.Plane = Plane;
-    var BspNode = (function () {
+    var BspNode = /** @class */ (function () {
         function BspNode(viewer, info) {
             this.isLeaf = false;
             this.plane = new Plane();
@@ -202,7 +207,7 @@ var SourceUtils;
         return BspNode;
     }());
     SourceUtils.BspNode = BspNode;
-    var BspLeaf = (function (_super) {
+    var BspLeaf = /** @class */ (function (_super) {
         __extends(BspLeaf, _super);
         function BspLeaf(viewer, info) {
             var _this = _super.call(this) || this;
@@ -282,11 +287,11 @@ var SourceUtils;
             if (this.hasFaces)
                 target.push(this);
         };
+        BspLeaf.getAmbientCube_temp = new Facepunch.Vector3();
         return BspLeaf;
     }(WebGame.DrawListItem));
-    BspLeaf.getAmbientCube_temp = new Facepunch.Vector3();
     SourceUtils.BspLeaf = BspLeaf;
-    var BspModel = (function (_super) {
+    var BspModel = /** @class */ (function (_super) {
         __extends(BspModel, _super);
         function BspModel(viewer) {
             var _this = _super.call(this) || this;
@@ -320,7 +325,7 @@ var SourceUtils;
         return BspModel;
     }(WebGame.RenderResource));
     SourceUtils.BspModel = BspModel;
-    var BspModelPage = (function (_super) {
+    var BspModelPage = /** @class */ (function (_super) {
         __extends(BspModelPage, _super);
         function BspModelPage(viewer, page) {
             var _this = _super.call(this, page) || this;
@@ -337,7 +342,7 @@ var SourceUtils;
         return BspModelPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.BspModelPage = BspModelPage;
-    var BspModelLoader = (function (_super) {
+    var BspModelLoader = /** @class */ (function (_super) {
         __extends(BspModelLoader, _super);
         function BspModelLoader(viewer) {
             var _this = _super.call(this) || this;
@@ -364,7 +369,7 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var DispGeometryPage = (function (_super) {
+    var DispGeometryPage = /** @class */ (function (_super) {
         __extends(DispGeometryPage, _super);
         function DispGeometryPage(viewer, page) {
             var _this = _super.call(this, page) || this;
@@ -395,7 +400,7 @@ var SourceUtils;
         return DispGeometryPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.DispGeometryPage = DispGeometryPage;
-    var DispGeometryLoader = (function (_super) {
+    var DispGeometryLoader = /** @class */ (function (_super) {
         __extends(DispGeometryLoader, _super);
         function DispGeometryLoader(viewer) {
             var _this = _super.call(this) || this;
@@ -409,503 +414,11 @@ var SourceUtils;
     }(SourceUtils.PagedLoader));
     SourceUtils.DispGeometryLoader = DispGeometryLoader;
 })(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var Entity = (function (_super) {
-            __extends(Entity, _super);
-            function Entity(map, info) {
-                var _this = _super.call(this, true) || this;
-                _this.map = map;
-                _this.targetname = info.targetname;
-                if (_this.targetname != null) {
-                    _this.map.addNamedEntity(_this.targetname, _this);
-                }
-                if (info.origin !== undefined) {
-                    _this.setPosition(info.origin);
-                }
-                if (info.angles !== undefined) {
-                    var mul = Math.PI / 180;
-                    _this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
-                }
-                return _this;
-            }
-            return Entity;
-        }(WebGame.DrawableEntity));
-        Entities.Entity = Entity;
-        var PvsEntity = (function (_super) {
-            __extends(PvsEntity, _super);
-            function PvsEntity(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusters = info.clusters;
-                return _this;
-            }
-            PvsEntity.prototype.isInCluster = function (cluster) {
-                var clusters = this.clusters;
-                if (clusters == null)
-                    return true;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (clusters[i] === cluster)
-                        return true;
-                }
-                return false;
-            };
-            PvsEntity.prototype.isInAnyCluster = function (clusters) {
-                if (clusters == null)
-                    return true;
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    if (this.isInCluster(clusters[i]))
-                        return true;
-                }
-                return false;
-            };
-            PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
-                drawList.addItem(this);
-                this.onPopulateDrawList(drawList, clusters);
-            };
-            PvsEntity.prototype.onPopulateDrawList = function (drawList, clusters) { };
-            return PvsEntity;
-        }(Entity));
-        Entities.PvsEntity = PvsEntity;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var BrushEntity = (function (_super) {
-            __extends(BrushEntity, _super);
-            function BrushEntity(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.isWorldSpawn = info.model === 0;
-                _this.model = map.viewer.bspModelLoader.loadModel(info.model);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    var leaves = model.getLeaves();
-                    for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                        leaves[i].entity = _this;
-                    }
-                });
-                return _this;
-            }
-            BrushEntity.prototype.onAddToDrawList = function (list) {
-                _super.prototype.onAddToDrawList.call(this, list);
-                if (this.isWorldSpawn)
-                    return;
-                var leaves = this.model.getLeaves();
-                if (leaves != null)
-                    list.addItems(leaves);
-            };
-            return BrushEntity;
-        }(Entities.PvsEntity));
-        Entities.BrushEntity = BrushEntity;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var Camera = (function (_super) {
-            __extends(Camera, _super);
-            function Camera(viewer, fov) {
-                var _this = _super.call(this, viewer, fov, viewer.getWidth() / viewer.getHeight(), 1, 8192) || this;
-                _this.leafInvalid = true;
-                _this.render3DSky = true;
-                _this.viewer = viewer;
-                return _this;
-            }
-            Camera.prototype.onChangePosition = function () {
-                this.invalidateMatrices();
-                this.leafInvalid = true;
-            };
-            Camera.prototype.onGetLeaf = function () {
-                var temp = Camera.onGetLeaf_temp;
-                var leaf = this.viewer.map.getLeafAt(this.getPosition(temp));
-                return leaf;
-            };
-            Camera.prototype.getLeaf = function () {
-                if (this.leafInvalid) {
-                    var leaf = this.onGetLeaf();
-                    this.leafInvalid = leaf !== undefined;
-                    if (this.leaf !== leaf) {
-                        this.leaf = leaf;
-                        this.invalidateGeometry();
-                    }
-                }
-                return this.leaf;
-            };
-            Camera.prototype.onPopulateDrawList = function (drawList) {
-                this.viewer.map.populateDrawList(drawList, this.getLeaf());
-            };
-            Camera.prototype.render = function () {
-                var leaf = this.getLeaf();
-                if (this.render3DSky && leaf != null && (leaf.flags & SourceUtils.LeafFlags.Sky) !== 0) {
-                    var skyCamera = this.viewer.map.skyCamera;
-                    if (skyCamera != null) {
-                        skyCamera.renderRelativeTo(this);
-                    }
-                }
-                _super.prototype.render.call(this);
-            };
-            return Camera;
-        }(WebGame.PerspectiveCamera));
-        Camera.onGetLeaf_temp = new Facepunch.Vector3();
-        Entities.Camera = Camera;
-        var SkyCamera = (function (_super) {
-            __extends(SkyCamera, _super);
-            function SkyCamera(viewer, info) {
-                var _this = _super.call(this, viewer, 60) || this;
-                _this.render3DSky = false;
-                _this.origin = new Facepunch.Vector3().copy(info.origin);
-                _this.skyScale = 1 / info.scale;
-                if (info.fogEnabled) {
-                    _this.fog.start = info.fogStart;
-                    _this.fog.end = info.fogEnd;
-                    _this.fog.maxDensity = info.fogMaxDensity;
-                    _this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
-                    if (info.farZ !== 0)
-                        _this.setFar(info.farZ);
-                }
-                return _this;
-            }
-            SkyCamera.prototype.onChangePosition = function () {
-                this.invalidateMatrices();
-            };
-            SkyCamera.prototype.onGetLeaf = function () {
-                return this.viewer.map.getLeafAt(this.origin);
-            };
-            SkyCamera.prototype.renderRelativeTo = function (camera) {
-                var temp = SkyCamera.renderRelativeTo_temp;
-                camera.getPosition(temp);
-                temp.multiplyScalar(this.skyScale);
-                temp.add(this.origin);
-                this.setPosition(temp);
-                this.setFov(camera.getFov());
-                this.setAspect(camera.getAspect());
-                this.copyRotation(camera);
-                _super.prototype.render.call(this);
-                var gl = this.viewer.context;
-                gl.depthMask(true);
-                gl.clear(gl.DEPTH_BUFFER_BIT);
-            };
-            return SkyCamera;
-        }(Camera));
-        SkyCamera.renderRelativeTo_temp = new Facepunch.Vector3();
-        Entities.SkyCamera = SkyCamera;
-        var ShadowCamera = (function (_super) {
-            __extends(ShadowCamera, _super);
-            function ShadowCamera(viewer, targetCamera) {
-                var _this = _super.call(this, viewer, 1, 1, 0, 1) || this;
-                _this.viewer = viewer;
-                _this.targetCamera = targetCamera;
-                return _this;
-            }
-            ShadowCamera.prototype.onPopulateDrawList = function (drawList) {
-                this.viewer.map.populateDrawList(drawList, this.targetCamera.getLeaf());
-            };
-            ShadowCamera.prototype.addToFrustumBounds = function (invLight, vec, bounds) {
-                vec.applyMatrix4(this.targetCamera.getMatrix());
-                vec.applyQuaternion(invLight);
-            };
-            ShadowCamera.prototype.getFrustumBounds = function (lightRotation, near, far, bounds) {
-                bounds.min.set(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
-                bounds.max.set(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
-                var yScale = Math.tan(this.targetCamera.getFov() * 0.5);
-                var xScale = yScale * this.targetCamera.getAspect();
-                var xNear = xScale * near;
-                var yNear = yScale * near;
-                var xFar = xScale * far;
-                var yFar = yScale * far;
-                var vec = ShadowCamera.getFrustumBounds_vec;
-                var invLight = ShadowCamera.getFrustumBounds_invLight;
-                invLight.setInverse(lightRotation);
-                this.addToFrustumBounds(invLight, vec.set(xNear, yNear, near, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(-xNear, yNear, near, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(xNear, -yNear, near, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(xFar, yFar, far, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(-xFar, yFar, far, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(xFar, -yFar, far, 1), bounds);
-                this.addToFrustumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
-            };
-            ShadowCamera.prototype.renderShadows = function (lightRotation, near, far) {
-                var bounds = ShadowCamera.renderShadows_bounds;
-                this.getFrustumBounds(lightRotation, near, far, bounds);
-            };
-            return ShadowCamera;
-        }(WebGame.OrthographicCamera));
-        ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
-        ShadowCamera.getFrustumBounds_invLight = new Facepunch.Quaternion();
-        ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
-        Entities.ShadowCamera = ShadowCamera;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var Displacement = (function (_super) {
-            __extends(Displacement, _super);
-            function Displacement(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.isLoaded = false;
-                _this.index = info.index;
-                return _this;
-            }
-            Displacement.prototype.onAddToDrawList = function (list) {
-                var _this = this;
-                if (!this.isLoaded) {
-                    this.isLoaded = true;
-                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) {
-                        if (handle != null)
-                            _this.drawable.addMeshHandles([handle]);
-                    });
-                }
-                _super.prototype.onAddToDrawList.call(this, list);
-            };
-            return Displacement;
-        }(Entities.PvsEntity));
-        Entities.Displacement = Displacement;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Entities;
-    (function (Entities) {
-        var KeyframeRope = (function (_super) {
-            __extends(KeyframeRope, _super);
-            function KeyframeRope(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.nextKey = info.nextKey;
-                _this.width = info.width;
-                _this.slack = info.slack;
-                _this.subDivisions = info.subDivisions;
-                return _this;
-            }
-            return KeyframeRope;
-        }(Entities.PvsEntity));
-        Entities.KeyframeRope = KeyframeRope;
-        var PositionInterpolator;
-        (function (PositionInterpolator) {
-            PositionInterpolator[PositionInterpolator["Linear"] = 0] = "Linear";
-            PositionInterpolator[PositionInterpolator["CatmullRomSpline"] = 1] = "CatmullRomSpline";
-            PositionInterpolator[PositionInterpolator["Rope"] = 2] = "Rope";
-        })(PositionInterpolator = Entities.PositionInterpolator || (Entities.PositionInterpolator = {}));
-        var MoveRope = (function (_super) {
-            __extends(MoveRope, _super);
-            function MoveRope(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.info = info;
-                return _this;
-            }
-            MoveRope.prototype.findKeyframes = function () {
-                var list = [];
-                var prev = this;
-                while (prev != null && list.length < 256) {
-                    list.push(prev);
-                    prev = this.map.getNamedEntity(prev.nextKey);
-                }
-                return list;
-            };
-            MoveRope.prototype.generateMesh = function () {
-                var _this = this;
-                if (this.keyframes == null) {
-                    this.keyframes = this.findKeyframes();
-                }
-                if (this.keyframes.length <= 1) {
-                    return [];
-                }
-                if (this.material == null) {
-                    this.material = this.map.viewer.mapMaterialLoader.loadMaterial(this.info.ropeMaterial).clone();
-                    this.material.addUsage(this);
-                }
-                var mesh = {
-                    attributes: [WebGame.VertexAttribute.position, WebGame.VertexAttribute.normal, WebGame.VertexAttribute.uv, WebGame.VertexAttribute.uv2],
-                    elements: [],
-                    vertices: [],
-                    indices: []
-                };
-                var prev = new Facepunch.Vector3();
-                var next = new Facepunch.Vector3();
-                var pos = new Facepunch.Vector3();
-                var norm = new Facepunch.Vector3();
-                var mid = new Facepunch.Vector3();
-                // TODO: check current texture res, use info.textureScale
-                var texScale = this.info.textureScale / 64;
-                this.keyframes[0].getPosition(prev);
-                mid.add(prev);
-                var totalLength = 0;
-                var indexOffset = -4;
-                for (var i = 0; i < this.keyframes.length - 1; ++i) {
-                    var keyframe = this.keyframes[i];
-                    this.keyframes[i + 1].getPosition(next);
-                    mid.add(next);
-                    var segmentLength = norm.copy(next).sub(prev).length();
-                    // TODO: this is just a rough guess
-                    // TODO: need to solve `L = 1/2 sqrt(1 + 16 h^2) + (arcsinh(4 h))/(8 h)` for h
-                    var slack = (keyframe.slack / segmentLength) * Math.sqrt(segmentLength) * 4.0;
-                    norm.normalize();
-                    for (var j = 0; j <= keyframe.subDivisions + 1; ++j) {
-                        var t = j / (keyframe.subDivisions + 1);
-                        var v = (totalLength + segmentLength * t) * texScale;
-                        var s = slack * 4 * (t * t - t);
-                        pos.copy(next).sub(prev).multiplyScalar(t).add(prev);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, s);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, s);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, s);
-                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, s);
-                        if (j > 0) {
-                            for (var k = 0; k < 3; ++k) {
-                                mesh.indices.push(indexOffset + k, indexOffset + k + 4, indexOffset + k + 1, indexOffset + k + 1, indexOffset + k + 4, indexOffset + k + 5);
-                            }
-                        }
-                        indexOffset += 4;
-                    }
-                    totalLength += segmentLength;
-                    prev.copy(next);
-                }
-                mid.multiplyScalar(1 / this.keyframes.length);
-                this.map.getLeafAt(mid, function (leaf) {
-                    var ambient = _this.material.properties.ambient = new Array(6);
-                    leaf.getAmbientCube(mid, ambient, function (success) {
-                        if (success)
-                            _this.map.viewer.forceDrawListInvalidation(false);
-                    });
-                });
-                mesh.elements.push({
-                    mode: WebGame.DrawMode.Triangles,
-                    material: this.material,
-                    indexOffset: 0,
-                    indexCount: mesh.indices.length
-                });
-                return this.map.viewer.meshes.addMeshData(mesh);
-            };
-            MoveRope.prototype.onAddToDrawList = function (list) {
-                _super.prototype.onAddToDrawList.call(this, list);
-                if (this.meshHandles == null) {
-                    this.meshHandles = this.generateMesh();
-                }
-            };
-            MoveRope.prototype.getMeshHandles = function () {
-                return this.meshHandles;
-            };
-            return MoveRope;
-        }(KeyframeRope));
-        Entities.MoveRope = MoveRope;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="PvsEntity.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var StaticProp = (function (_super) {
-            __extends(StaticProp, _super);
-            function StaticProp(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.info = info;
-                _this.albedoModulation = info.albedoModulation;
-                if (_this.info.vertLighting !== undefined) {
-                    _this.map.viewer.vertLightingLoader.load(_this.info.vertLighting, function (value) {
-                        _this.lighting = value;
-                        _this.checkLoaded();
-                    });
-                }
-                else {
-                    // TODO: lighting offset
-                    _this.map.getLeafAt(_this.info.origin, function (leaf) {
-                        if (leaf == null) {
-                            _this.lighting = null;
-                            _this.checkLoaded();
-                        }
-                        else {
-                            leaf.getAmbientCube(null, null, function (success) {
-                                _this.lighting = leaf;
-                                _this.checkLoaded();
-                            });
-                        }
-                    });
-                }
-                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
-                _this.model.addUsage(_this);
-                _this.model.addOnLoadCallback(function (model) {
-                    _this.checkLoaded();
-                });
-                return _this;
-            }
-            StaticProp.prototype.checkLoaded = function () {
-                if (!this.model.isLoaded())
-                    return;
-                if (this.lighting === undefined)
-                    return;
-                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
-            };
-            return StaticProp;
-        }(Entities.PvsEntity));
-        Entities.StaticProp = StaticProp;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var Entities;
-    (function (Entities) {
-        var Worldspawn = (function (_super) {
-            __extends(Worldspawn, _super);
-            function Worldspawn(map, info) {
-                var _this = _super.call(this, map, info) || this;
-                _this.clusterLeaves = {};
-                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
-                return _this;
-            }
-            Worldspawn.prototype.onModelLoad = function () {
-                var leaves = this.model.getLeaves();
-                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
-                    var leaf = leaves[i];
-                    if (leaf.cluster === undefined)
-                        continue;
-                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
-                    if (clusterLeaves == null) {
-                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
-                    }
-                    clusterLeaves.push(leaf);
-                }
-                this.map.viewer.forceDrawListInvalidation(true);
-            };
-            Worldspawn.prototype.isInAnyCluster = function (clusters) {
-                return true;
-            };
-            Worldspawn.prototype.isInCluster = function (cluster) {
-                return true;
-            };
-            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
-                if (clusters == null) {
-                    var leaves = this.model.getLeaves();
-                    if (leaves != null)
-                        drawList.addItems(leaves);
-                    return;
-                }
-                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
-                    var cluster = clusters[i];
-                    var clusterLeaves = this.clusterLeaves[cluster];
-                    if (clusterLeaves != null)
-                        drawList.addItems(clusterLeaves);
-                }
-            };
-            return Worldspawn;
-        }(Entities.BrushEntity));
-        Entities.Worldspawn = Worldspawn;
-    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
-})(SourceUtils || (SourceUtils = {}));
 /// <reference path="PagedLoader.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var LeafGeometryPage = (function (_super) {
+    var LeafGeometryPage = /** @class */ (function (_super) {
         __extends(LeafGeometryPage, _super);
         function LeafGeometryPage(viewer, page) {
             var _this = _super.call(this, page) || this;
@@ -939,7 +452,7 @@ var SourceUtils;
         return LeafGeometryPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.LeafGeometryPage = LeafGeometryPage;
-    var LeafGeometryLoader = (function (_super) {
+    var LeafGeometryLoader = /** @class */ (function (_super) {
         __extends(LeafGeometryLoader, _super);
         function LeafGeometryLoader(viewer) {
             var _this = _super.call(this) || this;
@@ -957,7 +470,7 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var Map = (function () {
+    var Map = /** @class */ (function () {
         function Map(viewer) {
             this.namedEntities = {};
             this.clusterVis = {};
@@ -1172,16 +685,16 @@ var SourceUtils;
                 : WebGame.TextureUtils.getWhiteTexture(this.viewer.context);
             buf.setParameter(Map.lightmapParam, lightmap);
         };
+        Map.lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
         return Map;
     }());
-    Map.lightmapParam = new WebGame.CommandBufferParameter(WebGame.UniformType.Texture);
     SourceUtils.Map = Map;
 })(SourceUtils || (SourceUtils = {}));
 /// <reference path="PagedLoader.ts"/>
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var MapMaterialPage = (function (_super) {
+    var MapMaterialPage = /** @class */ (function (_super) {
         __extends(MapMaterialPage, _super);
         function MapMaterialPage(viewer, page) {
             var _this = _super.call(this, page) || this;
@@ -1212,7 +725,7 @@ var SourceUtils;
         return MapMaterialPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.MapMaterialPage = MapMaterialPage;
-    var MapMaterialLoader = (function (_super) {
+    var MapMaterialLoader = /** @class */ (function (_super) {
         __extends(MapMaterialLoader, _super);
         function MapMaterialLoader(viewer) {
             var _this = _super.call(this) || this;
@@ -1246,7 +759,7 @@ var SourceUtils;
         CameraMode[CameraMode["CanMove"] = 2] = "CanMove";
         CameraMode[CameraMode["FreeCam"] = 3] = "FreeCam";
     })(CameraMode = SourceUtils.CameraMode || (SourceUtils.CameraMode = {}));
-    var MapViewer = (function (_super) {
+    var MapViewer = /** @class */ (function (_super) {
         __extends(MapViewer, _super);
         function MapViewer(container) {
             var _this = _super.call(this, container) || this;
@@ -1298,7 +811,7 @@ var SourceUtils;
             if (wind.DeviceMotionEvent) {
                 window.addEventListener("devicemotion", function (evnt) {
                     var rate = evnt.rotationRate;
-                    deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
+                    //deviceRotate(rate.beta, rate.gamma, rate.alpha, 1.0, 1.0);
                 }, true);
             }
             if (window.location.hash != null && window.location.hash.length > 1) {
@@ -1580,534 +1093,16 @@ var SourceUtils;
             _super.prototype.populateCommandBufferParameters.call(this, buf);
             this.map.populateCommandBufferParameters(buf);
         };
+        MapViewer.hashKeyRegex = /^[a-z_]+$/i;
+        MapViewer.hashObjectRegex = /^#((?:[a-z_]+)(?:-?[0-9]+(?:\.[0-9]+)?))+$/i;
         return MapViewer;
     }(WebGame.Game));
-    MapViewer.hashKeyRegex = /^[a-z_]+$/i;
-    MapViewer.hashObjectRegex = /^#((?:[a-z_]+)(?:-?[0-9]+(?:\.[0-9]+)?))+$/i;
     SourceUtils.MapViewer = MapViewer;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var BaseMaterial = (function () {
-            function BaseMaterial() {
-                this.cullFace = true;
-            }
-            return BaseMaterial;
-        }());
-        Shaders.BaseMaterial = BaseMaterial;
-        var BaseShaderProgram = (function (_super) {
-            __extends(BaseShaderProgram, _super);
-            function BaseShaderProgram(context, ctor) {
-                var _this = _super.call(this, context) || this;
-                _this.materialCtor = ctor;
-                return _this;
-            }
-            BaseShaderProgram.prototype.createMaterialProperties = function () {
-                return new this.materialCtor();
-            };
-            BaseShaderProgram.prototype.bufferMaterial = function (buf, material) {
-                this.bufferMaterialProps(buf, material.properties);
-            };
-            BaseShaderProgram.prototype.bufferMaterialProps = function (buf, props) {
-                var gl = this.context;
-                if (props.cullFace) {
-                    buf.enable(gl.CULL_FACE);
-                }
-                else {
-                    buf.disable(gl.CULL_FACE);
-                }
-            };
-            return BaseShaderProgram;
-        }(WebGame.ShaderProgram));
-        Shaders.BaseShaderProgram = BaseShaderProgram;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var ModelBaseMaterial = (function (_super) {
-            __extends(ModelBaseMaterial, _super);
-            function ModelBaseMaterial() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.basetexture = null;
-                _this.alphaTest = false;
-                _this.translucent = false;
-                _this.alpha = 1;
-                _this.fogEnabled = true;
-                return _this;
-            }
-            return ModelBaseMaterial;
-        }(Shaders.BaseMaterial));
-        Shaders.ModelBaseMaterial = ModelBaseMaterial;
-        var ModelBase = (function (_super) {
-            __extends(ModelBase, _super);
-            function ModelBase(context, ctor) {
-                var _this = _super.call(this, context, ctor) || this;
-                _this.uProjection = _this.addUniform("uProjection", WebGame.UniformMatrix4);
-                _this.uView = _this.addUniform("uView", WebGame.UniformMatrix4);
-                _this.uModel = _this.addUniform("uModel", WebGame.UniformMatrix4);
-                _this.uBaseTexture = _this.addUniform("uBaseTexture", WebGame.UniformSampler);
-                _this.uAlphaTest = _this.addUniform("uAlphaTest", WebGame.Uniform1F);
-                _this.uTranslucent = _this.addUniform("uTranslucent", WebGame.Uniform1F);
-                _this.uAlpha = _this.addUniform("uAlpha", WebGame.Uniform1F);
-                _this.uFogParams = _this.addUniform("uFogParams", WebGame.Uniform4F);
-                _this.uFogColor = _this.addUniform("uFogColor", WebGame.Uniform3F);
-                _this.uFogEnabled = _this.addUniform("uFogEnabled", WebGame.Uniform1I);
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n                    uniform mat4 " + _this.uModel + ";\n\n                    void ModelBase_main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform sampler2D " + _this.uBaseTexture + ";\n\n                    uniform float " + _this.uAlphaTest + ";   // [0, 1]\n                    uniform float " + _this.uTranslucent + "; // [0, 1]\n                    uniform float " + _this.uAlpha + ";       // [0..1]\n\n                    uniform vec4 " + _this.uFogParams + ";\n                    uniform vec3 " + _this.uFogColor + ";\n                    uniform int " + _this.uFogEnabled + ";\n\n                    vec3 ApplyFog(vec3 inColor)\n                    {\n                        if (" + _this.uFogEnabled + " == 0) return inColor;\n\n                        float fogDensity = " + _this.uFogParams + ".x + " + _this.uFogParams + ".y * vDepth;\n                        fogDensity = min(max(fogDensity, " + _this.uFogParams + ".z), " + _this.uFogParams + ".w);\n                        return mix(inColor, " + _this.uFogColor + ", fogDensity);\n                    }\n\n                    vec4 ModelBase_main()\n                    {\n                        vec4 sample = texture2D(" + _this.uBaseTexture + ", vTextureCoord);\n                        if (sample.a <= " + _this.uAlphaTest + " - 0.5) discard;\n\n                        float alpha = mix(1.0, " + _this.uAlpha + " * sample.a, " + _this.uTranslucent + ");\n\n                        return vec4(sample.rgb, alpha);\n                    }");
-                _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
-                _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
-                _this.uBaseTexture.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                return _this;
-            }
-            ModelBase.prototype.bufferSetup = function (buf) {
-                _super.prototype.bufferSetup.call(this, buf);
-                this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
-                this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
-                this.uFogParams.bufferParameter(buf, WebGame.Fog.fogInfoParam);
-                this.uFogColor.bufferParameter(buf, WebGame.Fog.fogColorParam);
-            };
-            ModelBase.prototype.bufferModelMatrix = function (buf, value) {
-                _super.prototype.bufferModelMatrix.call(this, buf, value);
-                this.uModel.bufferValue(buf, false, value);
-            };
-            ModelBase.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                this.uBaseTexture.bufferValue(buf, props.basetexture);
-                this.uAlphaTest.bufferValue(buf, props.alphaTest ? 1 : 0);
-                this.uTranslucent.bufferValue(buf, props.translucent ? 1 : 0);
-                this.uAlpha.bufferValue(buf, props.alpha);
-                this.uFogEnabled.bufferValue(buf, props.fogEnabled ? 1 : 0);
-                var gl = this.context;
-                buf.enable(gl.DEPTH_TEST);
-                if (props.translucent) {
-                    buf.depthMask(false);
-                    buf.enable(gl.BLEND);
-                    buf.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-                }
-                else {
-                    buf.depthMask(true);
-                    buf.disable(gl.BLEND);
-                }
-            };
-            return ModelBase;
-        }(Shaders.BaseShaderProgram));
-        Shaders.ModelBase = ModelBase;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="ModelBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var LightmappedBaseMaterial = (function (_super) {
-            __extends(LightmappedBaseMaterial, _super);
-            function LightmappedBaseMaterial() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return LightmappedBaseMaterial;
-        }(Shaders.ModelBaseMaterial));
-        Shaders.LightmappedBaseMaterial = LightmappedBaseMaterial;
-        var LightmappedBase = (function (_super) {
-            __extends(LightmappedBase, _super);
-            function LightmappedBase(context, ctor) {
-                var _this = _super.call(this, context, ctor) || this;
-                _this.uLightmap = _this.addUniform("uLightmap", WebGame.UniformSampler);
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aLightmapCoord;\n\n                    varying vec2 vLightmapCoord;\n\n                    void LightmappedBase_main()\n                    {\n                        ModelBase_main();\n\n                        vLightmapCoord = aLightmapCoord;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vLightmapCoord;\n\n                    uniform sampler2D " + _this.uLightmap + ";\n                    uniform vec4 " + _this.uLightmap.getSizeUniform() + ";\n\n                    vec3 DecompressLightmapSample(vec4 sample)\n                    {\n                        float exp = sample.a * 255.0 - 128.0;\n                        return sample.rgb * pow(2.0, exp);\n                    }\n\n                    vec3 ApplyLightmap(vec3 inColor)\n                    {\n                        const float gamma = 1.0 / 2.2;\n\n                        vec2 size = " + _this.uLightmap.getSizeUniform() + ".xy;\n                        vec2 invSize = " + _this.uLightmap.getSizeUniform() + ".zw;\n                        vec2 scaledCoord = vLightmapCoord * size - vec2(0.5, 0.5);\n                        vec2 minCoord = floor(scaledCoord) + vec2(0.5, 0.5);\n                        vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                        vec2 delta = scaledCoord - floor(scaledCoord);\n\n                        minCoord *= invSize;\n                        maxCoord *= invSize;\n\n                        vec3 sampleA = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(minCoord.x, minCoord.y)));\n                        vec3 sampleB = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(maxCoord.x, minCoord.y)));\n                        vec3 sampleC = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(minCoord.x, maxCoord.y)));\n                        vec3 sampleD = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(maxCoord.x, maxCoord.y)));\n\n                        vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                        return inColor * pow(sample, vec3(gamma, gamma, gamma));\n                    }");
-                _this.addAttribute("aLightmapCoord", WebGame.VertexAttribute.uv2);
-                _this.uLightmap.setDefault(WebGame.TextureUtils.getWhiteTexture(context));
-                return _this;
-            }
-            LightmappedBase.prototype.bufferSetup = function (buf) {
-                _super.prototype.bufferSetup.call(this, buf);
-                this.uLightmap.bufferParameter(buf, SourceUtils.Map.lightmapParam);
-            };
-            return LightmappedBase;
-        }(Shaders.ModelBase));
-        Shaders.LightmappedBase = LightmappedBase;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="LightmappedBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var Lightmapped2WayBlendMaterial = (function (_super) {
-            __extends(Lightmapped2WayBlendMaterial, _super);
-            function Lightmapped2WayBlendMaterial() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.basetexture2 = null;
-                _this.blendModulateTexture = null;
-                return _this;
-            }
-            return Lightmapped2WayBlendMaterial;
-        }(Shaders.LightmappedBaseMaterial));
-        Shaders.Lightmapped2WayBlendMaterial = Lightmapped2WayBlendMaterial;
-        var Lightmapped2WayBlend = (function (_super) {
-            __extends(Lightmapped2WayBlend, _super);
-            function Lightmapped2WayBlend(context) {
-                var _this = _super.call(this, context, Lightmapped2WayBlendMaterial) || this;
-                _this.uBaseTexture2 = _this.addUniform("uBaseTexture2", WebGame.UniformSampler);
-                _this.uBlendModulateTexture = _this.addUniform("uBlendModulateTexture", WebGame.UniformSampler);
-                _this.uBlendModulate = _this.addUniform("uBlendModulate", WebGame.Uniform1I);
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute float aAlpha;\n\n                    varying float vAlpha;\n\n                    void main()\n                    {\n                        LightmappedBase_main();\n\n                        vAlpha = aAlpha;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vAlpha;\n\n                    uniform sampler2D uBaseTexture2;\n                    uniform sampler2D uBlendModulateTexture;\n\n                    uniform int uBlendModulate; // [0, 1]\n\n                    void main()\n                    {\n                        vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;\n\n                        float blend;\n                        if (uBlendModulate != 0) {\n                            vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;\n\n                            float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);\n                            float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);\n\n                            blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));\n                        } else {\n                            blend = max(0.0, min(1.0, vAlpha));\n                        }\n\n                        vec3 blendedSample = mix(sample0, sample1, blend);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
-                _this.addAttribute("aAlpha", WebGame.VertexAttribute.alpha);
-                _this.uBaseTexture2.setDefault(WebGame.TextureUtils.getErrorTexture(gl));
-                _this.uBlendModulateTexture.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
-                _this.compile();
-                return _this;
-            }
-            Lightmapped2WayBlend.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                this.uBaseTexture2.bufferValue(buf, props.basetexture2);
-                this.uBlendModulateTexture.bufferValue(buf, props.blendModulateTexture);
-                this.uBlendModulate.bufferValue(buf, props.blendModulateTexture != null ? 1 : 0);
-            };
-            return Lightmapped2WayBlend;
-        }(Shaders.LightmappedBase));
-        Shaders.Lightmapped2WayBlend = Lightmapped2WayBlend;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="LightmappedBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Shaders;
-    (function (Shaders) {
-        var LightmappedGenericMaterial = (function (_super) {
-            __extends(LightmappedGenericMaterial, _super);
-            function LightmappedGenericMaterial() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return LightmappedGenericMaterial;
-        }(Shaders.LightmappedBaseMaterial));
-        Shaders.LightmappedGenericMaterial = LightmappedGenericMaterial;
-        var LightmappedGeneric = (function (_super) {
-            __extends(LightmappedGeneric, _super);
-            function LightmappedGeneric(context) {
-                var _this = _super.call(this, context, LightmappedGenericMaterial) || this;
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 modelBase = ModelBase_main();\n                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), modelBase.a);\n                    }");
-                _this.compile();
-                return _this;
-            }
-            return LightmappedGeneric;
-        }(Shaders.LightmappedBase));
-        Shaders.LightmappedGeneric = LightmappedGeneric;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var SkyMaterial = (function (_super) {
-            __extends(SkyMaterial, _super);
-            function SkyMaterial() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.facePosX = null;
-                _this.faceNegX = null;
-                _this.facePosY = null;
-                _this.faceNegY = null;
-                _this.facePosZ = null;
-                _this.faceNegZ = null;
-                _this.hdrCompressed = false;
-                _this.aspect = 1;
-                return _this;
-            }
-            return SkyMaterial;
-        }(Shaders.BaseMaterial));
-        Shaders.SkyMaterial = SkyMaterial;
-        var Sky = (function (_super) {
-            __extends(Sky, _super);
-            function Sky(context) {
-                var _this = _super.call(this, context, SkyMaterial) || this;
-                _this.uProjection = _this.addUniform("uProjection", WebGame.UniformMatrix4);
-                _this.uView = _this.addUniform("uView", WebGame.UniformMatrix4);
-                _this.uFacePosX = _this.addUniform("uFacePosX", WebGame.UniformSampler);
-                _this.uFaceNegX = _this.addUniform("uFaceNegX", WebGame.UniformSampler);
-                _this.uFacePosY = _this.addUniform("uFacePosY", WebGame.UniformSampler);
-                _this.uFaceNegY = _this.addUniform("uFaceNegY", WebGame.UniformSampler);
-                _this.uFacePosZ = _this.addUniform("uFacePosZ", WebGame.UniformSampler);
-                _this.uFaceNegZ = _this.addUniform("uFaceNegZ", WebGame.UniformSampler);
-                _this.uHdrCompressed = _this.addUniform("uHdrCompressed", WebGame.Uniform1I);
-                _this.sortOrder = -1000;
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aTextureCoord;\n                    attribute float aFace;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n\n                    vec3 GetPosition()\n                    {\n                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);\n                        int face = int(aFace + 0.5);\n                        if (face == 0) return vec3( 0.5, -pos.x, -pos.y);\n                        if (face == 1) return vec3(-0.5, pos.x, -pos.y);\n                        if (face == 2) return vec3( pos.x, 0.5, -pos.y);\n                        if (face == 3) return vec3(-pos.x, -0.5, -pos.y);\n                        if (face == 4) return vec3( pos.y,-pos.x, 0.5);\n                        if (face == 5) return vec3( pos.y, pos.x, -0.5);\n                        return vec3(0.0, 0.0, 0.0);\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * vec4(GetPosition() * 128.0, 0.0);\n\n                        gl_Position = " + _this.uProjection + " * vec4(viewPos.xyz, 1.0);\n\n                        vFace = aFace;\n                        vTextureCoord = aTextureCoord;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D " + _this.uFacePosX + "; uniform vec4 " + _this.uFacePosX.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegX + "; uniform vec4 " + _this.uFaceNegX.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFacePosY + "; uniform vec4 " + _this.uFacePosY.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegY + "; uniform vec4 " + _this.uFaceNegY.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFacePosZ + "; uniform vec4 " + _this.uFacePosZ.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegZ + "; uniform vec4 " + _this.uFaceNegZ.getSizeUniform() + ";\n\n                    uniform int " + _this.uHdrCompressed + ";\n\n                    vec4 GetFaceSize()\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return " + _this.uFacePosX.getSizeUniform() + ";\n                        if (face == 1) return " + _this.uFaceNegX.getSizeUniform() + ";\n                        if (face == 2) return " + _this.uFacePosY.getSizeUniform() + ";\n                        if (face == 3) return " + _this.uFaceNegY.getSizeUniform() + ";\n                        if (face == 4) return " + _this.uFacePosZ.getSizeUniform() + ";\n                        if (face == 5) return " + _this.uFaceNegZ.getSizeUniform() + ";\n                        return vec4(1.0, 1.0, 1.0, 1.0);\n                    }\n\n                    vec4 GetFaceSample(vec2 uv)\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return texture2D(" + _this.uFacePosX + ", uv);\n                        if (face == 1) return texture2D(" + _this.uFaceNegX + ", uv);\n                        if (face == 2) return texture2D(" + _this.uFacePosY + ", uv);\n                        if (face == 3) return texture2D(" + _this.uFaceNegY + ", uv);\n                        if (face == 4) return texture2D(" + _this.uFacePosZ + ", uv);\n                        if (face == 5) return texture2D(" + _this.uFaceNegZ + ", uv);\n                        return vec4(0.0, 0.0, 0.0, 1.0);\n                    }\n\n                    vec3 DecompressHdr(vec4 sample)\n                    {\n                        return sample.rgb * sample.a * 2.0;\n                    }\n\n                    void main()\n                    {\n                        if (" + _this.uHdrCompressed + " != 0) {\n                            vec4 size = GetFaceSize();\n                            vec2 scaledCoord = vTextureCoord * size.xy * vec2(1.0, size.x * size.w) - vec2(0.5, 0.5);\n                            vec2 minCoord = floor(scaledCoord) + vec2(0.5, 0.5);\n                            vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                            vec2 delta = scaledCoord - floor(scaledCoord);\n\n                            minCoord *= size.zw;\n                            maxCoord *= size.zw;\n\n                            vec3 sampleA = DecompressHdr(GetFaceSample(vec2(minCoord.x, minCoord.y)));\n                            vec3 sampleB = DecompressHdr(GetFaceSample(vec2(maxCoord.x, minCoord.y)));\n                            vec3 sampleC = DecompressHdr(GetFaceSample(vec2(minCoord.x, maxCoord.y)));\n                            vec3 sampleD = DecompressHdr(GetFaceSample(vec2(maxCoord.x, maxCoord.y)));\n\n                            vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                            gl_FragColor = vec4(sample, 1.0);\n                        } else {\n                            vec4 sample = GetFaceSample(vTextureCoord);\n                            gl_FragColor = vec4(sample.rgb, 1.0);\n                        }\n                    }");
-                _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
-                _this.addAttribute("aFace", WebGame.VertexAttribute.alpha);
-                _this.uFacePosX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.uFaceNegX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.uFacePosY.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.uFaceNegY.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.uFacePosZ.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.uFaceNegZ.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.compile();
-                return _this;
-            }
-            Sky.prototype.bufferSetup = function (buf) {
-                _super.prototype.bufferSetup.call(this, buf);
-                this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
-                this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
-                buf.depthMask(false);
-            };
-            Sky.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                this.uFacePosX.bufferValue(buf, props.facePosX);
-                this.uFaceNegX.bufferValue(buf, props.faceNegX);
-                this.uFacePosY.bufferValue(buf, props.facePosY);
-                this.uFaceNegY.bufferValue(buf, props.faceNegY);
-                this.uFacePosZ.bufferValue(buf, props.facePosZ);
-                this.uFaceNegZ.bufferValue(buf, props.faceNegZ);
-                this.uHdrCompressed.bufferValue(buf, props.hdrCompressed ? 1 : 0);
-            };
-            return Sky;
-        }(Shaders.BaseShaderProgram));
-        Shaders.Sky = Sky;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var SplineRopeMaterial = (function (_super) {
-            __extends(SplineRopeMaterial, _super);
-            function SplineRopeMaterial() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return SplineRopeMaterial;
-        }(Shaders.ModelBaseMaterial));
-        Shaders.SplineRopeMaterial = SplineRopeMaterial;
-        var SplineRope = (function (_super) {
-            __extends(SplineRope, _super);
-            function SplineRope(context) {
-                var _this = _super.call(this, context, SplineRopeMaterial) || this;
-                _this.uAmbient0 = _this.addUniform("uAmbient[0]", WebGame.Uniform3F);
-                _this.uAmbient1 = _this.addUniform("uAmbient[1]", WebGame.Uniform3F);
-                _this.uAmbient2 = _this.addUniform("uAmbient[2]", WebGame.Uniform3F);
-                _this.uAmbient3 = _this.addUniform("uAmbient[3]", WebGame.Uniform3F);
-                _this.uAmbient4 = _this.addUniform("uAmbient[4]", WebGame.Uniform3F);
-                _this.uAmbient5 = _this.addUniform("uAmbient[5]", WebGame.Uniform3F);
-                _this.uAmbient = [_this.uAmbient0, _this.uAmbient1, _this.uAmbient2, _this.uAmbient3, _this.uAmbient4, _this.uAmbient5];
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aTangent;\n                    attribute vec2 aSplineParams;\n\n                    uniform vec3 uAmbient[6];\n\n                    varying vec3 vAmbient;\n\n                    vec3 SampleAmbient(vec3 normal, vec3 axis, int index)\n                    {\n                        return pow(max(0.0, dot(normal, axis)), 2.0) * pow(uAmbient[index], vec3(0.5, 0.5, 0.5));\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n                        vec3 viewTangent = normalize((" + _this.uView + " * " + _this.uModel + " * vec4(aTangent, 0.0)).xyz);\n                        vec3 viewNormalA = normalize(cross(viewPos.xyz, viewTangent));\n                        vec3 viewNormalB = normalize(cross(viewNormalA, viewTangent));\n\n                        vec3 viewUnitX = normalize((" + _this.uView + " * vec4(1.0, 0.0, 0.0, 0.0)).xyz);\n                        vec3 viewUnitY = normalize((" + _this.uView + " * vec4(0.0, 1.0, 0.0, 0.0)).xyz);\n                        vec3 viewUnitZ = normalize((" + _this.uView + " * vec4(0.0, 0.0, 1.0, 0.0)).xyz);\n\n                        vec3 viewNormal = normalize(viewNormalA * (aTextureCoord.x - 0.5)\n                            + viewNormalB * sqrt(1.0 - pow(1.0 - aTextureCoord.x * 2.0, 2.0)) * 0.5);\n\n                        vAmbient = SampleAmbient(viewNormal,  viewUnitX, 0)\n                                 + SampleAmbient(viewNormal, -viewUnitX, 1)\n                                 + SampleAmbient(viewNormal,  viewUnitY, 2)\n                                 + SampleAmbient(viewNormal, -viewUnitY, 3)\n                                 + SampleAmbient(viewNormal,  viewUnitZ, 4)\n                                 + SampleAmbient(viewNormal, -viewUnitZ, 5);\n\n                        viewPos.xyz += viewNormal * aSplineParams.x;\n                        viewPos.xyz += viewUnitZ * aSplineParams.y;\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vAmbient;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vAmbient), mainSample.a);\n                    }");
-                _this.addAttribute("aTangent", WebGame.VertexAttribute.normal);
-                _this.addAttribute("aSplineParams", WebGame.VertexAttribute.uv2);
-                _this.compile();
-                return _this;
-            }
-            SplineRope.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                if (props.ambient != null) {
-                    var values = props.ambient;
-                    var uniforms = this.uAmbient;
-                    for (var i = 0; i < 6; ++i) {
-                        var value = values[i];
-                        if (value == null)
-                            continue;
-                        uniforms[i].bufferValue(buf, value.x, value.y, value.z);
-                    }
-                }
-            };
-            return SplineRope;
-        }(Shaders.ModelBase));
-        Shaders.SplineRope = SplineRope;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="ModelBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var Shaders;
-    (function (Shaders) {
-        var UnlitGenericMaterial = (function (_super) {
-            __extends(UnlitGenericMaterial, _super);
-            function UnlitGenericMaterial() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return UnlitGenericMaterial;
-        }(Shaders.ModelBaseMaterial));
-        Shaders.UnlitGenericMaterial = UnlitGenericMaterial;
-        var UnlitGeneric = (function (_super) {
-            __extends(UnlitGeneric, _super);
-            function UnlitGeneric(context) {
-                var _this = _super.call(this, context, UnlitGenericMaterial) || this;
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        ModelBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
-                _this.compile();
-                return _this;
-            }
-            return UnlitGeneric;
-        }(Shaders.ModelBase));
-        Shaders.UnlitGeneric = UnlitGeneric;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="ModelBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var VertexLitGenericMaterial = (function (_super) {
-            __extends(VertexLitGenericMaterial, _super);
-            function VertexLitGenericMaterial() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return VertexLitGenericMaterial;
-        }(Shaders.ModelBaseMaterial));
-        Shaders.VertexLitGenericMaterial = VertexLitGenericMaterial;
-        var VertexLitGeneric = (function (_super) {
-            __extends(VertexLitGeneric, _super);
-            function VertexLitGeneric(context) {
-                var _this = _super.call(this, context, VertexLitGenericMaterial) || this;
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aEncodedColors;\n\n                    varying vec3 vVertexLighting;\n                    varying vec3 vAlbedoModulation;\n\n                    void main()\n                    {\n                        vVertexLighting = floor(aEncodedColors) * (2.0 / 255.0);\n                        vAlbedoModulation = fract(aEncodedColors) * (256.0 / 255.0);\n\n                        ModelBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vVertexLighting;\n                    varying vec3 vAlbedoModulation;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting * vAlbedoModulation), mainSample.a);\n                    }");
-                _this.addAttribute("aEncodedColors", WebGame.VertexAttribute.rgb);
-                _this.compile();
-                return _this;
-            }
-            return VertexLitGeneric;
-        }(Shaders.ModelBase));
-        Shaders.VertexLitGeneric = VertexLitGeneric;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="LightmappedBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var WaterMaterial = (function (_super) {
-            __extends(WaterMaterial, _super);
-            function WaterMaterial() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.fogStart = 8192;
-                _this.fogEnd = 16384;
-                _this.fogColor = new Facepunch.Vector3(1, 1, 1);
-                _this.fogLightmapped = true;
-                _this.translucent = true;
-                _this.refract = true;
-                _this.refractTint = new Facepunch.Vector3(1, 1, 1);
-                _this.normalMap = null;
-                _this.cullFace = false;
-                return _this;
-            }
-            return WaterMaterial;
-        }(Shaders.LightmappedBaseMaterial));
-        Shaders.WaterMaterial = WaterMaterial;
-        var Water = (function (_super) {
-            __extends(Water, _super);
-            function Water(context) {
-                var _this = _super.call(this, context, WaterMaterial) || this;
-                _this.uCameraPos = _this.addUniform("uCameraPos", WebGame.Uniform3F);
-                _this.uInverseProjection = _this.addUniform("uInverseProjection", WebGame.UniformMatrix4);
-                _this.uInverseView = _this.addUniform("uInverseView", WebGame.UniformMatrix4);
-                _this.uScreenParams = _this.addUniform("uScreenParams", WebGame.Uniform4F);
-                _this.uOpaqueColor = _this.addUniform("uOpaqueColor", WebGame.UniformSampler);
-                _this.uOpaqueDepth = _this.addUniform("uOpaqueDepth", WebGame.UniformSampler);
-                _this.uWaterFogParams = _this.addUniform("uWaterFogParams", WebGame.Uniform4F);
-                _this.uWaterFogColor = _this.addUniform("uWaterFogColor", WebGame.Uniform3F);
-                _this.uWaterFogLightmapped = _this.addUniform("uWaterFogLightmapped", WebGame.Uniform1F);
-                _this.uNormalMap = _this.addUniform("uNormalMap", WebGame.UniformSampler);
-                _this.uRefractTint = _this.addUniform("uRefractTint", WebGame.Uniform3F);
-                _this.sortOrder = -10;
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform vec3 " + _this.uCameraPos + ";\n\n                    uniform vec4 " + _this.uScreenParams + ";\n                    uniform highp mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uInverseProjection + ";\n                    uniform mat4 " + _this.uInverseView + ";\n\n                    uniform sampler2D " + _this.uOpaqueColor + ";\n                    uniform sampler2D " + _this.uOpaqueDepth + ";\n\n                    uniform vec4 " + _this.uWaterFogParams + ";\n                    uniform vec3 " + _this.uWaterFogColor + ";\n                    uniform float " + _this.uWaterFogLightmapped + ";\n\n                    uniform sampler2D " + _this.uNormalMap + ";\n                    uniform vec3 " + _this.uRefractTint + ";\n\n                    vec4 CalcEyeFromWindow(in vec3 fragCoord)\n                    {\n                        vec3 ndcPos;\n                        ndcPos.xy = (2.0 * fragCoord.xy) * (uScreenParams.zw) - vec2(1.0, 1.0);\n                        ndcPos.z = (2.0 * fragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near);\n\n                        vec4 clipPos;\n                        clipPos.w = " + _this.uProjection + "[3][2] / (ndcPos.z - (" + _this.uProjection + "[2][2] / " + _this.uProjection + "[2][3]));\n                        clipPos.xyz = ndcPos * clipPos.w;\n\n                        return " + _this.uInverseProjection + " * clipPos;\n                    }\n\n                    vec3 GetWorldPos(vec3 coord)\n                    {\n                        return (" + _this.uInverseView + " * CalcEyeFromWindow(coord * vec3(" + _this.uScreenParams + ".xy, 1.0))).xyz;\n                    }\n\n                    void main()\n                    {\n                        vec2 screenPos = gl_FragCoord.xy * " + _this.uScreenParams + ".zw;\n\n                        vec3 normalSample = texture2D(" + _this.uNormalMap + ", vTextureCoord).xyz;\n                        vec3 normal = normalize(normalSample - vec3(0.5, 0.5, 0.5));\n                        vec3 surfacePos = GetWorldPos(vec3(screenPos, gl_FragCoord.z));\n                        vec3 viewDir = normalize(surfacePos - uCameraPos);\n\n                        vec3 lightmap = ApplyLightmap(vec3(1.0, 1.0, 1.0));\n                        float normalDot = abs(dot(viewDir, normal));\n\n                        float opaqueDepthSample = texture2D(" + _this.uOpaqueDepth + ", screenPos).r;\n                        vec3 opaquePos = GetWorldPos(vec3(screenPos, opaqueDepthSample));\n                        float opaqueDepth = length(surfacePos - opaquePos);\n                        vec2 refractedScreenPos = screenPos + normal.xy * opaqueDepth * 1.0 / 512.0;\n                        float refractedOpaqueDepthSample = texture2D(" + _this.uOpaqueDepth + ", refractedScreenPos).r;\n\n                        vec3 opaqueColor;\n                        if (refractedOpaqueDepthSample > gl_FragCoord.z) {\n                            opaqueColor = texture2D(" + _this.uOpaqueColor + ", refractedScreenPos).rgb;\n                            opaqueDepth = length(surfacePos - GetWorldPos(vec3(refractedScreenPos, refractedOpaqueDepthSample)));\n                        } else {\n                            opaqueColor = texture2D(" + _this.uOpaqueColor + ", screenPos).rgb;\n                        }\n\n                        float relativeDepth = (opaqueDepth - " + _this.uWaterFogParams + ".x) * " + _this.uWaterFogParams + ".y;\n                        float fogDensity = max(" + _this.uWaterFogParams + ".z, min(" + _this.uWaterFogParams + ".w, relativeDepth));\n\n                        vec3 waterFogColor = " + _this.uWaterFogColor + ";\n\n                        if (" + _this.uWaterFogLightmapped + " > 0.5) {\n                            waterFogColor *= lightmap;\n                        }\n\n                        vec3 waterFogged = mix(opaqueColor, ApplyFog(waterFogColor), fogDensity);\n                        gl_FragColor = vec4(waterFogged, 1.0);\n                    }");
-                _this.uOpaqueColor.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.uOpaqueDepth.setDefault(WebGame.TextureUtils.getBlackTexture(context));
-                _this.uNormalMap.setDefault(WebGame.TextureUtils.getErrorTexture(context));
-                _this.compile();
-                return _this;
-            }
-            Water.prototype.bufferSetup = function (buf) {
-                _super.prototype.bufferSetup.call(this, buf);
-                this.uCameraPos.bufferParameter(buf, WebGame.Camera.cameraPosParam);
-                this.uScreenParams.bufferParameter(buf, WebGame.Game.screenInfoParam);
-                this.uInverseProjection.bufferParameter(buf, WebGame.Camera.inverseProjectionMatrixParam);
-                this.uInverseView.bufferParameter(buf, WebGame.Camera.inverseViewMatrixParam);
-            };
-            Water.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
-                this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
-                this.uWaterFogLightmapped.bufferValue(buf, props.fogLightmapped ? 1 : 0);
-                this.uNormalMap.bufferValue(buf, props.normalMap);
-                this.uRefractTint.bufferValue(buf, props.refractTint.x, props.refractTint.y, props.refractTint.z);
-                if (props.translucent) {
-                    this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
-                    this.uOpaqueDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
-                }
-                else {
-                    this.uOpaqueColor.bufferValue(buf, null);
-                    this.uOpaqueDepth.bufferValue(buf, null);
-                }
-            };
-            return Water;
-        }(Shaders.LightmappedBase));
-        Shaders.Water = Water;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-/// <reference path="LightmappedBase.ts"/>
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var Shaders;
-    (function (Shaders) {
-        var WorldTwoTextureBlendMaterial = (function (_super) {
-            __extends(WorldTwoTextureBlendMaterial, _super);
-            function WorldTwoTextureBlendMaterial() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.detail = null;
-                _this.detailScale = 1;
-                return _this;
-            }
-            return WorldTwoTextureBlendMaterial;
-        }(Shaders.LightmappedBaseMaterial));
-        Shaders.WorldTwoTextureBlendMaterial = WorldTwoTextureBlendMaterial;
-        var WorldTwoTextureBlend = (function (_super) {
-            __extends(WorldTwoTextureBlend, _super);
-            function WorldTwoTextureBlend(context) {
-                var _this = _super.call(this, context, WorldTwoTextureBlendMaterial) || this;
-                _this.uDetail = _this.addUniform("uDetail", WebGame.UniformSampler);
-                _this.uDetailScale = _this.addUniform("uDetailScale", WebGame.Uniform1F);
-                var gl = context;
-                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
-                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform sampler2D uDetail;\n                    uniform float uDetailScale;\n\n                    void main()\n                    {\n                        vec3 base = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec4 detail = texture2D(uDetail, vTextureCoord * uDetailScale).rgb;\n\n                        vec3 blendedSample = mix(base, detail, detail.a);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
-                _this.uDetail.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
-                _this.compile();
-                return _this;
-            }
-            WorldTwoTextureBlend.prototype.bufferMaterialProps = function (buf, props) {
-                _super.prototype.bufferMaterialProps.call(this, buf, props);
-                this.uDetail.bufferValue(buf, props.detail);
-                this.uDetailScale.bufferValue(buf, props.detailScale);
-            };
-            return WorldTwoTextureBlend;
-        }(Shaders.LightmappedBase));
-        Shaders.WorldTwoTextureBlend = WorldTwoTextureBlend;
-    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
-})(SourceUtils || (SourceUtils = {}));
-var SourceUtils;
-(function (SourceUtils) {
-    var WebGame = Facepunch.WebGame;
-    var SkyCube = (function (_super) {
+    var SkyCube = /** @class */ (function (_super) {
         __extends(SkyCube, _super);
         function SkyCube(viewer, material) {
             var _this = _super.call(this) || this;
@@ -2144,7 +1139,7 @@ var SourceUtils;
 var SourceUtils;
 (function (SourceUtils) {
     var WebGame = Facepunch.WebGame;
-    var StudioModel = (function (_super) {
+    var StudioModel = /** @class */ (function (_super) {
         __extends(StudioModel, _super);
         function StudioModel(viewer) {
             var _this = _super.call(this) || this;
@@ -2287,12 +1282,12 @@ var SourceUtils;
             this.dispatchOnLoadCallbacks();
         };
         StudioModel.prototype.isLoaded = function () { return this.info != null; };
+        StudioModel.sampleAmbientCube_samples = new Array(6);
+        StudioModel.sampleAmbientCube_temp = new Facepunch.Vector3();
         return StudioModel;
     }(WebGame.RenderResource));
-    StudioModel.sampleAmbientCube_samples = new Array(6);
-    StudioModel.sampleAmbientCube_temp = new Facepunch.Vector3();
     SourceUtils.StudioModel = StudioModel;
-    var StudioModelPage = (function (_super) {
+    var StudioModelPage = /** @class */ (function (_super) {
         __extends(StudioModelPage, _super);
         function StudioModelPage(page) {
             return _super.call(this, page) || this;
@@ -2319,7 +1314,7 @@ var SourceUtils;
         return StudioModelPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.StudioModelPage = StudioModelPage;
-    var StudioModelLoader = (function (_super) {
+    var StudioModelLoader = /** @class */ (function (_super) {
         __extends(StudioModelLoader, _super);
         function StudioModelLoader(viewer) {
             var _this = _super.call(this) || this;
@@ -2344,7 +1339,7 @@ var SourceUtils;
         return StudioModelLoader;
     }(SourceUtils.PagedLoader));
     SourceUtils.StudioModelLoader = StudioModelLoader;
-    var VertexLightingPage = (function (_super) {
+    var VertexLightingPage = /** @class */ (function (_super) {
         __extends(VertexLightingPage, _super);
         function VertexLightingPage() {
             return _super !== null && _super.apply(this, arguments) || this;
@@ -2368,7 +1363,7 @@ var SourceUtils;
         return VertexLightingPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.VertexLightingPage = VertexLightingPage;
-    var VertexLightingLoader = (function (_super) {
+    var VertexLightingLoader = /** @class */ (function (_super) {
         __extends(VertexLightingLoader, _super);
         function VertexLightingLoader(viewer) {
             var _this = _super.call(this) || this;
@@ -2387,7 +1382,7 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var ColorConversion = (function () {
+    var ColorConversion = /** @class */ (function () {
         function ColorConversion() {
         }
         ColorConversion.initialize = function (screenGamma) {
@@ -2436,7 +1431,7 @@ var SourceUtils;
 })(SourceUtils || (SourceUtils = {}));
 var SourceUtils;
 (function (SourceUtils) {
-    var VisPage = (function (_super) {
+    var VisPage = /** @class */ (function (_super) {
         __extends(VisPage, _super);
         function VisPage() {
             return _super !== null && _super.apply(this, arguments) || this;
@@ -2450,7 +1445,7 @@ var SourceUtils;
         return VisPage;
     }(SourceUtils.ResourcePage));
     SourceUtils.VisPage = VisPage;
-    var VisLoader = (function (_super) {
+    var VisLoader = /** @class */ (function (_super) {
         __extends(VisLoader, _super);
         function VisLoader() {
             var _this = _super.call(this) || this;
@@ -2463,4 +1458,1017 @@ var SourceUtils;
         return VisLoader;
     }(SourceUtils.PagedLoader));
     SourceUtils.VisLoader = VisLoader;
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var Entity = /** @class */ (function (_super) {
+            __extends(Entity, _super);
+            function Entity(map, info) {
+                var _this = _super.call(this, true) || this;
+                _this.map = map;
+                _this.targetname = info.targetname;
+                if (_this.targetname != null) {
+                    _this.map.addNamedEntity(_this.targetname, _this);
+                }
+                if (info.origin !== undefined) {
+                    _this.setPosition(info.origin);
+                }
+                if (info.angles !== undefined) {
+                    var mul = Math.PI / 180;
+                    _this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
+                }
+                if (info.scale !== undefined) {
+                    _this.setScale(info.scale);
+                }
+                return _this;
+            }
+            return Entity;
+        }(WebGame.DrawableEntity));
+        Entities.Entity = Entity;
+        var PvsEntity = /** @class */ (function (_super) {
+            __extends(PvsEntity, _super);
+            function PvsEntity(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusters = info.clusters;
+                return _this;
+            }
+            PvsEntity.prototype.isInCluster = function (cluster) {
+                var clusters = this.clusters;
+                if (clusters == null)
+                    return true;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (clusters[i] === cluster)
+                        return true;
+                }
+                return false;
+            };
+            PvsEntity.prototype.isInAnyCluster = function (clusters) {
+                if (clusters == null)
+                    return true;
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    if (this.isInCluster(clusters[i]))
+                        return true;
+                }
+                return false;
+            };
+            PvsEntity.prototype.populateDrawList = function (drawList, clusters) {
+                drawList.addItem(this);
+                this.onPopulateDrawList(drawList, clusters);
+            };
+            PvsEntity.prototype.onPopulateDrawList = function (drawList, clusters) { };
+            return PvsEntity;
+        }(Entity));
+        Entities.PvsEntity = PvsEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var BrushEntity = /** @class */ (function (_super) {
+            __extends(BrushEntity, _super);
+            function BrushEntity(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.isWorldSpawn = info.model === 0;
+                _this.model = map.viewer.bspModelLoader.loadModel(info.model);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    var leaves = model.getLeaves();
+                    for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                        leaves[i].entity = _this;
+                    }
+                });
+                return _this;
+            }
+            BrushEntity.prototype.onAddToDrawList = function (list) {
+                _super.prototype.onAddToDrawList.call(this, list);
+                if (this.isWorldSpawn)
+                    return;
+                var leaves = this.model.getLeaves();
+                if (leaves != null)
+                    list.addItems(leaves);
+            };
+            return BrushEntity;
+        }(Entities.PvsEntity));
+        Entities.BrushEntity = BrushEntity;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var Camera = /** @class */ (function (_super) {
+            __extends(Camera, _super);
+            function Camera(viewer, fov) {
+                var _this = _super.call(this, viewer, fov, viewer.getWidth() / viewer.getHeight(), 1, 8192) || this;
+                _this.leafInvalid = true;
+                _this.render3DSky = true;
+                _this.viewer = viewer;
+                return _this;
+            }
+            Camera.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+                this.leafInvalid = true;
+            };
+            Camera.prototype.onGetLeaf = function () {
+                var temp = Camera.onGetLeaf_temp;
+                var leaf = this.viewer.map.getLeafAt(this.getPosition(temp));
+                return leaf;
+            };
+            Camera.prototype.getLeaf = function () {
+                if (this.leafInvalid) {
+                    var leaf = this.onGetLeaf();
+                    this.leafInvalid = leaf !== undefined;
+                    if (this.leaf !== leaf) {
+                        this.leaf = leaf;
+                        this.invalidateGeometry();
+                    }
+                }
+                return this.leaf;
+            };
+            Camera.prototype.onPopulateDrawList = function (drawList) {
+                this.viewer.map.populateDrawList(drawList, this.getLeaf());
+            };
+            Camera.prototype.render = function () {
+                var leaf = this.getLeaf();
+                if (this.render3DSky && leaf != null && (leaf.flags & SourceUtils.LeafFlags.Sky) !== 0) {
+                    var skyCamera = this.viewer.map.skyCamera;
+                    if (skyCamera != null) {
+                        skyCamera.renderRelativeTo(this);
+                    }
+                }
+                _super.prototype.render.call(this);
+            };
+            Camera.onGetLeaf_temp = new Facepunch.Vector3();
+            return Camera;
+        }(WebGame.PerspectiveCamera));
+        Entities.Camera = Camera;
+        var SkyCamera = /** @class */ (function (_super) {
+            __extends(SkyCamera, _super);
+            function SkyCamera(viewer, info) {
+                var _this = _super.call(this, viewer, 60) || this;
+                _this.render3DSky = false;
+                _this.origin = new Facepunch.Vector3().copy(info.origin);
+                _this.skyScale = 1 / info.scale;
+                if (info.fogEnabled) {
+                    _this.fog.start = info.fogStart;
+                    _this.fog.end = info.fogEnd;
+                    _this.fog.maxDensity = info.fogMaxDensity;
+                    _this.fog.color.set(info.fogColor.r, info.fogColor.g, info.fogColor.b);
+                    if (info.farZ !== 0)
+                        _this.setFar(info.farZ);
+                }
+                return _this;
+            }
+            SkyCamera.prototype.onChangePosition = function () {
+                this.invalidateMatrices();
+            };
+            SkyCamera.prototype.onGetLeaf = function () {
+                return this.viewer.map.getLeafAt(this.origin);
+            };
+            SkyCamera.prototype.renderRelativeTo = function (camera) {
+                var temp = SkyCamera.renderRelativeTo_temp;
+                camera.getPosition(temp);
+                temp.multiplyScalar(this.skyScale);
+                temp.add(this.origin);
+                this.setPosition(temp);
+                this.setFov(camera.getFov());
+                this.setAspect(camera.getAspect());
+                this.copyRotation(camera);
+                _super.prototype.render.call(this);
+                var gl = this.viewer.context;
+                gl.depthMask(true);
+                gl.clear(gl.DEPTH_BUFFER_BIT);
+            };
+            SkyCamera.renderRelativeTo_temp = new Facepunch.Vector3();
+            return SkyCamera;
+        }(Camera));
+        Entities.SkyCamera = SkyCamera;
+        var ShadowCamera = /** @class */ (function (_super) {
+            __extends(ShadowCamera, _super);
+            function ShadowCamera(viewer, targetCamera) {
+                var _this = _super.call(this, viewer, 1, 1, 0, 1) || this;
+                _this.viewer = viewer;
+                _this.targetCamera = targetCamera;
+                return _this;
+            }
+            ShadowCamera.prototype.onPopulateDrawList = function (drawList) {
+                this.viewer.map.populateDrawList(drawList, this.targetCamera.getLeaf());
+            };
+            ShadowCamera.prototype.addToFrustumBounds = function (invLight, vec, bounds) {
+                vec.applyMatrix4(this.targetCamera.getMatrix());
+                vec.applyQuaternion(invLight);
+            };
+            ShadowCamera.prototype.getFrustumBounds = function (lightRotation, near, far, bounds) {
+                bounds.min.set(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
+                bounds.max.set(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
+                var yScale = Math.tan(this.targetCamera.getFov() * 0.5);
+                var xScale = yScale * this.targetCamera.getAspect();
+                var xNear = xScale * near;
+                var yNear = yScale * near;
+                var xFar = xScale * far;
+                var yFar = yScale * far;
+                var vec = ShadowCamera.getFrustumBounds_vec;
+                var invLight = ShadowCamera.getFrustumBounds_invLight;
+                invLight.setInverse(lightRotation);
+                this.addToFrustumBounds(invLight, vec.set(xNear, yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xNear, -yNear, near, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xFar, yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(xFar, -yFar, far, 1), bounds);
+                this.addToFrustumBounds(invLight, vec.set(-xFar, -yFar, far, 1), bounds);
+            };
+            ShadowCamera.prototype.renderShadows = function (lightRotation, near, far) {
+                var bounds = ShadowCamera.renderShadows_bounds;
+                this.getFrustumBounds(lightRotation, near, far, bounds);
+            };
+            ShadowCamera.getFrustumBounds_vec = new Facepunch.Vector4();
+            ShadowCamera.getFrustumBounds_invLight = new Facepunch.Quaternion();
+            ShadowCamera.renderShadows_bounds = new Facepunch.Box3();
+            return ShadowCamera;
+        }(WebGame.OrthographicCamera));
+        Entities.ShadowCamera = ShadowCamera;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var Displacement = /** @class */ (function (_super) {
+            __extends(Displacement, _super);
+            function Displacement(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.isLoaded = false;
+                _this.index = info.index;
+                return _this;
+            }
+            Displacement.prototype.onAddToDrawList = function (list) {
+                var _this = this;
+                if (!this.isLoaded) {
+                    this.isLoaded = true;
+                    this.map.viewer.dispGeometryLoader.load(this.index, function (handle) {
+                        if (handle != null)
+                            _this.drawable.addMeshHandles([handle]);
+                    });
+                }
+                _super.prototype.onAddToDrawList.call(this, list);
+            };
+            return Displacement;
+        }(Entities.PvsEntity));
+        Entities.Displacement = Displacement;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Entities;
+    (function (Entities) {
+        var KeyframeRope = /** @class */ (function (_super) {
+            __extends(KeyframeRope, _super);
+            function KeyframeRope(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.nextKey = info.nextKey;
+                _this.width = info.width;
+                _this.slack = info.slack;
+                _this.subDivisions = info.subDivisions;
+                return _this;
+            }
+            return KeyframeRope;
+        }(Entities.PvsEntity));
+        Entities.KeyframeRope = KeyframeRope;
+        var PositionInterpolator;
+        (function (PositionInterpolator) {
+            PositionInterpolator[PositionInterpolator["Linear"] = 0] = "Linear";
+            PositionInterpolator[PositionInterpolator["CatmullRomSpline"] = 1] = "CatmullRomSpline";
+            PositionInterpolator[PositionInterpolator["Rope"] = 2] = "Rope";
+        })(PositionInterpolator = Entities.PositionInterpolator || (Entities.PositionInterpolator = {}));
+        var MoveRope = /** @class */ (function (_super) {
+            __extends(MoveRope, _super);
+            function MoveRope(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.info = info;
+                return _this;
+            }
+            MoveRope.prototype.findKeyframes = function () {
+                var list = [];
+                var prev = this;
+                while (prev != null && list.length < 256) {
+                    list.push(prev);
+                    prev = this.map.getNamedEntity(prev.nextKey);
+                }
+                return list;
+            };
+            MoveRope.prototype.generateMesh = function () {
+                var _this = this;
+                if (this.keyframes == null) {
+                    this.keyframes = this.findKeyframes();
+                }
+                if (this.keyframes.length <= 1) {
+                    return [];
+                }
+                if (this.material == null) {
+                    this.material = this.map.viewer.mapMaterialLoader.loadMaterial(this.info.ropeMaterial).clone();
+                    this.material.addUsage(this);
+                }
+                var mesh = {
+                    attributes: [WebGame.VertexAttribute.position, WebGame.VertexAttribute.normal, WebGame.VertexAttribute.uv, WebGame.VertexAttribute.uv2],
+                    elements: [],
+                    vertices: [],
+                    indices: []
+                };
+                var prev = new Facepunch.Vector3();
+                var next = new Facepunch.Vector3();
+                var pos = new Facepunch.Vector3();
+                var norm = new Facepunch.Vector3();
+                var mid = new Facepunch.Vector3();
+                // TODO: check current texture res, use info.textureScale
+                var texScale = this.info.textureScale / 64;
+                this.keyframes[0].getPosition(prev);
+                mid.add(prev);
+                var totalLength = 0;
+                var indexOffset = -4;
+                for (var i = 0; i < this.keyframes.length - 1; ++i) {
+                    var keyframe = this.keyframes[i];
+                    this.keyframes[i + 1].getPosition(next);
+                    mid.add(next);
+                    var segmentLength = norm.copy(next).sub(prev).length();
+                    // TODO: this is just a rough guess
+                    // TODO: need to solve `L = 1/2 sqrt(1 + 16 h^2) + (arcsinh(4 h))/(8 h)` for h
+                    var slack = (keyframe.slack / segmentLength) * Math.sqrt(segmentLength) * 4.0;
+                    norm.normalize();
+                    for (var j = 0; j <= keyframe.subDivisions + 1; ++j) {
+                        var t = j / (keyframe.subDivisions + 1);
+                        var v = (totalLength + segmentLength * t) * texScale;
+                        var s = slack * 4 * (t * t - t);
+                        pos.copy(next).sub(prev).multiplyScalar(t).add(prev);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.25, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 0.75, v, keyframe.width, s);
+                        mesh.vertices.push(pos.x, pos.y, pos.z, norm.x, norm.y, norm.z, 1, v, keyframe.width, s);
+                        if (j > 0) {
+                            for (var k = 0; k < 3; ++k) {
+                                mesh.indices.push(indexOffset + k, indexOffset + k + 4, indexOffset + k + 1, indexOffset + k + 1, indexOffset + k + 4, indexOffset + k + 5);
+                            }
+                        }
+                        indexOffset += 4;
+                    }
+                    totalLength += segmentLength;
+                    prev.copy(next);
+                }
+                mid.multiplyScalar(1 / this.keyframes.length);
+                this.map.getLeafAt(mid, function (leaf) {
+                    var ambient = _this.material.properties.ambient = new Array(6);
+                    leaf.getAmbientCube(mid, ambient, function (success) {
+                        if (success)
+                            _this.map.viewer.forceDrawListInvalidation(false);
+                    });
+                });
+                mesh.elements.push({
+                    mode: WebGame.DrawMode.Triangles,
+                    material: this.material,
+                    indexOffset: 0,
+                    indexCount: mesh.indices.length
+                });
+                return this.map.viewer.meshes.addMeshData(mesh);
+            };
+            MoveRope.prototype.onAddToDrawList = function (list) {
+                _super.prototype.onAddToDrawList.call(this, list);
+                if (this.meshHandles == null) {
+                    this.meshHandles = this.generateMesh();
+                }
+            };
+            MoveRope.prototype.getMeshHandles = function () {
+                return this.meshHandles;
+            };
+            return MoveRope;
+        }(KeyframeRope));
+        Entities.MoveRope = MoveRope;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="PvsEntity.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var StaticProp = /** @class */ (function (_super) {
+            __extends(StaticProp, _super);
+            function StaticProp(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.info = info;
+                _this.albedoModulation = info.albedoModulation;
+                if (_this.info.vertLighting !== undefined) {
+                    _this.map.viewer.vertLightingLoader.load(_this.info.vertLighting, function (value) {
+                        _this.lighting = value;
+                        _this.checkLoaded();
+                    });
+                }
+                else {
+                    // TODO: lighting offset
+                    _this.map.getLeafAt(_this.info.origin, function (leaf) {
+                        if (leaf == null) {
+                            _this.lighting = null;
+                            _this.checkLoaded();
+                        }
+                        else {
+                            leaf.getAmbientCube(null, null, function (success) {
+                                _this.lighting = leaf;
+                                _this.checkLoaded();
+                            });
+                        }
+                    });
+                }
+                _this.model = map.viewer.studioModelLoader.loadModel(info.model);
+                _this.model.addUsage(_this);
+                _this.model.addOnLoadCallback(function (model) {
+                    _this.checkLoaded();
+                });
+                return _this;
+            }
+            StaticProp.prototype.checkLoaded = function () {
+                if (!this.model.isLoaded())
+                    return;
+                if (this.lighting === undefined)
+                    return;
+                this.drawable.addMeshHandles(this.model.createMeshHandles(0, this.getMatrix(), this.lighting, this.albedoModulation));
+            };
+            return StaticProp;
+        }(Entities.PvsEntity));
+        Entities.StaticProp = StaticProp;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var Entities;
+    (function (Entities) {
+        var Worldspawn = /** @class */ (function (_super) {
+            __extends(Worldspawn, _super);
+            function Worldspawn(map, info) {
+                var _this = _super.call(this, map, info) || this;
+                _this.clusterLeaves = {};
+                _this.model.addOnLoadCallback(function (model) { return _this.onModelLoad(); });
+                return _this;
+            }
+            Worldspawn.prototype.onModelLoad = function () {
+                var leaves = this.model.getLeaves();
+                for (var i = 0, iEnd = leaves.length; i < iEnd; ++i) {
+                    var leaf = leaves[i];
+                    if (leaf.cluster === undefined)
+                        continue;
+                    var clusterLeaves = this.clusterLeaves[leaf.cluster];
+                    if (clusterLeaves == null) {
+                        this.clusterLeaves[leaf.cluster] = clusterLeaves = [];
+                    }
+                    clusterLeaves.push(leaf);
+                }
+                this.map.viewer.forceDrawListInvalidation(true);
+            };
+            Worldspawn.prototype.isInAnyCluster = function (clusters) {
+                return true;
+            };
+            Worldspawn.prototype.isInCluster = function (cluster) {
+                return true;
+            };
+            Worldspawn.prototype.onPopulateDrawList = function (drawList, clusters) {
+                if (clusters == null) {
+                    var leaves = this.model.getLeaves();
+                    if (leaves != null)
+                        drawList.addItems(leaves);
+                    return;
+                }
+                for (var i = 0, iEnd = clusters.length; i < iEnd; ++i) {
+                    var cluster = clusters[i];
+                    var clusterLeaves = this.clusterLeaves[cluster];
+                    if (clusterLeaves != null)
+                        drawList.addItems(clusterLeaves);
+                }
+            };
+            return Worldspawn;
+        }(Entities.BrushEntity));
+        Entities.Worldspawn = Worldspawn;
+    })(Entities = SourceUtils.Entities || (SourceUtils.Entities = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var BaseMaterial = /** @class */ (function () {
+            function BaseMaterial() {
+                this.cullFace = true;
+            }
+            return BaseMaterial;
+        }());
+        Shaders.BaseMaterial = BaseMaterial;
+        var BaseShaderProgram = /** @class */ (function (_super) {
+            __extends(BaseShaderProgram, _super);
+            function BaseShaderProgram(context, ctor) {
+                var _this = _super.call(this, context) || this;
+                _this.materialCtor = ctor;
+                return _this;
+            }
+            BaseShaderProgram.prototype.createMaterialProperties = function () {
+                return new this.materialCtor();
+            };
+            BaseShaderProgram.prototype.bufferMaterial = function (buf, material) {
+                this.bufferMaterialProps(buf, material.properties);
+            };
+            BaseShaderProgram.prototype.bufferMaterialProps = function (buf, props) {
+                var gl = this.context;
+                if (props.cullFace) {
+                    buf.enable(gl.CULL_FACE);
+                }
+                else {
+                    buf.disable(gl.CULL_FACE);
+                }
+            };
+            return BaseShaderProgram;
+        }(WebGame.ShaderProgram));
+        Shaders.BaseShaderProgram = BaseShaderProgram;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var ModelBaseMaterial = /** @class */ (function (_super) {
+            __extends(ModelBaseMaterial, _super);
+            function ModelBaseMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.basetexture = null;
+                _this.alphaTest = false;
+                _this.translucent = false;
+                _this.alpha = 1;
+                _this.fogEnabled = true;
+                return _this;
+            }
+            return ModelBaseMaterial;
+        }(Shaders.BaseMaterial));
+        Shaders.ModelBaseMaterial = ModelBaseMaterial;
+        var ModelBase = /** @class */ (function (_super) {
+            __extends(ModelBase, _super);
+            function ModelBase(context, ctor) {
+                var _this = _super.call(this, context, ctor) || this;
+                _this.uProjection = _this.addUniform("uProjection", WebGame.UniformMatrix4);
+                _this.uView = _this.addUniform("uView", WebGame.UniformMatrix4);
+                _this.uModel = _this.addUniform("uModel", WebGame.UniformMatrix4);
+                _this.uBaseTexture = _this.addUniform("uBaseTexture", WebGame.UniformSampler);
+                _this.uAlphaTest = _this.addUniform("uAlphaTest", WebGame.Uniform1F);
+                _this.uTranslucent = _this.addUniform("uTranslucent", WebGame.Uniform1F);
+                _this.uAlpha = _this.addUniform("uAlpha", WebGame.Uniform1F);
+                _this.uFogParams = _this.addUniform("uFogParams", WebGame.Uniform4F);
+                _this.uFogColor = _this.addUniform("uFogColor", WebGame.Uniform3F);
+                _this.uFogEnabled = _this.addUniform("uFogEnabled", WebGame.Uniform1I);
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aPosition;\n                    attribute vec2 aTextureCoord;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n                    uniform mat4 " + _this.uModel + ";\n\n                    void ModelBase_main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vTextureCoord;\n                    varying float vDepth;\n\n                    uniform sampler2D " + _this.uBaseTexture + ";\n\n                    uniform float " + _this.uAlphaTest + ";   // [0, 1]\n                    uniform float " + _this.uTranslucent + "; // [0, 1]\n                    uniform float " + _this.uAlpha + ";       // [0..1]\n\n                    uniform vec4 " + _this.uFogParams + ";\n                    uniform vec3 " + _this.uFogColor + ";\n                    uniform int " + _this.uFogEnabled + ";\n\n                    vec3 ApplyFog(vec3 inColor)\n                    {\n                        if (" + _this.uFogEnabled + " == 0) return inColor;\n\n                        float fogDensity = " + _this.uFogParams + ".x + " + _this.uFogParams + ".y * vDepth;\n                        fogDensity = min(max(fogDensity, " + _this.uFogParams + ".z), " + _this.uFogParams + ".w);\n                        return mix(inColor, " + _this.uFogColor + ", fogDensity);\n                    }\n\n                    vec4 ModelBase_main()\n                    {\n                        vec4 sample = texture2D(" + _this.uBaseTexture + ", vTextureCoord);\n                        if (sample.a <= " + _this.uAlphaTest + " - 0.5) discard;\n\n                        float alpha = mix(1.0, " + _this.uAlpha + " * sample.a, " + _this.uTranslucent + ");\n\n                        return vec4(sample.rgb, alpha);\n                    }");
+                _this.addAttribute("aPosition", WebGame.VertexAttribute.position);
+                _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
+                _this.uBaseTexture.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                return _this;
+            }
+            ModelBase.prototype.bufferSetup = function (buf) {
+                _super.prototype.bufferSetup.call(this, buf);
+                this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
+                this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
+                this.uFogParams.bufferParameter(buf, WebGame.Fog.fogInfoParam);
+                this.uFogColor.bufferParameter(buf, WebGame.Fog.fogColorParam);
+            };
+            ModelBase.prototype.bufferModelMatrix = function (buf, value) {
+                _super.prototype.bufferModelMatrix.call(this, buf, value);
+                this.uModel.bufferValue(buf, false, value);
+            };
+            ModelBase.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uBaseTexture.bufferValue(buf, props.basetexture);
+                this.uAlphaTest.bufferValue(buf, props.alphaTest ? 1 : 0);
+                this.uTranslucent.bufferValue(buf, props.translucent ? 1 : 0);
+                this.uAlpha.bufferValue(buf, props.alpha);
+                this.uFogEnabled.bufferValue(buf, props.fogEnabled ? 1 : 0);
+                var gl = this.context;
+                buf.enable(gl.DEPTH_TEST);
+                if (props.translucent) {
+                    buf.depthMask(false);
+                    buf.enable(gl.BLEND);
+                    buf.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+                }
+                else {
+                    buf.depthMask(true);
+                    buf.disable(gl.BLEND);
+                }
+            };
+            return ModelBase;
+        }(Shaders.BaseShaderProgram));
+        Shaders.ModelBase = ModelBase;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="ModelBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var LightmappedBaseMaterial = /** @class */ (function (_super) {
+            __extends(LightmappedBaseMaterial, _super);
+            function LightmappedBaseMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return LightmappedBaseMaterial;
+        }(Shaders.ModelBaseMaterial));
+        Shaders.LightmappedBaseMaterial = LightmappedBaseMaterial;
+        var LightmappedBase = /** @class */ (function (_super) {
+            __extends(LightmappedBase, _super);
+            function LightmappedBase(context, ctor) {
+                var _this = _super.call(this, context, ctor) || this;
+                _this.uLightmap = _this.addUniform("uLightmap", WebGame.UniformSampler);
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aLightmapCoord;\n\n                    varying vec2 vLightmapCoord;\n\n                    void LightmappedBase_main()\n                    {\n                        ModelBase_main();\n\n                        vLightmapCoord = aLightmapCoord;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec2 vLightmapCoord;\n\n                    uniform sampler2D " + _this.uLightmap + ";\n                    uniform vec4 " + _this.uLightmap.getSizeUniform() + ";\n\n                    vec3 DecompressLightmapSample(vec4 sample)\n                    {\n                        float exp = sample.a * 255.0 - 128.0;\n                        return sample.rgb * pow(2.0, exp);\n                    }\n\n                    vec3 ApplyLightmap(vec3 inColor)\n                    {\n                        const float gamma = 1.0 / 2.2;\n\n                        vec2 size = " + _this.uLightmap.getSizeUniform() + ".xy;\n                        vec2 invSize = " + _this.uLightmap.getSizeUniform() + ".zw;\n                        vec2 scaledCoord = vLightmapCoord * size - vec2(0.5, 0.5);\n                        vec2 minCoord = floor(scaledCoord) + vec2(0.5, 0.5);\n                        vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                        vec2 delta = scaledCoord - floor(scaledCoord);\n\n                        minCoord *= invSize;\n                        maxCoord *= invSize;\n\n                        vec3 sampleA = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(minCoord.x, minCoord.y)));\n                        vec3 sampleB = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(maxCoord.x, minCoord.y)));\n                        vec3 sampleC = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(minCoord.x, maxCoord.y)));\n                        vec3 sampleD = DecompressLightmapSample(texture2D(" + _this.uLightmap + ", vec2(maxCoord.x, maxCoord.y)));\n\n                        vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                        return inColor * pow(sample, vec3(gamma, gamma, gamma));\n                    }");
+                _this.addAttribute("aLightmapCoord", WebGame.VertexAttribute.uv2);
+                _this.uLightmap.setDefault(WebGame.TextureUtils.getWhiteTexture(context));
+                return _this;
+            }
+            LightmappedBase.prototype.bufferSetup = function (buf) {
+                _super.prototype.bufferSetup.call(this, buf);
+                this.uLightmap.bufferParameter(buf, SourceUtils.Map.lightmapParam);
+            };
+            return LightmappedBase;
+        }(Shaders.ModelBase));
+        Shaders.LightmappedBase = LightmappedBase;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var Lightmapped2WayBlendMaterial = /** @class */ (function (_super) {
+            __extends(Lightmapped2WayBlendMaterial, _super);
+            function Lightmapped2WayBlendMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.basetexture2 = null;
+                _this.blendModulateTexture = null;
+                return _this;
+            }
+            return Lightmapped2WayBlendMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.Lightmapped2WayBlendMaterial = Lightmapped2WayBlendMaterial;
+        var Lightmapped2WayBlend = /** @class */ (function (_super) {
+            __extends(Lightmapped2WayBlend, _super);
+            function Lightmapped2WayBlend(context) {
+                var _this = _super.call(this, context, Lightmapped2WayBlendMaterial) || this;
+                _this.uBaseTexture2 = _this.addUniform("uBaseTexture2", WebGame.UniformSampler);
+                _this.uBlendModulateTexture = _this.addUniform("uBlendModulateTexture", WebGame.UniformSampler);
+                _this.uBlendModulate = _this.addUniform("uBlendModulate", WebGame.Uniform1I);
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute float aAlpha;\n\n                    varying float vAlpha;\n\n                    void main()\n                    {\n                        LightmappedBase_main();\n\n                        vAlpha = aAlpha;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vAlpha;\n\n                    uniform sampler2D uBaseTexture2;\n                    uniform sampler2D uBlendModulateTexture;\n\n                    uniform int uBlendModulate; // [0, 1]\n\n                    void main()\n                    {\n                        vec3 sample0 = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec3 sample1 = texture2D(uBaseTexture2, vTextureCoord).rgb;\n\n                        float blend;\n                        if (uBlendModulate != 0) {\n                            vec3 blendSample = texture2D(uBlendModulateTexture, vTextureCoord).rga;\n\n                            float blendMin = max(0.0, blendSample.y - blendSample.x * 0.5);\n                            float blendMax = min(1.0, blendSample.y + blendSample.x * 0.5);\n\n                            blend = max(0.0, min(1.0, (vAlpha - blendMin) / max(0.0, blendMax - blendMin)));\n                        } else {\n                            blend = max(0.0, min(1.0, vAlpha));\n                        }\n\n                        vec3 blendedSample = mix(sample0, sample1, blend);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
+                _this.addAttribute("aAlpha", WebGame.VertexAttribute.alpha);
+                _this.uBaseTexture2.setDefault(WebGame.TextureUtils.getErrorTexture(gl));
+                _this.uBlendModulateTexture.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
+                _this.compile();
+                return _this;
+            }
+            Lightmapped2WayBlend.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uBaseTexture2.bufferValue(buf, props.basetexture2);
+                this.uBlendModulateTexture.bufferValue(buf, props.blendModulateTexture);
+                this.uBlendModulate.bufferValue(buf, props.blendModulateTexture != null ? 1 : 0);
+            };
+            return Lightmapped2WayBlend;
+        }(Shaders.LightmappedBase));
+        Shaders.Lightmapped2WayBlend = Lightmapped2WayBlend;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Shaders;
+    (function (Shaders) {
+        var LightmappedGenericMaterial = /** @class */ (function (_super) {
+            __extends(LightmappedGenericMaterial, _super);
+            function LightmappedGenericMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return LightmappedGenericMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.LightmappedGenericMaterial = LightmappedGenericMaterial;
+        var LightmappedGeneric = /** @class */ (function (_super) {
+            __extends(LightmappedGeneric, _super);
+            function LightmappedGeneric(context) {
+                var _this = _super.call(this, context, LightmappedGenericMaterial) || this;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 modelBase = ModelBase_main();\n                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), modelBase.a);\n                    }");
+                _this.compile();
+                return _this;
+            }
+            return LightmappedGeneric;
+        }(Shaders.LightmappedBase));
+        Shaders.LightmappedGeneric = LightmappedGeneric;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var SkyMaterial = /** @class */ (function (_super) {
+            __extends(SkyMaterial, _super);
+            function SkyMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.facePosX = null;
+                _this.faceNegX = null;
+                _this.facePosY = null;
+                _this.faceNegY = null;
+                _this.facePosZ = null;
+                _this.faceNegZ = null;
+                _this.hdrCompressed = false;
+                _this.aspect = 1;
+                return _this;
+            }
+            return SkyMaterial;
+        }(Shaders.BaseMaterial));
+        Shaders.SkyMaterial = SkyMaterial;
+        var Sky = /** @class */ (function (_super) {
+            __extends(Sky, _super);
+            function Sky(context) {
+                var _this = _super.call(this, context, SkyMaterial) || this;
+                _this.uProjection = _this.addUniform("uProjection", WebGame.UniformMatrix4);
+                _this.uView = _this.addUniform("uView", WebGame.UniformMatrix4);
+                _this.uFacePosX = _this.addUniform("uFacePosX", WebGame.UniformSampler);
+                _this.uFaceNegX = _this.addUniform("uFaceNegX", WebGame.UniformSampler);
+                _this.uFacePosY = _this.addUniform("uFacePosY", WebGame.UniformSampler);
+                _this.uFaceNegY = _this.addUniform("uFaceNegY", WebGame.UniformSampler);
+                _this.uFacePosZ = _this.addUniform("uFacePosZ", WebGame.UniformSampler);
+                _this.uFaceNegZ = _this.addUniform("uFaceNegZ", WebGame.UniformSampler);
+                _this.uHdrCompressed = _this.addUniform("uHdrCompressed", WebGame.Uniform1I);
+                _this.sortOrder = -1000;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec2 aTextureCoord;\n                    attribute float aFace;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uView + ";\n\n                    vec3 GetPosition()\n                    {\n                        vec2 pos = aTextureCoord - vec2(0.5, 0.5);\n                        int face = int(aFace + 0.5);\n                        if (face == 0) return vec3( 0.5, -pos.x, -pos.y);\n                        if (face == 1) return vec3(-0.5, pos.x, -pos.y);\n                        if (face == 2) return vec3( pos.x, 0.5, -pos.y);\n                        if (face == 3) return vec3(-pos.x, -0.5, -pos.y);\n                        if (face == 4) return vec3( pos.y,-pos.x, 0.5);\n                        if (face == 5) return vec3( pos.y, pos.x, -0.5);\n                        return vec3(0.0, 0.0, 0.0);\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * vec4(GetPosition() * 128.0, 0.0);\n\n                        gl_Position = " + _this.uProjection + " * vec4(viewPos.xyz, 1.0);\n\n                        vFace = aFace;\n                        vTextureCoord = aTextureCoord;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying float vFace;\n                    varying vec2 vTextureCoord;\n\n                    uniform sampler2D " + _this.uFacePosX + "; uniform vec4 " + _this.uFacePosX.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegX + "; uniform vec4 " + _this.uFaceNegX.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFacePosY + "; uniform vec4 " + _this.uFacePosY.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegY + "; uniform vec4 " + _this.uFaceNegY.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFacePosZ + "; uniform vec4 " + _this.uFacePosZ.getSizeUniform() + ";\n                    uniform sampler2D " + _this.uFaceNegZ + "; uniform vec4 " + _this.uFaceNegZ.getSizeUniform() + ";\n\n                    uniform int " + _this.uHdrCompressed + ";\n\n                    vec4 GetFaceSize()\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return " + _this.uFacePosX.getSizeUniform() + ";\n                        if (face == 1) return " + _this.uFaceNegX.getSizeUniform() + ";\n                        if (face == 2) return " + _this.uFacePosY.getSizeUniform() + ";\n                        if (face == 3) return " + _this.uFaceNegY.getSizeUniform() + ";\n                        if (face == 4) return " + _this.uFacePosZ.getSizeUniform() + ";\n                        if (face == 5) return " + _this.uFaceNegZ.getSizeUniform() + ";\n                        return vec4(1.0, 1.0, 1.0, 1.0);\n                    }\n\n                    vec4 GetFaceSample(vec2 uv)\n                    {\n                        int face = int(vFace + 0.5);\n                        if (face == 0) return texture2D(" + _this.uFacePosX + ", uv);\n                        if (face == 1) return texture2D(" + _this.uFaceNegX + ", uv);\n                        if (face == 2) return texture2D(" + _this.uFacePosY + ", uv);\n                        if (face == 3) return texture2D(" + _this.uFaceNegY + ", uv);\n                        if (face == 4) return texture2D(" + _this.uFacePosZ + ", uv);\n                        if (face == 5) return texture2D(" + _this.uFaceNegZ + ", uv);\n                        return vec4(0.0, 0.0, 0.0, 1.0);\n                    }\n\n                    vec3 DecompressHdr(vec4 sample)\n                    {\n                        return sample.rgb * sample.a * 2.0;\n                    }\n\n                    void main()\n                    {\n                        if (" + _this.uHdrCompressed + " != 0) {\n                            vec4 size = GetFaceSize();\n                            vec2 scaledCoord = vTextureCoord * size.xy * vec2(1.0, size.x * size.w) - vec2(0.5, 0.5);\n                            vec2 minCoord = floor(scaledCoord) + vec2(0.5, 0.5);\n                            vec2 maxCoord = minCoord + vec2(1.0, 1.0);\n                            vec2 delta = scaledCoord - floor(scaledCoord);\n\n                            minCoord *= size.zw;\n                            maxCoord *= size.zw;\n\n                            vec3 sampleA = DecompressHdr(GetFaceSample(vec2(minCoord.x, minCoord.y)));\n                            vec3 sampleB = DecompressHdr(GetFaceSample(vec2(maxCoord.x, minCoord.y)));\n                            vec3 sampleC = DecompressHdr(GetFaceSample(vec2(minCoord.x, maxCoord.y)));\n                            vec3 sampleD = DecompressHdr(GetFaceSample(vec2(maxCoord.x, maxCoord.y)));\n\n                            vec3 sample = mix(mix(sampleA, sampleB, delta.x), mix(sampleC, sampleD, delta.x), delta.y);\n\n                            gl_FragColor = vec4(sample, 1.0);\n                        } else {\n                            vec4 sample = GetFaceSample(vTextureCoord);\n                            gl_FragColor = vec4(sample.rgb, 1.0);\n                        }\n                    }");
+                _this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
+                _this.addAttribute("aFace", WebGame.VertexAttribute.alpha);
+                _this.uFacePosX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.uFaceNegX.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.uFacePosY.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.uFaceNegY.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.uFacePosZ.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.uFaceNegZ.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.compile();
+                return _this;
+            }
+            Sky.prototype.bufferSetup = function (buf) {
+                _super.prototype.bufferSetup.call(this, buf);
+                this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
+                this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
+                buf.depthMask(false);
+            };
+            Sky.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uFacePosX.bufferValue(buf, props.facePosX);
+                this.uFaceNegX.bufferValue(buf, props.faceNegX);
+                this.uFacePosY.bufferValue(buf, props.facePosY);
+                this.uFaceNegY.bufferValue(buf, props.faceNegY);
+                this.uFacePosZ.bufferValue(buf, props.facePosZ);
+                this.uFaceNegZ.bufferValue(buf, props.faceNegZ);
+                this.uHdrCompressed.bufferValue(buf, props.hdrCompressed ? 1 : 0);
+            };
+            return Sky;
+        }(Shaders.BaseShaderProgram));
+        Shaders.Sky = Sky;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var SplineRopeMaterial = /** @class */ (function (_super) {
+            __extends(SplineRopeMaterial, _super);
+            function SplineRopeMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return SplineRopeMaterial;
+        }(Shaders.ModelBaseMaterial));
+        Shaders.SplineRopeMaterial = SplineRopeMaterial;
+        var SplineRope = /** @class */ (function (_super) {
+            __extends(SplineRope, _super);
+            function SplineRope(context) {
+                var _this = _super.call(this, context, SplineRopeMaterial) || this;
+                _this.uAmbient0 = _this.addUniform("uAmbient[0]", WebGame.Uniform3F);
+                _this.uAmbient1 = _this.addUniform("uAmbient[1]", WebGame.Uniform3F);
+                _this.uAmbient2 = _this.addUniform("uAmbient[2]", WebGame.Uniform3F);
+                _this.uAmbient3 = _this.addUniform("uAmbient[3]", WebGame.Uniform3F);
+                _this.uAmbient4 = _this.addUniform("uAmbient[4]", WebGame.Uniform3F);
+                _this.uAmbient5 = _this.addUniform("uAmbient[5]", WebGame.Uniform3F);
+                _this.uAmbient = [_this.uAmbient0, _this.uAmbient1, _this.uAmbient2, _this.uAmbient3, _this.uAmbient4, _this.uAmbient5];
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aTangent;\n                    attribute vec2 aSplineParams;\n\n                    uniform vec3 uAmbient[6];\n\n                    varying vec3 vAmbient;\n\n                    vec3 SampleAmbient(vec3 normal, vec3 axis, int index)\n                    {\n                        return pow(max(0.0, dot(normal, axis)), 2.0) * pow(uAmbient[index], vec3(0.5, 0.5, 0.5));\n                    }\n\n                    void main()\n                    {\n                        vec4 viewPos = " + _this.uView + " * " + _this.uModel + " * vec4(aPosition, 1.0);\n                        vec3 viewTangent = normalize((" + _this.uView + " * " + _this.uModel + " * vec4(aTangent, 0.0)).xyz);\n                        vec3 viewNormalA = normalize(cross(viewPos.xyz, viewTangent));\n                        vec3 viewNormalB = normalize(cross(viewNormalA, viewTangent));\n\n                        vec3 viewUnitX = normalize((" + _this.uView + " * vec4(1.0, 0.0, 0.0, 0.0)).xyz);\n                        vec3 viewUnitY = normalize((" + _this.uView + " * vec4(0.0, 1.0, 0.0, 0.0)).xyz);\n                        vec3 viewUnitZ = normalize((" + _this.uView + " * vec4(0.0, 0.0, 1.0, 0.0)).xyz);\n\n                        vec3 viewNormal = normalize(viewNormalA * (aTextureCoord.x - 0.5)\n                            + viewNormalB * sqrt(1.0 - pow(1.0 - aTextureCoord.x * 2.0, 2.0)) * 0.5);\n\n                        vAmbient = SampleAmbient(viewNormal,  viewUnitX, 0)\n                                 + SampleAmbient(viewNormal, -viewUnitX, 1)\n                                 + SampleAmbient(viewNormal,  viewUnitY, 2)\n                                 + SampleAmbient(viewNormal, -viewUnitY, 3)\n                                 + SampleAmbient(viewNormal,  viewUnitZ, 4)\n                                 + SampleAmbient(viewNormal, -viewUnitZ, 5);\n\n                        viewPos.xyz += viewNormal * aSplineParams.x;\n                        viewPos.xyz += viewUnitZ * aSplineParams.y;\n\n                        gl_Position = " + _this.uProjection + " * viewPos;\n\n                        vTextureCoord = aTextureCoord;\n                        vDepth = -viewPos.z;\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vAmbient;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vAmbient), mainSample.a);\n                    }");
+                _this.addAttribute("aTangent", WebGame.VertexAttribute.normal);
+                _this.addAttribute("aSplineParams", WebGame.VertexAttribute.uv2);
+                _this.compile();
+                return _this;
+            }
+            SplineRope.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                if (props.ambient != null) {
+                    var values = props.ambient;
+                    var uniforms = this.uAmbient;
+                    for (var i = 0; i < 6; ++i) {
+                        var value = values[i];
+                        if (value == null)
+                            continue;
+                        uniforms[i].bufferValue(buf, value.x, value.y, value.z);
+                    }
+                }
+            };
+            return SplineRope;
+        }(Shaders.ModelBase));
+        Shaders.SplineRope = SplineRope;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="ModelBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var Shaders;
+    (function (Shaders) {
+        var UnlitGenericMaterial = /** @class */ (function (_super) {
+            __extends(UnlitGenericMaterial, _super);
+            function UnlitGenericMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return UnlitGenericMaterial;
+        }(Shaders.ModelBaseMaterial));
+        Shaders.UnlitGenericMaterial = UnlitGenericMaterial;
+        var UnlitGeneric = /** @class */ (function (_super) {
+            __extends(UnlitGeneric, _super);
+            function UnlitGeneric(context) {
+                var _this = _super.call(this, context, UnlitGenericMaterial) || this;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        ModelBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb), mainSample.a);\n                    }");
+                _this.compile();
+                return _this;
+            }
+            return UnlitGeneric;
+        }(Shaders.ModelBase));
+        Shaders.UnlitGeneric = UnlitGeneric;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="ModelBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var VertexLitGenericMaterial = /** @class */ (function (_super) {
+            __extends(VertexLitGenericMaterial, _super);
+            function VertexLitGenericMaterial() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return VertexLitGenericMaterial;
+        }(Shaders.ModelBaseMaterial));
+        Shaders.VertexLitGenericMaterial = VertexLitGenericMaterial;
+        var VertexLitGeneric = /** @class */ (function (_super) {
+            __extends(VertexLitGeneric, _super);
+            function VertexLitGeneric(context) {
+                var _this = _super.call(this, context, VertexLitGenericMaterial) || this;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    attribute vec3 aEncodedColors;\n\n                    varying vec3 vVertexLighting;\n                    varying vec3 vAlbedoModulation;\n\n                    void main()\n                    {\n                        vVertexLighting = floor(aEncodedColors) * (2.0 / 255.0);\n                        vAlbedoModulation = fract(aEncodedColors) * (256.0 / 255.0);\n\n                        ModelBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    varying vec3 vVertexLighting;\n                    varying vec3 vAlbedoModulation;\n\n                    void main()\n                    {\n                        vec4 mainSample = ModelBase_main();\n                        gl_FragColor = vec4(ApplyFog(mainSample.rgb * vVertexLighting * vAlbedoModulation), mainSample.a);\n                    }");
+                _this.addAttribute("aEncodedColors", WebGame.VertexAttribute.rgb);
+                _this.compile();
+                return _this;
+            }
+            return VertexLitGeneric;
+        }(Shaders.ModelBase));
+        Shaders.VertexLitGeneric = VertexLitGeneric;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var WaterMaterial = /** @class */ (function (_super) {
+            __extends(WaterMaterial, _super);
+            function WaterMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.fogStart = 8192;
+                _this.fogEnd = 16384;
+                _this.fogColor = new Facepunch.Vector3(1, 1, 1);
+                _this.fogLightmapped = true;
+                _this.translucent = true;
+                _this.refract = true;
+                _this.refractTint = new Facepunch.Vector3(1, 1, 1);
+                _this.normalMap = null;
+                _this.cullFace = false;
+                return _this;
+            }
+            return WaterMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.WaterMaterial = WaterMaterial;
+        var Water = /** @class */ (function (_super) {
+            __extends(Water, _super);
+            function Water(context) {
+                var _this = _super.call(this, context, WaterMaterial) || this;
+                _this.uCameraPos = _this.addUniform("uCameraPos", WebGame.Uniform3F);
+                _this.uInverseProjection = _this.addUniform("uInverseProjection", WebGame.UniformMatrix4);
+                _this.uInverseView = _this.addUniform("uInverseView", WebGame.UniformMatrix4);
+                _this.uScreenParams = _this.addUniform("uScreenParams", WebGame.Uniform4F);
+                _this.uOpaqueColor = _this.addUniform("uOpaqueColor", WebGame.UniformSampler);
+                _this.uOpaqueDepth = _this.addUniform("uOpaqueDepth", WebGame.UniformSampler);
+                _this.uWaterFogParams = _this.addUniform("uWaterFogParams", WebGame.Uniform4F);
+                _this.uWaterFogColor = _this.addUniform("uWaterFogColor", WebGame.Uniform3F);
+                _this.uWaterFogLightmapped = _this.addUniform("uWaterFogLightmapped", WebGame.Uniform1F);
+                _this.uNormalMap = _this.addUniform("uNormalMap", WebGame.UniformSampler);
+                _this.uRefractTint = _this.addUniform("uRefractTint", WebGame.Uniform3F);
+                _this.sortOrder = -10;
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform vec3 " + _this.uCameraPos + ";\n\n                    uniform vec4 " + _this.uScreenParams + ";\n                    uniform highp mat4 " + _this.uProjection + ";\n                    uniform mat4 " + _this.uInverseProjection + ";\n                    uniform mat4 " + _this.uInverseView + ";\n\n                    uniform sampler2D " + _this.uOpaqueColor + ";\n                    uniform sampler2D " + _this.uOpaqueDepth + ";\n\n                    uniform vec4 " + _this.uWaterFogParams + ";\n                    uniform vec3 " + _this.uWaterFogColor + ";\n                    uniform float " + _this.uWaterFogLightmapped + ";\n\n                    uniform sampler2D " + _this.uNormalMap + ";\n                    uniform vec3 " + _this.uRefractTint + ";\n\n                    vec4 CalcEyeFromWindow(in vec3 fragCoord)\n                    {\n                        vec3 ndcPos;\n                        ndcPos.xy = (2.0 * fragCoord.xy) * (uScreenParams.zw) - vec2(1.0, 1.0);\n                        ndcPos.z = (2.0 * fragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near);\n\n                        vec4 clipPos;\n                        clipPos.w = " + _this.uProjection + "[3][2] / (ndcPos.z - (" + _this.uProjection + "[2][2] / " + _this.uProjection + "[2][3]));\n                        clipPos.xyz = ndcPos * clipPos.w;\n\n                        return " + _this.uInverseProjection + " * clipPos;\n                    }\n\n                    vec3 GetWorldPos(vec3 coord)\n                    {\n                        return (" + _this.uInverseView + " * CalcEyeFromWindow(coord * vec3(" + _this.uScreenParams + ".xy, 1.0))).xyz;\n                    }\n\n                    void main()\n                    {\n                        vec2 screenPos = gl_FragCoord.xy * " + _this.uScreenParams + ".zw;\n\n                        vec3 normalSample = texture2D(" + _this.uNormalMap + ", vTextureCoord).xyz;\n                        vec3 normal = normalize(normalSample - vec3(0.5, 0.5, 0.5));\n                        vec3 surfacePos = GetWorldPos(vec3(screenPos, gl_FragCoord.z));\n                        vec3 viewDir = normalize(surfacePos - uCameraPos);\n\n                        vec3 lightmap = ApplyLightmap(vec3(1.0, 1.0, 1.0));\n                        float normalDot = abs(dot(viewDir, normal));\n\n                        float opaqueDepthSample = texture2D(" + _this.uOpaqueDepth + ", screenPos).r;\n                        vec3 opaquePos = GetWorldPos(vec3(screenPos, opaqueDepthSample));\n                        float opaqueDepth = length(surfacePos - opaquePos);\n                        vec2 refractedScreenPos = screenPos + normal.xy * opaqueDepth * 1.0 / 512.0;\n                        float refractedOpaqueDepthSample = texture2D(" + _this.uOpaqueDepth + ", refractedScreenPos).r;\n\n                        vec3 opaqueColor;\n                        if (refractedOpaqueDepthSample > gl_FragCoord.z) {\n                            opaqueColor = texture2D(" + _this.uOpaqueColor + ", refractedScreenPos).rgb;\n                            opaqueDepth = length(surfacePos - GetWorldPos(vec3(refractedScreenPos, refractedOpaqueDepthSample)));\n                        } else {\n                            opaqueColor = texture2D(" + _this.uOpaqueColor + ", screenPos).rgb;\n                        }\n\n                        float relativeDepth = (opaqueDepth - " + _this.uWaterFogParams + ".x) * " + _this.uWaterFogParams + ".y;\n                        float fogDensity = max(" + _this.uWaterFogParams + ".z, min(" + _this.uWaterFogParams + ".w, relativeDepth));\n\n                        vec3 waterFogColor = " + _this.uWaterFogColor + ";\n\n                        if (" + _this.uWaterFogLightmapped + " > 0.5) {\n                            waterFogColor *= lightmap;\n                        }\n\n                        vec3 waterFogged = mix(opaqueColor, ApplyFog(waterFogColor), fogDensity);\n                        gl_FragColor = vec4(waterFogged, 1.0);\n                    }");
+                _this.uOpaqueColor.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.uOpaqueDepth.setDefault(WebGame.TextureUtils.getBlackTexture(context));
+                _this.uNormalMap.setDefault(WebGame.TextureUtils.getErrorTexture(context));
+                _this.compile();
+                return _this;
+            }
+            Water.prototype.bufferSetup = function (buf) {
+                _super.prototype.bufferSetup.call(this, buf);
+                this.uCameraPos.bufferParameter(buf, WebGame.Camera.cameraPosParam);
+                this.uScreenParams.bufferParameter(buf, WebGame.Game.screenInfoParam);
+                this.uInverseProjection.bufferParameter(buf, WebGame.Camera.inverseProjectionMatrixParam);
+                this.uInverseView.bufferParameter(buf, WebGame.Camera.inverseViewMatrixParam);
+            };
+            Water.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uWaterFogColor.bufferValue(buf, props.fogColor.x, props.fogColor.y, props.fogColor.z);
+                this.uWaterFogParams.bufferValue(buf, props.fogStart, 1 / (props.fogEnd - props.fogStart), 0, 1);
+                this.uWaterFogLightmapped.bufferValue(buf, props.fogLightmapped ? 1 : 0);
+                this.uNormalMap.bufferValue(buf, props.normalMap);
+                this.uRefractTint.bufferValue(buf, props.refractTint.x, props.refractTint.y, props.refractTint.z);
+                if (props.translucent) {
+                    this.uOpaqueColor.bufferParameter(buf, WebGame.Camera.opaqueColorParam);
+                    this.uOpaqueDepth.bufferParameter(buf, WebGame.Camera.opaqueDepthParam);
+                }
+                else {
+                    this.uOpaqueColor.bufferValue(buf, null);
+                    this.uOpaqueDepth.bufferValue(buf, null);
+                }
+            };
+            return Water;
+        }(Shaders.LightmappedBase));
+        Shaders.Water = Water;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
+})(SourceUtils || (SourceUtils = {}));
+/// <reference path="LightmappedBase.ts"/>
+var SourceUtils;
+(function (SourceUtils) {
+    var WebGame = Facepunch.WebGame;
+    var Shaders;
+    (function (Shaders) {
+        var WorldTwoTextureBlendMaterial = /** @class */ (function (_super) {
+            __extends(WorldTwoTextureBlendMaterial, _super);
+            function WorldTwoTextureBlendMaterial() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.detail = null;
+                _this.detailScale = 1;
+                return _this;
+            }
+            return WorldTwoTextureBlendMaterial;
+        }(Shaders.LightmappedBaseMaterial));
+        Shaders.WorldTwoTextureBlendMaterial = WorldTwoTextureBlendMaterial;
+        var WorldTwoTextureBlend = /** @class */ (function (_super) {
+            __extends(WorldTwoTextureBlend, _super);
+            function WorldTwoTextureBlend(context) {
+                var _this = _super.call(this, context, WorldTwoTextureBlendMaterial) || this;
+                _this.uDetail = _this.addUniform("uDetail", WebGame.UniformSampler);
+                _this.uDetailScale = _this.addUniform("uDetailScale", WebGame.Uniform1F);
+                var gl = context;
+                _this.includeShaderSource(gl.VERTEX_SHADER, "\n                    void main()\n                    {\n                        LightmappedBase_main();\n                    }");
+                _this.includeShaderSource(gl.FRAGMENT_SHADER, "\n                    precision mediump float;\n\n                    uniform sampler2D uDetail;\n                    uniform float uDetailScale;\n\n                    void main()\n                    {\n                        vec3 base = texture2D(uBaseTexture, vTextureCoord).rgb;\n                        vec4 detail = texture2D(uDetail, vTextureCoord * uDetailScale).rgb;\n\n                        vec3 blendedSample = mix(base, detail, detail.a);\n                        vec3 lightmapped = ApplyLightmap(blendedSample);\n\n                        gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);\n                    }");
+                _this.uDetail.setDefault(WebGame.TextureUtils.getTranslucentTexture(gl));
+                _this.compile();
+                return _this;
+            }
+            WorldTwoTextureBlend.prototype.bufferMaterialProps = function (buf, props) {
+                _super.prototype.bufferMaterialProps.call(this, buf, props);
+                this.uDetail.bufferValue(buf, props.detail);
+                this.uDetailScale.bufferValue(buf, props.detailScale);
+            };
+            return WorldTwoTextureBlend;
+        }(Shaders.LightmappedBase));
+        Shaders.WorldTwoTextureBlend = WorldTwoTextureBlend;
+    })(Shaders = SourceUtils.Shaders || (SourceUtils.Shaders = {}));
 })(SourceUtils || (SourceUtils = {}));

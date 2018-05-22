@@ -7,6 +7,7 @@
             targetname?: string;
             origin?: Facepunch.IVector3;
             angles?: Facepunch.IVector3;
+            scale?: number;
         }
 
         export interface IColor {
@@ -45,6 +46,10 @@
                 if (info.angles !== undefined) {
                     const mul = Math.PI / 180;
                     this.setAngles(info.angles.x * mul, info.angles.y * mul, info.angles.z * mul);
+                }
+
+                if (info.scale !== undefined) {
+                    this.setScale(info.scale);
                 }
             }
         }

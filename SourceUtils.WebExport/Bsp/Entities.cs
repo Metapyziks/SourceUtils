@@ -88,6 +88,9 @@ namespace SourceUtils.WebExport.Bsp
 
             [JsonProperty( "angles" )]
             public Vector3? Angles { get; set; }
+
+            [JsonProperty("scale")]
+            public float? Scale { get; set; }
         }
 
         [Classname( Default = true )]
@@ -328,9 +331,6 @@ namespace SourceUtils.WebExport.Bsp
         {
             [JsonProperty("model")]
             public int Model { get; set; }
-
-            [JsonProperty("scale")]
-            public float? Scale { get; set; }
 
             [JsonProperty("vertLighting")]
             public int? VertLighting { get; set; }
