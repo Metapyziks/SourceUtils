@@ -156,6 +156,9 @@ namespace SourceUtils.WebExport
                     readSettings.Format = MagickFormat.Gray;
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "R");
                     break;
+                case TextureFormat.IA88:
+                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "RA");
+                    break;
                 case TextureFormat.BGR888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGR");
                     break;
