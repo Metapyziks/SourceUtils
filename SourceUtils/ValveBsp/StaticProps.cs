@@ -149,6 +149,50 @@ namespace SourceUtils.ValveBsp
         Vector3 IStaticProp.LightingOrigin => LightingOrigin;
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 80)]
+    public struct StaticPropV11 : IStaticProp
+    {
+        public readonly Vector3 Origin;
+        public readonly Vector3 Angles;
+        public readonly ushort PropType;
+        public readonly ushort FirstLeaf;
+        public readonly ushort LeafCount;
+        [MarshalAs(UnmanagedType.U1)]
+        public readonly bool Solid;
+        public readonly StaticPropFlags Flags;
+        public readonly int Skin;
+        public readonly float FadeMinDist;
+        public readonly float FadeMaxDist;
+        public readonly Vector3 LightingOrigin;
+
+        public readonly float ForcedFadeScale;
+
+        public readonly byte MinCpuLevel;
+        public readonly byte MaxCpuLevel;
+        public readonly byte MinGpuLevel;
+        public readonly byte MaxGpuLevel;
+
+        public readonly uint ColorModulation;
+        [MarshalAs(UnmanagedType.U1)]
+        public readonly bool DisableX360;
+
+        public readonly float Scale;
+
+        Vector3 IStaticProp.Origin => Origin;
+        Vector3 IStaticProp.Angles => Angles;
+        ushort IStaticProp.PropType => PropType;
+        int IStaticProp.Skin => Skin;
+        ushort IStaticProp.FirstLeaf => FirstLeaf;
+        ushort IStaticProp.LeafCount => LeafCount;
+        StaticPropFlags IStaticProp.Flags => Flags;
+        bool IStaticProp.Solid => Solid;
+        uint IStaticProp.ColorModulation => ColorModulation;
+        float IStaticProp.FadeMinDist => FadeMinDist;
+        float IStaticProp.FadeMaxDist => FadeMaxDist;
+        float IStaticProp.ForcedFadeScale => ForcedFadeScale;
+        Vector3 IStaticProp.LightingOrigin => LightingOrigin;
+    }
+
     public class StaticProps
     {
         private readonly ValveBspFile _bspFile;
@@ -284,6 +328,12 @@ namespace SourceUtils.ValveBsp
                                 .Cast<IStaticProp>()
                                 .ToArray();
                             break;
+                        case 11:
+                            _props = LumpReader<StaticPropV11>.ReadLumpFromStream(reader.BaseStream, propCount)
+                                .Cast<IStaticProp>()
+                                .ToArray();
+                            break;
+
                         default:
 #if DEBUG
                             var remaining = reader.BaseStream.Length - reader.BaseStream.Position;
