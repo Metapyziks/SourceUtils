@@ -261,6 +261,11 @@ namespace SourceUtils.ValveBsp
                     _leafDict = LumpReader<ushort>.ReadLumpFromStream( reader.BaseStream, leafCount );
 
                     var propCount = reader.ReadInt32();
+                    if ( propCount == 0 )
+                    {
+                        _props = new IStaticProp[0];
+                        return;
+                    }
 
                     switch ( version )
                     {
@@ -280,6 +285,29 @@ namespace SourceUtils.ValveBsp
                                 .ToArray();
                             break;
                         default:
+#if DEBUG
+                            var remaining = reader.BaseStream.Length - reader.BaseStream.Position;
+                            var size = (int) (remaining / propCount);
+
+                            const int debugPropCount = 10;
+                            const int bytesPerRow = 8;
+
+                            Console.WriteLine($"Static Prop size: {size}");
+                            Console.WriteLine($"Printing first {debugPropCount} props");
+
+                            var buffer = new byte[size];
+                            for ( var i = 0; i < propCount && i < debugPropCount; ++i )
+                            {
+                                Console.WriteLine($"Prop {i}:");
+                                reader.Read( buffer, 0, size );
+
+                                for ( var j = 0; j < size; j += bytesPerRow)
+                                {
+                                    Console.WriteLine( $"  0x{j:x4}: {string.Join(" ", buffer.Skip( j ).Take( bytesPerRow ).Select( x => x.ToString( "x2" ) ) )}");
+                                }
+                            }
+
+#endif
                             throw new NotSupportedException( $"Static prop version {version} is not supported." );
                     }
                 }
