@@ -36,6 +36,7 @@ namespace SourceUtils.ValveBsp
         float FadeMaxDist { get; }
         float ForcedFadeScale { get; }
         Vector3 LightingOrigin { get; }
+        float Scale { get; }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
@@ -69,6 +70,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
         Vector3 IStaticProp.LightingOrigin => LightingOrigin;
+        float IStaticProp.Scale => 1f;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
@@ -105,6 +107,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
         Vector3 IStaticProp.LightingOrigin => LightingOrigin;
+        float IStaticProp.Scale => 1f;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 76)]
@@ -147,10 +150,11 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
         Vector3 IStaticProp.LightingOrigin => LightingOrigin;
+        float IStaticProp.Scale => 1f;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 80)]
-    public struct StaticPropV11 : IStaticProp
+    public unsafe struct StaticPropV11 : IStaticProp
     {
         public readonly Vector3 Origin;
         public readonly Vector3 Angles;
@@ -175,7 +179,10 @@ namespace SourceUtils.ValveBsp
         public readonly uint ColorModulation;
         [MarshalAs(UnmanagedType.U1)]
         public readonly bool DisableX360;
+        
+        private fixed byte _unknown1[7];
 
+        //[FieldOffset(76)]
         public readonly float Scale;
 
         Vector3 IStaticProp.Origin => Origin;
@@ -191,6 +198,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;
         Vector3 IStaticProp.LightingOrigin => LightingOrigin;
+        float IStaticProp.Scale => Scale;
     }
 
     public class StaticProps
@@ -270,12 +278,15 @@ namespace SourceUtils.ValveBsp
             return _props[propIndex].LightingOrigin;
         }
 
-        public void GetPropTransform( int propIndex, out Vector3 origin, out Vector3 angles )
+        public void GetPropTransform( int propIndex, out Vector3 origin, out Vector3 angles, out float scale )
         {
             EnsureLoaded();
 
-            origin = _props[propIndex].Origin;
-            angles = _props[propIndex].Angles;
+            var prop = _props[propIndex];
+
+            origin = prop.Origin;
+            angles = prop.Angles;
+            scale = prop.Scale;
         }
 
         private void EnsureLoaded()

@@ -178,7 +178,8 @@ namespace SourceUtils.WebExport.Bsp
             for ( var propIndex = 0; propIndex < bsp.StaticProps.PropCount; ++propIndex )
             {
                 SourceUtils.Vector3 origin, angles;
-                bsp.StaticProps.GetPropTransform( propIndex, out origin, out angles );
+                float scale;
+                bsp.StaticProps.GetPropTransform( propIndex, out origin, out angles, out scale );
 
                 StaticPropFlags flags;
                 bool solid;
@@ -196,6 +197,7 @@ namespace SourceUtils.WebExport.Bsp
                     ClassName = "prop_static",
                     Origin = origin,
                     Angles = angles,
+                    Scale = Math.Abs(scale - 1f) < 0.001f ? null : (float?) scale,
                     Flags = flags,
                     Clusters = bsp.StaticProps.GetPropLeaves( propIndex )
                         .Select( x => (int) bsp.Leaves[x].Cluster )
