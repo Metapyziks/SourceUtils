@@ -163,6 +163,8 @@ namespace SourceUtils
                 case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
                     return toAdd + width * height * depth;
+                case TextureFormat.I8:
+                    return toAdd + width * height * depth;
                 case TextureFormat.ABGR8888:
                 case TextureFormat.BGRA8888:
                 case TextureFormat.RGBA8888:
@@ -279,6 +281,7 @@ namespace SourceUtils
                 case TextureFormat.DXT1:
                 case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
+                case TextureFormat.I8:
                 case TextureFormat.BGR888:
                 case TextureFormat.RGB888:
                 case TextureFormat.RGB888_BLUESCREEN:

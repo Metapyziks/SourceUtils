@@ -152,6 +152,10 @@ namespace SourceUtils.WebExport
                     readSettings.Format = MagickFormat.Dds;
                     offset = WriteDdsHeader(vtf, mip, _sPixelBuffer);
                     break;
+                case TextureFormat.I8:
+                    readSettings.Format = MagickFormat.Gray;
+                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "R");
+                    break;
                 case TextureFormat.BGR888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGR");
                     break;
