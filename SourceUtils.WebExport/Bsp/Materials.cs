@@ -45,6 +45,9 @@ namespace SourceUtils.WebExport.Bsp
 
                 if ( mat == null )
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Missing material '{path}'!");
+                    Console.ResetColor();
                     continue;
                 }
 
@@ -66,6 +69,13 @@ namespace SourceUtils.WebExport.Bsp
 
                     var texPath = TextureController.GetTexturePath( texUrl );
                     var tex = Texture.Get( bsp, texPath );
+
+                    if ( tex == null )
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"Missing texture '{texPath}'!");
+                        Console.ResetColor();
+                    }
 
                     texDict.Add( texUrl, texIndex );
                     page.Textures.Add( tex );
