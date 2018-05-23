@@ -49,15 +49,47 @@ namespace SourceUtils.WebExport
         }
 
         private static readonly Dictionary<string, ValveBspFile> _sOpenMaps = new Dictionary<string, ValveBspFile>();
+        private static Dictionary<string, string> _sWorkshopMaps;
 
         public static IResourceProvider Resources { get; private set; }
+
+        private static void FindWorkshopMaps()
+        {
+            _sWorkshopMaps = new Dictionary<string, string>();
+
+            var workshopDir = Path.Combine( BaseOptions.MapsDir, "workshop" );
+
+            if ( !Directory.Exists( workshopDir ) ) return;
+
+            foreach ( var directory in Directory.GetDirectories( workshopDir ) )
+            {
+                ulong workshopId;
+                if ( !ulong.TryParse( Path.GetFileName( directory ), out workshopId ) ) continue;
+
+                foreach ( var bsp in Directory.GetFiles( directory, "*.bsp", SearchOption.TopDirectoryOnly ) )
+                {
+                    var name = Path.GetFileNameWithoutExtension( bsp ).ToLower();
+                    if ( !_sWorkshopMaps.ContainsKey( name ) )
+                    {
+                        _sWorkshopMaps.Add( name, bsp );
+                    }
+                }
+            }
+        }
 
         public static ValveBspFile GetMap( string name )
         {
             ValveBspFile map;
             if ( _sOpenMaps.TryGetValue( name, out map ) ) return map;
 
-            map = new ValveBspFile( Path.Combine( BaseOptions.MapsDir, $"{name}.bsp" ) );
+            if ( _sWorkshopMaps == null ) FindWorkshopMaps();
+
+            if ( !_sWorkshopMaps.TryGetValue( name.ToLower(), out string bspPath ) )
+            {
+                bspPath = Path.Combine( BaseOptions.MapsDir, $"{name}.bsp" );
+            }
+
+            map = new ValveBspFile( bspPath );
             _sOpenMaps.Add( name, map );
 
             return map;
