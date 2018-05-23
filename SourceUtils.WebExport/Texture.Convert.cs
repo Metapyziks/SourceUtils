@@ -154,10 +154,14 @@ namespace SourceUtils.WebExport
                     break;
                 case TextureFormat.I8:
                     readSettings.Format = MagickFormat.Gray;
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "R");
                     break;
                 case TextureFormat.IA88:
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "RA");
+                    readSettings.Format = MagickFormat.Gray;
+                    readSettings.PixelStorage = new PixelStorageSettings
+                    {
+                        StorageType = StorageType.Char,
+                        Mapping = "PA"
+                    };
                     break;
                 case TextureFormat.BGR888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGR");
