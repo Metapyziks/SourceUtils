@@ -127,7 +127,7 @@ namespace SourceUtils.WebExport.Bsp
             public int Model { get; set; }
         }
 
-        [Classname( "func_brush" )]
+        [Classname( "func_brush", "func_lod" )]
         private static BrushEntity InitBrushEntity( BrushEntity ent, ValveBsp.Entities.Entity value, MapParams mapParams )
         {
             if ( value.TargetName != null && mapParams.AreaPortalNames.Contains( value.TargetName ) ) return null;
