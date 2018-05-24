@@ -127,7 +127,7 @@ namespace SourceUtils.WebExport.Bsp
             public int Model { get; set; }
         }
 
-        [Classname( "func_brush", "func_lod", "func_button", "func_door", "func_breakable", "func_wall" )]
+        [Classname( "func_brush", "func_lod", "func_button", "func_door", "func_breakable", "func_wall", "func_tracktrain", "func_illusionary" )]
         private static BrushEntity InitBrushEntity( BrushEntity ent, ValveBsp.Entities.Entity value, MapParams mapParams )
         {
             if ( value.TargetName != null && mapParams.AreaPortalNames.Contains( value.TargetName ) ) return null;
@@ -146,6 +146,11 @@ namespace SourceUtils.WebExport.Bsp
             if ( InitPvsEntity( ent, value, clusters ) == null ) return null;
 
             ent.Model = modelIndex;
+
+            if ( ent.GetType() == typeof(BrushEntity) )
+            {
+                ent.ClassName = "func_brush";
+            }
 
             return ent;
         }
