@@ -8,6 +8,8 @@
             translucent = false;
             alpha = 1;
             fogEnabled = true;
+            emission = false;
+            emissionTint = new Facepunch.Vector3(0, 0, 0);
         }
 
         export abstract class ModelBase<TMaterial extends ModelBaseMaterial> extends BaseShaderProgram<TMaterial> {
@@ -24,6 +26,9 @@
             readonly uFogParams = this.addUniform("uFogParams", WebGame.Uniform4F);
             readonly uFogColor = this.addUniform("uFogColor", WebGame.Uniform3F);
             readonly uFogEnabled = this.addUniform("uFogEnabled", WebGame.Uniform1I);
+
+            readonly uEmission = this.addUniform("uEmission", WebGame.Uniform1I);
+            readonly uEmissionTint = this.addUniform("uEmissionTint", WebGame.Uniform3F);
 
             constructor(context: WebGLRenderingContext, ctor: { new(): TMaterial }) {
                 super(context, ctor);
@@ -67,6 +72,9 @@
                     uniform vec3 ${this.uFogColor};
                     uniform int ${this.uFogEnabled};
 
+                    uniform int ${this.uEmission};
+                    uniform vec3 ${this.uEmissionTint};
+
                     vec3 ApplyFog(vec3 inColor)
                     {
                         if (${this.uFogEnabled} == 0) return inColor;
@@ -82,6 +90,11 @@
                         if (sample.a <= ${this.uAlphaTest} - 0.5) discard;
 
                         float alpha = mix(1.0, ${this.uAlpha} * sample.a, ${this.uTranslucent});
+
+                        if (${this.uEmission} != 0)
+                        {
+                            sample.rgb += ${this.uEmissionTint};
+                        }
 
                         return vec4(sample.rgb, alpha);
                     }`);
@@ -118,6 +131,11 @@
                 this.uAlpha.bufferValue(buf, props.alpha);
 
                 this.uFogEnabled.bufferValue(buf, props.fogEnabled ? 1 : 0);
+
+                this.uEmission.bufferValue(buf, props.emission ? 1 : 0);
+                if (props.emission) {
+                    this.uEmissionTint.bufferValue(buf, props.emissionTint.x, props.emissionTint.y, props.emissionTint.z);
+                }
 
                 const gl = this.context;
 

@@ -254,6 +254,18 @@ namespace SourceUtils.WebExport
                     case "$refractamount":
                         mat.SetNumber("refractAmount", value);
                         break;
+                    case "$selfillum":
+                        mat.SetBoolean("emission", value);
+                        break;
+                    case "$selfillumtint":
+                        mat.SetColor("emissionTint", new MaterialColor(value));
+                        break;
+                    default:
+                        if ( Program.BaseOptions.DebugMaterials )
+                        {
+                            mat.SetString( $"{name}", value );
+                        }
+                        break;
                 }
             }
         }

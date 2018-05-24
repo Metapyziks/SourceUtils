@@ -24,7 +24,7 @@ namespace SourceUtils {
                     void main()
                     {
                         vec4 modelBase = ModelBase_main();
-                        vec3 lightmapped = ApplyLightmap(modelBase.rgb);
+                        vec3 lightmapped = ${this.uEmission} != 0 ? modelBase.rgb : ApplyLightmap(modelBase.rgb);
 
                         gl_FragColor = vec4(ApplyFog(lightmapped), modelBase.a);
                     }`);

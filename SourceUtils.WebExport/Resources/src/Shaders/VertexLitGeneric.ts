@@ -22,7 +22,7 @@ namespace SourceUtils {
 
                     void main()
                     {
-                        vVertexLighting = floor(aEncodedColors) * (2.0 / 255.0);
+                        vVertexLighting = ${this.uEmission} != 0 ? vec3(1.0, 1.0, 1.0) : floor(aEncodedColors) * (2.0 / 255.0);
                         vAlbedoModulation = fract(aEncodedColors) * (256.0 / 255.0);
 
                         ModelBase_main();

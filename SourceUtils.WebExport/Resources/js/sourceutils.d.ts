@@ -631,6 +631,8 @@ declare namespace SourceUtils {
             translucent: boolean;
             alpha: number;
             fogEnabled: boolean;
+            emission: boolean;
+            emissionTint: Facepunch.Vector3;
         }
         abstract class ModelBase<TMaterial extends ModelBaseMaterial> extends BaseShaderProgram<TMaterial> {
             readonly uProjection: WebGame.UniformMatrix4;
@@ -643,6 +645,8 @@ declare namespace SourceUtils {
             readonly uFogParams: WebGame.Uniform4F;
             readonly uFogColor: WebGame.Uniform3F;
             readonly uFogEnabled: WebGame.Uniform1I;
+            readonly uEmission: WebGame.Uniform1I;
+            readonly uEmissionTint: WebGame.Uniform3F;
             constructor(context: WebGLRenderingContext, ctor: {
                 new (): TMaterial;
             });

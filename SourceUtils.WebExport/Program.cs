@@ -30,6 +30,9 @@ namespace SourceUtils.WebExport
         
         [Option("debug-pakfile", HelpText = "Save pakfile to disk for each map, for debugging.")]
         public bool DebugPakFile { get; set; }
+
+        [Option("debug-materials", HelpText = "Include all material properties.")]
+        public bool DebugMaterials { get; set; }
     }
 
     [Verb("host", HelpText = "Run a HTTP server that exports requested resources.")]
