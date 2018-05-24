@@ -136,6 +136,7 @@ namespace SourceUtils {
                     case "func_breakable":
                     case "func_door":
                     case "func_lod":
+                    case "func_wall":
                         pvsInst = new Entities.BrushEntity(this, ent as Entities.IBrushEntity);
                         break;
                     case "prop_static":

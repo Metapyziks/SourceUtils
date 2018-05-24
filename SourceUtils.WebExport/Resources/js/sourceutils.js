@@ -554,6 +554,7 @@ var SourceUtils;
                     case "func_breakable":
                     case "func_door":
                     case "func_lod":
+                    case "func_wall":
                         pvsInst = new SourceUtils.Entities.BrushEntity(this, ent);
                         break;
                     case "prop_static":
