@@ -46,6 +46,8 @@
                     uniform mat4 ${this.uView};
                     uniform mat4 ${this.uModel};
 
+                    uniform mediump int ${this.uEmission};
+
                     void ModelBase_main()
                     {
                         vec4 viewPos = ${this.uView} * ${this.uModel} * vec4(aPosition, 1.0);
