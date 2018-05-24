@@ -91,7 +91,7 @@ declare namespace SourceUtils {
         private readonly viewer;
         readonly isLeaf: boolean;
         readonly plane: Plane;
-        readonly children: (BspLeaf | BspNode)[];
+        readonly children: (BspNode | BspLeaf)[];
         constructor(viewer: MapViewer, info: IBspNode);
         private loadChild(value);
         findLeaves(target: BspLeaf[]): void;

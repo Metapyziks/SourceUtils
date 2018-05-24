@@ -100,7 +100,7 @@ namespace SourceUtils {
                         float opaqueDepthSample = texture2D(${this.uOpaqueDepth}, screenPos).r;
                         vec3 opaquePos = GetWorldPos(vec3(screenPos, opaqueDepthSample));
                         float opaqueDepth = length(surfacePos - opaquePos);
-                        vec2 refractedScreenPos = screenPos + normal.xy * opaqueDepth * 1.0 / 512.0;
+                        vec2 refractedScreenPos = screenPos + normal.xy * min(opaqueDepth, 128.0) / max(512.0, length(surfacePos - ${this.uCameraPos}) * 2.0);
                         float refractedOpaqueDepthSample = texture2D(${this.uOpaqueDepth}, refractedScreenPos).r;
 
                         vec3 opaqueColor;
@@ -109,10 +109,11 @@ namespace SourceUtils {
                             opaqueDepth = length(surfacePos - GetWorldPos(vec3(refractedScreenPos, refractedOpaqueDepthSample)));
                         } else {
                             opaqueColor = texture2D(${this.uOpaqueColor}, screenPos).rgb;
+                            opaqueDepth = length(surfacePos - opaquePos);
                         }
 
                         float relativeDepth = (opaqueDepth - ${this.uWaterFogParams}.x) * ${this.uWaterFogParams}.y;
-                        float fogDensity = max(${this.uWaterFogParams}.z, min(${this.uWaterFogParams}.w, relativeDepth));
+                        float fogDensity = max(${this.uWaterFogParams}.z, min(${this.uWaterFogParams}.w * 0.5, relativeDepth));
 
                         vec3 waterFogColor = ${this.uWaterFogColor};
 

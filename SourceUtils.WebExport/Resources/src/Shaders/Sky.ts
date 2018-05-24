@@ -67,6 +67,8 @@
                     }`);
 
                 this.includeShaderSource(gl.FRAGMENT_SHADER, `
+                    #extension GL_EXT_frag_depth : enable
+
                     precision mediump float;
 
                     varying float vFace;
@@ -134,6 +136,8 @@
                             vec4 sample = GetFaceSample(vTextureCoord);
                             gl_FragColor = vec4(sample.rgb, 1.0);
                         }
+
+                        gl_FragDepthEXT = 0.99999;
                     }`);
 
                 this.addAttribute("aTextureCoord", WebGame.VertexAttribute.uv);
@@ -154,8 +158,6 @@
 
                 this.uProjection.bufferParameter(buf, WebGame.Camera.projectionMatrixParam);
                 this.uView.bufferParameter(buf, WebGame.Camera.viewMatrixParam);
-
-                buf.depthMask(false);
             }
 
             bufferMaterialProps(buf: Facepunch.WebGame.CommandBuffer, props: SkyMaterial): void {
