@@ -453,6 +453,7 @@ namespace SourceUtils.WebExport.Bsp
             {
                 case "lightmappedgeneric":
                 case "lightmappedreflective":
+                case "worldtwotextureblend":
                 case "water":
                     dest.Add( VertexAttribute.Uv2 );
                     break;

@@ -149,6 +149,11 @@ namespace SourceUtils.WebExport
                         mat.Shader = "SourceUtils.Shaders.Lightmapped2WayBlend";
                         break;
                     }
+                case "worldtwotextureblend": // todo: temp
+                    {
+                        mat.Shader = "SourceUtils.Shaders.WorldTwoTextureBlend";
+                        break;
+                    }
                 case "vertexlitgeneric":
                     {
                         mat.Shader = "SourceUtils.Shaders.VertexLitGeneric";

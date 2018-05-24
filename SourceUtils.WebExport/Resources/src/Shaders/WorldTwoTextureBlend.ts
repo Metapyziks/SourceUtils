@@ -33,9 +33,9 @@ namespace SourceUtils {
                     void main()
                     {
                         vec3 base = texture2D(uBaseTexture, vTextureCoord).rgb;
-                        vec4 detail = texture2D(uDetail, vTextureCoord * uDetailScale).rgb;
+                        vec4 detail = texture2D(uDetail, vTextureCoord * uDetailScale);
 
-                        vec3 blendedSample = mix(base, detail, detail.a);
+                        vec3 blendedSample = mix(base.rgb, detail.rgb, detail.a);
                         vec3 lightmapped = ApplyLightmap(blendedSample);
 
                         gl_FragColor = vec4(ApplyFog(lightmapped), 1.0);
