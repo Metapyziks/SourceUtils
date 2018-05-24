@@ -236,7 +236,7 @@ namespace SourceUtils
 
                 public static float ToSingle( string param )
                 {
-                    return param == null ? 0f : float.TryParse( param, out var value ) ? value : 0f;
+                    return param == null ? 0f : float.TryParse( param.Replace( ',', '.' ), out var value ) ? value : 0f;
                 }
 
                 public static Vector3 ToVector3( string param )
