@@ -132,6 +132,9 @@ namespace SourceUtils {
                         pvsInst = new Entities.Displacement(this, ent as Entities.IDisplacement);
                         break;
                     case "func_brush":
+                    case "func_button":
+                    case "func_breakable":
+                    case "func_door":
                     case "func_lod":
                         pvsInst = new Entities.BrushEntity(this, ent as Entities.IBrushEntity);
                         break;

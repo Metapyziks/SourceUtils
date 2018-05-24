@@ -550,6 +550,9 @@ var SourceUtils;
                         pvsInst = new SourceUtils.Entities.Displacement(this, ent);
                         break;
                     case "func_brush":
+                    case "func_button":
+                    case "func_breakable":
+                    case "func_door":
                     case "func_lod":
                         pvsInst = new SourceUtils.Entities.BrushEntity(this, ent);
                         break;
