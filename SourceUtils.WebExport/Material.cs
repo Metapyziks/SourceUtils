@@ -157,6 +157,7 @@ namespace SourceUtils.WebExport
                 case "unlittwotexture":
                 case "unlitgeneric":
                 case "monitorscreen":
+                case "sprite":
                     {
                         mat.Shader = "SourceUtils.Shaders.UnlitGeneric";
                         break;
