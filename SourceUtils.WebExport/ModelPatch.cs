@@ -54,6 +54,9 @@ namespace SourceUtils.WebExport
         [Option('i', "input", HelpText = "Input model path.", Required = true)]
         public string InputPath { get; set; }
 
+        [Option('o', "output", HelpText = "Output path to write to.")]
+        public string OutputPath { get; set; }
+
         [Option('r', "replace", Separator = ';', HelpText = "Replacement commands.")]
         public IEnumerable<string> Replace { get; set; }
     }

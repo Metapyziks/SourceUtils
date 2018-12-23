@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using CommandLine;
 using Ziks.WebServer;
 
@@ -167,6 +168,27 @@ namespace SourceUtils.WebExport
             return 0;
         }
 
+        private static readonly byte[] _sIntBuffer = new byte[4];
+
+        static int AppendString(Stream mdlStream, string value, ref int length)
+        {
+            var offset = length;
+
+            var bytes = Encoding.ASCII.GetBytes(value);
+            mdlStream.Seek(length, SeekOrigin.Begin);
+            mdlStream.Write(bytes, 0, bytes.Length);
+            mdlStream.WriteByte(0x00);
+
+            length += bytes.Length + 1;
+
+            if (BaseOptions.Verbose)
+            {
+                Console.WriteLine($"Appending string: \"{value}\", at: 0x{offset:x8}, new length: 0x{length:x8}.");
+            }
+
+            return offset;
+        }
+
         static int ModelPatch( ModelPatchOptions args )
         {
             SetBaseOptions( args );
@@ -201,6 +223,8 @@ namespace SourceUtils.WebExport
                 Console.WriteLine();
             }
 
+            var commands = new List<ReplacementCommand>();
+
             foreach (var replaceStr in args.Replace)
             {
                 ReplacementCommand cmd;
@@ -214,10 +238,76 @@ namespace SourceUtils.WebExport
                 {
                     Console.WriteLine($"Replacing {cmd.Type}[{cmd.Index}] with \"{cmd.Value}\"");
                 }
+
+                commands.Add(cmd);
             }
 
             if (args.Verbose)
             {
+                Console.WriteLine();
+                Console.WriteLine("Applying commands:");
+            }
+
+            using (var outStream = new MemoryStream())
+            {
+                using (var inStream = Resources.OpenFile(args.InputPath))
+                {
+                    inStream.CopyTo(outStream);
+                }
+
+                var length = mdl.FileHeader.Length;
+
+                foreach (var cmd in commands)
+                {
+                    switch (cmd.Type)
+                    {
+                        case ReplacementType.Directory:
+                        {
+                            var indexOffset = mdl.FileHeader.CdTextureIndex + sizeof(int) * cmd.Index;
+                            var newIndex = AppendString(outStream, cmd.Value, ref length);
+
+                            if (args.Verbose)
+                            {
+                                Console.WriteLine($"- Writing directory index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
+                            }
+
+                            outStream.Seek(indexOffset, SeekOrigin.Begin);
+                            outStream.Write(BitConverter.GetBytes(newIndex), 0, sizeof(int));
+                            break;
+                        }
+                    }
+                }
+
+                if (args.Verbose)
+                {
+                    Console.WriteLine($"- Writing file length: 0x{length:x8}, at: 0x{StudioModelFile.Header.LengthOffset:x8}.");
+                }
+
+                outStream.Seek(StudioModelFile.Header.LengthOffset, SeekOrigin.Begin);
+                outStream.Write(BitConverter.GetBytes(length), 0, sizeof(int));
+
+                if (!string.IsNullOrEmpty(args.OutputPath))
+                {
+                    var fullOutPath = new FileInfo(args.OutputPath).FullName;
+
+                    if (args.Verbose)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Writing output to \"{fullOutPath}\"...");
+                    }
+
+                    outStream.Seek(0, SeekOrigin.Begin);
+
+                    using (var fileStream = File.Create(fullOutPath))
+                    {
+                        outStream.CopyTo(fileStream);
+                    }
+                }
+            }
+
+            if (args.Verbose)
+            {
+                Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
             }
 

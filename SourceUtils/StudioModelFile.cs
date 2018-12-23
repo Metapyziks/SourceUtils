@@ -24,6 +24,8 @@ namespace SourceUtils
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public unsafe struct Header
         {
+            public const int LengthOffset = 12;
+
             public int Id;
             public int Version;
             public int Checksum;
@@ -202,7 +204,7 @@ namespace SourceUtils
             return new StudioModelFile(stream);
         }
 
-        private readonly Header _header;
+        public readonly Header FileHeader;
 
         private readonly StudioTexture[] _materials;
         private readonly string[] _materialNames;
@@ -216,10 +218,10 @@ namespace SourceUtils
         private readonly StudioModel[] _models;
         private readonly StudioMesh[] _meshes;
 
-        public int Checksum => _header.Checksum;
-        public int NumTextures => _header.NumTextures;
-        public Vector3 HullMin => _header.HullMin;
-        public Vector3 HullMax => _header.HullMax;
+        public int Checksum => FileHeader.Checksum;
+        public int NumTextures => FileHeader.NumTextures;
+        public Vector3 HullMin => FileHeader.HullMin;
+        public Vector3 HullMax => FileHeader.HullMax;
 
         public IEnumerable<string> TextureDirectories => _materialPaths;
         public IEnumerable<string> TextureNames => _materialNames;
@@ -228,16 +230,16 @@ namespace SourceUtils
 
         public StudioModelFile(Stream stream)
         {
-            _header = LumpReader<Header>.ReadSingleFromStream(stream);
+            FileHeader = LumpReader<Header>.ReadSingleFromStream(stream);
 
-            if ( _header.Id != 0x54534449 ) throw new Exception( "Not a MDL file." );
+            if ( FileHeader.Id != 0x54534449 ) throw new Exception( "Not a MDL file." );
 
-            _materials = new StudioTexture[_header.NumTextures];
-            _materialNames = new string[_header.NumTextures];
-            _cachedFullMaterialPaths = new string[_header.NumTextures];
+            _materials = new StudioTexture[FileHeader.NumTextures];
+            _materialNames = new string[FileHeader.NumTextures];
+            _cachedFullMaterialPaths = new string[FileHeader.NumTextures];
 
-            stream.Seek(_header.TextureIndex, SeekOrigin.Begin);
-            LumpReader<StudioTexture>.ReadLumpFromStream(stream, _header.NumTextures, (index, tex) =>
+            stream.Seek(FileHeader.TextureIndex, SeekOrigin.Begin);
+            LumpReader<StudioTexture>.ReadLumpFromStream(stream, FileHeader.NumTextures, (index, tex) =>
             {
                 _materials[index] = tex;
 
@@ -245,23 +247,23 @@ namespace SourceUtils
                 _materialNames[index] = ReadNullTerminatedString(stream).Replace( '\\', '/' ) + ".vmt";
             });
 
-            _materialPaths = new string[_header.NumCdTextures];
+            _materialPaths = new string[FileHeader.NumCdTextures];
 
-            stream.Seek( _header.CdTextureIndex, SeekOrigin.Begin );
-            LumpReader<int>.ReadLumpFromStream( stream, _header.NumCdTextures, ( index, cdTex ) =>
+            stream.Seek( FileHeader.CdTextureIndex, SeekOrigin.Begin );
+            LumpReader<int>.ReadLumpFromStream( stream, FileHeader.NumCdTextures, ( index, cdTex ) =>
             {
                 stream.Seek( cdTex, SeekOrigin.Begin );
                 _materialPaths[index] = ReadNullTerminatedString( stream ).Replace( '\\', '/' );
             } );
 
-            _bodyParts = new StudioBodyPart[_header.NumBodyParts];
-            _bodyPartNames = new string[_header.NumBodyParts];
+            _bodyParts = new StudioBodyPart[FileHeader.NumBodyParts];
+            _bodyPartNames = new string[FileHeader.NumBodyParts];
 
             var modelList = new List<StudioModel>();
             var meshList = new List<StudioMesh>();
 
-            stream.Seek( _header.BodyPartIndex, SeekOrigin.Begin );
-            LumpReader<StudioBodyPart>.ReadLumpFromStream( stream, _header.NumBodyParts, (partIndex, part) =>
+            stream.Seek( FileHeader.BodyPartIndex, SeekOrigin.Begin );
+            LumpReader<StudioBodyPart>.ReadLumpFromStream( stream, FileHeader.NumBodyParts, (partIndex, part) =>
             {
                 var partPos = stream.Position;
 
