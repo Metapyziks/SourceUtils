@@ -19,7 +19,7 @@ namespace SourceUtils.WebExport
         [Option('r', "overwrite", HelpText = "Overwrite existing exported files.")]
         public bool Overwrite { get; set; }
 
-        [Option( 'p', "url-prefix", HelpText = "Prefix to prepend to each exported URL." )]
+        [Option('p', "url-prefix", HelpText = "Prefix to prepend to each exported URL." )]
         public string UrlPrefix { get; set; } = "";
 
         [Option('m', "maps", HelpText = "Specific comma separated map names to export (e.g. 'de_dust2,e_mirage,kz_*').", Required = true)]

@@ -221,6 +221,9 @@ namespace SourceUtils
         public Vector3 HullMin => _header.HullMin;
         public Vector3 HullMax => _header.HullMax;
 
+        public IEnumerable<string> TextureDirectories => _materialPaths;
+        public IEnumerable<string> TextureNames => _materialNames;
+
         public int TotalVertices => _meshes.Sum( x => x.NumVertices );
 
         public StudioModelFile(Stream stream)

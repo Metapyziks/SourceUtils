@@ -167,10 +167,67 @@ namespace SourceUtils.WebExport
             return 0;
         }
 
+        static int ModelPatch( ModelPatchOptions args )
+        {
+            SetBaseOptions( args );
+
+            var mdl = StudioModelFile.FromProvider( args.InputPath, Resources );
+
+            if ( mdl == null )
+            {
+                Console.Error.WriteLine( $"Unable to find model at path '{args.InputPath}'!");
+                return 1;
+            }
+
+            if ( args.Verbose )
+            {
+                Console.WriteLine($"Model has {mdl.TextureDirectories.Count()} material directories:");
+
+                var i = 0;
+                foreach (var texName in mdl.TextureDirectories)
+                {
+                    Console.WriteLine($" [{i++}]: {texName}");
+                }
+
+                Console.WriteLine();
+                Console.WriteLine($"Model has {mdl.TextureNames.Count()} material names:");
+
+                i = 0;
+                foreach (var texName in mdl.TextureNames)
+                {
+                    Console.WriteLine($" [{i++}]: {texName}");
+                }
+
+                Console.WriteLine();
+            }
+
+            foreach (var replaceStr in args.Replace)
+            {
+                ReplacementCommand cmd;
+                if (!ReplacementCommand.TryParse(replaceStr, out cmd))
+                {
+                    Console.Error.WriteLine($"Unable to parse replacement command '{replaceStr}'.");
+                    return 1;
+                }
+
+                if (args.Verbose)
+                {
+                    Console.WriteLine($"Replacing {cmd.Type}[{cmd.Index}] with \"{cmd.Value}\"");
+                }
+            }
+
+            if (args.Verbose)
+            {
+                Console.ReadKey(true);
+            }
+
+            return 0;
+        }
+
         static int Main(string[] args)
         {
-            var result = Parser.Default.ParseArguments<ExportOptions, HostOptions>( args );
-            return result.MapResult<ExportOptions, HostOptions, int>( Export, Host, _ => 1 );
+            var result = Parser.Default.ParseArguments<ExportOptions, HostOptions, ModelPatchOptions>( args );
+            return result.MapResult<ExportOptions, HostOptions, ModelPatchOptions, int>( Export, Host, ModelPatch, _ => 1 );
         }
     }
 }
