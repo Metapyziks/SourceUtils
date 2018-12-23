@@ -24,7 +24,7 @@ namespace SourceUtils
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public unsafe struct Header
         {
-            public const int LengthOffset = 12;
+            public const int LengthOffset = 12 + 64;
 
             public int Id;
             public int Version;
@@ -89,6 +89,8 @@ namespace SourceUtils
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct StudioTexture
         {
+            public const int NameIndexOffset = 0;
+
             public int NameIndex;
             public int Flags;
             public int Used;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using CommandLine;
 using Ziks.WebServer;
@@ -273,6 +274,22 @@ namespace SourceUtils.WebExport
 
                             outStream.Seek(indexOffset, SeekOrigin.Begin);
                             outStream.Write(BitConverter.GetBytes(newIndex), 0, sizeof(int));
+                            break;
+                        }
+                        case ReplacementType.Name:
+                        {
+                            var texOffset = mdl.FileHeader.TextureIndex + Marshal.SizeOf<StudioModelFile.StudioTexture>() * cmd.Index;
+                            var indexOffset = texOffset + StudioModelFile.StudioTexture.NameIndexOffset;
+                            var newIndex = AppendString(outStream, cmd.Value, ref length);
+
+                            if (args.Verbose)
+                            {
+                                Console.WriteLine($"- Writing name index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
+                            }
+
+                            outStream.Seek(indexOffset, SeekOrigin.Begin);
+                            outStream.Write(BitConverter.GetBytes(newIndex), 0, sizeof(int));
+
                             break;
                         }
                     }
