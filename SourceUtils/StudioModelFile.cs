@@ -84,6 +84,64 @@ namespace SourceUtils
 
             public int NumBodyParts;
             public int BodyPartIndex;
+
+            int attachment_count;
+            int attachment_offset;
+
+            // Node values appear to be single bytes, while their names are null-terminated strings.
+            int localnode_count;
+            int localnode_index;
+            int localnode_name_index;
+
+            // mstudioflexdesc_t
+            int flexdesc_count;
+            int flexdesc_index;
+
+            // mstudioflexcontroller_t
+            int flexcontroller_count;
+            int flexcontroller_index;
+
+            // mstudioflexrule_t
+            int flexrules_count;
+            int flexrules_index;
+
+            // IK probably referse to inverse kinematics
+            // mstudioikchain_t
+            int ikchain_count;
+            int ikchain_index;
+
+            // Information about any "mouth" on the model for speech animation
+            // More than one sounds pretty creepy.
+            // mstudiomouth_t
+            int mouths_count;
+            int mouths_index;
+
+            // mstudioposeparamdesc_t
+            int localposeparam_count;
+            int localposeparam_index;
+
+            /*
+             * For anyone trying to follow along, as of this writing,
+             * the next "surfaceprop_index" value is at position 0x0134 (308)
+             * from the start of the file.
+             */
+
+            // Surface property value (single null-terminated string)
+            int surfaceprop_index;
+
+            // Unusual: In this one index comes first, then count.
+            // Key-value data is a series of strings. If you can't find
+            // what you're interested in, check the associated PHY file as well.
+            int keyvalue_index;
+            int keyvalue_count;
+
+            // More inverse-kinematics
+            // mstudioiklock_t
+            int iklock_count;
+            int iklock_index;
+
+
+            float mass;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -225,8 +283,9 @@ namespace SourceUtils
         public Vector3 HullMin => FileHeader.HullMin;
         public Vector3 HullMax => FileHeader.HullMax;
 
-        public IEnumerable<string> TextureDirectories => _materialPaths;
-        public IEnumerable<string> TextureNames => _materialNames;
+        public IReadOnlyList<StudioTexture> Textures => _materials;
+        public IReadOnlyList<string> TextureDirectories => _materialPaths;
+        public IReadOnlyList<string> TextureNames => _materialNames;
 
         public int TotalVertices => _meshes.Sum( x => x.NumVertices );
 
@@ -246,7 +305,7 @@ namespace SourceUtils
                 _materials[index] = tex;
 
                 stream.Seek(tex.NameIndex, SeekOrigin.Current);
-                _materialNames[index] = ReadNullTerminatedString(stream).Replace( '\\', '/' ) + ".vmt";
+                _materialNames[index] = ReadNullTerminatedString(stream);
             });
 
             _materialPaths = new string[FileHeader.NumCdTextures];
@@ -339,6 +398,7 @@ namespace SourceUtils
             {
                 var fullPath = (path + _materialNames[index]).Replace( '\\', '/' );
                 if ( !fullPath.StartsWith( "materials/" ) ) fullPath = $"materials/{fullPath}";
+                if ( !fullPath.EndsWith(".vmt") ) fullPath += ".vmt";
 
                 foreach ( var provider in providers )
                 {

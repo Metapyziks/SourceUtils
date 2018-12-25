@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -169,22 +170,124 @@ namespace SourceUtils.WebExport
             return 0;
         }
 
-        private static readonly byte[] _sIntBuffer = new byte[4];
-
-        static int AppendString(Stream mdlStream, string value, ref int length)
+        private struct Range
         {
-            var offset = length;
+            public readonly int Min;
+            public readonly int Max;
 
-            var bytes = Encoding.ASCII.GetBytes(value);
-            mdlStream.Seek(length, SeekOrigin.Begin);
-            mdlStream.Write(bytes, 0, bytes.Length);
-            mdlStream.WriteByte(0x00);
+            public int Length => Max - Min;
 
-            length += bytes.Length + 1;
+            public Range(int min, int max)
+            {
+                Min = min;
+                Max = max;
+            }
+
+            public override string ToString()
+            {
+                return $"({Min}, {Max})";
+            }
+        }
+
+        [ThreadStatic]
+        static byte[] _sClearBuffer;
+
+        static int NextPowerOfTwo(int value)
+        {
+            var po2 = 1;
+            while (po2 < value) po2 <<= 1;
+            return po2;
+        }
+
+        static void ClearRange(Stream mdlStream, Range range, List<Range> ranges)
+        {
+            if (_sClearBuffer == null || _sClearBuffer.Length < range.Length)
+            {
+                _sClearBuffer = new byte[NextPowerOfTwo(range.Length)];
+            }
 
             if (BaseOptions.Verbose)
             {
-                Console.WriteLine($"Appending string: \"{value}\", at: 0x{offset:x8}, new length: 0x{length:x8}.");
+                Console.WriteLine($"Clearing range from: 0x{range.Min:x8}, to: 0x{range.Max:x8}");
+            }
+
+            mdlStream.Seek(range.Min, SeekOrigin.Begin);
+            mdlStream.Write(_sClearBuffer, 0, range.Length);
+
+            for (var i = ranges.Count - 1; i >= 0; --i)
+            {
+                var next = ranges[i];
+
+                if (next.Min > range.Max) continue;
+                if (next.Max < range.Min)
+                {
+                    ranges.Insert(i + 1, range);
+                    return;
+                }
+
+                ranges.RemoveAt(i);
+                range = new Range(Math.Min(next.Min, range.Min), Math.Max(next.Max, range.Max));
+            }
+
+            ranges.Insert(0, range);
+        }
+
+        [ThreadStatic]
+        private static byte[] _sReadInt32Buffer;
+
+        static int ReadInt32(Stream stream, int offset)
+        {
+            if (_sReadInt32Buffer == null)
+            {
+                _sReadInt32Buffer = new byte[sizeof(int)];
+            }
+
+            stream.Seek(offset, SeekOrigin.Begin);
+            stream.Read(_sReadInt32Buffer, 0, sizeof(int));
+
+            return BitConverter.ToInt32(_sReadInt32Buffer, 0);
+        }
+
+        static void WriteInt32(Stream stream, int offset, int value)
+        {
+            stream.Seek(offset, SeekOrigin.Begin);
+            stream.Write(BitConverter.GetBytes(value), 0, sizeof(int));
+        }
+
+        static int AppendString(Stream mdlStream, string value, List<Range> ranges)
+        {
+            var bytes = Encoding.ASCII.GetBytes(value);
+            var offset = -1;
+
+            for (var i = 0; i < ranges.Count; ++i)
+            {
+                var range = ranges[i];
+                if (range.Length <= bytes.Length) continue;
+
+                offset = range.Min;
+                range = new Range(range.Min + bytes.Length + 1, range.Max);
+
+                if (range.Length <= 0)
+                {
+                    ranges.RemoveAt(i);
+                }
+                else
+                {
+                    ranges[i] = range;
+                }
+
+                break;
+            }
+
+            Debug.Assert(offset != -1);
+
+            mdlStream.Seek(offset, SeekOrigin.Begin);
+            mdlStream.Write(bytes, 0, bytes.Length);
+            mdlStream.WriteByte(0x00);
+
+            if (BaseOptions.Verbose)
+            {
+                Console.WriteLine($"Appending string: \"{value}\", at: 0x{offset:x8}.");
             }
 
             return offset;
@@ -202,53 +305,6 @@ namespace SourceUtils.WebExport
                 return 1;
             }
 
-            if ( args.Verbose )
-            {
-                Console.WriteLine($"Model has {mdl.TextureDirectories.Count()} material directories:");
-
-                var i = 0;
-                foreach (var texName in mdl.TextureDirectories)
-                {
-                    Console.WriteLine($" [{i++}]: {texName}");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine($"Model has {mdl.TextureNames.Count()} material names:");
-
-                i = 0;
-                foreach (var texName in mdl.TextureNames)
-                {
-                    Console.WriteLine($" [{i++}]: {texName}");
-                }
-
-                Console.WriteLine();
-            }
-
-            var commands = new List<ReplacementCommand>();
-
-            foreach (var replaceStr in args.Replace)
-            {
-                ReplacementCommand cmd;
-                if (!ReplacementCommand.TryParse(replaceStr, out cmd))
-                {
-                    Console.Error.WriteLine($"Unable to parse replacement command '{replaceStr}'.");
-                    return 1;
-                }
-
-                if (args.Verbose)
-                {
-                    Console.WriteLine($"Replacing {cmd.Type}[{cmd.Index}] with \"{cmd.Value}\"");
-                }
-
-                commands.Add(cmd);
-            }
-
-            if (args.Verbose)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Applying commands:");
-            }
-
             using (var outStream = new MemoryStream())
             {
                 using (var inStream = Resources.OpenFile(args.InputPath))
@@ -256,7 +312,99 @@ namespace SourceUtils.WebExport
                     inStream.CopyTo(outStream);
                 }
 
-                var length = mdl.FileHeader.Length;
+                var empty = new List<Range> { new Range(mdl.FileHeader.Length, int.MaxValue) };
+
+                var commands = new List<ReplacementCommand>();
+
+                foreach (var replaceStr in args.Replace)
+                {
+                    ReplacementCommand cmd;
+                    if (!ReplacementCommand.TryParse(replaceStr, out cmd))
+                    {
+                        Console.Error.WriteLine($"Unable to parse replacement command '{replaceStr}'.");
+                        return 1;
+                    }
+
+                    if (args.Verbose)
+                    {
+                        Console.WriteLine($"Replacing {cmd.Type}[{cmd.Index}] with \"{cmd.Value}\"");
+                    }
+
+                    commands.Add(cmd);
+                }
+
+                if (args.Verbose)
+                {
+                    if (commands.Any())
+                    {
+                        Console.WriteLine();
+                    }
+
+                    Console.WriteLine($"Model has {mdl.TextureDirectories.Count} material directories:");
+                }
+
+                var i = 0;
+                foreach (var texDir in mdl.TextureDirectories)
+                {
+                    var indexOffset = mdl.FileHeader.CdTextureIndex + sizeof(int) * i;
+                    var index = ReadInt32(outStream, indexOffset);
+
+                    ClearRange(outStream, new Range(index, index + texDir.Length + 1), empty);
+
+                    if (!commands.Any(x => x.Type == ReplacementType.Directory && x.Index == i))
+                    {
+                        commands.Add(new ReplacementCommand(ReplacementType.Directory, i, texDir));
+                    }
+
+                    if (args.Verbose)
+                    {
+                        Console.WriteLine($" [{i}]: {texDir}");
+                    }
+
+                    ++i;
+                }
+
+                if (args.Verbose)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Model has {mdl.TextureNames.Count} material names:");
+                }
+
+                i = 0;
+                foreach (var texName in mdl.TextureNames)
+                {
+                    var texOffset = mdl.FileHeader.TextureIndex + Marshal.SizeOf<StudioModelFile.StudioTexture>() * i;
+                    var index = texOffset + mdl.Textures[i].NameIndex;
+
+                    ClearRange(outStream, new Range(index, index + texName.Length + 1), empty);
+
+                    if (!commands.Any(x => x.Type == ReplacementType.Name && x.Index == i))
+                    {
+                        commands.Add(new ReplacementCommand(ReplacementType.Name, i, texName));
+                    }
+
+                    if (args.Verbose)
+                    {
+                        Console.WriteLine($" [{i}]: {texName}");
+                    }
+
+                    ++i;
+                }
+
+                if (args.Verbose)
+                {
+                    Console.WriteLine();
+                }
+
+                if (args.Verbose)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Applying commands:");
+                }
+
+                commands.Sort((a, b) => a.Type != b.Type
+                    ? a.Type.CompareTo(b.Type)
+                    : a.Index - b.Index);
 
                 foreach (var cmd in commands)
                 {
@@ -265,43 +413,44 @@ namespace SourceUtils.WebExport
                         case ReplacementType.Directory:
                         {
                             var indexOffset = mdl.FileHeader.CdTextureIndex + sizeof(int) * cmd.Index;
-                            var newIndex = AppendString(outStream, cmd.Value, ref length);
+                            var newIndex = AppendString(outStream, cmd.Value, empty);
 
                             if (args.Verbose)
                             {
                                 Console.WriteLine($"- Writing directory index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
                             }
 
-                            outStream.Seek(indexOffset, SeekOrigin.Begin);
-                            outStream.Write(BitConverter.GetBytes(newIndex), 0, sizeof(int));
+                            WriteInt32(outStream, indexOffset, newIndex);
                             break;
                         }
                         case ReplacementType.Name:
                         {
                             var texOffset = mdl.FileHeader.TextureIndex + Marshal.SizeOf<StudioModelFile.StudioTexture>() * cmd.Index;
                             var indexOffset = texOffset + StudioModelFile.StudioTexture.NameIndexOffset;
-                            var newIndex = AppendString(outStream, cmd.Value, ref length);
+                            var newIndex = AppendString(outStream, cmd.Value, empty);
 
                             if (args.Verbose)
                             {
                                 Console.WriteLine($"- Writing name index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
                             }
 
-                            outStream.Seek(indexOffset, SeekOrigin.Begin);
-                            outStream.Write(BitConverter.GetBytes(newIndex), 0, sizeof(int));
+                            WriteInt32(outStream, indexOffset, newIndex - texOffset);
 
                             break;
                         }
                     }
                 }
 
+                var length = empty.Last().Min;
+
+                outStream.SetLength(length);
+
                 if (args.Verbose)
                 {
                     Console.WriteLine($"- Writing file length: 0x{length:x8}, at: 0x{StudioModelFile.Header.LengthOffset:x8}.");
                 }
 
-                outStream.Seek(StudioModelFile.Header.LengthOffset, SeekOrigin.Begin);
-                outStream.Write(BitConverter.GetBytes(length), 0, sizeof(int));
+                WriteInt32(outStream, StudioModelFile.Header.LengthOffset, length);
 
                 if (!string.IsNullOrEmpty(args.OutputPath))
                 {
