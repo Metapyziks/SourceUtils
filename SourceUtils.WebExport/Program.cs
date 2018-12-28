@@ -542,6 +542,12 @@ namespace SourceUtils.WebExport
 
                     outStream.Seek(0, SeekOrigin.Begin);
 
+                    var dir = Path.GetDirectoryName(fullOutPath);
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+
                     using (var fileStream = File.Create(fullOutPath))
                     {
                         outStream.CopyTo(fileStream);
