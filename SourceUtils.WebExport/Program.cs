@@ -529,13 +529,6 @@ namespace SourceUtils.WebExport
                 }
             }
 
-            if (args.Verbose)
-            {
-                WriteSeparator();
-                WriteVerbose("Press any key to exit...");
-                Console.ReadKey(true);
-            }
-
             return 0;
         }
 
