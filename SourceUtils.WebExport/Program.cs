@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -208,7 +209,7 @@ namespace SourceUtils.WebExport
 
             if (BaseOptions.Verbose)
             {
-                Console.WriteLine($"Clearing range from: 0x{range.Min:x8}, to: 0x{range.Max:x8}");
+                WriteVerbose($"Clearing range from: 0x{range.Min:x8}, to: 0x{range.Max:x8}");
             }
 
             mdlStream.Seek(range.Min, SeekOrigin.Begin);
@@ -287,10 +288,38 @@ namespace SourceUtils.WebExport
 
             if (BaseOptions.Verbose)
             {
-                Console.WriteLine($"Appending string: \"{value}\", at: 0x{offset:x8}.");
+                WriteVerbose($"Appending string: \"{value}\", at: 0x{offset:x8}.");
             }
 
             return offset;
+        }
+
+        static void WriteSeparator()
+        {
+            if (BaseOptions.Verbose)
+            {
+                Console.WriteLine();
+            }
+        }
+
+        static void WriteVerbose(string message)
+        {
+            if (BaseOptions.Verbose)
+            {
+                Console.WriteLine(message);
+            }
+        }
+
+        static void WriteVerboseHeader(string label)
+        {
+            if (BaseOptions.Verbose)
+            {
+                WriteSeparator();
+                WriteVerbose("#");
+                WriteVerbose($"# {label}");
+                WriteVerbose("#");
+                WriteSeparator();
+            }
         }
 
         static int ModelPatch( ModelPatchOptions args )
@@ -316,6 +345,8 @@ namespace SourceUtils.WebExport
 
                 var commands = new List<ReplacementCommand>();
 
+                WriteVerboseHeader("Commands");
+
                 foreach (var replaceStr in args.Replace)
                 {
                     ReplacementCommand cmd;
@@ -325,23 +356,76 @@ namespace SourceUtils.WebExport
                         return 1;
                     }
 
-                    if (args.Verbose)
-                    {
-                        Console.WriteLine($"Replacing {cmd.Type}[{cmd.Index}] with \"{cmd.Value}\"");
-                    }
+                    WriteVerbose($"Replacing {cmd.Type}[{cmd.Index}] with \"{cmd.Value}\"");
 
                     commands.Add(cmd);
                 }
 
-                if (args.Verbose)
+                var shouldOverrideFlags = false;
+                StudioModelFile.Flags overrideFlags = 0;
+
+                WriteSeparator();
+
+                if (args.Flags != null)
                 {
-                    if (commands.Any())
+                    shouldOverrideFlags = true;
+
+                    foreach (var flagStr in args.Flags.Split(',', ';', '|'))
                     {
-                        Console.WriteLine();
+                        var trimmedString = flagStr.TrimStart();
+
+                        int flagInt;
+                        StudioModelFile.Flags flagValue;
+                        var numberStyle = NumberStyles.Integer;
+
+                        if (trimmedString.StartsWith("0x"))
+                        {
+                            numberStyle = NumberStyles.HexNumber;
+                            trimmedString = trimmedString.Substring("0x".Length);
+                        }
+
+                        if (int.TryParse(trimmedString, numberStyle, CultureInfo.InvariantCulture, out flagInt))
+                        {
+                            overrideFlags |= (StudioModelFile.Flags) flagInt;
+                        }
+                        else if (Enum.TryParse(trimmedString, true, out flagValue))
+                        {
+                            overrideFlags |= flagValue;
+                        }
+                        else
+                        {
+                            Console.Error.WriteLine($"Unexpected model flag value \"{trimmedString}\".");
+                            return 1;
+                        }
                     }
 
-                    Console.WriteLine($"Model has {mdl.TextureDirectories.Count} material directories:");
+                    WriteVerbose($"Override model flags: {overrideFlags:x}:");
+
+                    foreach (StudioModelFile.Flags value in Enum.GetValues(typeof(StudioModelFile.Flags)))
+                    {
+                        if ((overrideFlags & value) != 0)
+                        {
+                            WriteVerbose($" - {value}");
+                        }
+                    }
+
+                    WriteSeparator();
                 }
+
+                WriteVerboseHeader("Input Model");
+
+                WriteVerbose($"Existing model flags: {mdl.FileHeader.Flags:x}:");
+
+                foreach (StudioModelFile.Flags value in Enum.GetValues(typeof(StudioModelFile.Flags)))
+                {
+                    if ((mdl.FileHeader.Flags & value) != 0)
+                    {
+                        WriteVerbose($" - {value}");
+                    }
+                }
+
+                WriteSeparator();
+                WriteVerbose($"Model has {mdl.TextureDirectories.Count} material directories:");
 
                 var i = 0;
                 foreach (var texDir in mdl.TextureDirectories)
@@ -356,19 +440,13 @@ namespace SourceUtils.WebExport
                         commands.Add(new ReplacementCommand(ReplacementType.Directory, i, texDir));
                     }
 
-                    if (args.Verbose)
-                    {
-                        Console.WriteLine($" [{i}]: {texDir}");
-                    }
+                    WriteVerbose($" [{i}]: {texDir}");
 
                     ++i;
                 }
 
-                if (args.Verbose)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine($"Model has {mdl.TextureNames.Count} material names:");
-                }
+                WriteSeparator();
+                WriteVerbose($"Model has {mdl.TextureNames.Count} material names:");
 
                 i = 0;
                 foreach (var texName in mdl.TextureNames)
@@ -383,24 +461,12 @@ namespace SourceUtils.WebExport
                         commands.Add(new ReplacementCommand(ReplacementType.Name, i, texName));
                     }
 
-                    if (args.Verbose)
-                    {
-                        Console.WriteLine($" [{i}]: {texName}");
-                    }
+                    WriteVerbose($" [{i}]: {texName}");
 
                     ++i;
                 }
 
-                if (args.Verbose)
-                {
-                    Console.WriteLine();
-                }
-
-                if (args.Verbose)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Applying commands:");
-                }
+                WriteVerboseHeader("Applying Commands");
 
                 commands.Sort((a, b) => a.Type != b.Type
                     ? a.Type.CompareTo(b.Type)
@@ -415,11 +481,7 @@ namespace SourceUtils.WebExport
                             var indexOffset = mdl.FileHeader.CdTextureIndex + sizeof(int) * cmd.Index;
                             var newIndex = AppendString(outStream, cmd.Value, empty);
 
-                            if (args.Verbose)
-                            {
-                                Console.WriteLine($"- Writing directory index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
-                            }
-
+                            WriteVerbose($" - Writing directory index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
                             WriteInt32(outStream, indexOffset, newIndex);
                             break;
                         }
@@ -429,11 +491,7 @@ namespace SourceUtils.WebExport
                             var indexOffset = texOffset + StudioModelFile.StudioTexture.NameIndexOffset;
                             var newIndex = AppendString(outStream, cmd.Value, empty);
 
-                            if (args.Verbose)
-                            {
-                                Console.WriteLine($"- Writing name index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
-                            }
-
+                            WriteVerbose($" - Writing name index: 0x{newIndex:x8}, at: 0x{indexOffset:x8}.");
                             WriteInt32(outStream, indexOffset, newIndex - texOffset);
 
                             break;
@@ -445,22 +503,22 @@ namespace SourceUtils.WebExport
 
                 outStream.SetLength(length);
 
-                if (args.Verbose)
-                {
-                    Console.WriteLine($"- Writing file length: 0x{length:x8}, at: 0x{StudioModelFile.Header.LengthOffset:x8}.");
-                }
-
+                WriteVerbose($" - Writing file length: 0x{length:x8}, at: 0x{StudioModelFile.Header.LengthOffset:x8}.");
                 WriteInt32(outStream, StudioModelFile.Header.LengthOffset, length);
+
+                if (shouldOverrideFlags)
+                {
+                    WriteVerbose($" - Writing model flags: 0x{overrideFlags:x}, at: 0x{StudioModelFile.Header.FlagsOffset:x8}.");
+                    WriteInt32(outStream, StudioModelFile.Header.FlagsOffset, (int)overrideFlags);
+                }
 
                 if (!string.IsNullOrEmpty(args.OutputPath))
                 {
+                    WriteVerboseHeader("Output");
+
                     var fullOutPath = new FileInfo(args.OutputPath).FullName;
 
-                    if (args.Verbose)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine($"Writing output to \"{fullOutPath}\"...");
-                    }
+                    WriteVerbose($"Writing output to \"{fullOutPath}\"...");
 
                     outStream.Seek(0, SeekOrigin.Begin);
 
@@ -473,7 +531,8 @@ namespace SourceUtils.WebExport
 
             if (args.Verbose)
             {
-                Console.WriteLine("Press any key to exit...");
+                WriteSeparator();
+                WriteVerbose("Press any key to exit...");
                 Console.ReadKey(true);
             }
 

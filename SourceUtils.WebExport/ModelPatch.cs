@@ -59,5 +59,8 @@ namespace SourceUtils.WebExport
 
         [Option('r', "replace", Separator = ';', HelpText = "Replacement commands.")]
         public IEnumerable<string> Replace { get; set; }
+
+        [Option('f', "flags", HelpText = "Replacement Studio Model flags.")]
+        public string Flags { get; set; }
     }
 }
