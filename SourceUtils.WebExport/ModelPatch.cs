@@ -70,22 +70,28 @@ namespace SourceUtils.WebExport
         }
     }
 
-    [Verb("model-patch", HelpText = "Replace one or more textures in a Studio Model.")]
-    class ModelPatchOptions : BaseOptions
+    class ModelBaseOptions : BaseOptions
     {
         [Option('i', "input", HelpText = "Input model path.", Required = true)]
         public string InputPath { get; set; }
 
         [Option('o', "output", HelpText = "Output path to write to.")]
         public string OutputPath { get; set; }
+    }
 
+    [Verb("model-patch", HelpText = "Replace one or more textures in a Studio Model.")]
+    class ModelPatchOptions : ModelBaseOptions
+    {
         [Option('r', "replace", Separator = ';', HelpText = "Replacement commands.")]
         public IEnumerable<string> Replace { get; set; }
 
         [Option('f', "flags", HelpText = "Replacement Studio Model flags.")]
         public string Flags { get; set; }
+    }
 
-        [Option('e', "extract", HelpText = "Extract materials used by the model to the given directory.")]
-        public string MaterialExtractPath { get; set; }
+    [Verb("material-extract", HelpText = "Dump materials used by a Studio Model.")]
+    class MaterialExtractOptions : ModelBaseOptions
+    {
+        
     }
 }

@@ -543,7 +543,7 @@ namespace SourceUtils.WebExport
                     outStream.Seek(0, SeekOrigin.Begin);
 
                     var dir = Path.GetDirectoryName(fullOutPath);
-                    if (!Directory.Exists(dir))
+                    if (dir != null && !Directory.Exists(dir))
                     {
                         Directory.CreateDirectory(dir);
                     }
@@ -558,10 +558,48 @@ namespace SourceUtils.WebExport
             return 0;
         }
 
+        static int ModelExtract(MaterialExtractOptions args)
+        {
+            SetBaseOptions(args);
+
+            var mdl = StudioModelFile.FromProvider(args.InputPath, Resources);
+
+            if (mdl == null)
+            {
+                Console.Error.WriteLine($"Unable to find model at path '{args.InputPath}'!");
+                return 1;
+            }
+
+            for (var i = 0; i < mdl.MaterialCount; ++i)
+            {
+                var srcPath = mdl.GetMaterialName(i, Resources);
+                Console.WriteLine(srcPath);
+
+                if (args.OutputPath != null)
+                {
+                    var dstPath = Path.Combine(args.OutputPath, srcPath);
+                    var dstDir = Path.GetDirectoryName(dstPath);
+
+                    if (dstDir != null && !Directory.Exists(dstDir))
+                    {
+                        Directory.CreateDirectory(dstDir);
+                    }
+
+                    using (var src = Resources.OpenFile(srcPath))
+                    using (var dst = File.Create(dstPath))
+                    {
+                        src.CopyTo(dst);
+                    }
+                }
+            }
+
+            return 0;
+        }
+
         static int Main(string[] args)
         {
-            var result = Parser.Default.ParseArguments<ExportOptions, HostOptions, ModelPatchOptions>( args );
-            return result.MapResult<ExportOptions, HostOptions, ModelPatchOptions, int>( Export, Host, ModelPatch, _ => 1 );
+            var result = Parser.Default.ParseArguments<ExportOptions, HostOptions, ModelPatchOptions, MaterialExtractOptions>( args );
+            return result.MapResult<ExportOptions, HostOptions, ModelPatchOptions, MaterialExtractOptions, int>( Export, Host, ModelPatch, ModelExtract, _ => 1 );
         }
     }
 }
