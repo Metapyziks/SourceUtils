@@ -26,6 +26,36 @@ namespace SourceUtils
         }
     }
 
+    public class FSLoader : IResourceProvider
+    {
+        private string root;
+
+        public FSLoader(string directory = "")
+        {
+            root = directory;
+        }
+
+        public bool ContainsFile(string filePath)
+        {
+            return File.Exists(Path.Combine(root, filePath));
+        }
+
+        public IEnumerable<string> GetDirectories(string directory = "")
+        {
+            return Directory.GetDirectories(Path.Combine(root, directory));
+        }
+
+        public IEnumerable<string> GetFiles(string directory = "")
+        {
+            return Directory.GetFiles(Path.Combine(root, directory));
+        }
+
+        public Stream OpenFile(string filePath)
+        {
+            return File.OpenRead(Path.Combine(root, filePath));
+        }
+    }
+
     public class ResourceLoader : IResourceProvider
     {
         private readonly List<IResourceProvider> _providers = new List<IResourceProvider>();

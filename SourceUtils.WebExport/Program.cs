@@ -17,6 +17,9 @@ namespace SourceUtils.WebExport
         [Option('g', "gamedir", HelpText = "Game directory to export from.", Required = true)]
         public string GameDir { get; set; }
 
+        [Option('l', "loosedir", HelpText = "(Additional) directory to load loose files from.")]
+        public string LooseDir { get; set; }
+
         [Option('p', "packages", HelpText = "Comma separated VPK file names.")]
         public string Packages { get; set; } = "pak01_dir.vpk";
 
@@ -118,21 +121,19 @@ namespace SourceUtils.WebExport
                 .Select( x => Path.IsPathRooted( x ) ? x.Trim() : Path.Combine( args.GameDir, x.Trim() ) )
                 .ToArray();
 
-            if ( vpkNames.Length == 1 )
-            {
-                Resources = new ValvePackage( vpkNames[0] );
-            }
-            else
-            {
-                var loader = new ResourceLoader();
+            var loader = new ResourceLoader();
 
-                foreach ( var path in vpkNames )
-                {
-                    loader.AddResourceProvider( new ValvePackage( path ) );
-                }
-
-                Resources = loader;
+            if (!string.IsNullOrEmpty(args.LooseDir))
+            {
+                loader.AddResourceProvider(new FSLoader(args.LooseDir));
             }
+
+            foreach ( var path in vpkNames )
+            {
+                loader.AddResourceProvider( new ValvePackage( path ) );
+            }
+
+            Resources = loader;
 
             if ( string.IsNullOrEmpty( args.ResourcesDir ) )
             {
