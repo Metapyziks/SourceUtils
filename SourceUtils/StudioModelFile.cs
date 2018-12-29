@@ -416,14 +416,15 @@ namespace SourceUtils
 
         public string GetMaterialName(int index, params IResourceProvider[] providers)
         {
+            var name = $"{_materialNames[index]}.vmt";
+
             if ( _cachedFullMaterialPaths[index] != null ) return _cachedFullMaterialPaths[index];
-            if ( _materialPaths.Length == 0 ) return _cachedFullMaterialPaths[index] = _materialNames[index];
+            if ( _materialPaths.Length == 0 ) return _cachedFullMaterialPaths[index] = name;
 
             foreach ( var path in _materialPaths )
             {
-                var fullPath = (path + _materialNames[index]).Replace( '\\', '/' );
+                var fullPath = (path + name).Replace( '\\', '/' );
                 if ( !fullPath.StartsWith( "materials/" ) ) fullPath = $"materials/{fullPath}";
-                if ( !fullPath.EndsWith(".vmt") ) fullPath += ".vmt";
 
                 foreach ( var provider in providers )
                 {
@@ -431,7 +432,7 @@ namespace SourceUtils
                 }
             }
 
-            return _cachedFullMaterialPaths[index] = _materialNames[index];
+            return name;
         }
     }
 }

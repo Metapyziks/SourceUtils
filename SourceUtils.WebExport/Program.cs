@@ -574,6 +574,12 @@ namespace SourceUtils.WebExport
             for (var i = 0; i < mdl.MaterialCount; ++i)
             {
                 var srcPath = mdl.GetMaterialName(i, Resources);
+
+                if (!Resources.ContainsFile(srcPath))
+                {
+                    continue;
+                }
+
                 Console.WriteLine(srcPath);
 
                 if (args.OutputPath != null)
