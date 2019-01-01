@@ -169,6 +169,28 @@ namespace SourceUtils
             float mass;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 0xd8)]
+        public unsafe struct StudioBone
+        {
+            public int NameIndex;
+            public int Parent;
+
+            public fixed int BoneController[6];
+            public Vector3 Pos;
+            public Vector4 Quat;
+            public Vector3 Rot;
+            public Vector3 PosScale;
+            public Vector3 RotScale;
+            public fixed float PoseToBone[16];
+            public Vector4 Alignment;
+            public int Flags;
+            public int ProcType;
+            public int ProcIndex;
+            public int PhysicBone;
+            public int SurfacePropIndex;
+            public int Contents;
+        }
+
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct StudioTexture
         {
@@ -302,6 +324,9 @@ namespace SourceUtils
 
         private readonly StudioModel[] _models;
         private readonly StudioMesh[] _meshes;
+        private readonly StudioBone[] _bones;
+
+        private readonly string[] _boneNames;
 
         public int Checksum => FileHeader.Checksum;
         public int NumTextures => FileHeader.NumTextures;
@@ -320,9 +345,20 @@ namespace SourceUtils
 
             if ( FileHeader.Id != 0x54534449 ) throw new Exception( "Not a MDL file." );
 
+            _bones = new StudioBone[FileHeader.NumBones];
+            _boneNames = new string[FileHeader.NumBones];
             _materials = new StudioTexture[FileHeader.NumTextures];
             _materialNames = new string[FileHeader.NumTextures];
             _cachedFullMaterialPaths = new string[FileHeader.NumTextures];
+
+            stream.Seek(FileHeader.BoneIndex, SeekOrigin.Begin);
+            LumpReader<StudioBone>.ReadLumpFromStream(stream, FileHeader.NumBones, (index, bone) =>
+            {
+                _bones[index] = bone;
+
+                stream.Seek(bone.NameIndex, SeekOrigin.Current);
+                _boneNames[index] = ReadNullTerminatedString(stream);
+            });
 
             stream.Seek(FileHeader.TextureIndex, SeekOrigin.Begin);
             LumpReader<StudioTexture>.ReadLumpFromStream(stream, FileHeader.NumTextures, (index, tex) =>
