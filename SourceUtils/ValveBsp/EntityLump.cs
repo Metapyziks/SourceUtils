@@ -134,32 +134,32 @@ namespace SourceUtils
         {
             public static implicit operator string( EntityProperty prop )
             {
-                return prop._entity.GetRawPropertyValue( prop._name );
+                return prop._entity.Properties[prop._name];
             }
 
             public static implicit operator bool( EntityProperty prop )
             {
-                return Entity.Converters.ToBoolean( prop._entity.GetRawPropertyValue( prop._name ) );
+                return Entity.Converters.ToBoolean( prop );
             }
 
             public static implicit operator int( EntityProperty prop )
             {
-                return Entity.Converters.ToInt32( prop._entity.GetRawPropertyValue( prop._name ) );
+                return Entity.Converters.ToInt32( prop );
             }
 
             public static implicit operator float( EntityProperty prop )
             {
-                return Entity.Converters.ToSingle( prop._entity.GetRawPropertyValue( prop._name ) );
+                return Entity.Converters.ToSingle( prop );
             }
 
             public static implicit operator Vector3( EntityProperty prop )
             {
-                return Entity.Converters.ToVector3( prop._entity.GetRawPropertyValue( prop._name ) );
+                return Entity.Converters.ToVector3( prop );
             }
 
             public static implicit operator Color32( EntityProperty prop )
             {
-                return Entity.Converters.ToColor32( prop._entity.GetRawPropertyValue( prop._name ) );
+                return Entity.Converters.ToColor32( prop );
             }
 
             private readonly Entity _entity;
@@ -294,7 +294,7 @@ namespace SourceUtils
                 return Expression.Lambda<Action<Entity, string>>( call, entityParam, valueParam ).Compile();
             }
 
-            private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
+            public KeyValues Properties { get; private set; }
 
             [EntityField("classname")]
             public string ClassName { get; private set; }
@@ -311,25 +311,13 @@ namespace SourceUtils
             [EntityField("rendermode")]
             public int RenderMode { get; private set; }
 
-            public IEnumerable<string> PropertyNames => _properties.Keys;
+            public IEnumerable<string> PropertyNames => Properties.Keys;
 
-            public EntityProperty this[ string name ]
-            {
-                get { return new EntityProperty( this, name ); }
-            }
-
-            public string GetRawPropertyValue( string name )
-            {
-                return _properties.TryGetValue( name, out var value ) ? value : null;
-            }
+            public EntityProperty this[ string name ] => new EntityProperty( this, name );
 
             internal void Initialize( KeyValues props )
             {
-                foreach ( var pair in props )
-                {
-                    if ( _properties.ContainsKey( pair.Key ) ) _properties[pair.Key] = pair.Value;
-                    else _properties.Add( pair.Key, pair.Value );
-                }
+                Properties = props;
 
                 if ( !_sPropertyActions.TryGetValue( GetType(), out var actions ) ) return;
 
