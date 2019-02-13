@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -226,7 +227,7 @@ namespace SourceUtils
                 {
                     return param == null ? 0
                         : int.TryParse( param, out var intVal ) ? intVal
-                        : float.TryParse( param, out var value ) ? (int) value : 0;
+                        : float.TryParse( param, NumberStyles.Float, CultureInfo.InvariantCulture, out var value ) ? (int) value : 0;
                 }
 
                 public static bool ToBoolean( string param )
@@ -236,7 +237,7 @@ namespace SourceUtils
 
                 public static float ToSingle( string param )
                 {
-                    return param == null ? 0f : float.TryParse( param.Replace( ',', '.' ), out var value ) ? value : 0f;
+                    return param == null ? 0f : float.TryParse( param.Replace( ',', '.' ), NumberStyles.Float, CultureInfo.InvariantCulture, out var value ) ? value : 0f;
                 }
 
                 public static Vector3 ToVector3( string param )
