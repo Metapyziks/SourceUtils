@@ -112,6 +112,9 @@ namespace SourceUtils.WebExport
                                 var pixel = img.GetPixels()[0, 0];
                                 switch (pixel.Channels)
                                 {
+                                    case 1:
+                                        elem.Color = new MaterialColor(pixel[0], pixel[0], pixel[0]);
+                                        break;
                                     case 3:
                                         elem.Color = new MaterialColor(pixel[0], pixel[1], pixel[2]);
                                         break;
@@ -247,9 +250,6 @@ namespace SourceUtils.WebExport
             {
                 vtf = new ValveTextureFile(stream);
             }
-
-            var buffer = new byte[vtf.GetHiResPixelDataLength( mip )];
-            vtf.GetHiResPixelData( mip, frame, face, 0, buffer );
 
             using ( var image = Texture.DecodeImage( vtf, mip, frame, face, 0 ) )
             {

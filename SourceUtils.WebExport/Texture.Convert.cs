@@ -124,6 +124,16 @@ namespace SourceUtils.WebExport
         public static MagickImage DecodeImage(ValveTextureFile vtf, int mip, int frame, int face, int zslice)
         {
             var dataLength = vtf.GetHiResPixelDataLength(mip);
+
+            // Let's pretend 16bpp formats are really 24bpp
+            switch (vtf.Header.HiResFormat)
+            {
+                case TextureFormat.RGB565:
+                case TextureFormat.BGR565:
+                    dataLength = dataLength * 3 / 2;
+                    break;
+            }
+
             var totalLength = dataLength + 128;
 
             if ( _sPixelBuffer == null || _sPixelBuffer.Length < totalLength )
@@ -163,9 +173,11 @@ namespace SourceUtils.WebExport
                         Mapping = "PA"
                     };
                     break;
+                case TextureFormat.BGR565:
                 case TextureFormat.BGR888:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGR");
                     break;
+                case TextureFormat.RGB565:
                 case TextureFormat.RGB888:
                 case TextureFormat.RGB888_BLUESCREEN:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "RGB");
@@ -184,6 +196,22 @@ namespace SourceUtils.WebExport
             }
 
             vtf.GetHiResPixelData( mip, frame, face, zslice, _sPixelBuffer, offset );
+
+            // Convert 16bpp to 24bpp
+            switch (vtf.Header.HiResFormat)
+            {
+                case TextureFormat.RGB565:
+                case TextureFormat.BGR565:
+                    for (var i = width * height - 1; i >= 0; --i)
+                    {
+                        var pixel = (ushort)(_sPixelBuffer[i * 2] | (_sPixelBuffer[i * 2 + 1] << 8));
+
+                        _sPixelBuffer[i * 3] = (byte) ((pixel & 31) / 31f * 255f);
+                        _sPixelBuffer[i * 3 + 1] = (byte)(((pixel >> 5) & 63) / 63f * 255f);
+                        _sPixelBuffer[i * 3 + 2] = (byte)(((pixel >> 11) & 31) / 31f * 255f);
+                    }
+                    break;
+            }
 
             var img = new MagickImage( _sPixelBuffer, readSettings );
 
