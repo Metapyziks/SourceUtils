@@ -28,7 +28,7 @@ declare namespace SourceUtils {
         getLoadProgress(): number;
         load(index: number, callback: (payload: TValue, page: TPage) => void): TValue;
         setPageLayout(pages: IPageInfo[]): void;
-        private getNextToLoad();
+        private getNextToLoad;
         update(requestQuota: number): number;
     }
 }
@@ -64,7 +64,7 @@ declare namespace SourceUtils {
     enum LeafFlags {
         Sky = 1,
         Radial = 2,
-        Sky2D = 4,
+        Sky2D = 4
     }
     interface IBspLeaf extends IBspElement {
         index: number;
@@ -89,15 +89,15 @@ declare namespace SourceUtils {
     }
     class BspNode implements INodeOrLeaf {
         private readonly viewer;
-        readonly isLeaf: boolean;
+        readonly isLeaf = false;
         readonly plane: Plane;
-        readonly children: (BspLeaf | BspNode)[];
+        readonly children: (BspNode | BspLeaf)[];
         constructor(viewer: MapViewer, info: IBspNode);
-        private loadChild(value);
+        private loadChild;
         findLeaves(target: BspLeaf[]): void;
     }
     class BspLeaf extends WebGame.DrawListItem implements INodeOrLeaf {
-        readonly isLeaf: boolean;
+        readonly isLeaf = true;
         private readonly viewer;
         readonly index: number;
         readonly flags: LeafFlags;
@@ -230,7 +230,7 @@ declare namespace SourceUtils {
         unload(): void;
         load(url: string): void;
         getLightmapLoadProgress(): number;
-        private onLoad(info);
+        private onLoad;
         addNamedEntity(targetname: string, entity: Entities.Entity): void;
         getNamedEntity(targetname: string): Entities.Entity;
         addPvsEntity(entity: Entities.PvsEntity): void;
@@ -269,7 +269,7 @@ declare namespace SourceUtils {
         Fixed = 0,
         CanLook = 1,
         CanMove = 2,
-        FreeCam = 3,
+        FreeCam = 3
     }
     interface IPositionHash {
         x?: number;
@@ -305,7 +305,7 @@ declare namespace SourceUtils {
         private static readonly hashObjectRegex;
         protected setHash(value: string | Object): void;
         private oldHash;
-        private hashChange();
+        private hashChange;
         private readonly onHashChange_temp;
         protected onHashChange(value: string | Object): void;
         protected onCreateDebugPanel(): HTMLElement;
@@ -315,7 +315,7 @@ declare namespace SourceUtils {
         private readonly tempQuat;
         private readonly lookQuat;
         setCameraAngles(yaw: number, pitch: number): void;
-        private updateCameraAngles();
+        private updateCameraAngles;
         protected onMouseLook(delta: Facepunch.Vector2): void;
         toggleFullscreen(): void;
         protected onKeyDown(key: WebGame.Key): boolean;
@@ -358,11 +358,11 @@ declare namespace SourceUtils {
         private info;
         private page;
         constructor(viewer: MapViewer);
-        private static getOrCreateMatGroup(matGroups, attribs);
-        private static encode2CompColor(vertLit, albedoMod);
+        private static getOrCreateMatGroup;
+        private static encode2CompColor;
         private static readonly sampleAmbientCube_samples;
         private static readonly sampleAmbientCube_temp;
-        private static sampleAmbientCube(leaf, pos, normal);
+        private static sampleAmbientCube;
         createMeshHandles(bodyPartIndex: number, transform: Facepunch.Matrix4, lighting?: (number[][] | BspLeaf), albedoModulation?: number): WebGame.MeshHandle[];
         loadFromInfo(info: IStudioModel, page: StudioModelPage): void;
         isLoaded(): boolean;
@@ -511,10 +511,10 @@ declare namespace SourceUtils {
             private readonly targetCamera;
             constructor(viewer: MapViewer, targetCamera: Camera);
             protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList): void;
-            private addToFrustumBounds(invLight, vec, bounds);
+            private addToFrustumBounds;
             private static readonly getFrustumBounds_vec;
             private static readonly getFrustumBounds_invLight;
-            private getFrustumBounds(lightRotation, near, far, bounds);
+            private getFrustumBounds;
             private static readonly renderShadows_bounds;
             renderShadows(lightRotation: Facepunch.Quaternion, near: number, far: number): void;
         }
@@ -554,7 +554,7 @@ declare namespace SourceUtils {
         enum PositionInterpolator {
             Linear = 0,
             CatmullRomSpline = 1,
-            Rope = 2,
+            Rope = 2
         }
         interface IMoveRope extends IKeyframeRope {
             positionInterp: PositionInterpolator;
@@ -565,8 +565,8 @@ declare namespace SourceUtils {
             private material;
             private meshHandles;
             constructor(map: Map, info: IMoveRope);
-            private findKeyframes();
-            private generateMesh();
+            private findKeyframes;
+            private generateMesh;
             onAddToDrawList(list: Facepunch.WebGame.DrawList): void;
             getMeshHandles(): Facepunch.WebGame.MeshHandle[];
         }
@@ -585,7 +585,7 @@ declare namespace SourceUtils {
             private lighting;
             private albedoModulation?;
             constructor(map: Map, info: IStaticProp);
-            private checkLoaded();
+            private checkLoaded;
         }
     }
 }
@@ -598,7 +598,7 @@ declare namespace SourceUtils {
         class Worldspawn extends BrushEntity {
             private readonly clusterLeaves;
             constructor(map: Map, info: IWorldspawn);
-            private onModelLoad();
+            private onModelLoad;
             isInAnyCluster(clusters: number[]): boolean;
             isInCluster(cluster: number): boolean;
             protected onPopulateDrawList(drawList: Facepunch.WebGame.DrawList, clusters: number[]): void;

@@ -52,7 +52,7 @@
                         if (face == 2) return vec3( pos.x, 0.5, -pos.y);
                         if (face == 3) return vec3(-pos.x, -0.5, -pos.y);
                         if (face == 4) return vec3( pos.y,-pos.x, 0.5);
-                        if (face == 5) return vec3( pos.y, pos.x, -0.5);
+                        if (face == 5) return vec3(-pos.y,-pos.x, -0.5);
                         return vec3(0.0, 0.0, 0.0);
                     }
 
