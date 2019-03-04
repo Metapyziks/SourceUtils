@@ -261,14 +261,14 @@ namespace SourceUtils {
             const cont = container as any;
             const doc = document as any;
 
-            if (document.fullscreenElement === container || document.webkitFullscreenElement === container || doc.mozFullScreenElement === container) {
+            if (doc.fullscreenElement === container || doc.webkitFullscreenElement === container || doc.mozFullScreenElement === container) {
                 if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
                 else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
             } else if (container.requestFullscreen) {
                 container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
+            } else if (cont.webkitRequestFullscreen) {
+                cont.webkitRequestFullscreen();
             } else if (cont.mozRequestFullScreen) {
                 cont.mozRequestFullScreen();
             }
