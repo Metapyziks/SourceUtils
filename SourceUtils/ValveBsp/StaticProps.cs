@@ -110,7 +110,7 @@ namespace SourceUtils.ValveBsp
         float IStaticProp.Scale => 1f;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 76)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 72)]
     public struct StaticPropV10 : IStaticProp
     {
         public readonly Vector3 Origin;
@@ -321,6 +321,8 @@ namespace SourceUtils.ValveBsp
                         _props = new IStaticProp[0];
                         return;
                     }
+
+                    Console.WriteLine($"Static prop version: v{version}");
 
                     switch ( version )
                     {
