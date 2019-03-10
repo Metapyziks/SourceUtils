@@ -42,6 +42,16 @@ namespace SourceUtils
 
             var includePath = ((string) props["include"]).Replace( '\\', '/' );
             var includeVmt = FromProvider( includePath, providers );
+
+            if (includeVmt == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Missing material '{includePath}' included by '{path}'!");
+                Console.ResetColor();
+
+                return null;
+            }
+
             var includeShader = includeVmt.Shaders.First();
 
             includeVmt[includeShader].MergeFrom( props["insert"], false );
