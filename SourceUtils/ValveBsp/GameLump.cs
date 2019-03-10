@@ -45,6 +45,13 @@ namespace SourceUtils
                 return str;
             }
 
+            public ushort GetItemFlags( string id )
+            {
+                EnsureLoaded();
+
+                return _items[id].Flags;
+            }
+
             public ushort GetItemVersion( string id )
             {
                 EnsureLoaded();

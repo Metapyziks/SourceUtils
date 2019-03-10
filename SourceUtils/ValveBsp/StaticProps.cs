@@ -111,7 +111,50 @@ namespace SourceUtils.ValveBsp
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 72)]
-    public struct StaticPropV10 : IStaticProp
+    public struct StaticPropV10Bsp20 : IStaticProp
+    {
+        public readonly Vector3 Origin;
+        public readonly Vector3 Angles;
+        public readonly ushort PropType;
+        public readonly ushort FirstLeaf;
+        public readonly ushort LeafCount;
+        [MarshalAs(UnmanagedType.U1)]
+        public readonly bool Solid;
+        public readonly StaticPropFlags Flags;
+        public readonly int Skin;
+        public readonly float FadeMinDist;
+        public readonly float FadeMaxDist;
+        public readonly Vector3 LightingOrigin;
+
+        public readonly float ForcedFadeScale;
+
+        public readonly byte MinCpuLevel;
+        public readonly byte MaxCpuLevel;
+        public readonly byte MinGpuLevel;
+        public readonly byte MaxGpuLevel;
+
+        public readonly uint ColorModulation;
+        [MarshalAs(UnmanagedType.U1)]
+        public readonly bool DisableX360;
+
+        Vector3 IStaticProp.Origin => Origin;
+        Vector3 IStaticProp.Angles => Angles;
+        ushort IStaticProp.PropType => PropType;
+        int IStaticProp.Skin => Skin;
+        ushort IStaticProp.FirstLeaf => FirstLeaf;
+        ushort IStaticProp.LeafCount => LeafCount;
+        StaticPropFlags IStaticProp.Flags => Flags;
+        bool IStaticProp.Solid => Solid;
+        uint IStaticProp.ColorModulation => ColorModulation;
+        float IStaticProp.FadeMinDist => FadeMinDist;
+        float IStaticProp.FadeMaxDist => FadeMaxDist;
+        float IStaticProp.ForcedFadeScale => ForcedFadeScale;
+        Vector3 IStaticProp.LightingOrigin => LightingOrigin;
+        float IStaticProp.Scale => 1f;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 76)]
+    public struct StaticPropV10Bsp21 : IStaticProp
     {
         public readonly Vector3 Origin;
         public readonly Vector3 Angles;
@@ -322,8 +365,6 @@ namespace SourceUtils.ValveBsp
                         return;
                     }
 
-                    Console.WriteLine($"Static prop version: v{version}");
-
                     switch ( version )
                     {
                         case 5:
@@ -337,9 +378,18 @@ namespace SourceUtils.ValveBsp
                                 .ToArray();
                             break;
                         case 10:
-                            _props = LumpReader<StaticPropV10>.ReadLumpFromStream( reader.BaseStream, propCount )
-                                .Cast<IStaticProp>()
-                                .ToArray();
+                            if (_bspFile.Version <= 20)
+                            {
+                                _props = LumpReader<StaticPropV10Bsp20>.ReadLumpFromStream(reader.BaseStream, propCount)
+                                    .Cast<IStaticProp>()
+                                    .ToArray();
+                            }
+                            else
+                            {
+                                _props = LumpReader<StaticPropV10Bsp21>.ReadLumpFromStream(reader.BaseStream, propCount)
+                                    .Cast<IStaticProp>()
+                                    .ToArray();
+                            }
                             break;
                         case 11:
                             _props = LumpReader<StaticPropV11>.ReadLumpFromStream(reader.BaseStream, propCount)
