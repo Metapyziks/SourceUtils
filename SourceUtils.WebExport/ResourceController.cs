@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -184,7 +185,7 @@ namespace SourceUtils.WebExport
 
             foreach ( var item in this )
             {
-                _sStringBuilder.Append( item.ToString( formatString ).TrimEnd( '0' ).TrimEnd( '.' ) );
+                _sStringBuilder.Append( item.ToString( formatString, CultureInfo.InvariantCulture ).TrimEnd( '0' ).TrimEnd( '.' ) );
                 _sStringBuilder.Append( "," );
             }
 
@@ -308,7 +309,7 @@ namespace SourceUtils.WebExport
 
             if ( floatArr != null )
             {
-                raw = string.Join( ",", floatArr );
+                raw = string.Join( ",", floatArr.Select(f => f.ToString(CultureInfo.InvariantCulture)).ToArray());
             }
             else if ( intArr != null )
             {
