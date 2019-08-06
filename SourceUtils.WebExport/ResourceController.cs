@@ -185,7 +185,8 @@ namespace SourceUtils.WebExport
 
             foreach ( var item in this )
             {
-                _sStringBuilder.Append( item.ToString( formatString, CultureInfo.InvariantCulture ).TrimEnd( '0' ).TrimEnd( '.' ) );
+                var str = item.ToString( formatString, CultureInfo.InvariantCulture );
+                _sStringBuilder.Append( str );
                 _sStringBuilder.Append( "," );
             }
 

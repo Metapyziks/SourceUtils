@@ -159,7 +159,7 @@ namespace SourceUtils.WebExport.Bsp
         public List<MeshElement> Elements { get; } = new List<MeshElement>();
 
         [JsonProperty("vertices")]
-        public CompressedList<float> Vertices { get; } = new CompressedList<float>();
+        public CompressedFloatList Vertices { get; } = new CompressedFloatList();
 
         [JsonProperty("indices")]
         public CompressedList<int> Indices { get; } = new CompressedList<int>();
