@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using CommandLine;
 using Ziks.WebServer;
 
@@ -605,6 +606,10 @@ namespace SourceUtils.WebExport
 
         static int Main(string[] args)
         {
+            var culture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
             var result = Parser.Default.ParseArguments<ExportOptions, HostOptions, ModelPatchOptions, MaterialExtractOptions>( args );
             return result.MapResult<ExportOptions, HostOptions, ModelPatchOptions, MaterialExtractOptions, int>( Export, Host, ModelPatch, ModelExtract, _ => 1 );
         }
