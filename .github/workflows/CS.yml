@@ -2,11 +2,11 @@ name: CSharp
 on:
   workflow_dispatch:
 jobs:
-    runs-on: windows-latest
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-    name: Run MSBuild
-    steps:
+ build:
+  runs-on: windows-latest
+  env:
+    ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  steps:
       - name: Checkout code
         uses: actions/checkout@v2.1.0
         id: checkout_code
