@@ -1,0 +1,31 @@
+name: CSharp
+on:
+  workflow_dispatch:
+jobs:
+    runs-on: windows-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    name: Run MSBuild
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.1.0
+        id: checkout_code
+      - name: Setup MSBuild and add to PATH
+        uses: microsoft/setup-msbuild@v1.0.0
+        id: setup_msbuild
+      - name: Run MSBuild
+        id: run_msbuild
+        run: |
+          msbuild .\SourceUtils.sln  /t:clean /p:Configuration=Debug
+          nuget restore .\SourceUtils.sln
+          msbuild .\SourceUtils.sln  /t:build /p:Configuration=Debug
+    - name: Zip Release
+      working-directory: ./sm-environment
+      run: powershell Compress-Archive ./ package.zip
+    - name: Release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ github.workspace }}/sm-environment/package.zip
+        asset_name: package.zip
+        tag: ${{ github.ref }}
