@@ -894,7 +894,7 @@ var SourceUtils;
         MapViewer.prototype.onCreateDebugPanel = function () {
             var panel = document.createElement("div");
             panel.classList.add("side-panel");
-            panel.innerHTML = "\n                <span class=\"label\">Frame time:</span>&nbsp;<span class=\"debug-frametime\">0</span>&nbsp;ms<br/>\n                <span class=\"label\">Frame rate:</span>&nbsp;<span class=\"debug-framerate\">0</span>&nbsp;fps<br />\n                <span class=\"label\">Draw calls:</span>&nbsp;<span class=\"debug-drawcalls\">0</span><br />\n                <div class=\"debug-loading\">\n                    <span class=\"label\">Map loaded:</span>&nbsp;<span class=\"debug-loadpercent\">0</span>%<br />\n                </div>";
+            panel.innerHTML = "\n                <span class=\"label\">Frame time:</span>&nbsp;<span class=\"debug-frametime\">0</span>&nbsp;ms<br/>\n                <span class=\"label\">Frame rate:</span>&nbsp;<span class=\"debug-framerate\">0</span>&nbsp;fps<br />\n                <span class=\"label\">Draw calls:</span>&nbsp;<span class=\"debug-drawcalls\">0</span><br />\n                <div class=\"debug-loading\">\n                    <span class=\"label\">Map loaded:</span>&nbsp;<span class=\"debug-loadpercent\">0</span>%<br />\n                    <span class=\"label\">Vis loaded:</span>&nbsp;<span id=\"debug-visloaded\">0</span>%<br />\n                    <span class=\"label\">Bsp loaded:</span>&nbsp;<span id=\"debug-bsploaded\">0</span>%<br />\n                    <span class=\"label\">Geom loaded:</span>&nbsp;<span id=\"debug-geomloaded\">0</span>%<br />\n                    <span class=\"label\">Props loaded:</span>&nbsp;<span id=\"debug-propsloaded\">0</span>%<br />\n                    <span class=\"label\">Lightmap loaded:</span>&nbsp;<span id=\"debug-lightmaploaded\">0</span>%<br />\n                    <span class=\"label\">Materials loaded:</span>&nbsp;<span id=\"debug-materialsloaded\">0</span>%<br />\n                </div>";
             this.container.appendChild(panel);
             return panel;
         };
@@ -1075,6 +1075,12 @@ var SourceUtils;
                     this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
                     if (this.showDebugPanel) {
                         this.onSetDebugText("debug-loadpercent", (this.totalLoadProgress * 100).toPrecision(3));
+                        this.onSetDebugText("debug-visloaded", (visLoaded * 100).toPrecision(3));
+                        this.onSetDebugText("debug-bsploaded", (bspLoaded * 100).toPrecision(3));
+                        this.onSetDebugText("debug-geomloaded", (geomLoaded * 100).toPrecision(3));
+                        this.onSetDebugText("debug-propsloaded", (propsLoaded * 100).toPrecision(3));
+                        this.onSetDebugText("debug-lightmaploaded", (lightmapLoaded * 100).toPrecision(3));
+                        this.onSetDebugText("debug-materialsloaded", (materialsLoaded * 100).toPrecision(3));
                     }
                     if (this.totalLoadProgress >= 1) {
                         this.allLoaded = true;
