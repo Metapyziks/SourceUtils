@@ -197,12 +197,12 @@ namespace SourceUtils {
                 <span class="label">Draw calls:</span>&nbsp;<span class="debug-drawcalls">0</span><br />
                 <div class="debug-loading">
                     <span class="label">Map loaded:</span>&nbsp;<span class="debug-loadpercent">0</span>%<br />
-                    <span class="label">Vis loaded:</span>&nbsp;<span id="debug-visloaded">0</span>%<br />
-                    <span class="label">Bsp loaded:</span>&nbsp;<span id="debug-bsploaded">0</span>%<br />
-                    <span class="label">Geom loaded:</span>&nbsp;<span id="debug-geomloaded">0</span>%<br />
-                    <span class="label">Props loaded:</span>&nbsp;<span id="debug-propsloaded">0</span>%<br />
-                    <span class="label">Lightmap loaded:</span>&nbsp;<span id="debug-lightmaploaded">0</span>%<br />
-                    <span class="label">Materials loaded:</span>&nbsp;<span id="debug-materialsloaded">0</span>%<br />
+                    <span class="label">Vis loaded:</span>&nbsp;<span class="debug-visloaded">0</span>%<br />
+                    <span class="label">Bsp loaded:</span>&nbsp;<span class="debug-bsploaded">0</span>%<br />
+                    <span class="label">Geom loaded:</span>&nbsp;<span class="debug-geomloaded">0</span>%<br />
+                    <span class="label">Props loaded:</span>&nbsp;<span class="debug-propsloaded">0</span>%<br />
+                    <span class="label">Lightmap loaded:</span>&nbsp;<span class="debug-lightmaploaded">0</span>%<br />
+                    <span class="label">Materials loaded:</span>&nbsp;<span class="debug-materialsloaded">0</span>%<br />
                 </div>`;
 
             this.container.appendChild(panel);
@@ -306,12 +306,8 @@ namespace SourceUtils {
 
         protected onSetDebugText(className: string, value: string): void {
             const elem = this.debugPanel.getElementsByClassName(className)[0] as HTMLElement;
-            console.log("onSetDebugText: " + "\"" + className + "\" = " + value);
             if (elem == null)
-            {
-                console.error("onSetDebugText - no element found");
                 return;
-            }
 
             elem.innerText = value;
 
