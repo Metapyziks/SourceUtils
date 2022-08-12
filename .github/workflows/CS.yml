@@ -17,10 +17,19 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
          dotnet-version: 5.0.x
+      - name: Nuget Restore Packages
+        run: |
+          nuget restore .\SourceUtils.sln
+      - name: Try
+        run: |
+          Get-ChildItem | tree /f || true
+      - name: Try2
+        run: |
+          cd /d D:\
+          Get-ChildItem | tree /f || true
       - name: Run MSBuild
         id: run_msbuild
         run: |
-          nuget restore .\SourceUtils.sln
           msbuild .\SourceUtils.sln  /t:build /p:Configuration=Debug
       - name: Zip Release
         working-directory: ./sm-environment
