@@ -26,9 +26,9 @@ jobs:
       - name: Run MSBuild
         id: run_msbuild
         run: |
-          msbuild .\SourceUtils.sln  /t:build /p:Configuration=Debug
+          msbuild .\SourceUtils.sln  /t:build /p:Configuration=Release
       - name: Zip Release
-        working-directory: ./SourceUtils/bin/Debug/
+        working-directory: ./SourceUtils/bin/Release/
         run: powershell Compress-Archive ./ SourceUtils.zip
       - name: Date and time
         id: date
@@ -50,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./SourceUtils/bin/Debug/SourceUtils.zip
+          asset_path: ./SourceUtils/bin/Release/SourceUtils.zip
           asset_name: SourceUtils.zip
           asset_content_type: application/zip
