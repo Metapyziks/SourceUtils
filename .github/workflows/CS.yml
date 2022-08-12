@@ -10,38 +10,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2.1.0
         id: checkout_code
+
       - name: Setup MSBuild and add to PATH
         uses: microsoft/setup-msbuild@v1.0.0
         id: setup_msbuild
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-         dotnet-version: 5.0.x
+
       - name: Nuget Restore Packages
-        run: |
-          nuget restore .\SourceUtils.sln
-      - name: Try
-        run: |
-          Get-ChildItem | tree /f || true
+        run: nuget restore .\SourceUtils.sln
+
       - name: Run MSBuild
         id: run_msbuild
-        run: |
-          msbuild .\SourceUtils.sln /t:Build /p:Configuration=Release
-      - name: Try
-        run: |
-          Get-ChildItem | tree /f || true
+        run: msbuild .\SourceUtils.sln /t:Build /p:Configuration=Release
+
       - name: Zip SourceUtils
         working-directory: ./SourceUtils/bin/Release/
-        run: powershell Compress-Archive ./ SourceUtils.zip
+        run: powershell Compress-Archive ./Release SourceUtils.zip
+
       - name: Zip WebExport
         working-directory: ./SourceUtils.WebExport/bin/Release/
-        run: powershell Compress-Archive ./ WebExport.zip
+        run: powershell Compress-Archive ./Release WebExport.zip
+
       - name: Zip FileExport
         working-directory: ./SourceUtils.FileExport/bin/Release/
-        run: powershell Compress-Archive ./ FileExport.zip
+        run: powershell Compress-Archive ./Release FileExport.zip
+
       - name: Date and time
         id: date
         run: echo "::set-output name=date::$(date +'%H-%M-%d-%m-%Y')"
+
       - name: Release
         id: create_release
         uses: actions/create-release@v1
@@ -52,6 +48,7 @@ jobs:
           release_name: SourceUtils ${{ steps.date.outputs.date }}
           draft: false
           prerelease: false
+
       - name: Upload SourceUtils
         uses: actions/upload-release-asset@v1
         env:
@@ -61,6 +58,7 @@ jobs:
           asset_path: ./SourceUtils/bin/Release/SourceUtils.zip
           asset_name: SourceUtils.zip
           asset_content_type: application/zip
+
       - name: Upload WebExport
         uses: actions/upload-release-asset@v1
         env:
@@ -70,6 +68,7 @@ jobs:
           asset_path: ./SourceUtils.WebExport/bin/Release/WebExport.zip
           asset_name: WebExport.zip
           asset_content_type: application/zip
+
       - name: Upload FileExport
         uses: actions/upload-release-asset@v1
         env:
