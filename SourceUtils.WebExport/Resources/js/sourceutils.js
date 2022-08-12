@@ -61,6 +61,10 @@ var SourceUtils;
             this.throwIfNotFound = true;
         }
         PagedLoader.prototype.getLoadProgress = function () {
+            if (this.pages == null)
+                console.log("pages is null");
+            else
+                console.log(this.loadProgress + " / " + this.pages.length);
             return this.pages == null ? 0 : this.loadProgress / this.pages.length;
         };
         PagedLoader.prototype.load = function (index, callback) {
