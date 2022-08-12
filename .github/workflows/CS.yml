@@ -18,7 +18,9 @@ jobs:
         with:
          dotnet-version: 5.0.x
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          dotnet restore
+          dotnet add package SharpZipLib --version 1.3.3
       - name: Run MSBuild
         id: run_msbuild
         run: |
