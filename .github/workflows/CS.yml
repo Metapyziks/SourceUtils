@@ -30,9 +30,15 @@ jobs:
       - name: Try
         run: |
           Get-ChildItem | tree /f || true
-      - name: Zip Release
+      - name: Zip SourceUtils
         working-directory: ./SourceUtils/bin/Release/
         run: powershell Compress-Archive ./ SourceUtils.zip
+      - name: Zip WebExport
+        working-directory: ./SourceUtils.WebExport/bin/Release/
+        run: powershell Compress-Archive ./ WebExport.zip
+      - name: Zip FileExport
+        working-directory: ./SourceUtils.FileExport/bin/Release/
+        run: powershell Compress-Archive ./ FileExport.zip
       - name: Date and time
         id: date
         run: echo "::set-output name=date::$(date +'%H-%M-%d-%m-%Y')"
@@ -46,8 +52,7 @@ jobs:
           release_name: SourceUtils ${{ steps.date.outputs.date }}
           draft: false
           prerelease: false
-      - name: Upload Zip
-        id: upload-zip-asset
+      - name: Upload SourceUtils
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,4 +60,22 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./SourceUtils/bin/Release/SourceUtils.zip
           asset_name: SourceUtils.zip
+          asset_content_type: application/zip
+      - name: Upload WebExport
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SourceUtils.WebExport/bin/Release/WebExport.zip
+          asset_name: WebExport.zip
+          asset_content_type: application/zip
+      - name: Upload FileExport
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SourceUtils.FileExport/bin/Release/FileExport.zip
+          asset_name: FileExport.zip
           asset_content_type: application/zip
