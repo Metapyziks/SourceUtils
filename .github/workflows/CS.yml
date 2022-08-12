@@ -26,7 +26,10 @@ jobs:
       - name: Run MSBuild
         id: run_msbuild
         run: |
-          msbuild .\SourceUtils.sln  /t:build /p:Configuration=Release
+          msbuild .\SourceUtils.sln /t:Build /p:Configuration=Release
+      - name: Try
+        run: |
+          Get-ChildItem | tree /f || true
       - name: Zip Release
         working-directory: ./SourceUtils/bin/Release/
         run: powershell Compress-Archive ./ SourceUtils.zip
