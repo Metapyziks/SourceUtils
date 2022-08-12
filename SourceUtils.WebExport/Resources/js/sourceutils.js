@@ -984,8 +984,11 @@ var SourceUtils;
         };
         MapViewer.prototype.onSetDebugText = function (className, value) {
             var elem = this.debugPanel.getElementsByClassName(className)[0];
-            if (elem == null)
+            console.log("onSetDebugText: " + "\"" + className + "\" = " + value);
+            if (elem == null) {
+                console.error("onSetDebugText - no element found");
                 return;
+            }
             elem.innerText = value;
             if (className === "debug-loadpercent" && parseInt(value) >= 100) {
                 var loading = this.debugPanel.getElementsByClassName("debug-loading")[0];
