@@ -1068,23 +1068,26 @@ var SourceUtils;
                     this.onSetDebugText("debug-framerate", this.avgFrameRate.toPrecision(4));
                 }
                 if (!this.allLoaded) {
-                    var visLoaded = this.visLoader.getLoadProgress();
-                    var bspLoaded = this.bspModelLoader.getLoadProgress();
-                    var lightmapLoaded = this.map.getLightmapLoadProgress();
-                    var materialsLoaded = this.mapMaterialLoader.getLoadProgress();
-                    var geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
-                        + this.dispGeometryLoader.getLoadProgress() * 0.5;
-                    var propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
-                        + this.studioModelLoader.getLoadProgress() * 0.75;
-                    this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
+                    /*                    const visLoaded = this.visLoader.getLoadProgress();
+                                        const bspLoaded = this.bspModelLoader.getLoadProgress();
+                                        const lightmapLoaded = this.map.getLightmapLoadProgress();
+                                        const materialsLoaded = this.mapMaterialLoader.getLoadProgress();
+                    
+                                        */ var geomLoaded = /* this.leafGeometryLoader.getLoadProgress() * 0.5
+                        + */ this.dispGeometryLoader.getLoadProgress() * 0.5;
+                    /*
+                                        const propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
+                                            + this.studioModelLoader.getLoadProgress() * 0.75;
+                    
+                                        this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;*/
                     if (this.showDebugPanel) {
-                        this.onSetDebugText("debug-loadpercent", (this.totalLoadProgress * 100).toPrecision(3));
-                        this.onSetDebugText("debug-visloaded", (visLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-bsploaded", (bspLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-geomloaded", (geomLoaded * 100).toPrecision(3));
+                        /*                      this.onSetDebugText("debug-loadpercent", (this.totalLoadProgress * 100).toPrecision(3));
+                                              this.onSetDebugText("debug-visloaded", (visLoaded * 100).toPrecision(3));
+                                              this.onSetDebugText("debug-bsploaded", (bspLoaded * 100).toPrecision(3));*/
+                        this.onSetDebugText("debug-geomloaded", (geomLoaded * 100).toPrecision(3)); /*
                         this.onSetDebugText("debug-propsloaded", (propsLoaded * 100).toPrecision(3));
                         this.onSetDebugText("debug-lightmaploaded", (lightmapLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-materialsloaded", (materialsLoaded * 100).toPrecision(3));
+                        this.onSetDebugText("debug-materialsloaded", (materialsLoaded * 100).toPrecision(3));*/
                     }
                     if (this.totalLoadProgress >= 1) {
                         this.allLoaded = true;
