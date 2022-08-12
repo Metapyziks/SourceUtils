@@ -28,12 +28,12 @@ jobs:
         run: |
           msbuild .\SourceUtils.sln  /t:build /p:Configuration=Debug
       - name: Zip Release
-        working-directory: ./sm-environment
-        run: powershell Compress-Archive ./ package.zip
+        working-directory: ./SourceUtils/bin/Debug/
+        run: powershell Compress-Archive ./ SourceUtils.zip
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/sm-environment/package.zip
-          asset_name: package.zip
+          file: ${{ github.workspace }}/SourceUtils/bin/Debug/SourceUtils.zip
+          asset_name: SourceUtils.zip
           tag: ${{ github.ref }}
