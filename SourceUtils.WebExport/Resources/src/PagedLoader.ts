@@ -75,9 +75,9 @@
 
         getLoadProgress(): number {
             if (this.pages == null)
-                console.Log("pages is null");
+                console.log("pages is null");
             else
-                console.Log(this.loadProgress + " / " + this.pages.length);
+                console.log(this.loadProgress + " / " + this.pages.length);
             return this.pages == null ? 0 : this.loadProgress / this.pages.length;
         }
 
