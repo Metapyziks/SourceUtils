@@ -306,7 +306,7 @@ namespace SourceUtils {
 
         protected onSetDebugText(className: string, value: string): void {
             const elem = this.debugPanel.getElementsByClassName(className)[0] as HTMLElement;
-            console.log("onSetDebugText: " "'" + className + "' = " + value);
+            console.log("onSetDebugText: " + "\"" + className + "\" = " + value);
             if (elem == null)
             {
                 console.error("onSetDebugText - no element found");
