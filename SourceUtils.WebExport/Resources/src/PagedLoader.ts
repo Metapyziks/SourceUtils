@@ -74,10 +74,6 @@
         throwIfNotFound = true;
 
         getLoadProgress(): number {
-            if (this.pages == null)
-                console.log("pages is null");
-            else
-                console.log(this.loadProgress + " / " + this.pages.length);
             return this.pages == null ? 0 : this.loadProgress / this.pages.length;
         }
 
