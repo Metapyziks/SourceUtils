@@ -62,12 +62,12 @@
 
     export abstract class PagedLoader<TPayload, TValue, TPage extends ResourcePage<TPayload, TValue>> implements Facepunch.ILoader {
 
-        private pages: TPage[];
+        public pages: TPage[];
 
         private readonly toLoad: TPage[] = [];
 
         private active = 0;
-        private loadProgress = 0;
+        public loadProgress = 0;
 
         protected abstract onCreatePage(page: IPageInfo): TPage;
 
