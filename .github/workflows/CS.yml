@@ -23,10 +23,6 @@ jobs:
       - name: Try
         run: |
           Get-ChildItem | tree /f || true
-      - name: Try2
-        run: |
-          cd /d D:\
-          Get-ChildItem | tree /f || true
       - name: Run MSBuild
         id: run_msbuild
         run: |
