@@ -12,7 +12,6 @@ jobs:
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.0
-        id: setup_msbuild
 
       - name: Nuget Restore Packages
         run: nuget restore .\SourceUtils.sln
