@@ -24,15 +24,15 @@ jobs:
 
       - name: Zip SourceUtils
         working-directory: ./SourceUtils/bin/Release/
-        run: powershell Compress-Archive ./Release SourceUtils.zip
+        run: Compress-Archive ./* SourceUtils.zip
 
       - name: Zip WebExport
         working-directory: ./SourceUtils.WebExport/bin/Release/
-        run: powershell Compress-Archive ./Release WebExport.zip
+        run: Compress-Archive ./* WebExport.zip
 
       - name: Zip FileExport
         working-directory: ./SourceUtils.FileExport/bin/Release/
-        run: powershell Compress-Archive ./Release FileExport.zip
+        run: Compress-Archive ./* FileExport.zip
 
       - name: Date and time
         id: date
