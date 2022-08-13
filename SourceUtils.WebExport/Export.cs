@@ -238,7 +238,8 @@ namespace SourceUtils.WebExport
                         {
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Failed");
-                            if ( e.Response )
+
+                            if ( e.Response != null)
                             {
                                 using ( var stream = e.Response.GetResponseStream() )
                                 {
