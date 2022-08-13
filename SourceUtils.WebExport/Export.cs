@@ -249,7 +249,7 @@ namespace SourceUtils.WebExport
                                 }
                             }
                             else
-                                Console.WriteLine("Null Response");
+                                File.AppendAllText("failed.txt", url + Environment.NewLine);
                         }
                     }
                 }
