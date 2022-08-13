@@ -239,6 +239,10 @@ namespace SourceUtils.WebExport
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Failed");
 
+                            if (e == null)
+                                Console.WriteLine("e is null");
+                            else if (e.Response == null)
+                                Console.WriteLine("Response is null");
                             using ( var stream = e.Response.GetResponseStream() )
                             {
                                 using ( var reader = new StreamReader( stream ) )
