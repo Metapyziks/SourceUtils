@@ -249,7 +249,7 @@ namespace SourceUtils.WebExport
                                 }
                             }
                             else
-                                ConsoleWriteLine("Null Response");
+                                Console.WriteLine("Null Response");
                         }
                     }
                 }
