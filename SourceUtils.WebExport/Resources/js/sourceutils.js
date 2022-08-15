@@ -1070,10 +1070,6 @@ var SourceUtils;
                     var materialsLoaded = this.mapMaterialLoader.getLoadProgress();
                     var geomLoaded = this.leafGeometryLoader.getLoadProgress() * 0.5
                         + this.dispGeometryLoader.getLoadProgress() * 0.5;
-                    if (this.dispGeometryLoader.pages == null)
-                        console.log("pages is null");
-                    else
-                        console.log(this.dispGeometryLoader.loadProgress + " / " + this.dispGeometryLoader.pages.length);
                     var propsLoaded = this.vertLightingLoader.getLoadProgress() * 0.25
                         + this.studioModelLoader.getLoadProgress() * 0.75;
                     this.totalLoadProgress = (visLoaded + bspLoaded + lightmapLoaded + materialsLoaded + geomLoaded + propsLoaded) / 6;
