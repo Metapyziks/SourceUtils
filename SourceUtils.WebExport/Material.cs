@@ -278,7 +278,7 @@ namespace SourceUtils.WebExport
 
         public static Material Get(ValveBspFile bsp, string path)
         {
-            Console.WriteLine("path: {path}");
+            Console.WriteLine($"path: {path}");
             if (bsp == null)
                 Console.WriteLine("bsp is null");
             var vmt = bsp == null
@@ -300,7 +300,7 @@ if (vmt == null) Console.WriteLine("vmt is null");
             {
                 "rt", "lf", "bk", "ft", "up", "dn"
             };
-
+Console.WriteLine(skyName);
             var names = new []
             {
                 "PosX", "NegX", "PosY", "NegY", "PosZ", "NegZ"
