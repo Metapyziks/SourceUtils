@@ -250,7 +250,7 @@ namespace SourceUtils.WebExport
                                 }
                             }
                             else
-                                File.AppendAllText("failed.txt", url + Environment.NewLine);
+                                File.AppendAllText("failed.txt", mapName + " | " + url + Environment.NewLine);
                         }
                     }
                 }
