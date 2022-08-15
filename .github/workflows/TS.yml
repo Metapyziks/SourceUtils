@@ -15,4 +15,7 @@ jobs:
           user-email: "khrushiov2012@yandex.ru"
           message: "Automatic build"
           directories: SourceUtils.WebExport/Resources
-          
+
+      - name: Purge CDN Cache
+        run: |
+          curl https://purge.jsdelivr.net/gh/DaLLuZZ/SourceUtils@latest/SourceUtils.WebExport/Resources/js/sourceutils.js
