@@ -16,6 +16,6 @@ jobs:
           message: "Automatic build"
           directories: SourceUtils.WebExport/Resources
 
-      - name: Purge CDN Cache
+      - name: Trigger ReplayViewRSC Build
         run: |
-          curl https://purge.jsdelivr.net/gh/DaLLuZZ/SourceUtils@latest/SourceUtils.WebExport/Resources/js/sourceutils.js
+          curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/DaLLuZZ/ReplayViewRSC/dispatches --data '{"event_type": "build_application"}'
