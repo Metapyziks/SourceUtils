@@ -239,7 +239,7 @@ namespace SourceUtils.WebExport
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Failed");
                             File.AppendAllText("failed.txt", mapName + " | " + url + " | NULL" + Environment.NewLine);
-=
+
                             if ( e.Response != null)
                             {
                                 using ( var stream = e.Response.GetResponseStream() )
