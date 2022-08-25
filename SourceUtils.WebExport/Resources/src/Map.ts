@@ -56,14 +56,37 @@ namespace SourceUtils {
             return this.info != null && this.lightmap != null && this.lightmap.isLoaded() && this.worldspawn.model != null;
         }
 
+        exist(url) : boolean {
+            let request = new XMLHttpRequest;
+            request.open('GET', url, true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.setRequestHeader('Accept', '*/*');
+            request.onprogress = function(event) {
+                let status = event.target.status;
+                let statusFirstNumber = (status).toString()[0];
+                switch (statusFirstNumber) {
+                case '2':
+                    request.abort();
+                    return true;
+                default:
+                    request.abort();
+                    return false;
+                };
+            };
+            request.send('');
+        }
+
         unload(): void {
             throw new Error("Map unloading not implemented.");
         }
 
         load(url: string): void {
-            Facepunch.Http.getJson<IMap>(url, info => {
-                this.onLoad(info);
-            });
+            if (this.exist(url))
+                Facepunch.Http.getJson<IMap>(url, info => {
+                    this.onLoad(info);
+                });
+            else
+                console.log("Map does not exist: " + url);
         }
 
         getLightmapLoadProgress(): number {
