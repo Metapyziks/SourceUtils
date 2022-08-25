@@ -81,7 +81,7 @@ namespace SourceUtils {
         }
 
         load(url: string): void {
-            ifUrlExist(url, function(exists) {
+            this.ifUrlExist(url, function(exists) {
                 console.log(exists);
                 Facepunch.Http.getJson<IMap>(url, info => {
                     this.onLoad(info);
