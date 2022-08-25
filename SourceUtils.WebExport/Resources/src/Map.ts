@@ -74,7 +74,7 @@ namespace SourceUtils {
                 };
             };
             request.send('');
-        };
+        }
 
         unload(): void {
             throw new Error("Map unloading not implemented.");
