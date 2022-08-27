@@ -56,7 +56,7 @@ namespace SourceUtils {
             return this.info != null && this.lightmap != null && this.lightmap.isLoaded() && this.worldspawn.model != null;
         }
 
-        ifUrlExist(url, callback): function {
+        ifUrlExist(string: url, function: callback): function {
             let request = new XMLHttpRequest;
             request.open('GET', url, true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
