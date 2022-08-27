@@ -61,9 +61,24 @@ namespace SourceUtils {
         }
 
         load(url: string): void {
-            Facepunch.Http.getJson<IMap>(url, info => {
-                this.onLoad(info);
-            });
+            let request = new XMLHttpRequest;
+            request.open('GET', url, true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.setRequestHeader('Accept', '*/*');
+            request.onprogress = function(event) {
+                let status = event.target.status;
+                let statusFirstNumber = (status).toString()[0];
+                switch (statusFirstNumber) {
+                    case '2':
+                        request.abort();
+                        Facepunch.Http.getJson<IMap>(url, info => {
+                            this.onLoad(info);
+                        });
+                    default:
+                        request.abort();
+                    };
+                };
+            request.send('');
         }
 
         getLightmapLoadProgress(): number {
