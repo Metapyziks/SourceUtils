@@ -67,6 +67,8 @@ namespace SourceUtils {
             request.setRequestHeader('Accept', '*/*');
             request.onprogress = (event) => {
                 let success = event.total > 0 ? true : false;
+                console.log(event.total + " bytes");
+                console.log(success);
                 request.abort();
                 if (success)
                     Facepunch.Http.getJson<IMap>(url, info => {
