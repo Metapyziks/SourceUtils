@@ -491,9 +491,19 @@ var SourceUtils;
         };
         Map.prototype.load = function (url) {
             var _this = this;
-            Facepunch.Http.getJson(url, function (info) {
-                _this.onLoad(info);
-            });
+            var request = new XMLHttpRequest;
+            request.open('GET', url, true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.setRequestHeader('Accept', '*/*');
+            request.onprogress = function (event) {
+                var success = event.total > 0 ? true : false;
+                request.abort();
+                if (success)
+                    Facepunch.Http.getJson(url, function (info) {
+                        _this.onLoad(info);
+                    });
+            };
+            request.send('');
         };
         Map.prototype.getLightmapLoadProgress = function () {
             return this.lightmap == null ? 0 : this.lightmap.getLoadProgress();
