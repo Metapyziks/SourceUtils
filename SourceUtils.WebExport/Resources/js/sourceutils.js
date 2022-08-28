@@ -491,21 +491,9 @@ var SourceUtils;
         };
         Map.prototype.load = function (url) {
             var _this = this;
-            var request = new XMLHttpRequest;
-            request.open('GET', url, true);
-            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-            request.setRequestHeader('Accept', '*/*');
-            request.onprogress = function (event) {
-                var success = event.total > 14 ? true : false; // "404: Not Found" has the length of 14 bytes
-                console.log(event.total + " bytes");
-                console.log(success);
-                request.abort();
-                if (success)
-                    Facepunch.Http.getJson(url, function (info) {
-                        _this.onLoad(info);
-                    });
-            };
-            request.send('');
+            Facepunch.Http.getJson(url, function (info) {
+                _this.onLoad(info);
+            });
         };
         Map.prototype.getLightmapLoadProgress = function () {
             return this.lightmap == null ? 0 : this.lightmap.getLoadProgress();
