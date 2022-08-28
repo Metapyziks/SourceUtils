@@ -19,10 +19,10 @@ declare namespace SourceUtils {
         onLoadValues(page: TPayload): void;
     }
     abstract class PagedLoader<TPayload, TValue, TPage extends ResourcePage<TPayload, TValue>> implements Facepunch.ILoader {
-        pages: TPage[];
+        private pages;
         private readonly toLoad;
         private active;
-        loadProgress: number;
+        private loadProgress;
         protected abstract onCreatePage(page: IPageInfo): TPage;
         throwIfNotFound: boolean;
         getLoadProgress(): number;

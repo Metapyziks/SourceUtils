@@ -238,17 +238,20 @@ namespace SourceUtils.WebExport
                         {
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Failed");
-                            File.AppendAllText("failed.txt", mapName + " | " + url + " | NULL" + Environment.NewLine);
 
-                            if ( e.Response != null)
+                            try
                             {
                                 using ( var stream = e.Response.GetResponseStream() )
                                 {
                                     using ( var reader = new StreamReader( stream ) )
                                     {
-                                        File.AppendAllText("errors.txt", reader.ReadToEnd() + "\n\n");
+                                        Console.WriteLine( reader.ReadToEnd() );
                                     }
                                 }
+                            }
+                            catch ( Exception ex )
+                            {
+                                Console.WriteLine( ex );
                             }
                         }
                     }

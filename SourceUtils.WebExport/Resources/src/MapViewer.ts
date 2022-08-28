@@ -197,12 +197,6 @@ namespace SourceUtils {
                 <span class="label">Draw calls:</span>&nbsp;<span class="debug-drawcalls">0</span><br />
                 <div class="debug-loading">
                     <span class="label">Map loaded:</span>&nbsp;<span class="debug-loadpercent">0</span>%<br />
-                    <span class="label">Vis loaded:</span>&nbsp;<span class="debug-visloaded">0</span>%<br />
-                    <span class="label">Bsp loaded:</span>&nbsp;<span class="debug-bsploaded">0</span>%<br />
-                    <span class="label">Geom loaded:</span>&nbsp;<span class="debug-geomloaded">0</span>%<br />
-                    <span class="label">Props loaded:</span>&nbsp;<span class="debug-propsloaded">0</span>%<br />
-                    <span class="label">Lightmap loaded:</span>&nbsp;<span class="debug-lightmaploaded">0</span>%<br />
-                    <span class="label">Materials loaded:</span>&nbsp;<span class="debug-materialsloaded">0</span>%<br />
                 </div>`;
 
             this.container.appendChild(panel);
@@ -306,8 +300,7 @@ namespace SourceUtils {
 
         protected onSetDebugText(className: string, value: string): void {
             const elem = this.debugPanel.getElementsByClassName(className)[0] as HTMLElement;
-            if (elem == null)
-                return;
+            if (elem == null) return;
 
             elem.innerText = value;
 
@@ -417,12 +410,6 @@ namespace SourceUtils {
 
                     if (this.showDebugPanel) {
                         this.onSetDebugText("debug-loadpercent", (this.totalLoadProgress * 100).toPrecision(3));
-                        this.onSetDebugText("debug-visloaded", (visLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-bsploaded", (bspLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-geomloaded", (geomLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-propsloaded", (propsLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-lightmaploaded", (lightmapLoaded * 100).toPrecision(3));
-                        this.onSetDebugText("debug-materialsloaded", (materialsLoaded * 100).toPrecision(3));
                     }
 
                     if (this.totalLoadProgress >= 1) {

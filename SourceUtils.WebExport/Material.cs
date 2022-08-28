@@ -278,13 +278,10 @@ namespace SourceUtils.WebExport
 
         public static Material Get(ValveBspFile bsp, string path)
         {
-            Console.WriteLine($"path: {path}");
-            if (bsp == null)
-                Console.WriteLine("bsp is null");
             var vmt = bsp == null
                 ? ValveMaterialFile.FromProvider(path, Program.Resources)
                 : ValveMaterialFile.FromProvider(path, bsp.PakFile, Program.Resources);
-if (vmt == null) Console.WriteLine("vmt is null");
+
             if ( vmt == null ) return null;
 
             var mat = new Material();
@@ -300,7 +297,7 @@ if (vmt == null) Console.WriteLine("vmt is null");
             {
                 "rt", "lf", "bk", "ft", "up", "dn"
             };
-Console.WriteLine(skyName);
+
             var names = new []
             {
                 "PosX", "NegX", "PosY", "NegY", "PosZ", "NegZ"
@@ -317,7 +314,7 @@ Console.WriteLine(skyName);
             {
                 var matPath = $"materials/skybox/{skyName}{postfixes[face]}.vmt";
                 var mat = Get( bsp, matPath );
-if (mat == null) Console.WriteLine("mat is null");
+
                 if ( mat == null ) continue;
 
                 var texProp = mat.Properties.FirstOrDefault( x => x.Name == "hdrcompressedtexture")
@@ -335,7 +332,7 @@ if (mat == null) Console.WriteLine("mat is null");
             }
 
             if ( hdrCompressed )
-            { Console.WriteLine("Compressed");
+            {
                 skyMaterial.SetBoolean( "hdrCompressed", true );
             }
 

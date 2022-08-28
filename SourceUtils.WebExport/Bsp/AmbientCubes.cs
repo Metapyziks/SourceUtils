@@ -55,7 +55,7 @@ namespace SourceUtils.WebExport.Bsp
 
                     var min = new SourceUtils.Vector3(leaf.Min.X, leaf.Min.Y, leaf.Min.Z);
                     var max = new SourceUtils.Vector3(leaf.Max.X, leaf.Max.Y, leaf.Max.Z);
-Console.Write("\nindex.FirstAmbientSample = {0}\n(int)index.FirstAmbientSample = {1}\nindex.AmbientSampleCount = {2}\nindex.FirstAmbientSample + index.AmbientSampleCount = {3}\n(int)(index.FirstAmbientSample + index.AmbientSampleCount) = {4}\n(int)index.FirstAmbientSample + (int)index.AmbientSampleCount = {5}\n", index.FirstAmbientSample, (int)index.FirstAmbientSample, index.AmbientSampleCount, index.FirstAmbientSample + index.AmbientSampleCount, (int)(index.FirstAmbientSample + index.AmbientSampleCount), (int)index.FirstAmbientSample + (int)index.AmbientSampleCount);
+
                     for (var i = (int)index.FirstAmbientSample; i < index.FirstAmbientSample + index.AmbientSampleCount; ++i)
                     {
                         var ambient = ambients[i];

@@ -131,6 +131,26 @@ namespace SourceUtils.WebExport
 
             foreach ( var path in vpkNames )
             {
+                if ( path.Contains( "*" ) )
+                {
+                    var wildcardPath = path.Replace( '/', '\\' );
+                    var parts = wildcardPath.Split( '\\' );
+
+                    var file = parts.Last();
+                    var folder = @"";
+                    for ( int i = 0; i < parts.Length - 1; i++ )
+                    {
+                        folder += parts[i] + "\\";
+                    }
+
+                    var paths = Directory.GetFiles( folder, file );
+                    foreach ( var p in paths )
+                    {
+                        loader.AddResourceProvider( new ValvePackage( p ) );
+                    }
+
+                    continue;
+                }
                 loader.AddResourceProvider( new ValvePackage( path ) );
             }
 
