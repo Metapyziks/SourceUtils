@@ -65,19 +65,14 @@ namespace SourceUtils {
             request.open('GET', url, true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             request.setRequestHeader('Accept', '*/*');
-            request.onprogress = function(event) {
-                let status = event.target.status;
-                let statusFirstNumber = (status).toString()[0];
-                switch (statusFirstNumber) {
-                    case '2':
-                        request.abort();
-                        Facepunch.Http.getJson<IMap>(url, info => {
-                            this.onLoad(info);
-                        });
-                    default:
-                        request.abort();
-                    };
-                };
+            request.onprogress = (event) => {
+                let success = event.total > 0 ? true : false;
+                request.abort();
+                if (success)
+                    Facepunch.Http.getJson<IMap>(url, info => {
+                        this.onLoad(info);
+                    });
+            };
             request.send('');
         }
 
