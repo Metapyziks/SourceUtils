@@ -66,7 +66,7 @@ namespace SourceUtils {
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             request.setRequestHeader('Accept', '*/*');
             request.onprogress = (event) => {
-                let success = event.total > 0 ? true : false;
+                let success = event.total > 14 ? true : false; // "404: Not Found" has the length of 14 bytes
                 console.log(event.total + " bytes");
                 console.log(success);
                 request.abort();
