@@ -497,6 +497,8 @@ var SourceUtils;
             request.setRequestHeader('Accept', '*/*');
             request.onprogress = function (event) {
                 var success = event.total > 0 ? true : false;
+                console.log(event.total + " bytes");
+                console.log(success);
                 request.abort();
                 if (success)
                     Facepunch.Http.getJson(url, function (info) {
