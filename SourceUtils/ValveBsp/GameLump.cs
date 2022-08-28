@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Decoder = SevenZip.Sdk.Compression.Lzma.Decoder;
 
 namespace SourceUtils
 {
@@ -64,7 +65,66 @@ namespace SourceUtils
                 EnsureLoaded();
 
                 var item = _items[id];
-                return _bspFile.GetSubStream( item.FileOffset, item.FileLength );
+
+                // Find index of current lump
+                var keyArray = _items.Keys.ToArray();
+                int index = -1;
+                for ( int i = 0; i < keyArray.Length; i++ )
+                {
+                    if ( keyArray[i] == id )
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                // https://developer.valvesoftware.com/wiki/Source_BSP_File_Format#Lump_compression
+                // Get the actual length of the item using offset of the next item.
+                var valueArray = _items.Values.ToArray();
+                var actualLength = item.FileLength;
+                if ( index != -1 )
+                {
+                    if ( index < _items.Count - 1 )
+                    {
+                        // The last game lump is /supposed/ to be a dummy containing nothing but the offset,
+                        // but sometimes the offset is 0 which would result in negative actualLength.
+                        if ( valueArray[index + 1].FileOffset > valueArray[index].FileOffset )
+                        {
+                            actualLength = valueArray[index + 1].FileOffset - valueArray[index].FileOffset;
+                        }
+                    }
+                }
+
+                var stream = _bspFile.GetSubStream( item.FileOffset, actualLength );
+
+                LzmaHeader lzmaHeader;
+                try
+                {
+                    lzmaHeader = LzmaHeader.Read( stream );
+                }
+                catch ( NotSupportedException e )
+                {
+                    stream.Seek( 0, SeekOrigin.Begin );
+                    return stream;
+                }
+
+                using ( var compressedStream =
+                        _bspFile.GetSubStream( item.FileOffset + LzmaHeader.Size, lzmaHeader.LzmaSize ) )
+                {
+                    using ( var uncompressedStream = new MemoryStream( ( int )lzmaHeader.ActualSize ) )
+                    {
+                        Decoder decoder = new Decoder();
+                        decoder.SetDecoderProperties( lzmaHeader.Properties );
+                        decoder.Code( compressedStream, uncompressedStream, lzmaHeader.LzmaSize,
+                            lzmaHeader.ActualSize, null );
+                        stream = new MemoryStream( ( int )stream.Length );
+                        uncompressedStream.Seek( 0, SeekOrigin.Begin );
+                        uncompressedStream.CopyTo( stream );
+                    }
+                }
+
+                stream.Seek( 0, SeekOrigin.Begin );
+                return stream;
             }
 
             private void EnsureLoaded()
@@ -78,7 +138,13 @@ namespace SourceUtils
                     using ( var reader = new BinaryReader( _bspFile.GetLumpStream( LumpType ) ) )
                     {
                         var count = reader.ReadInt32();
-                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item => _items.Add( GetIdString( item.Id ), item ) );
+                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item =>
+                        {
+                            if ( !_items.ContainsKey( GetIdString( item.Id ) ) )
+                            {
+                                _items.Add( GetIdString( item.Id ), item );
+                            }
+                        } );
                     }
                 }
             }

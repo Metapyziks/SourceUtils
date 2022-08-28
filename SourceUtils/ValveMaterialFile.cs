@@ -30,6 +30,13 @@ namespace SourceUtils
             ValveMaterialFile vmt;
             using ( var stream = provider.OpenFile( path ) )
             {
+                if ( stream == null )
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine( $"Could not open {path} for reading using provider {provider.ToString()}" );
+                    return null;
+                }
+
                 vmt = new ValveMaterialFile( stream );
             }
             

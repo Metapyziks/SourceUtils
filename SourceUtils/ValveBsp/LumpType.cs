@@ -31,10 +31,10 @@ namespace SourceUtils
             BRUSHSIDES,
             AREAS,
             AREAPORTALS,
-            PROPCOLLISION,
-            PROPHULLS,
-            PROPHULLVERTS,
-            PROPTRIS,
+            PROPCOLLISION,  // UNUSED0 in sdk2013
+            PROPHULLS,      // UNUSED1 in sdk2013
+            PROPHULLVERTS,  // UNUSED2 in sdk2013
+            PROPTRIS,       // UNUSED3 in sdk2013
             DISPINFO,
             ORIGINALFACES,
             PHYSDISP,
@@ -58,7 +58,7 @@ namespace SourceUtils
             LEAFMINDISTTOWATER,
             FACE_MACRO_TEXTURE_INFO,
             DISP_TRIS,
-            PROP_BLOB,
+            PROP_BLOB,      // PHYSCOLLIDESURFACE in sdk2013
             WATEROVERLAYS,
             LEAF_AMBIENT_INDEX_HDR,
             LEAF_AMBIENT_INDEX,
@@ -70,9 +70,9 @@ namespace SourceUtils
             FACES_HDR,
             MAP_FLAGS,
             OVERLAY_FADES,
-            OVERLAY_SYSTEM_LEVELS,
-            PHYSLEVEL,
-            DISP_MULTIBLEND
+            OVERLAY_SYSTEM_LEVELS,  // not in sdk2013
+            PHYSLEVEL,              // not in sdk2013
+            DISP_MULTIBLEND         // not in sdk2013
         }
     }
 }

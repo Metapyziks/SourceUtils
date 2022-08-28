@@ -4,13 +4,18 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using SevenZip;
 using SourceUtils.ValveBsp;
 using SourceUtils.ValveBsp.Entities;
+using SevenZip.Sdk.Compression.Lzma;
+using Decoder = SevenZip.Sdk.Compression.Lzma.Decoder;
 
 namespace SourceUtils
 {
     public partial class ValveBspFile : DisposingEventTarget<ValveBspFile>
     {
+        public static int LZMA_ID = ( ( 'A' << 24 ) | ( 'M' << 16 ) | ( 'Z' << 8 ) | ( 'L' ) );
+
         [ThreadStatic]
         private static Dictionary<ValveBspFile, Stream> _sStreamPool;
 
@@ -51,10 +56,10 @@ namespace SourceUtils
                 var lumpInfoBytes = reader.ReadBytes( LumpInfoCount * Marshal.SizeOf( typeof(LumpInfo) ) );
                 var lumps = LumpReader<LumpInfo>.ReadLump( lumpInfoBytes, 0, lumpInfoBytes.Length );
 
-                for ( var i = 0; i < lumps.Length; ++i )
-                {
-                    lumps[i].IdentCode = (LumpType) i;
-                }
+                //for ( var i = 0; i < lumps.Length; ++i )
+                //{
+                //    lumps[i].IdentCode = ( LumpType )i;
+                //}
 
                 header.Lumps = lumps;
                 header.MapRevision = reader.ReadInt32();
@@ -66,6 +71,40 @@ namespace SourceUtils
             public int Version;
             public LumpInfo[] Lumps;
             public int MapRevision;
+        }
+
+        public class LzmaHeader
+        {
+            public static LzmaHeader Read( Stream stream )
+            {
+                var header = new LzmaHeader();
+
+                byte[] buffer = new byte[5];
+
+                stream.Read( buffer, 0, 4 );
+                header.Identifier = BitConverter.ToUInt32( buffer, 0 );
+
+                if ( header.Identifier != LZMA_ID )
+                    throw new NotSupportedException( $"Unrecognized identifier {header.Identifier}" );
+
+                stream.Read( buffer, 0, 4 );
+                header.ActualSize = BitConverter.ToUInt32( buffer, 0 );
+
+                stream.Read( buffer, 0, 4 );
+                header.LzmaSize = BitConverter.ToUInt32( buffer, 0 );
+
+                stream.Read( buffer, 0, 5 );
+                header.Properties = buffer;
+                
+                return header;
+            }
+
+            public static int Size = Marshal.SizeOf<uint>() * 3 + 5;
+
+            public uint Identifier;
+            public uint ActualSize;
+            public uint LzmaSize;
+            public byte[] Properties;
         }
 
         public string Name { get; }
@@ -208,25 +247,77 @@ namespace SourceUtils
         private int GetLumpLength( LumpType lumpType, Type structType )
         {
             var info = GetLumpInfo( lumpType );
-            return info.Length / Marshal.SizeOf( structType );
+            if (info.UncompressedSize == 0)
+                return info.Length / Marshal.SizeOf( structType );
+            return info.UncompressedSize / Marshal.SizeOf( structType );
         }
 
         private int ReadLumpValues<T>( LumpType type, int srcOffset, T[] dst, int dstOffset, int count )
             where T : struct
         {
             var info = GetLumpInfo( type );
-            var tSize = Marshal.SizeOf<T>();
-            var length = info.Length / tSize;
 
-            if ( srcOffset > length ) srcOffset = length;
-            if ( srcOffset + count > length ) count = length - srcOffset;
-
-            if ( count <= 0 ) return 0;
-
-            using ( var stream = GetLumpStream( type ) )
+            // 0 = no compression
+            if ( info.UncompressedSize == 0 )
             {
-                stream.Seek( tSize * srcOffset, SeekOrigin.Begin );
-                LumpReader<T>.ReadLumpFromStream( stream, count, dst, dstOffset );
+                var tSize = Marshal.SizeOf<T>();
+                var length = info.Length / tSize;
+
+                if ( srcOffset > length )
+                    srcOffset = length;
+                if ( srcOffset + count > length )
+                    count = length - srcOffset;
+
+                if ( count <= 0 )
+                    return 0;
+
+                using ( var stream = GetLumpStream( type ) )
+                {
+                    stream.Seek( tSize * srcOffset, SeekOrigin.Begin );
+                    LumpReader<T>.ReadLumpFromStream( stream, count, dst, dstOffset );
+                }
+            }
+            else
+            {
+                // LZMA compressed lump
+
+                if ( type == LumpType.GAME_LUMP )
+                {
+                    // game lumps are compressed individually
+                    // https://developer.valvesoftware.com/wiki/Source_BSP_File_Format#Lump_compression
+                    throw new NotImplementedException();
+                }
+                
+                using ( var stream = GetSubStream( info.Offset, LzmaHeader.Size ) )
+                {
+                    var lzmaHeader = LzmaHeader.Read( stream );
+
+                    using ( var compressedStream = GetSubStream( info.Offset + LzmaHeader.Size, lzmaHeader.LzmaSize ) )
+                    {
+                        using ( var uncompressedStream = new MemoryStream( info.UncompressedSize ) )
+                        {
+                            Decoder decoder = new Decoder();
+                            decoder.SetDecoderProperties( lzmaHeader.Properties );
+                            decoder.Code( compressedStream, uncompressedStream, lzmaHeader.LzmaSize, lzmaHeader.ActualSize, null );
+
+                            var tSize = Marshal.SizeOf<T>();
+                            var length = info.UncompressedSize / tSize;
+
+                            if ( srcOffset > length )
+                                srcOffset = length;
+                            if ( srcOffset + count > length )
+                                count = length - srcOffset;
+
+                            if ( count <= 0 )
+                                return 0;
+
+                            uncompressedStream.Seek( tSize * srcOffset, SeekOrigin.Begin );
+                            LumpReader<T>.ReadLumpFromStream( uncompressedStream, count, dst, dstOffset );
+                            if(type == LumpType.PLANES)
+                                return count;
+                        }
+                    }
+                }
             }
 
             return count;
@@ -235,7 +326,24 @@ namespace SourceUtils
         public Stream GetLumpStream( LumpType type )
         {
             var info = GetLumpInfo( type );
-            return GetSubStream( info.Offset, info.Length );
+
+            if (info.UncompressedSize == 0)
+                return GetSubStream( info.Offset, info.Length );
+
+            using ( var stream = GetSubStream( info.Offset, LzmaHeader.Size ) )
+            {
+                var lzmaHeader = LzmaHeader.Read( stream );
+
+                using ( var compressedStream = GetSubStream( info.Offset + LzmaHeader.Size, lzmaHeader.LzmaSize ) )
+                {
+                    var uncompressedStream = new MemoryStream( info.UncompressedSize );
+                    Decoder decoder = new Decoder();
+                    decoder.SetDecoderProperties( lzmaHeader.Properties );
+                    decoder.Code( compressedStream, uncompressedStream, lzmaHeader.LzmaSize, lzmaHeader.ActualSize, null );
+                    uncompressedStream.Seek( 0, SeekOrigin.Begin );
+                    return uncompressedStream;
+                }
+            }
         }
 
         public Stream GetSubStream( long offset, long length )

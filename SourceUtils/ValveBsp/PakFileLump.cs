@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ICSharpCode.SharpZipLib.Zip;
+using SevenZip;
 
 namespace SourceUtils
 {
@@ -16,26 +16,27 @@ namespace SourceUtils
             public static bool DebugContents { get; set; }
 
             [ThreadStatic]
-            private static Dictionary<PakFileLump, ZipFile> _sArchivePool;
+            private static Dictionary<PakFileLump, Stream> _sArchivePool;
 
-            private static ZipFile GetZipArchive( PakFileLump pak )
+            private static Stream GetPakStream( PakFileLump pak )
             {
-                var pool = _sArchivePool ?? (_sArchivePool = new Dictionary<PakFileLump, ZipFile>());
+                var pool = _sArchivePool ?? (_sArchivePool = new Dictionary<PakFileLump, Stream>());
 
-                ZipFile archive;
-                if ( pool.TryGetValue( pak, out archive ) ) return archive;
+                Stream stream;
+                if ( pool.TryGetValue( pak, out stream ) ) return stream;
 
-                archive = new ZipFile( pak._bspFile.GetLumpStream( pak.LumpType ) );
+                stream = pak._bspFile.GetLumpStream( pak.LumpType );
 
                 pak.Disposing += _ =>
                 {
                     pool.Remove( pak );
-                    archive.Close();
+                    stream.Close();
+                    stream.Dispose();
                 };
 
-                pool.Add( pak, archive );
+                pool.Add( pak, stream );
 
-                return archive;
+                return stream;
             }
 
             public LumpType LumpType { get; }
@@ -72,15 +73,17 @@ namespace SourceUtils
                         }
                     }
 
-                    using ( var archive = new ZipFile( _bspFile.GetLumpStream( LumpType ) ) )
+                    using ( var stream = _bspFile.GetLumpStream( LumpType ) )
                     {
-                        _entryDict.Clear();
-                        for ( var i = 0; i < archive.Count; ++i )
+                        using ( var extractor = new SevenZipExtractor( stream ) )
                         {
-                            var entry = archive[i];
-                            var path = $"/{entry.Name.Replace( '\\', '/' )}";
-                            if ( !entry.IsFile || _entryDict.ContainsKey( path ) ) continue;
-                            _entryDict.Add( path, i );
+                            _entryDict.Clear();
+                            for ( var i = 0; i < extractor.FilesCount; ++i )
+                            {
+                                var entryName = extractor.ArchiveFileNames[i];
+                                var path = $"/{entryName.Replace( '\\', '/' )}";
+                                _entryDict.Add( path, i );
+                            }
                         }
                     }
                 }
@@ -118,8 +121,35 @@ namespace SourceUtils
             public Stream OpenFile( string filePath )
             {
                 EnsureLoaded();
-                var archive = GetZipArchive( this );
-                return archive.GetInputStream( _entryDict[$"/{filePath}"] );
+
+                var stream = GetPakStream( this );
+                var outStream = new MemoryStream();
+                using ( var extractor = new SevenZipExtractor( stream ) )
+                {
+                    filePath = filePath.Replace( '/', '\\' );
+                    try
+                    {
+                        extractor.ExtractFile( filePath, outStream );
+                    }
+                    catch ( ArgumentOutOfRangeException )
+                    {
+                        // File not found, try lower case variant
+                        try
+                        {
+                            // TODO: are all files lowercase in PakFiles?
+                            // should we do this before trying to extract the first time?
+                            filePath = filePath.ToLower();
+                            extractor.ExtractFile( filePath, outStream );
+                        }
+                        catch ( ArgumentOutOfRangeException )
+                        {
+                            return null;
+                        }
+                    }
+                }
+
+                outStream.Seek( 0, SeekOrigin.Begin );
+                return outStream;
             }
         }
     }

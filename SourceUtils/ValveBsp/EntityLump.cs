@@ -72,17 +72,20 @@ namespace SourceUtils
 
                     _entities = new List<Entity>();
 
-                    var keyValues = KeyValues.ListFromStream( _bspFile.GetLumpStream( LumpType ) );
-
-                    foreach ( var entity in keyValues )
+                    using ( var stream = _bspFile.GetLumpStream( LumpType ) )
                     {
-                        var className = entity["classname"];
+                        var keyValues = KeyValues.ListFromStream( stream );
 
-                        Func<Entity> ctor;
-                        var ent = _sEntityCtors.TryGetValue( className, out ctor ) ? ctor() : new Entity();
-                        ent.Initialize( entity );
+                        foreach ( var entity in keyValues )
+                        {
+                            var className = entity["classname"];
 
-                        _entities.Add( ent );
+                            Func<Entity> ctor;
+                            var ent = _sEntityCtors.TryGetValue( className, out ctor ) ? ctor() : new Entity();
+                            ent.Initialize( entity );
+
+                            _entities.Add( ent );
+                        }
                     }
                 }
             }

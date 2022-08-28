@@ -10,11 +10,13 @@ namespace SourceUtils
             public int Offset;
             public int Length;
             public int Version;
-            public LumpType IdentCode;
+            // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/bspfile.h#L381
+            // public LumpType IdentCode;
+            public int UncompressedSize;
 
             public override string ToString()
             {
-                return $"{{ Type: {IdentCode}, Length: {Length:N0}, Version: {Version} }}";
+                return $"{{ UncompressedSize: {UncompressedSize}, Length: {Length:N0}, Version: {Version} }}";
             }
         }
     }

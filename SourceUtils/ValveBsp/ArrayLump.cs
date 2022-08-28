@@ -146,7 +146,7 @@ namespace SourceUtils
 
                     if ( index < 0 || index >= _array.Length )
                     {
-                        throw new IndexOutOfRangeException( $"{index} is not >= 0 and < {_array.Length}." );
+                        throw new IndexOutOfRangeException( $"{index} is not >= 0 and < {_array.Length}. LumpType: {LumpType}" );
                     }
 
                     return _array[index];
