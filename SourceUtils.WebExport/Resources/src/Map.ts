@@ -61,21 +61,9 @@ namespace SourceUtils {
         }
 
         load(url: string): void {
-            let request = new XMLHttpRequest;
-            request.open('GET', url, true);
-            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-            request.setRequestHeader('Accept', '*/*');
-            request.onprogress = (event) => {
-                let success = event.total > 14 ? true : false; // "404: Not Found" has the length of 14 bytes
-                console.log(event.total + " bytes");
-                console.log(success);
-                request.abort();
-                if (success)
-                    Facepunch.Http.getJson<IMap>(url, info => {
-                        this.onLoad(info);
-                    });
-            };
-            request.send('');
+            Facepunch.Http.getJson<IMap>(url, info => {
+                this.onLoad(info);
+            });
         }
 
         getLightmapLoadProgress(): number {
