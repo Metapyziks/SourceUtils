@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SourceUtils
@@ -10,7 +11,7 @@ namespace SourceUtils
     {
         public static TLump[] ReadLump(byte[] src, int offset, int length)
         {
-            var size = Marshal.SizeOf(typeof(TLump));
+            var size = Unsafe.SizeOf<TLump>();
             var count = length/size;
             var array = new TLump[count];
 
@@ -35,7 +36,7 @@ namespace SourceUtils
 
         public static void ReadLumpToList(byte[] src, int offset, int length, List<TLump> dstList)
         {
-            var size = Marshal.SizeOf(typeof(TLump));
+            var size = Unsafe.SizeOf<TLump>();
             var count = length/size;
 
             if (typeof(TLump) == typeof(byte))
@@ -80,7 +81,7 @@ namespace SourceUtils
             if (_sReadLumpList == null) _sReadLumpList = new List<TLump>();
             else _sReadLumpList.Clear();
 
-            var size = Marshal.SizeOf(typeof (TLump));
+            var size = Unsafe.SizeOf<TLump>();
             var start = stream.Position;
 
             ReadLumpFromStream(stream, count, _sReadLumpList);
@@ -125,7 +126,7 @@ namespace SourceUtils
 
         public static void ReadLumpFromStream(Stream stream, int count, List<TLump> dstList)
         {
-            var size = Marshal.SizeOf(typeof (TLump));
+            var size = Unsafe.SizeOf<TLump>();
             var length = count*size;
 
             if (_sReadLumpBuffer == null || _sReadLumpBuffer.Length < length)

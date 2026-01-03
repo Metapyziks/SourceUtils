@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ImageMagick;
+using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using ImageMagick;
 
 namespace SourceUtils.WebExport
 {
@@ -100,13 +101,13 @@ namespace SourceUtils.WebExport
             header.dwWidth = (uint) Math.Max( 1, vtf.Header.Width >> mip );
             header.dwHeight = (uint) Math.Max( 1, vtf.Header.Height >> mip );
 
-            header.dwSize = (uint)Marshal.SizeOf(typeof(DdsHeader));
+            header.dwSize = (uint)Unsafe.SizeOf<DdsHeader>();
             header.dwFlags = DdsHeaderFlags.CAPS | DdsHeaderFlags.HEIGHT | DdsHeaderFlags.WIDTH | DdsHeaderFlags.PIXELFORMAT;
             header.dwPitchOrLinearSize = (uint)(Math.Max(1, (vtf.Header.Width + 3) / 4) * blockSize);
             header.dwDepth = 1;
             header.dwMipMapCount = 1;
             header.dwCaps = DdsCaps.TEXTURE;
-            header.ddspf.dwSize = (uint)Marshal.SizeOf(typeof(DdsPixelFormat));
+            header.ddspf.dwSize = (uint)Unsafe.SizeOf<DdsPixelFormat>();
             header.ddspf.dwFlags = DdsPixelFormatFlags.FOURCC;
             header.ddspf.dwFourCC = fourCC;
 
