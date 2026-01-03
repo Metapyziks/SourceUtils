@@ -19,7 +19,7 @@ namespace SourceUtils.WebExport.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -90,10 +90,11 @@ namespace SourceUtils.WebExport.Properties {
         ///    &lt;head&gt;
         ///        &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///        &lt;title&gt;Map Viewer - ${mapName}&lt;/title&gt;
-        ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js&quot;&gt;&lt;/script&gt;
         ///        &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.min.js&quot;&gt;&lt;/script&gt;
-        ///        &lt;script src=&quot;${facepunc [rest of string was truncated]&quot;;.
+        ///        &lt;script src=&quot;${facepunchWebGame}&quot;&gt;&lt;/script&gt;
+        ///        &lt;script src=&quot;${sourceUtils}&quot;&gt;&lt;/script&gt;
+        ///        &lt;link type=&quot;text/css&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index_template {
             get {
@@ -103,15 +104,17 @@ namespace SourceUtils.WebExport.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to .map-viewer canvas {
+        ///    position: absolute;
         ///    width: 100%;
         ///    height: 100%;
         ///}
         ///
         ///.map-viewer:-webkit-full-screen {
-        ///    top: 0;
-        ///    left: 0;
-        ///    bottom: 0;
-        ///    right: 0;
+        ///    position: absolute !important;
+        ///    top: 0 !important;
+        ///    left: 0 !important;
+        ///    bottom: 0 !important;
+        ///    right: 0 !important;
         ///}
         ///
         ///.map-viewer .side-panel {
@@ -124,15 +127,7 @@ namespace SourceUtils.WebExport.Properties {
         ///    color: white;
         ///    font-family: sans-serif;
         ///    padding: 16px;
-        ///    margin: 8px;
-        ///}
-        ///
-        ///.map-viewer .side-panel .slider {
-        ///    width: 240px;
-        ///    margin: 8px;
-        ///}
-        ///
-        ///.map-viewe [rest of string was truncated]&quot;;.
+        ///    m [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string mapviewer {
             get {
@@ -141,19 +136,17 @@ namespace SourceUtils.WebExport.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
-        ///    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        ///    function __() { this.constructor = d; }
-        ///    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-        ///};
-        ///var SourceUtils;
-        ///(function (SourceUtils) {
-        ///    var ResourcePage = (function () {
-        ///        function ResourcePage(info) {
-        ///            this.toLoad = [];
-        ///            this.first = info.first;
-        ///            this.count = info.count;
-        ///            this.ur [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to var __extends = (this &amp;&amp; this.__extends) || (function () {
+        ///    var extendStatics = function (d, b) {
+        ///        extendStatics = Object.setPrototypeOf ||
+        ///            ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
+        ///            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        ///        return extendStatics(d, b);
+        ///    };
+        ///    return function (d, b) {
+        ///        extendStatics(d, b);
+        ///        function __() { this.constructor = d; }
+        ///        d.prototype = b [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string sourceutils {
             get {

@@ -19,7 +19,7 @@ namespace SourceUtils.Test.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -84,7 +84,8 @@ namespace SourceUtils.Test.Properties {
         ///&quot;renderfx&quot; &quot;0&quot;
         ///&quot;rendercolor&quot; &quot;255 255 255&quot;
         ///&quot;renderamt&quot; &quot;255&quot;
-        ///&quot;origin&quot; &quot;-3274 -38 [rest of string was truncated]&quot;;.
+        ///&quot;origin&quot; &quot;-3274 -385.5 586&quot;
+        ///&quot;invert_exclus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string entities {
             get {
