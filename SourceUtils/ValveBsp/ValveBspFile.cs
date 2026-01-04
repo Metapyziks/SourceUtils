@@ -256,53 +256,15 @@ namespace SourceUtils
         public Stream GetLumpStream( LumpType type )
         {
             var info = GetLumpInfo( type );
-            var stream = GetSubStream( info.Offset, info.Length );
-
-            // If not compressed, just return the base stream
-
-            if ( stream.Length < Unsafe.SizeOf<LzmaHeader>() )
-            {
-                return stream;
-            }
-
-            var lzmaHeader = LumpReader<LzmaHeader>.ReadSingleFromStream( stream );
-
-            if ( lzmaHeader.Id != LzmaHeader.ExpectedId )
-            {
-                stream.Seek( 0, SeekOrigin.Begin );
-                return stream;
-            }
-
-            using ( stream )
-            {
-                var lzmaDecoder = new SevenZip.Compression.LZMA.Decoder();
-                var decodedStream = new MemoryStream((int)lzmaHeader.ActualSize);
-
-                unsafe
-                {
-                    var properties = new byte[5];
-
-                    for (var i = 0; i < 5; i++)
-                    {
-                        properties[i] = lzmaHeader.Properties[i];
-                    }
-
-                    lzmaDecoder.SetDecoderProperties(properties);
-                }
-
-                lzmaDecoder.Code(stream, decodedStream, lzmaHeader.LzmaSize, lzmaHeader.ActualSize, null);
-
-                decodedStream.Seek( 0, SeekOrigin.Begin );
-
-                return decodedStream;
-            }
+            return GetSubStream( info.Offset, info.Length );
         }
 
         public Stream GetSubStream( long offset, long length )
         {
             var stream = new SubStream( GetBspStream( this ), offset, length, false );
             stream.Seek( 0, SeekOrigin.Begin );
-            return stream;
+
+            return LzmaDecoderStream.Decode( stream );
         }
 
         public Vector3 GetVertexFromSurfEdgeId( int surfEdgeId )
