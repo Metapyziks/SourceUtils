@@ -259,12 +259,12 @@ namespace SourceUtils
             return GetSubStream( info.Offset, info.Length );
         }
 
-        public Stream GetSubStream( long offset, long length )
+        public Stream GetSubStream( long offset, long length, bool ignoreCompression = false )
         {
             var stream = new SubStream( GetBspStream( this ), offset, length, false );
             stream.Seek( 0, SeekOrigin.Begin );
 
-            return LzmaDecoderStream.Decode( stream );
+            return ignoreCompression ? stream : LzmaDecoderStream.Decode( stream );
         }
 
         public Vector3 GetVertexFromSurfEdgeId( int surfEdgeId )

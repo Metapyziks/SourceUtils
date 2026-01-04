@@ -38,26 +38,35 @@ namespace SourceUtils
                 return stream;
             }
 
-            using (stream)
+            var properties = new byte[5];
+
+            unsafe
+            {
+                for ( var i = 0; i < 5; i++ )
+                {
+                    properties[i] = lzmaHeader.Properties[i];
+                }
+            }
+
+            return Decode( stream, lzmaHeader.LzmaSize, lzmaHeader.ActualSize, properties );
+        }
+
+        public static Stream Decode( Stream stream, long lzmaSize, long actualSize, byte[] properties )
+        {
+            if ( actualSize > int.MaxValue )
+            {
+                throw new ArgumentOutOfRangeException( nameof( actualSize ), actualSize, "Decompressed size is too big." );
+            }
+
+            using ( stream )
             {
                 var lzmaDecoder = new SevenZip.Compression.LZMA.Decoder();
-                var decodedStream = new MemoryStream((int)lzmaHeader.ActualSize);
+                var decodedStream = new MemoryStream( (int)actualSize );
 
-                unsafe
-                {
-                    var properties = new byte[5];
+                lzmaDecoder.SetDecoderProperties( properties );
+                lzmaDecoder.Code( stream, decodedStream, lzmaSize, actualSize, null );
 
-                    for (var i = 0; i < 5; i++)
-                    {
-                        properties[i] = lzmaHeader.Properties[i];
-                    }
-
-                    lzmaDecoder.SetDecoderProperties(properties);
-                }
-
-                lzmaDecoder.Code(stream, decodedStream, lzmaHeader.LzmaSize, lzmaHeader.ActualSize, null);
-
-                decodedStream.Seek(0, SeekOrigin.Begin);
+                decodedStream.Seek( 0, SeekOrigin.Begin );
 
                 return decodedStream;
             }
