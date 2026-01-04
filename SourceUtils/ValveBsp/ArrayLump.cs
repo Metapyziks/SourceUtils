@@ -14,7 +14,7 @@ namespace SourceUtils
             public LumpType LumpType { get; }
             public int Length { get; }
 
-            protected virtual Type StructType => typeof(T);
+            protected abstract Type StructType { get; }
 
             public ArrayLump( ValveBspFile bspFile, LumpType type )
             {
@@ -118,6 +118,8 @@ namespace SourceUtils
             private T[] _array;
             
             private volatile bool _firstRequest = true;
+
+            protected override Type StructType => typeof( T );
 
             public StructArrayLump( ValveBspFile bspFile, LumpType type )
                 : base( bspFile, type ) { }

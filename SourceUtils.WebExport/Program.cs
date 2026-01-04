@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -454,7 +455,7 @@ namespace SourceUtils.WebExport
                 i = 0;
                 foreach (var texName in mdl.TextureNames)
                 {
-                    var texOffset = mdl.FileHeader.TextureIndex + Marshal.SizeOf<StudioModelFile.StudioTexture>() * i;
+                    var texOffset = mdl.FileHeader.TextureIndex + Unsafe.SizeOf<StudioModelFile.StudioTexture>() * i;
                     var index = texOffset + mdl.Textures[i].NameIndex;
 
                     ClearRange(outStream, new Range(index, index + texName.Length + 1), empty);
@@ -506,7 +507,7 @@ namespace SourceUtils.WebExport
 
                                     for (var index = startIndex; index < endIndex; ++index)
                                     {
-                                        var texOffset = mdl.FileHeader.TextureIndex + Marshal.SizeOf<StudioModelFile.StudioTexture>() * index;
+                                        var texOffset = mdl.FileHeader.TextureIndex + Unsafe.SizeOf<StudioModelFile.StudioTexture>() * index;
                                         var indexOffset = texOffset + StudioModelFile.StudioTexture.NameIndexOffset;
                                         var original = mdl.TextureNames[index];
                                         var newIndex = AppendString(outStream, cmd.GetFormattedValue(index, original), empty);

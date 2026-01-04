@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SourceUtils
@@ -232,7 +233,7 @@ namespace SourceUtils
         public ValveTextureFile( Stream stream, bool onlyHeader = false )
         {
             Header = LumpReader<TextureHeader>.ReadSingleFromStream( stream );
-            var readCount = Marshal.SizeOf<TextureHeader>();
+            var readCount = Unsafe.SizeOf<TextureHeader>();
 
             ZSliceCount = 1;
 
@@ -268,7 +269,7 @@ namespace SourceUtils
                 readCount += 8;
 
                 resources = LumpReader<VtfResource>.ReadLumpFromStream( stream, resourceCount );
-                readCount += Marshal.SizeOf<VtfResource>() * resourceCount;
+                readCount += Unsafe.SizeOf<VtfResource>() * resourceCount;
             }
 
             if ( resources == null || resources.Length == 0 )

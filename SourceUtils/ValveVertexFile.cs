@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SourceUtils
@@ -105,13 +106,13 @@ namespace SourceUtils
                 var vertLength = (int) (HasTangents ? tangentDataStart - vertexDataStart : stream.Length - vertexDataStart);
                 
                 reader.BaseStream.Seek( vertexDataStart, SeekOrigin.Begin );
-                _vertices = LumpReader<StudioVertex>.ReadLumpFromStream( reader.BaseStream, vertLength / Marshal.SizeOf<StudioVertex>() );
+                _vertices = LumpReader<StudioVertex>.ReadLumpFromStream( reader.BaseStream, vertLength / Unsafe.SizeOf<StudioVertex>() );
 
                 if ( HasTangents )
                 {
                     var tangLength = (int) (stream.Length - tangentDataStart);
                     reader.BaseStream.Seek( tangentDataStart, SeekOrigin.Begin );
-                    _tangents = LumpReader<Vector4>.ReadLumpFromStream( reader.BaseStream, tangLength / Marshal.SizeOf<Vector4>() );
+                    _tangents = LumpReader<Vector4>.ReadLumpFromStream( reader.BaseStream, tangLength / Unsafe.SizeOf<Vector4>() );
                 }
             }
         }

@@ -19,7 +19,7 @@ namespace SourceUtils.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,34 +61,28 @@ namespace SourceUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EndOfInput = /$/;
+        ///   Looks up a localized string similar to Skip = /(\s+|\/\/[^\n]*(\n|$))+/;
         ///
         ///Escaped
         ///{
-        ///    Document = Definition* EndOfInput;
+        ///    Document = ( Definition.BlockList* | Definition.List ) /$/;
         ///
-        ///    String = &apos;&quot;&apos; Quoted &apos;&quot;&apos; | Unquoted
+        ///    String = &apos;&quot;&apos; Quoted &apos;&quot;&apos; | &apos;“&apos; Quoted &apos;”&apos; | Unquoted
         ///    {
-        ///        Quoted = /([^&quot;\n\\]|\\[\\&quot;nt])+/;
+        ///        Quoted = /([^&quot;\n\\]|\\[\\&quot;nt])*/;
         ///        Unquoted = /([^\s\/&quot;{}\\]|\/(?!\/)|\\[\\&quot;nt{}])+/;
         ///    }
         ///
-        ///    ignore /(\s+|\/\/[^\n]*(\n|$)/
+        ///    ignore Skip
         ///    {
-        ///        Definition = Key ( Value | SubKeys );
+        ///        Definition = String ( &quot;{&quot; List &quot;}&quot; | String )
+        ///        {
+        ///            List = Definition*;
         ///
-        ///        Key = String;
-        ///        Value = String;
-        ///
-        ///        SubKeys = &quot;{&quot; Definition* &quot;}&quot;;
-        ///    }
-        ///}
-        ///
-        ///Unescaped
-        ///{
-        ///    Document = Definition* EndOfInput;
-        ///
-        ///    String = &apos;&quot;&apos; Quoted &apos;&quot;&apos;  [rest of string was truncated]&quot;;.
+        ///            collapse
+        ///            {
+        ///                BlockList = &quot;{&quot; Definition.List &quot;}&quot;;
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string KeyValues {
             get {

@@ -1,11 +1,14 @@
+using SevenZip.Buffer;
+using SourceUtils.ValveBsp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
-using System.Threading;
-using SourceUtils.ValveBsp;
-using SourceUtils.ValveBsp.Entities;
+using System.Xml.Linq;
 
 namespace SourceUtils
 {
@@ -48,7 +51,7 @@ namespace SourceUtils
                     Version = reader.ReadInt32()
                 };
 
-                var lumpInfoBytes = reader.ReadBytes( LumpInfoCount * Marshal.SizeOf( typeof(LumpInfo) ) );
+                var lumpInfoBytes = reader.ReadBytes( LumpInfoCount * Unsafe.SizeOf<LumpInfo>() );
                 var lumps = LumpReader<LumpInfo>.ReadLump( lumpInfoBytes, 0, lumpInfoBytes.Length );
 
                 for ( var i = 0; i < lumps.Length; ++i )
@@ -205,26 +208,44 @@ namespace SourceUtils
             return _header.Lumps[lumpIndex];
         }
 
+        private static MethodInfo SizeOfMethod { get; } = typeof( Unsafe )
+            .GetMethod( nameof( Unsafe.SizeOf ), BindingFlags.Public | BindingFlags.Static );
+
+        private static int GetStructSize( Type type )
+        {
+            // TODO: cache for performance
+
+            return (int)SizeOfMethod.MakeGenericMethod( type ).Invoke( null, Array.Empty<object>() );
+        }
+
         private int GetLumpLength( LumpType lumpType, Type structType )
         {
-            var info = GetLumpInfo( lumpType );
-            return info.Length / Marshal.SizeOf( structType );
+            using ( var stream = GetLumpStream( lumpType ) )
+            {
+                checked
+                {
+                    return (int)(stream.Length / GetStructSize( structType ));
+                }
+            }
         }
 
         private int ReadLumpValues<T>( LumpType type, int srcOffset, T[] dst, int dstOffset, int count )
             where T : struct
         {
-            var info = GetLumpInfo( type );
-            var tSize = Marshal.SizeOf<T>();
-            var length = info.Length / tSize;
-
-            if ( srcOffset > length ) srcOffset = length;
-            if ( srcOffset + count > length ) count = length - srcOffset;
-
-            if ( count <= 0 ) return 0;
+            if (count <= 0) return 0;
 
             using ( var stream = GetLumpStream( type ) )
             {
+                var tSize = Unsafe.SizeOf<T>();
+
+                checked
+                {
+                    var length = (int)stream.Length / tSize;
+
+                    if (srcOffset > length) srcOffset = length;
+                    if (srcOffset + count > length) count = length - srcOffset;
+                }
+
                 stream.Seek( tSize * srcOffset, SeekOrigin.Begin );
                 LumpReader<T>.ReadLumpFromStream( stream, count, dst, dstOffset );
             }
@@ -238,11 +259,12 @@ namespace SourceUtils
             return GetSubStream( info.Offset, info.Length );
         }
 
-        public Stream GetSubStream( long offset, long length )
+        public Stream GetSubStream( long offset, long length, bool ignoreCompression = false )
         {
             var stream = new SubStream( GetBspStream( this ), offset, length, false );
             stream.Seek( 0, SeekOrigin.Begin );
-            return stream;
+
+            return ignoreCompression ? stream : LzmaDecoderStream.Decode( stream );
         }
 
         public Vector3 GetVertexFromSurfEdgeId( int surfEdgeId )
