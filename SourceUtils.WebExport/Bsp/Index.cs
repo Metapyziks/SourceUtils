@@ -9,6 +9,7 @@ using SourceUtils.ValveBsp;
 using SourceUtils.ValveBsp.Entities;
 using SourceUtils.WebExport.Properties;
 using Ziks.WebServer;
+using MimeTypes;
 
 namespace SourceUtils.WebExport.Bsp
 {
@@ -50,7 +51,7 @@ namespace SourceUtils.WebExport.Bsp
         [Get("/index.html")]
         public string GetIndexPage( [Url] string map )
         {
-            Response.ContentType = MimeTypes.MimeTypeMap.GetMimeType( ".html" );
+            Response.ContentType = MimeTypeMap.GetMimeType( ".html" );
 
             var template = Resources.index_template;
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json;
 using OpenTK;
+using OpenTK.Mathematics;
 using SourceUtils.ValveBsp;
 using Ziks.WebServer;
 using PrimitiveType = OpenTK.Graphics.ES20.PrimitiveType;
