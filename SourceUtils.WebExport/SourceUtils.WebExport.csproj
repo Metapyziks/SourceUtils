@@ -1,205 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{171622AD-547B-496C-A230-16FCA08A0112}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SourceUtils.WebExport</RootNamespace>
-    <AssemblyName>SourceUtils.WebExport</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <Choose>
-    <When Condition="$(DefineConstants.Contains('LINUX'))">
-    </When>
-    <Otherwise />
-  </Choose>
+
   <ItemGroup>
-    <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2025.2.4\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.0.4.400\lib\net40-client\Magick.NET-Q8-AnyCPU.dll</HintPath>
-    </Reference>
-    <Reference Include="MimeTypeMap, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MediaTypeMap.2.1.0.0\lib\net40\MimeTypeMap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Ziks.WebServer, Version=0.1.6317.26952, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ziks.WebServer.0.1.6317.26952-alpha\lib\net452\Ziks.WebServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.0.4.400" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="OpenTK" Version="4.9.4" />
+    <PackageReference Include="Ziks.WebServer" Version="0.1.6317.26952-alpha" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Bsp\AmbientCubes.cs" />
-    <Compile Include="Bsp\Entities.cs" />
-    <Compile Include="Bsp\Geometry.cs" />
-    <Compile Include="Bsp\Index.cs" />
-    <Compile Include="Bsp\Lightmap.cs" />
-    <Compile Include="Bsp\BrushModel.cs" />
-    <Compile Include="Bsp\Materials.cs" />
-    <Compile Include="Bsp\Visibility.cs" />
-    <Compile Include="Export.cs" />
-    <Compile Include="ImageMagick.cs" />
-    <Compile Include="LZString.cs" />
-    <Compile Include="Material.cs" />
-    <Compile Include="ModelPatch.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ResourceController.cs" />
-    <Compile Include="ResourceDictionary.cs" />
-    <Compile Include="StaticFiles.cs" />
-    <Compile Include="StudioModelDictionary.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="Texture.Convert.cs" />
-    <Compile Include="Utils.cs" />
+    <ProjectReference Include="..\SourceUtils\SourceUtils.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="OpenTK.dll.config" />
-    <None Include="packages.config" />
-    <Content Include="Resources\tsconfig.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Resources\js\facepunch.webgame.d.ts" />
-    <TypeScriptCompile Include="Resources\src\AmbientLoader.ts" />
-    <TypeScriptCompile Include="Resources\src\BspModel.ts" />
-    <TypeScriptCompile Include="Resources\src\DispGeometryLoader.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\BrushEntity.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\Camera.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\Displacement.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\MoveRope.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\PvsEntity.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\StaticProp.ts" />
-    <TypeScriptCompile Include="Resources\src\Entities\Worldspawn.ts" />
-    <TypeScriptCompile Include="Resources\src\LeafGeometryLoader.ts" />
-    <TypeScriptCompile Include="Resources\src\Map.ts" />
-    <TypeScriptCompile Include="Resources\src\MapMaterialLoader.ts" />
-    <TypeScriptCompile Include="Resources\src\MapViewer.ts" />
-    <TypeScriptCompile Include="Resources\src\PagedLoader.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\BaseShaderProgram.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\Lightmapped2WayBlend.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\LightmappedBase.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\LightmappedGeneric.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\ModelBase.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\Sky.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\SplineRope.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\UnlitGeneric.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\VertexLitGeneric.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\Water.ts" />
-    <TypeScriptCompile Include="Resources\src\Shaders\WorldTwoTextureBlend.ts" />
-    <TypeScriptCompile Include="Resources\src\SkyCube.ts" />
-    <TypeScriptCompile Include="Resources\src\StudioModel.ts" />
-    <TypeScriptCompile Include="Resources\src\Utils.ts" />
-    <TypeScriptCompile Include="Resources\src\VisLoader.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\index.template.html" />
-    <Content Include="Resources\js\facepunch.webgame.js" />
-    <Content Include="Resources\js\sourceutils.js" />
-    <Content Include="Resources\styles\mapviewer.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">
-      <Project>{2c5fefa1-39ba-458e-b95c-2d8414958820}</Project>
-      <Name>SourceUtils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
