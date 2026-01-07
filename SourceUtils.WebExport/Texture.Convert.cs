@@ -146,8 +146,8 @@ namespace SourceUtils.WebExport
             }
 
             var offset = 0;
-            var width = Math.Max( 1, vtf.Header.Width >> mip );
-            var height = Math.Max( 1, vtf.Header.Height >> mip );
+            var width = (uint)Math.Max( 1, vtf.Header.Width >> mip );
+            var height = (uint)Math.Max( 1, vtf.Header.Height >> mip );
 
             var readSettings = new MagickReadSettings
             {
@@ -166,53 +166,27 @@ namespace SourceUtils.WebExport
                 case TextureFormat.I8:
                     readSettings.Format = MagickFormat.Gray;
                     break;
-                case TextureFormat.IA88:
-                    readSettings.Format = MagickFormat.Gray;
-                    readSettings.PixelStorage = new PixelStorageSettings
-                    {
-                        StorageType = StorageType.Char,
-                        Mapping = "PA"
-                    };
-                    break;
-                case TextureFormat.BGR565:
                 case TextureFormat.BGR888:
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGR");
+                    readSettings.Format = MagickFormat.Bgr;
                     break;
                 case TextureFormat.RGB565:
+                    readSettings.Format = MagickFormat.Rgb565;
+                    break;
                 case TextureFormat.RGB888:
                 case TextureFormat.RGB888_BLUESCREEN:
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "RGB");
-                    break;
-                case TextureFormat.ABGR8888:
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "ABGR");
+                    readSettings.Format = MagickFormat.Rgb;
                     break;
                 case TextureFormat.BGRA8888:
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGRA");
+                    readSettings.Format = MagickFormat.Bgra;
                     break;
                 case TextureFormat.RGBA8888:
-                    readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "RGBA");
+                    readSettings.Format = MagickFormat.Rgba;
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
             vtf.GetHiResPixelData( mip, frame, face, zslice, _sPixelBuffer, offset );
-
-            // Convert 16bpp to 24bpp
-            switch (vtf.Header.HiResFormat)
-            {
-                case TextureFormat.RGB565:
-                case TextureFormat.BGR565:
-                    for (var i = width * height - 1; i >= 0; --i)
-                    {
-                        var pixel = (ushort)(_sPixelBuffer[i * 2] | (_sPixelBuffer[i * 2 + 1] << 8));
-
-                        _sPixelBuffer[i * 3] = (byte) ((pixel & 31) / 31f * 255f);
-                        _sPixelBuffer[i * 3 + 1] = (byte)(((pixel >> 5) & 63) / 63f * 255f);
-                        _sPixelBuffer[i * 3 + 2] = (byte)(((pixel >> 11) & 31) / 31f * 255f);
-                    }
-                    break;
-            }
 
             var img = new MagickImage( _sPixelBuffer, readSettings );
 

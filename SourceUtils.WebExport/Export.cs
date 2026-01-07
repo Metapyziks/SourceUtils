@@ -105,9 +105,9 @@ namespace SourceUtils.WebExport
                     var oldPixel = oldPixels[x, y];
                     var newPixel = newPixels[x, y];
 
-                    for (var c = 0; c < oldImage.ChannelCount; ++c)
+                    for (uint c = 0; c < oldImage.ChannelCount; ++c)
                     {
-                        if ( oldPixel[c] != newPixel[c] ) return false;
+                        if ( oldPixel?[c] != newPixel?[c] ) return false;
                     }
                 }
             }
