@@ -56,8 +56,8 @@ namespace SourceUtils.WebExport.Bsp
             using (var sampleStream = bsp.GetLumpStream(lightingLump))
             {
                 var lightmap = bsp.LightmapLayout;
-                var width = lightmap.TextureSize.X;
-                var height = lightmap.TextureSize.Y;
+                var width = (uint)lightmap.TextureSize.X;
+                var height = (uint)lightmap.TextureSize.Y;
 
                 var pixels = new byte[width * height * 4];
 
@@ -97,7 +97,7 @@ namespace SourceUtils.WebExport.Bsp
                 {
                     Width = width,
                     Height = height,
-                    PixelStorage = new PixelStorageSettings( StorageType.Char, "BGRA" )
+                    Format = MagickFormat.Bgra
                 } ) )
                 {
                     img.Write( Response.OutputStream, MagickFormat.Png );

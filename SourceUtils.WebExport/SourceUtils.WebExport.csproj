@@ -8,10 +8,14 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
-    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.0.4.400" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="OpenTK" Version="4.9.4" />
     <PackageReference Include="Ziks.WebServer" Version="0.1.6317.26952-alpha" />
