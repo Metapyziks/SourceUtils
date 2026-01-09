@@ -126,11 +126,14 @@ namespace SourceUtils
 
             private void EnsureLoaded()
             {
+                if ( _array != null ) return;
+
                 lock ( this )
                 {
-                    if ( _array != null ) return;
-                    _array = new T[Length];
-                    BspFile.ReadLumpValues( LumpType, 0, _array, 0, Length );
+                    var array = new T[Length];
+                    BspFile.ReadLumpValues( LumpType, 0, array, 0, Length );
+
+                    _array = array;
                 }
             }
 
