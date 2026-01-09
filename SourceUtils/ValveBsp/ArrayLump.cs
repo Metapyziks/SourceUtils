@@ -126,7 +126,7 @@ namespace SourceUtils
 
             private void EnsureLoaded()
             {
-                if ( _array != null ) return;
+                if ( _array is not null ) return;
 
                 lock ( this )
                 {
