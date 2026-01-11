@@ -71,5 +71,47 @@ namespace SourceUtils
                 return decodedStream;
             }
         }
+
+        public static int GetCorrectedLzmaLength( Stream bspStream, int offset )
+        {
+            const int LzmaHeaderMetadataSize = 12;
+            const int LzmaPropertiesSize = 5;
+
+            if ( offset + LzmaHeaderMetadataSize > bspStream.Length )
+            {
+                return 12;
+            }
+
+            long originalPosition = bspStream.Position;
+            try
+            {
+                bspStream.Seek( offset, SeekOrigin.Begin );
+
+                byte[] headerBuffer = new byte[LzmaHeaderMetadataSize];
+                int bytesRead = bspStream.Read( headerBuffer, 0, LzmaHeaderMetadataSize );
+
+                bspStream.Seek( originalPosition, SeekOrigin.Begin );
+
+                if ( bytesRead < LzmaHeaderMetadataSize )
+                {
+                    return 12;
+                }
+
+                uint magic = BitConverter.ToUInt32(headerBuffer, 0);
+
+                if ( magic == LzmaHeader.ExpectedId )
+                {
+                    uint lzmaSize = BitConverter.ToUInt32( headerBuffer, 8 );
+
+                    return (int)(LzmaHeaderMetadataSize + LzmaPropertiesSize + lzmaSize);
+                }
+            }
+            finally
+            {
+                bspStream.Seek( originalPosition, SeekOrigin.Begin );
+            }
+
+            return 12;
+        }
     }
 }
