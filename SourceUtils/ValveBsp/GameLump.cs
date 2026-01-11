@@ -20,6 +20,15 @@ namespace SourceUtils
                 public readonly ushort Version;
                 public readonly int FileOffset;
                 public readonly int FileLength;
+
+                public Item(int id, ushort flags, ushort version, int offset, int length)
+                {
+                    Id = id;
+                    Flags = flags;
+                    Version = version;
+                    FileOffset = offset;
+                    FileLength = length;
+                }
             }
 
             private readonly ValveBspFile _bspFile;
@@ -75,10 +84,34 @@ namespace SourceUtils
 
                     _items = new Dictionary<string, Item>();
 
+                    var bspStream = GetBspStream( _bspFile );
+
                     using ( var reader = new BinaryReader( _bspFile.GetLumpStream( LumpType ) ) )
                     {
                         var count = reader.ReadInt32();
-                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item => _items.Add( GetIdString( item.Id ), item ) );
+
+                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item =>
+                        {
+                            var finalItem = item;
+
+                            if ( item.FileLength == 12 )
+                            {
+                                int correctedLength = LzmaDecoderStream.GetCorrectedLzmaLength( bspStream, item.FileOffset );
+
+                                if ( correctedLength != 12 )
+                                {
+                                    finalItem = new Item(
+                                        item.Id,
+                                        item.Flags,
+                                        item.Version,
+                                        item.FileOffset,
+                                        correctedLength
+                                    );
+                                }
+                            }
+
+                            _items.Add( GetIdString( finalItem.Id ), finalItem );
+                        });
                     }
                 }
             }
