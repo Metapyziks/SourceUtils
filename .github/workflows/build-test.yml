@@ -1,0 +1,40 @@
+name: .NET - Build and Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+    - name: Restore dependencies
+      run: nuget restore SourceUtils.sln
+    - name: Build
+      run: msbuild SourceUtils.sln /t:Build /p:Configuration=Debug /p:Platform="Any CPU" /verbosity:minimal
+    - name: Test
+      id: run-tests
+      shell: pwsh
+      run: |
+        $vsTestPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+        if (Test-Path $vsTestPath) {
+          Write-Host "Found VSTest at: $vsTestPath"
+        } else {
+          Write-Error "VSTest not found at expected location: $vsTestPath"
+          exit 1
+        }
+        & "$vsTestPath" `
+          "**\SourceUtils.Test.dll" `
+          /Logger:trx `
+          /ResultsDirectory:./test-results `
+          /Parallel `
+          /Platform:x64 `
