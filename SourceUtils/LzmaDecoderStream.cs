@@ -8,6 +8,9 @@ namespace SourceUtils
 {
     public sealed class LzmaDecoderStream
     {
+        public const int MetadataSize = 12;
+        public const int PropertiesSize = 5;
+
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public unsafe struct LzmaHeader
         {
@@ -16,7 +19,7 @@ namespace SourceUtils
             public uint Id;
             public uint ActualSize;
             public uint LzmaSize;
-            public fixed byte Properties[5];
+            public fixed byte Properties[PropertiesSize];
         }
 
         public static Stream Decode( Stream stream )
@@ -72,46 +75,32 @@ namespace SourceUtils
             }
         }
 
-        public static int GetCorrectedLzmaLength( Stream bspStream, int offset )
+        public static int GetCorrectedLzmaLength( Stream stream, int offset )
         {
-            const int LzmaHeaderMetadataSize = 12;
-            const int LzmaPropertiesSize = 5;
-
-            if ( offset + LzmaHeaderMetadataSize > bspStream.Length )
+            if ( offset + Unsafe.SizeOf<LzmaHeader>() > stream.Length )
             {
-                return 12;
+                return MetadataSize;
             }
 
-            long originalPosition = bspStream.Position;
+            var originalPosition = stream.Position;
+
             try
             {
-                bspStream.Seek( offset, SeekOrigin.Begin );
+                stream.Seek( offset, SeekOrigin.Begin );
 
-                byte[] headerBuffer = new byte[LzmaHeaderMetadataSize];
-                int bytesRead = bspStream.Read( headerBuffer, 0, LzmaHeaderMetadataSize );
+                var lzmaHeader = LumpReader<LzmaHeader>.ReadSingleFromStream( stream );
 
-                bspStream.Seek( originalPosition, SeekOrigin.Begin );
-
-                if ( bytesRead < LzmaHeaderMetadataSize )
+                if ( lzmaHeader.Id != LzmaHeader.ExpectedId )
                 {
-                    return 12;
+                    return MetadataSize;
                 }
 
-                uint magic = BitConverter.ToUInt32(headerBuffer, 0);
-
-                if ( magic == LzmaHeader.ExpectedId )
-                {
-                    uint lzmaSize = BitConverter.ToUInt32( headerBuffer, 8 );
-
-                    return (int)(LzmaHeaderMetadataSize + LzmaPropertiesSize + lzmaSize);
-                }
+                return Unsafe.SizeOf<LzmaHeader>() + (int)lzmaHeader.LzmaSize;
             }
             finally
             {
-                bspStream.Seek( originalPosition, SeekOrigin.Begin );
+                stream.Seek( originalPosition, SeekOrigin.Begin );
             }
-
-            return 12;
         }
     }
 }

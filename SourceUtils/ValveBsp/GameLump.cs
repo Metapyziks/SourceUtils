@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,11 @@ namespace SourceUtils
                     Version = version;
                     FileOffset = offset;
                     FileLength = length;
+                }
+
+                public Item WithLength( int length )
+                {
+                    return new Item( Id, Flags, Version, FileOffset, length );
                 }
             }
 
@@ -92,26 +98,12 @@ namespace SourceUtils
 
                         LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item =>
                         {
-                            var finalItem = item;
+                            var length = item.FileLength == LzmaDecoderStream.MetadataSize
+                                ? LzmaDecoderStream.GetCorrectedLzmaLength( bspStream, item.FileOffset )
+                                : item.FileLength;
 
-                            if ( item.FileLength == 12 )
-                            {
-                                int correctedLength = LzmaDecoderStream.GetCorrectedLzmaLength( bspStream, item.FileOffset );
-
-                                if ( correctedLength != 12 )
-                                {
-                                    finalItem = new Item(
-                                        item.Id,
-                                        item.Flags,
-                                        item.Version,
-                                        item.FileOffset,
-                                        correctedLength
-                                    );
-                                }
-                            }
-
-                            _items.Add( GetIdString( finalItem.Id ), finalItem );
-                        });
+                            _items.Add( GetIdString( item.Id ), item.WithLength( length ) );
+                        } );
                     }
                 }
             }
