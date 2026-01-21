@@ -37,7 +37,7 @@ namespace SourceUtils
 
             private readonly ValveBspFile _bspFile;
             private ByteOffset[] _offsets;
-            private HashSet<int>[] _vpsList;
+            private HashSet<int>[] _pvsList;
 
             public VisibilityLump( ValveBspFile bspFile, LumpType type )
             {
@@ -50,40 +50,36 @@ namespace SourceUtils
                 get
                 {
                     EnsureLoaded();
-                    var set = _vpsList[clusterIndex];
-                    return set ?? (_vpsList[clusterIndex] = ReadSet( _offsets[clusterIndex].Pvs ));
+                    return _pvsList[clusterIndex];
                 }
             }
 
-            private HashSet<int> ReadSet( int byteOffset )
+            private HashSet<int> ReadSet( Stream stream, int byteOffset )
             {
-                using ( var stream = _bspFile.GetLumpStream( LumpType ) )
+                stream.Seek( byteOffset, SeekOrigin.Begin );
+
+                var set = new HashSet<int>();
+
+                var clusters = NumClusters;
+                var offset = 0;
+                while ( offset < clusters )
                 {
-                    stream.Seek( byteOffset, SeekOrigin.Begin );
-
-                    var set = new HashSet<int>();
-
-                    var clusters = NumClusters;
-                    var offset = 0;
-                    while ( offset < clusters )
+                    var bits = stream.ReadByte();
+                    if ( bits == 0 )
                     {
-                        var bits = stream.ReadByte();
-                        if ( bits == 0 )
-                        {
-                            offset += stream.ReadByte() * 8;
-                            continue;
-                        }
-
-                        for ( var i = 0; i < 8 && offset + i < clusters; ++i )
-                        {
-                            if ( (bits & (1 << i)) != 0 ) set.Add( offset + i );
-                        }
-
-                        offset += 8;
+                        offset += stream.ReadByte() * 8;
+                        continue;
                     }
 
-                    return set;
+                    for ( var i = 0; i < 8 && offset + i < clusters; ++i )
+                    {
+                        if ( (bits & (1 << i)) != 0 ) set.Add( offset + i );
+                    }
+
+                    offset += 8;
                 }
+
+                return set;
             }
 
             private void EnsureLoaded()
@@ -101,8 +97,13 @@ namespace SourceUtils
                         }
 
                         _numClusters = reader.ReadInt32();
-                        _vpsList = new HashSet<int>[_numClusters];
+                        _pvsList = new HashSet<int>[_numClusters];
                         _offsets = LumpReader<ByteOffset>.ReadLumpFromStream( reader.BaseStream, _numClusters );
+
+                        for ( var index = 0; index < _pvsList.Length; ++index )
+                        {
+                            _pvsList[index] = ReadSet( reader.BaseStream, _offsets[index].Pvs );
+                        }
                     }
                 }
             }
