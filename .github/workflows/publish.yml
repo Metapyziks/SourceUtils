@@ -25,7 +25,7 @@ jobs:
       run: |
         mkdir Publish
         mkdir Publish/bin
-        copy README.md Publish/README.md /Y
+        copy /Y README.md Publish/README.md
         xcopy Examples Publish /Y
         xcopy SourceUtils.WebExport/bin/Release Publish/bin /Y
     - uses: vimtor/action-zip@v1.2
