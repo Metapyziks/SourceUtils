@@ -1,0 +1,42 @@
+name: .NET - Publish
+
+on:
+  push:
+    tags:
+      - 'v*.*'
+jobs:
+  build:
+
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+    - name: Restore dependencies
+      run: nuget restore SourceUtils.sln
+    - name: Build
+      run: msbuild SourceUtils.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal
+    - name: Create Publish Directory
+      run: |
+        mkdir Publish
+        mkdir Publish/bin
+        copy README.md Publish/README.md /Y
+        xcopy Examples Publish /Y
+        xcopy SourceUtils.WebExport/bin/Release Publish/bin /Y
+    - uses: vimtor/action-zip@v1.2
+      with:
+        files: SourceUtils/
+        dest: SourceUtils.zip
+    - name: Upload Release
+      if: ${{ github.event_name != 'workflow_dispatch' }}
+      uses: softprops/action-gh-release@v1
+      with:
+        files: 'SourceUtils.zip'
+    - name: Upload Artifacts
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      uses: actions/upload-artifact@v3
+      with:
+        path: 'SourceUtils.zip'
