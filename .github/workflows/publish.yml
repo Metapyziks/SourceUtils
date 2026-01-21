@@ -27,8 +27,8 @@ jobs:
         New-Item -Path "Publish" -Name "bin" -ItemType "Directory"
         Copy-Item "README.md" -Destination "Publish"
         Copy-Item "Examples/*" -Destination "Publish" -Recurse
-        Copy-Item "SourceUtils.WebExport/bin/Release" -Destination "Publish/bin" -Recurse
-        Compress-Archive -Path "Publish" -DestinationPath "SourceUtils.zip"
+        Copy-Item "SourceUtils.WebExport/bin/Release/*" -Destination "Publish/bin" -Recurse
+        Compress-Archive -Path "Publish/*" -DestinationPath "SourceUtils.zip"
       shell: pwsh
     - name: Upload Release
       if: ${{ github.event_name != 'workflow_dispatch' }}
