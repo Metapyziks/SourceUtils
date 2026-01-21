@@ -71,9 +71,6 @@ namespace SourceUtils.WebExport
             public uint dwReserved2;
         }
 
-        [ThreadStatic]
-        private static byte[] _sPixelBuffer;
-
         private static unsafe int WriteDdsHeader( ValveTextureFile vtf, int mip, byte[] buffer )
         {
             var header = new DdsHeader();
@@ -136,14 +133,7 @@ namespace SourceUtils.WebExport
             }
 
             var totalLength = dataLength + 128;
-
-            if ( _sPixelBuffer == null || _sPixelBuffer.Length < totalLength )
-            {
-                var powerOf2 = 256;
-                while ( powerOf2 < totalLength ) powerOf2 <<= 1;
-
-                _sPixelBuffer = new byte[powerOf2];
-            }
+            var buffer = new byte[totalLength];
 
             var offset = 0;
             var width = Math.Max( 1, vtf.Header.Width >> mip );
@@ -161,10 +151,15 @@ namespace SourceUtils.WebExport
                 case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
                     readSettings.Format = MagickFormat.Dds;
-                    offset = WriteDdsHeader(vtf, mip, _sPixelBuffer);
+                    offset = WriteDdsHeader(vtf, mip, buffer);
                     break;
                 case TextureFormat.I8:
                     readSettings.Format = MagickFormat.Gray;
+                    readSettings.PixelStorage = new PixelStorageSettings
+                    {
+                        StorageType = StorageType.Char,
+                        Mapping = "R"
+                    };
                     break;
                 case TextureFormat.IA88:
                     readSettings.Format = MagickFormat.Gray;
@@ -196,7 +191,7 @@ namespace SourceUtils.WebExport
                     throw new NotImplementedException();
             }
 
-            vtf.GetHiResPixelData( mip, frame, face, zslice, _sPixelBuffer, offset );
+            vtf.GetHiResPixelData( mip, frame, face, zslice, buffer, offset );
 
             // Convert 16bpp to 24bpp
             switch (vtf.Header.HiResFormat)
@@ -205,16 +200,16 @@ namespace SourceUtils.WebExport
                 case TextureFormat.BGR565:
                     for (var i = width * height - 1; i >= 0; --i)
                     {
-                        var pixel = (ushort)(_sPixelBuffer[i * 2] | (_sPixelBuffer[i * 2 + 1] << 8));
+                        var pixel = (ushort)(buffer[i * 2] | (buffer[i * 2 + 1] << 8));
 
-                        _sPixelBuffer[i * 3] = (byte) ((pixel & 31) / 31f * 255f);
-                        _sPixelBuffer[i * 3 + 1] = (byte)(((pixel >> 5) & 63) / 63f * 255f);
-                        _sPixelBuffer[i * 3 + 2] = (byte)(((pixel >> 11) & 31) / 31f * 255f);
+                        buffer[i * 3] = (byte) ((pixel & 31) / 31f * 255f);
+                        buffer[i * 3 + 1] = (byte)(((pixel >> 5) & 63) / 63f * 255f);
+                        buffer[i * 3 + 2] = (byte)(((pixel >> 11) & 31) / 31f * 255f);
                     }
                     break;
             }
 
-            var img = new MagickImage( _sPixelBuffer, readSettings );
+            var img = new MagickImage( buffer, readSettings );
 
             if ( img.Width != width || img.Height != height )
             {
