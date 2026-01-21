@@ -23,15 +23,13 @@ jobs:
       run: msbuild SourceUtils.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal
     - name: Create Publish Directory
       run: |
-        mkdir Publish
-        mkdir Publish/bin
-        copy /Y README.md Publish/README.md
-        xcopy Examples Publish /Y
-        xcopy SourceUtils.WebExport/bin/Release Publish/bin /Y
-    - uses: vimtor/action-zip@v1.2
-      with:
-        files: SourceUtils/
-        dest: SourceUtils.zip
+        New-Item -Path . -Name "Publish" -ItemType "Directory"
+        New-Item -Path "Publish" -Name "bin" -ItemType "Directory"
+        Copy-Item "README.md" -Destination "Publish"
+        Copy-Item "Examples/*" -Destination "Publish" -Recurse
+        Copy-Item "SourceUtils.WebExport/bin/Release" -Destination "Publish/bin" -Recurse
+        Compress-Archive -Path "Publish" -DestinationPath "SourceUtils.zip"
+      shell: pwsh
     - name: Upload Release
       if: ${{ github.event_name != 'workflow_dispatch' }}
       uses: softprops/action-gh-release@v1
