@@ -168,42 +168,7 @@ namespace SourceUtils.WebExport
                         {
                             if ( skip ) continue;
 
-                            if ( Path.GetExtension( path ) == ".png" && File.Exists( path ) )
-                            {
-                                using ( var newImage = new MagickImage( input, new MagickReadSettings { Format = MagickFormat.Png } ) )
-                                {
-                                    using ( var oldImage = new MagickImage( path, new MagickReadSettings { Format = MagickFormat.Png } ) )
-                                    {
-                                        if ( AreImagesEqual( oldImage, newImage ) )
-                                        {
-                                            if (args.Verbose)
-                                            {
-                                                Console.ResetColor();
-                                                Console.WriteLine($"Skipped '{url}'");
-                                            }
-                                            
-                                            ++exported;
-                                            continue;
-                                        }
-                                    }
-
-                                    ++exported;
-                                    if ( !args.DryRun )
-                                    {
-                                        newImage.Write( path );
-                                    }
-
-                                    if (args.Verbose)
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine($"Wrote {FormatFileSize(new FileInfo( path ).Length)}");
-                                    }
-                                }
-
-                                continue;
-                            }
-
-                            long length = -1;
+                            long length;
 
                             if ( !args.DryRun )
                             {
