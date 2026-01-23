@@ -74,33 +74,5 @@ namespace SourceUtils
                 return decodedStream;
             }
         }
-
-        public static int GetCorrectedLzmaLength( Stream stream, int offset )
-        {
-            if ( offset + Unsafe.SizeOf<LzmaHeader>() > stream.Length )
-            {
-                return MetadataSize;
-            }
-
-            var originalPosition = stream.Position;
-
-            try
-            {
-                stream.Seek( offset, SeekOrigin.Begin );
-
-                var lzmaHeader = LumpReader<LzmaHeader>.ReadSingleFromStream( stream );
-
-                if ( lzmaHeader.Id != LzmaHeader.ExpectedId )
-                {
-                    return MetadataSize;
-                }
-
-                return Unsafe.SizeOf<LzmaHeader>() + (int)lzmaHeader.LzmaSize;
-            }
-            finally
-            {
-                stream.Seek( originalPosition, SeekOrigin.Begin );
-            }
-        }
     }
 }

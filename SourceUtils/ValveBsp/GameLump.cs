@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceUtils
 {
@@ -96,14 +91,36 @@ namespace SourceUtils
                     {
                         var count = reader.ReadInt32();
 
-                        LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count, item =>
+                        if ( count == 0 ) return;
+
+                        var items = LumpReader<Item>.ReadLumpFromStream( reader.BaseStream, count );
+
+                        var isCompressed = items[items.Length - 1].Id == 0;
+
+                        if ( !isCompressed )
                         {
-                            var length = item.FileLength == LzmaDecoderStream.MetadataSize
-                                ? LzmaDecoderStream.GetCorrectedLzmaLength( bspStream, item.FileOffset )
-                                : item.FileLength;
+                            foreach ( var item in items )
+                            {
+                                _items.Add( GetIdString( item.Id ), item );
+                            }
+
+                            return;
+                        }
+
+                        // Wiki:
+                        //   The compressed size of a game lump can be determined by subtracting the current game
+                        //   lump's offset with that of the next entry. For this reason, when game lumps are compressed
+                        //   the last game lump is always an empty dummy which only contains the offset. 
+
+                        count -= 1;
+
+                        for ( var i = 0; i < count; i++ )
+                        {
+                            var item = items[i];
+                            var length = items[i + 1].FileOffset - item.FileOffset;
 
                             _items.Add( GetIdString( item.Id ), item.WithLength( length ) );
-                        } );
+                        }
                     }
                 }
             }
