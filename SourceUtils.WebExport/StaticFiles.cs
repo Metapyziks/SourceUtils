@@ -1,9 +1,9 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using MimeTypes;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using JetBrains.Annotations;
-using MimeTypes;
+using System.Net;
 using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
@@ -22,9 +22,16 @@ namespace SourceUtils.WebExport
         {
             protected override void OnServiceText( string text )
             {
-                using ( var writer = new StreamWriter( Response.OutputStream ) )
+                try
                 {
-                    writer.Write( text );
+                    using ( var writer = new StreamWriter( Response.OutputStream ) )
+                    {
+                        writer.Write( text );
+                    }
+                }
+                catch ( HttpListenerException )
+                {
+                    //
                 }
             }
 

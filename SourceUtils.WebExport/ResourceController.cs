@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Web;
@@ -180,6 +181,12 @@ namespace SourceUtils.WebExport
             else _sStringBuilder.Remove( 0, _sStringBuilder.Length );
 
             writer.WriteStartArray();
+
+            if ( Count == 0 )
+            {
+                writer.WriteEndArray();
+                return;
+            }
 
             var formatString = FormatString;
 
@@ -362,20 +369,34 @@ namespace SourceUtils.WebExport
 
         protected override void OnServiceText( string text )
         {
-            var ext = Path.GetExtension( Request.Url.AbsolutePath );
-
-            Response.ContentType = MimeTypeMap.GetMimeType( ext );
-
-            using ( var writer = new StreamWriter( Response.OutputStream ) )
+            try
             {
-                writer.Write( text );
+                var ext = Path.GetExtension( Request.Url.AbsolutePath );
+
+                Response.ContentType = MimeTypeMap.GetMimeType( ext );
+
+                using ( var writer = new StreamWriter( Response.OutputStream ) )
+                {
+                    writer.Write( text );
+                }
+            }
+            catch ( HttpListenerException )
+            {
+                //
             }
         }
 
         [ResponseWriter]
         public void OnWriteObject( object obj )
         {
-            OnServiceJson( obj == null ? null : JObject.FromObject( obj, _sSerializer ) );
+            try
+            {
+                OnServiceJson( obj == null ? null : JObject.FromObject( obj, _sSerializer ) );
+            }
+            catch (HttpListenerException)
+            {
+                //
+            }
         }
 
         protected virtual bool ForceNoFormatting => false;
@@ -393,7 +414,7 @@ namespace SourceUtils.WebExport
 #if DEBUG
                     writer.Write( token.ToString( ForceNoFormatting ? Formatting.None : Formatting.Indented ) );
 #else
-                    writer.Write( token.ToString( Formatting.None ) );
+                writer.Write( token.ToString( Formatting.None ) );
 #endif
                 }
             }
