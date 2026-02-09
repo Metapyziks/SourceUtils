@@ -33,6 +33,14 @@ namespace SourceUtils
                 vmt = new ValveMaterialFile( stream );
             }
             
+            if ( vmt.Shaders == null )
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Material '{path}' parsing failed!");
+                Console.ResetColor();
+                return null;
+            }
+
             if ( !vmt.Shaders.Any() ) return null;
 
             var shader = vmt.Shaders.First();
@@ -67,7 +75,7 @@ namespace SourceUtils
             _keyValues = KeyValues.FromStream( stream );
         }
 
-        public IEnumerable<string> Shaders => _keyValues.Keys;
+        public IEnumerable<string> Shaders => _keyValues == null ? null : _keyValues.Keys;
 
         public bool ContainsShader(string shader)
         {

@@ -196,6 +196,9 @@ namespace SourceUtils.WebExport
                     case "$hdrcompressedtexture":
                         mat.SetTextureUrl("hdrcompressedtexture", GetTextureUrl(value, vmtPath, bsp));
                         break;
+                    case "$hdrbasetexture":
+                        mat.SetTextureUrl("hdrbasetexture", GetTextureUrl(value, vmtPath, bsp));
+                        break;
                     case "$texture2":
                     case "$basetexture2":
                         mat.SetTextureUrl("basetexture2", GetTextureUrl(value, vmtPath, bsp));
@@ -318,6 +321,7 @@ namespace SourceUtils.WebExport
                 if ( mat == null ) continue;
 
                 var texProp = mat.Properties.FirstOrDefault( x => x.Name == "hdrcompressedtexture")
+                    ?? mat.Properties.FirstOrDefault(x => x.Name == "hdrbasetexture")
                     ?? mat.Properties.First(x => x.Name == "basetexture");
 
                 if ( face == 0 )
