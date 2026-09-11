@@ -28,9 +28,21 @@ namespace SourceUtils
             if ( provider == null ) return null;
 
             ValveMaterialFile vmt;
-            using ( var stream = provider.OpenFile( path ) )
+
+            try
             {
-                vmt = new ValveMaterialFile( stream );
+                using ( var stream = provider.OpenFile( path ) )
+                {
+                    vmt = new ValveMaterialFile( stream );
+                }
+            }
+            catch ( Exception ex )
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine( $"Invalid material '{path}'! {ex}" );
+                Console.ResetColor();
+
+                return null;
             }
             
             if ( !vmt.Shaders.Any() ) return null;
