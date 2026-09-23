@@ -133,9 +133,14 @@ namespace SourceUtils.ValveBsp
         public readonly byte MinGpuLevel;
         public readonly byte MaxGpuLevel;
 
-        public readonly uint ColorModulation;
-        [MarshalAs(UnmanagedType.U1)]
-        public readonly bool DisableX360;
+        /// <summary>
+        /// A widened copy of <see cref="Flags"/> rather than the diffuse colour that later
+        /// layouts keep here: across every version 10 prop in the map library these bytes only
+        /// ever hold flag combinations (0x100 for no per texel lighting, 0x40 for no per vertex
+        /// lighting, 0x10 for no shadow) and never the 0xffffffff an unmodulated prop needs.
+        /// Reading them as a colour leaves every prop multiplied towards black.
+        /// </summary>
+        public readonly uint FlagsEx;
 
         Vector3 IStaticProp.Origin => Origin;
         Vector3 IStaticProp.Angles => Angles;
@@ -145,7 +150,7 @@ namespace SourceUtils.ValveBsp
         ushort IStaticProp.LeafCount => LeafCount;
         StaticPropFlags IStaticProp.Flags => Flags;
         bool IStaticProp.Solid => Solid;
-        uint IStaticProp.ColorModulation => ColorModulation;
+        uint IStaticProp.ColorModulation => 0xffffffff;
         float IStaticProp.FadeMinDist => FadeMinDist;
         float IStaticProp.FadeMaxDist => FadeMaxDist;
         float IStaticProp.ForcedFadeScale => ForcedFadeScale;

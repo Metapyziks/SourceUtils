@@ -94,7 +94,9 @@
     <Compile Include="ValveBsp\DisplacementManager.cs" />
     <Compile Include="ValveBsp\EntityLump.cs" />
     <Compile Include="ValveBsp\GameLump.cs" />
+    <Compile Include="ValveBsp\LeafAmbient.cs" />
     <Compile Include="ValveBsp\LightmapLayout.cs" />
+    <Compile Include="ValveBsp\LightStyles.cs" />
     <Compile Include="ValveBsp\PakFileLump.cs" />
     <Compile Include="ValveBsp\StaticProps.cs" />
     <Compile Include="ValveBsp\Structures.cs" />

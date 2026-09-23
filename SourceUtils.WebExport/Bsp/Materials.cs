@@ -33,8 +33,6 @@ namespace SourceUtils.WebExport.Bsp
                 count = 0;
             }
 
-            var texDict = new Dictionary<string, int>();
-
             var page = new MaterialPage();
 
             for ( var i = 0; i < count; ++i )
@@ -55,30 +53,22 @@ namespace SourceUtils.WebExport.Bsp
                 {
                     if ( prop.Type != MaterialPropertyType.TextureUrl ) continue;
 
-                    prop.Type = MaterialPropertyType.TextureIndex;
-
+                    // Textures are left as urls into the global, hash addressed materials folder so
+                    // that each one is fetched (and exported) once as a whole, rather than having
+                    // every frame and mip level inlined into each map that happens to use it.
                     var texUrl = (Url) prop.Value;
-                    int texIndex;
-                    if ( texDict.TryGetValue( texUrl, out texIndex ) )
-                    {
-                        prop.Value = texIndex;
-                        continue;
-                    }
 
-                    prop.Value = texIndex = page.Textures.Count;
+                    if ( TextureSource.TryParseUrl( texUrl, out var texPath, out var texHash, out _ )
+                        && texHash != null ) continue;
 
-                    var texPath = TextureController.GetTexturePath( texUrl );
-                    var tex = Texture.Get( bsp, texPath );
+                    // Unresolved textures have no hash to address them by, so there is nothing to
+                    // link to. Null it out rather than emitting a url that can only ever 404.
+                    prop.Type = MaterialPropertyType.TextureInfo;
+                    prop.Value = null;
 
-                    if ( tex == null )
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"Missing texture '{texPath}'!");
-                        Console.ResetColor();
-                    }
-
-                    texDict.Add( texUrl, texIndex );
-                    page.Textures.Add( tex );
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Missing texture '{texPath ?? (string) texUrl}'!");
+                    Console.ResetColor();
                 }
             }
 

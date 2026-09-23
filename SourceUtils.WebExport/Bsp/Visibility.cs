@@ -20,7 +20,9 @@ namespace SourceUtils.WebExport.Bsp
         [Get("/vispage{page}.json")]
         public VisPage Get( [Url] string map, [Url] int page )
         {
-            if ( Skip ) return null;
+            // A skipped page still has to be a valid response. Returning null writes nothing at
+            // all, which drops the connection and has the exporter count the file as failed.
+            if ( Skip ) return new VisPage { Values = Enumerable.Empty<CompressedList<int>>() };
 
             var bsp = Program.GetMap(map);
             var first = page * VisPage.ClustersPerPage;

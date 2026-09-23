@@ -119,7 +119,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExportOverwriteTest.cs" />
+    <Compile Include="BspBuilder.cs" />
+    <Compile Include="LeafAmbientTest.cs" />
+    <Compile Include="LightStyleTest.cs" />
+    <Compile Include="VertexLightingTest.cs" />
+    <Compile Include="SkyMaterialTest.cs" />
+    <Compile Include="TextureFormatTest.cs" />
+    <Compile Include="GameLumpTest.cs" />
+    <Compile Include="StaticPropTest.cs" />
     <Compile Include="KeyValsTest.cs" />
+    <Compile Include="TextureSourceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -131,6 +141,10 @@
     <ProjectReference Include="..\SourceUtils\SourceUtils.csproj">
       <Project>{2c5fefa1-39ba-458e-b95c-2d8414958820}</Project>
       <Name>SourceUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SourceUtils.WebExport\SourceUtils.WebExport.csproj">
+      <Project>{171622AD-547B-496C-A230-16FCA08A0112}</Project>
+      <Name>SourceUtils.WebExport</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1881,7 +1881,8 @@ var SourceUtils;
                         }
                         else {
                             leaf.getAmbientCube(null, null, function (success) {
-                                _this.lighting = leaf;
+                                // Origins inside solid brushes land in leaves with no ambient samples.
+                                _this.lighting = success ? leaf : null;
                                 _this.checkLoaded();
                             });
                         }

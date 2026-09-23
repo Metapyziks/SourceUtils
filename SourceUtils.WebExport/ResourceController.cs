@@ -79,6 +79,11 @@ namespace SourceUtils.WebExport
             {
                 case ".png":
                     return false;
+                case ".json":
+                    // Hash addressed texture urls are already versioned by their contents. A
+                    // timestamp would only break caching, and would make the same texture
+                    // referenced either side of a second boundary look like two textures.
+                    return !TextureSource.IsContentAddressed( url );
                 default:
                     return true;
             }

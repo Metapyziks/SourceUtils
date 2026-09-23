@@ -29,7 +29,9 @@ namespace SourceUtils.WebExport.Bsp
         [Get("/ambientpage{page}.json")]
         public AmbientPage Get( [Url] string map, [Url] int page )
         {
-            if ( Skip ) return null;
+            // A skipped page still has to be a valid response. Returning null writes nothing at
+            // all, which drops the connection and has the exporter count the file as failed.
+            if ( Skip ) return new AmbientPage { Values = Enumerable.Empty<List<AmbientCube>>() };
 
             var bsp = Program.GetMap(map);
             var first = page * AmbientPage.LeavesPerPage;
@@ -41,24 +43,20 @@ namespace SourceUtils.WebExport.Bsp
                 count = 0;
             }
 
-            var hdr = bsp.LeafAmbientLightingHdr.Length > bsp.LeafAmbientLighting.Length;
-            var indices = hdr ? bsp.LeafAmbientIndicesHdr : bsp.LeafAmbientIndices;
-            var ambients = hdr ? bsp.LeafAmbientLightingHdr : bsp.LeafAmbientLighting;
-
             return new AmbientPage
             {
                 Values = Enumerable.Range( first, count ).Select( x =>
                 {
                     var leaf = bsp.Leaves[x];
-                    var index = indices[x];
-                    var list = new List<AmbientCube>(index.AmbientSampleCount);
+                    var sampleCount = bsp.GetLeafAmbientSampleCount( x );
+                    var list = new List<AmbientCube>(sampleCount);
 
                     var min = new SourceUtils.Vector3(leaf.Min.X, leaf.Min.Y, leaf.Min.Z);
                     var max = new SourceUtils.Vector3(leaf.Max.X, leaf.Max.Y, leaf.Max.Z);
 
-                    for (var i = 0; i < index.AmbientSampleCount; ++i)
+                    for (var i = 0; i < sampleCount; ++i)
                     {
-                        var ambient = ambients[index.FirstAmbientSample + i];
+                        var ambient = bsp.GetLeafAmbientSample( x, i );
                         var samples = new int[6];
                         var relPos = new SourceUtils.Vector3(ambient.X, ambient.Y, ambient.Z) * (1f / 255f);
 

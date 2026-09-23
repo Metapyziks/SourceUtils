@@ -9,6 +9,15 @@ namespace SourceUtils
 {
     public class ValveVertexLightingFile
     {
+        private const int MeshHeaderSize = 28;
+        private const int VertexData4Size = 4;
+        private const int VertexData2Size = 12;
+
+        /// <summary>
+        /// Source supports up to 8 levels of detail, so anything beyond that is a bad header.
+        /// </summary>
+        private const int MaxLodCount = 8;
+
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         private struct VhvMeshHeader
         {
@@ -122,10 +131,39 @@ namespace SourceUtils
                 var unused0 = reader.ReadInt64(); // Unused
                 var unused1 = reader.ReadInt64(); // Unused
 
+                // Some maps pack unrelated files under .vhv names, so nothing in the header can
+                // be trusted until it has been checked against the size of the file.
+                if ( meshCount < 0 || stream.Position + (long) meshCount * MeshHeaderSize > stream.Length )
+                {
+                    throw new NotSupportedException(
+                        $"Vertex lighting file claims {meshCount} meshes, which don't fit in {stream.Length} bytes." );
+                }
+
                 var meshHeaders = new List<VhvMeshHeader>();
                 LumpReader<VhvMeshHeader>.ReadLumpFromStream(stream, meshCount, meshHeaders);
 
-                _samples = new VertexData4[meshHeaders.Max( x => x.Lod ) + 1][][];
+                var sampleSize = vertFlags == 2 ? VertexData2Size : VertexData4Size;
+
+                foreach ( var meshHeader in meshHeaders )
+                {
+                    var start = (long) meshHeader.VertOffset + baseOffset;
+
+                    if ( meshHeader.Lod < 0 || meshHeader.Lod >= MaxLodCount )
+                    {
+                        throw new NotSupportedException( $"Vertex lighting mesh has an out of range LOD of {meshHeader.Lod}." );
+                    }
+
+                    if ( meshHeader.VertCount < 0 || start < 0
+                        || start + (long) meshHeader.VertCount * sampleSize > stream.Length )
+                    {
+                        throw new NotSupportedException(
+                            $"Vertex lighting mesh with {meshHeader.VertCount} vertices at {start} doesn't fit in {stream.Length} bytes." );
+                    }
+                }
+
+                // VRAD writes placeholder files holding no meshes at all for props it didn't
+                // light per vertex.
+                _samples = new VertexData4[meshHeaders.Count == 0 ? 0 : meshHeaders.Max( x => x.Lod ) + 1][][];
 
                 for ( var i = 0; i < _samples.Length; ++i )
                 {

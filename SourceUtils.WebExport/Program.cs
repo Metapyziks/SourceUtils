@@ -14,7 +14,7 @@ using Ziks.WebServer;
 
 namespace SourceUtils.WebExport
 {
-    class BaseOptions
+    public class BaseOptions
     {
         [Option('g', "gamedir", HelpText = "Game directory to export from.", Required = true)]
         public string GameDir { get; set; }
@@ -112,6 +112,7 @@ namespace SourceUtils.WebExport
             if ( !_sOpenMaps.TryGetValue( name, out var map ) ) return;
 
             _sOpenMaps.Remove( name );
+            TextureSource.ForgetMap( map.Name );
             map.Dispose();
         }
 

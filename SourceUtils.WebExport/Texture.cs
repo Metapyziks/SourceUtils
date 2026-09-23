@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Web;
 using ImageMagick;
 using Newtonsoft.Json;
 using Ziks.WebServer;
@@ -48,13 +46,16 @@ namespace SourceUtils.WebExport
     {
         public static Texture Get( ValveBspFile bsp, string path )
         {
-            var inBsp = bsp != null && bsp.PakFile.ContainsFile( path );
-            var res = inBsp ? bsp.PakFile : Program.Resources;
+            var info = TextureSource.Resolve( bsp, path );
+            return info == null ? null : Get( info );
+        }
 
-            if ( !res.ContainsFile( path ) ) return null;
+        public static Texture Get( TextureSourceInfo info )
+        {
+            var path = info.Path;
 
             ValveTextureFile vtf;
-            using (var stream = res.OpenFile(path))
+            using (var stream = info.Provider.OpenFile(path))
             {
                 vtf = new ValveTextureFile(stream);
             }
@@ -64,7 +65,7 @@ namespace SourceUtils.WebExport
 
             var tex = new Texture
             {
-                Path = path.ToLower(),
+                Path = path,
                 Target = isCube ? TextureTarget.TextureCubeMap : TextureTarget.Texture2D,
                 Width = untextured ? 1 : vtf.Header.Width,
                 Height = untextured ? 1 : vtf.Header.Height,
@@ -128,7 +129,7 @@ namespace SourceUtils.WebExport
                         }
                         else
                         {
-                            var fileName = $"{path}/mip{mip}";
+                            var fileName = $"mip{mip}";
 
                             if (vtf.FrameCount > 1)
                             {
@@ -142,7 +143,7 @@ namespace SourceUtils.WebExport
 
                             fileName = $"{fileName}.png";
 
-                            elem.Url = inBsp ? $"/maps/{bsp.Name}/{fileName}" : $"/{fileName}";
+                            elem.Url = TextureSource.BuildUrl(path, info.Hash, fileName);
                         }
 
                         tex.Elements.Add(elem);
@@ -181,26 +182,30 @@ namespace SourceUtils.WebExport
     }
 
     [Prefix("/materials")]
-    [Prefix("/maps/{map}/materials")]
     class TextureController : ResourceController
     {
-        public static string GetTexturePath(string url)
+        private TextureSourceInfo LookupRequest( bool image, out string file )
         {
-            var path = url.Substring(url.IndexOf("/materials") + 1);
-            return HttpUtility.UrlDecode(path.Substring(0, path.Length - ".json".Length));
+            if ( !TextureSource.TryParseUrl( Request.Url.AbsolutePath, out var path, out var hash, out file )
+                || hash == null || (file != null) != image )
+            {
+                throw NotFoundException();
+            }
+
+            var info = TextureSource.Lookup( path, hash );
+            if ( info == null ) throw NotFoundException();
+
+            return info;
         }
 
         [Get( MatchAllUrl = false, Extension = ".vtf.json" )]
-        public Texture GetInfo( [Url] string map )
+        public Texture GetInfo()
         {
-            var bsp = map == null ? null : Program.GetMap( map );
-            return Texture.Get( bsp, GetTexturePath( Request.Url.AbsolutePath ) );
+            return Texture.Get( LookupRequest( false, out _ ) );
         }
 
-        private static readonly Regex _sFileNameRegex = new Regex( @"^((?<param>mip|face|frame)(?<value>[0-9]+)\.)*(?<format>png)$", RegexOptions.IgnoreCase | RegexOptions.Compiled );
-
         [Get(MatchAllUrl = false, Extension = ".png")]
-        public void GetImage( [Url] string map )
+        public void GetImage()
         {
             if ( Skip )
             {
@@ -208,48 +213,16 @@ namespace SourceUtils.WebExport
                 return;
             }
 
-            var absolute = Request.Url.AbsolutePath;
-            var pathStart = absolute.IndexOf( "/materials" ) + 1;
-            var pathEnd = absolute.IndexOf( ".vtf", pathStart ) + ".vtf".Length;
-            var path = HttpUtility.UrlDecode( absolute.Substring( pathStart, pathEnd - pathStart ) );
-
-            var fileName = Path.GetFileName( absolute );
-            var match = _sFileNameRegex.Match( fileName );
-
-            if ( !match.Success ) throw NotFoundException();
-
-            var mip = 0;
-            var face = 0;
-            var frame = 0;
-
-            var index = 0;
-            foreach ( Capture capture in match.Groups["param"].Captures )
-            {
-                var param = capture.Value.ToLower();
-                var value = int.Parse( match.Groups["value"].Captures[index++].Value );
-
-                switch (param)
-                {
-                    case "mip":
-                        mip = value;
-                        break;
-                    case "face":
-                        face = value;
-                        break;
-                    case "frame":
-                        frame = value;
-                        break;
-                }
-            }
-
-            var bsp = map == null ? null : Program.GetMap(map);
-            var res = bsp == null ? Program.Resources : bsp.PakFile;
+            var info = LookupRequest( true, out var fileName );
 
             ValveTextureFile vtf;
-            using (var stream = res.OpenFile(path))
+            using (var stream = info.Provider.OpenFile(info.Path))
             {
                 vtf = new ValveTextureFile(stream);
             }
+
+            if ( !TextureSource.TryParseImageFileName( fileName, vtf.MipmapCount, vtf.FrameCount, vtf.FaceCount,
+                out var mip, out var frame, out var face ) ) throw NotFoundException();
 
             using ( var image = Texture.DecodeImage( vtf, mip, frame, face, 0 ) )
             {

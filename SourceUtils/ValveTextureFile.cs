@@ -164,6 +164,7 @@ namespace SourceUtils
                 case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
                     return toAdd + width * height * depth;
+                case TextureFormat.A8:
                 case TextureFormat.I8:
                     return toAdd + width * height * depth;
                 case TextureFormat.IA88:
@@ -181,6 +182,7 @@ namespace SourceUtils
                     return toAdd + width * height * depth * 3;
                 case TextureFormat.BGR565:
                 case TextureFormat.RGB565:
+                case TextureFormat.BGRA4444:
                     return toAdd + width * height * depth * 2;
                 default:
                     throw new NotImplementedException();
@@ -288,8 +290,10 @@ namespace SourceUtils
                 case TextureFormat.DXT1:
                 case TextureFormat.DXT3:
                 case TextureFormat.DXT5:
+                case TextureFormat.A8:
                 case TextureFormat.I8:
                 case TextureFormat.IA88:
+                case TextureFormat.BGRA4444:
                 case TextureFormat.BGR565:
                 case TextureFormat.RGB565:
                 case TextureFormat.BGR888:

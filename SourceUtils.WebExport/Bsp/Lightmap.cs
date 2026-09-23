@@ -70,11 +70,8 @@ namespace SourceUtils.WebExport.Bsp
                     if (face.LightOffset == -1) continue;
 
                     var rect = lightmap.GetLightmapRegion(i);
-                    var sampleCount = rect.Width * rect.Height;
 
-                    sampleStream.Seek(face.LightOffset, SeekOrigin.Begin);
-
-                    LumpReader<ColorRGBExp32>.ReadLumpFromStream(sampleStream, sampleCount, sampleBuffer);
+                    bsp.ReadLightmapSamples(sampleStream, face, sampleBuffer);
 
                     for (var y = 0; y < rect.Height; ++y)
                     for (var x = 0; x < rect.Width; ++x)

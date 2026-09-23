@@ -122,6 +122,7 @@
     <Compile Include="StudioModelDictionary.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Texture.Convert.cs" />
+    <Compile Include="TextureSource.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

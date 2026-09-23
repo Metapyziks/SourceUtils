@@ -764,6 +764,16 @@ namespace SourceUtils.WebExport.Bsp
                 StudioModel mdl;
                 page.Models.Add( mdl = new StudioModel() );
 
+                // Some maps pack a model without the vertex or triangle files that go with it,
+                // leaving nothing to draw. The empty model keeps the page indices lined up.
+                if ( mdlFile == null || vvdFile == null || vtxFile == null )
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine( $"Missing mesh data for model '{mdlPath}'!" );
+                    Console.ResetColor();
+                    continue;
+                }
+
                 for ( var j = 0; j < mdlFile.BodyPartCount; ++j )
                 {
                     SmdBodyPart smdBodyPart;
@@ -884,8 +894,16 @@ namespace SourceUtils.WebExport.Bsp
                     continue;
                 }
                 
-                var meshList = new List<CompressedList<uint>>();
                 var meshCount = vhvFile.GetMeshCount( 0 );
+
+                if ( meshCount == 0 )
+                {
+                    // An empty lighting file means the same as having none at all.
+                    page.Props.Add( null );
+                    continue;
+                }
+
+                var meshList = new List<CompressedList<uint>>();
 
                 for ( var j = 0; j < meshCount; ++j )
                 {

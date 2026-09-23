@@ -516,6 +516,14 @@ namespace SourceUtils.ValveBsp
             return color.R | (color.G << 8) | (color.B << 16) | ((color.Exponent + 128) << 24);
         }
 
+        public ColorRGBExp32( byte r, byte g, byte b, sbyte exponent )
+        {
+            R = r;
+            G = g;
+            B = b;
+            Exponent = exponent;
+        }
+
         public readonly byte R;
         public readonly byte G;
         public readonly byte B;
@@ -534,6 +542,15 @@ namespace SourceUtils.ValveBsp
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct LeafAmbientLighting
     {
+        public LeafAmbientLighting( CompressedLightCube cube, byte x, byte y, byte z )
+        {
+            Cube = cube;
+            X = x;
+            Y = y;
+            Z = z;
+            _padding = 0;
+        }
+
         public readonly CompressedLightCube Cube;
         public readonly byte X;
         public readonly byte Y;

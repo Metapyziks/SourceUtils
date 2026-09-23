@@ -114,7 +114,7 @@ namespace SourceUtils
 
                         count -= 1;
 
-                        for ( var i = 0; i < count; i++ )
+                        for ( var i = 0; i < items.Length - 1; i++ )
                         {
                             var item = items[i];
 

@@ -130,6 +130,12 @@ namespace SourceUtils.WebExport
                 case TextureFormat.BGR565:
                     dataLength = dataLength * 3 / 2;
                     break;
+                case TextureFormat.BGRA4444:
+                    dataLength *= 2;
+                    break;
+                case TextureFormat.A8:
+                    dataLength *= 4;
+                    break;
             }
 
             var totalLength = dataLength + 128;
@@ -183,6 +189,8 @@ namespace SourceUtils.WebExport
                     break;
                 case TextureFormat.BGRA8888:
                 case TextureFormat.BGRX8888:
+                case TextureFormat.BGRA4444:
+                case TextureFormat.A8:
                     readSettings.PixelStorage = new PixelStorageSettings(StorageType.Char, "BGRA");
                     break;
                 case TextureFormat.RGBA8888:
@@ -206,6 +214,30 @@ namespace SourceUtils.WebExport
                         buffer[i * 3] = (byte) ((pixel & 31) / 31f * 255f);
                         buffer[i * 3 + 1] = (byte)(((pixel >> 5) & 63) / 63f * 255f);
                         buffer[i * 3 + 2] = (byte)(((pixel >> 11) & 31) / 31f * 255f);
+                    }
+                    break;
+                case TextureFormat.BGRA4444:
+                    // Each 4 bit channel is widened to 8 bits, so 0xf becomes 0xff.
+                    for (var i = width * height - 1; i >= 0; --i)
+                    {
+                        var pixel = (ushort)(buffer[i * 2] | (buffer[i * 2 + 1] << 8));
+
+                        buffer[i * 4] = (byte) ((pixel & 0xf) * 0x11);
+                        buffer[i * 4 + 1] = (byte) (((pixel >> 4) & 0xf) * 0x11);
+                        buffer[i * 4 + 2] = (byte) (((pixel >> 8) & 0xf) * 0x11);
+                        buffer[i * 4 + 3] = (byte) (((pixel >> 12) & 0xf) * 0x11);
+                    }
+                    break;
+                case TextureFormat.A8:
+                    // Alpha only, so the colour channels are left white.
+                    for (var i = width * height - 1; i >= 0; --i)
+                    {
+                        var alpha = buffer[i];
+
+                        buffer[i * 4] = 0xff;
+                        buffer[i * 4 + 1] = 0xff;
+                        buffer[i * 4 + 2] = 0xff;
+                        buffer[i * 4 + 3] = alpha;
                     }
                     break;
             }

@@ -37,7 +37,8 @@ namespace SourceUtils {
                             this.checkLoaded();
                         } else {
                             leaf.getAmbientCube(null, null, success => {
-                                this.lighting = leaf;
+                                // Origins inside solid brushes land in leaves with no ambient samples.
+                                this.lighting = success ? leaf : null;
                                 this.checkLoaded();
                             });
                         }
