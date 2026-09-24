@@ -169,6 +169,7 @@ namespace SourceUtils
                 case TextureFormat.IA88:
                     return toAdd + (width * height * depth) << 1;
                 case TextureFormat.ABGR8888:
+                case TextureFormat.ARGB8888:
                 case TextureFormat.BGRA8888:
                 case TextureFormat.RGBA8888:
                 case TextureFormat.BGRX8888:
@@ -296,6 +297,7 @@ namespace SourceUtils
                 case TextureFormat.RGB888:
                 case TextureFormat.RGB888_BLUESCREEN:
                 case TextureFormat.ABGR8888:
+                case TextureFormat.ARGB8888:
                 case TextureFormat.BGRA8888:
                 case TextureFormat.RGBA8888:
                 case TextureFormat.BGRX8888:

@@ -328,7 +328,7 @@ namespace SourceUtils
 
             if ( !result.Success )
             {
-                throw new KeyValuesParserException( result );
+                return null;
             }
 
             return new KeyValues( result.First(), flags );
@@ -343,7 +343,7 @@ namespace SourceUtils
 
             if ( !result.Success )
             {
-                throw new KeyValuesParserException( result );
+                yield return null;
             }
 
             foreach ( var parsed in result )
